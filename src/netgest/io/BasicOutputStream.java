@@ -21,8 +21,8 @@ public class BasicOutputStream extends OutputStream  {
         {
             p_file = file;
             p_blob = blob;
-            //blob.truncate(0);            
-            this.p_os=blob.setBinaryStream(0);
+            blob.truncate(0);            
+            this.p_os=blob.setBinaryStream(1);
             this.p_cn=cn;
         } 
         catch (SQLException e) 
