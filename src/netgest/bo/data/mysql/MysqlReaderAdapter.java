@@ -242,6 +242,11 @@ public class MysqlReaderAdapter implements ReaderAdapter {
                    columnClassName[i] = "java.math.BigDecimal";
                    columnType[i] = DataTypes.NUMERIC;
                }
+               else if (className.equals("java.lang.Double"))
+               {
+                   columnClassName[i] = "java.math.BigDecimal";
+                   columnType[i] = DataTypes.NUMERIC;
+               }
                else if (className.equals("java.sql.Timestamp"))
                {
                    columnClassName[i] = "java.sql.Timestamp";

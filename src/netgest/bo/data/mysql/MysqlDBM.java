@@ -623,37 +623,37 @@ public class MysqlDBM extends OracleDBM {
             StringBuffer dml = new StringBuffer();
             String name = p_ctx.getBoSession().getRepository().getName();
             dml.append("create table ").append(newSchemaName).append(".NGTDIC")
-               .append("(").append("TABLENAME      VARCHAR(50) not null,")
-               .append("OBJECTNAME     VARCHAR(50) not null,")
-               .append("OBJECTTYPE     VARCHAR(10) not null,")
+               .append("(").append("TABLENAME      VARCHAR(50) BINARY not null,")
+               .append("OBJECTNAME     VARCHAR(50) BINARY not null,")
+               .append("OBJECTTYPE     VARCHAR(10) BINARY not null,")
                .append("REQUIRED       CHAR(1),")
-               .append("FIELDSIZE      VARCHAR(10),")
-               .append("FIELDTYPE      VARCHAR(50),")
-               .append("FRIENDLYNAME   VARCHAR(500),")
+               .append("FIELDSIZE      VARCHAR(10) BINARY ,")
+               .append("FIELDTYPE      VARCHAR(50) BINARY ,")
+               .append("FRIENDLYNAME   VARCHAR(500) BINARY ,")
                .append("EXPRESSION     LONGTEXT,")
-               .append("RULES          VARCHAR(255),")
-               .append("PICTURE        VARCHAR(200),")
-               .append("TABLEREFERENCE VARCHAR(100),")
-               .append("FIELDREFERENCE VARCHAR(255),")
-               .append("MACROFIELD     VARCHAR(50),")
+               .append("RULES          VARCHAR(255) BINARY ,")
+               .append("PICTURE        VARCHAR(200) BINARY ,")
+               .append("TABLEREFERENCE VARCHAR(100) BINARY ,")
+               .append("FIELDREFERENCE VARCHAR(255) BINARY ,")
+               .append("MACROFIELD     VARCHAR(50) BINARY ,")
                .append("SYS_ICN        NUMERIC(7),")
-               .append("SYS_USER       VARCHAR(25),")
-               .append("SYS_DTCREATE   TIMESTAMP,").append("SYS_DTSAVE     TIMESTAMP,")
-               .append("DEFAULTVALUE   VARCHAR(500),")
-               .append("SEARCHDOMAIN   VARCHAR(30),")
-               .append("\"SCHEMA\"         VARCHAR(30) not null,")
-               .append("NGTTABLESPACE  VARCHAR(30),")
-               .append("NGTINITIAL     VARCHAR(15),")
-               .append("NGTNEXT        VARCHAR(15),")
-               .append("NGTPCTINCREASE VARCHAR(15),")
-               .append("NGTMINEXTENTS  VARCHAR(15),")
-               .append("NGTMAXEXTENTS  VARCHAR(15),")
-               .append("NGTPCTFREE     VARCHAR(15),")
-               .append("NGTPCTUSED     VARCHAR(15),")
-               .append("NGTINITRANS    VARCHAR(15),")
-               .append("NGTMAXTRANS    VARCHAR(15),")
-               .append("OWNER          VARCHAR(30),")
-               .append("DELETECASCADE  CHAR(1),")
+               .append("SYS_USER       VARCHAR(25) BINARY ,")
+               .append("SYS_DTCREATE   DATETIME,").append("SYS_DTSAVE     DATETIME,")
+               .append("DEFAULTVALUE   VARCHAR(500) BINARY ,")
+               .append("SEARCHDOMAIN   VARCHAR(30) BINARY ,")
+               .append("\"SCHEMA\"     VARCHAR(30) BINARY not null,")
+               .append("NGTTABLESPACE  VARCHAR(30) BINARY ,")
+               .append("NGTINITIAL     VARCHAR(15) BINARY ,")
+               .append("NGTNEXT        VARCHAR(15) BINARY ,")
+               .append("NGTPCTINCREASE VARCHAR(15) BINARY,")
+               .append("NGTMINEXTENTS  VARCHAR(15) BINARY,")
+               .append("NGTMAXEXTENTS  VARCHAR(15) BINARY,")
+               .append("NGTPCTFREE     VARCHAR(15) BINARY,")
+               .append("NGTPCTUSED     VARCHAR(15) BINARY,")
+               .append("NGTINITRANS    VARCHAR(15) BINARY,")
+               .append("NGTMAXTRANS    VARCHAR(15) BINARY,")
+               .append("OWNER          VARCHAR(30) BINARY,")
+               .append("DELETECASCADE  CHAR(1) BINARY,")
                .append("CACHETTL       NUMERIC(10) default -1").append(")");
             executeDDL(dml.toString(), name);
 
@@ -757,7 +757,7 @@ public class MysqlDBM extends OracleDBM {
 
 	    dml
 	    .append(" CREATE TABLE  \"sys_sequences\" ( " )
-	    .append("  \"sequence_name\" varchar(100) NOT NULL, ")
+	    .append("  \"sequence_name\" varchar(100)  BINARY NOT NULL, ")
 	    .append("  \"sequence_increment\" int(11) unsigned NOT NULL DEFAULT '1', ")
 	    .append("  \"sequence_min_value\" int(11) unsigned NOT NULL DEFAULT '1', ")
 	    .append("  \"sequence_max_value\" bigint(20) unsigned NOT NULL DEFAULT '18446744073709551615', ")
@@ -815,10 +815,10 @@ public class MysqlDBM extends OracleDBM {
         String name = p_ctx.getBoSession().getRepository().getName();
         dml.append("create table ").append(newSchemaName).append(".ebo_textindex (BOUI bigint, text LONGTEXT,")
         .append("SYS_ICN        NUMERIC(7),")
-        .append("SYS_USER       VARCHAR(25),")
-        .append("SYS_DTCREATE   TIMESTAMP,")
-        .append("SYS_DTSAVE     TIMESTAMP,")
-        .append("SYS_ORIGIN     VARCHAR(30),")
+        .append("SYS_USER       VARCHAR(25)  BINARY,")
+        .append("SYS_DTCREATE   DATETIME,")
+        .append("SYS_DTSAVE     DATETIME,")
+        .append("SYS_ORIGIN     VARCHAR(30)  BINARY,")
         .append("PRIMARY KEY (\"BOUI\"), ")
         .append( " FULLTEXT KEY \"text\" (\"text\") " )
         .append(") ENGINE=MyISAM");
@@ -1017,9 +1017,9 @@ public class MysqlDBM extends OracleDBM {
                 };
                 String[] sysfdef =
                 {
-                    "VARCHAR(25)", "NUMERIC(7)",
-                    "TIMESTAMP default CURRENT_TIMESTAMP", "TIMESTAMP",
-                    "VARCHAR(30)"
+                    "VARCHAR(25) BINARY", "NUMERIC(7)",
+                    "DATETIME ", "DATETIME",
+                    "VARCHAR(30) BINARY"
                 };
                 String[] sysftyp = { "C", "N", "D", "D", "C" };
                 String[] sysfsiz =
@@ -2804,6 +2804,8 @@ public class MysqlDBM extends OracleDBM {
             return "N";
         else if (colType.equals("FLOAT")) 
             return "N";
+        else if (colType.equals("DOUBLE")) 
+            return "N";
         else if (colType.equals("LONGTEXT")) 
               return "CL";
         else if (colType.equals("LONGBLOB") || colType.equals("BLOB") ) 
@@ -2813,7 +2815,7 @@ public class MysqlDBM extends OracleDBM {
         else if ( colType.equals("VARBINARY") || colType.equals("MEDIUMBLOB") ) 
               return "RAW";
         else if (colType.startsWith("TIMESTAMP")) 
-              return "TIMESTAMP";
+              return "DATETIME";
               
         throw new SQLException("DBMAGF - Tipo de dados desconhecido ["+oft+"]");
     }
@@ -2822,15 +2824,19 @@ public class MysqlDBM extends OracleDBM {
         String ngtdatatype=null;
         if (fieldtype.equals("C"))  ngtdatatype="VARCHAR";
         else if (fieldtype.equals("N")) ngtdatatype="DOUBLE";
-        else if (fieldtype.equals("D")) ngtdatatype="DATE";
+        else if (fieldtype.equals("D")) ngtdatatype="DATETIME";
         else if (fieldtype.equals("CL")) ngtdatatype="LONGTEXT";
-        else if (fieldtype.equals("BL")) ngtdatatype="BLOB";
+        else if (fieldtype.equals("BL")) ngtdatatype="LONGBLOB";
         else if (fieldtype.equals("BF")) ngtdatatype="BFILE";
         else if (fieldtype.equals("RAW")) ngtdatatype="VARBINARY";
-        else if (fieldtype.equals("TIMESTAMP")) ngtdatatype="TIMESTAMP";
+        else if (fieldtype.equals("TIMESTAMP")) ngtdatatype="DATETIME";
         
         if("N,C,RAW,".indexOf(fieldtype)!=-1 && fieldlen != null && fieldlen.length() != 0) {
         	ngtdatatype += "("+fieldlen+")";
+        }
+         
+        if ( fieldtype.equals("C") ) {
+        	ngtdatatype += " BINARY";
         }
         return ngtdatatype;
     }
