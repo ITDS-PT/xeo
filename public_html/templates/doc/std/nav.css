@@ -1,0 +1,60 @@
+TD.leftBar {
+    VERTICAL-ALIGN: top; WIDTH: 150px; PADDING-TOP: 20px; TEXT-ALIGN: right;
+    /*FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=#F9FBFC, EndColorStr=#D6E3E6);*/
+    background-color:#F2F7FA;
+    
+
+ }
+SPAN.leftBar {
+	BEHAVIOR: url(templates/doc/std/nav.htc); WIDTH: 140px;
+	height:100%;
+    BACKGROUND-IMAGE:url('clientLOGO.gif');
+    BACKGROUND-REPEAT:no-repeat;
+    BACKGROUND-POSITION: bottom center;
+	
+}
+DIV.lbItem {
+	PADDING-LEFT: 4px;
+	MARGIN-BOTTOM: 2px;
+	PADDING-BOTTOM: 4px;
+	B-ORDER-LEFT: #838574 1px solid;
+	CURSOR: hand;
+	COLOR: #3A6F81;
+	font-size:12px;
+	font-weight:normal;
+	white-space : nowrap;
+	PADDING-TOP: 4px;
+	BORDER-BOTTOM: #D7E5E7 1px solid;
+	HEIGHT: 35px; TEXT-ALIGN: left
+}
+
+DIV.lbOn {
+	COLOR:#DA0303;
+	BORDER-BOTTOM: #3A6F81 1px solid;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#F2F7FA, EndColorStr=#D6E3E6);
+	BACKGROUND-COLOR: #CDDEF7;
+}
+
+TABLE.layout {
+	TABLE-LAYOUT: fixed; WIDTH: 100%; HEIGHT: 100%
+}
+TD.statusBar {
+	PADDING-LEFT: 5px; COLOR: #ffffff; HEIGHT: 23px; B-ACKGROUND-COLOR: #7E8E94;
+}
+TD.areas {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px;
+}
+DIV.area {
+	PADDING: 6px; OVERFLOW-Y: auto;  WIDTH: 100%; HEIGHT: 100%;
+	DISPLAY:none;
+	BACKGROUND-COLOR:#F2F7FA;
+}
+DIV.areaSEL {
+	PADDING: 6px; OVERFLOW-Y: auto;  WIDTH: 100%; HEIGHT: 100%;
+	BACKGROUND-COLOR:#F2F7FA;
+}
+span.area_numbers
+{
+font:9px normal;
+color:#3A6F81;
+}

@@ -1,0 +1,22 @@
+body { 
+	FONT-SIZE: 14pt;
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
+	margin:1px;
+	scrollbar-3dlight-color:#B4CAEC;
+	scrollbar-arrow-color:#009A00;
+	scrollbar-base-color:#C9DBF7;
+	scrollbar-darkshadow-color:#D7E6FD;
+	background-color:#C9DBF7;
+	scrollbar-face-color:#D6DEE7;
+	scrollbar-highlight-color:#FFFFFF;
+	scrollbar-shadow-color:#5A7B94;
+}
+div.paramDiv{
+	background-Color:#FFFFFF;
+	height:100%;
+}
+div.parameterZone
+{
+  background-color:#C9DBF7;
+  border-bottom:2px solid #FFFFFF;
+}

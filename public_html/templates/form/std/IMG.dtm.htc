@@ -1,0 +1,61 @@
+<public:component lightweight="true">
+<public:attach event="onclick" onevent="Launch()"/>
+<public:attach event="onmouseover" onevent="On()"/>
+<public:attach event="onmouseout" onevent="Off()"/>
+<public:method name="enable"/>
+<public:method name="disable"/>
+<public:property name="dtmdisabled"/>
+<script language="JavaScript">
+
+function Launch()
+{
+    if(dtmdisabled == 'true')
+    {
+        return;
+    }
+	var D;
+	var oInput	= this.parentElement.previousSibling.firstChild;
+	var sRetVal	= oInput.returnValue;
+	if ( (sRetVal) && sRetVal.length > 0)
+	{
+		D = ParseUtcDate(sRetVal);
+	}
+	else
+	{
+		D = new Date();
+	}
+	InitCalendar( ORG_DATE_FORMAT, ORG_DATE_SEPARATOR, ORG_DATE_START_DAY, null, null);
+	
+	LaunchCalendar(oInput, D);
+}
+function On()
+{
+    if(dtmdisabled  == 'true')
+    {
+        return;
+    }
+	title =  "Selecciona a data";
+	src = "templates/form/std/btn_on_Cal.gif";
+}
+
+function Off()
+{
+    if(dtmdisabled  == 'true')
+    {
+        return;
+    }
+	src = "templates/form/std/btn_off_Cal.gif";	
+}
+function disable()
+{
+    dtmdisabled = 'true';
+	src = "templates/form/std/button_dis_Cal.gif";	
+}
+function enable()
+{
+	src = "templates/form/std/btn_off_Cal.gif";	
+	dtmdisabled = 'false';
+	Off();
+}
+</script>
+</public:component>

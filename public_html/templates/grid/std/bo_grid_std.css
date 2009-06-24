@@ -1,0 +1,185 @@
+table.g_std{
+  background-color:#171201;
+  width:100%;
+  
+}
+
+div.gContainerLines_std{
+	overflow-y:scroll;
+	background-Color:#FFFFFF;
+	height:100%;
+}
+
+table.gBodyLines_std{
+  table-layout:fixed;
+  width:100%;
+}
+
+td.gCell_std{
+  border-bottom:1px solid #CCCCCC;
+}
+
+span.gridCell
+{
+height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+border-bottom:1px solid #CCCCCC;
+f-ont-size:8pt;
+}
+
+col.sel{
+background-color:#EAEDEE;
+}
+
+td.gCellSel_std{
+  background-color:#E4D6B0;
+  border-bottom:1px solid #AF9D71;
+  border-top:1px solid #FFFFFF;
+}
+
+td.gCellQuickView_std{
+  background-color:#B8CBD2;
+  border-bottom:1px solid #698E9B;
+  border-left:1px solid #698E9B;
+  border-top:1px solid #FFFFFF;
+  p-adding-bottom:10px;
+}
+
+td.gCellExpanded_std{
+  background-color:#B8CBD2;
+  b-order-bottom:1px dotted #AF9D71;
+  border-top:1px solid #FFFFFF;
+}
+
+td.gCellExpandedSel_std{
+  background-color:#E4D6B0;
+  b-order-bottom:1px dotted #AF9D71;
+  border-top:1px solid #FFFFFF;
+}
+
+table.gh_std{
+  table-layout:fixed;
+  background-color:#E9E7D7;
+}
+
+td.gh_std{
+  background-image:url('ghBack.gif');
+  background-repeat:repeat-x;
+  background-position:bottom;
+  cursor:hand;
+  color:#3A6F81;
+}
+div.gh_stdDRAG{
+  background-image:url('templates/grid/std/ghBack.gif');
+  background-repeat:repeat-x;
+  background-position:bottom;
+  color:#3A6F81;
+}
+div.groupDRAG{
+	border:1px solid #6297E5;
+    background-color:#C9DBF7;
+    height:23px; 
+    color:#3A6F81;
+    text-decoration:none;
+    margin-top:2px;
+    padding:2px;
+   }
+    
+td.ghSort_std{
+  background-image:url('ghBack.gif');
+  background-position:bottom;
+  background-repeat:repeat-x;
+  color:#3A6F81;
+  F-ILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#CCCCCC, EndColorStr=#EEEEEE);
+  cursor:hand;
+}
+img.ghSort_std{
+  vertical-align:middle;
+}
+
+img.numberLine{
+  vertical-align:middle;
+  cursor:hand;
+}
+
+td.gCellNumber_std{
+  border-bottom:1px solid #CCCCCC;
+  F-ILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=#F9FBFC, EndColorStr=#D6E3E6);
+}
+
+td.ghSep_std{
+  background-image:url('ghBackSep.gif');
+  background-position:bottom;
+  background-repeat:repeat-x;
+  b-ackground-color :#9CB6BF;
+}
+
+TABLE.gfBar_std {
+	B-ORDER-RIGHT: #dbdac9 1px solid;
+	TABLE-LAYOUT: fixed; 
+	BORDER-TOP: #CCCCCC 1px solid;
+	B-ACKGROUND-IMAGE: url('gfBack.gif');
+	BORDER-LEFT: #dbdac9 1px solid;
+	WIDTH: 100%;
+	B-ORDER-BOTTOM: #000000 1px solid;
+	HEIGHT: 22px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#FFFFFF, EndColorStr=#EEEEEE);
+	BACKGROUND-COLOR:#FFFFFF;
+}
+
+TABLE.gfBar_status{
+  color:red;
+}
+
+TABLE.gfFilterBar_std {
+	TABLE-LAYOUT: fixed;
+	CURSOR: hand; COLOR: #74736b; TEXT-ALIGN: center
+}
+
+tr.gfSpacer_std{
+   background-color:#EEEEEE;
+   height:2px;
+   border-top:1px red solid;
+}
+
+
+
+table.gfc_std{
+  table-layout:fixed;
+  background-color:#E9E7D7;
+}
+
+td.gfc_std{
+  b-ackground-image:url('ghBack.gif');
+  b-ackground-repeat:repeat-x;
+  b-ackground-position:bottom;
+  cursor:hand;
+  FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#CCCCCC, EndColorStr=#EEEEEE);
+  
+}
+
+td.gfcSort_std{
+  background-image:url('ghBack.gif');
+  background-position:bottom;
+  background-repeat:repeat-x;
+  F-ILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#CCCCCC, EndColorStr=#EEEEEE);
+  cursor:hand;
+}
+img.gfcSort_std{
+  vertical-align:middle;
+}
+
+td.gfcSep_std{
+  background-image:url('ghBackSep.gif');
+  background-position:bottom;
+  background-repeat:repeat-x;
+}
+
+td.statusAll{
+  FONT-WEIGHT: bold;
+  COLOR: #3A6F81;
+}
+
+td.statusTextPage{
+  COLOR: #3A6F81;
+}
+

@@ -1,0 +1,30 @@
+TD.sel {
+	CURSOR: hand
+}
+TD.main {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+IFRAME.results {
+	WIDTH: 100%; HEIGHT: 100%
+}
+DIV.objects {
+	BORDER-RIGHT: #d1cdbb 1px solid; BORDER-TOP: #d1cdbb 1px solid; OVERFLOW-Y: scroll; BACKGROUND: #ffffff; OVERFLOW-X: hidden; BORDER-LEFT: #d1cdbb 1px solid; WIDTH: 100%; BORDER-BOTTOM: #d1cdbb 1px solid; HEIGHT: 100%
+}
+IMG.lui {
+	MARGIN-LEFT: 2px; VERTICAL-ALIGN: middle; WIDTH: 16px; MARGIN-RIGHT: 5px; HEIGHT: 16px
+}
+TD.search {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 5px; VERTICAL-ALIGN: top; HEIGHT: 25px
+}
+TD.column {
+	PADDING-LEFT: 5px
+}
+TABLE.listHeaderBar {
+	BORDER-RIGHT: #dbdac9 1px solid; BORDER-TOP: #dbdac9 1px solid; BACKGROUND-IMAGE: url(../../_grid/imgs/bar_bk.gif); BORDER-LEFT: #dbdac9 1px solid; WIDTH: 100%; BORDER-BOTTOM: #c5c1b1 1px solid; HEIGHT: 22px; BACKGROUND-COLOR: #e9e7d7
+}
+TABLE.inlineMsg {
+	Z-INDEX: -1; WIDTH: 100%; POSITION: absolute; TOP: 55px
+}
+TD.inlineMsg {
+	PADDING-RIGHT: 25px; PADDING-LEFT: 25px; PADDING-BOTTOM: 25px; COLOR: gray; PADDING-TOP: 0px
+}

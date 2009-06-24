@@ -1,0 +1,10 @@
+td.taskBar{FONT-SIZE: 8pt;COLOR: #3E6298;padding-left:3px;padding-right:1px;cursor:hand;FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#cee7ff, EndColorStr=#acc8ef)}
+td.taskBar_sel{FONT-SIZE: 8pt;COLOR:#3E6298;font-weight:bold;padding-left:3px;padding-right:1px;FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#fbe1bb, EndColorStr=#fcc28b);cursor:hand}
+td.taskBarClose{padding-right:1px;FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#cee7ff, EndColorStr=#acc8ef);cursor:hand}
+td.taskBarClose_sel{padding-right:1px;FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#fbe1bb, EndColorStr=#fcc28b);cursor:hand}
+td.tasksep{width:1px;background-color:#ffffff}
+td.taskSel{background-color:#FBE1BB}
+td.taskNormal{background-color:#CEE0F9}
+tr.taskSel{background-color:#FBE1BB}
+tr.taskNormal{background-color:#CEE0F9}
+tr.taskUnderline{height:9px;background-color:#FCC28B}

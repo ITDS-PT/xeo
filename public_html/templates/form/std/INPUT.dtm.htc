@@ -1,0 +1,601 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="init()"/>
+<!--- Works around a bug where in some cases IE wouldn't hilite the input section after tabbing.  -->
+<public:attach event="onfocus" onevent="select();"/>
+<public:method name="SetTime"/>
+<public:method name="Set"/>
+<public:method name="setValue"/>
+<public:method name="setValueByRefresh"/>
+<public:method name="disable"/>
+<public:method name="enable"/>
+<public:property name="TimeControl" get="getTimeControl"/>
+<public:property name="isInitialized" get="getInitialized"/>
+<public:property name="allowblankdate" internalname="_sAllowBlankDate"/>
+<public:property name="original"/>
+<public:event id="onReturnValueChangeEvent" name="onreturnvaluechange"/>
+<public:event id="eventOnInitComplete" name="oninitcomplete"/>
+<public:attach event="onblur" onevent="validateDateHour();"/>
+<script language="JavaScript">
+
+var _oTimeControl = null;
+var _bIsInitialized = false;
+var _sAllowBlankDate = "1";
+
+function getInitialized( )
+{
+	return _bIsIntialized;
+}
+
+function getTimeControl( )
+{
+	return _oTimeControl;
+}
+
+function init( )
+{
+	// See if there is a time control attached to the date control.
+	//debugger;
+	   if (window.document.media == "print")
+	{
+		return false;
+	}
+
+	if( parentElement.nextSibling.nextSibling )
+	{
+		_oTimeControl = parentElement.nextSibling.nextSibling.firstChild;
+		
+		onTimeControlInitialized( );
+	}
+	else
+	{
+		commonInit( );
+		
+		// And notify that initialization is complete.
+		_bIsInitialized = true;
+		eventOnInitComplete.fire();
+	}	
+	
+}
+
+// Occurs when the time control has been completely initialized.
+function onTimeControlInitialized( )
+{
+	// If there is a time in our initial value, make sure the time control knows about it.
+	if( returnValue.length > 10 )
+	{
+		//debugger;
+		oDateTime = ParseUtcDate( returnValue );
+		_oTimeControl.setTime( oDateTime );
+	}	
+	
+	commonInit();
+
+	_oTimeControl.attachEvent( "onreturnvaluechange", onTimeChange );
+	
+		// And notify that initialization is complete.
+	_bIsInitialized = true;
+	eventOnInitComplete.fire();
+}
+
+// Occurs when the time control changes it's value.
+function onTimeChange( )
+{
+	returnValue = returnValue.substr(0, 10) + "T" + event.value;
+	
+	fireReturnValueChanged( );
+}
+
+function updateTime( )
+{
+	if( returnValue.length == 0 )
+	{
+		// Don't add on a time if there is no date!
+		return;
+	}
+	
+	var sTime = _oTimeControl.returnValue;
+	
+	if( sTime == null || sTime.length == 0)
+	{
+		// User didn't provide a time, but there is a date; so set a default time.
+		oTime = new Date( 2000, 1, 1, 12, 0, 0, 0 );
+		_oTimeControl.setTime( oTime );
+		sTime = _oTimeControl.returnValue;
+	}
+	
+	returnValue = returnValue.substr(0, 10) + "T" + sTime;
+}
+
+function Parse( bFireEvent )
+{
+    validateDateHour();
+	// Back up the return value because SetDateValues will clobber it.
+	var sOldReturnValue = returnValue;
+	if (SetDateValues(this))
+	{
+		if( returnValue != "" )
+		{
+			if ( _oTimeControl)
+			{
+				updateTime( );
+				
+				if( !disabled )
+				{
+					// Don't enable the time portion if the control itself is disabled!
+					_oTimeControl.enable();
+				}
+			}
+			else
+			{
+				returnValue = returnValue.substr(0, 10);
+			}
+		}
+		else
+		{
+			if( _sAllowBlankDate != "0" )
+			{
+				
+				// If there is a time control, disable it, as we have no date.
+				if( _oTimeControl )
+				{
+					_oTimeControl.disable();
+				}
+			}
+			else
+			{
+				// Blank dates are not allowed.
+				alert( " Tem de preencher a data" );
+				
+				// Restore the previous return value
+				returnValue = sOldReturnValue;
+				var oDate = ParseUtcDate( returnValue );
+				value = FormatDate( oDate );
+			}
+		}
+		
+		if( bFireEvent )
+		{
+			fireReturnValueChanged( );
+		}
+	}
+	else
+	{
+		// Restore the date
+		if( returnValue == "" )
+		{
+			value = "";
+		}
+		else
+		{
+			returnValue = sOldReturnValue;
+			var oDate = ParseUtcDate( returnValue );
+			value = FormatDate( oDate );
+		}
+	}
+}
+
+function Set( oDate )
+{
+	sDate = FormatUtcDate( oDate );
+	sDate = sDate.substring( 0, 19 ); // strip off offset if it exists
+	
+	// See if there is a time associated with this date
+	if( _oTimeControl )
+	{
+		// Put in both the date and the time
+		returnValue = sDate;
+		_oTimeControl.setTime( oDate );
+	}
+	else
+	{
+		// Put in only the date
+		returnValue = returnValue.substr( 0, 10 );
+	}	
+	
+	// Set our user display to the correct date; not just the hidden return value
+	value = FormatDate( oDate );
+	
+	Parse( true ); // Parse has all the interesting logic for setting states and all that.
+	
+	fireReturnValueChanged( );
+}
+
+function commonInit()
+{
+	Parse( false );
+	
+	// Set the default value to the current return value to prevent
+	// warning the user that a control has changed when closing forms.
+	defaultValue = returnValue;
+	original = returnValue;
+	// Now that we're initialized, start handling events
+	attachEvent( "onbeforedeactivate", Parse );  // Detects the user stepping off the control
+	attachEvent( "onchange", Parse ); // Detects external changes
+}
+
+//
+// Fires the onreturnvalue event,
+// passing it the new return value.
+function fireReturnValueChanged( )
+{
+	var oEvent = createEventObject();
+	
+	oEvent.value = returnValue;
+	onReturnValueChangeEvent.fire( oEvent );
+}
+
+
+function setValue( date )
+{
+    Set(date);
+}
+//dateStr no fomato: yyyy-mm-ddThh:mm:ss
+function setValueByRefresh( dateStr )
+{    
+    returnValue = dateStr;
+    original = returnValue;
+    if(returnValue != "")
+    {
+        oDateTime = ParseUtcDate( returnValue );
+        
+        value = FormatDate( oDateTime );
+    	if(_oTimeControl && _oTimeControl != null)
+    	{
+            _oTimeControl.setValueByRefresh( oDateTime )
+            updateTime();
+        }
+    }
+    else
+    {
+        value = "";
+        if(_oTimeControl && _oTimeControl != null)
+        {
+            value = "";
+            _oTimeControl.setValueByRefresh( "" )
+            updateTime();
+        }
+    }
+}
+
+function enable()
+{
+	internalDisable(false);
+}
+function disable()
+{
+	internalDisable(true);
+}
+function internalDisable(b)
+{
+	if (b)
+	{			
+		runtimeStyle.borderColor = "#cccccc";
+		if( parentElement.nextSibling )
+	    {
+	        var _img = parentElement.nextSibling.firstChild;
+		    _img.disable();		    
+		    if(_oTimeControl && _oTimeControl != null)
+            {
+                _oTimeControl.disable();
+            }
+	    }	    
+	}
+	else
+	{
+		runtimeStyle.borderColor = "";
+		if( parentElement.nextSibling )
+	    {
+	        var _img = parentElement.nextSibling.firstChild;
+		    _img.enable();
+	    }
+	    if(_oTimeControl && _oTimeControl != null &&
+	        _oTimeControl.returnValue != null && _oTimeControl.returnValue.length > 0
+	    )
+        {
+            _oTimeControl.enable();
+        }
+	}
+	disabled = b;
+}
+
+function validateDateHour()
+{
+    var format = window.ORG_DATE_FORMAT;
+    var sep = window.ORG_DATE_FORMAT
+    year = '';
+    month = '';
+    day = '';
+    hour = '';
+    minute = '';
+    second = '';
+
+    hasError = true;
+    if(value  && value != null && value != '')
+    {
+        var dateObj = new Date();
+        
+        if(removeWhiteSpaces(value) == '.')
+        {            
+            value = dateObj.getFullYear() + '/' + (dateObj.getMonth()+1) + '/' + dateObj.getDate();
+            if(_oTimeControl != null)
+            {
+            	_oTimeControl.setTime( dateObj );
+            }
+        }
+        else if(removeWhiteSpaces(value).charAt(0) == '.')
+        {            
+            value = removeWhiteSpaces(value)
+            var sum = true;
+            var numberTo = '0';
+            var type = 'd';
+            var endAt;
+            var invalid = false;
+            
+            if(value.charAt(1) == '-')
+            {                
+                sum = false;
+            }
+            var startAt = 2;
+            if(isInteger(value.charAt(1)))
+            {
+                startAt = 1;
+            }
+            for (j = startAt; j < value.length; j++)
+            {
+                if(value.charAt(j) == ' ' || !isInteger(value.charAt(j)))
+                {
+                  endAt = j;
+                  break;
+                }
+                numberTo += value.charAt(j);                
+            }
+            if(isInteger(numberTo))
+            {
+                numberTo = parseInt(numberTo);
+                for (k=endAt; k < value.length; k++)
+                {
+                    if(value.charAt(k) == 'a' || value.charAt(k) == 'y' || value.charAt(k) == 'm' || 
+                        value.charAt(k) == 'd' || value.charAt(k) == 's' || value.charAt(k) == 'w'|| 
+                        value.charAt(k) == 'A' || value.charAt(k) == 'Y' ||  value.charAt(k) == 'W'||
+                        value.charAt(k) == 'S'|| value.charAt(k) == 'M' || value.charAt(k) == 'D')
+                    {
+                        type = value.charAt(k);
+                        break;
+                    }
+                }
+                type = type.toLowerCase();
+                if(type == 'd')
+                {
+                    if(sum)
+                        dateObj = new Date(dateObj.getTime() + numberTo*24*60*60*1000);
+                    else
+                        dateObj = new Date(dateObj.getTime() - numberTo*24*60*60*1000);
+                }
+                else if(type == 'a' || type == 'y')
+                {
+                    if(sum)
+                        dateObj = new Date(dateObj.getFullYear() + numberTo, dateObj.getMonth(), dateObj.getDate());
+                    else
+                        dateObj = new Date(dateObj.getFullYear() - numberTo, (dateObj.getMonth()+1), dateObj.getDate());
+                }
+                else  if(type == 'm')
+                {
+                    if(sum)
+                        dateObj = new Date(dateObj.getFullYear(), dateObj.getMonth() + numberTo, dateObj.getDate());
+                    else
+                        dateObj = new Date(dateObj.getFullYear(), dateObj.getMonth() - numberTo, dateObj.getDate());
+                }
+                else if(type == 'w' || type == 's')
+                {
+                    if(sum)
+                        dateObj = new Date(dateObj.getTime() + (7*numberTo)*24*60*60*1000);
+                    else
+                        dateObj = new Date(dateObj.getTime() - (7*numberTo)*24*60*60*1000);
+                }
+                else
+                {
+                    //invalid = true;
+                    dateObj = new Date(dateObj.getTime());
+                }
+                if(!invalid)
+                {
+                    value = dateObj.getFullYear() + '/' + (dateObj.getMonth()+1) + '/' + dateObj.getDate();
+                  
+                }
+            }
+        }
+    }
+
+    // Se o valor estiver vazio ou não fôr um dos formatos 3
+    if (value == '' || (format != 3 && format != 7 && format != 11))
+        return true;
+
+    // Testar as únicas forma q interessam
+    if (value.length == 10)
+    {
+        //yyyy/mm/dd
+        year = value.substring(0, 4);
+        month = value.substring(5, 7);
+        day = value.substring(8, 10);
+
+        separator1 = value.substring(4, 5).charCodeAt(0);
+        separator2 = value.substring(7, 8).charCodeAt(0);
+
+        if (isInteger(year) && isInteger(month) && isInteger(day) && keyIsMiddleDate(separator1) 
+            && keyIsMiddleDate(separator2))
+            hasError = false;
+        if(hasError) 
+        {
+            // dd/mm/yyyy
+            year = value.substring(6, 10);
+            month = value.substring(3, 5);
+            day = value.substring(0, 2);
+
+            separator1 = value.substring(2, 3).charCodeAt(0);
+            separator2 = value.substring(5, 6).charCodeAt(0);
+
+            if (isInteger(year) && isInteger(month) && parseInt(day) && keyIsMiddleDate(separator1) 
+                && keyIsMiddleDate(separator2))
+                hasError = false;
+        }
+    }
+    else if (value.length == 8) 
+    {
+        // yyyymmdd
+        year = value.substring(0, 4);
+        month = value.substring(4, 6);
+        day = value.substring(6, 8);
+
+        if (isInteger(year) && isInteger(month) && isInteger(day)) {
+//            hasError = false;
+
+            //Caso especial: Inicio
+
+            if (month.length == 1)
+                month = '0' + month;
+            if (day.length == 1)
+                day = '0' + day;
+            
+            // Contruir uma data no formato yyyy/mm/dd
+            dateTemp = year + '/' + month + '/' + day;
+
+            // Verificar se a data contruida i valida
+            if(!isDate(dateTemp)) {
+                //ddmmyyyy
+                year = value.substring(4, 8);
+                month = value.substring(2, 4);
+                day = value.substring(0, 2);
+
+                if (isInteger(year) && isInteger(month) && isInteger(day))
+                    hasError = false;
+            } else
+                hasError = false;
+
+            //Caso especial: Fim
+        }
+    }
+    if (hasError && value.length >= 8) 
+    {
+        // yyyy.m.d
+        year = value.substring(0, 4);
+
+        if (isInteger(year)) 
+        {
+            separator1 = value.substring(4, 5).charCodeAt(0);
+
+            month = value.substring(5, 7);
+            if (isInteger(month))
+            {
+                separator2 = value.substring(7, 8).charCodeAt(0);
+                day = value.substring(8, 9);
+
+                if (isInteger(day) && keyIsMiddleDate(separator1) && keyIsMiddleDate(separator2))
+                   hasError = false;
+            }
+            else 
+            {
+                month = value.substring(5, 6);
+                separator2 = value.substring(6, 7).charCodeAt(0);
+                day = value.substring(7, value.length);
+
+                if (isInteger(month) && isInteger(day) && keyIsMiddleDate(separator1) && keyIsMiddleDate(separator2))
+                   hasError = false;
+            }
+        }
+        else 
+        {
+            // dd.mm.yyyy
+            day = value.substring(0, 2);
+
+            if (isInteger(day)) {
+                separator1 = value.substring(2, 3).charCodeAt(0);
+                month = value.substring(3, 4);
+                separator2 = value.substring(4, 5).charCodeAt(0);
+                year = value.substring(5, value.length);
+
+                if (isInteger(month) && isInteger(year) && keyIsMiddleDate(separator1) && keyIsMiddleDate(separator2))
+                   hasError = false;
+            }
+            else 
+            {
+                day = value.substring(0, 1);
+                separator1 = value.substring(1, 2).charCodeAt(0);
+                month = value.substring(2, value.length - 5);
+                separator2 = value.substring(value.length - 5, value.length - 4).charCodeAt(0);
+                year = value.substring(value.length - 4, value.length);
+
+                if (isInteger(year) && isInteger(month) && isInteger(day) && keyIsMiddleDate(separator1) && keyIsMiddleDate(separator2))
+                    hasError = false;
+            }
+        }
+    }
+    // Se o mes e o dia sao validos, controi a string representativa da data
+    if (!hasError) 
+    {
+        // Contruir uma data no formato
+        if(format == 3)
+        {
+            value = month + '/' + day + '/' + year;
+        }
+        else if(format == 7)
+        {
+            value = day + '/' + month + '/' + year;
+        }
+        else if(format == 11)
+        {
+            value = year + '/' + month + '/' + year;
+        }
+    }
+}
+/*
+	_iCalFormat Formats
+	0  - M/d/yy
+	1  - M/d/yyyy
+	2  - MM/dd/yy
+	3  - MM/dd/yyyy
+	4  - d/M/yy
+	5  - d/M/yyyy
+	6  - dd/MM/yy
+	7  - dd/MM/yyyy
+	8  - yy/M/d
+	9  - yyyy/M/d
+	10 - yy/MM/dd
+	11 - yyyy/MM/dd
+*/
+function isDate(value)
+{
+    if (value.length != 10)
+        return false;
+        
+    year = value.substring(0, 4);
+    separator1 = value.substring(4, 5);
+    month = value.substring(5, 7);
+    separator2 = value.substring(7, 8);
+    day = value.substring(8, 10);
+
+    return day >= 1 && day <= 31 && separator1 == '/' && separator2 == '/' && month >= 1 && month <= 12 && year >= 0 && year <= 9999 && (month == 4 || month == 6 || month == 9 || month == 11 ? day != 31 : true) && (month == 2 ? (isLeapYear(year) ? day <= 29 : day <= 28) : true);
+}
+function isInteger(_value)
+{
+    for (i = 0; i < _value.length; i++)
+        if (_value.charAt(i) < '0' || _value.charAt(i) > '9' )
+            return false;
+
+    return true;
+}
+function keyIsMiddleDate(key)
+{
+    //     45 = '-'     46 = '.'     47 = '/'
+    return key == 45 || key == 46 || key == 47;
+}
+function removeWhiteSpaces(str) {
+  var toRemove='';
+  for(u = 0; u < str.length; u++)
+  {
+    if(str.charAt(u) != ' ')
+        toRemove += str.charAt(u);
+  }
+  return toRemove;
+}
+</script>
+</public:component>

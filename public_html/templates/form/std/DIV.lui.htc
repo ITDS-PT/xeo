@@ -1,0 +1,125 @@
+<public:component lightweight="true">
+<public:attach event="ondragenter"		onevent="dragenter()"/>
+<public:attach event="ondragleave"		onevent="dragleave()"/>
+<public:attach event="ondragover"		onevent="dragover()"/>
+<public:attach event="ondrop"		    onevent="drop()"/>
+<public:attach event="ondocumentready"  onevent="init()"/>
+
+<script language="JavaScript">
+
+function init()
+{
+	if ( this.detachValues )
+	{
+	   if(this.detachValues!="") winmain().getObjectsCardIdWLink( this , this.detachValues , getDocId() );
+	}
+ 
+}
+
+function dragenter(){
+	var info=event.dataTransfer.getData("Text");
+	
+	//  event.dataTransfer.setData('Text',"obj:"+this.object+":"+this.parentNode.outerHTML);
+	if( info&& info.indexOf('obj|')>-1 ){
+		
+		//alert( this.valido);
+		var ok=false;
+		var xobj=info.split("|")[1];
+		var xvalids=this.valido.split(";");
+		
+		for ( var i=0 ; i < xvalids.length && !ok ; i++ )
+		{
+			if ( xobj.toUpperCase()== xvalids[i].toUpperCase() )
+			{
+				ok=true;
+			}
+		}
+		
+		if ( ok )
+		{
+		
+			event.dataTransfer.effectAllowed = 'copy';
+			//this.style.backgroundColor="#FFFFFF"
+			//this.previousSibling.style.backgroundColor='red';
+			window.event.returnValue=false;
+		}
+		else event.dataTransfer.effectAllowed = 'none';
+		
+	}
+	else event.dataTransfer.effectAllowed = 'none';
+}
+
+function dragover(){
+  var info=event.dataTransfer.getData("Text");
+	if(info&& info.indexOf('obj|')>-1){
+		
+		var ok=false;
+		var xobj=info.split("|")[1];
+		var xvalids=this.valido.split(";");
+		
+		for ( var i=0 ; i < xvalids.length && !ok ; i++ )
+		{
+			if ( xobj.toUpperCase()== xvalids[i].toUpperCase() )
+			{
+				ok=true;
+			}
+		}
+		
+		if ( ok )
+		{
+		   event.dataTransfer.effectAllowed = 'copy';
+		   window.event.returnValue=false;
+		}
+		else
+		{
+			event.dataTransfer.effectAllowed = 'none';
+		}
+		
+	}
+	else event.dataTransfer.effectAllowed = 'none';
+}
+
+function dragleave(){
+	
+	//this.previousSibling.style.backgroundColor='#EEEEEE';
+	//this.style.backgroundColor="#C9DBF7"
+}
+
+function drop()
+{
+	var info=event.dataTransfer.getData("Text");
+		var ok=false;
+		
+		var xobj=info.split("|")[1];
+		var xboui=info.split("|")[2];
+		
+		var xvalids=this.valido.split(";");
+		
+		for ( var i=0 ; i < xvalids.length && !ok ; i++ )
+		{
+			if ( xobj.toUpperCase()== xvalids[i].toUpperCase() )
+			{
+				ok=true;
+			}
+		}
+		
+		if ( ok )
+		{
+			//alert(this.valido);
+			//alert(info);
+			var xs=info.split("|");
+			var h="";
+			for ( var i=3;i<xs.length; i++) h+=xs[i];
+			
+			this.innerHTML=h;
+			
+			var inp=this.parentNode.nextSibling.lastChild;
+			inp.value=xboui;
+				
+		}
+	
+}
+
+
+</script>
+</public:component>

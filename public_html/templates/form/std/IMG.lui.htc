@@ -1,0 +1,20 @@
+<public:component lightweight="true">
+<public:attach event="ondragstart"		onevent="dragstart()"/>
+
+<script language="JavaScript">
+
+function dragstart(){
+
+//alert( this.parentNode.outerHTML );
+//alert(this.object);
+
+  //var inp=this.parentNode.parentNode.parentNode.nextSibling.lastChild;
+  
+  event.dataTransfer.setData('Text',"obj|"+this.object+"|"+this.boui+"|"+this.parentNode.outerHTML);
+  event.dataTransfer.effectAllowed = 'copy';
+  
+
+}
+
+</script>
+</public:component>

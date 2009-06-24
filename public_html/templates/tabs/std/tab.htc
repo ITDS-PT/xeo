@@ -1,0 +1,50 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="load()"/>
+<public:attach event="onresize" onevent="load()"/>
+<script language="JavaScript">
+
+function load()
+{
+
+	if (window.document.media == "print")
+	{
+		return false;
+	}
+	
+	var xid=this.id.substr(0,this.id.indexOf('_'));
+    so(xid);
+    //alert(xid+"  "+window.event.type);
+    if(window.event.type=="resize"){
+		downTab_std(_hso.oTab);
+    }
+    else
+    {	
+        if(getIDX() != null && winmain().ndl[getIDX()] != null &&
+            winmain().ndl[getIDX()].focusfields != null && 
+            frameElement != null &&
+            winmain().ndl[getIDX()].focusfields[frameElement.id] != null &&
+            winmain().ndl[getIDX()].focusfields[frameElement.id].focusTab != null)
+        {
+            var lastTab = winmain().ndl[getIDX()].focusfields[frameElement.id].focusTab;
+            var lastTabId = winmain().ndl[getIDX()].focusfields[frameElement.id].focusTabNumber;
+            if(lastTab != null && lastTab != "")
+            {   
+                var elems = window.document.getElementsByName(lastTab);
+                if(elems != null && elems.length > 0)
+                {
+                    so(lastTabId);
+                    toFocus=elems[0];
+                    window.setTimeout("downTab_std(toFocus)",400);
+                    downTab_std(this.cells[0].firstChild);    
+                }
+            }
+        }
+        else
+        {
+            downTab_std(this.cells[0].firstChild);    
+        }
+    }
+}
+
+</script>
+</public:component>

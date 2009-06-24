@@ -1,0 +1,95 @@
+td.cell
+ {
+	border-bottom:1px solid #C1D1E9;
+ }
+ 
+ td.lcell
+ {
+	background-color:#F2F7FA;
+ }
+ td.divider
+ {
+ border-right:1px solid #6297E5;
+ }
+ 
+ table.rowBody
+ {
+	width:100%;
+	table-layout:fixed;
+ }
+ img.number
+ {
+ vertical-align:middle;
+ }
+ 
+ 
+td.bodySentence
+{
+	
+	padding:4px;
+}
+table.bodySentence
+{
+	
+	
+	width:100%
+}
+
+td.headerVarActivity
+{
+	height:25px;
+	background-color:#EEEEEE;
+	font-weight:bold;
+	border-bottom : 1px solid #085286;
+}
+td.VarActivity
+{
+	border-bottom : 1px solid #CCCCCC;
+}
+
+td.headerProgram
+{
+
+	background-color:#EEEEEE;
+	font-weight:bold;
+	border-bottom : 1px solid #085286;
+}
+
+span.nameAtr
+{
+	font-size:10px;
+	color:#085286;
+	border:1px solid #6297E5;
+	background-color:#EEEEEE;
+	margin-left:10px;
+	margin-right:10px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
+span.namePar
+{
+	font-size:10px;
+	color: #999281;
+	border:1px dotted #D0C4A2;
+	background-color:#F4F1E6;
+	margin-left:10px;
+	margin-right:10px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
+td.underline
+{
+border-bottom:1px solid #CCCCCC;
+}
+
+col.iconsChoose {
+	background-color:#F2F7FA;
+	CURSOR: hand;
+}
+
+td.readSectionCaption
+{
+color:#D92F01;border-bottom:1px solid #CCCCCC;
+}

@@ -1,0 +1,223 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="init()"/>
+<public:method name="enable"/>
+<public:method name="disable"/>
+<public:method name="getTime"/>
+<public:method name="setTime"/>
+<public:method name="setValue"/>
+<public:method name="setValueByRefresh"/>
+<public:property id="timeVisibleProperty" name="timeVisible" get="getTimeVisible" put="setTimeVisible"/>
+<public:property id="allowTimeEditProperty" name="allowTimeEdit" get="getAllowTimeEdit" put="setAllowTimeEdit"/>
+<public:property id="timeFormatProperty" name="TimeFormat" put="putTimeFormat"/>
+<public:property id="returnValueProperty" name="returnValue" internalName="_sReturnValue"/>
+<public:property name="isInitialized" get="getInitialized" />
+<public:event id="onReturnValueChangeEvent" name="onreturnvaluechange"/>
+<public:event id="eventOnInitComplete" name="oninitcomplete"/>
+<script language="javascript">
+
+	var _bTimeVisible = true;
+	var _iTimeFormat = 2;
+	var _sReturnValue = "";
+	var _bIsInitialized = false;
+	var _bAllowTimeEdit = false;
+	
+	function putTimeFormat( vTimeFormat )
+	{
+		// Time formats passed on the HTML tag come in as strings
+	
+		if ( vTimeFormat )
+		_iTimeFormat = parseInt( vTimeFormat, 10 );
+		
+	}
+	
+	// Indicates whether the control is fully initialized or not.
+	function getInitialized( )
+	{
+		return _bIsInitialized;
+	}
+	
+	// This hooks into the select control validation routine; it 
+	// indicates whether the value typed into the select edit box is 
+	// valid or not.
+	function onSelectValidate( )
+	{
+	
+		oDate = parseTime( event.inputValue, _iTimeFormat );
+
+		if( isNaN( oDate.valueOf( ) ) )
+		{		
+			alert( "Hora inválida " );
+			
+			// Indicate the input is not valid.
+			event.returnValue = false;
+		}
+		else
+		{
+			// Indicate the input is valid.
+			event.returnValue = true;
+			event.formattedValue = timeToString( oDate, _iTimeFormat );
+		}
+	}
+	
+	/// Performs final initialization when the document has been fully initialized.
+	function init( )
+	{
+	
+	   if (window.document.media == "print")
+		{
+			return false;
+		}
+
+		firstChild.attachEvent( "onreturnvaluechange", onSelectChange );
+		firstChild.attachEvent( "onvalidate", onSelectValidate );
+		firstChild.attachEvent( "onfindnextsmallestentry", onSelectFindNextSmallestEntry );
+	
+		setTimeVisible(_bTimeVisible);
+		setAllowTimeEdit(_bAllowTimeEdit);
+		
+		var oTime = parseTime( firstChild.returnValue, _iTimeFormat );
+		_sReturnValue = timeToUTCString( oTime );
+		
+		_bIsInitialized = true;
+		eventOnInitComplete.fire( );		
+	}
+	
+	// Occurs when the value in the select control changes.  
+	// We need to update our time return value.
+	function onSelectChange( )
+	{	
+		var oTime = parseTime( firstChild.returnValue, _iTimeFormat );
+		_sReturnValue = timeToUTCString( oTime );
+		
+		var oEvent = createEventObject();	
+		oEvent.value = _sReturnValue;
+		onReturnValueChangeEvent.fire( oEvent );
+	}
+
+	// Occurs when the select control needs to find the right location in the list for a user-entered value.
+	// We can use the fact that all times in the select box are on half-hour intervals by dropping the time given
+	// to the next lowest half-hour.
+	function onSelectFindNextSmallestEntry( )
+	{
+		var sValue = event.inputValue;
+		
+		// Convert the input value to a date
+		oCurrentTime = parseTime( event.inputValue, _iTimeFormat );
+		
+		// Bounce down to the nearest 1/2 hour
+		if( oCurrentTime.getMinutes( ) == 0 )
+		{
+			oCurrentTime.setMinutes( -30 );
+		}
+		else if( oCurrentTime.getMinutes( ) <= 30 )
+		{
+			oCurrentTime.setMinutes( 0 );
+		}
+		else
+		{
+			oCurrentTime.setMinutes( 30 );
+		}
+		
+		event.sEntry = timeToString( oCurrentTime, _iTimeFormat );
+	}
+	
+	// Enables the control
+	function enable( )
+	{
+		firstChild.enable( );
+	}
+	
+	// Disables the control
+	function disable( )
+	{
+		firstChild.disable( );
+	}
+	
+	// Sets the time to the given time.  Ignores the date part of
+	// the data in the oDate object.
+	function setTime( oDate )
+	{
+		sTime = timeToString( oDate, _iTimeFormat );
+		firstChild.setValue( sTime );
+		
+		_sReturnValue = timeToUTCString( oDate );
+	}
+	
+	// Returns, as a Date objects, the time in the control.
+	// The date portion of this value should be ignored.
+	function getTime( )
+	{
+		return parseUTCTime( _sReturnValue, _iTimeFormat );
+	}
+	
+	
+	// Indicates whether the time is visible or not.
+	function getTimeVisible( )
+	{
+		return _bTimeVisible;
+	}
+	
+	// Sets the time visibility.  
+	// bVisible - true for a visible time, false for an invisible time.
+	function setTimeVisible( bVisible )
+	{
+		_bTimeVisible = bVisible;
+		
+		// If the value for this is set on the tag, IE will set this property on us before we initialize.
+		// If we try and access the _oIn part of the object, it will not have been built at that point in time.
+		// Thus, we only adjust the _oIn if we are initialized.
+		// Initialization will still occur because init() calls us.
+		if( readyState == "complete" && _bIsInitialized)
+		{
+			// Setting the style to "" won't properly remove the "none" display style; explicitly set it to
+			// the default instead.
+			firstChild.runtimeStyle.display = _bTimeVisible ? "inline" : "none";
+			
+			timeVisibleProperty.fireChange( );
+		}
+	}
+	
+	// Indicates whether the time value can be edited.
+	function getAllowTimeEdit( )
+	{
+		return _bAllowTimeEdit;
+	}
+	
+	// Sets whether the time value can be edited.
+	// bAllow - true = time can be editied, false = not so.
+	function setAllowTimeEdit( bAllow )
+	{
+		if (_bIsInitialized)
+		{
+			firstChild.allowValueEdit = bAllow;	
+			allowTimeEditProperty.fireChange( );
+		}
+
+		_bAllowTimeEdit = bAllow;
+	}
+
+
+	function setValue( oDate )
+	{
+		setTime( oDate);
+	}
+	
+	function setValueByRefresh( oDate )
+	{
+	    if(oDate != "")
+	    {    	    
+    		sTime = timeToString( oDate, _iTimeFormat );
+    		firstChild.setValueByRefresh(sTime);
+    		_sReturnValue = timeToUTCString( oDate );
+    		original = _sReturnValue;
+    	}
+    	else
+    	{    	    
+    		firstChild.setValueByRefresh("");
+    		_sReturnValue = "";
+    		original = _sReturnValue;
+    	}
+	}
+	
+</script>
+</public:component>

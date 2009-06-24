@@ -1,0 +1,402 @@
+<!-- locapply comments applied 4/15/2002 -->
+<public:component lightweight="true">
+	<public:attach event="ondocumentready" onevent="init()"/>
+	<public:method name="setMinutes"/>
+	<public:method name="setValue"/>
+	<public:method name="setValueByRefresh"/>
+  <public:method name="disable"/>
+  <public:method name="enable"/>
+	<public:property name="isInitialized" get="getInitialized" />
+	<public:property name="returnValue" internalname="_sReturnValue" />
+	<public:property name="defaultValue" internalname="_sDefaultValue" />
+	<public:event id="onReturnValueChangeEvent" name="onreturnvaluechange"/>
+	<public:event id="eventOnInitComplete" name="oninitcomplete"/>
+	<script language="JavaScript">
+
+		var _bIsInitialized = false;
+		var _sReturnValue = "";
+		var _sDefaultValue = "";
+		var MAX_MINUTES = 5259456.0;  // Approx. 10 years.  
+
+		// Indicates whether the control is fully initialized or not.
+		function getInitialized( )
+		{
+			return _bIsInitialized;
+		}
+
+		function init()
+		{
+		
+			   if (window.document.media == "print")
+				{
+					return false;
+				}
+
+			nextSibling.attachEvent( "onvalidate", onSelectValidate );
+			nextSibling.attachEvent( "onreturnvaluechange", onSelectChange );
+			nextSibling.attachEvent( "onfindnextsmallestentry", onSelectFindNextSmallestEntry );
+
+			_sReturnValue = _sReturnValue;
+			_sDefaultValue = _sReturnValue;
+			//original=_sReturnValue;
+
+			_bIsInitialized = true;
+			setMinutes(_sDefaultValue);
+			eventOnInitComplete.fire( );
+		}
+
+		function onSelectChange( )
+		{
+			// Shouldn't get NaN here; it needs to get past onSelectValidate first.
+			
+			var minutes = parseDuration( nextSibling.returnValue );
+
+			// Convert integer minutes to string return value so that the form processor handles
+			// returnValue/defaultValue parsing properly.
+			_sReturnValue = new String( minutes );
+			 
+			var oEvent = createEventObject();
+			oEvent.value = minutes;
+			onReturnValueChangeEvent.fire( oEvent );
+		}
+
+		function onSelectValidate( )
+		{
+			if( typeof( event.inputValue ) == "undefined" )
+			{
+				onSelectChange( );
+				return;
+			}
+			if(event.inputValue == "" || event.inputValue=="0" )
+			{
+				event.inputValue="0 minutos";
+			}
+			var iMinutes = parseDuration( event.inputValue );
+			
+			if( isNaN( iMinutes ) )
+			{
+				alert( "A duração é inválida" );
+
+				// Indicate the input is not valid.
+				event.returnValue = false;
+			}
+			else
+			{
+				if( iMinutes > MAX_MINUTES )
+				{
+					iMinutes = MAX_MINUTES;
+				}
+				
+				// Indicate the input is valid.
+				event.returnValue = true;
+				event.formattedValue = formatDuration( iMinutes );
+			}
+		}
+
+		function onSelectFindNextSmallestEntry( )
+		{
+		
+			if( typeof( event.inputValue ) == "undefined" )
+			{
+				// The event handler pointers got screwed up; this happens for some reason--
+				// the onreturnvaluechange event will fire the onselectfindnextsmallestentry event handler on some
+				// pages for unknown reasons.  This is a workaround to resolve the issue.
+				onSelectChange( );
+				return;
+			}
+			
+			var sValue = event.inputValue;
+
+			var iMinutes = parseDuration( sValue );
+
+			// This must match what is used in app_ctrl_duration.cs or the logic will break!
+			if( iMinutes <= 5 )
+			{
+				event.sEntry = "1 minuto";
+			}
+			else if( iMinutes <= 15 )
+			{
+				event.sEntry = "5 minutos";
+			}
+			else if( iMinutes <= 30 )
+			{
+				event.sEntry = "15 minutos";
+			}
+			else if( iMinutes <= 45 )
+			{
+				event.sEntry = "30 minutos";
+			}
+			else if( iMinutes <= 60 )
+			{
+				event.sEntry = "45 minutos";
+			}
+			else if( iMinutes <= 90 )
+			{
+				event.sEntry = "1 hora";
+			}
+			else if( iMinutes <= 120 )
+			{
+				event.sEntry = "1.5 horas";
+			}
+			else if( iMinutes <= 150 )
+			{
+				event.sEntry = "2 horas";
+			}
+			else if( iMinutes <= 180 )
+			{
+				event.sEntry = "2.5 horas";
+			}
+			else if( iMinutes <= 210 )
+			{
+				event.sEntry = "3 horas";
+			}
+			else if( iMinutes <= 240 )
+			{
+				event.sEntry = "3.5 horas";
+			}
+			else if( iMinutes <= 270 )
+			{
+				event.sEntry = "4 horas";
+			}
+			else if( iMinutes <= 300 )
+			{
+				event.sEntry = "4.5 horas";
+			}
+			else if( iMinutes <= 330 )
+			{
+				event.sEntry = "5 horas";
+			}
+			else if( iMinutes <= 360 )
+			{
+				event.sEntry = "5.5 horas";
+			}
+			else if( iMinutes <= 390 )
+			{
+				event.sEntry = "6 horas";
+			}
+			else if( iMinutes <= 420 )
+			{
+				event.sEntry = "6.5 horas";
+			}
+			else if( iMinutes <= 450 )
+			{
+				event.sEntry = "7 horas";
+			}
+			else if( iMinutes <= 480 )
+			{
+				event.sEntry = "7.5 horas";
+			}
+			else if( iMinutes <= 510 )
+			{
+				event.sEntry = "8 horas";
+			}
+			else if( iMinutes <= 2880 )
+			{
+				event.sEntry = "1 dia";
+			}
+			else if( iMinutes <= 4320 )
+			{
+				event.sEntry = "2 dias";
+			}
+			else
+			{
+				event.sEntry = "3 dias";
+			}
+
+		}
+
+		function setMinutes( iMinutes )
+		{
+			sDuration = formatDuration( iMinutes );
+			if(nextSibling.readyState!="loading" )
+			{
+				nextSibling.setValue( sDuration );
+				window.status="";
+			}
+			else
+			{
+				//new function(){alert(1)};
+				
+				if(!nextSibling.id) nextSibling.id=nextSibling.uniqueID;
+				//zz=eval("new function(){debugger; var e=window.document.getElementById('"+nextSibling.id+"');if(e.readyState=='complete' ){e.setValue('"+sDuration+"');alert(1)}}");
+				//nextSibling.onReadyStateChange= zz;
+				window.status="VALUE NOT SET IN DURATION.HTC LOADING...";
+			}
+
+			// Set the return value to the given value-- this prevents rounding errors from causing problems-- otherwise
+			// we will generate, say, 2.09 days, which will then reverse evaluate a minute or so off of iMinutes, which
+			// will cause the platform to complain that the numbers are out of sync.
+			_sReturnValue = iMinutes.toString( );
+		}
+
+
+		// Parses a duration string and returns the number of minutes.
+		function parseDuration( sDur )
+		{
+			var sChar, fTok;
+			var sRemTok = "";
+			var sClnRemTok = "";
+
+			for(i = 0; i < sDur.length; i++)
+			{
+				sChar = sDur.charAt(i);
+				if( isNaN( parseInt(sChar) ) && sChar != '.')
+					break;
+			}
+			fTok = parseFloat(sDur.substring(0, i));
+		
+			var iRVal;
+
+			if( isNaN(fTok) )
+				return NaN;
+
+			// Need to do this to work with localization properly.
+			var oHourRegex = new RegExp( "h" );
+			var oMinuteRegex = new RegExp( "m" );
+			var oDayRegex = new RegExp( "d" );
+
+			if(	oHourRegex.test( sDur ) )
+			{
+				iRVal = Math.round( fTok * 60*10 )/10;
+			}
+			else if( oMinuteRegex.test( sDur ) )
+			{
+				iRVal = Math.round( fTok*10)/10;
+			}
+			else if( oDayRegex.test( sDur ) )
+			{
+				iRVal = Math.round( fTok * 1440*10 )/10;
+			}
+			else
+			{
+				// Couldn't parse
+				//return NaN;
+				iRVal = Math.round( fTok*10 )/10;
+				//iRVal =  fTok;
+			}
+			
+			return iRVal;
+		}
+
+// Converts input value to a user-friendly time string and returns a string with the updated duration.
+// If this logic changes, the logic in Shared\AppComponents\AppDurationControl.cs
+function formatDuration( iMinutes )
+{
+	if( isNaN( parseInt(iMinutes, 10) ) || ( iMinutes < 0 ) )
+	{
+		iMinutes = 0;
+	}
+
+	var rVal;
+	if(iMinutes < 60)
+	{
+		if(iMinutes == 1)
+		{
+			rVal = ""+iMinutes+" minuto";
+		}
+		else
+		{
+			rVal = ""+iMinutes+" minutos";
+		}
+	} else if( iMinutes >= 60 && iMinutes < 1440 )
+	{
+		var iHours = iMinutes / 60;
+
+		if(iHours == 1)
+		{
+			rVal = ""+formatFloat( iHours.toString() )+" hora";
+		}
+		else
+		{
+			rVal = ""+formatFloat( iHours.toString() )+" horas";
+		}
+	} else if( iMinutes >= 1440 )
+	{
+		var iHours = iMinutes / 60;
+		var iDays = iHours / 24;
+
+		if(iDays == 1)
+		{
+			rVal = ""+formatFloat( iDays.toString() )+" dia";
+		}
+		else
+		{
+			rVal = ""+formatFloat( iDays.toString() )+" dias";
+		}
+	}
+
+	return rVal;
+}
+function enable()
+{
+	internalDisable(false);
+}
+function disable()
+{
+	internalDisable(true);
+}
+function internalDisable(b)
+{
+	var oTR = element.parentElement.parentElement;
+	var oSelectBox = oTR.children[0].children[1];
+	var oImgClock = oTR.children[1].children[0];
+  var imgClock = element.document.getElementById(oImgClock.id);
+  if(b)
+  {
+	nextSibling.disable();
+	try{
+	    if(!imgClock.disable)
+	    {
+	      imgClock.setToggle();
+	    }
+	}
+	catch (e){}
+  }
+  else
+  {
+    nextSibling.enable();
+  }
+}
+//	format float, kill > a 10th
+function formatFloat(sNum)
+{
+	var sBase = "";
+	var sRem = "";
+	var bRem = false;;
+
+	for(i = 0; i < sNum.length; i++)
+	{
+
+		curChar = sNum.charAt(i);
+
+		if(bRem)
+		{
+			sRem += curChar;
+			if(sRem.length == 2) break;
+		}
+		else
+		{
+			sBase += curChar;
+		}
+
+		if(curChar == '.')
+		{
+			bRem = true;
+			continue;
+		}
+	}
+
+	return sBase + sRem;
+}
+    function setValue( iMinutes )
+    {
+        setMinutes(iMinutes);
+    }
+
+    function setValueByRefresh( iMinutes )
+    {
+        original = iMinutes.toString( );
+        setMinutes(iMinutes);
+    }    
+	</script>
+</public:component>

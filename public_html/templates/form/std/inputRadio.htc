@@ -1,0 +1,80 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="Init()"/>
+<public:attach event="onclick" onevent="SetValue()"/>
+<public:method name="setValue"/>
+<public:method name="setValueByRefresh"/>
+<public:method name="enable"/>
+<public:method name="disable"/>
+<script language="JavaScript">
+
+function Init()
+{
+//alert(this.name);
+if (window.document.media == "print")
+	{
+		return false;
+	}
+	
+ try{ 
+	if(this.name){
+    
+		var oInput =  eval("boForm."+this.name.substr(8));
+		if ( oInput )
+		if (value == oInput.value)
+		{
+			checked = true;
+		}
+	
+	}
+  }
+  catch(e){}
+}
+
+
+function SetValue()
+{
+	try{ 
+	
+		if(this.name)
+		{
+			var oInput =  eval("boForm."+this.name.substr(8));
+			if ( oInput)
+			{
+				oInput.value = this.value;
+				oInput.fireEvent("onchange");
+			}
+		}
+	}
+	catch(e){}
+}
+
+function setValue(newValue)
+{
+   this.value = newValue;
+   SetValue();
+}
+
+function setValueByRefresh(newValue)
+{      
+   try{ 
+		if(this.name)
+		{
+		    var oInput =  eval("boForm."+this.name.substr(8));
+			if (oInput && value == oInput.value)
+		    {
+			    checked = true;
+		    }
+		}
+	}
+	catch(e){}
+}
+function enable()
+{   
+    disabled = false;
+}
+function disable()
+{   
+    disabled = true;
+}
+</script>
+</public:component>

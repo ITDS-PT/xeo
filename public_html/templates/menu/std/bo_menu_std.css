@@ -1,0 +1,68 @@
+SPAN.menu {
+	PADDING-RIGHT: 5px;PADDING-LEFT: 5px; PADDING-BOTTOM: 2px;PADDING-TOP: 4px;HEIGHT: 100%
+}
+SPAN.menuFlat {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; HEIGHT: 100%;
+}
+SPAN.menuInput {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; HEIGHT: 100%;
+	vertical-align:top;
+}
+SPAN.button {
+	PADDING-RIGHT: 2px;PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; 
+	CURSOR: hand; PADDING-TOP: 2px;HEIGHT: 100%
+}
+TABLE.mnuList {
+	BORDER-RIGHT: #454F5F 1px solid; BORDER-TOP: #454F5F 1px solid; DISPLAY: none; Z-INDEX: 10; BORDER-LEFT: #454F5F 1px solid; WIDTH: 200px; COLOR: #3A6F81; BORDER-BOTTOM: #454F5F 1px solid; POSITION: absolute; BACKGROUND-COLOR: #F9FBFB
+}
+TABLE.mnuBar {
+	BORDER-BOTTOM:#246EDB 1px solid;
+	BORDER-TOP:#88B0EB 1px solid;
+	WIDTH: 100%; COLOR: #FFFFFF;
+	BACKGROUND-COLOR: #6297E5;
+	POSITION: relative; HEIGHT: 23px; 
+	
+}
+TABLE.mnuBarFlat {
+	BORDER-BOTTOM:#246EDB 1px solid;
+	WIDTH: 100%; COLOR: #FFFFFF;  POSITION: relative; HEIGHT: 23px;
+	BACKGROUND-COLOR: #6297E5;
+}
+
+TR.mnuSpacer {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 1px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TD.mnuItm {
+	PADDING-LEFT: 10px; PADDING-TOP: 5px
+}
+TD.icMenu {
+	BEHAVIOR: url(templates/menu/std/menu.htc)
+}
+U.mnuKey {
+	ACCELERATOR: true
+}
+TD.mnuTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; CURSOR: default; COLOR: #FDDCA9; LETTER-SPACING: 1px;
+}
+TD.mnuRight {
+	PADDING-RIGHT: 5px; WIDTH: 100%; TEXT-ALIGN: right
+}
+IMG.mnuBtn {
+	MARGIN-BOTTOM: -1px; VERTICAL-ALIGN: top; WIDTH: 16px; MARGIN-RIGHT: 1px; HEIGHT: 16px
+}
+HR.mnuSpacer {
+	MARGIN-LEFT: 10px; HEIGHT: 1px
+}
+COL.mnuLeft {
+	WIDTH: 21px;
+	BACKGROUND-COLOR: #ABBEC7;
+	TEXT-ALIGN: center
+	
+}
+SPAN.mnuSubItem {
+	WIDTH: 140px
+}
+DIV.barInterval{
+BORDER-TOP: #A4C3F0 1px solid;
+B-ORDER-BOTTOM: green 1px solid";
+}

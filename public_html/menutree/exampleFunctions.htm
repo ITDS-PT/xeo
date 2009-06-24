@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+
+<style>
+   BODY {background-color: white; font-size: 10pt; font-family: verdana,helvetica}
+   .menuBtn {width:100%}
+</style>
+
+<script>
+// Functions called by the menu under the tree
+// If you are not going to have an extra frame with action buttons, if your links
+// are embedded in the documents that load in the right frame, for example,
+// you should move these functions to the frameset file (in this case demoFuncs.html)
+// If you are using a frameless layout, you will also have to move these functions
+// to the appropriate page.
+// In both cases: you will have to update the DOM paths used to access the functions
+// and used by the functions themselves.
+
+// Open all folders
+// May not work with very large trees (browser may time out)
+// You may call this on a node other than the root, but it must be a folder
+function expandTree(folderObj)
+{
+    var childObj;
+    var i;
+
+    //Open folder
+    if (!folderObj.isOpen)
+      parent.treeframe.clickOnNodeObj(folderObj)
+
+    //Call this function for all folder children
+    for (i=0 ; i < folderObj.nChildren; i++)  {
+      childObj = folderObj.children[i]
+      if (typeof childObj.setState != "undefined") {//is folder
+        expandTree(childObj)
+      }
+    }
+}
+
+// Close all folders
+function collapseTree()
+{
+	//hide all folders
+	parent.treeframe.clickOnNodeObj(parent.treeframe.foldersTree)
+	//restore first level
+	parent.treeframe.clickOnNodeObj(parent.treeframe.foldersTree)
+}
+
+// In order to show a folder, open all the folders that are higher in the hierarchy 
+// all the way to the root must also be opened.
+// (Does not affect selection highlight.)
+function openFolderInTree(linkID) 
+{
+	var folderObj;
+	folderObj = parent.treeframe.findObj(linkID);
+	folderObj.forceOpeningOfAncestorFolders();
+	if (!folderObj.isOpen)
+		parent.treeframe.clickOnNodeObj(folderObj);
+} 
+
+// Load a page as if a node on the tree was clicked (synchronize frames)
+// (Highlights selection if highlight is available.)
+function loadSynchPage(linkID) 
+{
+	var folderObj;
+	docObj = parent.treeframe.findObj(linkID);
+	docObj.forceOpeningOfAncestorFolders();
+	parent.treeframe.clickOnLink(linkID,docObj.link,'basefrm'); 
+
+    //Scroll the tree window to show the selected node
+    //Other code in these functions needs to be changed to work with
+    //frameless pages, but this code should, I think, simply be removed
+    if (typeof parent.treeframe.document.body != "undefined") //scroll doesn work with NS4, for example
+        parent.treeframe.document.body.scrollTop=docObj.navObj.offsetTop
+} 
+</script>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" leftmargin=0 topmargin=0 marginheight="0" marginwidth="0">
+
+<center>
+<form>
+<input type=button onClick="javascript:expandTree(parent.treeframe.foldersTree)" value="Open All" class=menuBtn>
+<!-- The next three functions have an hardcoded value. How do you figure out which value to use?
+     What is the id of a node? 
+     If you are not using the node.xID capability, open the tree in the browser and move your mouse 
+     over the +/- nodes to the left of the folders. The numbers shown are the ids of the folders.
+     Increment that number sequentially to get the ids of the "documents" inside that folder.
+     If you are using the node.xID capability, then simply use the corresponding xID value (it may 
+     be a string).
+-->
+<input type=button onClick="javascript:collapseTree(1)" value="Close All" class=menuBtn>
+<input type=button onClick="javascript:openFolderInTree(1)" value="Open Flags Folder" class=menuBtn>
+<input type=button onClick="javascript:loadSynchPage(10)" value="Load Map of Europe" class=menuBtn>
+</form>
+</center>
+
+</BODY>
+</HTML>
+
+
+

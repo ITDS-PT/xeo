@@ -1,0 +1,34 @@
+span.scrollLeft
+{
+BACKGROUND-IMAGE:url('arrowLeft.gif');
+BACKGROUND-REPEAT:no-repeat;
+BACKGROUND-POSITION: center center;
+BACKGROUND-COLOR:#135EC3;
+WIDTH:10px;
+}
+span.scrollRight
+{
+BACKGROUND-IMAGE:url('arrowRight.gif');
+BACKGROUND-REPEAT:no-repeat;
+BACKGROUND-POSITION: center center;
+BACKGROUND-COLOR:#135EC3;
+WIDTH:10px;
+}
+
+span.scrollTop
+{
+BACKGROUND-IMAGE:url('arrowTop.gif');
+BACKGROUND-REPEAT:no-repeat;
+BACKGROUND-POSITION: top center;
+BACKGROUND-COLOR:#135EC3;
+HEIGHT:12px;
+}
+span.scrollBottom
+{
+BACKGROUND-IMAGE:url('arrowBottom.gif');
+BACKGROUND-REPEAT:no-repeat;
+BACKGROUND-POSITION: top center;
+BACKGROUND-COLOR:#135EC3;
+HEIGHT:12px;
+}
+

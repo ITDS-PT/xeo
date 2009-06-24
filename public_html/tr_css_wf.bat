@@ -1,0 +1,1 @@
+copy ieThemes\0\global\ui-global.css+ieLibrary\splitter\splitter.css+ieThemes\0\splitter\ui-splitter.css+ieLibrary\scrollContainer\scrollContainer.css+ieThemes\0\scrollContainer\ui-scrollContainer.css+ieThemes\0\taskBar\ui-taskBar.css wf.css

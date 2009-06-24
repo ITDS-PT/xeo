@@ -1,0 +1,98 @@
+DIV.headerGroup {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; FONT-WEIGHT: normal; FONT-SIZE: 11px; PADDING-BOTTOM: 2px; MARGIN: 10px 10px 2px; WIDTH: 100%; PADDING-TOP: 2px
+}
+TD.noneGroup {
+	COLOR: #777777
+}
+a.colGroup {
+	BEHAVIOR: url(ieLibrary/explorer/colGroup.htc);
+    cursor:hand;
+    border:1px solid #6297E5;
+    background-color:#C9DBF7;
+    height:16px; 
+    color:#3A6F81;
+    text-decoration:none;
+    padding:2px;
+}
+
+a.colGroupNone {
+	BEHAVIOR: url(ieLibrary/explorer/colGroup.htc);
+    cursor:hand;
+    b-order:1px solid #9DBDEF;
+    background-color:#EEEEEE;
+    color:#AAAAAA;
+    font-size:14px;
+    height:21px;
+    padding:2px;
+    position:relative;
+    text-decoration:none;
+    padding:2px;
+}
+
+span.colGroupInterval
+{
+ 
+ background-color:#EEEEEE;
+ height:21px; 
+ padding:2px;
+ 
+}
+
+div.groupDRAG{
+	border:1px solid #6297E5;
+    background-color:#C9DBF7;
+    height:21px; 
+    color:#3A6F81;
+    text-decoration:none;
+    margin-top:2px;
+    padding:2px;
+   }
+
+input.explorerfullTextSearch {
+	BEHAVIOR: url(ieLibrary/explorer/explorerfulltext.htc);
+	width:120px;
+	height:16px;
+	border:0;
+	
+}
+tr.groupbar {
+	border:0;
+	background-color:#EEEEEE;
+	HEIGHT: 24px;
+}
+tr.parambar {
+	border:0;
+	background-color:#C9DBF7;
+  cursor:hand;
+  b-order:1px solid #9DBDEF;
+  color:#AAAAAA;
+  font-size:14px;
+  argin-top:2px;
+  position:relative;
+  text-decoration:none;
+  padding:2px;
+}
+
+table.explorerfullTextSearch
+{
+	
+	b-ackground-color:#CCCCCC;
+	
+}
+
+td.tdTextFull
+{
+	background-color:#ffffff;
+	
+	border-top:1px solid #6B8C9C;
+	border-left:1px solid #6B8C9C;
+	border-bottom:1px solid #6B8C9C;
+
+}
+td.tdImgTextFull
+{
+background-color:#FFFFFF;
+border-top:1px solid #6B8C9C;
+border-right:1px solid #6B8C9C;
+border-bottom:1px solid #6B8C9C;
+}

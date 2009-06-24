@@ -1,0 +1,168 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>netgest.XEO Message Screen</title>
+<style type="text/css">
+     <!-- DOCUMENTO -->
+   
+  .message{
+     background-color:#FFFFFF;
+     border:1px #6297E5 solid;
+     padding-left:3px;
+     }
+     
+  .message_body{
+     color:#4A5D8C;
+     font:normal normal normal 14px arial;
+     WORD-WRAP: break-word;
+     overflow:visible;
+  }
+  body{
+     background-color:#D6D3CE;
+  }
+  
+  .msgtitle{
+     padding-bottom:3px;
+	 padding-right:6px;
+     padding-left:2px;
+     FONT: normal normal normal 18px Arial;
+     FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#6297E5, EndColorStr=#5383CB);
+     color:'#FFFFFF';
+     background-color:#6297E5;
+     width:100%;
+     
+  }
+  @import url('bo_global.css');
+ 
+body{
+	BORDER-RIGHT: 0px;
+	BORDER-TOP: 0px;
+	FONT-SIZE: 11px;
+	MARGIN: 0px;
+	BORDER-LEFT:0px;
+	CURSOR: default;
+	F-ILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#D6D3CE;, EndColorStr=#4A5062);
+	BORDER-BOTTOM: 0px;
+	FONT-FAMILY: Verdana, Arial;
+	BACKGROUND-COLOR: #FCC188;
+	border: 2px solid #FFFFFF;
+	B-ACKGROUND-COLOR: #FCB87A;
+	
+}
+</style>
+
+
+
+<script LANGUAGE="javascript">
+
+
+
+WAPP=window.dialogArguments[0];
+MESSAGE=window.dialogArguments[1];
+OPTIONS=window.dialogArguments[2];
+TYPE=window.dialogArguments[3];
+MESSAGE=unescape(MESSAGE);
+TITLE=window.dialogArguments[4];
+
+window.document.onkeypress=xxx;
+function xxx()
+{
+	var key=window.event.keyCode;
+	if( key==27) window.close();
+}
+
+function start(){
+
+
+ document.getElementById('message').innerHTML=MESSAGE;
+  
+ //document.getElementById('type_message').src='resources/'+TYPE+'.gif';
+ if(TITLE) document.getElementById('title').innerHTML="<img id='type_message' align='absmiddle' height=25 width=25  src='"+"resources/"+TYPE+".gif' >"+TITLE;
+  
+ var areab=document.getElementById("buttons");
+ var xstr="";
+ for ( i=0 ; i < OPTIONS.length ;i++)
+ {
+	xb=document.createElement("button")
+	xstr+="<button style='height:25px' onclick='action("+(i+1)+")'>"+OPTIONS[i]+"</button>&nbsp;";
+  } 
+ 
+ areab.innerHTML=xstr;
+ message.style.posHeight=Math.min(40,message.offsetHeight);
+ 
+ if(message.offsetHeight+250>window.screen.availheight){
+     message.style.height=window.screen.availheight-250;
+     message.style.overflow='auto';
+ }
+ 
+ window.dialogHeight=(message.offsetHeight+210)+'px';
+ 
+ window.dialogWidth =( Math.max( message.offsetWidth,buttons.offsetWidth)+50 )+'px';
+ if ( Math.max( message.offsetWidth,buttons.offsetWidth)+50 > window.screen.availWidth )
+ {
+	message.style.overflow='auto';
+	message.style.width=window.screen.availWidth-20;
+	message.style.height="100%";
+	window.dialogWidth =window.screen.availWidth-150;
+	
+	
+ }
+ window.dialogTop=(window.screen.availHeight-parseInt(window.dialogHeight))/2;
+}
+
+function action(x)
+{
+WAPP.msgresponse=x;
+window.close();
+}
+
+function document.onselectstart()
+{
+	var s = event.srcElement.tagName;
+	event.returnValue = true;
+}
+
+
+</script>
+</head>
+
+<body scroll="no" onload="start()">
+
+<table border="0" id=tbl cellpadding="0" cellspacing="0" height="100%" width="100%">
+   <tr height=10px>
+     <td width="2%"></td>
+     <td width="96%"></td>
+     <td width="2%"></td>
+  </tr> 
+  <tr height='25px'>
+     <td width="2%"></td>
+     <td width="96%" >
+       <span id="title" class='msgtitle'>Mensagem</span>
+     </td>
+     <td width="2%"></td>
+  </tr> 
+  <tr>
+    <td width="2%" align='left' valign='top'></td>
+    <td width="96%" class='message'><span class='message_body' contentEditable=true onkeypress="return false" id="message"></span></td>
+    <td width="2%"></td>
+  </tr>
+  <tr>
+    <td width="2%"></td>
+    <td id = "buttons" width="96%" height=35px>
+      
+         
+     </td>
+     <td width="2%">&nbsp;</td> 
+  </tr>
+  <tr height=10px>
+     <td width="2%"></td>
+     <td width="96%"></td>
+     <td width="2%"></td>
+  </tr> 
+ </table>
+
+
+
+
+</body>
+</html>

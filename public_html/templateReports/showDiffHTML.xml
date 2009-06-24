@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<style type="text/css">
+
+.footer{width:100%;border-top:2px  #6297E5;}
+.header{width:100%;height:100%;}
+.credentials{font-size:7pt;}
+.sep{height:2pt;width:100%;background-color:#6297E5;}
+.input{}
+.inputSrc{background-color:#EEEEEE;border:1px solid #CCCCCC;color:red;text-decoration: line-through;font-weight:bold}
+.inputDst{background-color:#EEEEEE;border:1px solid #CCCCCC;color:green;font-weight:bold}
+.label{ color:#000000;}
+.labelSrc{color:red;font-weight:bold}
+.labelDst{color:green;font-weight:bold}
+.labelTESTE{color:aqua;}
+.input{background-color:#EEEEEE;border:1px solid #CCCCCC;}
+.section{ width:100%; cellpadding:1pt; table-layout:fixed; cellmargin:2;font-size:9pt }
+.section_title{ font-weight:bold ;}
+
+div.resumeTitle{font-size:15pt;font-weight:bold;font-family: Helvetica , Symbol;text-align:left;width:100%;color:#FF5917;border-bottom:2px solid #CCCCCC;margin-top:20px }
+div.resumeTitleBottom{font-size:7pt;font-weight:bold;font-family: Helvetica , Symbol;text-align:left;width:100%;color:#FF5917;border-top:2px solid #CCCCCC;margin-top:20px }
+div.titlecardid{border-bottom:1px black;}
+div.area_title { margin-top:14pt; font-weight:bold ;font-size:14pt;width:100%;border-bottom:2px solid #CCCCCC }
+div.tab_title  { margin:3pt;font-weight:bold; }
+
+
+.grid{ width:100%;cellpadding:2pt; cellmargin:1;font-size:9pt }
+.gridTD{ width:100%;border:0px;font-size:9pt }
+.gridCHeader{ font-weight:normal; background-color:#C9DBF7;border:1px solid #6297E5;padding:1px}
+.gridCBody{ border-bottom:1px solid #CCCCCC }
+.gridCBodySrc{ border-bottom:1px solid #CCCCCC ;color:red;text-decoration: line-through;font-weight:bold}
+.gridCBodyDst{ border-bottom:1px solid #CCCCCC ;color:green;font-weight:bold}
+.gridTRSrc{color:red;font-weight:bold;text-decoration: line-through}
+
+body { font-size:8pt; font-family:Helvetica, Symbol ;padding:0pt;background-color:#D9E5E8;margin:0
+	scrollbar-3dlight-color:#B4CAEC;
+	scrollbar-arrow-color:#009A00;
+	scrollbar-base-color:#C9DBF7;
+	scrollbar-darkshadow-color:#D7E6FD;
+	scrollbar-face-color:#D6DEE7;
+	scrollbar-highlight-color:#FFFFFF;
+	scrollbar-shadow-color:#5A7B94;
+}
+div.titleReport{font-size:21px;font:arial;text-align:center;width:100%;background-color:#FFFFFF;border-top:1px solid #475A76;border-left:1px solid #475A76;border-right:1px solid #475A76   }
+div.reportBody{ background-color:#FFFFFF;padding:5px;border-right:1px solid #475A76;border-left:1px solid #475A76;border-bottom:1px solid #475A76;width:100%;}
+div.report{ background-color:#D9E5E8;font:Arial;padding:10pt;width:100%;}
+div.note{ font:12px italic ; margin-top:20px;color:red }
+
+div.status{ background-color:#EEEEEE;padding:5px;border-right:1px solid #475A76;border-left:1px solid #475A76;border-bottom:1px solid #475A76;width:100%;}
+
+@media print{
+  .print { display:none }
+  .noprint{display:none}
+  .toolbar{display:none}
+}
+@media screen{
+  .print {
+  	border:1px solid #FFFFFF;PADDING-RIGHT: 5px;color:#000000;PADDING-LEFT: 5px;FONT:13px;
+  	background-color:#C9DBF7;
+	CURSOR: hand;
+  }
+  .toolbar{ 
+  BORDER-RIGHT: #113469 1px solid;
+	BORDER-LEFT: #A4C3F0 1px solid;
+	BORDER-BOTTOM:#113469 1px solid;
+	BORDER-TOP:#A4C3F0 1px solid;
+	WIDTH: 100%; COLOR: #FFFFFF; 
+	BACKGROUND-COLOR: #6297E5;
+	padding:3px;  
+   }
+}
+</style>
+<title>netgest.XEO Página de diferenças entre objectos</title>
+	</head>
+	<body margin="0pt" scroll="auto">
+		<div class="toolbar">
+			<button class="print" onclick="window.print()">Imprimir</button>
+			<br class="noprint"/>
+		</div>
+		<div class="report">
+			<div class="titleReport">
+				<br/>#REPORTNAME# <br/>
+				<span>#STATE#</span>
+			 #CARDID# - #CARDIDDST#</div>
+			<div class="reportBody"/>
+			<div class="status">#STATUS#</div>
+			<div class="credentials">Data de Impressão: #DATE# por #USERNAME#</div>
+		</div>
+		<br class="noprint"/>
+		<div class="toolbar">
+			<button class="print" onclick="window.print()">Imprimir</button>
+			<br class="noprint"/>
+		</div>
+	</body>
+</html>

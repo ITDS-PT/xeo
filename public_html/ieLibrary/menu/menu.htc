@@ -1,0 +1,805 @@
+<public:component lightweight="true">
+<public:attach event="onmousedown"	onevent="down()"/>
+<public:attach event="onkeyup"		onevent="AccessKey()"/>
+<public:attach event="onkeydown"	onevent="AccessKey2()"/>
+<public:attach event="onmouseover"	onevent="over()"/>
+<public:attach event="onresize"		onevent="onResize()"/>
+<public:attach event="onmouseout"	onevent="out()"/>
+<public:attach event="ondocumentready" onevent="Init()"/>
+<public:property name="colorOption" value=""/>
+<public:property name="alreadyMouseDown" />
+<public:property name="_capture" />
+<public:method name="checkBounds"/>
+<public:method name="setOptionInactive"/>
+<public:method name="clean"/>
+<public:method name="overOption"/>
+<public:method name="outOption"/>
+<public:method name="hideItem"/>
+<public:method name="showItem"/>
+
+<script language="JavaScript">
+
+
+
+var KEY_LEFT = 37;
+var KEY_RIGHT = 39;
+var KEY_UP = 38;
+var KEY_DOWN = 40;
+var KEY_ENTER = 13;
+var KEY_SHIFT = 16;
+var KEY_TAB = 9;
+var KEY_ESC = 27;
+
+
+var intv;
+
+var STEP_W = null; // from cSS scrollWidth
+var STEP_H = null; // from cSS scrollHeight
+var STEP_INTV = 20 ; // mills scroll
+var menuType  = null;	// bar / list
+var menuPosition	= null; // float fixed
+var openMenuOnOver	= true;
+var alreadyMouseDown= false;
+
+function Init()
+{
+	this.span_RS=null;
+	this.span_LS=null;
+	this.span_TS=null;
+	this.span_BS=null;
+	if(this.style.position=='absolute')
+	{
+		menuPosition='float';
+	}
+	else
+	{
+		menuPosition='fixed';
+	}
+	if(this.className.toUpperCase().indexOf('BAR')>-1)
+	{
+		menutType='bar';
+		openMenuOnOver = false;
+		
+	}
+	else
+	{
+		menutType='list';
+		
+	}
+	
+	
+	this.firstChild.style.position='relative';
+    checkBounds();
+}
+
+function stop_Scroll(){	window.clearInterval( intv ) }
+
+
+function onRight()
+{
+	if ( this.firstChild.offsetWidth + this.firstChild.style.posLeft+STEP_W > this.offsetWidth )
+	{
+		this.firstChild.style.posLeft-=STEP_W;
+	}
+	else
+	{
+		stop_Scroll();
+	}
+	checkBounds();
+}
+
+function onLeft()
+{
+	if ( this.firstChild.style.posLeft < 0 )
+	{
+		 this.firstChild.style.posLeft+=STEP_W;
+	}
+	else
+	{
+	   stop_Scroll();
+	}
+	checkBounds();
+}
+
+function onBottom()
+{
+	if ( this.firstChild.offsetHeight+this.firstChild.style.posTop+STEP_H > this.offsetHeight )
+	{
+		this.firstChild.style.posTop-=STEP_H;
+	}
+	else
+	{
+		stop_Scroll();
+	}
+	//debugger;
+	checkBounds();
+}
+
+function onTop()
+{
+	if ( this.firstChild.style.posTop < 0 )
+	{
+		 this.firstChild.style.posTop+=STEP_H;
+	}
+	else
+	{
+	   stop_Scroll();
+	}
+	checkBounds();
+}
+
+
+function start_RS(){ intv=window.setInterval( onRight , STEP_INTV )}
+function start_LS(){ intv=window.setInterval( onLeft , STEP_INTV )}
+function start_BS(){ intv=window.setInterval( onBottom , STEP_INTV )}
+function start_TS(){ intv=window.setInterval( onTop , STEP_INTV )}
+
+function enable_RS()
+{
+	 if( this.span_RS == null )
+	 {
+		var i=window.document.createElement("span");
+		i.style.zIndex=10;
+		i.className = 'scrollRight';
+		i.style.position='absolute';
+		i.style.height= this.offsetHeight;
+		i.style.top=0;
+		
+		i.onmouseover=start_RS;
+		i.onmouseout=stop_Scroll;
+		
+		this.appendChild(i);
+		if( STEP_W == null ) STEP_W=i.offsetWidth;
+	
+		this.span_RS=i;
+	 }
+	 this.span_RS.style.visibility='visible';
+	 this.span_RS.style.left=this.offsetWidth-STEP_W;
+}
+
+
+function enable_LS()
+{
+	if( this.span_LS == null )
+	 {
+		var i=window.document.createElement("span");
+		i.className = 'scrollLeft';
+		i.style.zIndex=10;
+		i.style.position='absolute';
+		i.style.height= this.offsetHeight;
+		i.style.top=0;
+		i.onmouseover=start_LS;
+		i.onmouseout=stop_Scroll;
+		this.appendChild(i);
+		if( STEP_W == null ) STEP_W=i.offsetWidth;
+		this.span_LS=i;
+	 }
+	 this.span_LS.style.visibility='visible';
+	 this.span_LS.style.left=0;
+}
+
+function enable_TS()
+{
+	 if( this.span_TS == null )
+	 {
+		var i=window.document.createElement("span");
+		i.className = 'scrollTop';
+		i.style.zIndex130;
+		i.style.position ='absolute';
+		i.style.width    = this.offsetWidth;
+		//i.style.height   = STEP_H; 
+		i.onmouseover=start_TS;
+		i.onmouseout=stop_Scroll;
+		this.appendChild(i);
+		
+		if( STEP_H == null ) STEP_H=i.offsetHeight;
+		
+		
+		this.span_TS=i;
+	 }
+	 this.span_TS.style.visibility='visible';
+	 this.span_TS.style.left=0;
+	 this.span_TS.style.top=0;
+
+}
+function enable_BS()
+{
+	if( this.span_BS == null )
+	 {
+		var i=window.document.createElement("span");
+		i.className = 'scrollBottom';
+		i.style.zIndex=10;
+		i.style.position ='absolute';
+		i.style.width    = this.offsetWidth;
+		i.onmouseover=start_BS;
+		i.onmouseout=stop_Scroll;
+		this.appendChild(i);
+		if( STEP_H == null ) STEP_H=i.offsetHeight;
+		this.span_BS=i;
+	 }
+	 this.span_BS.style.visibility='visible';
+	 this.span_BS.style.left=0;
+	 this.span_BS.style.top=this.style.posHeight-STEP_H;
+	 
+
+}
+
+function disable_RS(){ if( this.span_RS ) this.span_RS.style.visibility='hidden' }
+function disable_LS(){ if( this.span_LS ) this.span_LS.style.visibility='hidden' }
+function disable_TS(){ if( this.span_TS ) this.span_TS.style.visibility='hidden' }
+function disable_BS(){ if( this.span_BS ) this.span_BS.style.visibility='hidden' }
+
+function checkBounds()
+{
+	if ( this.firstChild.offsetWidth > this.offsetWidth )
+	{
+    
+		if( this.firstChild.offsetWidth + this.firstChild.style.posLeft+STEP_W > this.offsetWidth )
+		{
+			enable_RS();
+		}
+		else
+		{
+			disable_RS(); 
+		}
+   
+		if ( this.firstChild.style.posLeft < 0 )
+		{
+			    enable_LS();
+		}
+		else
+		{
+		     disable_LS();
+		}
+   }
+   else
+   {
+      this.firstChild.style.posLeft=0;
+      disable_LS();
+      disable_RS();
+   }
+   
+   var parentNode=this.parentElement;
+   while( parentNode.nodeName!='TABLE' && parentNode.nodeName!='BODY'   )
+   {
+		parentNode = parentNode.parentElement;
+   }
+   
+   
+   if ( this.style.posTop+this.offsetHeight > parentNode.offsetHeight 
+		|| this.offsetHeight < this.firstChild.offsetHeight )
+   {
+     this.style.overflow='hidden';
+     this.style.posHeight = Math.min( parentNode.offsetHeight-this.style.posTop , this.firstChild.offsetHeight);
+
+     if ( this.firstChild.offsetHeight+this.firstChild.style.posTop > this.offsetHeight )
+	 {
+		enable_BS();
+	 }
+	 else
+	 {
+		disable_BS();
+	 }
+     
+     if ( this.firstChild.style.posTop < 0 )
+	 {
+		enable_TS();
+	 }
+	 else
+	 {
+	    disable_TS();
+	  }
+   
+   }
+   else
+   {
+      
+	   this.firstChild.style.posTop=0;
+	   disable_TS();
+       disable_BS();
+   }
+   
+   
+}
+
+
+function onResize()
+{
+	checkBounds();
+}
+
+function AccessKey2()
+{
+	switch (event.keyCode)
+	{
+		case KEY_TAB:
+		
+			break;
+		
+		case KEY_ESC:
+
+	
+			break;
+			
+		case KEY_DOWN:
+		
+			break;
+			
+		
+		case KEY_UP:
+		
+			
+			break;
+		
+		case KEY_RIGHT:
+		
+				
+			break;
+
+		case KEY_LEFT:
+		
+			break;
+			
+		case KEY_ENTER:
+			
+			break;
+	}
+}
+
+
+function Focus(o)
+{
+	
+}
+
+
+function AccessKey()
+{
+	var iKey = event.keyCode;
+	
+	switch (iKey)
+	{
+		case KEY_TAB: over();
+		case KEY_SHIFT: return false; break;
+		default:
+
+			if (event.altKey || iKey == KEY_ENTER)
+			{
+				if (event.srcElement.className == "menu" && event.srcElement.menu)
+				{
+					clean();
+					over();
+					down();
+				}
+				else
+				{
+					event.srcElement.click();
+				}
+			}
+	}
+}
+
+function clean()
+{
+
+}
+
+// hideItem - remove passed in menu item.
+function hideItem(o)
+{
+
+}
+
+// hideItem - add passed in menu item.
+function showItem(o)
+{
+
+}
+
+function killSub(bForce)
+{
+
+}
+
+
+
+
+function FocusObj(o)
+{
+
+}
+
+function overOption( optionMenu )
+{
+
+		if ( openMenuOnOver || alreadyMouseDown )
+		{
+			if ( alreadyMouseDown )
+			{
+				setOptionSelect( optionMenu );
+			}
+			else
+			{
+				setOptionActive( optionMenu );	
+			}	
+		}
+		else
+		{
+			setOptionActive( optionMenu );	
+		}
+		
+		if ( optionMenu.menu  && ( openMenuOnOver || alreadyMouseDown ) )
+		{
+			
+			openMenu( optionMenu , optionMenu.menu , alreadyMouseDown );	
+		}
+		
+}
+
+function outOption( optionMenu )
+{
+
+	
+		if ( openMenuOnOver || alreadyMouseDown )
+		{
+			if ( alreadyMouseDown )
+			{
+				//setOptionSelect( optionMenu );
+				//var x=1;
+			}
+			else
+			{
+				//setOptionActive( optionMenu );
+				if ( this.activeOption ) 
+				{
+				//	setOptionInactive( this.activeOption );
+				}
+				
+			}	
+		}
+		else
+		{
+			//desligar
+				if ( this.activeOption ) 
+				{
+					setOptionInactive( this.activeOption );
+				}
+		}
+		/*
+		if ( optionMenu.menu  && ( openMenuOnOver || alreadyMouseDown ) )
+		{
+			
+			openMenu( optionMenu , optionMenu.menu , alreadyMouseDown );	
+		}*/
+		
+}
+
+
+function over(o)
+{
+	if (window.document.readyState != "complete")
+	{
+		
+		return false;
+	}
+	if(!o) o= window.event.srcElement;
+	var optionMenu = getMenuOption( o);
+	
+	 
+	
+	if ( optionMenu )
+	{
+		var menu = getMenu ( optionMenu );	//p causa do setCapture
+		menu.overOption( optionMenu );
+	}
+	else
+	{
+		if (o.className.toUpperCase().indexOf("SCROLL")>-1)
+		{
+		  try
+		  {
+		    if(this._capture)  o.onmouseover();
+		  }
+		  catch(e)
+		  {
+		  }
+		}
+	}
+	
+
+
+}
+
+function out(o)
+{
+	if (window.document.readyState != "complete")
+	{
+		return false;
+	}
+	if(!o) o= window.event.srcElement;
+	var optionMenu = getMenuOption( o);
+	if ( optionMenu )
+	{
+		var menu = getMenu ( optionMenu );	//p causa do setCapture
+		menu.outOption( optionMenu );
+	}
+	
+	/*
+	else
+	{
+		if (o.className.toUpperCase().indexOf("SCROLL")>-1)
+		{
+		  if(this._capture)  o.onmouseover();
+
+		}
+	}*/
+
+
+}
+
+function down(o)
+{
+	
+	if (window.document.readyState != "complete")
+	{
+		return false;
+	}
+	
+	if(!o) o= window.event.srcElement;
+	var oi = o;
+	var _openMenu = false;
+	var _runOnclick = false;
+
+	while(oi != null && "TD" != oi.tagName)
+	{
+		oi = oi.parentElement;
+	}
+	if(oi)
+	{
+		if("OPENGIF" == oi.className)
+		{
+			_openMenu = true;
+			_runOnclick = false;
+		}
+		else
+		{
+			var startElement = oi.parentElement;
+			
+			if(startElement != null)
+			{
+				while(startElement != null && startElement.className.indexOf('mnuOption') == -1)
+				{
+					startElement = startElement.parentElement; 
+				}
+			}
+			if(startElement != null)
+			{
+				if(startElement.onclick || oi.onclick)
+				{
+					_openMenu = false;
+					_runOnclick = true;
+				}
+				else
+				{
+					_openMenu = true;
+					_runOnclick = false;
+				}
+			}
+			else
+			{
+				_openMenu = true;
+				_runOnclick = true;
+			}
+		}
+	}
+	else
+	{
+		_openMenu = true;
+		_runOnclick = true;
+	}
+
+	var optionMenu = getMenuOption( o );
+	
+	if (_openMenu && optionMenu && !openMenuOnOver )
+	{
+		alreadyMouseDown = true;
+		setOptionSelect( optionMenu );
+		if ( optionMenu.menu )
+		{
+			openMenu( optionMenu , optionMenu.menu , true );	
+		}
+		else //novo?! estara bem??jmf
+		{
+			setOptionInactive( this.activeOption );
+		}
+	}
+	else
+	{
+		if (_runOnclick && this.openFrom )
+		{
+			var cm=getMenu( this.openFrom );
+			
+			cm.releaseCapture();
+			cm._capture=false;
+	//		debugger;
+			cm.alreadyMouseDown=false;
+			cm.setOptionInactive( this.openFrom );
+			o.click();
+		}
+	}
+	
+
+}
+
+
+function cleft(x_ele){var x_ret=0;if (x_ele.tagName=='BODY') return 0;else x_ret=x_ele.offsetLeft-x_ele.scrollLeft+cleft(x_ele.parentElement);return x_ret;}
+function ctop(x_ele){
+	var x_ret=0;
+	if (!x_ele || x_ele.tagName=='BODY') 
+	{
+		return 0 ;
+	}
+	else 
+	{
+	 x_ret=x_ele.offsetTop-x_ele.scrollTop
+	 if (x_ele.tagName=='TD' ) x_ele=x_ele.parentElement;
+	 if (x_ele.tagName=='TABLE' ) x_ele=x_ele.parentElement;
+	 
+	 x_ret+=ctop(x_ele.parentElement);
+	 return x_ret
+	}
+}
+function ctop2(x_ele){
+	var x_ret=0;
+	if (x_ele.tagName=='SPAN' && x_ele.colorOption ) 
+	{
+		x_ret=x_ele.offsetTop-x_ele.scrollTop
+		return x_ret ;
+	}
+	else 
+	{
+	 x_ret=x_ele.offsetTop-x_ele.scrollTop
+	 x_ret+=ctop2(x_ele.parentElement);
+	 return x_ret
+	}
+}
+
+
+function openMenu( fromOption , menuName , capture )
+{
+
+		var menu = window.document.getElementById( menuName );
+		if ( menu )
+		{
+			menu.style.display="inline";
+			menu.style.position='absolute';
+			
+			if( this.className.toUpperCase().indexOf('BAR')>-1 )
+			{
+				
+				menu.style.posTop=  this.ctop( fromOption )+fromOption.offsetHeight;
+				menu.style.posLeft= this.cleft( fromOption );
+			}
+			else
+			{
+				
+				menu.style.posTop=  this.ctop2( fromOption );
+				menu.style.posLeft= this.cleft( fromOption )+fromOption.offsetWidth;
+			}
+			menu.checkBounds();
+			window.status = capture
+			
+			if( capture )
+			{
+				menu._capture = true;
+				menu.setCapture();
+			}
+			
+			fromOption.openMenu=menu;
+			menu.openFrom = fromOption;
+		}
+}
+
+function closeMenu( mnu )
+{
+   if( mnu._capture ) 
+   {
+		//debugger;
+		mnu.releaseCapture();
+		mnu._capture=false;
+   }
+   if ( mnu.activeOption )
+   {
+		mnu.setOptionInactive( mnu.activeOption )
+   }
+   this.activeOption=null;
+   
+   
+   mnu.style.display='none';
+
+}
+
+function setOptionActive( opt )
+{
+	if ( this.activeOption ) 
+	{
+	   setOptionInactive( this.activeOption );
+	   
+	}
+	
+	//t.runtimeStyle.backgroundColor="orange";
+	
+	opt.className = "mnuOption option"+colorOption+"_active";
+	this.activeOption = opt;
+
+}
+
+function setOptionSelect( opt )
+{
+	if( opt == this.activeOption ) return;
+	if ( this.activeOption ) 
+	{
+	   setOptionInactive( this.activeOption );
+	   
+	}
+	
+	//t.runtimeStyle.backgroundColor="orange";
+	
+	opt.className = "mnuOption option"+colorOption+"_select";
+	this.activeOption = opt;
+
+}
+
+
+function setOptionInactive( opt )
+{
+	
+//pt.runtimeStyle.backgroundColor="";
+	opt.className = "mnuOption"
+	
+	if( opt.openMenu )
+	{
+	   closeMenu( opt.openMenu );
+	   opt.openMenu = null;
+	}
+	this.activeOption = null;
+
+}
+
+
+function getMenuOption( e )
+{
+	var clsName = e.className;
+	
+	var toRet = null;
+	while ( clsName.substr(0,9) != 'mnuOption' && e.tagName!='BODY' )
+	{
+		e = e.parentElement;
+		clsName = e.className
+	}
+	if ( clsName.substr(0,9) == 'mnuOption' ) toRet=e;
+	return toRet;
+	
+}
+
+
+function getMenu( e )
+{
+	var clsName = e.className;
+	
+	var toRet = null;
+	while ( clsName.indexOf("menu") ==-1 && e.tagName!='BODY' )
+	{
+		e = e.parentElement;
+		clsName = e.className
+	}
+	if ( clsName.indexOf("menu") > -1 ) toRet=e;
+	return toRet;
+	
+}
+
+
+
+
+</script>
+</public:component>

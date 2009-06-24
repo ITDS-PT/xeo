@@ -1,0 +1,21 @@
+<public:component lightweight="true">
+<public:attach event="onmouseover"		onevent="on()"/>
+<public:attach event="onmouseout"		onevent="off()"/>
+
+<script language="JavaScript">
+
+function on()
+{
+   if( this.className!='rowGroupSel' )
+   this.className ='rowGroupOver'
+   
+}
+
+function off()
+{
+	if( this.className!='rowGroupSel' )
+		this.className ='rowGroup';
+}
+
+</script>
+</public:component>

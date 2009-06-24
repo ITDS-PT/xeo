@@ -1,0 +1,15 @@
+img.rszLeft
+{
+    BEHAVIOR: url("ieLibrary/splitter/imgRszLeft.htc");
+    cursor:col-resize;
+    height:100%;
+    position:relative;
+}
+
+img.rszUp
+{
+    BEHAVIOR: url("ieLibrary/splitter/imgRszUp.htc");
+    cursor:row-resize;
+    width:100%;
+    position:relative;
+}

@@ -1,0 +1,50 @@
+<TABLE class='layout' cellSpacing=0 cellPadding=0>
+  <COLGROUP>
+  <COL width='140'>
+  <COL>
+  <TBODY>
+  <TR height='48'>
+  
+		<td colspan=2>
+			 
+			 menu 
+			 
+		</td>
+  </TR>
+  <TR>
+    <TD  class=leftBar>
+      
+      <SPAN class=leftBar id=crmNavBar defaultArea="navInfo">
+      
+      //@FOREACH AREA
+      <DIV class=lbItem id=navInfo 
+      relatedAreaId="areaForm"
+      title="View general information about this record" 
+      onclick="so(OBJUI);loadArea('areaForm');" tabIndex=0><IMG 
+      src="c:/tabls/leftbar_ficheiros/ico_18_1.gif" align=absMiddle>&nbsp; 
+      Information</DIV>
+      //@FOREACH AREA
+      
+      </SPAN>
+    </TD>
+    
+    
+	<TD id=tdAreas>
+      //@FOREACH AREA
+      <DIV class=area id=areaForm>
+      
+      </DIV>
+     //@ENDFOREACHAREA
+	</TD>
+	
+	</TR>
+  <TR>
+    <TD class=statusBar colSpan=2>
+    
+    <B>Status:</B>Existing
+    
+    </TD>
+   </TR>
+</TBODY>
+
+</TABLE>

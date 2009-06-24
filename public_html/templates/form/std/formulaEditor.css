@@ -1,0 +1,122 @@
+a.formula_sinal{
+ text-decoration:none;
+ color:#4D6487;
+ FONT:normal normal bold 15px ;
+ cursor:hand;
+}
+a.formula_sinal:hover{
+ text-decoration:none;
+ font-size:15px;
+ cursor:hand;
+ background-color:#CCCCCC;
+}
+
+
+
+a.formula_attribute{
+ text-decoration:none;
+ color:green;
+ FONT:normal small-caps bold 13px ;
+ cursor:hand;
+}
+
+a.formula_attribute:hover{
+ text-decoration:none;
+ color:green;
+ background-color:#CCCCCC;
+ cursor:hand;
+}
+
+a.formula_text{
+ text-decoration:none;
+ color:#000000;
+ font-size:16px;
+ cursor:hand;
+}
+
+a.formula_text:hover{
+ text-decoration:none;
+ color:#000000;
+ background-color:#CCCCCC;
+ cursor:hand;
+}
+
+
+a.formula_number{
+ text-decoration:none;
+ color:#000000;
+ font-size:16px;
+ cursor:hand;
+}
+
+a.formula_number:hover{
+ text-decoration:none;
+ color:#000000;
+ background-color:#CCCCCC;
+ cursor:hand;
+}
+
+
+a.formula_dateLiteral{
+ text-decoration:none;
+ color:#000000;
+ font-size:16px;
+ cursor:hand;
+}
+
+a.formula_dateLiteral:hover{
+ text-decoration:none;
+ color:#000000;
+ background-color:#CCCCCC;
+ cursor:hand;
+}
+
+
+a.formula_parentises{
+ text-decoration:none;
+ color:red;
+ FONT:normal small-caps bold 12px ;
+ cursor:hand;
+}
+
+a.formula_parentises:hover{
+ text-decoration:none;
+ background-color:#CCCCCC;
+ cursor:hand;
+}
+
+span.sinal{
+	border:2px outset #CA121D;
+	color:#000000;
+	PADDING: 5px;
+	FONT:15px;
+	background-color:#FFFFFF;
+	CURSOR: hand;
+}
+
+span.headerChoice{
+width:100%;height:25px;b-ackground-color:#CCC9BD	;
+F-ILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=#CCCCCC, EndColorStr=#EEEEEE);
+color:#80704E;
+padding-left:5px;
+padding-top:5px;
+FONT:normal normal bold 12px ;
+vertical-align:middle;
+border-top:1px solid #CCC9BD;
+}
+span.headerNumber{
+	background-color:#7E8E94;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#E5E3D5', EndColorStr='#C9C7BB');
+	height:25;
+	width:100%;
+	text-align:center;
+	vertical-align:middle;
+	color:#000000;
+	padding-left:5px;
+	padding-top:5px;
+	FONT:normal normal bold 12px ;
+}
+td.headerNumber{
+	border-right:1px solid #CCC9BD;
+	
+}

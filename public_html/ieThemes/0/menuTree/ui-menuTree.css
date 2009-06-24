@@ -1,0 +1,42 @@
+td.cell
+ {
+	b-order-bottom:1px solid #C1D1E9;
+ }
+ 
+ td.lcell
+ {
+	background-color:#F2F7FA;
+ }
+ td.itemTree
+ {
+ cursor:hand;
+ color:#415A7F;
+ font:normal bold normal 8pt Arial;
+ letter-spacing:-0.1mm;
+ font-weight:600;
+ text-decoration:none;
+ }
+
+ .itemTreeCounter
+ {
+ color:blue;
+ font:normal normal normal 9pt Arial;
+ letter-spacing:-0.1mm;
+ text-decoration: none;
+ }
+ 
+ td.divider
+ {
+ border-right:1px solid #84B27C;
+ }
+ 
+ table.rowBody
+ {
+	width:100%;
+	table-layout:fixed;
+	
+ }
+ img.number
+ {
+ vertical-align:middle;
+ }

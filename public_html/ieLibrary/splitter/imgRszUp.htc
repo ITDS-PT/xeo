@@ -1,0 +1,108 @@
+<public:component lightweight="true">
+<public:attach event="onmousedown"		onevent="startRsz2()"/>
+<public:method name="setViewHeight"/>
+
+<script language="JavaScript">
+
+
+var _resizing = false;
+var _YStart;
+var _MinH=50;
+var _ViewOffset;
+
+var _Offset = 0;
+var _YMin = 50;
+var _YMax = 300;
+
+var tblView	  = null;
+var tdViewer  = null;
+var thisImgU   = null;
+var _rszDown = false;
+function startRsz2()
+{
+	if ( event.button != 1) return;
+	
+	_YStart = event.clientY;
+	tblView=this.parentElement.parentElement.parentElement.parentElement;
+	
+	tdViewer = this.parentElement.parentElement.previousSibling
+
+	_Offset = this.style.posTop - _YStart;
+	
+	_YMin = _MinH;
+	if (_YMin < _MinH) _YMin = _MinH;
+	
+	_YMax = tblView.clientHeight - _MinH;
+	if (_YMax < _MinH) _XMax = _MinH;
+	thisImgU = this;
+	
+	window.document.onmouseup = rsEndUD;
+	window.document.onmousemove = rsMoveUD;
+
+	//á 2ª fica mal??? thisImgU.style.filter="alpha(opacity=60)";
+	_resizing = true;
+}
+
+
+function rsEndU()
+{
+	window.document.onmousemove = null;
+	window.document.onmouseup = null;
+	thisImgU.style.posTop = 0;
+	thisImgU.style.posLeft = 0;
+
+	thisImgU.style.filter = "";
+	
+}
+	
+function rsEndUD()
+{
+
+	if (!_resizing) return;
+	_resizing = false;
+	var nChng = event.clientY - _YStart;
+	
+	if (_rszDown) nChng *= -1;
+	
+	setViewHeight(parseInt(tdViewer.offsetHeight, 10) + nChng, true);
+	rsEndU();
+}
+
+function rsMoveUD()
+{
+	if (!_resizing) return;
+	if (event.button != 1)
+	{
+		rsEndUD();
+		return;
+	}
+	
+	var nNew = event.clientY;
+	if (nNew < _YMin) nNew = _YMin;
+	else if (nNew > _YMax) nNew = _YMax;
+	thisImgU.style.posTop = nNew + _Offset;
+	return false;
+}
+
+
+function setViewHeight( nHeight , toSave)
+{
+
+	var nMaxH = tblView.clientHeight - _MinH;
+	if (nMaxH < _MinH) nMaxH = _MinH;
+	if (nHeight < _MinH) nHeight = _MinH;
+	else if (nHeight > nMaxH) nHeight = nMaxH;
+	
+	
+	if( tdViewer.style.height.indexOf('%') > -1 )
+	{
+		nHeight = (nHeight/nMaxH*100)+"%";
+		// manter em %
+	}
+	
+	tdViewer.style.height = nHeight;
+}
+
+
+</script>
+</public:component>

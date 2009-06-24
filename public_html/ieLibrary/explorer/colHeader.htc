@@ -1,0 +1,90 @@
+<public:component lightweight="true">
+<public:attach event="onclick"			onevent="handleClick()"/>
+<public:attach event="onmouseover"		onevent="on()"/>
+<public:attach event="onmouseout"		onevent="off()"/>
+<public:attach event="ondragstart"		onevent="dragstart()"/>
+<public:attach event="ondragenter"		onevent="dragenter()"/>
+<public:attach event="ondragleave"		onevent="dragleave()"/>
+<public:attach event="ondragover"		onevent="dragover()"/>
+<public:attach event="ondrop"		    onevent="drop()"/>
+
+<script language="JavaScript">
+
+function handleClick()
+{
+	
+}
+
+function on()
+{
+
+	this.parentElement.runtimeStyle.backgroundImage = "url(templates/grid/std/ghBackSel.gif)";
+}
+
+function off()
+{
+	
+	this.parentElement.runtimeStyle.backgroundImage = "";
+}
+
+
+
+function dragenter(){
+	var info=event.dataTransfer.getData("Text");
+	if( info&& info.indexOf('col')>-1){
+		event.dataTransfer.effectAllowed = 'move';
+		displayToolTip();
+		this.parentElement.previousSibling.runtimeStyle.backgroundImage = "url(templates/grid/std/ghBackSepSel.gif)";
+		
+		
+		window.event.returnValue=false;
+	}
+	else event.dataTransfer.effectAllowed = 'none';
+}
+
+function dragover(){
+  var info=event.dataTransfer.getData("Text");
+	if(info&& info.indexOf('col')>-1){
+		event.dataTransfer.effectAllowed = 'move';
+		displayToolTip();
+		if ( this.parentElement.previousSibling.runtimeStyle.backgroundImage != "url(templates/grid/std/ghBackSepSel.gif)")
+		this.parentElement.previousSibling.runtimeStyle.backgroundImage = "url(templates/grid/std/ghBackSepSel.gif)";
+		window.event.returnValue=false;
+		
+	}
+	else event.dataTransfer.effectAllowed = 'none';
+}
+
+function dragleave(){
+    this.parentElement.previousSibling.runtimeStyle.backgroundImage = "";
+	this.parentElement.runtimeStyle.backgroundImage = "";
+	removeToolTip();
+	
+}
+
+function drop(){
+var info=event.dataTransfer.getData("Text");
+removeToolTip();
+this.parentElement.previousSibling.runtimeStyle.backgroundImage = "";
+this.parentElement.runtimeStyle.backgroundImage = "";
+if (info.split(":")[1] != this.id ){
+wait();
+createHiddenInput("drag_to_col_header",info.split(":")[1] +":"+ this.id );
+createHiddenInput("drag_to_col_group","");
+createHiddenInput("explorer_key", this.relatedTree);
+removeToolTip();
+boFormSubmit.submit();
+}
+}
+
+function dragstart(){
+	event.dataTransfer.setData('Text',"col:"+this.id);
+	event.dataTransfer.effectAllowed = 'move';
+	//debugger;
+	attachToolTipToMouse("<div class='gh_stdDRAG' style='border:1px solid #9DBDEF;position:absolute;height:25px;width:"+this.element.offsetWidth+"px;' >"+this.innerHTML +"</div>");
+	
+	
+}
+
+</script>
+</public:component>

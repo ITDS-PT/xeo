@@ -1,0 +1,101 @@
+<public:component lightweight="true">
+<public:attach event="onmousedown"		onevent="startRsz()"/>
+<public:method name="setViewWidth"/>
+
+<script language="JavaScript">
+
+
+var _resizing = false;
+var _XStart;
+var _MinW=50;
+var _ViewOffset;
+
+var _Offset = 0;
+var _XMin = 50;
+var _XMax = 300;
+
+var tblView	  = null;
+var tdViewer  = null;
+var thisImg   = null;
+var _rszRight = false;
+function startRsz()
+{
+	if ( event.button != 1) return;
+	_XStart = event.clientX;
+	tblView=this.parentElement.parentElement.parentElement.parentElement;
+	tdViewer = this.parentElement.previousSibling;
+	
+	_Offset = this.style.posLeft - _XStart;
+	_XMin = _MinW;
+	if (_XMin < _MinW) _XMin = _MinW;
+	
+	_XMax = tblView.clientWidth - _MinW;
+	if (_XMax < _MinW) _XMax = _MinW;
+	thisImg = this;
+	window.document.onmouseup = rsEndLR;
+	window.document.onmousemove = rsMoveLR;
+	this.style.filter = "alpha(opacity=60)";
+	_resizing = true;
+}
+
+
+function rsEnd()
+{
+	window.document.onmousemove = null;
+	window.document.onmouseup = null;
+	thisImg.style.posTop = 0;
+	thisImg.style.posLeft = 0;
+	thisImg.style.filter = "";
+
+}
+	
+function rsEndLR()
+{
+	if (!_resizing) return;
+	_resizing = false;
+	var nChng = event.clientX - _XStart;
+	
+	if (_rszRight) nChng *= -1;
+	
+	setViewWidth(parseInt(tdViewer.offsetWidth, 10) + nChng, true);
+	rsEnd();
+}
+
+function rsMoveLR()
+{
+	if (!_resizing) return;
+	if (event.button != 1)
+	{
+		rsEndLR();
+		return;
+	}
+	var nNew = event.clientX;
+	if (nNew < _XMin) nNew = _XMin;
+	else if (nNew > _XMax) nNew = _XMax;
+	thisImg.style.posLeft = nNew + _Offset;
+	return false;
+}
+
+
+function setViewWidth( nWidth , toSave)
+{
+
+	var nMaxW = tblView.clientWidth - _MinW;
+	if (nMaxW < _MinW) nMaxW = _MinW;
+	if (nWidth < _MinW) nWidth = _MinW;
+	else if (nWidth > nMaxW) nWidth = nMaxW;
+	
+	if( tdViewer.style.width.indexOf('%') > -1 )
+	{
+		//nWidth = (nWidth/nMaxW*100)+"%";
+	// manter em %
+	}
+		nWidth = (nWidth/nMaxW*100)+"%";
+	var tdG=tdViewer.parentElement.parentElement.parentElement.firstChild;
+	tdG.firstChild.width= nWidth;
+	tdViewer.style.width = nWidth;
+}
+
+
+</script>
+</public:component>

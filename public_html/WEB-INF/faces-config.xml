@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee">
+  <application>
+    <view-handler>netgest.bo.xwc.framework.jsf.XUIViewHandler</view-handler>
+    <el-resolver>netgest.bo.xwc.framework.jsf.XUIELResolver</el-resolver>
+    <state-manager>netgest.bo.xwc.framework.jsf.XUIStateManagerImpl</state-manager>
+  </application>
+  <lifecycle>
+    <phase-listener>netgest.bo.xwc.framework.jsf.XUIPhaseListener</phase-listener>
+  </lifecycle>
+  <factory>
+    <lifecycle-factory>netgest.bo.xwc.framework.jsf.XUILifeCycleFactoryImpl</lifecycle-factory>
+  </factory>
+</faces-config>

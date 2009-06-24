@@ -1,0 +1,6 @@
+table.listBar_beh{
+	height:100%;
+	width:100%;
+	table-layout:fixed;
+	BEHAVIOR: url(ieLibrary/listBar/listBar.htc);
+}

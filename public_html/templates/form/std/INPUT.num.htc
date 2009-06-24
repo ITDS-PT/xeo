@@ -1,0 +1,115 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="Init()"/>
+<public:attach event="onblur" onevent="Parse()"/>
+<public:method name="Parse"/>
+<public:method name="setValue"/>
+<public:method name="disable"/>
+<public:method name="enable"/>
+<public:method name="setValueByRefresh"/>
+<script language="JavaScript">
+function Init()
+{
+	if (window.document.media == "print")
+	{
+		return false;
+	}
+	
+	defaultValue = returnValue;
+	Parse();
+}
+function Parse()
+{
+	value = Trim(value);
+	
+	var sValue		= value;
+	var iMinValue	= parseFloat(min);
+	var iMaxValue	= parseFloat(max);	
+	var bGrouping	= (grp == "true");
+	var sFormat		= winmain().ORG_NUMBER_FORMAT;
+	var iAccuracy	= parseInt(acc, 10);
+	var minDecimals = parseInt(minAcc, 10);
+	
+	if (sValue.length == 0)
+	{
+		value		= "";
+		returnValue	= "";
+	
+		return;
+	}
+	
+	if (dt == "integer")
+	{
+		sValue = FormatInteger(sValue, iMinValue, iMaxValue, bGrouping, sFormat);
+		
+		if (sValue)
+		{
+			value		= sValue;
+			returnValue	= FormatInteger(sValue, iMinValue, iMaxValue, false, sFormat);
+		}
+		else
+		{
+			this.select();
+		}
+	}
+	else
+	{
+		sValue = FormatFloat(sValue, iMinValue, iMaxValue, bGrouping, sFormat, iAccuracy, minDecimals);
+		
+		if (sValue)
+		{
+			value		= sValue;
+			returnValue	= FormatFloat(sValue, iMinValue, iMaxValue, false, sFormat, iAccuracy, minDecimals);
+		}
+		else
+		{
+			this.select();
+		}
+	}
+			
+	if (!returnValue)
+	{
+		this.select();
+	}
+}
+function setValue( newValue )
+{
+    value = newValue;
+    Parse();
+}
+function setValueByRefresh( newValue )
+{
+    var sFormat	= ORG_NUMBER_FORMAT;    
+    if(sFormat == 'pt')
+    {
+        value = newValue.replace(/\./g, ",");
+    }
+    else
+    {
+        value = newValue;
+    }    
+    Parse();
+    original = returnValue;
+}
+function enable()
+{
+	internalDisable(false);
+}
+function disable()
+{
+	internalDisable(true);
+}
+function internalDisable(b)
+{
+	if (b)
+	{			
+		runtimeStyle.borderColor = "#cccccc";
+	}
+	else
+	{
+		runtimeStyle.borderColor = "";
+	}
+	disabled = b;
+}
+
+</script>
+</public:component>

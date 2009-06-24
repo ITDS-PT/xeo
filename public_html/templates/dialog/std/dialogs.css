@@ -1,0 +1,63 @@
+BODY {
+	B-EHAVIOR: url(/_common/styles/dialogs.htc); OVERFLOW: hidden
+}
+INPUT {
+	BORDER-RIGHT: #7b9ebd 1px solid; BORDER-TOP: #7b9ebd 1px solid; FONT-SIZE: 8pt; BORDER-LEFT: #7b9ebd 1px solid; WIDTH: 100%; BORDER-BOTTOM: #7b9ebd 1px solid; FONT-FAMILY: Verdana; HEIGHT: 19px
+}
+INPUT.ro {
+	BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-COLOR: #cccccc; BORDER-TOP-COLOR: #cccccc; BACKGROUND-COLOR: #eeeeee; BORDER-RIGHT-COLOR: #cccccc
+}
+TEXTAREA.ro {
+	BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-COLOR: #cccccc; BORDER-TOP-COLOR: #cccccc; BACKGROUND-COLOR: #eeeeee; BORDER-RIGHT-COLOR: #cccccc
+}
+DIV.ro {
+	BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-COLOR: #cccccc; BORDER-TOP-COLOR: #cccccc; BACKGROUND-COLOR: #eeeeee; BORDER-RIGHT-COLOR: #cccccc
+}
+SPAN.ro {
+	BORDER-LEFT-COLOR: #cccccc; BORDER-BOTTOM-COLOR: #cccccc; BORDER-TOP-COLOR: #cccccc; BACKGROUND-COLOR: #eeeeee; BORDER-RIGHT-COLOR: #cccccc
+}
+INPUT.radio {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; WIDTH: 16px; CURSOR: hand; BORDER-BOTTOM: 0px
+}
+INPUT.checkbox {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; WIDTH: 16px; CURSOR: hand; BORDER-BOTTOM: 0px; HEIGHT: 12px
+}
+LABEL {
+	CURSOR: hand
+}
+BUTTON {
+	WIDTH: 80px
+}
+TD.main {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-BOTTOM: 15px; VERTICAL-ALIGN: top; PADDING-TOP: 15px; BORDER-BOTTOM: #cccccc 1px solid; HEIGHT: 100%
+}
+TD.buttons {
+	PADDING-RIGHT: 10px; BORDER-TOP: #ffffff 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; HEIGHT: 32px; TEXT-ALIGN: right
+}
+TD.header {
+	BORDER-RIGHT: #00377a 1px solid; BORDER-TOP: #abc0e7 1px solid; VERTICAL-ALIGN: top; BORDER-LEFT: #abc0e7 1px solid; COLOR: #ffffff; BORDER-BOTTOM: #00377a 1px solid; HEIGHT: 50px; BACKGROUND-COLOR: #7288ac
+}
+TD.hand {
+	CURSOR: hand
+}
+TD.ListItem {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; CURSOR: hand; PADDING-TOP: 3px
+}
+DIV.header {
+	PADDING-LEFT: 6px; FONT-WEIGHT: bold; FONT-SIZE: 13px
+}
+DIV.ItemList {
+	BORDER-RIGHT: #949e9c 1px solid; BORDER-TOP: #949e9c 1px solid; OVERFLOW-Y: scroll; BORDER-LEFT: #949e9c 1px solid; BORDER-BOTTOM: #949e9c 1px solid; HEIGHT: 100%; BACKGROUND-COLOR: #ffffff
+}
+TD.req {
+	FONT-WEIGHT: bold; COLOR: #990000
+}
+DIV.headerdesc {
+	PADDING-LEFT: 15px; PADDING-TOP: 4px
+}
+DIV.desc {
+	PADDING-LEFT: 6px; PADDING-TOP: 4px
+}
+DIV.tab {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}

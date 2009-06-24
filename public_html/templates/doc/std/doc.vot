@@ -1,0 +1,88 @@
+<div template="std" id='doc$<%=IDX%>' class='doc<%=DOC.className%>' style='top:<%=DOC.top%>;left:<%=DOC.left%>;height:<%=DOC.height%>;width:<%=DOC.width%>' bo_boui='<%=BOI.bo_boui%>' onclick='SELBOUI=doc$<%=IDX%>.bo_boui'>
+	<table border='0' cellspacing='0' cellpadding='0' height='100%' width='100%'>
+
+	<% if(DOC.haveHeader()){ %>
+		<thead>
+			<tr>
+			    <!--header !-->
+				<td id='hdr$<%=IDX%>' width='100%'>
+					
+				    <!--header body !-->	
+					<table cellspacing='0' cellpadding='2' border='0' class='docHeader<%=DOC.className%>' width='100%'>
+						<tr>
+							<td>
+								<table class='docHeaderTit<%=DOC.className%>' width='100%' cellpadding='0' cellspacing='0'>
+									<tr>
+									    
+										<td id='hdr_tit$<%=IDX%>' width='96%'><%=DOC.getDocumentHeader()%></td>
+										
+										<%if(DOC.canMinimize()){%>
+										<td>
+											<img title='<%=DOC.getToolTipforButtomMin()%>' src='<%=DOC.getDocTemplateDir()%>buttmin.gif' id='min$<%=IDX%>' WIDTH='15' HEIGHT='15'/>
+										</td>
+										<%}%>
+										
+										<%if(DOC.canMaximize()){%>
+										<td>
+											<img title='<%=DOC.getToolTipforButtomMax()%>' src='<%=DOC.getDocTemplateDir()%>buttmax.gif' id='max$<%=IDX%>' WIDTH='15' HEIGHT='15'/>
+										</td>
+										<%}%>
+										
+										<%if(DOC.canRest()){%>
+										<td>
+											<img style='display:none' title='<%=DOC.getToolTipforButtomRest()%>' src='<%=DOC.getDocTemplateDir()%>buttrest.gif' id='rest$<%=IDX%>' WIDTH='15' HEIGHT='15'/>
+										</td>
+										<%}%>
+										
+										<%if(DOC.canClose()){%>
+										<td>
+											<img title='<%=DOC.getToolTip_ButtomClose()%>' src='<%=DOC.getDocTemplateDir()%>buttclose.gif' id='clo$<%=IDX%>' WIDTH='15' HEIGHT='15'/>
+										</td>
+										<%}%>
+										
+									</tr>
+								</table>
+							</td>
+						</tr>
+						
+					</table>
+					
+				</td>
+			</tr>
+			
+			
+		</thead>
+		
+		<%}%>
+		
+		<%if(DOC.haveFooter()){%>
+		<tfoot>
+		
+			<tr>
+				<td id='foo$<%=IDX%>' width='100%'>
+					
+					
+					<table id='foo_mens$<%=IDX%>' class='docFooter<%=DOC.className%>' cellpadding='0' cellspacing='0' border='0' height='100%' width='100%'>
+						<tr>
+							<td id='msgdoc$<%=IDX%>' class='docFooterMsg<%=DOC.className%>' width='55%'> </td>
+							<td id='statebo$<%=IDX%>' class='docFooterStatus<%=DOC.className%>' align='right' valign='top' width='19%'><%=DOC.getStateText()%></td>
+							<td  align='right' valign='bottom' width='1%'>
+								<img class='docFooterRsz<%=DOC.className%>' id='rsz$<%=IDX%>' border='0' src='<%=DOC.getDocTemplateDir()%>doc-rsz.gif' WIDTH='13' HEIGHT='13'/>
+							</td>
+						</tr>
+						
+					</table>
+				</td>
+			</tr>
+		</tfoot>
+		<%}%>
+		<tbody class='docBody<%=DOC.className%>'>
+			<tr>
+				<td valign='top' align='left' id='xpto' width='100%'>
+		         //@BODY
+               </td>
+			</tr>
+		</tbody>
+		
+	</table>
+</div>

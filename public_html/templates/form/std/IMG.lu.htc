@@ -1,0 +1,235 @@
+<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="Init()"/>
+<public:attach event="onclick" onevent="Lookup()"/>
+<public:attach event="onkeypress" onevent="OpenLookup()"/>
+
+<public:attach event="onmouseover" onevent="On()"/>
+<public:attach event="onmouseout" onevent="Off()"/>
+<public:attach event="onfocus" onevent="Focus()"/>
+<public:attach event="onblur" onevent="Blur()"/>
+<public:property name="lookupdisabled" put="setDisabled" get="getDisabled"/>
+<public:property name="object"/>
+<public:property name="docid"/>
+<public:property name="shownew"/>
+<public:property name="parentBoui"/>
+<public:property name="parentObj"/>
+<public:property name="parentAttribute"/>
+<public:property name="lookupQuery"/>
+<public:property name="lookupstyle"/>
+<public:property name="options"/>
+<public:property name="shownew"/>
+<public:property name="validObjects"/>
+<public:property name="lookupDetachField"/>
+<public:property name="lookAction"/>
+
+<public:method name="setDisabled"/>
+<public:method name="getLookupField"/>
+<public:method name="Clear"/>
+<public:method name="Lookup"/>
+<public:method name="fromInput"/>
+<public:event name="onafterselect" id="afterSelectEvent"/>
+<script language="JavaScript">
+	function Init()
+	{
+		var o = getLookupField();
+		
+		o.attachEvent("onclick", LookupFromDiv);
+		
+		
+		
+		if (parentElement.children[1])
+		{
+			var oInput = parentElement.children[1];
+			
+			
+			
+			
+			
+			if (o.innerText == " " && oInput.value != "")
+			{
+				oInput.value = oInput.defaultValue = "";
+				o.innerHTML = "&nbsp;";
+			}
+			else if (o.firstChild.boui && o.firstChild.boui != oInput.value)
+			{
+				oInput.value = oInput.defaultValue = o.firstChild.oid;
+			}
+		}
+		if(lookAction == "")
+		{
+			lookAction = null;
+		}
+	}
+	function LookupFromDiv()
+	{
+		var o = event.srcElement;
+		while (o.tagName != "DIV")
+		{
+			o = o.parentElement;
+		}
+		
+		if (o.className.indexOf("ro") == -1 && o.innerText == " ")
+		{
+			focus();
+			click();
+		}
+	
+	}
+	function fromInput(e)
+	{
+		if( e.value )
+		{
+		  window.event.returnValue=false;
+		  //click();
+		  
+		   Lookup(true,e.value);
+		}
+	}
+	function Lookup(bIgnoreOnClick,valueToSearch)
+	{
+		if(bIgnoreOnClick || onclick == null)
+		{
+			
+			
+			//var oEvent = createEventObject();
+			
+			
+			
+			//setAdditionalParamsEvent.fire(oEvent);
+			
+			var o = event.srcElement;
+			var td	= o.parentElement;
+			
+			//var lookupField = getLookupField();
+			//var lookupItems = 
+			if ( options==null ) options="";
+			else options="options="+options;
+			
+			if ( lookupDetachField )
+			{
+				if (parentElement.children[1])
+				{
+					var oInputValue = parentElement.children[1].value;
+				}
+				
+				
+				var o = getLookupField();
+				if(lookupQuery == null) lookupQuery ="";
+				LookupObjectsDetachField( lookupQuery , lookupstyle, o ,object, lookupDetachField , oInputValue , validObjects, shownew, docid ,lookAction,null,valueToSearch)
+			}
+			else
+			{
+			    if(lookupQuery == null) lookupQuery ="";
+				LookupObjects(lookupQuery , lookupstyle, object ,parentObj , parentBoui, parentAttribute ,shownew ,docid,lookAction,options,true,valueToSearch);
+				
+				
+			}
+	
+		}
+	}
+	
+	
+	function OpenLookup()
+	{
+		switch (event.keyCode)
+		{
+			case 13: 
+			case 32: 
+			
+				click();
+				
+				break;
+		}
+	}
+	
+		
+	function getLookupField()
+	{
+		return this.parentElement.parentElement.firstChild.firstChild;
+	}
+	
+	function setDisabled( val )
+	{
+		var lookupField = getLookupField();
+		
+		
+		element.disabled = val;
+		
+		
+		
+		element.className = ( val ? "lu ro" : "lu" );
+		
+		element.style.cursor = ( val ? "auto" : "hand" );
+		element.src = ( val ? "templates/form/std/btn_dis_lookup.gif" : "templates/form/std/btn_off_lookup.gif" );
+		
+		lookupField.className = element.className;
+		lookupField.disabled = val;
+	}
+	function getDisabled()
+	{
+		return element.disabled;
+	}
+	
+	
+	
+	function Clear()
+	{
+		getLookupField().innerHTML = "&nbsp;";
+		value = "";
+	}
+	function Focus()
+	{
+		getLookupField().runtimeStyle.backgroundColor = "#A8BEC6";
+	}
+	function Blur()
+	{
+		getLookupField().runtimeStyle.backgroundColor = "";
+	}
+	function On()
+	{
+	
+		if (disabled)
+		{
+			return;
+		}
+    var name = "";
+    try{
+		   name = parentElement.children[1].name;
+    }
+    catch(e){return;}
+		var fav = window.document.getElementById("fav"+name);
+		
+		if(fav )
+		{
+			f=window.fav;
+			
+			if(!f || f.style.display=='none' || f.parentObj!=this.parentObj || f.parentBoui != this.parentBoui || f.parentAttribute!=this.parentAttribute)
+			{
+				openFav( fav );
+			}
+			else
+			{
+				if( iclsf )clearTimeout( iclsf );
+			}
+	
+		}
+		
+		//else
+		//{
+		//	closeFav();
+		//}
+		src = src.replace(/_off_/,"_on_");
+	}
+	
+	function Off()
+	{
+		if (disabled)
+		{
+			return;
+		}
+		favout();
+		src = src.replace(/_on_/,"_off_");
+	}
+
+</script>
+</public:component>

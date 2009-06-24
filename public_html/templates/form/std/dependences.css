@@ -1,0 +1,25 @@
+span.headerChoice{
+	width:100%;b-ackground-color:#CCC9BD;
+	color:#80704E;
+	padding-left:5px;
+	padding-top:5px;
+	FONT:normal normal bold 12px ;
+	vertical-align:middle;
+	border-top:1px solid #CCC9BD;
+}
+span.headerNumber{
+	BORDER-LEFT: #A4C3F0 1px solid;
+	BORDER-BOTTOM:#113469 1px solid;
+	BORDER-TOP:#A4C3F0 1px solid;
+	
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#689BE6, EndColorStr=#4886E1);
+	WIDTH: 100%; COLOR: #FFFFFF;
+	font-size:14px;
+	text-align:center;
+	valign:absmiddle;
+	POSITION: relative;height:23px;BACKGROUND-COLOR: #3579DE
+}
+td.headerNumber{
+	border-right:1px solid #476899;
+	
+}

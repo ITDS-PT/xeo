@@ -1,0 +1,192 @@
+a<public:component lightweight="true">
+<public:attach event="ondocumentready" onevent="Init()"/>
+<public:attach event="onmouseover" onevent="On()"/>
+<public:attach event="onmouseout" onevent="Off()"/>
+<public:attach event="onclick" onevent="toggle()"/>
+<public:attach event="onfocus" onevent="Focus()"/>
+<public:attach event="onblur" onevent="Blur()"/>
+<public:property name="relatedID" internalname="_relatedID" />
+<public:property name="disable" internalname="_disabled" />
+<public:property name="onactiveexecute" />
+<public:method name="setDisabled"/>
+<public:method name="setToggle"/>
+<public:method name="more"/>
+<public:method name="Clear"/>
+
+<script language="JavaScript">
+
+	var _relatedID = "";
+	var ro=null;
+    var _disabled;
+	var xint=null;
+	var isnew;
+	var manualstop;
+	var seed = 0.5;
+    var oldTime;
+
+
+
+	function Init()
+	{
+        ro = window.document.getElementById(_relatedID);  
+	  	setCounter();
+	}
+	
+	function setCounter()
+	{
+		var m=parseFloat(ro.returnValue);
+		if(!manualstop)
+		{
+			if(!isNaN(m))
+			{
+				setDisabled(false);
+				if(!isnew)
+				{
+					oldTime = m;
+					getTimeStamp();
+				}
+				else
+				{
+					isnew = false;
+				}
+			}
+		}
+		
+		if(!_disabled)
+		{
+			treatActiveClock();
+		}
+		else 
+		{
+			treatInactiveClock();
+		}
+	}
+	
+	function treatActiveClock()
+	{
+			if(xint!=null)window.clearInterval(xint);
+			xint=window.setInterval(more,30000);
+			src='resources/clockrun.gif';
+			title="Clique para desligar o relógio";	
+	}
+	
+	function treatInactiveClock()
+	{
+			if(xint!=null) window.clearInterval(xint);
+			title="Clique para ligar o relógio";
+			src='resources/clockstop.gif';
+	}
+	
+	
+	function more()
+	{
+	  if (!_disabled)
+	  {
+	  	var m = parseFloat(ro.returnValue);
+		  if ( isNaN(m) ) m = 0;
+		  m = m + seed;
+		  ro.setMinutes(m);
+		  setTimeStamp();
+		}
+	}
+	
+	function setDisabled(xdisabled)
+	{
+	  _disabled = xdisabled;
+	}
+	
+	function toggle()
+	{
+	  if (_disabled )
+	  {
+	   	_disabled=false;
+	   	if( onactiveexecute!= null )
+	   	{
+				eval(onactiveexecute);
+	   	}
+	  }
+	  else
+	  {
+	  	_disabled=true;
+	  	manualstop = true;
+	  }
+	  
+	  if (ro.nextSibling.disabled) _disabled=true;
+	  setCounter();  
+	}
+	
+  function setToggle()
+  {  
+		toggle();
+	}
+
+	function setBeginDate(objName)
+	{
+	  var boui=window.document.boFormSubmit.boui.value;
+	  var beginDate = window.document.getElementsByName(objName+"__"+boui+"__beginDate")[0];
+    var d = new Date();
+	  if ( beginDate.returnValue=="" )
+	  {
+			beginDate.setValue( d );
+			isnew = true;
+	  }
+	  if( ro.returnValue=="")  
+    { 
+       ro.setMinutes(0.5);
+       setTimeStamp();
+     }
+	}
+	
+	function On()
+	{
+		// not implemented
+	}
+	function Off()
+	{
+		// not implemented
+	}
+	
+
+
+
+
+function setTimeStamp() {
+    var http = false;
+
+	if(navigator.appName == "Microsoft Internet Explorer") {
+        http = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+        http = new XMLHttpRequest();
+	}
+
+  http.abort();
+  http.open("GET", "__duration.jsp?id="+_relatedID+ "__" + getDocId() +"&operation=set&time=" + new Date().getTime(), true);
+  http.send(null);
+}
+
+function getTimeStamp() {
+	var http = false;
+	if(navigator.appName == "Microsoft Internet Explorer") {
+  	http = new ActiveXObject("Microsoft.XMLHTTP");
+	} else {
+  	http = new XMLHttpRequest();
+	}
+  http.abort();
+  http.open("GET", "__duration.jsp?id=" + _relatedID + "__" + getDocId() + "&operation=get&time=" + new Date().getTime(), false);
+  http.onreadystatechange=function() {
+    if(http.readyState == 4 && http.status == 200) {
+    	treatNewTimeStamp(http.responseText);
+    }
+  }
+  http.send(null);
+}
+function treatNewTimeStamp(newTime) {
+  	if(newTime != null && newTime > 0)
+  	{
+        var minutes = oldTime + parseFloat(newTime);
+        ro.setMinutes(minutes);
+        setTimeStamp();
+    }
+}
+</script>
+</public:component>
