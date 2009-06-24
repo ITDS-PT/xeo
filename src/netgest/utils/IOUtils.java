@@ -1,0 +1,87 @@
+/*Enconding=UTF-8*/
+package netgest.utils;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * 
+ * @Company Enlace3
+ * @author João Paulo Trindade Carreira
+ * @version 1.0
+ */
+public final class IOUtils 
+{    
+    public static final File copy(String src,String dest)
+    {
+        return copy(new File(src),new File(dest) );
+    }
+    public static final File copy(File src,String dest)
+    {
+        return copy(src,new File(dest) );
+    }
+    public static final File copy(String src,File dest)
+    {
+        return copy(new File(src),dest );
+    }
+    public static final File copy(File src, File dest)
+    {
+        int br;
+        byte[] buff = new byte[4096];
+        try
+        {
+            FileInputStream is = new FileInputStream(src);
+            FileOutputStream os = new FileOutputStream(dest);
+            while((br=is.read(buff))>0 ) {
+                os.write(buff,0,br);
+            }
+            is.close();
+            os.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException("Cannot copy file.\n "+e.getClass().getName() + '\n' + e.getMessage() );
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Cannot copy file.\n "+e.getClass().getName() + '\n' + e.getMessage() );
+        }
+        dest.setLastModified(src.lastModified());
+        return dest;
+    }
+    
+    public static byte[] copyByte(InputStream fis) throws IOException
+    {
+        ByteArrayOutputStream io = new ByteArrayOutputStream();
+        byte[] buff = new byte[4096];
+        int br=0;
+        while( (br=fis.read( buff )) > 0 )
+        {
+            io.write( buff,0, br );
+        }
+        return io.toByteArray();
+    }     
+    
+    public static final void copy( InputStream is, File out )
+    {
+        try
+        {
+            FileOutputStream fout = new FileOutputStream( out );
+            byte[] buff = new byte[4096];
+            int br=0;
+            while( (br=is.read( buff )) > 0 )
+            {
+                fout.write( buff,0, br );
+            }
+            fout.close();        
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+}

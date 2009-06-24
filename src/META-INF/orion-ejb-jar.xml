@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<!DOCTYPE orion-ejb-jar PUBLIC "-//ORACLE//DTD OC4J Enterprise JavaBeans runtime 9.04//EN" "http://xmlns.oracle.com/ias/dtds/orion-ejb-jar-9_04.dtd">
+<orion-ejb-jar>
+    <enterprise-beans>
+        <session-deployment name="boSecurityManager"/>
+        <session-deployment name="boManager"/>
+        <session-deployment name="boLogin"/>
+        <session-deployment name="boClientRemote"/>
+        <session-deployment name="SessionEJB"/>
+    </enterprise-beans>
+    <assembly-descriptor/>
+</orion-ejb-jar>

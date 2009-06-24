@@ -1,0 +1,91 @@
+package netgest.bo.runtime.robots.ejbtimers.impl;
+
+import javax.ejb.*;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import netgest.bo.runtime.robots.blogic.xwfTimeAgentBussinessLogic;
+import netgest.bo.runtime.robots.ejbtimers.XEOTimedObject;
+
+import netgest.bo.runtime.robots.ejbtimers.XEOTimedObjectWrapper;
+import netgest.bo.system.boLoginLocalHome;
+
+import org.apache.log4j.Logger;
+
+public class xwfTimeAgentBean extends XEOTimedObjectWrapper
+    implements SessionBean, TimedObject
+{
+
+    private SessionContext _context;
+    private static Logger logger = Logger.getLogger("netgest.bo.runtime.robots.ejbtimers.xwfTimeAgent");
+    
+    public void ejbCreate()
+    {
+    }
+
+    public void setSessionContext(SessionContext context)
+        throws EJBException
+    {
+        _context = context;
+    }
+
+    public void ejbRemove()
+        throws EJBException
+    {
+    }
+
+    public void ejbActivate()
+        throws EJBException
+    {
+    }
+
+    public void ejbPassivate()
+        throws EJBException
+    {
+    }
+
+    public void start(String name) {
+        super.start(name,_context);
+    }
+    
+    public void suspend(String name) {
+        super.suspend(name,_context);
+    }
+
+    public void scheduleNextRun(Timer timer) {
+        super.scheduleNextRun(timer,_context);
+    }  
+     
+    public void ejbTimeout(Timer timer)
+    {
+        XEOTimedObject timedObject=null;
+        try
+        {
+            timedObject = super.getXEOTimedObject((String)timer.getInfo());
+            if (timedObject!=null)
+            {
+                if(timedObject.isActive() && !timedObject.isRunning())
+                {
+                    timedObject.setIsRunning(true);
+                    xwfTimeAgentBussinessLogic logic = new xwfTimeAgentBussinessLogic(timedObject.getXEOApplication());
+                    logic.execute();
+                    scheduleNextRun(timer);
+                    timedObject.setIsRunning(false);
+                }
+            }
+            else logger.warn("XEOTimedObject not Found!!!");
+        }
+        catch(Exception e)
+        {
+            logger.warn("Unexpected Error executing EJBTimer - "+(String)timer.getInfo());
+            scheduleNextRun(timer);
+            if (timedObject!=null)timedObject.setIsRunning(false);
+        }
+    }
+
+    private boLoginLocalHome getboLoginLocalHome() throws NamingException {
+        final InitialContext context = new InitialContext();
+        return (boLoginLocalHome) context.lookup( "java:comp/env/ejb/local/boLogin" );
+    }
+}
