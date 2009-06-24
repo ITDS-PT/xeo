@@ -2282,8 +2282,7 @@ public class QLParser  {
     
     String s = lookCurrentWord();
     String out = "";
-    String sysdate = ctx.getDataBaseDriver().getDriverUtils().fnSysDateTime();
-    if(s.equalsIgnoreCase("?") || s.equalsIgnoreCase( sysdate ) )//reconhecer logo o ? ou SYSDATE
+    if(s.equalsIgnoreCase("?") || s.equalsIgnoreCase( "SYSDATE" ) || s.equalsIgnoreCase( "NOW()" ) )//reconhecer logo o ? ou SYSDATE
     {   
         incConsumer();
         return new ResultQL(1, s);
