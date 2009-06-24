@@ -2802,6 +2802,8 @@ public class MysqlDBM extends OracleDBM {
               return "N";
         else if (colType.equals("BIGINT")) 
             return "N";
+        else if (colType.equals("FLOAT")) 
+            return "N";
         else if (colType.equals("LONGTEXT")) 
               return "CL";
         else if (colType.equals("LONGBLOB") || colType.equals("BLOB") ) 
@@ -2819,15 +2821,16 @@ public class MysqlDBM extends OracleDBM {
     public static String getDDLFieldFromNGT(String fieldtype,String fieldlen) {
         String ngtdatatype=null;
         if (fieldtype.equals("C"))  ngtdatatype="VARCHAR";
-        else if (fieldtype.equals("N")) ngtdatatype="NUMERIC";
+        else if (fieldtype.equals("N")) ngtdatatype="DOUBLE";
         else if (fieldtype.equals("D")) ngtdatatype="DATE";
         else if (fieldtype.equals("CL")) ngtdatatype="LONGTEXT";
         else if (fieldtype.equals("BL")) ngtdatatype="BLOB";
         else if (fieldtype.equals("BF")) ngtdatatype="BFILE";
         else if (fieldtype.equals("RAW")) ngtdatatype="VARBINARY";
         else if (fieldtype.equals("TIMESTAMP")) ngtdatatype="TIMESTAMP";
+        
         if("N,C,RAW,".indexOf(fieldtype)!=-1 && fieldlen != null && fieldlen.length() != 0) {
-          ngtdatatype += "("+fieldlen+")";
+        	ngtdatatype += "("+fieldlen+")";
         }
         return ngtdatatype;
     }
