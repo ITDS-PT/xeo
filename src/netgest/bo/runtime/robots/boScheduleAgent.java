@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime.robots;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.boRuntimeException;
 
 import netgest.bo.system.boLoginException;
@@ -43,33 +44,35 @@ public class boScheduleAgent extends Thread
         boSession session = null;
         try 
         {
-            session =  p_app.boLogin( "SYSTEM", boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName() );
-            ctx = session.createRequestContext(null,null,null);
-            boObjectList scheds = boObjectList.list(ctx,"SELECT Ebo_Schedule WHERE ACTIVESTATUS=1");
-            scheds.beforeFirst();
-            while( scheds.next() )
-            {
-                boObject object = scheds.getObject();
-                object.getAttribute("activeStatus").setValueString("0");
-                object.update();
-                ctx.getApplication().getMemoryArchive().getPoolManager().realeaseAllObjects( ctx.poolUniqueId() ); 
-            }
-          while( !super.isInterrupted() )
-          {
-              boScheduleAgentBussinessLogic logic = new boScheduleAgentBussinessLogic(p_app,getThreadGroup());
-              logic.execute();
-              for (int i = 0; i < 3; i++) 
-              {
-                  try
-                  {
-                      sleep(10000);
-                  }
-                  catch( InterruptedException e )
-                  {
-                      super.interrupt();
-                  }
-              }
-          }
+        	if( boDefHandler.getBoDefinition( "iXEOUser" ) != null ) {
+	            session =  p_app.boLogin( "SYSTEM", boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName() );
+	            ctx = session.createRequestContext(null,null,null);
+	            boObjectList scheds = boObjectList.list(ctx,"SELECT Ebo_Schedule WHERE ACTIVESTATUS=1");
+	            scheds.beforeFirst();
+	            while( scheds.next() )
+	            {
+	                boObject object = scheds.getObject();
+	                object.getAttribute("activeStatus").setValueString("0");
+	                object.update();
+	                ctx.getApplication().getMemoryArchive().getPoolManager().realeaseAllObjects( ctx.poolUniqueId() ); 
+	            }
+	          while( !super.isInterrupted() )
+	          {
+	              boScheduleAgentBussinessLogic logic = new boScheduleAgentBussinessLogic(p_app,getThreadGroup());
+	              logic.execute();
+	              for (int i = 0; i < 3; i++) 
+	              {
+	                  try
+	                  {
+	                      sleep(10000);
+	                  }
+	                  catch( InterruptedException e )
+	                  {
+	                      super.interrupt();
+	                  }
+	              }
+	          }
+        	}
         }
         catch (boLoginException e) {        
             logger.error(e.getMessage());
@@ -79,8 +82,10 @@ public class boScheduleAgent extends Thread
         }
         finally
         {  
-            ctx.close();
-            session.closeSession();
+        	if( ctx != null )
+        		ctx.close();
+        	if( session != null )
+        		session.closeSession();
         }
         
     }

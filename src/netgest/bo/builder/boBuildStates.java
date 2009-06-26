@@ -6,14 +6,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import netgest.bo.def.*;
-import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.*;
 import java.util.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import oracle.xml.parser.v2.XMLDocument;
+
 import netgest.bo.*;
 import netgest.utils.*;
-import netgest.utils.StringUtils;
 
 /**
  *
@@ -28,26 +33,17 @@ public class boBuildStates extends boAttributesArray
         try {
             Vector srcfiles = new Vector();
             boConfig bocfg = new boConfig();
-
-            String p_srcdir = bocfg.getDeploymentsrcdir();
-            FileReader fr = new FileReader(bocfg.getTemplatesDir()+"StateTemplate.java");
-
-            StringBuffer sbtemp = new StringBuffer();
-
-            char[] cbuff = new char[4096];
-            int br;
-            while((br=fr.read(cbuff))>0) {
-                sbtemp.append(cbuff,0,br);
-            }
-            fr.close();
-
-            String srctemp = generateSrcFile(sbtemp.toString(),bodef);
+            
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "netgest/bo/builder/templates/StateTemplate.xml" );
+            XMLDocument doc = ngtXMLUtils.loadXML( is );
+            String textContent = doc.getDocumentElement().getTextContent();
+            
+            String srctemp = generateSrcFile( textContent, bodef );
 
             String version="v"+bodef.getBoVersion();
             version = version.replace('.','_');
 
             srctemp = "package "+version+";\n\r"+srctemp;
-
 
             File srcdir = new File(bocfg.getDeploymentsrcdir()+version);
             srcdir.mkdirs();

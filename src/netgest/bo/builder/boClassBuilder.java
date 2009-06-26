@@ -7,10 +7,13 @@ import java.sql.*;
 import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.parser.beautifier.CallBeautifier;
 import netgest.utils.*;
+
 import com.ibm.regex.*;
 import java.util.*;
 import netgest.bo.runtime.*;
 import netgest.bo.def.boDefViewer;
+
+import oracle.xml.parser.v2.XMLDocument;
 
 import org.apache.log4j.Logger;
 
@@ -54,44 +57,26 @@ public class boClassBuilder
 
                 if( bodef.getClassType() != boDefHandler.TYPE_INTERFACE )
                 {
-                    String p_srcdir = bocfg.getDeploymentsrcdir();
-                    FileReader fr = new FileReader(bocfg.getTemplatesDir()+"boTemplate.java");
-
-                    StringBuffer sbtemp = new StringBuffer();
-
-                    char[] cbuff = new char[4096];
-                    int br;
-                    while((br=fr.read(cbuff))>0) {
-                        sbtemp.append(cbuff,0,br);
-                    }
-                    fr.close();
-                    String srctemp = generateSrcFile(sbtemp.toString(),bodef,""+clsregboui);
+                    InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "netgest/bo/builder/templates/boTemplate.xml" );
+                    XMLDocument doc = ngtXMLUtils.loadXML( is );
+                    String textContent = doc.getDocumentElement().getTextContent();
+                	
+                    String srctemp = generateSrcFile(textContent,bodef,""+clsregboui);
 
                     String version="v"+bodef.getBoVersion();
                     version = version.replace('.','_');
-                    File srcdir = new File(bocfg.getDeploymentsrcdir()+version);
+                    File srcdir = new File(boConfig.getDeploymentsrcdir()+version);
                     srcdir.mkdirs();
-
-                    //Beautfier code
-
-    //                File tempFile = new File(bocfg.getDeploymentsrcdir()+version+File.separator+bodef.getBoName()+".temp");
-    //                tempFile.createNewFile();
-
-    //                FileWriter fw = new FileWriter(tempFile);
-    //                fw.write(srctemp);
-    //                fw.close();
 
                     File srcfile = new File(bocfg.getDeploymentsrcdir()+version+File.separator+bodef.getBoName()+".java");
 
-
                     OutputStreamWriter fw;
-                    String encoding = (new boConfig()).getEncoding();
+                    String encoding = boConfig.getEncoding();
                     if(encoding!=null)
                       fw= new OutputStreamWriter(new FileOutputStream(srcfile), encoding);
                     else
                       fw= new OutputStreamWriter(new FileOutputStream(srcfile));
 
-                    //FileWriter fw = new FileWriter(srcfile);
                     fw.write(srctemp);
                     fw.close();
 

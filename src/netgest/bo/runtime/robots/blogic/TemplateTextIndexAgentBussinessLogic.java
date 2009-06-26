@@ -1,5 +1,6 @@
 package netgest.bo.runtime.robots.blogic;
 
+import netgest.bo.def.boDefHandler;
 import netgest.bo.impl.Ebo_TemplateImpl;
 import netgest.bo.impl.Ebo_TextIndexImpl;
 import netgest.bo.runtime.EboContext;
@@ -32,9 +33,11 @@ public class TemplateTextIndexAgentBussinessLogic
         logger.debug("Starting Template_TextIndex rebuilder agent.....");
         try
         {          
-            session = p_app.boLogin("SYSTEM",boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName());
-            ctx = session.createRequestContext(null,null,null);
-            Ebo_TemplateImpl.rebuildIndex(ctx);
+        	if ( boDefHandler.getBoDefinition("iXEOUser") != null ) {
+	            session = p_app.boLogin("SYSTEM",boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName());
+	            ctx = session.createRequestContext(null,null,null);
+	            Ebo_TemplateImpl.rebuildIndex(ctx);
+        	}
         }
         catch (boLoginException e)
         {

@@ -1187,6 +1187,12 @@ public final class boBuildJSP {
                 xREPLACEFILE = form.getChildNodes()[0].getNodeName();
             }
 
+            File dir = new File( this.p_url_to_deploy );
+            
+            if( !dir.exists() ) {
+            	dir.mkdirs();
+            }
+            
             //PrintWriter pw = new PrintWriter(file);
             OutputStreamWriter file;
             if(encoding!=null)

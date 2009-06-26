@@ -278,20 +278,20 @@ public class boBuilder
             boBuildRepository.clearCache();
 
 
-            File ebotemp = new File(p_bcfg.getTemplatesDir() +
-                    "boTemplate.java");
-            File ebodepl = new File(p_bcfg.getDeploymentDir() +
-                    "boTemplate.java");
-
+//            File ebotemp = new File(p_bcfg.getTemplatesDir() +
+//                    "boTemplate.java");
+//            File ebodepl = new File(p_bcfg.getDeploymentDir() +
+//                    "boTemplate.java");
+//
             boolean deployall = false;
-
-            if ((ebotemp.lastModified() > ebodepl.lastModified()) ||
-                    !ebodepl.exists())
-            {
-                deployall = true;
-            }
-
-            File eboobjdir = new File(p_bcfg.getDefinitiondir());
+//
+//            if ((ebotemp.lastModified() > ebodepl.lastModified()) ||
+//                    !ebodepl.exists())
+//            {
+//                deployall = true;
+//            }
+//
+//            File eboobjdir = new File(p_bcfg.getDefinitiondir());
 
             //build do repositório default
             boBuildRepository rep = new boBuildRepository(ebo.getBoSession()
@@ -314,10 +314,10 @@ public class boBuilder
             }
 
             // Update the template file in deployment directory
-            if (deployall)
-            {
-                IOUtils.copy(ebotemp, ebodepl);
-            }
+//            if (deployall)
+//            {
+//                IOUtils.copy(ebotemp, ebodepl);
+//            }
 
             if (fullTextIndex)
             {
