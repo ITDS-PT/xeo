@@ -1,0 +1,43 @@
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo Carreira (ITDS) -->
+<NGTIFS>
+	<SERVICE>
+		<NAME>ngtbo</NAME>
+		<CLASS>netgest.io.DBiFileProvider</CLASS>
+		<DESCRIPTION>Business Object Documents</DESCRIPTION>
+		<USERNAME/>
+		<PASSWORD/>
+		<CONNECTIONSTRING>jdbc/acd$dbfs_file</CONNECTIONSTRING>
+		<ADMINGROUP>Administradores</ADMINGROUP>
+		<ICON/>
+		<PATH>/</PATH>
+		<PERMISSIONS>
+			<group>public</group>
+			<BROWSE>true</BROWSE>
+			<READ>true</READ>
+			<WRITE>true</WRITE>
+			<VERSIONCONTROL>true</VERSIONCONTROL>
+			<NEW>true</NEW>
+			<DELETE>true</DELETE>
+		</PERMISSIONS>
+	</SERVICE>
+	<SERVICE>
+		<NAME>basic</NAME>
+		<CLASS>netgest.io.BasiciFileProvider</CLASS>
+		<DESCRIPTION>Business Object Documents</DESCRIPTION>
+		<USERNAME/>
+		<PASSWORD/>
+		<CONNECTIONSTRING>jdbc/xeo$dbfs_file</CONNECTIONSTRING>
+		<ADMINGROUP>Administradores</ADMINGROUP>
+		<ICON/>
+		<PATH>/</PATH>
+		<PERMISSIONS>
+			<group>public</group>
+			<BROWSE>true</BROWSE>
+			<READ>true</READ>
+			<WRITE>true</WRITE>
+			<VERSIONCONTROL>true</VERSIONCONTROL>
+			<NEW>true</NEW>
+			<DELETE>true</DELETE>
+		</PERMISSIONS>
+	</SERVICE>
+</NGTIFS>
