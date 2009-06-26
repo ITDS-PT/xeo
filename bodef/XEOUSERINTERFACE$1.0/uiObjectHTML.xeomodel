@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="uiObjectHTML" type="object" version="1.0" extends="uiObject" mastertable="uiObject" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>uiObjectHTML</description>
+      <cardID>[description],[name] </cardID>
+      <label>objecto HTML</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeLongText name="htmlcode">
+         <label>HTML</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" style="padding:10px">
+               <panel>
+                  <tab name="tab_HTML" order="20" bo_node="htmlcode">
+                     <section showlabel="no" label="node.label" height="100%">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute height="100%" showlabel="no">htmlcode</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

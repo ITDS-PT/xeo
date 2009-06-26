@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="Ebo_DAOConfig" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_DAOConfig</description>
+      <cardID>[linedepends]</cardID>
+      <label>DAO Config Object Line</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObjectCollection name="extAtt_parameter">
+         <type>object.Ebo_DAOparameter</type>
+         <label>Parametro</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="linedepends">
+         <type>object.Ebo_DAOdepends</type>
+         <label>Inf.Relacionada</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeText name="logicOperator">
+         <len>4</len>
+         <label>Operadores Logicos</label>
+         <tooltip></tooltip>
+         <lov name="logicOperator" retainValues="false"/>
+      </attributeText>
+      <attributeLongText name="conditionFormula">
+         <label>Condição para ser executada</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit">
+               <section showlabel="no">
+                  <rows>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">assignedQueue</attribute>
+                        </cell>
+                     </row>
+                  </rows>
+               </section>
+               <panel>
+                  <tab name="tab_extendAttribute" order="20" bo_node="extAtt_parameter">
+                     <div width="100%" height="100%">extAtt_parameter.list</div>
+                  </tab>
+                  <tab bo_node="linedepends">
+                     <div width="100%" height="100%">linedepends.list</div>
+                  </tab>
+               </panel>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+               <categories>
+                  <category name="estimatedValues" label="Valores Estimados" description="">
+                     <attributes/>
+                  </category>
+                  <category name="exactValues" label="Valores Exactos" description="">
+                     <attributes/>
+                  </category>
+               </categories>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

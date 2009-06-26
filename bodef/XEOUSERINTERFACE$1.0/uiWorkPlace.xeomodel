@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="uiWorkPlace" type="object" version="1.0" extends="uiObject" mastertable="uiObject" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>uiWorkPlace</description>
+      <cardID>[description],[name] </cardID>
+      <label>Mesa de Trabalho</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="largura">
+         <len>50</len>
+         <label>Largura das ListBars</label>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeText>
+      <attributeObjectCollection name="profiles">
+         <type>object.uiProfile</type>
+         <label>Perfis</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="listbar">
+         <type>object.uiListBar</type>
+         <label>ListBar</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" style="padding:10px">
+               <panel>
+                  <tab bo_node="settings" name="settings" order="10">
+                     <section showlabel="no" label="node.label">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">name</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">description</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">img</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">profile</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">largura</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+                  <tab name="tab_Listbar" order="20" bo_node="listbar">
+                     <section showlabel="no" label="node.label">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute height="100%" showlabel="no">listbar</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,119 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="Ebo_DAOparameter" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_DAOparameter</description>
+      <cardID>[codeDAO] </cardID>
+      <label>DAO Config Object Line Parameters</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="getCardIDByExtendAttributeAlias" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label></label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="StringBuffer"/>
+         <body language="JAVA">
+            <![CDATA[
+			String shortAlias = this.extAttrAliasParent.getValue(); 
+bridgeHandler bridge = this.getParentBridgeRow().getParent().getParentBridgeRow().getParent().getBridge("extendAttribute");
+bridge.beforeFirst();
+while ( bridge.next() ){
+    boObject object = bridge.getObject();
+    if ( object.getAttribute("shortAlias").getValueString().equals(shortAlias) ){
+			return object.getCARDID();	
+	}
+}
+return new StringBuffer();
+			 ]]>
+         </body>
+      </method>
+      <method name="getAliasChildLov" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label></label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="StringBuffer"/>
+         <body language="JAVA">
+            <![CDATA[return netgest.bo.events.sysBridges.getAliasChildLovImpl( this ); ]]>
+         </body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeNumber name="extAttrParentBoui">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Boui do Atributo extendido do Pai</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeText name="extAttrAliasParent">
+         <len>50</len>
+         <label>Alias do Attributo Pai</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="extAttrAliasChild">
+         <len>50</len>
+         <label>Alias do Attributo Filho</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="inout">
+         <len>10</len>
+         <label>Envia/Recebe</label>
+         <tooltip></tooltip>
+         <lov name="inout" retainValues="false"/>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" mode="edit">
+                  <cols>
+                     <col width="" method="getCardIDByExtendAttributeAlias">
+                        <attribute>method</attribute>
+                     </col>
+                     <col width="110">
+                        <attribute>inout</attribute>
+                     </col>
+                     <col width="250" method="getAliasChildLov">
+                        <attribute>method</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+   <general name="Ebo_DocumentTemplate" type="object" version="1.0" extends="Ebo_Document" mastertable="Ebo_Document" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_DocumentTemplate</description>
+      <cardID>[fileName]</cardID>
+      <label>Template Documento</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events>
+      <event name="onAfterCreate">
+         <body language="JAVA">
+            <![CDATA[String parentBoui = (String)this.getEboContext().getRequest().getParameter("ctxParent");
+if(parentBoui != null)
+{
+    boObject parent = boObject.getBoManager().loadObject(this.getEboContext(),Long.parseLong(parentBoui));
+    long clsRegBoui = parent.getAttribute("masterObjectClass").getValueLong();                
+    this.getAttribute("object").setValueLong(clsRegBoui);
+}]]>
+         </body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="object">
+         <type>object.Ebo_ClsReg</type>
+         <label>Objecto Associado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="docTemplate">
+         <type>object.Ebo_DocumentTemplate</type>
+         <label>Template Associado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <panel voui="panel" bo_node="global" style="padding:10px" order="10">
+                  <tab bo_node="global" order="10" name="tabprincipal" style="overflow-y:auto">
+                     <section showlabel="yes" label="Propriedades do Modelo de Documento" order="15" name="seccao_master_template">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">object</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="template" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>fileName</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>object</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) -->
+<Lov>
+   <General bo_class="abstract" public="no" nacionalityDefault="pt">
+      <classextends/>
+      <cls_version_control>yes</cls_version_control>
+      <cls_majorVersion>1</cls_majorVersion>
+      <cls_minorVersion>0</cls_minorVersion>
+      <deploy_information>
+         <deployDate/>
+         <delete_data/>
+      </deploy_information>
+      <active_information>
+         <ActiveDate/>
+         <delete_menor_major_versions/>
+         <delete_menor_minor_versions/>
+      </active_information>
+      <description></description>
+      <label>
+         <pt/>
+         <en-us/>
+      </label>
+   </General>
+   <mediaMessage retainValues="No">
+      <description>
+         <pt>Lov referente ao Meio de Resposta</pt>
+         <en-us>Media Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>E-Mail</value>
+            <label>E-Mail</label>
+         </item>
+         <item>
+            <value>Fax</value>
+            <label>Fax</label>
+         </item>
+         <item>
+            <value>Sgis</value>
+            <label>XEO</label>
+         </item>
+         <item>
+            <value>Letter</value>
+            <label>Carta</label>
+         </item>
+      </details>
+   </mediaMessage>
+   <mediaMessageWuserPrefered retainValues="No">
+      <description>
+         <pt>Lov referente ao Meio de Resposta</pt>
+         <en-us>Media Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>E-Mail</value>
+            <label>E-Mail</label>
+         </item>
+         <item>
+            <value>Fax</value>
+            <label>Fax</label>
+         </item>
+         <item>
+            <value>Letter</value>
+            <label>Carta</label>
+         </item>
+         <item>
+            <value>Phone</value>
+            <label>Telefone</label>
+         </item>
+         <item>
+            <value>Sgis</value>
+            <label>XEO</label>
+         </item>
+         <item>
+            <value>BV</value>
+            <label>Balcão Virtual</label>
+         </item>
+         <item>
+            <value>Conversation</value>
+            <label>Conversa</label>
+         </item>
+         <item>
+            <value>Prefered</value>
+            <label>Preferência Utilizador</label>
+         </item>
+      </details>
+   </mediaMessageWuserPrefered>
+</Lov>

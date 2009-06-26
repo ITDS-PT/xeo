@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:16 BST 2006-->
+<xeoModel>
+   <general name="horario_dia_periodo" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>horario_dia_periodo</description>
+      <cardID>[description]</cardID>
+      <label>Periodo do dia </label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeBoolean name="workTime">
+         <label>Periodo de Trabalho</label>
+         <renderAsCheck>true</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeBoolean name="launchTime">
+         <label>Intervalo entre periodo de trabalho</label>
+         <renderAsCheck>true</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeText name="beginTimePeriod">
+         <len>5</len>
+         <label>Inicio do Periodo</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="endTimePeriod">
+         <len>5</len>
+         <label>Fim do Periodo</label>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <panel>
+                  <tab bo_node="identification">
+                     <section showlabel="no" label="node.label">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">description</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">beginTimePeriod</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">endTimePeriod</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">workTime</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">launchTime</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>description</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>beginTimePeriod</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>endTimePeriod</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Definição do período do dia" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

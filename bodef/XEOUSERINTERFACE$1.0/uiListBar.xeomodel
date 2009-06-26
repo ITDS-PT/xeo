@@ -1,0 +1,67 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="uiListBar" type="object" version="1.0" extends="uiObject" mastertable="uiObject" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>uiListBar</description>
+      <cardID>[description],[name] </cardID>
+      <label>Lista de Opções</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="activeItem">
+         <len>250</len>
+         <label>Item activo</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObjectCollection name="content">
+         <type>object.boObject</type>
+         <label>Conteúdos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>1</minOccurs>
+         <objects>
+            <object>uiTreeLB</object>
+            <object>uiObjectHTML</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit">
+               <panel>
+                  <tab bo_node="content" order="20">
+                     <div width="100%" height="100%">content.list</div>
+                  </tab>
+               </panel>
+            </form>
+            <form name="content_list" forBridge="content" formtype="List">
+               <grid forBridge="content" name="content.list">
+                  <cols>
+                     <col width="200">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

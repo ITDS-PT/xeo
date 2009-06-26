@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+	<general name="uiObject" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>uiObject</description>
+		<cardID>[description],[name] </cardID>
+		<label>Object Gráfico</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="name">
+			<len>50</len>
+			<label>Nome</label>
+			<tooltip/>
+		</attributeText>
+		<attributeObject name="user">
+			<type>object.iXEOUser</type>
+			<label>Utilizador</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+		</attributeObject>
+		<attributeObject name="profile">
+			<type>object.uiProfile</type>
+			<label>Perfil</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+		</attributeObject>
+		<attributeText name="description">
+			<len>250</len>
+			<label>Descrição</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="img">
+			<len>250</len>
+			<label>Imagem</label>
+			<tooltip/>
+		</attributeText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std" style="padding:10px">
+					<panel>
+						<tab bo_node="settings" name="settings" order="10">
+							<section showlabel="no" label="node.label">
+								<rows>
+									<row>
+										<cell>
+											<attribute showlabel="yes">name</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">description</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">img</attribute>
+										</cell>
+									</row>
+								</rows>
+							</section>
+						</tab>
+					</panel>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="settings">
+						<cols>
+							<col width="100">
+								<attribute>description</attribute>
+							</col>
+							<col width="100">
+								<attribute>name</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories>
+				<category name="settings" label="Geral" description="">
+					<attributes/>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>

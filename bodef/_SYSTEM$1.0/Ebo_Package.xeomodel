@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:24 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Package" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Package</description>
+      <cardID>[description] - [name]</cardID>
+      <label>Pacote</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeBoolean name="deployed">
+         <label>Instalado</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeText name="description">
+         <len>100</len>
+         <label>Descrição</label>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="pack">
+                     <panel voui="panel">
+                        <tab bo_node="pack" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">description</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="pack" name="listebo_package" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="pack" label="Pacote" description="">
+               <attributes>
+                  <attribute>name</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

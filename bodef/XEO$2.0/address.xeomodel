@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by fcamara (ITDS) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:16 BST 2006-->
+<xeoModel>
+	<general name="address" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>address</description>
+		<cardID>[description] ,[concelho]</cardID>
+		<label>Morada</label>
+	</general>
+	<opl active="false"/>
+	<states>
+		<state name="primaryState">
+			<label>primaryState</label>
+			<options>
+				<option name="create" value="0" active="true">
+					<label>Criado</label>
+					<subStates>
+						<state name="createdStatus">
+							<label>createdStatus</label>
+							<options>
+								<option name="notStart" value="1" active="true">
+									<label>Criado</label>
+									<subStates/>
+								</option>
+							</options>
+						</state>
+					</subStates>
+				</option>
+				<option name="open" value="1" active="true">
+					<label>Criado</label>
+					<subStates>
+						<state name="open_levels">
+							<label>open_levels</label>
+							<options>
+								<option name="openStatus" value="0" active="true">
+									<label>openStatus</label>
+									<subStates>
+										<state name="hold">
+											<label>Suspenso</label>
+											<options/>
+										</state>
+										<state name="working">
+											<label>Trabalhando...</label>
+											<options/>
+										</state>
+										<state name="waitFor">
+											<label>Em espera..</label>
+											<options/>
+										</state>
+									</subStates>
+								</option>
+								<option name="openAlerts" value="0" active="true">
+									<label>openAlerts</label>
+									<subStates>
+										<state name="redAlert">
+											<label>em Alerta Vermelho</label>
+											<options/>
+										</state>
+										<state name="OrangeAlert">
+											<label>em Alerta laranja</label>
+											<options/>
+										</state>
+										<state name="Green">
+											<label>OK</label>
+											<options/>
+										</state>
+									</subStates>
+								</option>
+							</options>
+						</state>
+					</subStates>
+				</option>
+				<option name="close" value="90" active="true">
+					<label>Fechado</label>
+					<subStates>
+						<state name="closeStatus">
+							<label>closeStatus</label>
+							<options>
+								<option name="cancel" value="91" active="true">
+									<label>Cancelado</label>
+									<subStates/>
+								</option>
+								<option name="softclose" value="92" active="true">
+									<label>Fecho normal</label>
+									<subStates/>
+								</option>
+								<option name="hardclose" value="93" active="true">
+									<label>Fecho p/ excepção</label>
+									<subStates/>
+								</option>
+							</options>
+						</state>
+					</subStates>
+				</option>
+				<option name="archive" value="99" active="true">
+					<label>Arquivado</label>
+					<subStates/>
+				</option>
+			</options>
+		</state>
+	</states>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="tipomorada">
+			<len>1</len>
+			<label>Descricao</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="description">
+			<len>3000</len>
+			<label>Descrição</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="email">
+			<len>250</len>
+			<label>Email</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="fax">
+			<len>50</len>
+			<label>Fax</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="telefone">
+			<len>50</len>
+			<label>Telefone</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="rua">
+			<len>100</len>
+			<label>Rua</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="localidade">
+			<len>50</len>
+			<label>Localidade</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="cpostal">
+			<len>20</len>
+			<label>Código Postal</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="localcpostal">
+			<len>50</len>
+			<label>Local</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="freguesia">
+			<len>50</len>
+			<label>Freguesia</label>
+			<tooltip/>
+		</attributeText>
+		<attributeNumber name="concelho">
+			<len>0</len>
+			<grouping>false</grouping>
+			<decimals>0</decimals>
+			<minDecimals>0</minDecimals>
+			<label>Concelho</label>
+			<tooltip/>
+		</attributeNumber>
+		<attributeNumber name="distrito">
+			<len>0</len>
+			<grouping>false</grouping>
+			<decimals>0</decimals>
+			<minDecimals>0</minDecimals>
+			<label>Distrito</label>
+			<tooltip/>
+		</attributeNumber>
+		<attributeText name="country">
+			<len>50</len>
+			<label>País</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="regiao">
+			<len>50</len>
+			<label>Região</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="continente">
+			<len>50</len>
+			<label>Continente</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="cod_ent">
+			<len>12</len>
+			<label>Código</label>
+			<tooltip/>
+		</attributeText>
+		<attributeNumber name="ide_reg_ent">
+			<len>0</len>
+			<grouping>false</grouping>
+			<decimals>0</decimals>
+			<minDecimals>0</minDecimals>
+			<label>C.Provisório</label>
+			<tooltip/>
+		</attributeNumber>
+		<attributeNumber name="num_mor">
+			<len>0</len>
+			<grouping>false</grouping>
+			<decimals>0</decimals>
+			<minDecimals>0</minDecimals>
+			<label>Código</label>
+			<tooltip/>
+		</attributeNumber>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std">
+					<section showlabel="no" label="node.label">
+						<rows>
+							<row>
+								<cell>
+									<attribute showlabel="yes">cod_ent</attribute>
+								</cell>
+								<cell>
+									<attribute showlabel="yes">ide_reg_ent</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">description</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">email</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">telefone</attribute>
+								</cell>
+								<cell>
+									<attribute showlabel="yes">fax</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">rua</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">localidade</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">cpostal</attribute>
+								</cell>
+								<cell>
+									<attribute showlabel="yes">localcpostal</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">freguesia</attribute>
+									<attribute showlabel="yes">concelho</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">distrito</attribute>
+								</cell>
+								<cell>
+									<attribute showlabel="yes">country</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">regiao</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">continente</attribute>
+								</cell>
+							</row>
+						</rows>
+					</section>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="global" name="listprocess" template="std">
+						<cols>
+							<col width="100">
+								<attribute>description</attribute>
+							</col>
+							<col width="100">
+								<attribute>local</attribute>
+							</col>
+							<col width="100">
+								<attribute>freguesia</attribute>
+							</col>
+							<col width="100">
+								<attribute>concelho</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+				<form name="quickview">
+					<section showlabel="no" label="node.label">
+						<rows>
+							<row>
+								<cell>
+									<attribute showlabel="yes">description</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">rua</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">localidade</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">cpostal</attribute>
+								</cell>
+								<cell>
+									<attribute showlabel="yes">Local</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">freguesia</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">concelho</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">distrito</attribute>
+								</cell>
+							</row>
+							<row>
+								<cell>
+									<attribute showlabel="yes">country</attribute>
+								</cell>
+							</row>
+						</rows>
+					</section>
+				</form>
+			</forms>
+			<categories>
+				<category name="global" label="Definições gerais" description="">
+					<attributes/>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>

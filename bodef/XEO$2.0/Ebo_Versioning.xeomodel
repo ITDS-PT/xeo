@@ -1,0 +1,133 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Versioning" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="false" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Versioning</description>
+      <cardID>[log]</cardID>
+      <label>Objecto de Versão</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="rollback" public="false" menu="true" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label>Rollback</label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="boolean"/>
+         <body language="JAVA">
+            <![CDATA[
+					netgest.bo.utils.boVersioning version = new netgest.bo.utils.boVersioning();
+					boolean ret = version.rollbackVersion(this, true);
+					if(ret)
+					  version.updateObjects();
+					return ret;
+					]]>
+         </body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObjectCollection name="log">
+         <type>object.Ebo_Log</type>
+         <label>Logs</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>1</minOccurs>
+         <objectFilter/>
+         <required language="BOL">true</required>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeNumber name="changedObject">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Objecto Alterado</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeNumber>
+      <attributeNumber name="version">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Versão</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" label="parent.name">
+               <panel voui="panel">
+                  <tab bo_node="geral" label="Geral">
+                     <section showlabel="no" label="Dados">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">changedObject</attribute>
+                              </cell>
+                              <cell>
+                                 <attribute showlabel="yes">version</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">CREATOR</attribute>
+                              </cell>
+                              <cell>
+                                 <attribute showlabel="yes">SYS_DTCREATE</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+                  <tab bo_node="log">
+                     <div width="100%" height="100%">log.list</div>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listNormal" template="std">
+                  <cols>
+                     <col width="200">
+                        <attribute>changedObject</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>version</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>SYS_DTCREATE</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>CREATOR</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

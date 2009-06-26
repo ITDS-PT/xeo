@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+	<general name="xwfActivityReceive" type="object" version="1.0" extends="xwfActivity" mastertable="activity" orphan="true" multiparent="true" extendsJavaClass="" markInputType="true">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>xwfActivityReceive</description>
+		<cardID>[label] </cardID>
+		<label>Receber</label>
+	</general>
+	<opl active="true"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeObject name="message">
+			<type>object.xwfVariable</type>
+			<label>Mensagem</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+		</attributeObject>
+		<attributeObjectCollection name="waitingResponse">
+			<type>object.xwfWaitResponse</type>
+			<label>À espera desta mensage</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeObjectCollection name="relatedProgram">
+			<type>object.xwfProgramRuntime</type>
+			<label>Programas associados</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="inbox" formtype="List">
+					<explorer buildjsp="no" name="inbox">
+						<attributes>
+							<attribute width="110">endDate</attribute>
+							<attribute width="110">label</attribute>
+							<attribute width="50">priority<values>
+									<r0>
+										<label>
+											<pt>Baixa</pt>
+											<en-us>Low</en-us>
+										</label>
+										<color>green</color>
+									</r0>
+									<r1>
+										<label>
+											<pt>Normal</pt>
+											<en-us>Normal</en-us>
+										</label>
+										<color>green</color>
+									</r1>
+									<r2>
+										<label>
+											<pt>Alta</pt>
+											<en-us>High</en-us>
+										</label>
+										<color>red</color>
+									</r2>
+								</values>
+							</attribute>
+							<attribute width="150">assignedQueue</attribute>
+							<attribute width="110">deadLineDate</attribute>
+							<attribute width="110">beginDate</attribute>
+							<attribute width="120">SYS_DTCREATE</attribute>
+							<attribute width="150">SYS_DTSAVE</attribute>
+							<attribute>performer</attribute>
+							<attribute>CREATOR</attribute>
+							<attribute width="120">beginDate</attribute>
+							<attribute width="100">endDate</attribute>
+							<attribute>description</attribute>
+							<attribute>program</attribute>
+							<attribute>waitingResponse</attribute>
+						</attributes>
+						<order>
+							<attribute>SYS_DTCREATE</attribute>
+						</order>
+						<cols>
+							<col>
+								<attribute>label</attribute>
+							</col>
+							<col>
+								<attribute>assignedQueue</attribute>
+							</col>
+						</cols>
+						<boql>select xwfActivityReceive where 1=1</boql>
+						<groups>
+							<group>
+								<attribute order="asc">SYS_DTCREATE</attribute>
+							</group>
+						</groups>
+					</explorer>
+				</form>
+				<form name="edit" label="Receber Mensagem"/>
+			</forms>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

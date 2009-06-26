@@ -1,0 +1,49 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="uiTreeLB" type="object" version="1.0" extends="uiObject" mastertable="uiObject" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>uiTreeLB</description>
+      <cardID>[description],[name] </cardID>
+      <label>Árvore</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeLongText name="xmlTree">
+         <label>Árvore de Opções</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit">
+               <panel>
+                  <tab name="tree_HTML" order="20" bo_node="xmlTree">
+                     <table height="100%" width="100%">
+                        <tr>
+                           <td>
+                              <include-frame id="inc_Tree" order="90" name="inc_Tree" frameBorder="0" width="100%" height="100%" scrolling="no">__uiTreeWPLC_Designer.jsp<parameters><treeBoui>this</treeBoui><designerMode>"edit"</designerMode><docid>IDX</docid></parameters></include-frame>
+                           </td>
+                        </tr>
+                     </table>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list"/>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

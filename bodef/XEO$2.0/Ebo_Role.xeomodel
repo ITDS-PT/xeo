@@ -1,0 +1,222 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Role" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Role</description>
+      <cardID>[name] ,[id]</cardID>
+      <label>Funcão</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events>
+      <event name="onBeforeSave">
+         <body language="JAVA">
+            <![CDATA[return netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts");]]>
+         </body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="id">
+         <len>50</len>
+         <label>Código</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="email">
+         <len>50</len>
+         <label>Email</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="notifica">
+         <len>1</len>
+         <label>Notificar</label>
+         <tooltip></tooltip>
+         <lov name="NOTIFICATIONTYPE" retainValues="false"/>
+      </attributeText>
+      <attributeObject name="templateEmail">
+         <type>object.Ebo_Template</type>
+         <label>Modelo de Email</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="emailAccounts">
+         <type>object.mailAccount</type>
+         <label>Contas de Correio</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeBoolean name="default">
+                  <label>Default</label>
+                  <renderAsCheck>false</renderAsCheck>
+                  <tooltip></tooltip>
+               </attributeBoolean>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="identification" order="1">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">id</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">email</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">notifica</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">templateEmail</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">preferedMedia</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">workplace</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">workSchedule</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                        <tab bo_node="correspondencia_address">
+                           <div width="100%" height="100%">correspondencia_address.edit</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Contas de Correio" bo_node="" order="9">
+                     <panel>
+                        <tab bo_node="" label="Contas de Correio">
+                           <div width="100%" height="100%">emailAccounts.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="40">
+                        <attribute>id</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="identification">
+               <table bo_node="global">
+                  <tbody>
+                     <tr>
+                        <td>id.label</td>
+                        <td>id.field</td>
+                     </tr>
+                     <tr>
+                        <td colspan="2" class="fieldtext">description.fieldtext</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </form>
+            <form name="emailAccounts_list" formtype="List" forBridge="emailAccounts">
+               <grid forBridge="emailAccounts" name="emailAccounts.list" edit_inLine="yes" template="std" bo_node="">
+                  <cols>
+                     <col width="200">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>default</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>id</attribute>
+               </attributes>
+               <categories>
+                  <category name="cat_name" label="Nome" description="">
+                     <attributes>
+                        <attribute>adress</attribute>
+                        <attribute>name</attribute>
+                     </attributes>
+                  </category>
+               </categories>
+            </category>
+            <category name="organizacoes" label="" description="">
+               <attributes>
+                  <attribute>orglist</attribute>
+               </attributes>
+            </category>
+            <category name="Seguranca" label="" description="">
+               <attributes>
+                  <attribute>sl</attribute>
+                  <attribute>compartment</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

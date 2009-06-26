@@ -1,0 +1,132 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="Ebo_DAOdepends" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_DAOdepends</description>
+      <cardID>[DAO_code],[type] [lag] </cardID>
+      <label>DAO Config Object Line Depends</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="getCardIDByDAOCode" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label></label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="StringBuffer"/>
+         <body language="JAVA">
+            <![CDATA[
+			 String xcode=this.DAO_code.getValue() ;
+			 bridgeHandler bridge= this.getParentBridgeRow().getParent().getParentBridgeRow().getBridge();
+			 bridge.beforeFirst();
+			 while ( bridge.next() ){
+			 	if ( bridge.getAttribute("code").getValueString().equals(xcode) ){
+			 		return bridge.getObject().getCARDID();	
+			 	}
+			  }
+			 return new StringBuffer();
+			 ]]>
+         </body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="DAO_code">
+         <len>20</len>
+         <label>Codigo</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeDuration name="lag">
+         <label>Inc</label>
+         <clock>false</clock>
+         <tooltip></tooltip>
+      </attributeDuration>
+      <attributeText name="type">
+         <len>4</len>
+         <label>Tipo</label>
+         <tooltip></tooltip>
+         <lov name="typeDepends" retainValues="false"/>
+         <required language="BOL">true</required>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Condição" bo_node="settings">
+                     <panel voui="panel">
+                        <tab bo_node="settings" voui="tab1">
+                           <section showlabel="no" height="100%" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">DAO_code</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="no"/>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">type</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">lag</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="no" height="100%">condition</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" mode="edit">
+                  <cols>
+                     <col width="" method="getCardIDByDAOCode">
+                        <attribute>method</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>DAO_code</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>type</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>lag</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

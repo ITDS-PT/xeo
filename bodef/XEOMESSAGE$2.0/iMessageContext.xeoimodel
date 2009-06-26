@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Fri Jul 07 20:13:11 BST 2006-->
+<xeoModel>
+   <general name="iMessageContext" type="interface" optionalInterface="false" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>iMessageContext</description>
+      <cardID>[name] ,[id]</cardID>
+      <label>Contacto</label>
+      <objects>
+         <object>xwfProgramRuntime</object>
+      </objects>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObjectCollection name="message">
+         <type>object.message</type>
+         <label>Mensagens</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="list" formtype="List">
+               <grid bo_node="iMessageContextList" name="listImessageContext" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>message</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

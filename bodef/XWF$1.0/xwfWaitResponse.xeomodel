@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel>
+   <general name="xwfWaitResponse" type="object" version="1.0" extends="xwfActivity" mastertable="activity" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfWaitResponse</description>
+      <cardID>[label] </cardID>
+      <label>Esperar Resposta</label>
+   </general>
+   <opl active="true"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="sendActivity">
+         <type>object.xwfActivitySend</type>
+         <label>Actividade de Envio de Mensagem</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="waitFrom">
+         <type>object.iContact</type>
+         <label>Contacto que esparamos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="receiveActivity">
+         <type>object.xwfActivityReceive</type>
+         <label>Actividade de Leitura de Mensagem</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="saveOn">
+         <type>object.xwfVariable</type>
+         <label>Guardar mensagem em:</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeDateTime name="beginDate">
+         <label>Início</label>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeDateTime>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" label="Esperar Resposta"/>
+            <form name="cardid_list" formtype="List">
+               <grid bo_node="identification" name="listcardid" template="std">
+                  <cols>
+                     <col width="50">
+                        <attribute>runningState</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

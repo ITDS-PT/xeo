@@ -1,0 +1,127 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel>
+   <general name="PollDef" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>PollDef</description>
+      <cardID>[name] </cardID>
+      <label>Definções de Votação</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>200</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="code">
+         <len>20</len>
+         <label>Código</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObjectCollection name="conditions">
+         <type>object.PollCondition</type>
+         <label>Condições</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>1</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="defaultCond">
+         <type>object.PollCondition</type>
+         <label>Condição por Omissão</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObjectCollection name="options">
+         <type>object.PollOption</type>
+         <label>Respostas</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>1</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="geral" name="area_geral" label="Geral" order="20" height="100%">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10" height="60px">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">code</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                           <div width="100%" height="100%">options.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="" label="Condições" name="area_conditions" order="50">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10" height="60px">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">defaultCond</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                           <div width="100%" height="100%">conditions.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listNormal" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>mode</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

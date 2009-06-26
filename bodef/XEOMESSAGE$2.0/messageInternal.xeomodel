@@ -1,0 +1,34 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Fri Jul 07 20:13:11 BST 2006-->
+<xeoModel>
+   <general name="messageInternal" type="object" version="1.0" extends="messageLetter" mastertable="message" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="true" deep="1">
+         <process>
+            <attribute onlyCardID="true">resId</attribute>
+            <attribute onlyCardID="true">fromRef</attribute>
+            <attribute onlyCardID="true">toRef</attribute>
+            <attribute onlyCardID="true">ccRef</attribute>
+            <attribute onlyCardID="true">bccRef</attribute>
+         </process>
+      </textIndex>
+      <description>messageInternal</description>
+      <cardID>[name] </cardID>
+      <label>Mensagem Interna</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes/>
+   <viewers>
+      <viewer name="general">
+         <forms/>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:19 BST 2006-->
+<xeoModel>
+   <general name="mailError" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>mailError</description>
+      <cardID>[subject]</cardID>
+      <label>Email c/ erro</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="messageid">
+         <len>1000</len>
+         <label>messageid</label>
+         <tooltip></tooltip>
+         <lov name="OrgInOut" retainValues="false"/>
+      </attributeText>
+      <attributeText name="subject">
+         <len>3000</len>
+         <label>Assunto</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="error">
+         <len>4000</len>
+         <label>Erro</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="list">
+               <grid bo_node="mailerror" name="mailerror" template="std">
+                  <cols>
+                     <col width="250">
+                        <attribute>messageid</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>subject</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="mailerror">
+                     <panel voui="panel">
+                        <tab bo_node="mailerror" voui="tab1">
+                           <section showlabel="no" height="100%" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">messageid</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">subject</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes" height="100%">error</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+         </forms>
+         <categories>
+            <category name="mailerror" label="Email c/ erro" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

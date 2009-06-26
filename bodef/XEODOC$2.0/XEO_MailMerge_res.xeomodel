@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+   <general name="XEO_MailMerge_res" type="object" version="1.0" extends="" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>XEO_MailMerge_res</description>
+      <cardID>[name]</cardID>
+      <label>Mail Merge Resultados</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeNumber name="number">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Número</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeNumber>
+      <attributeObject name="object">
+         <type>object.boObject</type>
+         <label>Objecto gerador</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <setParent>false</setParent>
+         <objects/>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="result">
+         <type>object.message</type>
+         <label>Resultado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="global">
+                     <panel voui="panel">
+                        <tab bo_node="global" label="Valores">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">number</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">object</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">result</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listresults" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>number</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>object</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>result</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

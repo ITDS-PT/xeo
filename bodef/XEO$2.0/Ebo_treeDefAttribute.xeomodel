@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+   <general name="Ebo_treeDefAttribute" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_treeDefAttribute</description>
+      <cardID>[name]</cardID>
+      <label>Defenição de Atributo de Listagem</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>100</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeNumber name="width">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Largura</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeText name="order">
+         <len>4</len>
+         <label>Ordem</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="orderPos">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Posição de Ordem</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="identification">
+                     <panel voui="panel">
+                        <tab bo_node="geral" label="Dados">
+                           <section showlabel="no" label="Geral">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">width</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">order</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">orderPos</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listTreeDef" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>width</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>order</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>orderPos</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

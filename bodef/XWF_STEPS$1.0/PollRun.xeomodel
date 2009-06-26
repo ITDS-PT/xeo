@@ -1,0 +1,193 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel>
+   <general name="PollRun" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>PollRun</description>
+      <cardID>[BOUI] </cardID>
+      <label>Votação</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeNumber name="universe">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Universo</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeNumber>
+      <attributeObjectCollection name="voters">
+         <type>object.iContact</type>
+         <label>Condições</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+         <bridge>
+            <attributes>
+               <attributeText name="nameV">
+                  <len>200</len>
+                  <label>Nome do votante</label>
+                  <tooltip></tooltip>
+               </attributeText>
+               <attributeObject name="option">
+                  <type>object.PollOption</type>
+                  <label>Opção Escolhida</label>
+                  <renderAsLov>false</renderAsLov>
+                  <tooltip></tooltip>
+                  <objectFilter/>
+               </attributeObject>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="definition">
+         <type>object.PollDef</type>
+         <label>Definições da votação</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="program">
+         <type>object.xwfProgramRuntime</type>
+         <label>Programa associado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="options">
+         <type>object.PollOption</type>
+         <label>Respostas</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>1</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="votes">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Votos</label>
+                  <tooltip></tooltip>
+               </attributeNumber>
+               <attributeNumber name="percent">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Percent</label>
+                  <tooltip></tooltip>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="geral" name="area_geral" label="Geral" order="20" height="100%">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10" height="60px">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">definition</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">program</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">universe</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                           <div width="100%" height="100%">options.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="" label="Votantes" name="area_conditions" order="50">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Votantes" order="10">
+                           <div width="100%" height="100%">voters.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listNormal" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>mode</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="options_list" forBridge="options" formtype="List">
+               <grid name="list" template="std" forBridge="options" edit_inLine="no">
+                  <cols>
+                     <col width="200" referenceLabel="PollOption.codeOption">
+                        <attribute>codeOption</attribute>
+                     </col>
+                     <col width="200" referenceLabel="PollOption.labelOption">
+                        <attribute>labelOption</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>votes</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>percent</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="voters_list" forBridge="voters" formtype="List">
+               <grid name="list" template="std" forBridge="voters" edit_inLine="no">
+                  <cols>
+                     <col width="200">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>option</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>nameV</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

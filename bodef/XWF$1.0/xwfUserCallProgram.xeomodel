@@ -1,0 +1,44 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+   <general name="xwfUserCallProgram" type="object" version="1.0" extends="xwfActivity" mastertable="activity" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfUserCallProgram</description>
+      <cardID>[label] </cardID>
+      <label>Preencher</label>
+   </general>
+   <opl active="true"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="filter">
+         <len>100</len>
+         <label>Filtro de Boql</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="mode">
+         <len>20</len>
+         <label>Embebido</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeLongText name="xmlStep">
+         <label>Mapeamento dos Atributos</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms/>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,172 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="uiScreenPointer" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>uiScreenPointer</description>
+      <cardID></cardID>
+      <label>Mesa de Trabalho</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="img">
+         <len>250</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="description">
+         <len>250</len>
+         <label>Descrição Resumida</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="parameters">
+         <len>2000</len>
+         <label>Descrição Resumida</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeObject name="object">
+         <type>object.Ebo_ClsReg</type>
+         <label>ListBar</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="uiObject">
+         <type>object.uiObject</type>
+         <label>Objecto gráfico</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeText name="formName">
+         <len>4000</len>
+         <label>Tipo</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="pointerTo">
+         <len>50</len>
+         <label>Tipo</label>
+         <tooltip></tooltip>
+         <lov name="screenPointerTo" retainValues="false"/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="xeoQL">
+         <len>4000</len>
+         <label>Filtro Xeo</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeObjectCollection name="share">
+         <type>object.boObject</type>
+         <label>Permissões</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" style="padding:10px">
+               <panel>
+                  <tab bo_node="global">
+                     <section showlabel="no" label="node.label">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">object</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">name</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">description</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">img</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">type</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">formName</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">xeoQL</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+                  <tab name="tab_share" order="20" bo_node="share">
+                     <div width="100%" height="100%">share.list</div>
+                  </tab>
+               </panel>
+            </form>
+            <form name="share_list" forBridge="share" formtype="List">
+               <grid name="list" template="std" forBridge="share" edit_inLine="no">
+                  <cols>
+                     <col width="200">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definiçoes" description="">
+               <attributes>
+                  <attribute>name</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

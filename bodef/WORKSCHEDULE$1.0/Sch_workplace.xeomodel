@@ -1,0 +1,162 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:16 BST 2006-->
+<xeoModel>
+   <general name="Sch_workplace" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Sch_workplace</description>
+      <cardID>[description]</cardID>
+      <label>Local de Trabalho</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>100</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="country">
+         <len>100</len>
+         <label>País</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="state">
+         <len>100</len>
+         <label>Distrito</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="city">
+         <len>100</len>
+         <label>Concelho</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="timeZone">
+         <len>100</len>
+         <label>Fuso Horário</label>
+         <tooltip></tooltip>
+         <lov name="timeZone" retainValues="false"/>
+         <required language="BOL">true</required>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeText>
+      <attributeObject name="workSchedule">
+         <type>object.workweek</type>
+         <label>Horário de Trabalho</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="fixedHolidays">
+         <type>object.holiday</type>
+         <label>Feriados Fixos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeBoolean name="christianHolidays">
+         <label>Feriados Moveis Cristãos</label>
+         <renderAsCheck>true</renderAsCheck>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeBoolean>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <panel>
+                  <tab bo_node="identification">
+                     <table>
+                        <tr height="1%">
+                           <td>
+                              <section showlabel="no">
+                                 <rows>
+                                    <row>
+                                       <cell>
+                                          <attribute showlabel="yes">name</attribute>
+                                       </cell>
+                                    </row>
+                                    <row>
+                                       <cell>
+                                          <attribute showlabel="yes">description</attribute>
+                                       </cell>
+                                    </row>
+                                    <row>
+                                       <cell>
+                                          <attribute showlabel="yes">country</attribute>
+                                       </cell>
+                                       <cell>
+                                          <attribute showlabel="yes">state</attribute>
+                                       </cell>
+                                    </row>
+                                    <row>
+                                       <cell>
+                                          <attribute showlabel="yes">city</attribute>
+                                       </cell>
+                                       <cell>
+                                          <attribute showlabel="yes">timeZone</attribute>
+                                       </cell>
+                                    </row>
+                                    <row>
+                                       <cell>
+                                          <attribute showlabel="yes">workSchedule</attribute>
+                                       </cell>
+                                       <cell>
+                                          <attribute showlabel="yes">christianHolidays</attribute>
+                                       </cell>
+                                    </row>
+                                 </rows>
+                              </section>
+                           </td>
+                        </tr>
+                        <tr height="99%">
+                           <td>
+                              <div height="100%" width="100%">fixedHolidays.list</div>
+                           </td>
+                        </tr>
+                     </table>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>description</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Periodos" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>description</attribute>
+                  <attribute>christianHolidays</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+	<general name="messageSMS" type="object" version="1.0" extends="message" mastertable="message" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="true" deep="1">
+			<process>
+				<attribute onlyCardID="true">resId</attribute>
+				<attribute onlyCardID="true">fromRef</attribute>
+				<attribute onlyCardID="true">toRef</attribute>
+				<attribute onlyCardID="true">ccRef</attribute>
+				<attribute onlyCardID="true">bccRef</attribute>
+			</process>
+		</textIndex>
+		<description>messageSMS</description>
+		<cardID>[name] </cardID>
+		<label>SMS</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="name">
+			<len>3000</len>
+			<label>Assunto</label>
+			<tooltip/>
+			<required language="BOL">false</required>
+		</attributeText>
+		<attributeText name="textSMS">
+			<len>4000</len>
+			<label>Texto SMS</label>
+			<tooltip/>
+			<required language="BOL">false</required>
+		</attributeText>
+		<attributeText name="preferedMedia">
+			<len>20</len>
+			<label>Meio</label>
+			<tooltip/>
+			<lov name="mediaMessageWuserPrefered" retainValues="false"/>
+			<required language="BOL">true</required>
+			<defaultValue language="BOL">
+				<depends/>"SMS"</defaultValue>
+			<hiddenWhen language="BOL">
+				<depends/>true</hiddenWhen>
+			<onChangeSubmit language="BOL">true</onChangeSubmit>
+		</attributeText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std" style="padding:6px;">
+					<panel>
+						<tab bo_node="settings" name="tab_settings" style="overflow-y:auto" order="-1"/>
+						<tab bo_node="settings" name="tab_settingsSMS" style="overflow-y:auto" order="20">
+							<section showlabel="no" name="section_settingsRES" order="20" height="520px">
+								<rows>
+									<row>
+										<cell>
+											<text showlabel="no" reserveLabelSpace="no" relatedAttribute="name">object.getExplainProperties</text>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">from</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">to</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="no" height="100%">textSMS</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">dtdoc</attribute>
+										</cell>
+									</row>
+								</rows>
+							</section>
+						</tab>
+						<tab style="overflow-y:auto" bo_node="documents" order="-1"/>
+					</panel>
+				</form>
+				<form name="preview" template="std" order="1" buildjsp="no">
+					<areas>
+						<area bo_node="settings" label="node.label" name="area_workHistory" order="-1" appears="onDemand"/>
+						<area label="SMS" name="area_SMS" order="10">
+							<panel>
+								<tab name="tab_ender" label="Mensagem" order="20">
+									<section showlabel="no" name="section_ender" order="30">
+										<rows>
+											<row>
+												<cell>
+													<text showlabel="no" reserveLabelSpace="no" relatedAttribute="name">object.getExplainProperties</text>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">from</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">to</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="no" height="100%">textSMS</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">dtdoc</attribute>
+												</cell>
+											</row>
+										</rows>
+									</section>
+								</tab>
+								<tab label="Perguntas e Respostas" name="section_question" style="overflow-y:auto">
+									<div width="100%" height="100%">respostas.list</div>
+								</tab>
+							</panel>
+						</area>
+					</areas>
+				</form>
+			</forms>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

@@ -1,0 +1,185 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="duration" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>duration</description>
+      <cardID>[description] ,[concelho]</cardID>
+      <label>Historico de trabalho</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="primaryState">
+         <label>primaryState</label>
+         <options>
+            <option name="create" value="0" active="true">
+               <label>Criado</label>
+               <subStates>
+                  <state name="createdStatus">
+                     <label>createdStatus</label>
+                     <options>
+                        <option name="notStart" value="1" active="true">
+                           <label>Criado</label>
+                           <subStates/>
+                        </option>
+                     </options>
+                  </state>
+               </subStates>
+            </option>
+            <option name="open" value="1" active="true">
+               <label>Criado</label>
+               <subStates>
+                  <state name="open_levels">
+                     <label>open_levels</label>
+                     <options>
+                        <option name="openStatus" value="0" active="true">
+                           <label>openStatus</label>
+                           <subStates>
+                              <state name="hold">
+                                 <label>Suspenso</label>
+                                 <options/>
+                              </state>
+                              <state name="working">
+                                 <label>Trabalhando...</label>
+                                 <options/>
+                              </state>
+                              <state name="waitFor">
+                                 <label>Em espera..</label>
+                                 <options/>
+                              </state>
+                           </subStates>
+                        </option>
+                        <option name="openAlerts" value="0" active="true">
+                           <label>openAlerts</label>
+                           <subStates>
+                              <state name="redAlert">
+                                 <label>em Alerta Vermelho</label>
+                                 <options/>
+                              </state>
+                              <state name="OrangeAlert">
+                                 <label>em Alerta laranja</label>
+                                 <options/>
+                              </state>
+                              <state name="Green">
+                                 <label>OK</label>
+                                 <options/>
+                              </state>
+                           </subStates>
+                        </option>
+                     </options>
+                  </state>
+               </subStates>
+            </option>
+            <option name="close" value="90" active="true">
+               <label>Fechado</label>
+               <subStates>
+                  <state name="closeStatus">
+                     <label>closeStatus</label>
+                     <options>
+                        <option name="cancel" value="91" active="true">
+                           <label>Cancelado</label>
+                           <subStates/>
+                        </option>
+                        <option name="softclose" value="92" active="true">
+                           <label>Fecho normal</label>
+                           <subStates/>
+                        </option>
+                        <option name="hardclose" value="93" active="true">
+                           <label>Fecho p/ excepção</label>
+                           <subStates/>
+                        </option>
+                     </options>
+                  </state>
+               </subStates>
+            </option>
+            <option name="archive" value="99" active="true">
+               <label>Arquivado</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeDateTime name="workDate">
+         <label>Data</label>
+         <tooltip></tooltip>
+         <disableWhen language="JAVA"><depends/>if( this.getParent().exists() ) return true; else return false;</disableWhen>
+      </attributeDateTime>
+      <attributeDuration name="duration">
+         <label>Duração</label>
+         <clock>true</clock>
+         <tooltip></tooltip>
+      </attributeDuration>
+      <attributeText name="journal">
+         <len>500</len>
+         <label>Diario</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="performer">
+         <type>object.iXEOUser</type>
+         <label>Utilizador</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <section showlabel="no" label="node.label">
+                  <rows>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">workDate</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">duration</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">performer</attribute>
+                        </cell>
+                     </row>
+                  </rows>
+               </section>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listprocess" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>journal</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>performer</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>workDate</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>duration</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definições gerais" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

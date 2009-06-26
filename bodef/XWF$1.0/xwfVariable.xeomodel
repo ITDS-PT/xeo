@@ -1,0 +1,271 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+   <general name="xwfVariable" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="false" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfVariable</description>
+      <cardID>[label], [value]</cardID>
+      <label>Variavel</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="label">
+         <len>200</len>
+         <label>Rótulo</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="staticKey">
+         <len>200</len>
+         <label>Chave de identificação de variavel estatica</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="mask">
+         <len>4000</len>
+         <label>Mascara</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="mode">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Modo</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeNumber name="showMode">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Modo</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeBoolean name="validDB">
+         <label>Constraint</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeBoolean name="validBusiness">
+         <label>Constraint</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeText name="availableMethods">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="hiddenMethods">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="requireMethods">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeBoolean name="required">
+         <label>Obrigatoriedade</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeBoolean name="input">
+         <label>Pode ser alterado</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeBoolean name="isParticipant">
+         <label>Pode ser alterado</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeBoolean name="isClone">
+         <label>Pode ser alterado</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeText name="objectFilterQuery">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="hiddenWhen">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="formula">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="lov">
+         <type>object.Ebo_LOV</type>
+         <label>Lista de Valores</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="value">
+         <type>object.xwfVarValue</type>
+         <label>Objecto</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="subProgDef">
+         <type>object.xwfProgramDef</type>
+         <label>Definição do programa embebido</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeText name="keyWords">
+         <len>4000</len>
+         <label>Palavras Chave</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="templateMode">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Modo Template</label>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeNumber>
+      <attributeNumber name="templateBoui">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Boui do Template</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="global">
+                     <panel voui="panel">
+                        <tab bo_node="global" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">label</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">required</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">mode</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">input</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">minoccurs</attribute>
+                                       <attribute showlabel="yes">maxoccurs</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">type</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">object</attribute>
+                                       <attribute showlabel="yes">showMode</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">lov</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">value</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listebo_var" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>label</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>value</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definição" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>lang</attribute>
+                  <attribute>alias</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

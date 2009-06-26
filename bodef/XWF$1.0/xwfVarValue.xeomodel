@@ -1,0 +1,224 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+   <general name="xwfVarValue" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="false" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfVarValue</description>
+      <cardID>[valueText][valueObject]</cardID>
+      <label>Variavel</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeNumber name="type">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Tipo</label>
+         <tooltip></tooltip>
+         <lov name="extendedAttributeType" retainValues="false"/>
+         <required language="BOL">true</required>
+      </attributeNumber>
+      <attributeText name="linkVar">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="linkAttribute">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="object">
+         <type>object.Ebo_ClsReg</type>
+         <label>Objecto</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <setParent>false</setParent>
+         <objectFilter/>
+      </attributeObject>
+      <attributeNumber name="minoccurs">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Cardinalidade</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeNumber name="maxoccurs">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Cardinalidade</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeText name="valueText">
+         <len>4000</len>
+         <label>Texto</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeLongText name="valueClob">
+         <label>Clob</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+      <attributeNumber name="valueNumber">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Numero</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeDate name="valueDate">
+         <label>Data</label>
+         <tooltip></tooltip>
+      </attributeDate>
+      <attributeDateTime name="valueDateTime">
+         <label>Data e Hora</label>
+         <tooltip></tooltip>
+      </attributeDateTime>
+      <attributeBoolean name="valueBoolean">
+         <label>Verdadeiro/Falso</label>
+         <renderAsCheck>false</renderAsCheck>
+         <tooltip></tooltip>
+      </attributeBoolean>
+      <attributeText name="valueLov">
+         <len>20</len>
+         <label>Valor da Lov</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="valueObject">
+         <type>object.boObject</type>
+         <label>Objecto</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <setParent>false</setParent>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="valueList">
+         <type>object.boObject</type>
+         <label>Lista</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <setParent>false</setParent>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeText name="unique_sid">
+         <len>32</len>
+         <label>id Passo</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="program">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Programa Associado</label>
+         <tooltip></tooltip>
+         <database>
+            <fieldname>PROGRAM</fieldname>
+            <unique>false</unique>
+            <indexfull>true</indexfull>
+            <indexed>true</indexed>
+            <tabled>false</tabled>
+            <constraint>true</constraint>
+            <binding>true</binding>
+         </database>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Valores" bo_node="global">
+                     <panel voui="panel">
+                        <tab bo_node="global" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueText</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueNumber</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueDate</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueObject</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueList</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueBool</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">valueLov</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listebo_var" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>label</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definição" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>lang</attribute>
+                  <attribute>alias</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

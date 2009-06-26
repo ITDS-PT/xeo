@@ -1,0 +1,213 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:24 BST 2006-->
+<xeoModel>
+   <general name="Ebo_PolicyRule" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_PolicyRule</description>
+      <cardID>[name]</cardID>
+      <label>Regra de Segurança</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events>
+      <event name="onAfterSave">
+         <body language="JAVA">
+            <![CDATA[netgest.bo.security.securityRights.cleanPolicies();]]>
+         </body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="typePolicy">
+         <len>50</len>
+         <label>Tipo</label>
+         <tooltip></tooltip>
+         <lov name="TypePolicy" retainValues="false"/>
+      </attributeText>
+      <attributeObjectCollection name="groups">
+         <type>object.Ebo_Group</type>
+         <label>Membro de</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="compartments">
+         <type>object.Ebo_Compartment</type>
+         <label>Divisão</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="roles">
+         <type>object.Ebo_Role</type>
+         <label>Função</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="packages">
+         <type>object.boObject</type>
+         <label>Aplicação</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>Ebo_Package</object>
+            <object>Ebo_Application</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeNumber name="securityLevel">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Nível Segurança</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="identification" order="1">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <section showlabel="no" height="100%" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">typePolicy</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">securityLevel</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="no" height="100%">description</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="groups" label="node.label" name="groups" order="10">
+                     <panel>
+                        <tab name="groups" order="10" bo_node="groups">
+                           <div width="100%" height="100%">groups.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="compartments" label="node.label" name="compartments" order="20">
+                     <panel>
+                        <tab name="compartments" order="10" bo_node="compartments">
+                           <div width="100%" height="100%">compartments.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="roles" label="node.label" name="roles" order="30">
+                     <panel>
+                        <tab name="roles" order="20" bo_node="roles">
+                           <div width="100%" height="100%">roles.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="packages" label="node.label" name="packages" order="40">
+                     <panel>
+                        <tab name="packages" order="30" bo_node="packages">
+                           <div width="100%" height="100%">packages.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="packages_list" forBridge="packages" formtype="List">
+               <grid name="list" template="std" forBridge="packages">
+                  <cols>
+                     <col width="200" label="Aplicação/Pacote">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>name</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

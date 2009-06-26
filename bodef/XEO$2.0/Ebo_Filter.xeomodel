@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+	<general name="Ebo_Filter" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>Ebo_Filter</description>
+		<cardID>[name]</cardID>
+		<label>Filtro</label>
+	</general>
+	<opl active="false"/>
+	<states>
+		<state name="state">
+			<label>state</label>
+			<options>
+				<option name="Inactive" value="0" active="true">
+					<label>Inactivo</label>
+					<subStates/>
+				</option>
+				<option name="active" value="1" active="true">
+					<label>Activo</label>
+					<subStates/>
+				</option>
+			</options>
+		</state>
+	</states>
+	<methods>
+		<method name="update" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+			<label/>
+			<javascriptToRun>
+				<viewer name="edit">
+					<before><![CDATA[]]></before>
+					<after><![CDATA[]]></after>
+				</viewer>
+			</javascriptToRun>
+			<assinature return="void"/>
+			<body language="JAVA"><![CDATA[]]></body>
+		</method>
+		<method name="create" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+			<label/>
+			<javascriptToRun>
+				<viewer name="edit">
+					<before><![CDATA[]]></before>
+					<after><![CDATA[]]></after>
+				</viewer>
+			</javascriptToRun>
+			<assinature return="void"/>
+			<body language="JAVA"><![CDATA[]]></body>
+		</method>
+	</methods>
+	<events>
+		<event name="onBeforeSave">
+			<body language="JAVA"><![CDATA[if(this.getBridge("share").isEmpty())
+{
+	if(this.getAttribute("CREATOR").getObject() != null)
+	{
+		this.getBridge("share").add(this.getAttribute("CREATOR").getObject().getBoui());
+	}
+}
+return true;]]></body>
+		</event>
+	</events>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="name">
+			<len>255</len>
+			<label>Nome</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="description">
+			<len>4000</len>
+			<label>Descrição</label>
+			<editor>HTML</editor>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="boql">
+			<len>4000</len>
+			<label>BOQL</label>
+			<editor>HTML</editor>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="onlyObjects">
+			<len>4000</len>
+			<label>Objectos a Procurar</label>
+			<editor>HTML</editor>
+			<tooltip/>
+		</attributeText>
+		<attributeBoolean name="publicFilter">
+			<label>Público</label>
+			<renderAsCheck>false</renderAsCheck>
+			<tooltip/>
+		</attributeBoolean>
+		<attributeObject name="masterObjectClass">
+			<type>object.Ebo_ClsReg</type>
+			<label>Objecto</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+			<required language="BOL">true</required>
+		</attributeObject>
+		<attributeObjectCollection name="details">
+			<type>object.Ebo_FilterQuery</type>
+			<label>Condições</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeObjectCollection name="share">
+			<type>object.boObject</type>
+			<label>Filtro para</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objects>
+				<object>iXEOUser</object>
+				<object>workQueue</object>
+				<object>Ebo_Role</object>
+				<object>Ebo_Group</object>
+			</objects>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std" style="padding:10px">
+					<code intersectPoint="afterProcess"> if(!BOI.exists() &amp;&amp; request.getParameter("xmlFilter") != null){
+
+     boObject newObject = boObject.getBoManager().loadObject( boctx , "Ebo_ClsReg","NAME='" + (String)request.getParameter("masterObjectClass")+"'");
+     BOI.getAttribute("masterObjectClass").setValueLong(newObject.getBoui());
+     BOI.getAttribute("onlyObjects").setValueString((String)request.getParameter("onlyObjects"));
+     
+     bridgeHandler bdetails = BOI.getBridge("details");
+     if(bdetails.isEmpty()){ 
+         String xmlFilter = (String)request.getParameter("xmlFilter");
+         ngtXMLHandler xh = new ngtXMLHandler(xmlFilter).getFirstChild();
+         ngtXMLHandler[] childnodes = xh.getChildNodes(); 
+         if (childnodes.length > 0) {
+                for (int i = 0; i &lt; childnodes.length; i++) 
+                {
+                    boObject aux = bdetails.addNewObject("Ebo_FilterQuery");
+                    ngtXMLHandler[] child = childnodes[i].getChildNodes();
+                    for(int j=0; j&lt; child.length;j++) {
+                        String pname = child[j].getNodeName();
+                        if("join".equals(pname)){
+                            aux.getAttribute("joinQuery").setValueString(child[j].getText());
+                        } else  if("attribute".equals(pname)){
+                            aux.getAttribute("attributeName").setValueString(child[j].getText());
+                        } else  if("condition".equals(pname)){
+                            aux.getAttribute("operator").setValueString(child[j].getText());
+                        } else  if("value".equals(pname)){
+                            aux.getAttribute("value").setValueString(child[j].getText());
+                        } else  if("question".equals(pname)){                       
+                            aux.getAttribute("question").setValueString(child[j].getText());
+                        }
+                    }
+                }
+         }
+    }
+}
+%>&lt;script language="javascript">
+function buttonExecute(){
+		var element = document.getElementsByTagName('textArea');
+		var boui = boFormSubmit.BOUI.value;
+		for(var i=0; i &lt; element.length ; i++)
+    {
+			if(element[i].name &amp;&amp; element[i].name.indexOf('__boql') != -1)
+			{
+				var value = escape(element[i].value);
+				boqlFrame.location.href='__queryResult.jsp?boqlQuery='+value+'&amp;objectBoui='+getObjectBoui();	
+			}
+		}    
+}
+function buttonClean(){
+		var element = document.getElementsByTagName('textArea');
+		var boui = boFormSubmit.BOUI.value;
+		boqlFrame.location.href='__queryResult.jsp?objectBoui='+getObjectBoui();		
+		frQueryResult.location.href='__queryResultEmpty.jsp';
+}
+function getObjectBoui()
+{
+	var boui = boFormSubmit.BOUI.value;
+	var obj = document.getElementById('tblLookEbo_Filter__'+boui+'__masterObjectClass');
+	if(obj)
+	{
+		try
+		{
+			return obj.firstChild.firstChild.firstChild.firstChild.firstChild.boui;
+		}
+		catch(e){}
+	}
+	return "";
+}
+&lt;/script>&lt;%</code>
+					<panel>
+						<tab bo_node="global" voui="tab1">
+							<table height="100%" width="100%">
+								<tr height="1%">
+									<td>
+										<section showlabel="no" label="node.label" height="30px">
+											<rows>
+												<row>
+													<cell>
+														<attribute showlabel="yes">name</attribute>
+													</cell>
+												</row>
+												<row>
+													<cell>
+														<attribute showlabel="yes">masterObjectClass</attribute>
+													</cell>
+												</row>
+											</rows>
+										</section>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<include-frame frameBorder="0" width="100%" height="100%" scrolling="no" id="frIDQueryBuilder">__queryBuilder.jsp<parameters>
+												<object>this.masterObjectClass.name</object>
+												<queryBoui>this</queryBoui>
+											</parameters>
+										</include-frame>
+									</td>
+								</tr>
+							</table>
+						</tab>
+						<tab name="tab_boql" order="20" bo_node="queryBoql">
+							<table height="100%" width="100%">
+								<tr height="0%">
+									<td valign="top">
+										<iframe style="display:none" id="boqlFrame" src="__queryResult.jsp?loading=true">
+											<!--IE BUG-->
+											<table/>
+										</iframe>
+									</td>
+								</tr>
+								<tr height="1%">
+									<td class="sec bar">Query</td>
+								</tr>
+								<tr height="40%">
+									<td>
+										<section showlabel="no" label="Query" height="100%">
+											<rows>
+												<row>
+													<cell>
+														<attribute showlabel="no">boql</attribute>
+													</cell>
+												</row>
+											</rows>
+										</section>
+									</td>
+								</tr>
+								<tr height="2%">
+									<td align="right">
+										<table>
+											<tr>
+												<td>
+													<button style="width:70px" onClick="buttonClean()">Reiniciar</button>
+												</td>
+												<td>
+													<button style="width:70px" onClick="buttonExecute()">Executar</button>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr height="1%">
+									<td class="sec bar">Resultado</td>
+								</tr>
+								<tr height="56%">
+									<td>
+										<include-frame frameBorder="0" width="100%" height="100%" scrolling="no" id="frQueryResult">__queryResultEmpty.jsp<parameters/>
+										</include-frame>
+									</td>
+								</tr>
+							</table>
+						</tab>
+						<tab name="tab_share" order="20" bo_node="share">
+							<div width="100%" height="100%">share.list</div>
+						</tab>
+					</panel>
+				</form>
+				<form name="preview" buildjsp="no" style="padding:10px">
+					<panel>
+						<tab bo_node="global" voui="tab1">
+							<table height="100%" width="100%">
+								<tr height="1%">
+									<td>
+										<section showlabel="no" label="node.label" height="30px">
+											<rows>
+												<row>
+													<cell>
+														<attribute showlabel="yes">name</attribute>
+													</cell>
+												</row>
+												<row>
+													<cell>
+														<attribute showlabel="yes">masterObjectClass</attribute>
+													</cell>
+												</row>
+											</rows>
+										</section>
+									</td>
+								</tr>
+							</table>
+						</tab>
+						<tab bo_node="detalhes" name="tab_Queries" order="2">
+							<label>node.label</label>
+							<div width="100%" height="100%">details.list</div>
+						</tab>
+						<tab bo_node="queryBoql" name="tab_boql" order="3">
+							<label>node.label</label>
+							<table height="100%" width="100%">
+								<tr height="1%">
+									<td>
+										<section showlabel="no" label="node.label">
+											<rows>
+												<row>
+													<cell>
+														<attribute showlabel="no">boql</attribute>
+													</cell>
+												</row>
+											</rows>
+										</section>
+									</td>
+								</tr>
+							</table>
+						</tab>
+						<tab name="tab_share" order="20" bo_node="share">
+							<div width="100%" height="100%">share.list</div>
+						</tab>
+					</panel>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="global" template="std">
+						<cols>
+							<col width="100">
+								<attribute>name</attribute>
+							</col>
+							<col width="100">
+								<attribute>masterObjectClass</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+				<form name="share_list" forBridge="share" formtype="List">
+					<grid name="list" template="std" forBridge="share" edit_inLine="no">
+						<cols>
+							<col width="200">
+								<attribute>childObject.cardid</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories>
+				<category name="global" label="Definições" description="">
+					<attributes>
+						<attribute>name</attribute>
+						<attribute>description</attribute>
+						<attribute>boql</attribute>
+					</attributes>
+				</category>
+				<category name="queryBoql" label="Avançada" description="">
+					<attributes>
+						<attribute>boql</attribute>
+					</attributes>
+				</category>
+				<category name="detalhes" label="Condições" description="">
+					<attributes>
+						<attribute>details</attribute>
+					</attributes>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>

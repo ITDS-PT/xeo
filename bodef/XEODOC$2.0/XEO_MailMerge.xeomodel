@@ -1,0 +1,264 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+   <general name="XEO_MailMerge" type="object" version="1.0" extends="" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>XEO_MailMerge</description>
+      <cardID>[name]</cardID>
+      <label>Mail Merge</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="process" public="false" menu="false" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label>Processar</label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="void"/>
+         <body language="JAVA">
+            <![CDATA[netgest.bo.impl.XEO_MailMergeImpl.process(this);]]>
+         </body>
+      </method>
+      <method name="print" public="false" menu="false" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label>Imprimir Resultados</label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="void"/>
+         <body language="JAVA">
+            <![CDATA[netgest.bo.impl.XEO_MailMergeImpl.print(this);]]>
+         </body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="description">
+         <len>200</len>
+         <label>Descrição</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeObject name="from">
+         <type>object.iContact</type>
+         <label>Enviar de</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="object_type">
+         <type>object.Ebo_ClsReg</type>
+         <label>Tipo de Objecto</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="selected_objects">
+         <type>object.iContact</type>
+         <label>Objectos a aplicar</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeText name="objects">
+         <len>4000</len>
+         <label>Selecção de Objectos</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="merge_template">
+         <type>object.Ebo_Template</type>
+         <label>Template</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter>
+            <filter>
+               <condition/>
+               <xeoql>select Ebo_Template where masterObjectClass.name='message'</xeoql>
+            </filter>
+         </objectFilter>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeText name="media">
+         <len>20</len>
+         <label>Meio</label>
+         <tooltip></tooltip>
+         <lov name="mediaMessage" retainValues="false"/>
+         <required language="BOL">true</required>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+         <onChangeSubmit language="BOL">true</onChangeSubmit>
+      </attributeText>
+      <attributeObjectCollection name="results">
+         <type>object.XEO_MailMerge_res</type>
+         <label>Resultados</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="settings" name="area_settings" label="Configurações" order="20">
+                     <panel>
+                        <tab bo_node="configuration" label="Valores">
+                           <section showlabel="yes" name="Configurações" order="20">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">description</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">from</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">merge_template</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">media</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="objects" name="area_objects" label="Selecção">
+                     <table height="100%" width="100%">
+                        <tr>
+                           <td>
+                              <include-frame frameBorder="0" width="100%" height="100%" scrolling="no" id="frObjSel">mmobjsel.jsp<parameters><object>this</object></parameters></include-frame>
+                           </td>
+                        </tr>
+                     </table>
+                  </area>
+                  <area bo_node="objectos" name="area_objectos" label="Objectos a aplicar">
+                     <panel>
+                        <tab label="Objectos seleccionados" bo_node="selected_objects">
+                           <div width="100%" height="100%">selected_objects.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="messages" name="area_messages" label="Resultados">
+                     <panel>
+                        <tab label="Lista de resultados" bo_node="results">
+                           <div width="100%" height="100%">results.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listMailMerge" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>description</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>object_type</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="receiveExplorer" formtype="List">
+               <explorer name="receiveExplorer">
+                  <attributes>
+                     <attribute width="110">name</attribute>
+                     <attribute width="110">description</attribute>
+                     <attribute width="110">from</attribute>
+                     <attribute width="110">object_type</attribute>
+                     <attribute width="110">merge_template</attribute>
+                     <attribute width="150">objects</attribute>
+                     <attribute width="110">media</attribute>
+                     <attribute width="130">results</attribute>
+                     <attribute width="120">SYS_DTCREATE</attribute>
+                     <attribute width="150">SYS_DTSAVE</attribute>
+                     <attribute>performer</attribute>
+                     <attribute>CREATOR</attribute>
+                     <attribute>nrdoc</attribute>
+                     <attribute>resId</attribute>
+                  </attributes>
+                  <order>
+                     <attribute>name</attribute>
+                  </order>
+                  <cols>
+                     <col>
+                        <attribute>name</attribute>
+                     </col>
+                     <col>
+                        <attribute>description</attribute>
+                     </col>
+                     <col>
+                        <attribute>object_type</attribute>
+                     </col>
+                     <col>
+                        <attribute>from</attribute>
+                     </col>
+                  </cols>
+                  <boql>select XEO_MailMerge where 1=1</boql>
+                  <groups>
+                     <group>
+                        <attribute order="asc">name</attribute>
+                     </group>
+                  </groups>
+               </explorer>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

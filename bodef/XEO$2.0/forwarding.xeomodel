@@ -1,0 +1,108 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+   <general name="forwarding" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>forwarding</description>
+      <cardID> [description]</cardID>
+      <label>Despacho</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="forwarding">
+         <len>100</len>
+         <label>Despacho</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeDateTime name="dtdoc">
+         <label>Data</label>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeDateTime>
+      <attributeText name="description">
+         <len>50</len>
+         <label>Descrição</label>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="global">
+                     <panel voui="panel">
+                        <tab bo_node="global" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">forwarding</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">dtdoc</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">description</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="forwarding" template="std">
+                  <cols>
+                     <col width="50">
+                        <attribute>forwarding</attribute>
+                     </col>
+                     <col width="50">
+                        <attribute>dtdoc</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>description</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definição" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>lang</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Queue" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="netgest.bo.impl.Ebo_QueueImpl">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Queue</description>
+      <cardID></cardID>
+      <label>Queue System</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeLongText name="code">
+         <label>Código a ser executado</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+      <attributeText name="type">
+         <len>10</len>
+         <label>Tipo do código</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="executed">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Executado</label>
+         <tooltip></tooltip>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeNumber>
+      <attributeText name="errormessage">
+         <len>4000</len>
+         <label>Mensagem de Erro</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="fromperf">
+         <type>object.iXEOUser</type>
+         <label>Do Performer</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeObject>
+      <attributeObject name="toperf">
+         <type>object.iXEOUser</type>
+         <label>Para o Performer</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeDateTime name="afterDate">
+         <label>Executar depois da Data</label>
+         <tooltip></tooltip>
+      </attributeDateTime>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms/>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by enlace3 (enlace3) -->
+<scripts>
+	<updateSQL date="2004-05-17T14:07:43">
+		<sql>update yearHolidays set yearSelect = to_char(year, 'yyyy') where year is not null</sql>
+	</updateSQL>
+</scripts>

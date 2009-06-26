@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Repository" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Repository</description>
+      <cardID>[name] </cardID>
+      <label>Repositório</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>50</len>
+         <label>Nome</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="schemaName">
+         <len>50</len>
+         <label>Esquema</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="list">
+               <grid bo_node="repository" name="repository" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>schemaName</attribute>
+                     </col>
+                     <col width="250">
+                        <attribute>description</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="edit">
+               <panel voui="panel">
+                  <tab bo_node="repository" voui="tab1">
+                     <section showlabel="no" height="100%" label="node.label">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">name</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">schemaName</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="no" height="100%">description</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+         </forms>
+         <categories>
+            <category name="repository" label="Repositório" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

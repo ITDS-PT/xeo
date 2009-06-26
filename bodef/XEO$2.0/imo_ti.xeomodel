@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:19 BST 2006-->
+<xeoModel>
+   <general name="imo_ti" type="object" version="1.0" extends="imobilizado" mastertable="imobilizado" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>imo_ti</description>
+      <cardID>[name] ,[id]</cardID>
+      <label>Imovel TI</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes/>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="identification">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <section showlabel="no" height="100%" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">id</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">email</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="no" height="100%">description</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>id</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

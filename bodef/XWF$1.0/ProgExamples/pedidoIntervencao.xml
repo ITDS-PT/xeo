@@ -1,0 +1,801 @@
+<program versionXML="1.2.0" gui_open="true" name="pip" sid="110470407462387" gui_visible="true">
+	<label><![CDATA[Pedido de Intervenção em Produçao]]></label>
+	<labelFormula><![CDATA[pedido.name]]></labelFormula>
+	<executewhen><![CDATA[]]></executewhen>
+	<code>
+		<defVariables sid="1104704143469759" gui_visible="true" gui_open="false">
+			<defVariable name="pedido" form="" input="false" sid="11047065248650398" gui_visible="false">
+				<type>object.TI_PIP</type>
+				<label><![CDATA[Pedido de Intervenção em Produção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>1</minoccurs>
+				<maxoccurs>1</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar/>
+				<linkAttribute/>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode>viewObject</showMode>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto" form="" input="false" sid="11047065357258142" gui_visible="false">
+				<type>object.TI_project</type>
+				<label><![CDATA[Definição do projecto]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>1</minoccurs>
+				<maxoccurs>1</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar/>
+				<linkAttribute/>
+				<haveLinkVars>y</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode>viewObject</showMode>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_relatorio_encerramento" form="" input="false" sid="110474812314907" gui_visible="false">
+				<type>clob</type>
+				<label><![CDATA[Relatório de Encerramento]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>relatorio_encerramento</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_relatorio_aceitacao" form="" input="false" sid="1104748046092977" gui_visible="false">
+				<type>clob</type>
+				<label><![CDATA[Relatório de aceitação]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>relatorio_aceitacao</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_relatorio_intervencao" form="" input="false" sid="11047477063694502" gui_visible="false">
+				<type>clob</type>
+				<label><![CDATA[Relatório Intervenção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>relatorio_intervencao</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_beginInstDate" form="" input="false" sid="11047129239220188" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Inicio da Instalação]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>beginInstDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_endInstDate" form="" input="false" sid="11047128638350293" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Fim da Instalação]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>endInstDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_beginTestDate" form="" input="false" sid="1104712890033996" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Inicio dos testes]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>beginTestDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_endTestDate" form="" input="false" sid="11047128471353078" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Fim dos testes]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>endTestDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_beginProdDate" form="" input="false" sid="1104712888660023" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Inicio da produção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>beginProdDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_assignedQueue" form="" input="false" sid="11047122347464253" gui_visible="false">
+				<type>object.workQueue</type>
+				<label><![CDATA[Equipa de Intervenção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>1</minoccurs>
+				<maxoccurs>1</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>assignedQueue</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode>viewAttribute</showMode>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_estimatedBeginDate" form="" input="false" sid="1104712186330145" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Inicio previsto do projecto]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>estimatedBeginDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+			<defVariable name="projecto_estimatedEndDate" form="" input="false" sid="11047121898251946" gui_visible="false">
+				<type>datetime</type>
+				<label><![CDATA[Fim previsto do projecto]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<minoccurs>0</minoccurs>
+				<maxoccurs>99999</maxoccurs>
+				<formula><![CDATA[]]></formula>
+				<lov/>
+				<valid><![CDATA[]]></valid>
+				<hiddenWhen><![CDATA[]]></hiddenWhen>
+				<required>y</required>
+				<validDB>y</validDB>
+				<linkVar>projecto</linkVar>
+				<linkAttribute>estimatedEndDate</linkAttribute>
+				<haveLinkVars>n</haveLinkVars>
+				<validBusiness>y</validBusiness>
+				<showMode/>
+				<mode>write</mode>
+				<availableMethods/>
+				<hiddenMethods/>
+				<requiredMethods/>
+			</defVariable>
+		</defVariables>
+		<defParticipants gui_open="false" sid="1104704129196319" gui_visible="true">
+			<defParticipant name="starter" input="false" sid="11047041339184983" gui_visible="false">
+				<label><![CDATA[Utilizador que iniciou o programa]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<object/>
+				<formula><![CDATA[]]></formula>
+				<showMode/>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="workFlowAdministrator" input="false" sid="11047040651182605" gui_visible="false">
+				<label><![CDATA[Responsável pelo programa]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<object/>
+				<formula><![CDATA[]]></formula>
+				<showMode/>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="Requisitante" input="false" sid="11047064363723574" gui_visible="false">
+				<label><![CDATA[Requisitante]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<object/>
+				<formula><![CDATA[pedido.mastersolicitor]]></formula>
+				<showMode>viewAttribute</showMode>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="respsolicitador" input="false" sid="11047070547923767" gui_visible="false">
+				<label><![CDATA[Responsável Projecto]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<object/>
+				<formula><![CDATA[]]></formula>
+				<showMode>viewAttribute</showMode>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="EquipaIntervencao" input="false" sid="11047115059360293" gui_visible="false">
+				<label><![CDATA[Equipa de Intervenção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[]]></defaultValue>
+				<object/>
+				<formula><![CDATA[projecto.assignedQueue]]></formula>
+				<showMode>viewAttribute</showMode>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="RespEquipaIntervencao" input="false" sid="1104711636686516" gui_visible="false">
+				<label><![CDATA[Responsável Equipa de Intervenção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[14581]]></defaultValue>
+				<object/>
+				<formula><![CDATA[]]></formula>
+				<showMode>viewObject</showMode>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+			<defParticipant name="RespAreaSistemasProducao" input="false" sid="11047125766885686" gui_visible="false">
+				<label><![CDATA[Responsável da Area de Sistemas e produção]]></label>
+				<description><![CDATA[]]></description>
+				<value><![CDATA[]]></value>
+				<type>object.Ebo_Perf</type>
+				<defaultValue><![CDATA[867795]]></defaultValue>
+				<object/>
+				<formula><![CDATA[]]></formula>
+				<showMode>viewAttribute</showMode>
+				<mode>write</mode>
+				<objectfilter>
+					<xeoql><![CDATA[]]></xeoql>
+				</objectfilter>
+				<mode>write</mode>
+			</defParticipant>
+		</defParticipants>
+		<comment sid="11047041290303088" gui_visible="true"><![CDATA[-- Ínicio do fluxo --]]></comment>
+		<fillVariable async="false" optional="false" name="" sid="11047069813743532" gui_visible="true">
+			<participant name="starter"/>
+			<assignedRule name="" form="default"/>
+			<label><![CDATA[Preencher o pedido]]></label>
+			<description><![CDATA[]]></description>
+			<condition><![CDATA[true]]></condition>
+			<process/>
+			<deadLineDate><![CDATA[]]></deadLineDate>
+			<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+			<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+			<canAddSubActivities/>
+			<canDelegate/>
+			<controlBy/>
+			<variables>
+				<variable name="pedido"/>
+			</variables>
+		</fillVariable>
+		<fillVariable async="false" optional="false" name="identificaResp" sid="11047072808234126" gui_visible="true">
+			<participant name="Requisitante"/>
+			<assignedRule name="" form="default"/>
+			<label><![CDATA[Identifique o responsável do projecto]]></label>
+			<description><![CDATA[]]></description>
+			<condition><![CDATA[true]]></condition>
+			<process/>
+			<deadLineDate><![CDATA[]]></deadLineDate>
+			<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+			<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+			<canAddSubActivities/>
+			<canDelegate/>
+			<controlBy/>
+			<variables>
+				<variable name="pedido">
+					<mode>read</mode>
+				</variable>
+				<participant name="respsolicitador"/>
+			</variables>
+		</fillVariable>
+		<decision async="false" optional="false" name="" sid="11047084747573174" gui_visible="true" gui_open="true">
+			<participant name="respsolicitador"/>
+			<assignedRule name="" form="default"/>
+			<label><![CDATA[Aprovar projecto]]></label>
+			<description><![CDATA[]]></description>
+			<condition><![CDATA[true]]></condition>
+			<process/>
+			<deadLineDate><![CDATA[]]></deadLineDate>
+			<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+			<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+			<canAddSubActivities/>
+			<canDelegate/>
+			<controlBy/>
+			<variables>
+				<variable name="pedido"/>
+			</variables>
+			<question><![CDATA[Aprova este Projecto ?]]></question>
+			<answers>
+				<TRUE sid="11047084768012956" gui_visible="true" gui_open="true">
+					<label><![CDATA[Aprovo]]></label>
+					<code>
+						<decision async="false" optional="false" name="" sid="11047119393858923" gui_visible="true" gui_open="true">
+							<participant name="RespEquipaIntervencao"/>
+							<assignedRule name="" form="default"/>
+							<label><![CDATA[Aprovação de pedido de intervenção]]></label>
+							<description><![CDATA[]]></description>
+							<condition><![CDATA[true]]></condition>
+							<process/>
+							<deadLineDate><![CDATA[]]></deadLineDate>
+							<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+							<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+							<canAddSubActivities/>
+							<canDelegate/>
+							<controlBy/>
+							<variables>
+								<variable name="pedido"/>
+								<variable name="projecto"/>
+							</variables>
+							<question><![CDATA[Aprova este pedido]]></question>
+							<answers>
+								<TRUE sid="11047118663801845" gui_visible="true" gui_open="true">
+									<label><![CDATA[Aprovo]]></label>
+									<code>
+										<fillVariable async="false" optional="false" name="" sid="11047120446148823" gui_visible="true">
+											<participant name="RespEquipaIntervencao"/>
+											<assignedRule name="" form="default"/>
+											<label><![CDATA[Assignação do projecto]]></label>
+											<description><![CDATA[]]></description>
+											<condition><![CDATA[true]]></condition>
+											<process/>
+											<deadLineDate><![CDATA[]]></deadLineDate>
+											<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+											<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+											<canAddSubActivities/>
+											<canDelegate/>
+											<controlBy/>
+											<variables>
+												<variable name="projecto_estimatedEndDate"/>
+												<variable name="projecto_estimatedBeginDate"/>
+												<variable name="projecto_assignedQueue"/>
+											</variables>
+										</fillVariable>
+										<fillVariable async="false" optional="false" name="" sid="11047124129567282" gui_visible="true">
+											<participant name="EquipaIntervencao"/>
+											<assignedRule name="" form="default"/>
+											<label><![CDATA[Preencher dados do projecto]]></label>
+											<description><![CDATA[]]></description>
+											<condition><![CDATA[true]]></condition>
+											<process/>
+											<deadLineDate><![CDATA[]]></deadLineDate>
+											<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+											<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+											<canAddSubActivities/>
+											<canDelegate/>
+											<controlBy/>
+											<variables>
+												<variable name="projecto"/>
+											</variables>
+										</fillVariable>
+										<decision async="false" optional="false" name="" sid="1104712595713505" gui_visible="true" gui_open="true">
+											<participant name="RespAreaSistemasProducao"/>
+											<assignedRule name="" form="default"/>
+											<label><![CDATA[Aprovação de projecto]]></label>
+											<description><![CDATA[]]></description>
+											<condition><![CDATA[true]]></condition>
+											<process/>
+											<deadLineDate><![CDATA[]]></deadLineDate>
+											<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+											<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+											<canAddSubActivities/>
+											<canDelegate/>
+											<controlBy/>
+											<variables>
+												<variable name="pedido"/>
+												<variable name="projecto"/>
+											</variables>
+											<question><![CDATA[Aprova este Projecto ?]]></question>
+											<answers>
+												<TRUE sid="11047125486684812" gui_visible="true" gui_open="true">
+													<label><![CDATA[Sim]]></label>
+													<code>
+														<activity async="false" optional="false" name="desenvolvimento" sid="11047475930538877" gui_visible="true">
+															<participant name="EquipaIntervencao"/>
+															<assignedRule name="" form="default"/>
+															<label><![CDATA[Desenvolver projecto]]></label>
+															<description><![CDATA[]]></description>
+															<condition><![CDATA[true]]></condition>
+															<process/>
+															<deadLineDate><![CDATA[]]></deadLineDate>
+															<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+															<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+															<canAddSubActivities/>
+															<canDelegate/>
+															<controlBy/>
+															<variables/>
+														</activity>
+														<fillVariable async="false" optional="false" name="" sid="11047130314600383" gui_visible="true">
+															<participant name="EquipaIntervencao"/>
+															<assignedRule name="" form="default"/>
+															<label><![CDATA[Implementação]]></label>
+															<description><![CDATA[]]></description>
+															<condition><![CDATA[true]]></condition>
+															<process/>
+															<deadLineDate><![CDATA[]]></deadLineDate>
+															<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+															<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+															<canAddSubActivities/>
+															<canDelegate/>
+															<controlBy/>
+															<variables>
+																<variable name="projecto_beginInstDate"/>
+																<variable name="projecto_endInstDate"/>
+																<variable name="projecto_beginTestDate"/>
+																<variable name="projecto_endTestDate"/>
+																<variable name="projecto_beginProdDate"/>
+																<variable name="projecto_relatorio_intervencao"/>
+															</variables>
+														</fillVariable>
+														<decision async="false" optional="false" name="" sid="11047475066136582" gui_visible="true" gui_open="true">
+															<participant name="RespEquipaIntervencao"/>
+															<assignedRule name="" form="default"/>
+															<label><![CDATA[Responsavel Equipa aprova para ir para aceitação]]></label>
+															<description><![CDATA[]]></description>
+															<condition><![CDATA[true]]></condition>
+															<process/>
+															<deadLineDate><![CDATA[]]></deadLineDate>
+															<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+															<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+															<canAddSubActivities/>
+															<canDelegate/>
+															<controlBy/>
+															<variables/>
+															<question><![CDATA[Pronto para ir para aceitação]]></question>
+															<answers>
+																<TRUE sid="1104747465522432" gui_visible="true" gui_open="true">
+																	<label><![CDATA[Sim]]></label>
+																	<code>
+																		<decision async="false" optional="false" name="" sid="1104747940113374" gui_visible="true" gui_open="true">
+																			<participant name="respsolicitador"/>
+																			<assignedRule name="" form="default"/>
+																			<label><![CDATA[Resp requisitante Aceita projecto]]></label>
+																			<description><![CDATA[]]></description>
+																			<condition><![CDATA[true]]></condition>
+																			<process/>
+																			<deadLineDate><![CDATA[]]></deadLineDate>
+																			<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+																			<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+																			<canAddSubActivities/>
+																			<canDelegate/>
+																			<controlBy/>
+																			<variables/>
+																			<question><![CDATA[Aceita Projecto]]></question>
+																			<answers>
+																				<TRUE sid="110474789205181" gui_visible="true" gui_open="true">
+																					<label><![CDATA[Sim]]></label>
+																					<code>
+																						<fillVariable async="false" optional="false" name="" sid="11047479675272136" gui_visible="true">
+																							<participant name="respsolicitador"/>
+																							<assignedRule name="" form="default"/>
+																							<label><![CDATA[Faça  o relatório de aceitação]]></label>
+																							<description><![CDATA[]]></description>
+																							<condition><![CDATA[true]]></condition>
+																							<process/>
+																							<deadLineDate><![CDATA[]]></deadLineDate>
+																							<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+																							<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+																							<canAddSubActivities/>
+																							<canDelegate/>
+																							<controlBy/>
+																							<variables>
+																								<variable name="projecto_relatorio_aceitacao"/>
+																								<variable name="pedido"/>
+																							</variables>
+																						</fillVariable>
+																					</code>
+																				</TRUE>
+																				<FALSE sid="11047479657735857" gui_visible="true" gui_open="true">
+																					<label><![CDATA[Não]]></label>
+																					<code>
+																						<goto label="desenvolvimento" sid="11047481664436447" gui_visible="true">
+																							<participant/>
+																							<condition><![CDATA[]]></condition>
+																						</goto>
+																					</code>
+																				</FALSE>
+																			</answers>
+																		</decision>
+																	</code>
+																</TRUE>
+																<FALSE sid="11047474935836394" gui_visible="true" gui_open="true">
+																	<label><![CDATA[Não]]></label>
+																	<code>
+																		<goto label="desenvolvimento" sid="11047478255140373" gui_visible="true">
+																			<participant/>
+																			<condition><![CDATA[]]></condition>
+																		</goto>
+																	</code>
+																</FALSE>
+															</answers>
+														</decision>
+													</code>
+												</TRUE>
+												<FALSE sid="11047125661320493" gui_visible="true">
+													<label><![CDATA[Não]]></label>
+													<code/>
+												</FALSE>
+											</answers>
+										</decision>
+									</code>
+								</TRUE>
+								<FALSE sid="11047119434027536" gui_visible="true">
+									<label><![CDATA[Não aprovo]]></label>
+									<code/>
+								</FALSE>
+							</answers>
+						</decision>
+					</code>
+				</TRUE>
+				<FALSE sid="11047084266911953" gui_visible="true" gui_open="true">
+					<label><![CDATA[Não aprovo]]></label>
+					<code>
+						<send async="false" optional="false" name="" sid="11047086454784411" gui_visible="true">
+							<participant name="respsolicitador"/>
+							<assignedRule name="" form="default"/>
+							<label><![CDATA[Mensagem de Recusa para solicitador]]></label>
+							<description><![CDATA[]]></description>
+							<condition><![CDATA[true]]></condition>
+							<process/>
+							<deadLineDate><![CDATA[]]></deadLineDate>
+							<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+							<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+							<canAddSubActivities/>
+							<canDelegate/>
+							<controlBy/>
+							<variables/>
+							<requireDeliveryReceipt>false</requireDeliveryReceipt>
+							<requireReadReceipt>false</requireReadReceipt>
+							<priority>2</priority>
+							<subject><![CDATA[Recusa do Projecto [ #pedido.name# ]]]></subject>
+							<message><![CDATA[Caro #Requisitante.name#<br>
+Lamento , mas não aprovo
+
+Cmps<br>
+<br>
+#respsolicitador.name#]]></message>
+							<channel>Sgis</channel>
+							<attachVars/>
+							<from name="Requisitante"/>
+							<to/>
+							<cc/>
+							<bcc/>
+						</send>
+					</code>
+				</FALSE>
+			</answers>
+		</decision>
+		<fillVariable async="false" optional="false" name="" sid="11047482215144985" gui_visible="true">
+			<participant name="RespAreaSistemasProducao"/>
+			<assignedRule name="" form="default"/>
+			<label><![CDATA[Encerramento do projecto]]></label>
+			<description><![CDATA[]]></description>
+			<condition><![CDATA[true]]></condition>
+			<process/>
+			<deadLineDate><![CDATA[]]></deadLineDate>
+			<forecastTimeToComplete><![CDATA[]]></forecastTimeToComplete>
+			<forecastWorkDuration><![CDATA[]]></forecastWorkDuration>
+			<canAddSubActivities/>
+			<canDelegate/>
+			<controlBy/>
+			<variables>
+				<variable name="projecto">
+					<mode>read</mode>
+				</variable>
+				<variable name="projecto_relatorio_encerramento"/>
+			</variables>
+		</fillVariable>
+	</code>
+</program>

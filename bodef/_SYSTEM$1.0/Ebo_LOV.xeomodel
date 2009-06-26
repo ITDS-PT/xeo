@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel xmlns:xm="xeoModel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\projects\lusitania\xeov2\xeoHome\xeoModel.xsd">
+	<general name="Ebo_LOV" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>Ebo_LOV</description>
+		<cardID>[name]</cardID>
+		<label>Lista de Valores</label>
+	</general>
+	<opl active="false"/>
+	<states>
+		<state name="state">
+			<label>state</label>
+			<options>
+				<option name="Inactive" value="0" active="true">
+					<label>Inactivo</label>
+					<subStates/>
+				</option>
+				<option name="active" value="1" active="true">
+					<label>Activo</label>
+					<subStates/>
+				</option>
+			</options>
+		</state>
+	</states>
+	<methods>
+		<method name="orderByValue" menu="true" toolbar="true">
+			<label>Ordenar p/ Valor</label>
+			<javascriptToRun>
+				<viewer name="edit">
+					<before/>
+					<after/>
+				</viewer>
+			</javascriptToRun>
+			<assinature return=""/>
+			<body language="JAVA"><![CDATA[netgest.bo.lovmanager.LovManager.orderByValue(this);]]></body>
+			<hiddenWhen language="JAVA">
+				<depends/><![CDATA[return false;]]></hiddenWhen>
+		</method>
+		<method name="orderByDesc" menu="true" toolbar="true">
+			<label>Ordenar p/ Descrição</label>
+			<javascriptToRun>
+				<viewer name="edit">
+					<before/>
+					<after/>
+				</viewer>
+			</javascriptToRun>
+			<assinature return=""/>
+			<body language="JAVA"><![CDATA[netgest.bo.lovmanager.LovManager.orderByDescription(this);]]></body>
+			<hiddenWhen language="JAVA">
+				<depends/><![CDATA[return false;]]></hiddenWhen>
+		</method>
+	</methods>
+	<events>
+		<event name="onBeforeSave">
+			<body language="JAVA"><![CDATA[]]></body>
+		</event>
+		<event name="onAfterSave">
+			<body language="JAVA"><![CDATA[netgest.bo.lovmanager.LovManager.removeLovObject( this.getAttribute("name").getValueString() );]]></body>
+		</event>
+	</events>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="name">
+			<len>50</len>
+			<label>Nome</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="fromTable">
+			<len>100</len>
+			<label>Valores da Tabela</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="fieldForCode">
+			<len>100</len>
+			<label>Campo do Código</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="whereClause">
+			<len>500</len>
+			<label>Clausula Where</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="fieldForLabel">
+			<len>100</len>
+			<label>Campo da Descrição</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="lang">
+			<len>10</len>
+			<label>Idioma</label>
+			<tooltip/>
+			<lov name="LANGUAGES" retainValues="false"/>
+		</attributeText>
+		<attributeObjectCollection name="details">
+			<type>object.Ebo_LOVDetails</type>
+			<label>Lista de Valores</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeLongText name="sqlQuery">
+			<label>Query</label>
+			<editor>TEXT</editor>
+		</attributeLongText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std">
+					<areas>
+						<area label="Geral" bo_node="global">
+							<panel voui="panel">
+								<tab bo_node="global" voui="tab1">
+									<section showlabel="no" label="node.label">
+										<rows>
+											<row>
+												<cell>
+													<attribute showlabel="yes">name</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">lang</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">fromTable</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">whereClause</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">fieldForLabel</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">fieldForCode</attribute>
+												</cell>
+											</row>
+										</rows>
+									</section>
+								</tab>
+								<tab bo_node="sql" voui="tab2">
+									<section showlabel="yes" label="node.label">
+										<rows>
+											<row>
+												<cell>
+													<attribute showlabel="no">sqlQuery</attribute>
+												</cell>
+											</row>
+										</rows>
+									</section>
+								</tab>
+							</panel>
+						</area>
+						<area bo_node="relations" label="Detalhes">
+							<panel>
+								<tab bo_node="detalhes">
+									<div width="100%" height="100%">details.list</div>
+								</tab>
+							</panel>
+						</area>
+					</areas>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="global" name="listprocess" template="std">
+						<cols>
+							<col width="100">
+								<attribute>name</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories>
+				<category name="global" label="LOV" description="">
+					<attributes>
+						<attribute>name</attribute>
+						<attribute>lang</attribute>
+					</attributes>
+				</category>
+				<category name="detalhes" label="LOV" description="">
+					<attributes>
+						<attribute>details</attribute>
+					</attributes>
+				</category>
+				<category name="sql" label="Query SQL" description="">
+					<attributes>
+						<attribute>sqlQuery</attribute>
+					</attributes>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>

@@ -1,0 +1,90 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:19 BST 2006-->
+<xeoModel>
+   <general name="mailAccount_folder" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>mailAccount_folder</description>
+      <cardID>[folder]</cardID>
+      <label>Pasta</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events>
+      <event name="onBeforeSave">
+         <body language="JAVA">
+            <![CDATA[return netgest.bo.system.boMail.checkInBox(this);]]>
+         </body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="lastmessageid">
+         <len>3000</len>
+         <label>Id da última mensagem recebida</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="folder">
+         <len>1000</len>
+         <label>Pasta</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObjectCollection name="errors">
+         <type>object.mailError</type>
+         <label>Erros</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+         <bridge>
+            <attributes/>
+         </bridge>
+      </attributeObjectCollection>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="settings" name="area_settings" label="Geral" order="20">
+                     <panel>
+                        <tab bo_node="settings" name="tab_settings" label="Identificação da Pasta" order="20">
+                           <section showlabel="no" name="section_folders" order="20">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">folder</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                        <tab label="Email c/ erros" name="tab_mailErrors" order="30">
+                           <div width="100%" height="100%">errors.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="" name="list_mailfolder" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>folder</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

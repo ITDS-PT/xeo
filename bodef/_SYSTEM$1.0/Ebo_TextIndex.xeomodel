@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
+<xeoModel>
+	<general name="Ebo_TextIndex" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="netgest.bo.impl.Ebo_TextIndexImpl">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="false" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>Ebo_TextIndex</description>
+		<cardID/>
+		<label>Text Index</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeObject name="ui">
+			<type>object.boObject</type>
+			<label>BOUI</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+			<database>
+				<fieldname>UI$</fieldname>
+				<unique>true</unique>
+				<indexfull>true</indexfull>
+				<indexed>false</indexed>
+				<tabled>false</tabled>
+				<constraint>true</constraint>
+				<binding>true</binding>
+			</database>
+		</attributeObject>
+		<attributeText name="uiClass">
+			<len>500</len>
+			<label>Classe</label>
+			<tooltip/>
+			<database>
+				<fieldname>UICLASS</fieldname>
+				<unique>false</unique>
+				<indexfull>true</indexfull>
+				<indexed>true</indexed>
+				<tabled>false</tabled>
+				<constraint>true</constraint>
+				<binding>true</binding>
+			</database>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeLongText name="text">
+			<label>Texto</label>
+			<editor>HTML</editor>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeLongText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" width="600px" height="400px" template="std">
+					<areas>
+						<area label="Identificação" bo_node="identification;dates;relations">
+							<panel voui="panel">
+								<tab bo_node="identification" voui="tab1">
+									<table>
+										<tr>
+											<td>
+												<section showlabel="no" label="node.label">
+													<rows>
+														<row>
+															<cell>
+																<attribute showlabel="yes">ui</attribute>
+															</cell>
+															<cell/>
+														</row>
+														<row>
+															<cell>
+																<attribute showlabel="yes">uiClass</attribute>
+															</cell>
+															<cell/>
+														</row>
+														<row>
+															<cell>
+																<attribute showlabel="yes">text</attribute>
+															</cell>
+															<cell/>
+														</row>
+													</rows>
+												</section>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<section showlabel="no" label="node.label">
+													<rows>
+														<row>
+															<cell>
+																<attribute showlabel="no">text</attribute>
+															</cell>
+														</row>
+													</rows>
+												</section>
+											</td>
+										</tr>
+									</table>
+								</tab>
+							</panel>
+						</area>
+					</areas>
+				</form>
+			</forms>
+			<categories>
+				<category name="identification" label="Actividades" description="">
+					<attributes/>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>

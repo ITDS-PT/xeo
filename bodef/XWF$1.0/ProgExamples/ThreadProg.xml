@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) -->
+<sentenceTypes>
+	<procedure name="">
+		<executewhen><![CDATA[]]></executewhen>
+		<code/>
+	</procedure>
+	<timeoutProcedure>
+		<timerVariavel/>
+		<code/>
+	</timeoutProcedure>
+	<program name="Simplest">
+		<executewhen><![CDATA[]]></executewhen>
+		<code>
+			<variables>
+				<variable name="Texto">
+					<type>char(20)</type>
+					<label><![CDATA[Texto]]></label>
+					<VAR_ADDRESS/>
+					<objectfilter>
+						<filter>
+							<BOL_condition/>
+							<BOQL_query/>
+						</filter>
+					</objectfilter>
+					<minoccurs>0</minoccurs>
+					<maxoccurs>1</maxoccurs>
+					<formula/>
+					<lov/>
+					<defaultValue/>
+					<valid/>
+					<renderAsLov/>
+					<hiddenWhen/>
+					<required/>
+					<actionType/>
+				</variable>
+				<variable name="Numero">
+					<type>number</type>
+					<label><![CDATA[Número]]></label>
+					<VAR_ADDRESS/>
+					<objectfilter>
+						<filter>
+							<BOL_condition/>
+							<BOQL_query/>
+						</filter>
+					</objectfilter>
+					<minoccurs>0</minoccurs>
+					<maxoccurs>1</maxoccurs>
+					<formula/>
+					<lov/>
+					<defaultValue>20</defaultValue>
+					<valid/>
+					<renderAsLov/>
+					<hiddenWhen/>
+					<required/>
+					<actionType/>
+				</variable>
+				<variable name="Bool">
+					<type>boolean</type>
+					<label><![CDATA[Booleano]]></label>
+					<VAR_ADDRESS/>
+					<objectfilter>
+						<filter>
+							<BOL_condition/>
+							<BOQL_query/>
+						</filter>
+					</objectfilter>
+					<minoccurs>0</minoccurs>
+					<maxoccurs>1</maxoccurs>
+					<formula/>
+					<lov/>
+					<defaultValue>false</defaultValue>
+					<valid/>
+					<renderAsLov/>
+					<hiddenWhen/>
+					<required/>
+					<actionType/>
+				</variable>
+				<variable name="Obj" input="true">
+					<type>object.Aluno</type>
+					<label><![CDATA[Objecto Aluno]]></label>
+					<VAR_ADDRESS/>
+					<objectfilter>
+						<filter>
+							<BOL_condition/>
+							<BOQL_query/>
+						</filter>
+					</objectfilter>
+					<minoccurs>0</minoccurs>
+					<maxoccurs>1</maxoccurs>
+					<formula/>
+					<lov/>
+					<defaultValue/>
+					<valid/>
+					<renderAsLov/>
+					<hiddenWhen/>
+					<required/>
+					<actionType/>
+				</variable>
+			</variables>
+			<participants>
+				<participant name="User">
+					<type>Object</type>
+					<label><![CDATA[Utilizador]]></label>
+					<VAR_ADDRESS/>
+					<defaultValue/>
+				</participant>
+			</participants>
+			<xepCode>
+				<condition><![CDATA[]]></condition>
+				<xepCode><![CDATA[Texto = "Super"; Bool = true; Obj = boui(2217225);]]></xepCode>
+			</xepCode>
+			<thread>
+				<label>Ramo1</label>
+				<participant/>
+				<requiredWhen><![CDATA[]]></requiredWhen>
+				<optionalWhen><![CDATA[]]></optionalWhen>
+				<code>
+					<xepCode>
+						<condition><![CDATA[]]></condition>
+						<xepCode><![CDATA[Numero = 40 * 3;]]></xepCode>
+					</xepCode>
+				</code>
+			</thread>
+			<xepCode>
+				<condition><![CDATA[Numero * 2 > 100 || Bool]]></condition>
+				<xepCode><![CDATA[Texto += "Super";]]></xepCode>
+			</xepCode>
+		</code>
+	</program>
+</sentenceTypes>

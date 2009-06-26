@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) -->
+<task>
+	<row object="task" rowOrder="1">
+		<BOUI type="number">12345</BOUI>
+		<nrdoc type="number">12345</nrdoc>
+		<performer type="object.Ebo_Perf" reference="AUI">PK<!--CASO 1- este é um caso em que a relação é de 1 para o objecto Ebo_Perf.O atributo REFERENCE identifica se o valor expresso  do atributo performer é uma referência AUI ( Application Unique Identifier ) ou BOUI ( Business Object Unique Identifier)-->
+		</performer>
+		<description type="clob"><![CDATA[exemplo]]></description>
+		<assignedQueue type="object.Ebo_Role" reference="AUI">PK<!--CASO 2 - este é um caso em que a relação é de 1 para 1 para vários tipos de objectos.Neste caso se o valor vier preenchido o TYPE identifica o tipo de objecto que foi escolhido, se  o valor vier vazio o TYPE deve ter o valor 'object.boObject'.Tal como no caso em cima o atributo REFERENCE identifica se o valor expresso  do atributo assignedQueue é uma referência AUI ou BOUI-->
+		</assignedQueue>
+		<DAO type="objects.boObject">
+			<!--este é um caso em que a relação é de 1 para N para vários tipos de objectos, em que estão definidos atributos da relação.Em baixo vem listados as várias linhas que compoem a relação.De notar que o objecto priincipal de cada relação tem o mesmo nome do atributo ( neste caso DAO )-->
+			<row rowOrder="1">
+				<DAO type="object.phoneCall" reference="AUI">PK<!--segue caso 2-->
+				</DAO>
+				<DAO_assignedQueue type="object.Ebo_Role" reference="AUI">PK<!--segue caso 2-->
+				</DAO_assignedQueue>
+				<code type="char(20)">exemplo</code>
+				<config type="object.Ebo_DAOConfig" reference="AUI">PK<!--segue caso 1-->
+				</config>
+			</row>
+			<row rowOrder="2">
+				<DAO type="object.task" reference="AUI">PK<!--segue caso 2-->
+				</DAO>
+				<DAO_assignedQueue type="object.Ebo_Role" reference="AUI">PK<!--segue caso 2-->
+				</DAO_assignedQueue>
+				<code type="char(20)">exemplo</code>
+				<config type="object.Ebo_DAOConfig" reference="AUI">PK<!--segue caso 1-->
+				</config>
+			</row>
+		</DAO>
+		<documents type="objects.Ebo_Document">
+			<!--este é um caso em que a relação é de 1 para N para o objecto Ebo_Document-->
+			<row rowOrder="1">
+				<documents type="object.Ebo_Document" reference="AUI">PK<!--segue caso 1-->
+				</documents>
+			</row>
+			<row rowOrder="2">
+				<documents type="object.Ebo_Document" reference="AUI">PK<!--segue caso 1-->
+				</documents>
+			</row>
+		</documents>
+	</row>
+</task>

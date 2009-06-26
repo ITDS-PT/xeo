@@ -1,0 +1,150 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel>
+   <general name="Ebo_History" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_History</description>
+      <cardID>[version],[user],[versionDate]</cardID>
+      <label>Controlo de Versionamento</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="object">
+         <type>object.boObject</type>
+         <label>Objecto Relacionado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeNumber name="version">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Versão</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeDateTime name="versionDate">
+         <label>Data</label>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeDateTime>
+      <attributeObject name="user">
+         <type>object.iXEOUser</type>
+         <label>Utilizador</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeLongText name="serialized">
+         <label>Objecto Serializado</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeLongText>
+      <attributeText name="comment">
+         <len>100</len>
+         <label>Comentário</label>
+         <tooltip></tooltip>
+      </attributeText>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <code intersectPoint="afterProcess">String doNotRedirect = request.getParameter("doNotRedirect");
+if(doNotRedirect == null || "".equals(doNotRedirect))
+{
+
+  boObject sourceObject = DOC.getObject(BOI.getAttribute("object").getValueLong());
+  if(sourceObject != null &amp;&amp; sourceObject.exists())
+  {
+      sourceObject.getObjectVersionControl().getObjectFromVersion(BOI.getAttribute("version").getValueLong());  
+      sourceObject.setDisabled();  
+      StringBuffer url = new StringBuffer("?method=edit&amp;docid="+IDX);
+      Enumeration enum = request.getParameterNames();
+      while( enum.hasMoreElements() )
+      {
+          String pname = enum.nextElement().toString();
+          if( !pname.equalsIgnoreCase("method") &amp;&amp;   
+              !pname.equalsIgnoreCase("docid") &amp;&amp;
+              !pname.equalsIgnoreCase("boui"))
+              
+          {
+              url.append("&amp;").append( pname ).append( "=" ).append( java.net.URLEncoder.encode( request.getParameter( pname ) ) );
+          }
+      }
+      DOC.setMasterObjectOverriding(sourceObject);      
+      String jspNamePrefix = sourceObject.getBoDefinition().getName().toLowerCase();
+      response.sendRedirect( jspNamePrefix + "_generaledit.jsp" + url.toString() + "&amp;masterdoc=true&amp;boui=" + sourceObject.getBoui());
+      return;         
+  }
+}</code>
+               <section showlabel="no" name="section_general" height="20%" order="20">
+                  <rows>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">version</attribute>
+                        </cell>
+                        <cell>
+                           <attribute showlabel="yes">versionDate</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">object</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">user</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">comment</attribute>
+                        </cell>
+                     </row>
+                  </rows>
+               </section>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="general" name="list" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>version</attribute>
+                     </col>
+                     <col width="40">
+                        <attribute>user</attribute>
+                     </col>
+                     <col width="40">
+                        <attribute>versionDate</attribute>
+                     </col>
+                     <col width="40">
+                        <attribute>comment</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="general" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

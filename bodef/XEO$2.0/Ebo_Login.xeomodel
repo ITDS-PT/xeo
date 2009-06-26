@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+	<general name="Ebo_Login" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="false" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>Ebo_Login</description>
+		<cardID>[user], [data], [movementType]</cardID>
+		<label>Login</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeObject name="user">
+			<type>object.iXEOUser</type>
+			<label>Utilizador</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+			<required language="BOL">true</required>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeObject>
+		<attributeDateTime name="data">
+			<label>Data e Hora</label>
+			<tooltip/>
+			<required language="BOL">true</required>
+			<defaultValue language="BOL">
+				<depends/>false</defaultValue>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeDateTime>
+		<attributeText name="movementType">
+			<len>20</len>
+			<label>Tipo</label>
+			<tooltip/>
+			<lov name="logInOut" retainValues="true"/>
+			<required language="BOL">true</required>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeText name="repository">
+			<len>200</len>
+			<label>Repositório</label>
+			<tooltip/>
+			<required language="BOL">true</required>
+			<defaultValue language="BOL">
+				<depends/>false</defaultValue>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeObject name="iProfile">
+			<type>object.uiProfile</type>
+			<label>Perfil</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+		</attributeObject>
+		<attributeText name="remoteAddr">
+			<len>1000</len>
+			<label>Endereço Remoto</label>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeText name="remoteHost">
+			<len>1000</len>
+			<label>Hostname Remoto</label>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeText name="remoteUser">
+			<len>1000</len>
+			<label>Utilizador Remoto</label>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+		<attributeText name="remoteSessionId">
+			<len>1000</len>
+			<label>Id Sessão Remota</label>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+		</attributeText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std">
+					<panel voui="panel">
+						<tab bo_node="identification" voui="tab1">
+							<section showlabel="no" label="node.label">
+								<rows>
+									<row>
+										<cell>
+											<attribute showlabel="yes">user</attribute>
+										</cell>
+										<cell/>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">data</attribute>
+										</cell>
+										<cell/>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">movementType</attribute>
+										</cell>
+										<cell/>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">repository</attribute>
+										</cell>
+										<cell/>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">iProfile</attribute>
+										</cell>
+										<cell/>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">remoteAddr</attribute>
+										</cell>
+										<cell>
+											<attribute showlabel="yes">remoteHost</attribute>
+										</cell>
+									</row>
+									<row>
+										<cell>
+											<attribute showlabel="yes">remoteUser</attribute>
+										</cell>
+										<cell>
+											<attribute showlabel="yes">remoteSessionId</attribute>
+										</cell>
+									</row>
+								</rows>
+							</section>
+						</tab>
+					</panel>
+				</form>
+				<form name="list" formtype="List">
+					<grid name="listebo_login" template="std">
+						<cols>
+							<col width="150">
+								<attribute>user</attribute>
+							</col>
+							<col width="90">
+								<attribute>data</attribute>
+							</col>
+							<col width="90">
+								<attribute>movementType</attribute>
+							</col>
+							<col width="90">
+								<attribute>repository</attribute>
+							</col>
+							<col width="120">
+								<attribute>iProfile</attribute>
+							</col>
+							<col width="90">
+								<attribute>remoteAddr</attribute>
+							</col>
+							<col width="90">
+								<attribute>remoteHost</attribute>
+							</col>
+							<col width="90">
+								<attribute>remoteUser</attribute>
+							</col>
+							<col width="90">
+								<attribute>remoteSessionId</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

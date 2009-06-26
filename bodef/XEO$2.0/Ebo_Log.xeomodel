@@ -1,0 +1,134 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Log" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="false" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Log</description>
+      <cardID>[attribute],[action]</cardID>
+      <label>Log de Alterações</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events>
+      <event name="onAfterLoad">
+         <body language="JAVA">
+            <![CDATA[netgest.bo.events.logEvents.afterLoadLog( this );]]>
+         </body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="attribute">
+         <len>50</len>
+         <label>Atributo</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="name">
+         <len>100</len>
+         <label>Atributo</label>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeText name="value_String">
+         <len>4000</len>
+         <label>Valor em String</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeNumber name="value_Long">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Valor em Long</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeDateTime name="value_Date">
+         <label>Valor em Data</label>
+         <tooltip></tooltip>
+      </attributeDateTime>
+      <attributeLongText name="value_CLOB">
+         <label>Valor em CLOB</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+      <attributeLongText name="value">
+         <label>Valor</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+      <attributeText name="type">
+         <len>15</len>
+         <label>Tipo de Attributo</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="action">
+         <len>15</len>
+         <label>Acção</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeNumber name="line">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Linha</label>
+         <tooltip></tooltip>
+         <required language="BOL">true</required>
+      </attributeNumber>
+      <attributeNumber name="version">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Versão</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+      <attributeNumber name="objectReference">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Objecto Alterado</label>
+         <tooltip></tooltip>
+      </attributeNumber>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" label="Log"/>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listprocess" template="std">
+                  <cols>
+                     <col width="200">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>value</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>action</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>line</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>version</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories/>
+      </viewer>
+   </viewers>
+</xeoModel>

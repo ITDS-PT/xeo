@@ -1,0 +1,121 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="xwfDecision" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfDecision</description>
+      <cardID>[performer], [answer] </cardID>
+      <label>Despacho</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="transfToString" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label>Trnasformar em String</label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before>
+                  <![CDATA[]]>
+               </before>
+               <after>
+                  <![CDATA[]]>
+               </after>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="String"/>
+         <body language="JAVA">
+            <![CDATA[return "O utilizador '" + this.getAttribute("performer").getObject().getCARDIDwNoIMG() + "' respondeu '" +  this.getAttribute("answer").getValueString() + "' justicando que: " +  this.getAttribute("justification").getValueString() ;]]>
+         </body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="program">
+         <type>object.xwfProgramRuntime</type>
+         <label>Programa</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+      <attributeLongText name="justification">
+         <label>Justificação</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeLongText>
+      <attributeText name="answer">
+         <len>4000</len>
+         <label>Resposta</label>
+         <editor>HTML</editor>
+         <tooltip></tooltip>
+      </attributeText>
+      <attributeObject name="performer">
+         <type>object.iContact</type>
+         <label>Executante</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip></tooltip>
+         <objectFilter/>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="geral" name="area_geral" label="Geral" order="20" height="100%">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10" height="100%">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">program</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">performer</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">answer</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute height="100%" showlabel="no">justification</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listNormal" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>performer</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>answer</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

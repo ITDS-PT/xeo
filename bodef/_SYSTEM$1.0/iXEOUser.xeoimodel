@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by jcarreira (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
+<xeoModel>
+	<general name="iXEOUser" type="interface" optionalInterface="false" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>iXEOUser</description>
+		<cardID>[name] ,[id]</cardID>
+		<label>Utilizador</label>
+		<objects>
+			<object>Ebo_Contact</object>
+			<object>Ebo_Perf</object>
+		</objects>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods>
+		<method name="update" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+			<label/>
+			<javascriptToRun>
+				<viewer name="edit">
+					<before><![CDATA[]]></before>
+					<after><![CDATA[]]></after>
+				</viewer>
+			</javascriptToRun>
+			<assinature return="void"/>
+			<body language="JAVA"><![CDATA[
+				if(this.password.getValue()!=null && this.password.getValue().length() < 20) {
+					if(!"".equals(this.password.getValue()))
+                    {
+                        this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
+                    }
+                    else
+                    {
+                        this.password.setValue(null);
+                    }
+				}
+				super.update();
+				]]></body>
+		</method>
+	</methods>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="id">
+			<len>50</len>
+			<label>Código</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="username">
+			<len>50</len>
+			<label>Utilizador</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="name">
+			<len>200</len>
+			<label>Nome</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="password">
+			<len>50</len>
+			<label>Password</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="MD5Code">
+			<len>500</len>
+			<label>MD5</label>
+			<tooltip/>
+		</attributeText>
+		<attributeObjectCollection name="queues">
+			<type>object.workQueue</type>
+			<label>Pool de Recursos</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeObjectCollection name="groups">
+			<type>object.Ebo_Group</type>
+			<label>Membro de</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeObjectCollection name="compartments">
+			<type>object.Ebo_Role</type>
+			<label>Compartimentos</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeNumber name="securityLevel">
+			<len>0</len>
+			<grouping>false</grouping>
+			<decimals>0</decimals>
+			<minDecimals>0</minDecimals>
+			<label>Nível Segurança</label>
+			<tooltip/>
+		</attributeNumber>
+		<attributeObjectCollection name="roles">
+			<type>object.Ebo_Role</type>
+			<label>Função</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeText name="notifica">
+			<len>1</len>
+			<label>Notificar</label>
+			<tooltip/>
+			<lov name="NOTIFICATIONTYPE" retainValues="false"/>
+		</attributeText>
+		<attributeObjectCollection name="emailAccounts">
+			<type>object.mailAccount</type>
+			<label>Contas de Correio</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes>
+					<attributeBoolean name="default">
+						<label>Default</label>
+						<renderAsCheck>false</renderAsCheck>
+						<tooltip/>
+					</attributeBoolean>
+				</attributes>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeObjectCollection name="iProfile">
+			<type>object.uiProfile</type>
+			<label>Perfil</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+		<attributeText name="lastname">
+			<len>50</len>
+			<label>Apelido</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="email">
+			<len>200</len>
+			<label>Email</label>
+			<tooltip/>
+		</attributeText>
+		<attributeObjectCollection name="packages">
+			<type>object.boObject</type>
+			<label>Aplicação</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objects>
+				<object>Ebo_Package</object>
+				<object>Ebo_Application</object>
+			</objects>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="list" formtype="List">
+					<grid name="listiXeoUser" template="std">
+						<cols>
+							<col width="100">
+								<attribute>name</attribute>
+							</col>
+							<col width="55">
+								<attribute>id</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

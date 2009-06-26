@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+	<general name="xwfActivityFill" type="object" version="1.0" extends="xwfActivity" mastertable="activity" orphan="true" multiparent="true" extendsJavaClass="" markInputType="true">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>xwfActivityFill</description>
+		<cardID>[label] </cardID>
+		<label>Preencher</label>
+	</general>
+	<opl active="true"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes/>
+	<viewers>
+		<viewer name="general">
+			<forms/>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

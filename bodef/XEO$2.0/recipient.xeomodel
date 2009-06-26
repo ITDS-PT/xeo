@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:19 BST 2006-->
+<xeoModel>
+	<general name="recipient" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>recipient</description>
+		<cardID>[name] </cardID>
+		<label>Recipiente</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeText name="name">
+			<len>100</len>
+			<label>Nome</label>
+			<tooltip/>
+			<required language="BOL">true</required>
+		</attributeText>
+		<attributeText name="email">
+			<len>250</len>
+			<label>Email</label>
+			<tooltip/>
+		</attributeText>
+		<attributeText name="faxAddress">
+			<len>250</len>
+			<label>Fax</label>
+			<tooltip/>
+		</attributeText>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std">
+					<areas>
+						<area bo_node="settings" name="area_settings" label="Geral" order="20">
+							<panel>
+								<tab bo_node="settings" name="tab_settings" label="Recipiente" order="20">
+									<section showlabel="no" name="section_mails" order="20">
+										<rows>
+											<row>
+												<cell>
+													<attribute showlabel="yes">name</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">email</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">faxAddress</attribute>
+												</cell>
+											</row>
+											<row>
+												<cell>
+													<attribute showlabel="yes">workplace</attribute>
+												</cell>
+												<cell>
+													<attribute showlabel="yes">workSchedule</attribute>
+												</cell>
+											</row>
+										</rows>
+									</section>
+								</tab>
+							</panel>
+						</area>
+					</areas>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="" name="list_recipient" template="std">
+						<cols>
+							<col width="100">
+								<attribute>name</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>
