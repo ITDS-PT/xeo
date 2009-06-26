@@ -1,0 +1,1379 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<code>
+<![CDATA[
+import netgest.bo.runtime.*;
+import netgest.bo.data.*;
+import netgest.bo.def.*;
+import netgest.bo.security.*;
+import netgest.exceptions.*;
+import netgest.utils.*;
+import netgest.io.*;
+
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Enumeration;
+import java.util.ArrayList;
+import java.io.*;
+import java.math.*;
+
+
+//@REMOVE
+public class boTemplate implements Serializable {
+ 
+//@ENDREMOVE
+
+//@REMOVE
+/* 
+//@ENDREMOVE
+public #BO.MODIFIERS# class _boTemplate_ extends #BO.SUPERCLASS# implements  #BO.IMPLEMENTS# {
+//@REMOVE
+*/   
+//@ENDREMOVE  
+
+//@REMOVE
+/* 
+//@ENDREMOVE
+    //@FOREACH OBJATTRIBUTE
+    public #ATT.CLASSNAME# #ATT.NAME#;       //@ENDFOREACH OBJATTRIBUTE
+    //@FOREACH ATTRIBUTE
+    public #ATT.CLASSNAME# #ATT.NAME#;    //@ENDFOREACH ATTRIBUTE
+    //@FOREACH STDATTRIBUTE
+    public #ATT.CLASSNAME# #ATT.NAME#;    //@ENDFOREACH STDATTRIBUTE
+    //@FOREACH STATE
+    public Handler#ATT.NAME# #ATT.NAME#;    //@ENDFOREACH STATE
+     
+    public _boTemplate_() {
+        super();
+        bo_version      = "#BO.VERSION#";
+        bo_name         = "#BO.NAME#";
+        bo_classregboui = "#BO.CLSREGBOUI#";
+        bo_definition   = boDefHandler.getBoDefinition("#BO.NAME#");
+        bo_statemanager = bo_definition.getBoClsState() != null ? bo_definition.getBoClsState().getStateManager( this ) : null;  
+
+        boAttributesArray atts = super.getAttributes();
+        boAttributesArray stat = super.getStateAttributes();
+
+        //@FOREACH OBJATTRIBUTE
+        atts.add(#ATT.NAME# = new #ATT.CLASSNAME#(this));
+        //@ENDFOREACH OBJATTRIBUTE
+        
+        //@FOREACH MULTIOBJATTRIBUTE 
+        atts.add(new boBridgeMasterAttribute(this,this.getBoDefinition().getAttributeRef("#BRIDGE.NAME#"))); //@ENDFOREACH MULTIOBJATTRIBUTE
+
+        //@FOREACH ATTRIBUTE
+        atts.add(#ATT.NAME# = new #ATT.CLASSNAME#(this));
+        //@ENDFOREACH ATTRIBUTE
+        
+        //@FOREACH STDATTRIBUTE
+        atts.add(#ATT.NAME# = new #ATT.CLASSNAME#(this,"#ATT.NAME#"));
+        //@ENDFOREACH STDATTRIBUTE
+
+
+
+        //@FOREACH STATE
+        atts.add(#ATT.NAME# = new Handler#ATT.NAME#(this));
+        stat.add(#ATT.NAME#);
+        //@ENDFOREACH STATE
+    }
+//@REMOVE
+*/ 
+//@ENDREMOVE
+//@REMOVE
+/* 
+//@ENDREMOVE
+		private BigDecimal verifyTransformer(ObjAttHandler att, BigDecimal boui)
+    {
+        try
+        {
+            netgest.bo.transformers.Transformer transfClass = null;
+            if((transfClass = att.getDefAttribute().getTransformClassMap()) != null)
+            {
+                if(boui != null && att.getParent().getMode() != boObject.MODE_EDIT_TEMPLATE )
+                {
+                    boui = new BigDecimal(transfClass.transform(getEboContext(), att.getParent(), boui.longValue()));
+                }
+            }
+        }
+        catch (boRuntimeException e)
+        {
+            
+        }
+        return boui;
+    }
+    public void init() throws boRuntimeException {
+        super.init();
+        setModeView();
+        if(p_mode == MODE_NEW && !p_clone)
+        {
+            //@FOREACH OBJATTRIBUTE
+                //@IF ARRAY
+                    if( #ATT.NAME#.haveDefaultValue()) 
+                    {
+                         #ATT.NAME#._setValues(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(#ATT.NAME#.defaultValue(), #ATT.NAME#));
+                         #ATT.NAME#.setInputType( AttributeHandler.INPUT_FROM_DEFAULT );
+                    }
+                //@ELSEIF ARRAY
+                    if( #ATT.NAME#.haveDefaultValue()) 
+                    {
+                    	if(#ATT.NAME#.defaultValue() != null)
+                    	{
+                        	#ATT.NAME#._setValue(verifyTransformer(#ATT.NAME#,boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(#ATT.NAME#.defaultValue(), #ATT.NAME#)));
+                        }
+                        else
+                        {
+                       		#ATT.NAME#._setValue(null);
+                       	}
+                        #ATT.NAME#.setInputType( AttributeHandler.INPUT_FROM_DEFAULT );
+                    }
+                //@ENDIF ARRAY
+            //@ENDFOREACH OBJATTRIBUTE
+            //@FOREACH ATTRIBUTE
+                //@IF ARRAY
+                    if( #ATT.NAME#.haveDefaultValue()) 
+                    {
+                        #ATT.NAME#._setValues(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(#ATT.NAME#.defaultValue(), #ATT.NAME#));
+                        #ATT.NAME#.setInputType( AttributeHandler.INPUT_FROM_DEFAULT );
+                    }
+                //@ELSEIF ARRAY
+                    if( #ATT.NAME#.haveDefaultValue()) 
+                    {
+                    	if(#ATT.NAME#.defaultValue() != null)
+                    	{
+                        	#ATT.NAME#._setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(#ATT.NAME#.defaultValue(), #ATT.NAME#));
+                        }
+                        else
+                        {
+                        	#ATT.NAME#._setValue(null);
+                        }
+                        #ATT.NAME#.setInputType( AttributeHandler.INPUT_FROM_DEFAULT );
+                    }
+                //@ENDIF ARRAY
+            //@ENDFOREACH ATTRIBUTE
+            //@FOREACH STDATTRIBUTE
+                if( #ATT.NAME#.haveDefaultValue()) 
+                {
+                	if(#ATT.NAME#.defaultValue() != null)
+                	{
+                    	#ATT.NAME#._setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(#ATT.NAME#.defaultValue(), #ATT.NAME#));
+                    }
+                    else
+                    {
+                    	#ATT.NAME#._setValue(null);
+                    }
+                    #ATT.NAME#.setInputType( AttributeHandler.INPUT_FROM_DEFAULT );
+                }
+            //@ENDFOREACH STDATTRIBUTE
+    
+            if("_boTemplate_".equals(this.getName()))
+            {
+                calculateFormula(null);
+            }
+        }
+    }
+    //@FOREACH MULTIOBJATTRIBUTE
+    public bridgeHandler #BRIDGE.NAME#()
+    {
+        return getBridge("#BRIDGE.NAME#");        
+    }
+    //@ENDFOREACH MULTIOBJATTRIBUTE
+    
+    public bridgeHandler getBridge( String bridgeName ) 
+    {
+        boBridgesArray    brig = super.getBridges();        	
+        bridgeHandler     ret  = brig.get(bridgeName);
+        if( ret == null )
+        {
+        	//@FOREACH MULTIOBJATTRIBUTE
+        	if( bridgeName.equals("#BRIDGE.NAME#") && (ret=brig.get("#BRIDGE.NAME#"))==null )
+        	{
+            	brig.add( ret=new BridgeHandler#BRIDGE.NAME#(new DataResultSet( getDataRow().getRecordChild( getEboContext() ,"#BRIDGE.NAME#") ) , this ) );        
+        	}//@ENDFOREACH MULTIOBJATTRIBUTE
+        	if( ret == null )
+        	{
+				ret = super.getBridge( bridgeName );
+        	}
+        }
+        return ret;
+    }
+    //@FOREACH OBJATTRIBUTE
+    public final class Handler#ATT.NAME# extends #ATT.EXTENDS# {
+        public Handler#ATT.NAME#(boObject parent) {
+            super(parent,parent.getBoDefinition().getAttributeRef("#ATT.NAME#"));
+        }
+
+        //@IF ARRAY
+            public #ATT.PRIMITIVEDATATYPE#[] getValues() throws boRuntimeException {
+                try
+                {
+                    if (getParent().isCheckSecurity() && !this.hasRights()) 	                
+                    	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".getValues()", "BO-3230", null, "");                      	                   	
+                    fireEvent( boEvent.EVENT_BEFORE_GETVALUE, null );
+                    DataSet xdataSet =  getParent().getDataRow().getRecordChild( getEboContext(), "#ATT.NAME#" );
+                    DataResultSet xnode = new DataResultSet( xdataSet );
+                    xnode.beforeFirst();
+                    #ATT.PRIMITIVEDATATYPE#[] toRet = null;
+                    if( xnode.getRowCount() > 0 )
+                    {
+                        toRet = new #ATT.PRIMITIVEDATATYPE#[ xnode.getRowCount() ];
+                        while( xnode.next() )
+                        {
+                            toRet[ xnode.getRow() - 1 ] = xnode.get#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#");
+                        }
+                    }
+                    fireEvent( boEvent.EVENT_BEFORE_GETVALUE, toRet );
+                    return toRet;
+                } catch(SQLException e) {
+                    String[] args = {getParent().getName(),"#ATT.NAME#"};
+                    throw new boRuntimeException(this.getClass().getName()+".load(EboContext,long)","BO-3003",e,args);
+                }
+            }
+            public void setValues(#ATT.PRIMITIVEDATATYPE#[] newvalue) throws boRuntimeException 
+            {
+            	if (getParent().isCheckSecurity() && !this.hasRights()) 	          
+            	      throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValues(#ATT.PRIMITIVEDATATYPE#[])", "BO-3230", null, "");                      	
+                if(!ClassUtils.compare(newvalue,this.getValues())) {
+                    #ATT.PRIMITIVEDATATYPE#[] chgval = this.getValues();
+                    #ATT.PRIMITIVEDATATYPE#[] newval = newvalue;
+        
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+                        _setValues( newvalue );
+                        setInputType(AttributeHandler.INPUT_FROM_USER);
+                        getParent().setChanged(true);
+                        
+                        fireAfterChangeEvent( this, chgval, newval );
+                        
+//                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//                        if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+                    }
+                }
+            }
+            public void _setValues( #ATT.PRIMITIVEDATATYPE#[] newvalues  ) throws boRuntimeException 
+            {
+                try
+                {
+                    DataSet xdataSet =  getParent().getDataRow().getRecordChild( getEboContext(), "#ATT.NAME#" );
+                    DataResultSet xnode = new DataResultSet( xdataSet ); 
+                    
+                    if( newvalues == null || newvalues.length == 0 )
+                    {
+                        while( xnode.getRowCount() > 0 )
+                        {
+                            xnode.first();
+                            xnode.deleteRow();
+                        }
+                    }
+                    else
+                    {
+                        int i;
+                        for (i = 0; i < newvalues.length ; i++) 
+                        {
+                            if( xnode.absolute( i + 1 ) )
+                            {
+                                if( !ClassUtils.compare(newvalues,this.getValues()) )
+                                {
+                                    xnode.updateLong( "T$PARENT$" , getParent().getBoui() );
+                                    xnode.update#ATT.PRIMITIVEDATATYPE#( "#ATT.DBNAME#" , newvalues[i] );
+                                    xnode.updateRow();
+                                }
+                            }
+                            else
+                            {
+                                xnode.moveToInsertRow();
+                                xnode.update#ATT.PRIMITIVEDATATYPE#( "#ATT.DBNAME#" , newvalues[i] );
+                                xnode.updateLong( "T$PARENT$" , getParent().getBoui() );
+                                xnode.insertRow();
+                            }
+                        }
+                        for ( ; i < xdataSet.getRowCount() ; i++ )
+                        {
+                            xdataSet.deleteRow( i + 1 );
+                        }
+                        
+                    }
+
+					if( getParent().getBridges().get( "#ATT.NAME#" )!=null )
+					{
+						getParent().getBridge("#ATT.NAME#").refreshBridgeData();
+					}
+                }
+                catch (SQLException e)
+                {
+                    String[] args = {getParent().getName() ,"#ATT.NAME#"};
+                    throw new boRuntimeException(boObject.class.getName()+"set(long)","BO-3002",e,args);
+                }
+                finally
+                {
+                    
+                }
+            }
+            public void setValuesString(String[] value)  throws boRuntimeException 
+            {
+                this.setValues(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            public void setValueString(String value) {
+                try {
+                    this.setValues(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+                } catch (Exception e) {
+                    super.setInvalid(e.getMessage(),value);
+                }
+            }
+            public String getValueString() throws boRuntimeException {
+                try {
+                    return boConvertUtils.convertToString(getValues(),this);
+                } catch (Exception e) {
+                    String[] args = { getParent().getName() ,"#ATT.NAME#"};
+                    throw new boRuntimeException(this.getClass().getName()+".load(EboContext,long)","BO-3003",e,args);
+                }
+            }
+            
+        //@ELSEIF ARRAY
+        public void setValueString(String value) {
+            try {
+                this.setValue(boConvertUtils.convertToBigDecimal(value,this));
+                Hashtable table = new Hashtable();
+                if(getParent().onChangeSubmit("#ATT.NAME#"))
+                {
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                    getParent().calculateFormula(table, "#ATT.NAME#");
+                }
+            } catch (Exception e) {
+                super.setInvalid(e.getMessage(),value);
+            }
+        }
+        public String getValueString() throws boRuntimeException {
+            try {
+                return boConvertUtils.convertToString(getValue(),this);
+            } catch (Exception e) {
+                String[] args = {getParent().getName(),"#ATT.NAME#"};
+                throw new boRuntimeException(this.getClass().getName()+".load(EboContext,long)","BO-3003",e,args);
+            }
+        }
+        public void setValueFormula(Hashtable table, String[]dependence) throws boRuntimeException
+        {
+            if(getParent().alreadyCalculated(table, dependence)) 
+            {                       
+                if(getParent().isWaiting(table, "#ATT.NAME#"))
+                {
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                    this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );
+                }
+                else if(!getParent().isCalculated(table, "#ATT.NAME#"))
+                {
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                    this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), table );
+                }
+            }
+            else if(getParent().dependsFromWaiting(table, dependence))
+            {
+                if(getParent().onChangeSubmit("#ATT.NAME#"))
+                {
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                }
+                else
+                {
+                    getParent().clear(table, "#ATT.NAME#");
+                    this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );
+                }
+            }
+            else
+            {    
+                this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );                                
+                if(getParent().onChangeSubmit("#ATT.NAME#"))
+                {
+                    getParent().setWaiting(table, "#ATT.NAME#");
+                    getParent().calculateFormula(new Hashtable(table), "#ATT.NAME#");
+                    //getParent().setCalculated(table, "#ATT.NAME#");
+                }                
+            }
+        }
+
+        public void setValue(BigDecimal newval, boolean recalc) throws boRuntimeException 
+        {
+        	
+            this.setValue(newval, recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL); 
+            
+        	//setInputType( recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL );
+            
+
+            if( recalc && getParent().onChangeSubmit("#ATT.NAME#"))
+            {
+                Hashtable table = new Hashtable();
+                getParent().setCalculated(table, "#ATT.NAME#");
+                getParent().calculateFormula(table, "#ATT.NAME#");
+            }
+            //vou verificar se o objecto se encontra numa bridge
+			if ( getParent().p_parentBridgeRow != null )
+	        {
+				getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+            }
+		 }
+
+        private void setValue(BigDecimal newval, Hashtable table) throws boRuntimeException 
+        {
+            this.setValue(newval, AttributeHandler.INPUT_FROM_INTERNAL);
+            //setInputType( AttributeHandler.INPUT_FROM_INTERNAL );
+            if( getParent().onChangeSubmit("#ATT.NAME#"))
+            {
+                getParent().setCalculated(table, "#ATT.NAME#");
+                getParent().calculateFormula(table, "#ATT.NAME#");
+            }
+            
+            
+			//vou verificar se o objecto se encontra numa bridge
+			if ( getParent().p_parentBridgeRow != null )
+	        {
+				getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+            }
+
+
+
+        }
+        //@ENDIF ARRAY
+        
+
+        #OBJECT.METHODS#
+        #OBJECT.EVENTS#
+        
+    }
+    //@ENDFOREACH OBJATTRIBUTE
+    
+    //@FOREACH MULTIOBJATTRIBUTE 
+    public final class BridgeHandler#BRIDGE.NAME# extends bridgeHandler {
+        private DataResultSet p_node;
+        private String        p_fatherfield;
+        private String        p_childfield;
+        private boObject      p_parent;
+
+        
+        public BridgeHandler#BRIDGE.NAME#(DataResultSet data,boObject parent) {
+            super("#BRIDGE.NAME#",
+                  data,
+                  parent.getBoDefinition().getAttributeRef("#BRIDGE.NAME#").getBridge().getChildFieldName(),
+                  parent
+                 );
+
+            p_fatherfield = parent.getBoDefinition().getAttributeRef("#BRIDGE.NAME#").getBridge().getFatherFieldName();
+            p_childfield  = parent.getBoDefinition().getAttributeRef("#BRIDGE.NAME#").getBridge().getChildFieldName();
+            
+            p_parent = parent;
+            p_node = data;
+
+			refreshBridgeData();
+            first();
+        }
+        public void add(BigDecimal boui, byte type) throws boRuntimeException {
+            add(boui,-1, type);
+        }
+        public void add(BigDecimal boui,int xnrow, byte type) throws boRuntimeException {
+
+              //tranform ao adicionar a brige
+              netgest.bo.transformers.Transformer transfClass = null;
+			  if ( getParent().getMode() != boObject.MODE_EDIT_TEMPLATE )
+				{
+				  if(( transfClass = this.getDefAttribute().getTransformClassMap()) != null)
+				  {
+					 if(boui != null)
+					 {
+						boui = new BigDecimal(transfClass.transform(getEboContext(), getParent(), boui.longValue()));
+					 }
+				  }
+				}
+
+			  boBridgeRow brow = createRow();
+			  ObjAttHandler att = (ObjAttHandler)brow.getAttribute( this.getName() );
+
+			  BigDecimal newval = boui;
+
+//			  boolean allow=att.onBeforeChange(new boEvent(att,att.EVENT_BEFORE_CHANGE, null ,newval));
+//			  if( newval != null ) allow=allow && att.onBeforeAdd(new boEvent(att, att.EVENT_BEFORE_ADD,newval));
+              
+			  if( att.fireBeforeChangeEvent( att, null, newval) ) 
+			  {
+				  
+				  brow.getDataRow().updateBigDecimal(p_childfield,boui);
+  		          this.insertRow( brow );
+				  this.moveTo( this.getRowCount() );
+
+				  if(xnrow !=-1)
+                  {
+                      this.moveRowTo(xnrow);
+                  }
+
+				  att.checkParent( null, newval );
+
+				  getParent().setChanged( true );
+
+                  if(getParent().onChangeSubmit("#BRIDGE.NAME#"))
+                  {
+                      getParent().calculateFormula("#BRIDGE.NAME#");
+                  }
+                  att.fireAfterChangeEvent( att, null, newval );
+//				  if( newval != null ) att.onAfterAdd(new boEvent( att ,att.EVENT_AFTER_ADD,newval));
+//				  att.onAfterChange(new boEvent( att ,att.EVENT_AFTER_CHANGE, null ,newval));
+			  }
+
+        }
+
+		public boolean remove() throws boRuntimeException 
+        {
+            boolean ret = false;
+
+          
+
+                boBridgeRow rowtodelete = rows( this.getRow() );
+				ObjAttHandler att = (ObjAttHandler)rowtodelete.getAttribute( this.getName() );
+
+				BigDecimal chgval = this.getValue();
+
+	
+//				boolean allow=att.onBeforeChange(new boEvent(att,att.EVENT_BEFORE_CHANGE,chgval,null));
+//                allow = allow && att.onBeforeRemove(new boEvent(att,att.EVENT_BEFORE_REMOVE,chgval));
+
+                if( att.fireBeforeChangeEvent( att, chgval, null) ) 
+                {
+					rowtodelete.getDataRow().updateBigDecimal(p_childfield,null);
+					att.checkParent( chgval, null );
+
+				    getParent().setChanged( true );
+
+                    Enumeration  lineatts = rowtodelete.getLineAttributes().elements();
+
+                    _remove( rowtodelete );  // remove the line
+
+					
+                    while( lineatts.hasMoreElements() )
+                    {
+                        AttributeHandler xatt = ( AttributeHandler )lineatts.nextElement();
+                        if ( xatt.getValueObject() != null )
+                        {
+                            xatt.setValueObject( null );
+                        }
+                    }
+                    
+                    ret = true;
+					//calculateFormulas
+					if(getParent().onChangeSubmit("#BRIDGE.NAME#"))
+					{
+					   getParent().calculateFormula("#BRIDGE.NAME#");
+					}
+
+                    att.fireAfterChangeEvent( att, chgval, null);
+//					att.onAfterRemove(new boEvent(att,att.EVENT_AFTER_REMOVE,chgval));
+//					att.onAfterChange(new boEvent(att,att.EVENT_AFTER_CHANGE,chgval,null));
+                    
+				}
+           
+            return ret;
+        }
+
+
+
+
+		public boBridgeRow createRow( netgest.bo.data.DataRow row )
+		{
+			return new BridgeHanlder#BRIDGE.NAME#Row( this, row );
+		}
+
+		public final class BridgeHanlder#BRIDGE.NAME#Row extends boBridgeRow
+		{
+			public BridgeHanlder#BRIDGE.NAME#Row( bridgeHandler bridge, netgest.bo.data.DataRow row )
+			{
+				super( bridge , row );
+				addLine();
+			}
+
+			public void addLine() 
+			{
+				boAttributesArray xatt = super.getLineAttributes();
+				//@FOREACH OBJATTRIBUTE
+				if(this.getAttribute("#ATT.NAME#")==null)
+					xatt.add( new #ATT.CLASSNAME#( getParent(), this ) );
+				//@ENDFOREACH OBJATTRIBUTE
+		
+				//@FOREACH ATTRIBUTE
+				if(this.getAttribute("#ATT.NAME#")==null)
+					xatt.add( new #ATT.CLASSNAME#( getParent(), this ) );
+				//@ENDFOREACH ATTRIBUTE
+			} 
+
+
+		}
+
+
+        #OBJECT.METHODS#
+        
+        //@FOREACH OBJATTRIBUTE
+        public final class Handler#ATT.NAME# extends #ATT.EXTENDS# {
+            public Handler#ATT.NAME#( boObject parent , boBridgeRow bridgerow ) {
+                super( parent , bridgerow , bridgerow.getBridge().getDefAttribute().getName().equals("#ATT.NAME#")?parent.getBoDefinition().getAttributeRef("#ATT.NAME#"):bridgerow.getBridge().getDefAttribute().getBridge().getAttributeRef("#ATT.NAME#") );
+            }
+            public void setValueString(String value) {
+                try {
+                    this.setValue(boConvertUtils.convertToBigDecimal(value,this));
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        Hashtable table = new Hashtable();                    
+                        getParent().setCalculated(table, "#ATT.NAME#");
+                        getParent().calculateFormula(table, "#ATT.NAME#");
+                    }
+                } catch (Exception e) {
+                    super.setInvalid(e.getMessage(),value);
+                }
+            }
+            public String getValueString() throws boRuntimeException {
+                try {
+                    return boConvertUtils.convertToString(this.getValue(),this);
+                } catch (Exception e) {
+                    String[] args = {getParent().getName(),"#ATT.NAME#"};
+                    throw new boRuntimeException(this.getClass().getName()+".load(EboContext,long)","BO-3003",e,args);
+                }
+            }
+            
+            public void setValueFormula(Hashtable table, String[]dependence) throws boRuntimeException
+            {
+                if(getParent().alreadyCalculated(table, dependence)) 
+                {                       
+                    if(getParent().isWaiting(table, "#ATT.NAME#"))
+                    {
+                       getParent().setCalculated(table, "#ATT.NAME#");
+                       this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );
+                    }
+                    else if(!getParent().isCalculated(table, "#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#");
+                        this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), table );
+                    }
+                }
+                else if(getParent().dependsFromWaiting(table, dependence))
+                {
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#"); 
+                    }
+                    else
+                    {
+                        getParent().clear(table, "#ATT.NAME#"); 
+                        this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );
+                    }
+                }
+                else
+                {   
+                    this.setValue(boConvertUtils.convertToBigDecimal(formula(), this), false );
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {                 
+                        getParent().setWaiting(table, "#ATT.NAME#");
+                        getParent().calculateFormula(new Hashtable(table), "#ATT.NAME#");
+                        //getParent().setCalculated(table, "#ATT.NAME#");
+                    }                    
+                }
+            }
+
+            public void setValue(BigDecimal newval, boolean recalc) throws boRuntimeException 
+            {
+                this.setValue(newval, recalc ? AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL);
+	        	
+	        	//setInputType( recalc ? AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL );
+	        	
+                if( recalc && getParent().onChangeSubmit("#ATT.NAME#"))
+                {
+                    Hashtable table = new Hashtable();
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                    getParent().calculateFormula(table, "#ATT.NAME#");
+                }
+        
+				//vou verificar se o objecto se encontra numa bridge
+				if ( getParent().p_parentBridgeRow != null )
+				{
+					getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+				}
+            }
+
+            private void setValue(BigDecimal newval, Hashtable table) throws boRuntimeException 
+            {
+                this.setValue(newval, AttributeHandler.INPUT_FROM_INTERNAL);
+                //setInputType( AttributeHandler.INPUT_FROM_INTERNAL );
+                if( getParent().onChangeSubmit("#ATT.NAME#"))
+                {
+                    getParent().setCalculated(table, "#ATT.NAME#");
+                    getParent().calculateFormula(table, "#ATT.NAME#");
+                }
+                
+				//vou verificar se o objecto se encontra numa bridge
+				if ( getParent().p_parentBridgeRow != null )
+				{
+					getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+				}
+
+            }
+            
+            #OBJECT.METHODS#
+            #OBJECT.EVENTS#
+        }
+        //@ENDFOREACH OBJATTRIBUTE
+
+        //@FOREACH ATTRIBUTE
+        public final class Handler#ATT.NAME# extends #ATT.EXTENDS# {
+
+            private boolean isdbbinding=#ATT.DBBINDING#;
+            private #ATT.PRIMITIVEDATATYPE# fieldvalue;
+            private boBridgeRow p_bridgerow;
+
+			public Handler#ATT.NAME#(boObject parent, boBridgeRow bridgerow ) {
+                super( parent , bridgerow ,bridgerow.getBridge().getDefAttribute().getBridge().getAttributeRef("#ATT.NAME#") );
+                p_bridgerow = bridgerow;
+            }
+            
+            public #ATT.PRIMITIVEDATATYPE# getValue() throws boRuntimeException {
+                #ATT.PRIMITIVEDATATYPE# ret = null;
+
+                fireEvent( boEvent.EVENT_BEFORE_GETVALUE, null );
+                if(isdbbinding) {
+					ret=p_bridgerow.getDataRow().get#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#");
+                } else {
+                    ret = fieldvalue;
+                }
+                fireEvent( boEvent.EVENT_AFTER_GETVALUE, ret );
+                return ret;
+            }
+            public void setValueObject(Object value) throws boRuntimeException {
+                this.setValue((#ATT.PRIMITIVEDATATYPE#)value);
+            }
+            public Object getValueObject() throws boRuntimeException 
+            {
+                return this.getValue();
+            }
+            public String getValueString() throws boRuntimeException {
+                return boConvertUtils.convertToString(this.getValue(),this);
+            }
+            
+            public void setValueFormula(Hashtable table, String[]dependence) throws boRuntimeException
+            {
+                if(getParent().alreadyCalculated(table, dependence)) 
+                {                       
+                    if(getParent().isWaiting(table, "#ATT.NAME#"))
+                    {
+                       getParent().setCalculated(table, "#ATT.NAME#");
+                       setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    }
+                    else if(!getParent().isCalculated(table, "#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#");
+                        setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), table );
+                    }
+                }
+                else if(getParent().dependsFromWaiting(table, dependence))
+                {
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#"); 
+                    }
+                    else
+                    {
+                        getParent().clear(table, "#ATT.NAME#"); 
+                        setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    } 
+                }
+                else
+                {    
+                    setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );                
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setWaiting(table, "#ATT.NAME#");
+                        getParent().calculateFormula(new Hashtable(table), "#ATT.NAME#");
+                        //getParent().setCalculated(table, "#ATT.NAME#");
+                    }                    
+                }
+            }
+
+            public void setValue(#ATT.PRIMITIVEDATATYPE# newval ) throws boRuntimeException
+            {
+                setValue( newval, true );
+            }
+
+            public void setValue(#ATT.PRIMITIVEDATATYPE# newval, boolean recalc) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights())
+                    	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                   	
+                if(!ClassUtils.compare(newval,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE# chgval = this.getValue();
+
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+                            if(canAlter(recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL))
+                            {
+    	                        _setValue(newval);
+                                setInputType( recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL );
+	                    	                        
+                                if( recalc && getParent().onChangeSubmit("#ATT.NAME#"))
+                                {
+                                    Hashtable table = new Hashtable();
+                                    getParent().setCalculated(table, "#ATT.NAME#");
+                                    getParent().calculateFormula(table, "#ATT.NAME#");
+                                }
+	                        
+                                //vou verificar se o objecto se encontra numa bridge
+                                if ( getParent().p_parentBridgeRow != null )
+                                {
+                                    getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+                                }
+
+                                fireAfterChangeEvent( this, chgval, newval);
+//                                if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//                                if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//        	                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+                            }
+                    }
+                }
+            }
+
+            private void setValue(#ATT.PRIMITIVEDATATYPE# newval, Hashtable table) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights())
+                    	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                   	
+                if(!ClassUtils.compare(newval,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE# chgval = this.getValue();
+
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+											  if(canAlter(AttributeHandler.INPUT_FROM_INTERNAL))
+												{
+	                        _setValue(newval);
+	                        setInputType( AttributeHandler.INPUT_FROM_INTERNAL );
+	                        if( getParent().onChangeSubmit("#ATT.NAME#"))
+	                        {
+	                            getParent().setCalculated(table, "#ATT.NAME#");
+	                            getParent().calculateFormula(table, "#ATT.NAME#");
+	                        }
+
+							//vou verificar se o objecto se encontra numa bridge
+							if ( getParent().p_parentBridgeRow != null )
+							{
+								getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+							}
+	
+                            fireAfterChangeEvent( this, chgval, newval);
+//							if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//	                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//	                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+	                    }
+	                }
+							}
+            }
+
+            public void _setValue(#ATT.PRIMITIVEDATATYPE# newval) throws boRuntimeException {
+                if(isdbbinding) {
+
+                        p_bridgerow.getDataRow().update#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#",newval);
+                        getParent().setChanged(true);
+                        super.setValid();
+
+                } else {
+                    fieldvalue = newval;
+                }
+            }
+            public void setValueString(String value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+
+            //@IF SIMPLEDATATYPE
+            public #ATT.JAVADATATYPE# getValue#ATT.JAVADATATYPEOBJ#() throws boRuntimeException {
+                return boConvertUtils.convertTo#ATT.JAVADATATYPE#(this.getValue(),this);
+            }
+            public void setValue(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            public void setValue#ATT.JAVADATATYPE#(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            //@ENDIF SIMPLEDATATYPE
+
+            
+            #OBJECT.METHODS#
+            #OBJECT.EVENTS#
+        }
+        //@ENDFOREACH ATTRIBUTE
+    } 
+    //@ENDFOREACH MULTIOBJATTRIBUTE
+    
+
+    //@FOREACH ATTRIBUTE
+    public final class Handler#ATT.NAME# extends #ATT.EXTENDS# {
+        private boolean isdbbinding=#ATT.DBBINDING#;
+        private #ATT.PRIMITIVEDATATYPE# fieldvalue;
+        public Handler#ATT.NAME#(boObject parent) {
+            super(parent,parent.getBoDefinition().getAttributeRef("#ATT.NAME#"));
+        }
+        
+        public String getValueString() throws boRuntimeException {
+            return boConvertUtils.convertToString(this.getValue(),this);
+        }
+        //@IF ARRAY
+            public #ATT.PRIMITIVEDATATYPE#[] getValue() throws boRuntimeException {
+                if (getParent().isCheckSecurity() && !this.hasRights())
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".getValue()", "BO-3230", null, "");                      	                   	                                 
+                if(isdbbinding) {
+                    try
+                    {
+                        DataSet xdataSet =  getParent().getDataRow().getRecordChild( getEboContext(), "#ATT.NAME#" );
+                        DataResultSet xnode = new DataResultSet( xdataSet );
+                        xnode.beforeFirst();
+                        #ATT.PRIMITIVEDATATYPE#[] toRet = null;
+                        if( xnode.getRowCount() > 0 )
+                        {
+                            toRet = new #ATT.PRIMITIVEDATATYPE#[ xnode.getRowCount() ];
+                            while( xnode.next() )
+                            {
+                                toRet[ xnode.getRow() - 1 ] = xnode.get#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#");
+                            }
+                        }
+                        return toRet;
+                    } catch(SQLException e) {
+                        String[] args = {getParent().getName(),"#ATT.NAME#"};
+                        throw new boRuntimeException(this.getClass().getName()+".load(EboContext,long)","BO-3003",e,args);
+                    }
+                    
+                } else {
+                    return null;
+                }
+            }
+            
+            public void setValueFormula(Hashtable table, String[]dependence) throws boRuntimeException
+            {
+                if(getParent().alreadyCalculated(table, dependence)) 
+                {                       
+                    if(getParent().isWaiting(table, "#ATT.NAME#"))
+                    {
+                       getParent().setCalculated(table, "#ATT.NAME#");
+                       setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    }
+                    else if(!getParent().isCalculated(table, "#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#");
+                        setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(formula(), this), table );
+                    }
+                }
+                else if(getParent().dependsFromWaiting(table, dependence))
+                {
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#"); 
+                    }
+                    else
+                    {
+                        getParent().clear(table, "#ATT.NAME#"); 
+                        setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    }
+                }
+                else
+                {    
+                    setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(formula(), this), false );        
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {        
+                        getParent().setWaiting(table, "#ATT.NAME#");
+                        getParent().calculateFormula(new Hashtable(table), "#ATT.NAME#");
+                        //getParent().setCalculated(table, "#ATT.NAME#");
+                    }                    
+                    
+                }                
+            }
+
+            public void setValue(#ATT.PRIMITIVEDATATYPE#[] newval ) throws boRuntimeException
+            {
+                setValue( newval, true );
+            }
+            public void setValue(#ATT.PRIMITIVEDATATYPE#[] newvalue, boolean recalc) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights()) 
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                 
+                if(!ClassUtils.compare(newvalue,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE#[] chgval = this.getValue();
+                    #ATT.PRIMITIVEDATATYPE#[] newval = newvalue;
+        
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+                    
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+                        _setValues( newvalue );
+			        	setInputType( recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL );
+                        
+                        if( recalc && getParent().onChangeSubmit("#ATT.NAME#"))
+                        {
+                            Hashtable table = new Hashtable();
+                            getParent().setCalculated(table, "#ATT.NAME#");
+                            getParent().calculateFormula(table, "#ATT.NAME#");
+                        }                        
+                        getParent().setChanged(true);
+
+    				    //vou verificar se o objecto se encontra numa bridge
+						if ( getParent().p_parentBridgeRow != null )
+						{
+							getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+						}
+
+
+
+                          fireAfterChangeEvent( this, chgval, newval);
+//                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//                        if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+                    }
+                }
+            }
+            
+            private void setValue(#ATT.PRIMITIVEDATATYPE#[] newvalue, Hashtable table) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights()) 
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                 
+                if(!ClassUtils.compare(newvalue,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE#[] chgval = this.getValue();
+                    #ATT.PRIMITIVEDATATYPE#[] newval = newvalue;
+        
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+        
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+												if(canAlter(AttributeHandler.INPUT_FROM_INTERNAL))
+												{
+	                        _setValues( newvalue );
+	                        setInputType( AttributeHandler.INPUT_FROM_INTERNAL );
+	                        
+	                        if( getParent().onChangeSubmit("#ATT.NAME#"))
+	                        {
+	                            getParent().setCalculated(table, "#ATT.NAME#");
+	                            getParent().calculateFormula(table, "#ATT.NAME#");
+	                        }
+	                        getParent().setChanged(true);
+	
+	                        //vou verificar se o objecto se encontra numa bridge
+							if ( getParent().p_parentBridgeRow != null )
+							{
+								getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+							}
+	
+                            fireAfterChangeEvent( this, chgval, newval);
+//	                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//	                        if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//	                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+	                    }
+									}
+                }
+            }
+            
+            public void _setValues( #ATT.PRIMITIVEDATATYPE#[] newvalues  ) throws boRuntimeException 
+            {
+                try
+                {
+                    DataSet xdataSet =  getParent().getDataRow().getRecordChild( getEboContext(), "#ATT.NAME#" );
+                    DataResultSet xnode = new DataResultSet( xdataSet ); 
+                    
+                    if( newvalues == null || newvalues.length == 0 )
+                    {
+                        while( xnode.getRowCount() > 0 )
+                        {
+                            xnode.first();
+                            xnode.deleteRow();
+                        }
+                    }
+                    else
+                    {
+                        int i;
+                        for (i = 0; i < newvalues.length ; i++) 
+                        {
+                            if( xnode.absolute( i + 1 ) )
+                            {
+                                if( !ClassUtils.compare(newvalues,this.getValue()) )
+                                {
+                                    xnode.updateLong( "T$PARENT$" , getParent().getBoui() );
+                                    xnode.update#ATT.PRIMITIVEDATATYPE#( "#ATT.DBNAME#" , newvalues[i] );
+                                    xnode.updateRow();
+                                }
+                            }
+                            else
+                            {
+                                xnode.moveToInsertRow();
+                                xnode.update#ATT.PRIMITIVEDATATYPE#( "#ATT.DBNAME#" , newvalues[i] );
+                                xnode.updateLong( "T$PARENT$" , getParent().getBoui() );
+                                xnode.insertRow();
+                            }
+                        }
+                        for ( ; i < xdataSet.getRowCount() ; i++ )
+                        {
+                            xdataSet.deleteRow( i + 1 );
+                        }
+                    }
+					if( getParent().getBridges().get( "#ATT.NAME#" )!=null )
+					{
+						getParent().getBridge("#ATT.NAME#").refreshBridgeData();
+					}
+
+                }
+                catch (SQLException e)
+                {
+                    String[] args = {getParent().getName(),"#ATT.NAME#"};
+                    throw new boRuntimeException(boObject.class.getName()+"set(long)","BO-3002",e,args);
+                }
+                finally
+                {
+                    
+                }
+            }
+            public void setValuesString(String[] value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            
+        //@ELSEIF ARRAY
+            public #ATT.PRIMITIVEDATATYPE# getValue() throws boRuntimeException {
+                #ATT.PRIMITIVEDATATYPE# ret = null;
+                
+                if (getParent().isCheckSecurity() && !this.hasRights())
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".getValue()", "BO-3230", null, "");                      	                   	                                 
+
+                fireEvent( boEvent.EVENT_BEFORE_GETVALUE, null );
+                if(isdbbinding) {
+                    ret = this.getParent().getDataRow().get#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#");
+                } else {
+                    ret = fieldvalue;
+                }
+                fireEvent( boEvent.EVENT_AFTER_GETVALUE, ret );
+                return ret;
+            }
+            
+            public void setValueFormula(Hashtable table, String[]dependence) throws boRuntimeException
+            {
+                if(getParent().alreadyCalculated(table, dependence)) 
+                {                       
+                    if(getParent().isWaiting(table, "#ATT.NAME#"))
+                    {
+                       getParent().setCalculated(table, "#ATT.NAME#");
+                       setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    }
+                    else if(!getParent().isCalculated(table, "#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#");
+                        setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), table );
+                    }
+                }
+                else if(getParent().dependsFromWaiting(table, dependence))
+                {
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setCalculated(table, "#ATT.NAME#"); 
+                    }
+                    else
+                    {
+                        getParent().clear(table, "#ATT.NAME#"); 
+                        setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );
+                    } 
+                }
+                else
+                {    
+                    setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(formula(), this), false );                                    
+                    if(getParent().onChangeSubmit("#ATT.NAME#"))
+                    {
+                        getParent().setWaiting(table, "#ATT.NAME#");
+                        getParent().calculateFormula(new Hashtable(table), "#ATT.NAME#");
+                        //getParent().setCalculated(table, "#ATT.NAME#");
+                    }                    
+                }
+            }
+            public void setValue(#ATT.PRIMITIVEDATATYPE#  newval ) throws boRuntimeException
+            {
+                setValue( newval, true );
+            }
+            
+            public void setValue(#ATT.PRIMITIVEDATATYPE# newval, boolean recalc) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights()) 
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                 
+                if(!ClassUtils.compare(newval,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE# chgval = this.getValue();
+                    
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+    
+                    
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+											if(canAlter(recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL))
+											{
+	                        _setValue(newval);
+				        	setInputType( recalc?AttributeHandler.INPUT_FROM_USER:AttributeHandler.INPUT_FROM_INTERNAL );
+	                        
+	                        if( recalc && getParent().onChangeSubmit("#ATT.NAME#"))
+	                        {
+	                            Hashtable table = new Hashtable();
+	                            getParent().setCalculated(table, "#ATT.NAME#");
+	                            getParent().calculateFormula(table, "#ATT.NAME#");
+	                        }
+						    //vou verificar se o objecto se encontra numa bridge
+							if ( getParent().p_parentBridgeRow != null )
+							{
+								getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+							}
+	
+                            fireAfterChangeEvent( this, chgval, newval);
+//	                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//	                        if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//	                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+											}
+                    }
+                }
+            }
+            
+            private void setValue(#ATT.PRIMITIVEDATATYPE# newval, Hashtable table) throws boRuntimeException 
+            {
+                if (getParent().isCheckSecurity() && !this.hasRights()) 
+	            	throw new boRuntimeException(Handler#ATT.NAME#.class.getName() +
+	        	".setValue()", "BO-3230", null, "");                      	                   	                                 
+                if(!ClassUtils.compare(newval,this.getValue())) {
+                    #ATT.PRIMITIVEDATATYPE# chgval = this.getValue();
+                    
+//                    boolean allow=onBeforeChange(new boEvent(this,EVENT_BEFORE_CHANGE,chgval,newval));
+//                    if(chgval==null && newval != null) allow=onBeforeAdd(new boEvent(this,EVENT_BEFORE_ADD,newval));
+//                    if(newval==null && chgval!=null) allow =onBeforeRemove(new boEvent(this,EVENT_BEFORE_REMOVE,chgval));
+                    
+                    if ( fireBeforeChangeEvent( this, chgval, newval) )
+                    {
+											if(canAlter(AttributeHandler.INPUT_FROM_INTERNAL))
+											{
+                        _setValue(newval);
+                        setInputType( AttributeHandler.INPUT_FROM_INTERNAL );
+                        
+                        if(getParent().onChangeSubmit("#ATT.NAME#"))
+                        {
+                            getParent().setCalculated(table, "#ATT.NAME#");
+                            getParent().calculateFormula(table, "#ATT.NAME#");
+                        }
+
+                        //vou verificar se o objecto se encontra numa bridge
+						if ( getParent().p_parentBridgeRow != null )
+						{
+							getParent().getParentBridgeRow().getBridge().lineChanged("#ATT.NAME#");
+						}
+
+                        fireAfterChangeEvent( this, chgval, newval);
+//                        if(chgval!=null && newval == null) onAfterRemove(new boEvent(this,EVENT_AFTER_REMOVE,chgval));
+//                        if(chgval==null && newval != null) onAfterAdd(new boEvent(this,EVENT_AFTER_ADD,newval));
+//                        onAfterChange(new boEvent(this,EVENT_AFTER_CHANGE,chgval,newval));
+                    }
+									}
+                }
+            }
+            
+            public void _setValue(#ATT.PRIMITIVEDATATYPE# newval) throws boRuntimeException {
+                if(isdbbinding) {
+                    this.getParent().getDataRow().update#ATT.PRIMITIVEDATATYPE#("#ATT.DBNAME#",newval);
+                    getParent().setChanged(true);
+                    super.setValid();
+                } else {
+                    fieldvalue = newval;
+                }
+            }
+        //@ENDIF ARRAY
+        public void setValueString(String value)  throws boRuntimeException 
+        {
+            //@IF ARRAY
+                this.setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+            //@ELSEIF ARRAY
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            //@ENDIF ARRAY
+        }
+
+        public void setValueObject(Object value) throws boRuntimeException {
+            //@IF ARRAY
+                this.setValue((#ATT.PRIMITIVEDATATYPE#[])value);
+            //@ELSEIF ARRAY
+                this.setValue((#ATT.PRIMITIVEDATATYPE#)value);
+            //@ENDIF ARRAY
+        }
+        public Object getValueObject() throws boRuntimeException 
+        {
+            return this.getValue();
+        }
+
+        //@IF SIMPLEDATATYPE
+            //@IF ARRAY
+            public #ATT.JAVADATATYPE#[] getValues#ATT.JAVADATATYPEOBJ#() throws boRuntimeException {
+                return boConvertUtils.convertToArrayOf#ATT.JAVADATATYPE#(this.getValue(),this);
+            }
+            public void setValues(#ATT.JAVADATATYPE#[] value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            public void setValues#ATT.JAVADATATYPE#(#ATT.JAVADATATYPE#[] value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertToArrayOf#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            //@ELSEIF ARRAY
+            public #ATT.JAVADATATYPE# getValue#ATT.JAVADATATYPEOBJ#() throws boRuntimeException {
+                return boConvertUtils.convertTo#ATT.JAVADATATYPE#(this.getValue(),this);
+            }
+            public void setValue(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            public void setValue#ATT.JAVADATATYPE#(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
+            {
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+            }
+            //@ENDIF ARRAY
+        //@ENDIF SIMPLEDATATYPE
+
+        #OBJECT.METHODS#
+        #OBJECT.EVENTS#
+    }
+    //@ENDFOREACH ATTRIBUTE
+
+    //@FOREACH STATE
+    public final class Handler#ATT.NAME# extends boObjectStateHandler {
+        //@FOREACH OPTIONSTATE
+        public final String STATE_#ATT.NAME#="#ATT.NUMERICFORM#";
+        //@ENDFOREACH OPTIONSTATE
+        public Handler#ATT.NAME#(boObject bobj) {
+            super(bobj,bobj.getBoDefinition().getBoClsState().getChildStateAttributes("#ATT.NAME#"));
+        }
+    }
+
+    //@ENDFOREACH STATE
+        
+    #BO.IMPLEMENTEDMETHODS#
+    
+    
+//@REMOVE    */ 
+//@ENDREMOVE
+}
+]]></code>

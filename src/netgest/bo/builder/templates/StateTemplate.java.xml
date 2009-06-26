@@ -1,0 +1,49 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<code>
+<![CDATA[
+import java.io.Serializable;
+import netgest.bo.runtime.*;
+import java.sql.SQLException;
+import java.util.*;
+//@REMOVE
+
+public class StateTemplate implements Serializable 
+{
+//@ENDREMOVE
+//@REMOVE
+/* 
+//@ENDREMOVE
+
+public class _boTemplate_ extends #BO.SUPERCLASS# implements Serializable 
+{
+//@REMOVE
+/* 
+//@ENDREMOVE
+    private boObject object;
+    public boObject getParent() 
+    {
+        return object;
+    }
+    
+
+    public _boTemplate_( boObject xobject ) 
+    {
+        object = xobject;
+    }
+    //@FOREACH STATE
+    //@FOREACH OPTIONSTATE
+    public void setState_#ATT.PARENT#_#ATT.NAME#( ) throws boRuntimeException
+    {
+        object.getStateAttributes().get( "#ATT.PARENT#" ).setValueString( "#ATT.NUMERICFORM#" );    
+    }
+    //@ENDFOREACH OPTIONSTATE
+    //@ENDFOREACH STATE
+
+
+    #BO.EVENTS#    
+//@REMOVE
+*/ 
+//@ENDREMOVE
+    
+}
+]]></code>
