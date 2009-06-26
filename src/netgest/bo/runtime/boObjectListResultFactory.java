@@ -24,8 +24,6 @@ import netgest.bo.utils.XEOQLModifier;
 
 import org.apache.log4j.Logger;
 
-import com.lowagie.text.pdf.ArabicLigaturizer;
-
 public class boObjectListResultFactory  {
 
     public static final byte TYPE_BOQL=0;

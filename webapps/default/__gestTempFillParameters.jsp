@@ -14,11 +14,11 @@
 <%@ page import="netgest.bo.presentation.render.*"%>
 <%@ page import="netgest.utils.*,netgest.bo.system.*"%>
 <%@ page import="netgest.bo.controller.basic.BasicPresentation"%>
-<%@ page import="pt.lusitania.gd.GDHelper"%>
+<%@ page import="netgest.bo.impl.document.merge.gestemp.presentation.GDHelper"%>
 
 <jsp:useBean id="DOCLIST" scope="session" class="netgest.bo.dochtml.docHTML_controler"></jsp:useBean>
 <%
-response.setDateHeader ("Expires", -1);
+	response.setDateHeader ("Expires", -1);
 EboContext boctx = (EboContext)request.getAttribute("a_EboContext");
 try {
 boolean masterdoc=false;
@@ -367,7 +367,7 @@ if(boctx==null) {
             }
         }
     }
-    %>
+%>
 
 <html>
 <head>

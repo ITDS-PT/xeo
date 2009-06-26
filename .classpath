@@ -11,39 +11,26 @@
 	<classpathentry kind="lib" path="base_lib/j2ee/mail.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/servlet.jar"/>
 	<classpathentry kind="lib" path="project_lib/AppXTender.jar"/>
-	<classpathentry kind="lib" path="project_lib/bcmail-jdk14-125.jar"/>
 	<classpathentry kind="lib" path="project_lib/bcpg-jdk14-125.jar"/>
 	<classpathentry kind="lib" path="project_lib/bcprov-jdk14-125.jar"/>
 	<classpathentry kind="lib" path="project_lib/bsh-2.0b1.jar"/>
 	<classpathentry kind="lib" path="project_lib/ConvertImagesStub.jar"/>
 	<classpathentry kind="lib" path="project_lib/cos.jar"/>
 	<classpathentry kind="lib" path="project_lib/email.jar"/>
-	<classpathentry kind="lib" path="project_lib/itext-2.0.4.jar"/>
 	<classpathentry kind="lib" path="project_lib/java_sql_interfaces_1_6.jar"/>
 	<classpathentry kind="lib" path="project_lib/jawin.dll"/>
-	<classpathentry kind="lib" path="project_lib/jawin.jar"/>
-	<classpathentry kind="lib" path="project_lib/jazn.jar"/>
-	<classpathentry kind="lib" path="project_lib/jce-jdk13-125.jar"/>
 	<classpathentry kind="lib" path="project_lib/JimiProClasses.jar"/>
-	<classpathentry kind="lib" path="project_lib/jts1_0.zip"/>
 	<classpathentry kind="lib" path="project_lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="project_lib/mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="lib" path="project_lib/ojsp.jar"/>
-	<classpathentry kind="lib" path="project_lib/pdkjava.jar"/>
-	<classpathentry kind="lib" path="project_lib/pdkwizrd.jar"/>
-	<classpathentry kind="lib" path="project_lib/ptlshare.jar"/>
 	<classpathentry kind="lib" path="project_lib/regex4j.jar"/>
-	<classpathentry kind="lib" path="project_lib/repos.jar"/>
 	<classpathentry kind="lib" path="project_lib/soap.jar"/>
-	<classpathentry kind="lib" path="project_lib/systray4j.jar"/>
 	<classpathentry kind="lib" path="project_lib/timerservice.jar"/>
-	<classpathentry kind="lib" path="project_lib/utils.jar"/>
 	<classpathentry kind="lib" path="project_lib/WordWriter-v2-License.jar"/>
 	<classpathentry kind="lib" path="project_lib/WordWriter-v2.5.2.jar"/>
 	<classpathentry kind="lib" path="project_lib/xeoWin32Client.jar"/>
-	<classpathentry kind="lib" path="project_lib/xmlcomp.jar"/>
 	<classpathentry kind="lib" path="project_lib/xmlparserv2.jar"/>
-	<classpathentry kind="lib" path="project_lib/y.jar"/>
 	<classpathentry kind="lib" path="project_lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="project_lib/bcmail-jdk14-125.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

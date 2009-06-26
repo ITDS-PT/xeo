@@ -18,11 +18,10 @@ public class boClassCompiler  {
     public void compile(String srcdir,File[] srccode,String outputdir) throws RuntimeException {
       try {
           String xjavac = null;
-          String ngtjar = null;
           File clsdir = new File(outputdir);
           clsdir.mkdirs();
  
-          xjavac =new boConfig().getCompilerdir(); 
+          xjavac =boConfig.getCompilerdir(); 
 
           if (xjavac == null || xjavac.length()==0) 
               throw(new RuntimeException("Node (pathjavac) A Path para o compilador de java não foi especificada no boconfig.xml"));
@@ -87,8 +86,7 @@ public class boClassCompiler  {
               time +=1000;
           }
           if(time >= MAXTIMERUN) {
-              outnorm.destroy();
-              outerr.destroy();
+
           }
           //Wait for process exit.
           Thread we = new Thread(new waiforproc(proc));
@@ -101,7 +99,7 @@ public class boClassCompiler  {
                 proc.destroy();
                 throw(new Exception("Error a compilar class"));
           }
-          String msgs = rd1.dataReaded;
+
           String error = rd2.dataReaded;
 
           if (error.length() > 0) {
@@ -154,21 +152,12 @@ public class boClassCompiler  {
       }
       public void run() {
                 try {
-                    proc.waitFor();
+                	p_proc.waitFor();
                 } catch (InterruptedException e) {
 
                 }
             }
       }    
 
-    private class filenamefilter implements FilenameFilter {
-        String p_classname;
-        public filenamefilter(String classname) {
-            p_classname = classname;
-        }
 
-        public boolean accept(File dir,String fn) {
-            return fn.startsWith(p_classname) && fn.endsWith(".class");
-        }
-    }
 }

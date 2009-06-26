@@ -7,9 +7,7 @@ import java.math.BigDecimal;
 import netgest.bo.runtime.boEvent;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
-
 import netgest.bo.utils.CleanDirectory;
-import netgest.io.AppxiFile;
 import netgest.io.BasiciFile;
 import netgest.io.DBiFile;
 import netgest.io.FSiFile;

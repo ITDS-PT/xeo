@@ -1,31 +1,20 @@
 package netgest.bo.impl.document.merge.gestemp;
-import bsh.BshClassManager;
-import bsh.NameSpace;
-import com.develop.jawin.COMException;
-import com.develop.jawin.UnknownPtr;
-import com.softartisans.wordwriter.WordTemplate;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.net.InetAddress;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+
 import netgest.bo.boConfig;
 import netgest.bo.controller.Controller;
 import netgest.bo.impl.document.DocumentHelper;
@@ -35,20 +24,19 @@ import netgest.bo.impl.document.merge.gestemp.presentation.GtTemplateViewer;
 import netgest.bo.impl.document.merge.gestemp.validation.Contexto;
 import netgest.bo.impl.document.merge.gestemp.validation.JavaExecuter;
 import netgest.bo.impl.document.merge.gestemp.validation.Modelo;
-import netgest.bo.impl.document.merge.gestemp.validation.Query;
-import netgest.bo.impl.document.merge.resultSet.MergeResultSetTable;
 import netgest.bo.impl.document.print.GDOCXUtilsStub;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
-import netgest.io.FSiFile;
 import netgest.io.iFile;
 import netgest.io.iFilePermissionDenied;
 import netgest.utils.CommandLineExecuter;
+
 import org.apache.log4j.Logger;
+
+import com.softartisans.wordwriter.WordTemplate;
 
 //TODO:Implement Interface LUSITANIA
 //import pt.lusitania.events.Message;

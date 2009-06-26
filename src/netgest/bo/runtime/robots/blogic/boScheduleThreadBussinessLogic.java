@@ -435,14 +435,6 @@ public class boScheduleThreadBussinessLogic
             public String when;
             public ScheduleProps() {
             }
-            public ScheduleProps(String ptype,String interval,String pevery,String pwhen,String p_everyWeek,String p_everyMonth) {
-                type = ptype;
-                every = pevery;
-                when = pwhen;
-                everyWeek=p_everyWeek;
-                everyMonth=p_everyMonth;
-                
-            }
             
             public int getWhenMinutes()
             {
