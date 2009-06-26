@@ -2,11 +2,7 @@
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) -->
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
-    <description>Empty web.xml file for Web Application</description>
-    <filter>
-        <filter-name>JpsFilter</filter-name>
-        <filter-class>oracle.security.jps.ee.http.JpsFilter</filter-class>
-    </filter>
+    <description>XEO Web Application</description>
     <filter>
         <filter-name>boCharsetFilter</filter-name>
         <filter-class>netgest.bo.http.boCharsetFilter</filter-class>
