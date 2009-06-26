@@ -5,7 +5,7 @@
 	<webcontextroot>/xeo21/</webcontextroot>
 	<encoding>UTF-8</encoding>
 	<deployment>
-		<class_dir>.\build\classes\</class_dir>
+		<class_dir>.\.build\classes\</class_dir>
 		<src_dir>.\.build\src\</src_dir>
 		<obj_dir>.\.build\bodef-deployment</obj_dir>
 		<obj_compiler>c:\jdev1012\jdk\bin\javac.exe</obj_compiler>

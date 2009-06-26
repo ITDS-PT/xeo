@@ -17,7 +17,7 @@
   <web-app application="system" name="JMXSoapAdapter-web" root="/JMXSoapAdapter" />
   <web-app application="default" name="jmsrouter_web" root="/jmsrouter" load-on-startup="true" />
 
-  <web-app application="current-workspace-app" name="xeov21_war" root="/xeo" load-on-startup="true" />
+  <web-app application="xeo" name="xeo_default" root="/xeo" load-on-startup="true" />
 
   <!-- Access Log, where requests are logged to -->
   <access-log path="./oc4j-web-site.log" split="day" />

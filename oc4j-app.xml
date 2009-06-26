@@ -1,7 +1,9 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <orion-application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/orion-application-11_0.xsd">
-    <ejb-module path="file:/.\bin\" id="xeov21"/>
-    <web-module id="default" path="file:/.\webapps\default\"/>
+
+    <ejb-module path="file:/C:\projects_eclipse\xeo\xeo_v3_core\bin\" id="xeo"/>
+    <web-module id="xeo_default" path="file:/C:\projects_eclipse\xeo\xeo_v3_core\webapps\default\"/>
+    
 	<library path=".\project_lib\" />
 	<library path=".\base_lib\modules\" />
 	<library path=".\base_lib\modules_lib\" />
