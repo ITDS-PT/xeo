@@ -24,6 +24,7 @@ public class boDefBridgeImpl extends ngtXMLHandler implements boDefBridge
     private boDefHandlerImpl p_childdef;
     public  boDefAttribute[] p_attributes;
     private boDefMethodImpl[] p_methods;
+    private String 			  p_phisicalTable = null;
 
     public boDefBridgeImpl(boDefAttributeImpl atthandler)
     {
@@ -109,15 +110,12 @@ public class boDefBridgeImpl extends ngtXMLHandler implements boDefBridge
 
     public String getBoPhisicalMasterTable()
     {
-        //return super.getChildNodeText("tablename",p_atthandler.getBoDefHandler().getBoName()+"$"+p_atthandler.getReferencedObjectDef().getBoName());
-        String x1 = p_atthandler.getBoDefHandler().getBoPhisicalMasterTable();
-        String x2 = p_atthandler.getName();
-
-        //if(x1.compareToIgnoreCase(x2)>0)
-        return boBuildDB.encodeObjectName(x1 + "$" + x2);
-
-        //else 
-        //return x2+"$"+x1;
+    	if( p_phisicalTable == null ) {
+	        String x1 = p_atthandler.getBoDefHandler().getBoPhisicalMasterTable();
+	        String x2 = p_atthandler.getName();
+	        p_phisicalTable = boBuildDB.encodeObjectName(x1 + "$" + x2).toUpperCase();
+    	}
+    	return p_phisicalTable;
     }
 
     public String getBoMasterTable()

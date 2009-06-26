@@ -252,7 +252,7 @@ public class MysqlDBM extends OracleDBM {
         try
         {
             PreparedStatement pstmdict = cndef.prepareStatement(
-                    "select \"SCHEMA\",objectname,objecttype,fieldtype,fieldsize,tablename from ngtdic where " +
+                    "select \"SCHEMA\",objectname,objecttype,fieldtype,fieldsize,tablename from NGTDIC where " +
                     "tablename = ? and objecttype = 'T' and objectname = ?  and \"SCHEMA\"=?");
 
             PreparedStatement pstmvtbt = cndef.prepareStatement(
@@ -481,7 +481,7 @@ public class MysqlDBM extends OracleDBM {
             {
                 parentcon = p_ctx.getConnectionDef();
                 ps = parentcon.prepareStatement(
-                        "select tablename from ngtdic where objecttype = 'T'");
+                        "select tablename from NGTDIC where objecttype = 'T'");
                 rs = ps.executeQuery();
 
                 while (rs.next())
@@ -756,7 +756,7 @@ public class MysqlDBM extends OracleDBM {
 	    String name = p_ctx.getBoSession().getRepository().getName();
 
 	    dml
-	    .append(" CREATE TABLE  \"sys_sequences\" ( " )
+	    .append(" CREATE TABLE  \"SYS_SEQUENCES\" ( " )
 	    .append("  \"sequence_name\" varchar(100)  BINARY NOT NULL, ")
 	    .append("  \"sequence_increment\" int(11) unsigned NOT NULL DEFAULT '1', ")
 	    .append("  \"sequence_min_value\" int(11) unsigned NOT NULL DEFAULT '1', ")
@@ -813,7 +813,7 @@ public class MysqlDBM extends OracleDBM {
     {
         StringBuffer dml = new StringBuffer();
         String name = p_ctx.getBoSession().getRepository().getName();
-        dml.append("create table ").append(newSchemaName).append(".ebo_textindex (BOUI bigint, text LONGTEXT,")
+        dml.append("create table ").append(newSchemaName).append(".EBO_TEXTINDEX (BOUI bigint, text LONGTEXT,")
         .append("SYS_ICN        NUMERIC(7),")
         .append("SYS_USER       VARCHAR(25)  BINARY,")
         .append("SYS_DTCREATE   DATETIME,")
@@ -920,9 +920,8 @@ public class MysqlDBM extends OracleDBM {
         {
             cn = ctx.getDedicatedConnectionData();
             pstm = cn.prepareStatement(
-                    "select count(*) from information_schema.tables where TABLE_SCHEMA=database() AND upper(TABLE_NAME)=? and upper(TABLE_SCHEMA) = ?");
+                    "select count(*) from information_schema.tables where TABLE_SCHEMA=database() AND upper(TABLE_NAME)=?");
             pstm.setString(1, tableName.toUpperCase());
-            pstm.setString(2, schemaName.toUpperCase());
             rslt = pstm.executeQuery();
 
             if (rslt.next())
@@ -1993,7 +1992,7 @@ public class MysqlDBM extends OracleDBM {
         try
         {
             PreparedStatement pstmdicf = cndef.prepareStatement(
-                    "select \"SCHEMA\",objectname,objecttype,fieldtype,fieldsize,tablename from ngtdic where " +
+                    "select \"SCHEMA\",objectname,objecttype,fieldtype,fieldsize,tablename from NGTDIC where " +
                     "tablename = ? and objecttype = 'F' and objectname = ? and \"SCHEMA\"=?");
 
             for (int i = 0; i < fields.length; i++)
