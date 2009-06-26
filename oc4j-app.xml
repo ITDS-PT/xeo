@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<orion-application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/orion-application-11_0.xsd">
+
+    <ejb-module path="file:/C:\projects_eclipse\xeov2.1\xeo_v3_core\build\classes\" id="xeov21"/>
+
+    <web-module id="xeov21_war" path="file:/C:\projects_eclipse\xeov2.1\xeo_v3_core\public_html\"/>
+    <web-module id="xeov21_xwc" path="file:/C:\projects_eclipse\xeov2.1\xeo_v3_xwc\public_html"/>
+
+
+    <web-module id="xeov21_portal" path="file:/C:\projects_eclipse\xeov2.1\xeo_v3_xwc_portal\public_html"/>
+    <web-module id="testes" path="file:/C:\projects_eclipse\xeov2.1\Testes\public_html"/>
+    <web-module id="oe" path="file:/C:\projects_eclipse\xeov2.1\oe\public_html"/>
+    <web-module id="cronom" path="file:/C:\projects_eclipse\xeov2.1\naturaminde\html_cronom\"/>
+
+<!--     <web-module id="xeo_portal" path="file:/C:\projects_eclipse\xeov2.1\xeo_portal\public_html"/> -->
+
+
+
+<!-- COREs -->
+
+    	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_core\lib\">jdev-generated</library>
+    	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_xwc\jlib\">jdev-generated</library>
+    	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_xwc\lib\">jdev-generated</library>
+    	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_xwc_portal\lib\">jdev-generated</library>
+
+	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_xwc\build\classes">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\xeo_v3_xwc_portal\build\classes"></library>
+
+<!-- PROJECTS -->
+	<library path="C:\projects_eclipse\xeov2.1\xeo_migration_tool\bin\"></library>
+
+
+	<library path="C:\projects_eclipse\xeov2.1\naturaminde\bin"></library>
+	<library path="C:\projects_eclipse\xeov2.1\naturaminde\lib\"></library>
+
+
+	<library path="C:\projects_eclipse\xeov2.1\GOE\bin\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\GOE\lib\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\oe\build\classes">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\EmailSender\bin\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\OutCom\bin\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\testes_xwc\bin\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\fadata_insis\build\classes">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\oe\lib\"></library>
+
+	<library path="C:\projects_eclipse\xeov2.1\VivaSocial\libs\"></library>
+	<library path="C:\projects_eclipse\xeov2.1\VivaSocial\bin\"></library>
+
+
+	<!-- UDIFAR -->
+	<library path="C:\projects_eclipse\xeov2.1\AgendaUtente\bin\">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\udifarViewers\bin\">jdev-generated</library>
+    	<library path="C:\projects_eclipse\xeov2.1\udifarViewers\lib\">jdev-generated</library>
+	<!-- FIM UDIFAR -->
+	
+	<!--
+	<library path="C:\Downloads\jbosscache-core-3.0.1.GA-all\lib\">jdev-generated</library>
+	<library path="C:\Downloads\jbosscache-core-3.0.1.GA-all\jbosscache-core.jar">jdev-generated</library>
+    	-->
+
+	<!--
+	<library path="C:\projects_eclipse\xeov2.1\xeo_portal\lib\">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\xeo_portal\lib\jboss_cache_1_4_1_SP10\">jdev-generated</library>
+	<library path="C:\projects_eclipse\xeov2.1\xeo_portal\bin">jdev-generated</library>
+	-->
+
+	<!--
+	<library path="C:\projects_eclipse\lib\jasper\barbecue-1.1.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\barbecue-1.5-beta1.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\commons-beanutils-1.7.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\commons-digester-1.7.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\commons-io-1.2.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\commons-logging-1.0.2.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\commons-logging-api-1.0.2.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\itext-1.3.1.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\jasperreports-3.0.1.jar">jdev-generated</library>
+	<library path="C:\projects_eclipse\lib\jasper\poi-3.0.1-FINAL-20070705.jar">jdev-generated</library>
+	-->
+
+    <log>
+	<file path="xeov21_jdev11-oc4j-app.log"/>
+    </log>
+    <data-sources path="xeov21_jdev11-data-sources.xml"/>
+</orion-application>

@@ -1,0 +1,359 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<data-sources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/data-sources-10_1.xsd"
+              xmlns="http://xmlns.oracle.com/oracleas/schema">
+
+<!--
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="jdbc/xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="wf_xeo" 
+                        password="wf_xeo"
+                        url="jdbc:oracle:thin:@localhost:1521:jpdb10g">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="wf_xeo" password="wf_xeo"
+                        url="jdbc:oracle:thin:@localhost:1521:jpdb10g">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="jdbc/xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+
+-->
+
+<!-- ORACLE XEO_JP 
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="java:xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="XEO_JP" 
+                        password="net"
+                        url="jdbc:oracle:thin:@DEVDB2:1521:DEVDB2">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_jp" password="net"
+                        url="jdbc:oracle:thin:@DEVDB2:1521:DEVDB2">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="java:xeo" 
+  	description="Managed DataSource"
+        connection-pool-name="XEOConnectionPool"
+        name="ManagedDS"
+  />
+  
+-->  
+
+<!-- NATURAMINDE 
+
+
+
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="jdbc/xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="naturaminde" 
+                        password="net"
+                        url="jdbc:oracle:thin:@192.168.1.37:1521:nextdb">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="naturaminde" password="net"
+                        url="jdbc:oracle:thin:@192.168.1.37:1521:nextdb">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="jdbc/xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+  
+-->
+
+<!-- MYSQL XEO_JP -->
+
+<!--
+<data-source
+        class="com.evermind.sql.DriverManagerDataSource"
+        name="MySQLDS"
+        location="java:xeo_nojta"
+        xa-location="java:/xa/xeo"
+        ejb-location="java:xeo"
+        connection-driver="com.mysql.jdbc.Driver"
+        username="xeo_jp"
+        password="net"
+        url="jdbc:mysql://localhost/xeo_jp"
+        inactivity-timeout="30"
+/>  
+<native-data-source
+ name="nativeDataSource"  
+ jndi-name="jdbc/MyDS"  
+ description="Native DataSource"  
+ data-source-class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"  
+ user="user"  
+ password="password"  
+ url="jdbc:mysql://localhost:3306/mydatabase">
+</native-data-source
+-->
+
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="java:xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
+                        user="vivasocial" 
+                        password="net"
+                        url="jdbc:mysql://192.168.1.168/vivasocial">
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
+                        user="vivasocial" password="net"
+                        url="jdbc:mysql://192.168.1.168/vivasocial">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="java:xeo" 
+		description="Managed DataSource"
+		connection-pool-name="XEOConnectionPool"
+		name="ManagedDS"
+  />
+
+<!-- END MYSQL -->
+
+
+
+
+<!-- 
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="java:xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_inthebox" 
+                        password="net"
+                        url="jdbc:oracle:thin:@192.168.131.171:1521:oraclexe">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_inthebox" password="net"
+                        url="jdbc:oracle:thin:@192.168.131.171:1521:oraclexe">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="java:xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+-->
+
+<!-- OE_PROD 
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="java:xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_oe_prod" 
+                        password="oeprod"
+                        url="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=svrac01-vip.itds.pt)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=svrac02-vip.itds.pt)(PORT=1521))(CONNECT_DATA=(SERVER = DEDICATED)(service_name=RDB02_TAF.itds.pt)(FAILOVER_MODE=(TYPE = SELECT)(METHOD = BASIC)(RETRIES = 5)(DELAY = 1))))"
+                        >
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <managed-data-source jndi-name="java:xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+                       
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_oe_prod" password="oeprod"
+                        url="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=svrac01-vip.itds.pt)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=svrac02-vip.itds.pt)(PORT=1521))(CONNECT_DATA=(SERVER = DEDICATED)(service_name=RDB02_TAF.itds.pt)(FAILOVER_MODE=(TYPE = SELECT)(METHOD = BASIC)(RETRIES = 5)(DELAY = 1))))">
+    </connection-factory>
+  </connection-pool>
+
+-->
+
+<!-- OE_PROD TESTES 
+
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="java:xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_oe_prod" 
+                        password="oeprod"
+                        url="jdbc:oracle:thin:@devdb2:1521:devdb2"
+                        >
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <managed-data-source jndi-name="java:xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+                       
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_oe_prod" password="oeprod"
+                        url="jdbc:oracle:thin:@devdb2:1521:devdb2">
+    </connection-factory>
+  </connection-pool>
+-->
+
+<!-- UDIFARDB -->
+<!--
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="jdbc/xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="ngtbo_udifar" 
+                        password="net"
+                        url="jdbc:oracle:thin:@192.168.1.45:1521:dsv03">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="ngtbo_udifar" password="net"
+                        url="jdbc:oracle:thin:@192.168.1.45:1521:dsv03">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="jdbc/xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+
+-->
+
+<!--
+
+
+  <connection-pool name="INSISConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="insis_gen" password="insis_gen"
+                        url="jdbc:oracle:thin:@mandarina:1521:DB101EE">
+    </connection-factory>
+  </connection-pool>
+
+  <managed-data-source jndi-name="jdbc/insis" 
+  						description="Managed DataSource"
+                       	connection-pool-name="INSISConnectionPool"
+                       	name="INSISManagedDS"
+
+
+
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+    <data-source class="com.evermind.sql.DriverManagerDataSource" name="XEO" location="jdbc/xeo_nojta" xa-location="jdbc/xa/xeoXADS"
+                 ejb-location="jdbc/xeo" connection-driver="oracle.jdbc.driver.OracleDriver" username="XEOV21_TESTE"
+                 password="net" url="jdbc:oracle:thin:@localhost:1521:jpdb10g"
+                 inactivity-timeout="30">
+        <description></description>
+    <data-source class="com.evermind.sql.DriverManagerDataSource" name="XEO" location="jdbc/xeo_nojta" xa-location="jdbc/xa/xeoXADS"
+                 ejb-location="jdbc/xeo" connection-driver="oracle.jdbc.driver.OracleDriver" 
+                 username="i_brandao" password="i_brandao" 
+                 _url="jdbc:oracle:thin:@svrht06.meitner.pt:1521:DSV02"
+                 url="jdbc:oracle:thin:@localhost:1521:jpdb10g"
+                 inactivity-timeout="30">
+    </data-source>
+
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="jdbc/xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="XEOV21_TESTE" 
+                        password="net"
+                        url="jdbc:oracle:thin:@localhost:1521:jpdb10g">
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <managed-data-source jndi-name="jdbc/xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+                       
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="XEOV21_TESTE" password="net"
+                        url="jdbc:oracle:thin:@localhost:1521:jpdb10g">
+    </connection-factory>
+  </connection-pool>
+-->
+<!--
+  <native-data-source   name="nativeDataSource" 
+                        jndi-name="jdbc/xeo_nojta"
+                        description="Native DataSource"
+                        data-source-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_teste" 
+                        password="net"
+                        url="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=svrac01-vip.itds.pt)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=svrac02-vip.itds.pt)(PORT=1521))(CONNECT_DATA=(SERVER = DEDICATED)(service_name=RDB02_TAF.itds.pt)(FAILOVER_MODE=(TYPE = SELECT)(METHOD = BASIC)(RETRIES = 5)(DELAY = 1))))"
+                        >
+        <property name="connectionCacheName" value="ICC1"/>
+        <property name="connectionCachingEnabled" value="true"/>
+  </native-data-source>
+
+  <managed-data-source jndi-name="jdbc/xeo" 
+  						description="Managed DataSource"
+                       	connection-pool-name="XEOConnectionPool"
+                       	name="ManagedDS"
+  />
+                       
+  <connection-pool name="XEOConnectionPool" min-connections="2"
+                   max-connections="100" inactivity-timeout="30">
+
+  	<connection-factory factory-class="oracle.jdbc.pool.OracleDataSource"
+                        user="xeo_teste" password="net"
+                        url="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=ON)(ADDRESS=(PROTOCOL=TCP)(HOST=svrac01-vip.itds.pt)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=svrac02-vip.itds.pt)(PORT=1521))(CONNECT_DATA=(SERVER = DEDICATED)(service_name=RDB02_TAF.itds.pt)(FAILOVER_MODE=(TYPE = SELECT)(METHOD = BASIC)(RETRIES = 5)(DELAY = 1))))">
+    </connection-factory>
+  </connection-pool>
+-->  
+</data-sources>
+
