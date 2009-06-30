@@ -566,14 +566,13 @@ public class boBuilder
         // Check all directories..
         File deployDir = null;
         deployDir = new File( p_eboctx.getApplication().getApplicationConfig().getDeployJspDir() );
-        if( !deployDir.exists() ) deployDir.mkdir();
+        if( !deployDir.exists() ) deployDir.mkdirs();
         deployDir = new File( p_eboctx.getApplication().getApplicationConfig().getDeploymentclassdir() );
-        if( !deployDir.exists() ) deployDir.mkdir();
+        if( !deployDir.exists() ) deployDir.mkdirs();
         deployDir = new File( p_eboctx.getApplication().getApplicationConfig().getDeploymentDir() );
-        if( !deployDir.exists() ) deployDir.mkdir();
+        if( !deployDir.exists() ) deployDir.mkdirs();
         deployDir = new File( p_eboctx.getApplication().getApplicationConfig().getDeploymentsrcdir() );
-        if( !deployDir.exists() ) deployDir.mkdir();
-
+        if( !deployDir.exists() ) deployDir.mkdirs();
 
         boBuildRepository repository = new boBuildRepository(p_eboctx.getBoSession()
                                                                      .getRepository());
