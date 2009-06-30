@@ -14,6 +14,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.def.boDefViewer;
 
 import oracle.xml.parser.v2.XMLDocument;
+import oracle.xml.parser.v2.XMLElement;
 
 import org.apache.log4j.Logger;
 
@@ -59,7 +60,7 @@ public class boClassBuilder
                 {
                     InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "netgest/bo/builder/templates/boTemplate.xml" );
                     XMLDocument doc = ngtXMLUtils.loadXML( is );
-                    String textContent = doc.getDocumentElement().getTextContent();
+                    String textContent = ((XMLElement)doc.getDocumentElement()).getText();
                 	
                     String srctemp = generateSrcFile(textContent,bodef,""+clsregboui);
 

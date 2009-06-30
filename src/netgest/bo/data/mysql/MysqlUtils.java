@@ -99,7 +99,7 @@ public class MysqlUtils implements DriverUtils {
 	}
 
 	public String fnTruncateDate(String exprString) {
-		return new StringBuilder("DATE(").append( exprString ).append( ")" ).toString();
+		return new StringBuffer("DATE(").append( exprString ).append( ")" ).toString();
 	}
 	
 	public String getQueryLimitStatement(int rows) {
@@ -121,7 +121,7 @@ public class MysqlUtils implements DriverUtils {
 		fulltext = fulltext.replaceAll( "\\p{Punct}" , "" );
 		fulltext = fulltext.replaceAll( "\\s\\s" , " " );
 		String[] tokens = fulltext.split( " " );
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for( int i=0; i < tokens.length; i++ ) {
 			if( tokens[i].length() > 0 ) {
 				if( sb.length() > 0 ) {

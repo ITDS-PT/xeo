@@ -402,7 +402,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
     public final void updateDouble( int columnIndex , double x )
     {
-        updateValue( columnIndex , DataTypes.NUMERIC , BigDecimal.valueOf( x ) );
+        updateValue( columnIndex , DataTypes.NUMERIC , new BigDecimal( x ) );
     }
 
     public final void updateFloat( String columnName , float x )
@@ -412,7 +412,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
     public final void updateFloat( int columnIndex , float x )
     {
-        updateValue( columnIndex , DataTypes.NUMERIC , BigDecimal.valueOf(x) );
+        updateValue( columnIndex , DataTypes.NUMERIC , new BigDecimal(x) );
     }
 
     public final void updateInt( String columnName , int x )

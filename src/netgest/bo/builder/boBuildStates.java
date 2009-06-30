@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import oracle.xml.parser.v2.XMLDocument;
+import oracle.xml.parser.v2.XMLElement;
 
 import netgest.bo.*;
 import netgest.utils.*;
@@ -36,7 +37,7 @@ public class boBuildStates extends boAttributesArray
             
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "netgest/bo/builder/templates/StateTemplate.xml" );
             XMLDocument doc = ngtXMLUtils.loadXML( is );
-            String textContent = doc.getDocumentElement().getTextContent();
+            String textContent = ((XMLElement)doc.getDocumentElement()).getText();
             
             String srctemp = generateSrcFile( textContent, bodef );
 

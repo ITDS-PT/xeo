@@ -110,7 +110,7 @@ public class OracleUtils  implements DriverUtils
 	}
 
 	public String fnTruncateDate(String exprString) {
-		return new StringBuilder("TRUNC(").append( exprString ).append( ")" ).toString();
+		return new StringBuffer("TRUNC(").append( exprString ).append( ")" ).toString();
 	}
 	
 	public String getQueryLimitStatement(int rows) {
