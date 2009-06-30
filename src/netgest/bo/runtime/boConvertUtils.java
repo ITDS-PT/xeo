@@ -549,7 +549,7 @@ public class boConvertUtils
 
             for (short i = 0; i < value.length; i++)
             {
-                ret[i] = BigDecimal.valueOf(value[i]);
+                ret[i] = new BigDecimal(value[i]);
             }
 
             return ret;
