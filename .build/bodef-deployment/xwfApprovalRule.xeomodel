@@ -1,0 +1,198 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
+<xeoModel>
+   <general name="xwfApprovalRule" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfApprovalRule</description>
+      <cardID>[name] </cardID>
+      <label>Hierarquia de aprovação</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>200</len>
+         <label>Nome</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="mode">
+         <len>20</len>
+         <label>Modo</label>
+         <tooltip/>
+         <lov name="rolemode" retainValues="true"/>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeText>
+      <attributeObject name="pollDefinition">
+         <type>object.PollDef</type>
+         <label>Definições da votação</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="roles">
+         <type>object.iContact</type>
+         <label>Funções</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="geral" name="area_geral" label="Geral" order="20" height="100%">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10" height="60px">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">mode</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">pollDefinition</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                           <div width="100%" height="100%">roles.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listNormal" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>mode</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

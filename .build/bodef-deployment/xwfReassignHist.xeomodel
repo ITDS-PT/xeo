@@ -1,0 +1,414 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+   <general name="xwfReassignHist" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Histórico Atribuições</description>
+      <cardID>De [de] para [to] por [CREATOR]</cardID>
+      <label>Histórico Atribuições</label>
+   </general>
+   <opl active="true">
+      <classKeys/>
+      <attributeKeys>
+         <read>
+            <attribute active="true">de</attribute>
+            <attribute active="true">CREATOR</attribute>
+         </read>
+         <write>
+            <attribute active="true">de</attribute>
+            <attribute active="true">CREATOR</attribute>
+         </write>
+         <delete>
+            <attribute active="true">CREATOR</attribute>
+         </delete>
+         <fullcontrol>
+            <attribute active="true">CREATOR</attribute>
+         </fullcontrol>
+      </attributeKeys>
+   </opl>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <label>Atribuição por</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique/>
+            <indexfull/>
+            <indexed/>
+            <tabled>false</tabled>
+            <constraint/>
+            <binding/>
+         </database>
+         <defaultValue language="BOL"><depends/>USER</defaultValue>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeObject name="de">
+         <type>object.iContact</type>
+         <label>De</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeObject name="to">
+         <type>object.iContact</type>
+         <label>Para</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+         <required language="BOL">true</required>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Atribuição</label>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeDateTime>
+      <attributeText name="actvLabel">
+         <len>3000</len>
+         <label>Actividade</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="progLabel">
+         <len>3000</len>
+         <label>Programa</label>
+         <tooltip>
+            <disableWhen language="BOL"><depends/>true</disableWhen>
+         </tooltip>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeNumber name="actvBoui">
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Boui Actividade</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeNumber name="progBoui">
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Boui Programa</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeText name="assignType">
+         <len>2</len>
+         <label>Tipo</label>
+         <lov name="xwfReassignType" retainValues="false"/>
+         <required language="BOL">false</required>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+         <tooltip/>
+      </attributeText>
+      <attributeLongText name="description">
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeLongText>
+      <attributeNumber name="reassignBoui">
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Boui Atribuição</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeObjectCollection name="KEYS">
+         <type>object.boObject</type>
+         <label>Segurança</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="securityCode">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Código</label>
+                  <tooltip/>
+               </attributeNumber>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="KEYS_PERMISSIONS">
+         <type>object.boObject</type>
+         <label>Permissões</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+            <object>Ebo_Compartment</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="securityCode">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Código</label>
+                  <tooltip/>
+                  <lov name="securityCode" retainValues="false"/>
+               </attributeNumber>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <section showlabel="no" name="xwfreassign" order="20" height="100px">
+                  <rows>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">assignType</attribute>
+                        </cell>
+                        <cell/>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">CREATOR</attribute>
+                        </cell>
+                        <cell>
+                           <attribute showlabel="yes">SYS_DTCREATE</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">de</attribute>
+                        </cell>
+                        <cell>
+                           <attribute showlabel="yes">to</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">actvLabel</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">progLabel</attribute>
+                        </cell>
+                     </row>
+                     <row>
+                        <cell>
+                           <attribute height="250px" showlabel="no">description</attribute>
+                        </cell>
+                     </row>
+                  </rows>
+               </section>
+            </form>
+            <form name="expReassignHist" buildjsp="no" formtype="List">
+               <explorer name="expReassignHist">
+                  <explorerOptions>
+                     <menuOptions>
+                        <newOption visible="false"/>
+                        <newSubClassOption visible="false"/>
+                        <newFromTemplateOption visible="false"/>
+                        <printOption/>
+                        <exportOption/>
+                        <savePrintOption/>
+                        <destroyOption visible="false"/>
+                        <groupsOption/>
+                        <parametersOption/>
+                        <refreshOption/>
+                        <fullTextSearchOption/>
+                        <advancedSearchOption/>
+                        <savedFiltersOption/>
+                        <previewRightOption/>
+                        <previewBottomOption/>
+                        <previewDisableOption/>
+                        <chooseColumnsOption/>
+                     </menuOptions>
+                     <behavior>
+                        <openDocuments/>
+                        <showLinks/>
+                        <doubleClickAction/>
+                        <selectAction/>
+                     </behavior>
+                  </explorerOptions>
+                  <attributes>
+                     <attribute width="150">CREATOR</attribute>
+                     <attribute width="150">de</attribute>
+                     <attribute width="150">to</attribute>
+                     <attribute width="120">SYS_DTCREATE</attribute>
+                     <attribute width="180">actvLabel</attribute>
+                     <attribute width="180">progLabel</attribute>
+                     <attribute width="90">actvBoui</attribute>
+                     <attribute width="90">progBoui</attribute>
+                     <attribute width="110">assignType</attribute>
+                     <attribute width="250">description</attribute>
+                  </attributes>
+                  <order>
+                     <attribute direction="desc">SYS_DTCREATE</attribute>
+                  </order>
+                  <cols>
+                     <col>
+                        <attribute>CREATOR</attribute>
+                     </col>
+                     <col>
+                        <attribute>de</attribute>
+                     </col>
+                     <col>
+                        <attribute>to</attribute>
+                     </col>
+                     <col>
+                        <attribute>assignType</attribute>
+                     </col>
+                     <col>
+                        <attribute>SYS_DTCREATE</attribute>
+                     </col>
+                     <col>
+                        <attribute>actvLabel</attribute>
+                     </col>
+                     <col>
+                        <attribute>progLabel</attribute>
+                     </col>
+                  </cols>
+                  <boql>select xwfReassignHist where 1=1</boql>
+                  <groups/>
+               </explorer>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listxwfReassign" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>CREATOR</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>de</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>to</attribute>
+                     </col>
+                     <col width="120">
+                        <attribute>SYS_DTCREATE</attribute>
+                     </col>
+                     <col width="120">
+                        <attribute>actvLabel</attribute>
+                     </col>
+                     <col width="120">
+                        <attribute>progLabel</attribute>
+                     </col>
+                     <col width="200">
+                        <attribute>description</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

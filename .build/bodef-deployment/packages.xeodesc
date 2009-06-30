@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo Carreira (ITDS) -->
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<Packages nacionalityDefault="pt">
+	<package name="_SYSTEM$1.0">
+		<description>Sistema</description>
+	</package>
+	<package name="BCM$1.0">
+		<description>Gestao Contactos</description>
+	</package>
+	<package name="HORARIO$1.0">
+		<description>Gestao Horarios</description>
+	</package>
+	<package name="WORKSCHEDULE$1.0">
+		<description>Horários de Trabalho</description>
+	</package>
+	<package name="XEO$2.0">
+		<description>XEO</description>
+	</package>
+	<package name="XEODOC$2.0">
+		<description>Gestão de Documentos</description>
+	</package>
+	<package name="XEOMESSAGE$2.0">
+		<description>Mensagens</description>
+	</package>
+	<package name="XEOUSERINTERFACE$1.0">
+		<description>Interface</description>
+	</package>
+	<package name="XWF$1.0">
+		<description>Workflow</description>
+	</package>
+	<package name="XWF_STEPS$1.0">
+		<description>Passos do Workflow</description>
+	</package>
+	<package name="GESDOC$1.0">
+		<description>Gestão Documental</description>
+	</package>
+	<package name="GESTEMP$1.0">
+		<description>Gestão Templates</description>
+	</package>
+</Packages>

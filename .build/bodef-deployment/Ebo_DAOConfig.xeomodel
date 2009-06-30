@@ -1,0 +1,191 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="Ebo_DAOConfig" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_DAOConfig</description>
+      <cardID>[linedepends]</cardID>
+      <label>DAO Config Object Line</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObjectCollection name="extAtt_parameter">
+         <type>object.Ebo_DAOparameter</type>
+         <label>Parametro</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="linedepends">
+         <type>object.Ebo_DAOdepends</type>
+         <label>Inf.Relacionada</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeText name="logicOperator">
+         <len>4</len>
+         <label>Operadores Logicos</label>
+         <tooltip/>
+         <lov name="logicOperator" retainValues="false"/>
+      </attributeText>
+      <attributeLongText name="conditionFormula">
+         <label>Condição para ser executada</label>
+         <editor>HTML</editor>
+         <tooltip/>
+      </attributeLongText>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit">
+               <section showlabel="no">
+                  <rows>
+                     <row>
+                        <cell>
+                           <attribute showlabel="yes">assignedQueue</attribute>
+                        </cell>
+                     </row>
+                  </rows>
+               </section>
+               <panel>
+                  <tab name="tab_extendAttribute" order="20" bo_node="extAtt_parameter">
+                     <div width="100%" height="100%">extAtt_parameter.list</div>
+                  </tab>
+                  <tab bo_node="linedepends">
+                     <div width="100%" height="100%">linedepends.list</div>
+                  </tab>
+               </panel>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+               <categories>
+                  <category name="estimatedValues" label="Valores Estimados" description="">
+                     <attributes/>
+                  </category>
+                  <category name="exactValues" label="Valores Exactos" description="">
+                     <attributes/>
+                  </category>
+               </categories>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

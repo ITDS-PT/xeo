@@ -20,6 +20,6 @@
   <web-app application="xeo" name="xeo_default" root="/xeo" load-on-startup="true" />
 
   <!-- Access Log, where requests are logged to -->
-  <access-log path="./oc4j-web-site.log" split="day" />
+  <access-log path="./log/oc4j-web-site.log" split="day" />
 
 </web-site>

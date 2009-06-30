@@ -1,0 +1,676 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by fcamara (ITDS) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:24 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Perf" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Perf</description>
+      <cardID>[name] ,[id]</cardID>
+      <label>Funcionário</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events>
+      <event name="onAfterSave">
+         <body language="JAVA">netgest.bo.security.securityRights.cleanPerfomerPolicies();
+netgest.bo.utils.AliasUtils.setAlias(this);</body>
+      </event>
+      <event name="onBeforeSave">
+         <body language="JAVA">if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) {
+   if(!"".equals(this.password.getValue()))
+                    {
+                        this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
+                    }
+                    else
+                    {
+                        this.password.setValue(null);
+                    }
+}
+return (super.onBeforeSave( event ) &amp;&amp; netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts"));</body>
+      </event>
+      <event name="onBeforeDestroy">
+         <body language="JAVA">try
+{
+	netgest.bo.runtime.boObjectList list = netgest.bo.runtime.boObjectList.list(this.getEboContext(), "select Ebo_Alias where boui = " + this.getBoui());
+	ArrayList r = new ArrayList();
+	while(list.next())
+	{
+		list.getObject().destroy();
+	}
+	return true;
+}catch(Exception e)
+{}
+return false;</body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="id">
+         <len>50</len>
+         <label>Código</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="username">
+         <len>50</len>
+         <label>Utilizador</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="password">
+         <len>50</len>
+         <label>Password</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="MD5Code">
+         <len>500</len>
+         <label>MD5</label>
+         <tooltip/>
+      </attributeText>
+      <attributeObjectCollection name="queues">
+         <type>object.workQueue</type>
+         <label>Pool de Recursos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="groups">
+         <type>object.Ebo_Group</type>
+         <label>Membro de</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="compartments">
+         <type>object.Ebo_Role</type>
+         <label>Função</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeNumber name="securityLevel">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Nível Segurança</label>
+         <tooltip/>
+      </attributeNumber>
+      <attributeObjectCollection name="roles">
+         <type>object.Ebo_Role</type>
+         <label>Função</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="packages">
+         <type>object.boObject</type>
+         <label>Aplicação</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>Ebo_Package</object>
+            <object>Ebo_Application</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="curriculo">
+         <type>object.Ebo_Document</type>
+         <label>Curriculo</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="templateEmail">
+         <type>object.Ebo_Template</type>
+         <label>Modelo de Email</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeText name="notifica">
+         <len>1</len>
+         <label>Notificar</label>
+         <tooltip/>
+         <lov name="NOTIFICATIONTYPE" retainValues="false"/>
+      </attributeText>
+      <attributeObjectCollection name="emailAccounts">
+         <type>object.mailAccount</type>
+         <label>Contas de Correio</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeBoolean name="default">
+                  <label>Default</label>
+                  <renderAsCheck>false</renderAsCheck>
+                  <tooltip/>
+               </attributeBoolean>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeDate name="dataAdmissao">
+         <label>Data Admissão</label>
+         <tooltip/>
+      </attributeDate>
+      <attributeObjectCollection name="iProfile">
+         <type>object.uiProfile</type>
+         <label>Perfil</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeText name="situacao">
+         <len>10</len>
+         <label>Situação</label>
+         <tooltip/>
+         <lov name="situationType" retainValues="false"/>
+      </attributeText>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeText name="name" fromInterface="iXEOUser">
+         <len>200</len>
+         <label>Nome</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="lastname" fromInterface="iXEOUser">
+         <len>50</len>
+         <label>Apelido</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="email" fromInterface="iXEOUser">
+         <len>200</len>
+         <label>Email</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="telemovel" fromInterface="iContact">
+         <len>50</len>
+         <label>Telf./Telm.</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeText name="fax" fromInterface="iContact">
+         <len>50</len>
+         <label>Fax</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeText>
+      <attributeObject name="office_address" fromInterface="iContact">
+         <type>object.address</type>
+         <label>Morada Escritório</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="home_address" fromInterface="iContact">
+         <type>object.address</type>
+         <label>Morada de Casa</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="holiday_address" fromInterface="iContact">
+         <type>object.address</type>
+         <label>Morada de Ferias</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="correspondencia_address" fromInterface="iContact">
+         <type>object.address</type>
+         <label>Morada de Correspondência</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObjectCollection name="addresses" fromInterface="iContact">
+         <type>object.address</type>
+         <label>Moradas</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeText name="tipo">
+                  <len>50</len>
+                  <label>Tipo</label>
+                  <tooltip/>
+                  <lov name="TIPO_MORADA" retainValues="false"/>
+               </attributeText>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="empresa" fromInterface="iContact">
+         <type>object.Organization</type>
+         <label>Empresa</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeText name="preferedMedia" fromInterface="iContact">
+         <len>50</len>
+         <label>Canal</label>
+         <tooltip/>
+         <lov name="mediaMessage" retainValues="false"/>
+         <defaultValue language="BOL"><depends/>false</defaultValue>
+      </attributeText>
+      <attributeObject name="workplace" fromInterface="iContact">
+         <type>object.Sch_workplace</type>
+         <label>Local de Trabalho</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="workSchedule" fromInterface="iContact">
+         <type>object.workweek</type>
+         <label>Horário de Trabalho</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" order="1" bo_node="identification">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">id</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">lastname</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">email</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">notifica</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">templateEmail</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">username</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">password</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">dataAdmissao</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">situacao</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">securityLevel</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">workplace</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">workSchedule</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                        <tab bo_node="office_address">
+                           <div width="100%" height="100%">office_address.edit</div>
+                        </tab>
+                        <tab bo_node="home_address">
+                           <div width="100%" height="100%">home_address.edit</div>
+                        </tab>
+                        <tab bo_node="correspondencia_address">
+                           <div width="100%" height="100%">correspondencia_address.edit</div>
+                        </tab>
+                        <tab bo_node="holiday_address">
+                           <div width="100%" height="100%">holiday_address.edit</div>
+                        </tab>
+                        <tab bo_node="addresses">
+                           <div width="100%" height="100%">addresses.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Pool's" order="2" bo_node="identification">
+                     <panel>
+                        <tab bo_node="queues">
+                           <div width="100%" height="100%">queues.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Membro de" order="3" bo_node="groups">
+                     <panel>
+                        <tab bo_node="groups">
+                           <div width="100%" height="100%">groups.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Funções" order="4" bo_node="roles">
+                     <panel>
+                        <tab bo_node="roles">
+                           <div width="100%" height="100%">roles.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Aplicações" order="5" bo_node="packages">
+                     <panel>
+                        <tab bo_node="packages">
+                           <div width="100%" height="100%">packages.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Perfis" order="7" bo_node="iProfile">
+                     <panel>
+                        <tab bo_node="iProfile">
+                           <div width="100%" height="100%">iProfile.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Contas de Correio" bo_node="" order="9">
+                     <panel>
+                        <tab bo_node="" label="Contas de Correio">
+                           <div width="100%" height="100%">emailAccounts.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="55">
+                        <attribute>id</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="explorer" formtype="List">
+               <explorer name="explorer_for_ebo_perf">
+                  <attributes>
+                     <attribute width="200">lastname</attribute>
+                     <attribute width="200">name</attribute>
+                     <attribute width="200">username</attribute>
+                     <attribute width="200">groups</attribute>
+                  </attributes>
+                  <cols>
+                     <col>
+                        <attribute>name</attribute>
+                     </col>
+                  </cols>
+                  <boql>select Ebo_Perf where 1=1</boql>
+                  <order>
+                     <attribute direction="asc">name</attribute>
+                  </order>
+                  <groups>
+                     <group>
+                        <attribute order="asc">groups</attribute>
+                     </group>
+                  </groups>
+               </explorer>
+            </form>
+            <form name="emailAccounts_list" formtype="List" forBridge="emailAccounts">
+               <grid forBridge="emailAccounts" name="emailAccounts.list" edit_inLine="yes" template="std" bo_node="">
+                  <cols>
+                     <col width="200">
+                        <attribute>name</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>default</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="packages_list" forBridge="packages" formtype="List">
+               <grid name="list" template="std" forBridge="packages">
+                  <cols>
+                     <col width="200" label="Aplicação/Pacote">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>id</attribute>
+               </attributes>
+               <categories>
+                  <category name="cat_name" label="Nome" description="">
+                     <attributes>
+                        <attribute>adress</attribute>
+                        <attribute>name</attribute>
+                     </attributes>
+                  </category>
+               </categories>
+            </category>
+            <category name="moradas" label="Outras Moradas" description="">
+               <attributes>
+                  <attribute>addresses</attribute>
+               </attributes>
+            </category>
+            <category name="queues" label="Pool's de Recursos a Monitorizar" description="">
+               <attributes>
+                  <attribute>queues</attribute>
+               </attributes>
+            </category>
+            <category name="Seguranca" label="" description="">
+               <attributes>
+                  <attribute>sl</attribute>
+                  <attribute>compartment</attribute>
+               </attributes>
+            </category>
+            <category name="iProfile" label="Perfis" description="">
+               <attributes>
+                  <attribute>iProfile</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

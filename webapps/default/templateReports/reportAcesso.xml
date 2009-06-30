@@ -1,0 +1,100 @@
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by ENLACE3 (ORiON) -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"/>
+		<style type="text/css">@import url(#CSS_URL#);</style>
+		<title>Relatório de Impressão</title>
+	</head>
+	<body margin="0pt" scroll="auto" onload="window.print();window.close();">
+		<div id="container" style="width:13cm;padding:0px;height:100%">
+			<div class="report">
+				<div class="organizationLogo">
+					<img src="#URL#/resources/clientLargeLOGO.gif" class="organizationLogo"/>
+				</div>
+				<div class="blackSeparator">
+					<p/>
+				</div>
+				<div class="area_title">
+					<p>Dados</p>
+				</div>
+				<table class="userData">
+					<tr>
+						<th class="userName">Nome</th>
+						<th class="userOrg">Empresa</th>
+					</tr>#INDIVIDUAL#</table>
+				<div class="area_title">
+					<p>Entrada</p>
+				</div>
+				<table class="userEntryDate">
+					<tr>
+						<td class="label">Data e Hora:</td>
+						<td class="userEntryDate">#ENTRY_DATE#</td>
+					</tr>
+				</table>
+				<div class="area_title">
+					<p>Autorização</p>
+				</div>
+				<table class="userEntryDate">
+					<tr>
+						<td class="label">Data e Hora Entrada:</td>
+						<td class="userEntryDate">#AUTH_ENTRY_DATE#</td>
+					</tr>
+					<tr>
+						<td class="label">Data e Hora Saída:</td>
+						<td class="userEntryDate">#AUTH_OUT_DATE#</td>
+					</tr>
+				</table>
+				<div class="area_title">
+					<p>Responsáveis</p>
+				</div>
+				<table class="userData">#RESPONSABLES#</table>
+				<div class="area_title">
+					<p>Motivo da Visita</p>
+				</div>
+				<table class="motive">
+					<td align="left" valign="top">#MOTIVE#</td>
+				</table>
+				<p align="center">
+					<table class="visit">
+						<tr>
+							<td>
+								<p class="visit">Fim da Visita:</p>
+							</td>
+							<td>
+								<p class="underline"/>
+							</td>
+							<td>
+								<p class="visit">h</p>
+							</td>
+							<td>
+								<p class="underline"/>
+							</td>
+							<td>
+								<p class="visit">m</p>
+							</td>
+						</tr>
+					</table>
+				</p>
+				<table class="assignature">
+					<tr>
+						<td>
+							<p class="bigunderline"/>
+						</td>
+						<td>
+							<p class="bigunderline"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class="visit">O responsável</p>
+						</td>
+						<td>
+							<p class="visit">O vigilante</p>
+						</td>
+					</tr>
+				</table>
+				<div class="credentials">Data de Impressão: #DATE# por #USERNAME#</div>
+			</div>
+		</div>
+	</body>
+</html>

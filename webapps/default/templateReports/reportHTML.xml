@@ -1,7 +1,7 @@
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by jmf (ITDS) -->
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"/>
 		<title>Relatório de Impressão</title>
 		<style type="text/css">@import url(#CSS_URL#);</style>
 		<script><![CDATA[#init#]]></script>
@@ -11,6 +11,7 @@
 			<!--commentPrintStart-->
 			<div class="toolbar">
 				<button class="print" onclick="window.print()">Imprimir</button>
+				<br class="noprint"/>
 			</div>
 			<!--commentPrintEnd-->
 			<!--commentIfReportBodyStart-->

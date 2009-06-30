@@ -1,0 +1,182 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:23 BST 2006-->
+<xeoModel>
+   <general name="PollOption" type="object" version="1.0" extends="xwfOption" mastertable="xwfOption" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>PollOption</description>
+      <cardID>[codeOption] , [labelOption] </cardID>
+      <label>Opção</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="labelOption" inheritfrom="xwfOption">
+         <len>300</len>
+         <label>Texto da opção</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="descriptionOption" inheritfrom="xwfOption">
+         <len>3000</len>
+         <label>Texto da opção</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="codeOption" inheritfrom="xwfOption">
+         <len>10</len>
+         <label>Codigo da Opção</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="availableWhen" inheritfrom="xwfOption">
+         <len>200</len>
+         <label>Codigo da Opção</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="disableWhen" inheritfrom="xwfOption">
+         <len>200</len>
+         <label>Codigo da Opção</label>
+         <tooltip/>
+      </attributeText>
+      <attributeObject name="PARENT" inheritfrom="xwfOption">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX" inheritfrom="xwfOption">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE" inheritfrom="xwfOption">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI" inheritfrom="xwfOption">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME" inheritfrom="xwfOption">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR" inheritfrom="xwfOption">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE" inheritfrom="xwfOption">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE" inheritfrom="xwfOption">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN" inheritfrom="xwfOption">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ" inheritfrom="xwfOption">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area bo_node="geral" name="area_geral" label="Geral" order="20">
+                     <panel>
+                        <tab bo_node="processo" name="tab_processo" label="Identificação" order="10">
+                           <section showlabel="yes" label="Geral" name="section_id" order="10">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">codeOption</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">labelOption</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="settings" name="listNormal" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>codeOption</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>labelOption</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="settings" label="Geral" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

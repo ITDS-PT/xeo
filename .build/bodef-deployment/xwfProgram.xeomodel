@@ -1,0 +1,394 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+   <general name="xwfProgram" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>xwfProgram</description>
+      <cardID>[name],[description] </cardID>
+      <label>Programa WorkFlow</label>
+   </general>
+   <opl active="true">
+      <classKeys/>
+      <attributeKeys>
+         <read>
+            <attribute active="true">share</attribute>
+         </read>
+         <write/>
+         <delete/>
+         <fullcontrol>
+            <attribute active="true">CREATOR</attribute>
+            <attribute active="true">owners</attribute>
+         </fullcontrol>
+      </attributeKeys>
+   </opl>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="name">
+         <len>100</len>
+         <label>Nome</label>
+         <tooltip/>
+         <database>
+            <fieldname>NAME</fieldname>
+            <unique>true</unique>
+            <indexfull>true</indexfull>
+            <indexed>false</indexed>
+            <tabled>false</tabled>
+            <constraint>true</constraint>
+            <binding>true</binding>
+         </database>
+      </attributeText>
+      <attributeText name="description">
+         <len>4000</len>
+         <label>Descrição</label>
+         <editor>HTML</editor>
+         <tooltip/>
+      </attributeText>
+      <attributeNumber name="programType">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Tipo de programa</label>
+         <tooltip/>
+      </attributeNumber>
+      <attributeObjectCollection name="versions">
+         <type>object.xwfProgramDef</type>
+         <label>Actividade</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <setParent>true</setParent>
+         <objects/>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeBoolean name="active">
+                  <label>Activo</label>
+                  <renderAsCheck>false</renderAsCheck>
+                  <tooltip/>
+               </attributeBoolean>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="share">
+         <type>object.boObject</type>
+         <label>Acessos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="owners">
+         <type>object.boObject</type>
+         <label>Responsáveis</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="KEYS">
+         <type>object.boObject</type>
+         <label>Segurança</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="securityCode">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Código</label>
+                  <tooltip/>
+               </attributeNumber>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObjectCollection name="KEYS_PERMISSIONS">
+         <type>object.boObject</type>
+         <label>Permissões</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+            <object>Ebo_Compartment</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="securityCode">
+                  <len>0</len>
+                  <grouping>false</grouping>
+                  <decimals>0</decimals>
+                  <minDecimals>0</minDecimals>
+                  <label>Código</label>
+                  <tooltip/>
+                  <lov name="securityCode" retainValues="false"/>
+               </attributeNumber>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="identification">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <section showlabel="no" height="100%" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">name</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">programType</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes" height="100%">description</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="Versões" bo_node="identification">
+                     <panel voui="panel">
+                        <tab bo_node="identification" voui="tab1">
+                           <div width="100%">versions.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area label="node.label" bo_node="security">
+                     <panel voui="panel">
+                        <tab bo_node="share" voui="tab3">
+                           <div width="100%">share.list</div>
+                        </tab>
+                        <tab bo_node="owners" voui="tab4">
+                           <div width="100%">owners.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listxwfProgram" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>name</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="versions_list" forBridge="versions" formtype="List">
+               <grid name="list" template="std" forBridge="versions" edit_inLine="yes">
+                  <cols>
+                     <col width="200" referenceLabel="xwfProgramDef.version">
+                        <attribute>version</attribute>
+                     </col>
+                     <col width="100" referenceLabel="xwfProgramDef.status">
+                        <attribute>status</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>active</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="share_list" forBridge="share" formtype="List">
+               <grid name="list" template="std" forBridge="share" edit_inLine="no">
+                  <cols>
+                     <col width="200">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="owners_list" forBridge="owners" formtype="List">
+               <grid name="list" template="std" forBridge="owners" edit_inLine="no">
+                  <cols>
+                     <col width="200">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>description</attribute>
+                  <attribute>programType</attribute>
+                  <attribute>versions</attribute>
+               </attributes>
+            </category>
+            <category name="security" label="Segurança" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>description</attribute>
+                  <attribute>programType</attribute>
+                  <attribute>versions</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

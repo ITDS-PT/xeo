@@ -1,0 +1,301 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Document" type="object" version="1.0" extends="Ebo_DocBase" orphan="true" multiparent="true" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Document</description>
+      <cardID>[description] - [fileName]</cardID>
+      <label>Documento</label>
+   </general>
+   <opl active="false"/>
+   <states>
+      <state name="state">
+         <label>state</label>
+         <options>
+            <option name="Inactive" value="0" active="true">
+               <label>Inactivo</label>
+               <subStates/>
+            </option>
+            <option name="active" value="1" active="true">
+               <label>Activo</label>
+               <subStates/>
+            </option>
+         </options>
+      </state>
+   </states>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeObject name="docTemplate">
+         <type>object.Ebo_DocumentTemplate</type>
+         <label>Template Associado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeText name="gdid">
+         <len>200</len>
+         <label>CCAD</label>
+         <tooltip/>
+         <behavior>
+            <img>resources/lookccad.gif</img>
+            <script>if(\'#VALUE#\'.length > 0) window.open(\'_ccad.jsp?ID_DOC=#VALUE#\',\'\',\'height=\' + (window.screen.availHeight-60) + \', width=\' + (window.screen.availWidth-14) + \', top=0, left=0, menubar=0, location=0, resizable=1, status=1\');</script>
+         </behavior>
+         <lov name="LANGUAGES" retainValues="false"/>
+      </attributeText>
+      <attributeObject name="srcObj" inheritfrom="Ebo_DocBase">
+         <type>object.boObject</type>
+         <label>Objecto Referido</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <setParent>false</setParent>
+         <objectFilter/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeObject>
+      <attributeText name="description" inheritfrom="Ebo_DocBase">
+         <len>200</len>
+         <label>Descrição</label>
+         <tooltip/>
+      </attributeText>
+      <attributeObject name="owner" inheritfrom="Ebo_DocBase">
+         <type>object.boObject</type>
+         <label>Proprietário</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+            <object>ANC_entity</object>
+         </objects>
+         <objectFilter/>
+      </attributeObject>
+      <attributeBinaryData name="file" inheritfrom="Ebo_DocBase">
+         <label>Link</label>
+         <tooltip/>
+      </attributeBinaryData>
+      <attributeNumber name="fileSize" inheritfrom="Ebo_DocBase">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Tamanho</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeText name="fileName" inheritfrom="Ebo_DocBase">
+         <len>200</len>
+         <label>Nome</label>
+         <tooltip/>
+      </attributeText>
+      <attributeDateTime name="lastModified" inheritfrom="Ebo_DocBase">
+         <label>Ultima Modificação</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeDateTime>
+      <attributeObject name="PARENT" inheritfrom="Ebo_DocBase">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>true</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX" inheritfrom="Ebo_DocBase">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE" inheritfrom="Ebo_DocBase">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI" inheritfrom="Ebo_DocBase">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME" inheritfrom="Ebo_DocBase">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR" inheritfrom="Ebo_DocBase">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE" inheritfrom="Ebo_DocBase">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE" inheritfrom="Ebo_DocBase">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN" inheritfrom="Ebo_DocBase">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ" inheritfrom="Ebo_DocBase">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <panel voui="panel" bo_node="global" style="padding:10px" order="10">
+                  <tab bo_node="global" order="10" name="tabprincipal" style="overflow-y:auto">
+                     <section showlabel="no" label="node.label" order="10" name="seccao_master_document">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">description</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">file</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">owner</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                     <section showlabel="yes" label="Caracteristicas" order="20" name="phisicalProperties">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">fileName</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">lastModified</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">fileSize</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">srcObj</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+                  <tab label="Referencias do documento" bo_node="" name="reference" order="20">
+                     <div width="100%" height="100%">boObject.list:referencedBy()</div>
+                  </tab>
+               </panel>
+            </form>
+            <form name="myDocumentTreeList" formtype="List">
+               <treeView name="treeView_for_MyDocument">
+                  <attributes>
+                     <description width="110"/>
+                     <owner width="150"/>
+                     <SYS_DTCREATE width="120"/>
+                     <SYS_DTSAVE width="150"/>
+                     <CREATOR/>
+                     <gdid/>
+                     <docTemplate/>
+                  </attributes>
+                  <order>
+                     <attribute>dtdoc</attribute>
+                  </order>
+                  <cols>
+                     <col>
+                        <attribute>description</attribute>
+                     </col>
+                     <col>
+                        <attribute>gdid</attribute>
+                     </col>
+                  </cols>
+                  <boql>select Ebo_Document ext where 1=1</boql>
+                  <groups>
+                     <group>
+                        <attribute order="asc">owner</attribute>
+                     </group>
+                  </groups>
+               </treeView>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listprocess" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>description</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>fileName</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definição" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>lang</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

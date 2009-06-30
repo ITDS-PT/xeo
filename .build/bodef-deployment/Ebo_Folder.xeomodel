@@ -1,0 +1,242 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Folder" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Folder</description>
+      <cardID>[description]</cardID>
+      <label>Directório</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events>
+      <event name="onBeforeSave">
+         <body language="JAVA">this.getAttribute("contains").setValueLong(netgest.bo.impl.document.DocumentHelper.getNumberOfDocuments(this,"details"));
+this.getAttribute("size").setValueLong(netgest.bo.impl.document.DocumentHelper.getFolderSize(this,"details")); 
+return true;</body>
+      </event>
+   </events>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="description">
+         <len>200</len>
+         <label>Descrição</label>
+         <tooltip/>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeNumber name="contains">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Número de Documentos</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeNumber name="size">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Tamanho</label>
+         <tooltip/>
+         <disableWhen language="BOL"><depends/>true</disableWhen>
+      </attributeNumber>
+      <attributeObjectCollection name="details">
+         <type>object.boObject</type>
+         <label>Documentos</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <maxOccurs>N</maxOccurs>
+         <minOccurs>0</minOccurs>
+         <setParent>true</setParent>
+         <objects>
+            <object>Ebo_Document</object>
+            <object>Ebo_Folder</object>
+         </objects>
+         <objectFilter/>
+         <bridge>
+            <attributes>
+               <attributeNumber name="LIN">
+                  <label>Linha</label>
+               </attributeNumber>
+            </attributes>
+         </bridge>
+      </attributeObjectCollection>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area label="Geral" bo_node="global">
+                     <panel voui="panel">
+                        <tab bo_node="global" voui="tab1">
+                           <section showlabel="no" label="node.label">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">description</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">SYS_DTCREATE</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">contains</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">size</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+                  <area bo_node="details" label="node.label" name="area_details" appears="onDemand" order="90">
+                     <panel>
+                        <tab name="tab_details" order="20" bo_node="details">
+                           <div width="100%" height="100%">details.list</div>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="global" name="listprocess" template="std">
+                  <cols>
+                     <col width="100">
+                        <attribute>description</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>size</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="details_list" forBridge="details" formtype="List">
+               <grid forBridge="details" name="details.list" edit_inLine="yes" template="std">
+                  <cols>
+                     <col width="200">
+                        <attribute>childObject.cardid</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="global" label="Definição" description="">
+               <attributes>
+                  <attribute>name</attribute>
+                  <attribute>lang</attribute>
+               </attributes>
+            </category>
+            <category name="details" label="Documentos" description="">
+               <attributes>
+                  <attribute>details</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

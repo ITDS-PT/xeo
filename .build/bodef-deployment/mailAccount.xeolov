@@ -1,0 +1,41 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) -->
+<Lov>
+   <General bo_class="abstract" public="no" nacionalityDefault="pt">
+      <classextends/>
+      <cls_version_control>yes</cls_version_control>
+      <cls_majorVersion>1</cls_majorVersion>
+      <cls_minorVersion>0</cls_minorVersion>
+      <deploy_information>
+         <deployDate/>
+         <delete_data/>
+      </deploy_information>
+      <active_information>
+         <ActiveDate/>
+         <delete_menor_major_versions/>
+         <delete_menor_minor_versions/>
+      </active_information>
+      <description></description>
+      <label>
+         <pt/>
+         <en-us/>
+      </label>
+   </General>
+   <protocol retainValues="No">
+      <description>
+         <pt>Lov referente ao Tipo de Protocolo de Servidor de Correio</pt>
+         <en-us>Mail Server Procolo</en-us>
+      </description>
+      <details>
+         <item>
+            <value>1</value>
+            <label>POP3</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>IMAP</label>
+         </item>
+      </details>
+   </protocol>
+</Lov>

@@ -8,7 +8,7 @@
 	<library path=".\base_lib\modules\" />
 	<library path=".\base_lib\modules_lib\" />
     <log>
-		<file path="oc4j-app.log" />
+		<file path=".\log\oc4j-app.log" />
     </log>
     <data-sources path="oc4j-data-sources.xml" />
 </orion-application>

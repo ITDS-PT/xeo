@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<principals  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/principals-10_0.xsd"  schema-major-version="10" schema-minor-version="0"  >
+	<groups>
+	</groups>
+	<users>
+	</users>
+</principals>

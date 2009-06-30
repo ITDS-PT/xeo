@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 (http://www.altova.com) by user (acme) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
+<xeoModel>
+	<general name="Ebo_history" type="abstract" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="netgest.bo.impl.states.versioningStates">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>Ebo_history</description>
+		<cardID/>
+		<label>Estado</label>
+	</general>
+	<opl active="false"/>
+	<states>
+		<state name="stateControl">
+			<label>stateControl</label>
+			<options>
+				<option name="active" value="0" active="true">
+					<label>Activo</label>
+					<labelAction>Activar</labelAction>
+					<subStates/>
+				</option>
+				<option name="inactive" value="1" active="true">
+					<label>Inactivo / Apagado</label>
+					<labelAction>Desactivar</labelAction>
+					<subStates/>
+				</option>
+			</options>
+		</state>
+	</states>
+	<events/>
+	<fwdObjects/>
+	<attributes/>
+	<viewers>
+		<viewer name="general">
+			<forms/>
+			<categories/>
+		</viewer>
+	</viewers>
+</xeoModel>

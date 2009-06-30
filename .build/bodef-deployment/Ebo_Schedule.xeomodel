@@ -1,0 +1,503 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by acruz (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
+<xeoModel>
+   <general name="Ebo_Schedule" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_Schedule</description>
+      <cardID>[description] </cardID>
+      <label>Agendamento do Sistema</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods>
+      <method name="update" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label/>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before/>
+               <after/>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="void"/>
+         <body language="JAVA">
+				
+				if( this.activeStatus.getValueString() == null )
+				{
+					this.activeStatus.setValueString("0");
+				}
+				super.update();
+				</body>
+      </method>
+      <method name="runNow" public="false" menu="true" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+         <label>Executar Agora</label>
+         <javascriptToRun>
+            <viewer name="edit">
+               <before/>
+               <after/>
+            </viewer>
+         </javascriptToRun>
+         <assinature return="void"/>
+         <body language="JAVA">      
+			try {
+          		this.getAttribute("activeStatus").setValueString("1");
+          		this.update();
+				ThreadGroup xeoGroup = new ThreadGroup("XEO Agents");          netgest.bo.runtime.robots.boScheduleThread activity = new netgest.bo.runtime.robots.boScheduleThread(xeoGroup,  "XEO Schedule Thread for "+this.getAttribute("description").getValueString()+"["+this.getBoui()+"]", this.getEboContext().getApplication() );
+          		activity.setSchedule( this );                        
+          		activity.start();
+      		} catch (Exception e) {
+            	e.printStackTrace();
+      		}
+      		</body>
+      </method>
+   </methods>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="id">
+         <len>50</len>
+         <label>Agendamento</label>
+         <tooltip/>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="description">
+         <len>100</len>
+         <label>Descrição</label>
+         <tooltip/>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="javaclass">
+         <len>200</len>
+         <label>Class</label>
+         <tooltip/>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="parameters">
+         <len>200</len>
+         <label>Parametros</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="onerrorjavaclass">
+         <len>200</len>
+         <label>Class de Erros</label>
+         <tooltip/>
+      </attributeText>
+      <attributeText name="onerrorpar">
+         <len>200</len>
+         <label>Parametros Class de erros</label>
+         <tooltip/>
+      </attributeText>
+      <attributeDuration name="interval">
+         <label>Intervalo</label>
+         <clock>false</clock>
+         <hiddenWhen language="JAVA"><depends><attribute>type</attribute></depends>String tipoAg=getAttribute("type").getValueString();
+if (tipoAg!=null &amp;&amp; tipoAg.equals("REPEATLY")) return false;
+else return true;</hiddenWhen>
+         <tooltip/>
+      </attributeDuration>
+      <attributeObject name="performer">
+         <type>object.iXEOUser</type>
+         <label>Executante</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+      </attributeObject>
+      <attributeText name="type">
+         <len>100</len>
+         <label>Tipo de agendamento</label>
+         <tooltip/>
+         <lov name="EBO_scheduleType" retainValues="false"/>
+         <defaultValue language="BOL"><depends/>"REPEATLY"</defaultValue>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeDateTime name="startdate">
+         <label>Executar entre</label>
+         <tooltip/>
+      </attributeDateTime>
+      <attributeDateTime name="enddate">
+         <label>e</label>
+         <tooltip/>
+      </attributeDateTime>
+      <attributeText name="every">
+         <len>50</len>
+         <label>Todos</label>
+         <tooltip/>
+         <lov name="EBO_scheduleDays" retainValues="false"/>
+         <defaultValue language="BOL"><depends/>"ALLDAYS"</defaultValue>
+         <hiddenWhen language="JAVA"><depends><attribute>type</attribute></depends>String tipoAg=getAttribute("type").getValueString();
+if (tipoAg==null  || tipoAg.equals("") || !tipoAg.equals("DAILY")) return true;
+else return false;</hiddenWhen>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="everyweek">
+         <len>50</len>
+         <label>Todos</label>
+         <tooltip/>
+         <lov name="EBO_scheduleWeek" retainValues="false"/>
+         <defaultValue language="BOL"><depends/>"MO"</defaultValue>
+         <hiddenWhen language="JAVA"><depends><attribute>type</attribute></depends>String tipoAg=getAttribute("type").getValueString();
+if (tipoAg==null  || tipoAg.equals("") || !tipoAg.equals("WEEKLY")) return true;
+else return false;</hiddenWhen>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="everymonth">
+         <len>50</len>
+         <label>Todos</label>
+         <tooltip/>
+         <lov name="EBO_scheduleMonth" retainValues="false"/>
+         <defaultValue language="BOL"><depends/>"1"</defaultValue>
+         <hiddenWhen language="JAVA"><depends><attribute>type</attribute></depends>String tipoAg=getAttribute("type").getValueString();
+if (tipoAg==null  || tipoAg.equals("") || !tipoAg.equals("MONTHLY")) return true;
+else return false;</hiddenWhen>
+         <required language="BOL">true</required>
+      </attributeText>
+      <attributeText name="when">
+         <len>5</len>
+         <label>às (hh:mm)</label>
+         <hiddenWhen language="JAVA"><depends><attribute>type</attribute></depends>String tipoAg=getAttribute("type").getValueString();
+if (tipoAg!=null &amp;&amp; tipoAg.equals("REPEATLY")) return true;
+else return false;</hiddenWhen>
+         <valid language="JAVA">String tipoAg=getAttribute("type").getValueString();
+if (tipoAg!=null &amp;&amp; tipoAg.equals("REPEATLY")) return true;
+else 
+{
+	try
+	{
+	  boolean ret=true;
+	  String pwhen=this.getValueString();
+	  if (pwhen!=null &amp;&amp; !pwhen.equals(""))
+	  {
+		if (pwhen.indexOf(":")>-1)
+		{
+		   String vec[]=pwhen.split(":");
+		   if (vec.length==2)
+		   {
+		     int h=new Integer(vec[0]).intValue();
+			 int m=new Integer(vec[1]).intValue();
+		   }
+		   else ret=false;
+		}
+		else ret=false;
+	  }
+	  else ret=false;
+	  if (!ret) addErrorMessage(this,"Formato Inválido");
+	  return ret;
+	}
+	catch(Exception e)
+	{
+		return false;
+	}
+}</valid>
+         <tooltip/>
+      </attributeText>
+      <attributeDateTime name="lastruntime">
+         <label>Última execução</label>
+         <tooltip/>
+      </attributeDateTime>
+      <attributeDateTime name="nextruntime">
+         <label>Próxima Execução</label>
+         <tooltip/>
+      </attributeDateTime>
+      <attributeText name="lastresultcode">
+         <len>10</len>
+         <label>Ultimo Resultado</label>
+         <tooltip/>
+         <lov name="EBO_scheduleResults" retainValues="false"/>
+      </attributeText>
+      <attributeLongText name="errormessage">
+         <label>Messagem de Erro</label>
+         <editor>HTML</editor>
+         <tooltip/>
+      </attributeLongText>
+      <attributeNumber name="executiontime">
+         <len>0</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Tempo (ms)</label>
+         <tooltip/>
+      </attributeNumber>
+      <attributeNumber name="timeout">
+         <len>6</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>TimeOut (segundos)</label>
+         <tooltip/>
+      </attributeNumber>
+      <attributeText name="lastid">
+         <len>200</len>
+         <label>Last id</label>
+         <tooltip/>
+      </attributeText>
+      <attributeNumber name="state">
+         <len>6</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <label>Estado</label>
+         <lov name="EBO_scheduleStates" retainValues="false"/>
+         <disableWhen language="BOL">false</disableWhen>
+         <required language="BOL">true</required>
+         <tooltip/>
+      </attributeNumber>
+      <attributeNumber name="activeStatus">
+         <len>6</len>
+         <grouping>false</grouping>
+         <decimals>0</decimals>
+         <minDecimals>0</minDecimals>
+         <lov name="EBO_scheduleActiveStates" retainValues="false"/>
+         <label>Estado de Execução</label>
+         <defaultValue language="BOL"><depends/>0</defaultValue>
+         <disableWhen language="BOL">true</disableWhen>
+         <tooltip/>
+      </attributeNumber>
+      <attributeObject name="PARENT">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Pai</label>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std">
+               <areas>
+                  <area name="area_settings" label="node.label" order="20" bo_node="general">
+                     <panel voui="panel">
+                        <tab bo_node="general" voui="tab1">
+                           <section showlabel="no" name="section_general" height="100%" order="20">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">id</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">description</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">performer</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">lastresultcode</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">executiontime</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">lastruntime</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">nextruntime</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">state</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">activeStatus</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">startdate</attribute>
+                                    </cell>
+                                    <cell>
+                                       <attribute showlabel="yes">enddate</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes" height="100%">errormessage</attribute>
+                                    </cell>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                        <tab bo_node="scheduling" order="20" voui="tab1">
+                           <section showlabel="no" name="section_schedule" order="20">
+                              <rows>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">javaclass</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">parameters</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">timeout</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">onerrorpar</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">type</attribute>
+                                    </cell>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">interval</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">every</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">everyweek</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">everymonth</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                                 <row>
+                                    <cell>
+                                       <attribute showlabel="yes">when</attribute>
+                                    </cell>
+                                    <cell/>
+                                 </row>
+                              </rows>
+                           </section>
+                        </tab>
+                     </panel>
+                  </area>
+               </areas>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listebo_perf" template="std">
+                  <cols>
+                     <col width="200">
+                        <attribute>description</attribute>
+                     </col>
+                     <col width="150">
+                        <attribute>id</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+         </forms>
+         <categories>
+            <category name="general" label="Geral" description="">
+               <attributes/>
+            </category>
+            <category name="scheduling" label="Agendamento" description="">
+               <attributes/>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>

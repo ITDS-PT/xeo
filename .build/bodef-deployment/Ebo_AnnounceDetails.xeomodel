@@ -1,0 +1,227 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
+<xeoModel>
+   <general name="Ebo_AnnounceDetails" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
+      <locale language="pt" country="PT" variant=""/>
+      <implements/>
+      <database/>
+      <versioning active="false"/>
+      <textIndex active="true" appendChilds="false" deep="1">
+         <process/>
+      </textIndex>
+      <description>Ebo_AnnounceDetails</description>
+      <cardID>[name] ,[id]</cardID>
+      <label>Anuncio detalhe</label>
+   </general>
+   <opl active="false"/>
+   <states/>
+   <methods/>
+   <events/>
+   <fwdObjects/>
+   <attributes>
+      <attributeText name="message">
+         <len>4000</len>
+         <label>Mensagem</label>
+         <editor>HTML</editor>
+         <tooltip/>
+      </attributeText>
+      <attributeObject name="assignedQueue">
+         <type>object.boObject</type>
+         <label>Mensagem para</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objects>
+            <object>iXEOUser</object>
+            <object>workQueue</object>
+            <object>Ebo_Role</object>
+            <object>Ebo_Group</object>
+         </objects>
+         <objectFilter/>
+         <required language="BOL">true</required>
+      </attributeObject>
+      <attributeObject name="PARENT">
+         <type>object.Ebo_Announce</type>
+         <label>Objecto Pai</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <objectFilter/>
+         <database>
+            <fieldname>PARENT$</fieldname>
+            <unique>false</unique>
+            <indexfull>true</indexfull>
+            <indexed>false</indexed>
+            <tabled>false</tabled>
+            <constraint>false</constraint>
+            <binding>true</binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="referenceObject">
+         <type>object.boObject</type>
+         <label>Objecto  Referenciado</label>
+         <renderAsLov>false</renderAsLov>
+         <tooltip/>
+         <setParent>false</setParent>
+         <objectFilter/>
+      </attributeObject>
+      <attributeObject name="PARENTCTX">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Contexto de Criação</label>
+         <database>
+            <fieldname>PARENTCTX$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeObject name="TEMPLATE">
+         <type>object.Ebo_Template</type>
+         <setParent>false</setParent>
+         <label>Modelo</label>
+         <database>
+            <fieldname>TEMPLATE$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeNumber name="BOUI">
+         <label>BOUI</label>
+      </attributeNumber>
+      <attributeText name="CLASSNAME">
+         <len>50</len>
+         <label>Categoria do Objecto</label>
+      </attributeText>
+      <attributeObject name="CREATOR">
+         <type>object.iXEOUser</type>
+         <setParent>false</setParent>
+         <label>Criador</label>
+         <database>
+            <fieldname>CREATOR$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+      <attributeDateTime name="SYS_DTCREATE">
+         <label>Data de Criação</label>
+      </attributeDateTime>
+      <attributeDateTime name="SYS_DTSAVE">
+         <label>Data da última actualização</label>
+      </attributeDateTime>
+      <attributeText name="SYS_ORIGIN">
+         <len>30</len>
+         <label>Origem dos dados</label>
+      </attributeText>
+      <attributeObject name="SYS_FROMOBJ">
+         <type>object.boObject</type>
+         <setParent>false</setParent>
+         <label>Objecto Origem</label>
+         <database>
+            <fieldname>SYS_FROMOBJ$</fieldname>
+            <unique></unique>
+            <indexfull></indexfull>
+            <indexed></indexed>
+            <tabled>false</tabled>
+            <constraint></constraint>
+            <binding></binding>
+         </database>
+      </attributeObject>
+   </attributes>
+   <viewers>
+      <viewer name="general">
+         <forms>
+            <form name="edit" template="std" style="padding:6px">
+               <panel voui="panel">
+                  <tab bo_node="identification" voui="tab1">
+                     <section showlabel="no" label="node.label" height="100%">
+                        <rows>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">name</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes">performer</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes" height="100%">message</attribute>
+                              </cell>
+                           </row>
+                           <row>
+                              <cell>
+                                 <attribute showlabel="yes" height="100%">action</attribute>
+                              </cell>
+                           </row>
+                        </rows>
+                     </section>
+                  </tab>
+               </panel>
+            </form>
+            <form name="list" formtype="List">
+               <grid bo_node="identification" name="listannounceDetails" template="std">
+                  <cols>
+                     <col width="150">
+                        <attribute>referenceObject</attribute>
+                     </col>
+                     <col width="100">
+                        <attribute>message</attribute>
+                     </col>
+                  </cols>
+               </grid>
+            </form>
+            <form name="myAnnounces" formtype="List">
+               <treeView name="treeView_for_MyAnnounces">
+                  <attributes>
+                     <assignedQueue width="150"/>
+                     <PARENT width="130"/>
+                     <message width="200"/>
+                     <SYS_DTCREATE width="140"/>
+                     <CREATOR width="140"/>
+                     <referenceObject width="300"/>
+                  </attributes>
+                  <order>
+                     <attribute/>
+                  </order>
+                  <cols>
+                     <col>
+                        <attribute>message</attribute>
+                     </col>
+                     <col>
+                        <attribute>referenceObject</attribute>
+                     </col>
+                     <col>
+                        <attribute>SYS_DTCREATE</attribute>
+                     </col>
+                  </cols>
+                  <boql>select Ebo_AnnounceDetails ext where assignedQueue=CTX_PERFORMER_BOUI or assignedQueue in ( select iXEOUser.queues where boui=CTX_PERFORMER_BOUI) or assignedQueue in ( select iXEOUser.groups where boui=CTX_PERFORMER_BOUI) or assignedQueue in ( select iXEOUser.roles where boui=CTX_PERFORMER_BOUI)</boql>
+                  <groups>
+                     <group>
+                        <attribute order="asc">assignedQueue</attribute>
+                     </group>
+                  </groups>
+               </treeView>
+            </form>
+         </forms>
+         <categories>
+            <category name="identification" label="Identificação" description="">
+               <attributes>
+                  <attribute>id</attribute>
+               </attributes>
+            </category>
+         </categories>
+      </viewer>
+   </viewers>
+</xeoModel>
