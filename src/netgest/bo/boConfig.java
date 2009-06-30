@@ -14,7 +14,6 @@ public class boConfig
         return boApplication.currentContext().getApplication().getApplicationConfig();
     }
 
-
     public static final String getDefinitiondir()
     {
         return getApplicationConfig().getDefinitiondir();

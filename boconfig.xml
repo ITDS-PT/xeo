@@ -11,6 +11,7 @@
 		<obj_compiler>c:\jdev1012\jdk\bin\javac.exe</obj_compiler>
 		<obj_templates>.\.templates</obj_templates>
 		<obj_deployjspdir>.\.build\webresources\default\</obj_deployjspdir>
+		<obj_moduleswebdir>.\base_lib\modules_web\</obj_moduleswebdir>
 		<lib_dir>.\lib\</lib_dir>
 		<tablespace>DEVXEO</tablespace>
 	</deployment>

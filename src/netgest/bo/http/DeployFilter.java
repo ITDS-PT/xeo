@@ -71,7 +71,7 @@ import org.apache.log4j.Logger;
 public class DeployFilter implements Filter 
 {
     // Directoria para onde são copiados os viewers.
-    private static final String          deployRoot                 = "xeodeploy";
+    private static final String          deployRoot                 = ".xeodeploy";
     // Includes (JSP) necessários aos viewers. Tem de ser copiados para a directoria de deploy.
     private static final String[]        reverseDeployFiles         = { "boheaders.jsp","boheaders2.jsp"  };
     // Directorias às quais deve fazer reverseDeploy
@@ -109,7 +109,7 @@ public class DeployFilter implements Filter
     
     // Variável que guarda a directoria fonte, para onde o XEO compila as JSP's
     // esta variável é o resultado do parametro do boconfig obj_deployjspdir;
-    private String          srcDir          = null;
+    private String[]        srcDir          = null;
     
     // String que guarda a localização fisica dos ficheiro do WebServer.
     private String          webRoot         = null;
@@ -128,14 +128,26 @@ public class DeployFilter implements Filter
         _filterConfig   = filterConfig;
         
         File srcDirFile = getViewersDirectory();
-        srcDir          = srcDirFile.getAbsolutePath();
+        
+        ArrayList webDirs = new ArrayList();
+        webDirs.add( srcDirFile.getAbsolutePath() );
+
+        File moduleDirFile = getModulesWebDir();
+        File[] moduleDir = moduleDirFile.listFiles();
+        
+        if( moduleDir != null ) {
+        	for( int i=0;i < moduleDir.length; i++ )
+        		webDirs.add( moduleDir[i].getAbsolutePath() );
+        }
+        
+        srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
         
         webRoot = _filterConfig.getServletContext().getRealPath("/");
         deployDir =  webRoot + File.separator + deployRoot; 
         
         // Verifica se as JSP's estão a ser compiladas 
         // directamente para o WebServer. se Sim faz o disable ao Filtro
-        if( deployDir.toLowerCase().startsWith( srcDir.toLowerCase() ) )
+        if( deployDir.toLowerCase().startsWith( srcDir[0].toLowerCase() ) )
         {
             enable = false;    
         }
@@ -196,6 +208,17 @@ public class DeployFilter implements Filter
         File deployedFile = new File( boapp.getApplicationConfig().getDeployJspDir() );
         return deployedFile;
     }
+
+    /**
+     * Obtem a directoria dos modulos para onde o XEO compila os Viewers.
+     * @return File que representa a directoria.
+     */
+    private File getModulesWebDir()
+    {
+        boApplication boapp = boApplication.getApplicationFromStaticContext( "XEO" );
+        File deployedFile = new File( boapp.getApplicationConfig().getModuleWebBaseDir() );
+        return deployedFile;
+    }
     
     /**
      * Copia o ficheiros da directoria <pre>obj_deployjspdir</pre> para
@@ -209,21 +232,24 @@ public class DeployFilter implements Filter
     private final boolean deployFile( String fileName )
     {
         boolean ret     = false;
-        File srcFile    = new File( srcDir + fileName );
-        File deployFile = new File( deployDir + fileName );
-        if( srcFile.exists() )
-        {
-            if( !compareFiles( srcFile, deployFile ) )
-            {
-                checkDeployDir();
-                IOUtils.copy( srcFile, deployFile );
-            }
-            ret = true;
-        }
-        else if ( deployFile.exists() )
-        {
-            // Apaga o ficheiro deployed para não haver confusões.
-            deployFile.delete();
+        for( int i=0; i < srcDir.length; i++ ) {
+	        File srcFile    = new File( srcDir[i] + fileName );
+	        File deployFile = new File( deployDir + fileName );
+	        if( srcFile.exists() )
+	        {
+	            if( !compareFiles( srcFile, deployFile ) )
+	            {
+	                checkDeployDir();
+	                IOUtils.copy( srcFile, deployFile );
+	            }
+	            ret = true;
+	            break;
+	        }
+	        else if ( deployFile.exists() )
+	        {
+	            // Apaga o ficheiro deployed para não haver confusões.
+	            //deployFile.delete();
+	        }
         }
         
         return ret;

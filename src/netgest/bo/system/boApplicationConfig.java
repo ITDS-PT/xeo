@@ -32,6 +32,7 @@ public class boApplicationConfig
     private String p_uiDefinitiondir;
     private String p_libdir;
     private String p_deploymentclassdir;
+    private String p_moduleswebdir;
     private String p_deploymentsrcdir;
     private String p_deploymentdir;
     private String p_compilerdir;
@@ -96,7 +97,11 @@ public class boApplicationConfig
         {
             return p_deploymentclassdir;
         }
-    
+        
+        public String getModuleWebBaseDir() {
+        	return p_moduleswebdir;
+        }
+
         public  String getCompilerdir()
         {
             return p_compilerdir;
@@ -353,6 +358,10 @@ public class boApplicationConfig
                 {
                     p_deploymentclassdir     = (xnode.selectSingleNode("class_dir") != null)
                         ? getNodeText( xnode.selectSingleNode("class_dir") ) : "";
+                        
+                    p_moduleswebdir     = (xnode.selectSingleNode("obj_moduleswebdir") != null)
+                        ? getNodeText( xnode.selectSingleNode("obj_moduleswebdir") ) : "";
+                    
                     p_deploymentsrcdir     = (xnode.selectSingleNode("src_dir") != null)
                         ? getNodeText( xnode.selectSingleNode("src_dir") ) : "";
                     p_deploymentdir     = (xnode.selectSingleNode("obj_dir") != null)
@@ -496,8 +505,7 @@ public class boApplicationConfig
                 p_compilerdir           = fixRelativePath( p_ngthome, p_compilerdir, false );
                 p_templatesdir          = fixRelativePath( p_ngthome, p_templatesdir );
                 p_deployjspdir          = fixRelativePath( p_ngthome, p_deployjspdir );
-                
-                
+                p_moduleswebdir			= fixRelativePath( p_ngthome, p_moduleswebdir );
 
             }
             catch (Exception e)
