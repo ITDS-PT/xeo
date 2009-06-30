@@ -462,7 +462,7 @@ public class boConvertUtils
     public static final BigDecimal convertToBigDecimal(double value,
         AttributeHandler attr)
     {
-        return BigDecimal.valueOf(value);
+        return new BigDecimal(value);
     }
 
     public static final iFile[] convertToArrayOfiFile(String[] value,
