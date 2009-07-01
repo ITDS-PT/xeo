@@ -34,6 +34,11 @@ public final class IOUtils
         byte[] buff = new byte[4096];
         try
         {
+        	
+        	if( !dest.getParentFile().exists() ) {
+        		dest.getParentFile().mkdirs();
+        	}
+        	
             FileInputStream is = new FileInputStream(src);
             FileOutputStream os = new FileOutputStream(dest);
             while((br=is.read(buff))>0 ) {

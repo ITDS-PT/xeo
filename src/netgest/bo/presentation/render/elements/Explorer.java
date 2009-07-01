@@ -1805,7 +1805,7 @@ public class Explorer implements Element {
                 innerSql = remakeInnerSQL(ctx, innerSql);
             }
             
-            outSql.append( " from ( " ).append( innerSql ).append( ")" );
+            outSql.append( " from ( " ).append( innerSql ).append( ") sql_count " );
             outSql.append(" group by ");
             for (int i = 0; i < groupProvider.groupSize(); i++) {
                 outSql.append(" \"grp");
