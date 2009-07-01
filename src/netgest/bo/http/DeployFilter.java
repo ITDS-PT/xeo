@@ -130,7 +130,6 @@ public class DeployFilter implements Filter
         File srcDirFile = getViewersDirectory();
         
         ArrayList webDirs = new ArrayList();
-        webDirs.add( srcDirFile.getAbsolutePath() );
 
         File moduleDirFile = getModulesWebDir();
         File[] moduleDir = moduleDirFile.listFiles();
@@ -140,8 +139,7 @@ public class DeployFilter implements Filter
         		webDirs.add( moduleDir[i].getAbsolutePath() );
         	}
         }
-        
-        
+        webDirs.add( srcDirFile.getAbsolutePath() );
         
         srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
         
@@ -159,20 +157,30 @@ public class DeployFilter implements Filter
             checkDeployDir();
         }
         
-//        for( int i=0; i < srcDir.length; i++ ) {
-//        	File file = new File( srcDir[i] );
-//        	logger.info("Deployig root web files for:" + file.getName() );
-//        	File[] dirFiles = file.listFiles();
-//        	for( int k=0; k < dirFiles.length; k++ ) {
-//        		if( dirFiles[k].isFile() ) {
-//	    	        //File srcFile    = new File( srcDir[i] + dirFiles[k].getName() );
-//	    	        File deployFile = new File( deployDir + File.separator + dirFiles[k].getName() );
-//	                IOUtils.copy( dirFiles[k], deployFile );
-//        		}
-//        	}
-//        }
+    	logger.info("Starting deploying modules webfiles ..." );
+        for( int i=0; i < srcDir.length; i++ ) {
+        	File file = new File( srcDir[i] );
+        	logger.info("Deployig root web files for:" + file.getName() );
+        	deployDir( file, deployDir );
+        }
+    	logger.info("Finished deploying modules webfiles ..." );
         
         
+    }
+    
+    public void deployDir( File srcDir, String destDir ) {
+    	File[] dirFiles = srcDir.listFiles();
+    	for( int k=0; k < dirFiles.length; k++ ) {
+    		if( dirFiles[k].isFile() ) {
+    	        File deployFile = new File( destDir + File.separator + dirFiles[k].getName() );
+    	        if( dirFiles[k].lastModified() != deployFile.lastModified() || dirFiles[k].length() != deployFile.length()  ) {
+    	        	IOUtils.copy( dirFiles[k], deployFile );
+    	        }
+    		} else if ( dirFiles[k].isDirectory() ) {
+    			String newDestDir = destDir + File.separator + dirFiles[k].getName();
+    			deployDir( dirFiles[k], newDestDir );
+    		}
+    	}
     }
     
     /**
@@ -645,7 +653,10 @@ public class DeployFilter implements Filter
     private static final boolean compareFiles( File file1, File file2 )
     {
         boolean ret = true;
-        if( file1.lastModified() != file2.lastModified()  )
+        if( file1.getName().equals( file2.getName() ) ) {
+        	ret = false;
+        }
+        else if( file1.lastModified() != file2.lastModified()  )
         {
             ret = false;
         }

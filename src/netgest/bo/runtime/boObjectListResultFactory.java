@@ -301,7 +301,7 @@ public class boObjectListResultFactory  {
             }
         	
         	String sql = composeSqlQuery(ctx, TYPE_BOQL, boql, args, "", fulltext, letter_filter, userQuery, useSecurity);
-            sql = "SELECT COUNT(*) FROM ("+sql+") AS SQL_COUNT";
+            sql = "SELECT COUNT(*) FROM ("+sql+") SQL_COUNT";
             cn = ctx.getConnectionData();
             pstm = cn.prepareStatement(sql);
 
