@@ -170,7 +170,7 @@ public class DeployFilter implements Filter
     
     public void deployDir( File srcDir, String destDir ) {
     	File[] dirFiles = srcDir.listFiles();
-    	for( int k=0; k < dirFiles.length; k++ ) {
+    	for( int k=0;dirFiles != null && k < dirFiles.length; k++ ) {
     		if( dirFiles[k].isFile() ) {
     	        File deployFile = new File( destDir + File.separator + dirFiles[k].getName() );
     	        if( dirFiles[k].lastModified() != deployFile.lastModified() || dirFiles[k].length() != deployFile.length()  ) {
