@@ -1,4 +1,13 @@
-﻿ ORG_DATE_FORMAT=7;var ORG_DATE_SEPARATOR='/';var ORG_DATE_START_DAY=0;var ORG_LANGUAGE_CODE=1033;var ORG_NUMBER_FORMAT='pt';var ORG_TIME_FORMAT=0;var ORG_CURRENCY_SYMBOL='$';var ORG_SHOW_WEEK_NUMBER='0';var ON_SAVE_RESET=false;document.onselectstart=function(){var s=event.srcElement.tagName;if(s!="INPUT" && s!="TEXTAREA")event.returnValue=false;}
+﻿try
+{
+	if (js_message1) okxpto=true;		
+
+}
+catch(e)
+{
+	addJavascript('jsmessages/jsmessages.jsp','head'); 
+}
+ORG_DATE_FORMAT=7;var ORG_DATE_SEPARATOR='/';var ORG_DATE_START_DAY=0;var ORG_LANGUAGE_CODE=1033;var ORG_NUMBER_FORMAT='pt';var ORG_TIME_FORMAT=0;var ORG_CURRENCY_SYMBOL='$';var ORG_SHOW_WEEK_NUMBER='0';var ON_SAVE_RESET=false;document.onselectstart=function(){var s=event.srcElement.tagName;if(s!="INPUT" && s!="TEXTAREA")event.returnValue=false;}
 isIE=true;var G_onrsz=false;var G_onmv=false;var G_1;var G_2;var doc;var _hsos=[];var _hso=null;var ii=0;var lastActive=new Date('01/01/1970');function activethis(){if(new Date()- lastActive>1000)
 {var xwin=winmain();if(xwin){xwin.status="ok..."+(ii++);if(xwin.activeDocByIdx)xwin.activeDocByIdx(getIDX())
 }
@@ -123,7 +132,7 @@ window.msgresponse=null;function newDialogBox(type ,message, options ,title )
 {var x=1
 var xh=160;var xtop=(window.screen.availheight-166)/2;window.msgresponse=null;window.showModalDialog("dialogBox.htm",new Array(window,message,options,type,title),"dialogTop:"+xtop+"px;dialogHeight:"+xh+"px;edge: raised;center: yes;  help: No; scroll: yes; resizable: yes; status: no;");return window.msgresponse;}
 function displayXeoError(errorMessage)
-{var resp=newDialogBox("critical",errorMessage,[this.parent.jsmessage_22,this.parent.jsmessage_23],"Xeo Critical Error" );if(resp==1)
+{var resp=newDialogBox("critical",errorMessage,[window.jsmessage_22,window.jsmessage_23],"Xeo Critical Error" );if(resp==1)
 {var t=window.navigator;x=window.open('mailto:suporte@enlace3.pt?subject=XEO_ERROR&body='+encodeURIComponent(errorMessage).substring(0,1500)+'\n\n Browser Settings: Cookie Enable :'+t.cookieEnabled+'\n Browser: '+t.appName+'\n Version : '+t.appVersion+'\n Agente: '+t.userAgent+'\n Plataform: '+t.platform+'\n Patchs '+t.appMinorVersion+'\n SystemLaguage : '+t.systemLanguage+'\n BrowserLanguage : '+t.browserLanguage+'\n UserLanguage : '+t.userLanguage+'' );}
 }
 function setFieldWFocus(fieldId)
@@ -245,7 +254,7 @@ function wait()
 else
 {x.style.left=window.event.x-250;}
 x.style.top=window.event.y;}
-x.style.zIndex=1300;x.innerHTML='<b>'+jsmessage_21+'</b><img src=resources/senddata.gif>'
+x.style.zIndex=1300;x.innerHTML='<b>'+window.jsmessage_21+'</b><img src=resources/senddata.gif>'
 D=document;if(appx)D.body.appendChild(x);else x.style.display='';var w=document.getElementById("waitdiv");var appw=w?false:true;if(!w) w=D.createElement("div");w.id='waitdiv';with(w.style){position='absolute';top=0;left=0;zIndex=1200;width=document.body.offsetWidth;height=document.body.offsetHeight;cursor="wait";backgroundImage='url(resources/none.gif)';}
 D.body.style.cursor="wait";if(appw )D.body.appendChild(w);else  w.style.display='';}
 function noWait()
@@ -812,50 +821,50 @@ catch(e){}
 }
 var _oCalPopUp;var _oCalInput;var _sCalMonths		=	new	Array
 (
-this.parent.jsmessage_26,
-this.parent.jsmessage_27,
-this.parent.jsmessage_28,
-this.parent.jsmessage_29,
-this.parent.jsmessage_30,
-this.parent.jsmessage_31,
-this.parent.jsmessage_32,
-this.parent.jsmessage_33,
-this.parent.jsmessage_34,
-this.parent.jsmessage_35,
-this.parent.jsmessage_36,
-this.parent.jsmessage_37
+window.jsmessage_26,
+window.jsmessage_27,
+window.jsmessage_28,
+window.jsmessage_29,
+window.jsmessage_30,
+window.jsmessage_31,
+window.jsmessage_32,
+window.jsmessage_33,
+window.jsmessage_34,
+window.jsmessage_35,
+window.jsmessage_36,
+window.jsmessage_37
 );var _sCalLongMonths	=	new	Array
 (
-this.parent.jsmessage_38,
-this.parent.jsmessage_39,
-this.parent.jsmessage_40,
-this.parent.jsmessage_41,
-this.parent.jsmessage_42,
-this.parent.jsmessage_43,
-this.parent.jsmessage_44,
-this.parent.jsmessage_45,
-this.parent.jsmessage_46,
-this.parent.jsmessage_47,
-this.parent.jsmessage_48,
-this.parent.jsmessage_49
+window.jsmessage_38,
+window.jsmessage_39,
+window.jsmessage_40,
+window.jsmessage_41,
+window.jsmessage_42,
+window.jsmessage_43,
+window.jsmessage_44,
+window.jsmessage_45,
+window.jsmessage_46,
+window.jsmessage_47,
+window.jsmessage_48,
+window.jsmessage_49
 );var _sCalDays		=	new Array
 (
-this.parent.jsmessage_50,
-this.parent.jsmessage_51,
-this.parent.jsmessage_52,
-this.parent.jsmessage_53,
-this.parent.jsmessage_54,
-this.parent.jsmessage_55,
-this.parent.jsmessage_56
+window.jsmessage_50,
+window.jsmessage_51,
+window.jsmessage_52,
+window.jsmessage_53,
+window.jsmessage_54,
+window.jsmessage_55,
+window.jsmessage_56
 );var _sCalLongDays	=new Array
 (
-this.parent.jsmessage_57,
-this.parent.jsmessage_58,
-this.parent.jsmessage_59,
-this.parent.jsmessage_60,
-this.parent.jsmessage_61,
-this.parent.jsmessage_62,
-this.parent.jsmessage_63
+window.jsmessage_57,
+window.jsmessage_58,
+window.jsmessage_59,
+window.jsmessage_60,
+window.jsmessage_61,
+window.jsmessage_62,
+window.jsmessage_63
 );/*
 _iCalFormat Formats
 0  - M/d/yy
@@ -1328,3 +1337,11 @@ else
 {decNum +="0";}
 }
 return sNewNum + decNum;}
+
+function addJavascript(jsname,pos) {
+	var th = document.getElementsByTagName(pos)[0];
+	var s = document.createElement('script');
+	s.setAttribute('type','text/javascript');
+	s.setAttribute('src',jsname);
+	th.appendChild(s);
+	} 
