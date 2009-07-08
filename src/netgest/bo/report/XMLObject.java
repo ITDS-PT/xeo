@@ -161,7 +161,9 @@ public class XMLObject
                      xmlAtt.setAttributeName(attDef[i].getName());
 					 
 					 //----------- get dos valores das LOV's ------------
-					 String desc=attDef[i].getDescription();
+                    String desc= attDef[i].getLabel();
+                    if(desc==null)
+                        desc=attDef[i].getDescription();
 					 
 					 if(attDef[i].getLOVName()!=null && !attDef[i].getLOVName().equalsIgnoreCase("")
                         && LovManager.getLovObject( ctx, attDef[i].getLOVName() ) != null
@@ -248,9 +250,9 @@ public class XMLObject
                                         String objTables[] = getTablesFromObjectHier( implObjs[k] );
                                         for (int z=0 ;z < objTables.length; z++ ) 
                                         {
-                                            if( !tables.contains( objTables[i] ) )
+                                            if( !tables.contains( objTables[z] ) )
                                             {
-                                                tables.add( objTables[i] );
+                                                tables.add( objTables[z] );
                                             }
                                         }
                                     }
