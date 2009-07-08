@@ -1486,7 +1486,7 @@ public class boObjectList extends boPoolable {
 					/*
 					 * } else { ret = p_bobjpointers[p_resultset.getRow()-1]; }
 					 */
-					if (ret.getBoui() != p_resultset.getLong(p_fieldname)) {
+					if (ret!=null && ret.getBoui() != p_resultset.getLong(p_fieldname)) {
 						if (ret.getBoui() == 0) {
 							throw new RuntimeException(
 									"Internal error!!!! cannot add a object with boui [0]");
