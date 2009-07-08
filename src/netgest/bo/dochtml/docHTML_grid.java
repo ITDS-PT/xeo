@@ -1236,12 +1236,13 @@ public final class docHTML_grid  {
                   
                     out.write( Gtxt.text[ Gtxt.OPEN_TR_ID ] );
                     
-                     if( securityRights.canRead(obj.getEboContext(), obj.getName() ) && securityOPL.canRead( obj )  ) {
-                     out.print(hui);
-                     out.print("__"); //$NON-NLS-1$
-                     out.print( obj.getName() );
-                     out.print("__"); //$NON-NLS-1$
-                     out.print(obj.bo_boui);
+                    
+                     if(!DOC.useSecurity() || (securityRights.canRead(obj.getEboContext(), obj.getName() ) && securityOPL.canRead( obj )  )) {
+                        out.print(hui);
+                        out.print("__"); //$NON-NLS-1$
+                        out.print( obj.getName() );
+                        out.print("__"); //$NON-NLS-1$
+                        out.print(obj.bo_boui);
                      }
                      out.print('\'');
 

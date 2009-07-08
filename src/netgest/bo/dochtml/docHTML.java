@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.dochtml;
 import java.io.CharArrayWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.io.UnsupportedEncodingException;
@@ -150,6 +151,8 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
     private String      p_METH_ALIAS_OBJ;
     private String      p_METH_LIST_USER_QUERY;
     private String[]    p_METH_LIST_LETTER;
+    private boolean     p_METH_USE_SECURITY = true;
+    
     //
     private boObject    p_MasterObject;
 
@@ -346,26 +349,48 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                         //ignore
                         //logger.error("",e);
                        }
+                        
+                        String lismode = request.getParameter("listmode");
+                        
+                        if("SEARCHONE".equalsIgnoreCase(lismode) || "SEARMULTI".equalsIgnoreCase(lismode))
+                        {
+                            String expression = (p_BOQL.split(" ")[1]);
+                            boDefHandler objdef=getBodefHandlerFromExp(null, expression);                        
+                            String ignoreSecStr = objdef.getViewer("general").getForm("list").getChildNode("grid").getAttribute("ignoreSecurity");
+                            p_METH_USE_SECURITY = !(ignoreSecStr!=null && 
+                                                      ("yes".equalsIgnoreCase(ignoreSecStr) || 
+                                                       "y".equalsIgnoreCase(ignoreSecStr) ||
+                                                       "true".equalsIgnoreCase(ignoreSecStr) 
+                                                      )
+                                                     );
+                        
+                        }
                        if(!isClass)
                        {
                             if(!p_METH_LIST_WFIRST_ROWS)
                             {
-                                p_masterBoList=boObjectList.list(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,p_METH_LIST_ORDERBY,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                if(!p_METH_USE_SECURITY)
+                                    p_masterBoList=boObjectList.listNoSecurity(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,p_METH_LIST_ORDERBY,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                else
+                                    p_masterBoList=boObjectList.list(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,p_METH_LIST_ORDERBY,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
                             }
                             else
                             {
-                                p_masterBoList=boObjectList.listWFirstRows(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,p_METH_LIST_ORDERBY,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                p_masterBoList=boObjectList.listWFirstRows(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,p_METH_LIST_ORDERBY,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY,p_METH_USE_SECURITY);
                             }
                        }
                        else
                        {
                             if(!p_METH_LIST_WFIRST_ROWS)
                             {
-                                p_masterBoList=boObjectList.list(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,null,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                if(!p_METH_USE_SECURITY)
+                                    p_masterBoList=boObjectList.listNoSecurity(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,null,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                else
+                                    p_masterBoList=boObjectList.list(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,null,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
                             }
                             else
                             {
-                                p_masterBoList=boObjectList.listWFirstRows(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,null,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY);
+                                p_masterBoList=boObjectList.listWFirstRows(super.getEboContext(),p_BOQL,p_METH_LIST_PAGENUMBER,p_METH_LIST_PAGESIZE,null,p_METH_LIST_FULLTEXT,p_METH_LIST_LETTER,p_METH_LIST_USER_QUERY, p_METH_USE_SECURITY);
                             }
                             p_masterBoList.setOrderBy(p_METH_LIST_ORDERBY);
                        }
@@ -586,7 +611,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
 //                            request.getParameter( "docid" )!= null
 //                          )
 //                        {
-//                        //SER√Å PRECISO ...... TODO
+//                        //SER√? PRECISO ...... TODO
 //                            boObject xparentobj = getObject( Long.parseLong( request.getParameter("ctxParent") ) );
 //                            bridgeHandler bridge = xparentobj.getBridge( request.getParameter( "addToCtxParentBridge" ) );
 //                            if( bridge!=null && bridge.haveBoui( p_BOUI ))
@@ -3266,7 +3291,20 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
         boObject ret=null;
         try
         {
-            ret=boObject.getBoSecurityManager().loadObject( getEboContext(), boui );
+            if(p_METH_USE_SECURITY) {
+                try {
+                    ret = boObject.getBoSecurityManager().loadObject(getEboContext(), boui);
+                } catch (boRuntimeException e) {
+                    if("BO-3220".equals(e.getErrorCode())) {
+                        ret=boObject.getBoManager().loadObject( getEboContext(), boui );
+                        ret.setSendRedirect("../dialogBoxSecurityWarning.htm?__XEOForwared=1");
+                        /*super.getEboContext().getResponse().sendRedirect("dialogBoxSecurityWarning.htm");
+                        return null;*/
+                    }
+                }
+            }
+            else
+                ret=boObject.getBoManager().loadObject( getEboContext(), boui );
         }
         finally
         {
@@ -4026,5 +4064,9 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
             oRet = (ICustomFieldDataBinding)p_datafields.get( sFieldName );
         }
         return oRet;
+    }
+    
+    public boolean useSecurity() {
+        return p_METH_USE_SECURITY;
     }
 }
