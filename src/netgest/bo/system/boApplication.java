@@ -120,8 +120,9 @@ public class boApplication
 	                    appConfigPath += File.separator;
 	                }
 	                
-	                appConfigPath += "boconfig.xml";
+	                appConfigPath += "boconfig.xml"; 
 	                
+	                System.setProperty( "xeo.home" , appConfigPath );
 	                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 	                XEO_APPLICATION.initializeApplication();
                 }

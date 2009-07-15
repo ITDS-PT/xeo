@@ -840,6 +840,9 @@ public class boApplicationConfig
     {
         if( path != null ) 
         {
+        	path = path.replace('\\', File.separatorChar );
+        	path = path.replace('/', File.separatorChar );
+        	
             if( !Pattern.matches( "^((.\\:)|(\\/))(.*)$", path ) )
             {
                 if( path.startsWith(".\\") || path.startsWith("./") )
