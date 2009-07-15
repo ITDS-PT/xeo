@@ -123,6 +123,8 @@ public class boApplication
 	                appConfigPath += "boconfig.xml"; 
 	                
 	                System.setProperty( "xeo.home" , appConfigPath );
+	                System.setProperty( "netgest.home" , appConfigPath );
+	                
 	                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 	                XEO_APPLICATION.initializeApplication();
                 }
