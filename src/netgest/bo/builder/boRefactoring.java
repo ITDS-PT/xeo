@@ -192,12 +192,10 @@ public class boRefactoring
                 }
             }
             
-            //Efectuar o build           
-            final InitialContext ic = new InitialContext();
-            ut = (javax.transaction.UserTransaction) ic.lookup("java:comp/UserTransaction");
-            ut.begin();
-            boBuilder.cleanboDefDeployment();
-            boBuilder.buildAll(ebo);
+            //Efectuar o build
+            boBuilderOptions builderOptions = new boBuilderOptions();
+            builderOptions.setFullBuild( true );
+            boBuilder.buildAll(ebo, builderOptions, new boBuilderProgress() );
             ok = true;
         }
         catch(Exception e)
@@ -339,8 +337,10 @@ public class boRefactoring
             //remover o anterior
             theFile.delete();
 
-            //Efectuar o build dos vários objectos alterados
-            boBuilder.buildAll(ebo);            
+            //Efectuar o build
+            boBuilderOptions builderOptions = new boBuilderOptions();
+            builderOptions.setFullBuild( true );
+            boBuilder.buildAll(ebo, builderOptions, new boBuilderProgress() );
         }
         catch(Exception e)
         {

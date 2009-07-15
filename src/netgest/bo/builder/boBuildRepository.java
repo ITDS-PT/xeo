@@ -260,7 +260,7 @@ public class boBuildRepository
     }
 
 
-    public File[] getFilesToDeploy( boolean deployAll )
+    public File[] getFilesToDeploy()
     {
         Vector ret = new Vector();
         Enumeration oEnum = allFiles.elements();

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.log4j.Logger;
+
 import netgest.bo.boConfig;
 
 
@@ -14,6 +17,7 @@ public class boClassCompiler  {
     public String aftercode="";
     public Process proc;
     
+    private static Logger logger = Logger.getLogger("netgest.bo.builder.boBuilder");
     
     public void compile(String srcdir,File[] srccode,String outputdir) throws RuntimeException {
       try {
@@ -22,19 +26,46 @@ public class boClassCompiler  {
           clsdir.mkdirs();
  
           xjavac =boConfig.getCompilerdir(); 
-
-          if (xjavac == null || xjavac.length()==0) 
-              throw(new RuntimeException("Node (pathjavac) A Path para o compilador de java não foi especificada no boconfig.xml"));
-          
-          Runtime rt = Runtime.getRuntime();
-          String classpath ="";
+          File xjavacFile = new File( xjavac );
           
           boolean isWindows = true;
-                    
+          
           String osName = System.getProperty("os.name");
           if ( !osName.matches(".*(?i)(windows).*") ) {
               isWindows = false;
           }                  
+          
+          if (xjavac == null || xjavac.trim().length()==0 || !xjavacFile.exists() || xjavacFile.isDirectory() )  {
+        	  
+        	  String javacName = "bin" + File.separator + "javac" + (isWindows?".exe":"");
+        	  String javaHome = System.getProperty("java.home");
+        	  File	 javaFile = new File( javaHome + File.separator + javacName );
+        	  if( javaFile.exists() ) {
+        		  xjavac = javaFile.getAbsolutePath();
+        		  xjavacFile = javaFile;
+        	  }
+        	  
+        	  javaHome = (new File( javaHome ).getParent()) +  File.separator;
+        	  javaFile = new File( javaHome + File.separator + javacName );
+        	  if( javaFile.exists() ) {
+        		  if( !(xjavac == null || xjavac.trim().length()==0 || xjavacFile.isDirectory()) )
+        			  logger.warn("javac in boconfig.xml not found, using the default. [" + javaFile.getAbsolutePath() + "] ");
+        		  xjavac = javaFile.getAbsolutePath();
+        		  xjavacFile = javaFile; 
+        	  }
+          }
+          
+          if (xjavac == null || xjavac.trim().length()==0 )  {
+              throw(new RuntimeException("Node (pathjavac) A Path para o compilador de java não foi especificada no boconfig.xml"));
+          }
+          else if ( !xjavacFile.exists() )   {
+              throw(new RuntimeException("Node (pathjavac) Não foi encontrado o javac [" + xjavacFile.getAbsolutePath() + "] especificado no boconfig.xml"));
+          }
+          
+          
+          Runtime rt = Runtime.getRuntime();
+          String classpath ="";
+          
           // JBOSS/WebLogic(and possibly others): Construct the classpath based on the xeoHome/lib folder          
           if ((System.getProperty("jboss.server.home.dir")!=null && 
             !"".equals(System.getProperty("jboss.server.home.dir"))) ||

@@ -1,4 +1,4 @@
-#Fri Jun 26 16:45:58 BST 2009
+#Fri Jul 03 16:56:13 BST 2009
 attrDuplicate=2
 attrInvalidName=2
 attrInvalidValue=2
@@ -12,7 +12,7 @@ cdataUnclosed=1
 commentInvalidContent=2
 commentUnclosed=1
 docDoctypeUnclosed=1
-docDuplicateTag=1
+docDuplicateTag=2
 docInvalidChar=2
 docInvalidContent=2
 eclipse.preferences.version=1
@@ -34,3 +34,4 @@ piInvalidContent=2
 piUnclosed=1
 piUndefined=2
 refInvalidContent=2
+use-project-settings=true

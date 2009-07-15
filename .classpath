@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="lib" path="project_lib/AppXTender.jar"/>
 	<classpathentry kind="lib" path="project_lib/bcmail-jdk14-125.jar"/>
 	<classpathentry kind="lib" path="project_lib/bcpg-jdk14-125.jar"/>
@@ -30,5 +29,12 @@
 	<classpathentry kind="lib" path="base_lib/j2ee/servlet.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/soap.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/xmlparserv2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.generic.runtimeTarget/JBoss v4.2">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.utility"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -219,7 +219,7 @@ public class SchemaUtils
             {
                 dbm.createSchema(schemaName, schemaName,
                     objController.getName(), objController.getBoui());
-                boBuilder.buildAll(ctx, schemaName);
+                //boBuilder.buildAll(ctx, schemaName);
             }
 
             //criação objecto Ebo_Repository

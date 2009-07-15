@@ -35,27 +35,31 @@ public class boClassBuilder
     protected static final boolean TABINDENT = false;
     protected static final int COMPILE_MAX = 50;
     private Hashtable codeJavaHash;
+    
+    private boBuilderProgress p_buildProgress = null;
 
-/*    private static Vector compileQueue = new Vector();
-    public static void compileClasses(boConfig bocfg) {
-        try {
-            boClassCompiler comp = new boClassCompiler();
-            comp.compile(bocfg.getDeploymentsrcdir(),(File[])compileQueue.toArray(new File[compileQueue.size()]),bocfg.getDeploymentclassdir());
-        } catch (SQLException e) {
-            throw new boException(boClassBuilder.class.getName()+"compileClasses(String)","BO-1601",e,"<any>");
-        }
-        compileQueue.clear();
-    }*/
-    public boClassBuilder() {
+    public boClassBuilder( boBuilderProgress p ) {
+    	p_buildProgress = p;
+    	if( p == null ) {
+    		p_buildProgress = new boBuilderProgress();
+    	}
     }
-    public void build(boDefHandler[] bodefs,long[] clsregboui) throws boRuntimeException {
+    public void build(  boDefHandler[] bodefs,long[] clsregboui) throws boRuntimeException {
         boDefHandler bodef=null;
         try {
             Vector srcfiles = new Vector();
             boConfig bocfg = new boConfig();
+            
+            
+            p_buildProgress.addOverallProgress();
+            p_buildProgress.setOverallTaskName( "Generating XEO Model java source files..." );            
+            p_buildProgress.setCurrentTasks( bodefs.length );
+            
             for(int i=0;i < bodefs.length;i++) {
                 bodef = bodefs[i];
 
+                p_buildProgress.setCurrentTaskName( bodef.getLabel() + " (" + bodef.getName() + ")" );
+                
                 if( bodef.getClassType() != boDefHandler.TYPE_INTERFACE )
                 {
                     InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "netgest/bo/builder/templates/boTemplate.xml" );
@@ -101,6 +105,8 @@ public class boClassBuilder
                    // logger.debug("Compile "+ version+" "+bodef.getLabel() );
                     srcfiles.add(srcfile);
                 }
+                p_buildProgress.addCurrentTaskProgress();
+                
             }
 
             File[] a_srcfiles= new File[srcfiles.size()];
@@ -111,6 +117,12 @@ public class boClassBuilder
             File[] aux = new File[COMPILE_MAX];
             int pos = 0;
             logger.info("Started Compiling " + a_srcfiles.length + " classes...");
+
+            p_buildProgress.addOverallProgress();
+            p_buildProgress.setOverallTaskName( "Compiling XEO Model java source files..." );            
+            
+            p_buildProgress.setCurrentTasks( a_srcfiles.length );
+            p_buildProgress.setCurrentTaskName( "Compiling..." );
             while(pos < a_srcfiles.length)
             {
                 pos = compileMax(a_srcfiles, auxL, pos, COMPILE_MAX);
@@ -119,6 +131,10 @@ public class boClassBuilder
                 comp.compile(bocfg.getDeploymentsrcdir(),
                     aux,
                     bocfg.getDeploymentclassdir());
+                
+                for( int q=0; q < aux.length; q++ )
+                	p_buildProgress.addCurrentTaskProgress();
+                
             }
             logger.info("Ended Compiling...");
 

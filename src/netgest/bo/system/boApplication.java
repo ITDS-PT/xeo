@@ -3,6 +3,8 @@ package netgest.bo.system;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.WeakHashMap;
 import javax.ejb.CreateException;
@@ -92,15 +94,37 @@ public class boApplication
             if (XEO_APPLICATION == null)
             {
                 String appConfigPath = System.getProperty("netgest.home");
-                if( appConfigPath == null ) appConfigPath = System.getProperty("xeo.home");
-                if( !appConfigPath.endsWith( "/" ) || !appConfigPath.endsWith( "\\" ) )
-                {
-                    appConfigPath += File.separator;
-                }
-                appConfigPath += "boconfig.xml";
                 
-                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
-                XEO_APPLICATION.initializeApplication();
+                if( appConfigPath == null ) {
+                	appConfigPath = System.getProperty("xeo.home");
+                }
+                if( appConfigPath == null ) {
+                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
+                	if( u != null && u.getFile() != null ) {
+	                	File file = new File(u.getFile());
+	                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
+	                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+	                	if( xeoHome1.exists() ) {
+	                		appConfigPath = homeFolder.getAbsolutePath();
+	                	}
+	                	homeFolder = homeFolder.getParentFile();
+	                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+	                	if( xeoHome1.exists() ) {
+	                		appConfigPath = homeFolder.getAbsolutePath();
+	                	}
+                	}
+                }
+                if( appConfigPath != null ) {
+	                if( !appConfigPath.endsWith( "/" ) || !appConfigPath.endsWith( "\\" ) )
+	                {
+	                    appConfigPath += File.separator;
+	                }
+	                
+	                appConfigPath += "boconfig.xml";
+	                
+	                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
+	                XEO_APPLICATION.initializeApplication();
+                }
             }
             return XEO_APPLICATION;
         }
@@ -315,23 +339,24 @@ public class boApplication
     public boSession boLogin(String username, String password, String repository, String clientName , HttpServletRequest request)
         throws boLoginException
     {
-        try
-        {
+//        try
+//        {
             if( repository == null )
             {
                 repository = "default";
             } 
-            boLoginLocal login = (boLoginLocal) ((boLoginLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boLoginLocal")).create();
+            //boLoginLocal login = (boLoginLocal) ((boLoginLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boLoginLocal")).create();
+            boLoginBean login = new boLoginBean();
             return login.boLogin( this, repository, clientName, username, password, request);
-        }
-        catch (NamingException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-        catch (CreateException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+//        }
+//        catch (NamingException e)
+//        {
+//            throw new RuntimeException(e.getMessage());
+//        }
+//        catch (CreateException e)
+//        {
+//            throw new RuntimeException(e.getMessage());
+//        }
     }
     public boSession boLogin(String username, long time, long timeCheck, String repository, String clientName , HttpServletRequest request)
         throws boLoginException

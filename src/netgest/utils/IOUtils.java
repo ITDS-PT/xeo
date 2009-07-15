@@ -31,7 +31,7 @@ public final class IOUtils
     public static final File copy(File src, File dest)
     {
         int br;
-        byte[] buff = new byte[4096];
+        byte[] buff = new byte[8096];
         try
         {
         	

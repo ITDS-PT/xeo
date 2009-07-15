@@ -129,43 +129,46 @@ public class DeployFilter implements Filter
         
         File srcDirFile = getViewersDirectory();
         
-        ArrayList webDirs = new ArrayList();
-
-        File moduleDirFile = getModulesWebDir();
-        File[] moduleDir = moduleDirFile.listFiles();
-        
-        if( moduleDir != null ) {
-        	for( int i=0;i < moduleDir.length; i++ ) {
-        		webDirs.add( moduleDir[i].getAbsolutePath() );
-        	}
+        if( srcDirFile != null ) {
+	        ArrayList webDirs = new ArrayList();
+	
+	        File moduleDirFile = getModulesWebDir();
+	        File[] moduleDir = moduleDirFile.listFiles();
+	        
+	        if( moduleDir != null ) {
+	        	for( int i=0;i < moduleDir.length; i++ ) {
+	        		webDirs.add( moduleDir[i].getAbsolutePath() );
+	        	}
+	        }
+	        webDirs.add( srcDirFile.getAbsolutePath() );
+	        
+	        srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
+	        
+	        webRoot = _filterConfig.getServletContext().getRealPath("/");
+	        deployDir =  webRoot + File.separator + deployRoot; 
+	        
+	        // Verifica se as JSP's estão a ser compiladas 
+	        // directamente para o WebServer. se Sim faz o disable ao Filtro
+	        if( deployDir.toLowerCase().startsWith( srcDir[0].toLowerCase() ) )
+	        {
+	            enable = false;    
+	        }
+	        else
+	        {
+	            checkDeployDir();
+	        }
+	        
+	    	logger.info("Starting deploying modules webfiles ..." );
+	        for( int i=0; i < srcDir.length; i++ ) {
+	        	File file = new File( srcDir[i] );
+	        	logger.info("Deployig root web files for:" + file.getName() );
+	        	deployDir( file, deployDir );
+	        }
+	    	logger.info("Finished deploying modules webfiles ..." );
         }
-        webDirs.add( srcDirFile.getAbsolutePath() );
-        
-        srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
-        
-        webRoot = _filterConfig.getServletContext().getRealPath("/");
-        deployDir =  webRoot + File.separator + deployRoot; 
-        
-        // Verifica se as JSP's estão a ser compiladas 
-        // directamente para o WebServer. se Sim faz o disable ao Filtro
-        if( deployDir.toLowerCase().startsWith( srcDir[0].toLowerCase() ) )
-        {
-            enable = false;    
+        else {
+	    	logger.error("Cannoad load XEO Application..." );
         }
-        else
-        {
-            checkDeployDir();
-        }
-        
-    	logger.info("Starting deploying modules webfiles ..." );
-        for( int i=0; i < srcDir.length; i++ ) {
-        	File file = new File( srcDir[i] );
-        	logger.info("Deployig root web files for:" + file.getName() );
-        	deployDir( file, deployDir );
-        }
-    	logger.info("Finished deploying modules webfiles ..." );
-        
-        
     }
     
     public void deployDir( File srcDir, String destDir ) {
@@ -231,8 +234,11 @@ public class DeployFilter implements Filter
     private File getViewersDirectory()
     {
         boApplication boapp = boApplication.getApplicationFromStaticContext( "XEO" );
-        File deployedFile = new File( boapp.getApplicationConfig().getDeployJspDir() );
-        return deployedFile;
+        if( boapp != null ) {
+	        File deployedFile = new File( boapp.getApplicationConfig().getDeployJspDir() );
+        	return deployedFile;
+        }
+        return null;
     }
 
     /**
@@ -263,11 +269,11 @@ public class DeployFilter implements Filter
 	        File deployFile = new File( deployDir + fileName );
 	        if( srcFile.exists() )
 	        {
-	            if( !compareFiles( srcFile, deployFile ) )
-	            {	
-	                checkDeployDir();
-	                IOUtils.copy( srcFile, deployFile );
-	            }
+//	            if( !compareFiles( srcFile, deployFile ) )
+//	            {	
+//	                checkDeployDir();
+//	                IOUtils.copy( srcFile, deployFile );
+//	            }
 	            ret = true;
 	            break;
 	        }
@@ -296,7 +302,8 @@ public class DeployFilter implements Filter
 	        File srcFile    = new File( srcDir[i] + requestedFile );
 	        File deployFile = new File( deployDir + requestedFile );
 	        if( srcFile.exists() && srcFile.getAbsolutePath().endsWith( requestedFile ) )
-	        {
+	        {	
+	        	/*
 	            if( !compareFiles( srcFile, deployFile ) )
 	            {
 	                File parentDir  = deployFile.getParentFile();
@@ -307,6 +314,7 @@ public class DeployFilter implements Filter
 	                checkDeployDir();
 	                IOUtils.copy( srcFile, deployFile );
 	            }
+	            */
 	            ret = true;
 	            break;
 	        }
@@ -567,6 +575,7 @@ public class DeployFilter implements Filter
     {
         if( this.enable )
         {
+        	
             HttpServletRequest  hrequest  = (HttpServletRequest)request;
     
             // Object o objecto que representa o pedido

@@ -24,6 +24,8 @@ import javax.transaction.UserTransaction;
 
 import netgest.bo.boException;
 import netgest.bo.builder.boBuilder;
+import netgest.bo.builder.boBuilderOptions;
+import netgest.bo.builder.boBuilderProgress;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
@@ -2701,7 +2703,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
     {
         try
         {
-            boBuilder.buildAll(eboctx);
+            boBuilder.buildAll(eboctx, new boBuilderOptions(), new boBuilderProgress());
         }
         catch (Exception e)
         {
@@ -2714,7 +2716,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
     {
         try
         {
-            boBuilder.buildAll(eboctx, schema);
+            boBuilder.buildAll(eboctx, new boBuilderOptions(), new boBuilderProgress());
         }
         catch (Exception e)
         {
