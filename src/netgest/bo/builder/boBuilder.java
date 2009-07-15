@@ -604,10 +604,10 @@ public class boBuilder
 
                 p_builderProgress.appendInfoLog("Building StateObjectHandler:'" + name + "'");
                 
+                
                 if( p_builderOptions.getGenerateAndCompileJava() ) {
                 	buildStates(htdeploy, name);
                 }
-
                 p_builderProgress.appendInfoLog("end...");
 
                 deployfile.setLastModified(bofiles[i].lastModified());
