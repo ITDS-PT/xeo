@@ -56,13 +56,15 @@ public class boScheduleAgentBussinessLogic
                  
                   try
                   {
-                      
+                	  
                       ctx = session.createRequestContext(null,null,null);
+                      String sysdate = ctx.getDataBaseDriver().getDriverUtils().fnSysDateTime();
+                      
                       //Obedece as regras de inicio e fim do agendamento
                       String boql_query="SELECT Ebo_Schedule WHERE ACTIVESTATUS=0 AND STATE=1 AND ";
-                      boql_query+="(NEXTRUNTIME<=sysdate  OR LASTRUNTIME IS NULL) and ";
-                      boql_query+="((sysdate >= STARTDATE AND sysdate<=ENDDATE) OR ((sysdate >= STARTDATE AND ENDDATE IS NULL) OR ";
-                      boql_query+="(STARTDATE IS NULL AND sysdate<=ENDDATE) or (STARTDATE IS NULL AND ENDDATE IS NULL)))";
+                      boql_query+="(NEXTRUNTIME<="+sysdate+"  OR LASTRUNTIME IS NULL) and ";
+                      boql_query+="(("+sysdate+" >= STARTDATE AND "+sysdate+"<=ENDDATE) OR (("+sysdate+" >= STARTDATE AND ENDDATE IS NULL) OR ";
+                      boql_query+="(STARTDATE IS NULL AND "+sysdate+"<=ENDDATE) or (STARTDATE IS NULL AND ENDDATE IS NULL)))";
                       
                       boObjectList list = boObjectList.list(ctx,boql_query);
                       list.beforeFirst();
