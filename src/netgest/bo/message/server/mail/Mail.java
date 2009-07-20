@@ -726,7 +726,6 @@ public class Mail
             {
                 messageBodyPart = new MimeBodyPart();
 
-                String httpgateway = null;
                 File tmpfile = null;
                 Attach auxAttach = (Attach) mailmsg.getAttach()[i];
 
@@ -747,23 +746,22 @@ public class Mail
             msg.setContent(multipart);
 
             // Envia Msg
-            boolean send = false;
-            int retries = 0;
-
-            while (!send)
+            int atemps = 0;
+            do 
             {
+            	atemps++;
                 try
                 {
                     Transport.send(msg);
-                    send = true;
                     errors.add(k, "");
+                    break;
                 }
-                 catch (SendFailedException e)
+                catch (SendFailedException e)
                 {
                     //se não foi enviado nenhum e-mail então volta a tentar
                     if(e.getValidSentAddresses() == null || e.getValidSentAddresses().length == 0)
                     {
-                        if (retries >= RETRY_TIMES)
+                        if (atemps > RETRY_TIMES)
                         {
                             throw e;
                         }
@@ -771,19 +769,19 @@ public class Mail
                     else
                     {
                         treatSendPartialError(k, e);
+                        break;
                     }
                 }
-                 catch (MessagingException _e)
+                catch (MessagingException _e)
                 {
-                    if (retries >= RETRY_TIMES)
+                    if (atemps > RETRY_TIMES)
                     {
                         throw _e;
                     }
                 }
-
-                retries++;
             }
-            
+            while( ( atemps <= RETRY_TIMES ) );
+            	
             if(saveEML)
             {
                 savedEML = MailUtil.getBinaryMail("email.eml", "0", msg);
@@ -805,7 +803,7 @@ public class Mail
 
             mailmsg.setSentDate(d);
 
-            //delet the used files
+            //delete the used files
             for (int i = 0; i < files.size(); i++)
             {
                 File auxf = (File) files.get(i);
