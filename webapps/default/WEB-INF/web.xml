@@ -78,7 +78,7 @@
         <url-pattern>/XEOHub</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>10</session-timeout>
+        <session-timeout>22</session-timeout>
     </session-config>
     <mime-mapping>
         <extension>html</extension>

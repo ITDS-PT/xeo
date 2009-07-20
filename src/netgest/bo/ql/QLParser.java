@@ -2282,11 +2282,26 @@ public class QLParser  {
     
     String s = lookCurrentWord();
     String out = "";
-    if(s.equalsIgnoreCase("?") || s.equalsIgnoreCase( "SYSDATE" ) || s.equalsIgnoreCase( "NOW()" ) )//reconhecer logo o ? ou SYSDATE
-    {   
+    
+    if( s.equalsIgnoreCase("?") ) {
+    	String fnSysdate = s;
+    	if( ctx != null && s.equalsIgnoreCase("sysdate") )
+    		fnSysdate = ctx.getDataBaseDriver().getDriverUtils().fnSysDateTime();
+    	
         incConsumer();
-        return new ResultQL(1, s);
+        return new ResultQL(1, fnSysdate);
     }
+    
+    if ( s.equalsIgnoreCase( "SYSDATE" ) || s.equalsIgnoreCase( "NOW" ) )//reconhecer logo o ? ou SYSDATE
+    {   
+    	String fnSysdate = s;
+    	if( ctx != null && s.equalsIgnoreCase("sysdate") )
+    		fnSysdate = ctx.getDataBaseDriver().getDriverUtils().fnSysDateTime();
+    	
+        incConsumer();
+        return new ResultQL(1, fnSysdate);
+    }
+    
     if(s.equalsIgnoreCase("'"))//reconhecer uma string atá á próxima '
     {
         do

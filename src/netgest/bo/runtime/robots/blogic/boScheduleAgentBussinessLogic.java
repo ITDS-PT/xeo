@@ -58,7 +58,7 @@ public class boScheduleAgentBussinessLogic
                   {
                 	  
                       ctx = session.createRequestContext(null,null,null);
-                      String sysdate = ctx.getDataBaseDriver().getDriverUtils().fnSysDateTime();
+                      String sysdate = "sysdate";
                       
                       //Obedece as regras de inicio e fim do agendamento
                       String boql_query="SELECT Ebo_Schedule WHERE ACTIVESTATUS=0 AND STATE=1 AND ";

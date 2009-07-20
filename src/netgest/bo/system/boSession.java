@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
 import netgest.bo.system.login.LoginUtil;
 import org.apache.log4j.Logger;
 public class boSession implements Serializable {
@@ -36,6 +37,7 @@ public class boSession implements Serializable {
     
     private Properties          p_properties;
     private long                p_iprofileBoui;
+    private String              p_iprofileName;
     
     private Hashtable           p_objects;
     
@@ -86,12 +88,24 @@ public class boSession implements Serializable {
         try
         {
             p_iprofileBoui = Long.parseLong(iprofile);
+            
+            if( boApplication.currentContext().getEboContext() != null ); {
+            	boObject profile = boObject.getBoManager().loadObject( boApplication.currentContext().getEboContext() , p_iprofileBoui);
+            	p_iprofileName = profile.getAttribute("name").getValueString();
+            }
+            
         }
         catch (Exception e)
         {
             p_iprofileBoui = 0;
         }
     }
+    
+    public String getPerformerIProfileName() 
+    {
+        return p_iprofileName;
+    }
+
     public long getPerformerIProfileBoui() 
     {
         return p_iprofileBoui;

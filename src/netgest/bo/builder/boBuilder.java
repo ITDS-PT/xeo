@@ -209,16 +209,18 @@ public class boBuilder
                 builder.p_builderProgress.setCurrentTasks(3);
                 
                 builder.cleanboDefDeployment();
-
-                builder.p_builderProgress.addCurrentTaskProgress();
-                builder.p_builderProgress.setCurrentTaskName("Clean bodef-deployment...");
                 
-                builder.cleanBuildClasses();
+                if( buildOptions.getGenerateAndCompileJava() ) {
+	                builder.p_builderProgress.addCurrentTaskProgress();
+	                builder.p_builderProgress.setCurrentTaskName("Clean Java Classes...");
+	                builder.cleanBuildClasses();
+                }
                 
-                builder.p_builderProgress.addCurrentTaskProgress();
-                builder.p_builderProgress.setCurrentTaskName("Clean bodef-deployment...");
-                
-                builder.cleanBuildSource();
+                if( buildOptions.getGenerateAndCompileJava() ) {
+	                builder.p_builderProgress.addCurrentTaskProgress();
+	                builder.p_builderProgress.setCurrentTaskName("Clean Java Sources...");
+	                builder.cleanBuildSource();
+                }
 
                 builder.p_builderProgress.addCurrentTaskProgress();
             }
