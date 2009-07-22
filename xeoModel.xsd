@@ -11,6 +11,7 @@
 	<xs:simpleType name="xeoCodeNotEmptyElement">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
+	
 	<xs:simpleType name="referenceToAttribute">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[a-zA-Z0-9_-_.]+"/>
@@ -625,6 +626,7 @@
 			<xs:element name="runtimeMaxOccurs" type="maxOccursType" minOccurs="0"/>
 			<xs:element name="manualOperation" type="xs:boolean" default="true" minOccurs="0"/>
 			<xs:element name="manualAdd" type="xs:boolean" default="true" minOccurs="0"/>
+			<xs:element name="manualCreate" type="xs:boolean" default="true" minOccurs="0"/>
 			<xs:element name="showLookup" type="xs:boolean" default="false" minOccurs="0"/>
 			<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
 			<xs:element name="lov" type="tagLov" minOccurs="0"/>
@@ -639,6 +641,7 @@
 			<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 			<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 			<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+			<xs:element name="orphanRelation" type="xs:boolean" minOccurs="0"/>
 		</xs:all>
 		<xs:attribute name="name" use="required">
 			<xs:simpleType>
@@ -1709,13 +1712,36 @@
 	</xs:element>
 	<!--fim dos layouts -->
 	<xs:element name="xeoModel">
+		<xs:annotation>
+			<xs:documentation>
+				Root Element of a XEO Object, child elements of xeoModel define all properties of
+				a XEO object
+			</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="general"/>
-				<xs:element ref="opl"/>
+				<xs:element ref="general">
+					<xs:annotation>
+						<xs:documentation>Defines general properties of the object (name, version, etc..)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="opl">
+					<xs:annotation>
+						<xs:documentation>Defines security policies that apply to this object</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element ref="states"/>
-				<xs:element ref="methods"/>
-				<xs:element ref="events"/>
+				<xs:element ref="methods">
+					<xs:annotation>
+						<xs:documentation>An object can have a set of methods that are available during its 
+						execution, those are defined here</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="events">
+					<xs:annotation>
+						<xs:documentation>An object can</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 				<xs:element ref="fwdObjects" minOccurs="0"/>
 				<xs:element ref="attributes"/>
 				<xs:element ref="viewers"/>
