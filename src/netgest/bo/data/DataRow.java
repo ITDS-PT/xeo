@@ -230,7 +230,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
                     dataSources[ z ] = relation.dataSource;
                     args[ z ]        = nargs;
                 }
-                ret = DataManager.executeNativeQuery( ctx , dataSources , querys, 1, Short.MAX_VALUE , args );
+                ret = DataManager.executeNativeQuery( ctx , dataSources , querys, 1, Integer.MAX_VALUE , args );
                 ret.p_relation       = (DataSetRelations)this.rowset.p_childRelations.get( nodeName );
                 ret.p_childRelations = ret.p_relation.p_childRelations;
                 p_child_nodes.put( nodeName , ret );
