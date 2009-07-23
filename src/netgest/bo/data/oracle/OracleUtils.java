@@ -122,7 +122,7 @@ public class OracleUtils  implements DriverUtils
 	}
 	
 	public String getFullTextSearchWhere(String field, String text) {
-		return " contains( " + field + ", " + text + " ) ";
+		return " contains( " + field + ", " + text + " ) > 0 ";
 	}
 	
 	public String arranjeFulltextSearchText(String fulltext) {
