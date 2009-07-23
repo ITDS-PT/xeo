@@ -17,28 +17,35 @@ public class boRuntimeException extends Exception {
     private boObject p_srcobj;
     
     public boRuntimeException(String src,String code,Throwable base) {
+    	super( base );
         init(src,code,base,(String[])null);
     }
     public boRuntimeException(String src,String code,Throwable base,String[] args) {
+    	super( base );
         init(src,code,base,args);
     }
     public boRuntimeException(String src,String code,Throwable base,String args) {
+    	super( base );
         String[] x= {args};
         init(src,code,base,x);
     }    
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base) {
+    	super( base );
         p_srcobj=srcobject;
         init(src,code,base,(String[])null);
     }
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base,String[] args) {
+    	super( base );
         p_srcobj=srcobject;
         init(src,code,base,args);
     }
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base,String args) {
+    	super( base );
         String[] x= {args};
         p_srcobj=srcobject;
         init(src,code,base,x);
     }
+    
     private void init(String src,String code,Throwable base,String[] args) {
         if(p_errors == null ) initErrorCodes();
         p_code = code;
