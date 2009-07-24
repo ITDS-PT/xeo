@@ -10,6 +10,7 @@ import java.util.Hashtable;
 
 import java.util.Vector;
 import javax.naming.InitialContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.*;
 import javax.servlet.jsp.PageContext;
 
@@ -39,7 +40,10 @@ public class EboContext extends boPoolable implements Cloneable
 	
     //    private PerformerWorkSpace p_performerworkspace;
     private HttpServletResponse p_response;
+    
     private PageContext p_pagecontext;
+    private ServletContext p_servletcontext;
+    
     private HttpServletRequest p_request;
     private String p_preferredowner;
     private boSession p_bosession;
@@ -96,6 +100,14 @@ public class EboContext extends boPoolable implements Cloneable
     	this.modeBatchOptions = 0;
     }
     
+    public EboContext(boSession session, HttpServletRequest request,
+            HttpServletResponse response, ServletContext servletContext )
+        {
+    		this(session,request,response, (PageContext)null);
+    		
+    		this.p_servletcontext = servletContext;
+    		
+        }
     public EboContext(boSession session, HttpServletRequest request,
         HttpServletResponse response, PageContext pagecontext)
     {
@@ -160,6 +172,11 @@ public class EboContext extends boPoolable implements Cloneable
     public final PageContext getPageContext()
     {
         return p_pagecontext;
+    }
+
+    public final ServletContext getServletContext()
+    {
+        return p_servletcontext;
     }
 
     public final boSession getBoSession()

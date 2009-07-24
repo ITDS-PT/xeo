@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Properties;
 
 import java.util.ResourceBundle;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
@@ -75,6 +77,13 @@ public class boSession implements Serializable {
     {
         p_lastactivity = System.currentTimeMillis();
         EboContext ctx = new EboContext( this , request , response ,pagecontext );
+        return ctx;
+    }
+
+    public EboContext createRequestContextInServlet( HttpServletRequest request, HttpServletResponse response, ServletContext servletContext ) 
+    {
+        p_lastactivity = System.currentTimeMillis();
+        EboContext ctx = new EboContext( this , request , response , servletContext );
         return ctx;
     }
     
