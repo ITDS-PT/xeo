@@ -494,7 +494,7 @@ public class DeployFilter implements Filter
             try
             {
                 // Cria um novo dispatcher para o nova localização
-                RequestDispatcher dispatch = request.getRequestDispatcher( kpath.forwaredPath.replace( "\\" , "/") );
+                RequestDispatcher dispatch = request.getRequestDispatcher( kpath.forwaredPath.replace( '\\' , '/') );
                 // Verifica se conseguiu um dispatcher para a localização
                 if( dispatch != null )
                 {
@@ -510,7 +510,6 @@ public class DeployFilter implements Filter
             {
                 // Erro IOException ou ServletException no reenchaminhamento 
                 // do pedido.
-                e=e;
                 throw new RuntimeException( e );
             }
             catch (ServletException e)
