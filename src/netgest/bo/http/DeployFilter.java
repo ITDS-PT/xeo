@@ -494,7 +494,7 @@ public class DeployFilter implements Filter
             try
             {
                 // Cria um novo dispatcher para o nova localização
-                RequestDispatcher dispatch = request.getRequestDispatcher( kpath.forwaredPath );
+                RequestDispatcher dispatch = request.getRequestDispatcher( kpath.forwaredPath.replace( "\\" , "/") );
                 // Verifica se conseguiu um dispatcher para a localização
                 if( dispatch != null )
                 {
@@ -591,8 +591,7 @@ public class DeployFilter implements Filter
                 // Devolve true/false. true se o pedido foi reenviado para outro endereço.
                 if( !fowardToXeoFile( kpath, hrequest, response ) )
                 {
-                    // Não foi reenviado, serve o ficheiro normalmente.
-                    chain.doFilter( request , response);
+            		chain.doFilter( request , response);
                 }
             }
             else
