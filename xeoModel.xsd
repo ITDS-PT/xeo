@@ -11,10 +11,17 @@
 	<xs:simpleType name="xeoCodeNotEmptyElement">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
-	
 	<xs:simpleType name="referenceToAttribute">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[a-zA-Z0-9_-_.]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="transactionMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Required"/>
+			<xs:enumeration value="RequiresNew"/>
+			<xs:enumeration value="Suports"/>
+			<xs:enumeration value="NotSuported"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="xeoLanguage">
@@ -392,7 +399,8 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="label"/>
-							<xs:element name="javascriptToRun">
+							<xs:element name="icon" type="xs:string"/>
+							<xs:element name="javascriptToRun" minOccurs="0">
 								<xs:complexType>
 									<xs:sequence minOccurs="0" maxOccurs="unbounded">
 										<xs:element name="viewer">
@@ -418,7 +426,7 @@
 						<xs:attribute name="public" type="xs:boolean" use="optional" default="true"/>
 						<xs:attribute name="menu" type="xs:boolean" use="optional" default="true"/>
 						<xs:attribute name="toolbar" type="xs:boolean" use="optional" default="true"/>
-						<xs:attribute name="requiredTransaction" type="xs:boolean" use="optional" default="true"/>
+						<xs:attribute name="requiredTransaction" type="transactionMode" default="Required"/>
 						<xs:attribute name="serverOnly" type="xs:boolean" use="optional" default="false"/>
 						<xs:attribute name="openDoc" type="xs:boolean" use="optional" default="false"/>
 						<xs:attribute name="modeTemplate" type="xs:boolean" use="optional" default="false"/>
@@ -1400,7 +1408,6 @@
 												<xs:attribute name="visible" type="xs:boolean" use="optional" default="true"/>
 											</xs:complexType>
 										</xs:element>
-										
 									</xs:sequence>
 									<xs:attribute name="visible" type="xs:boolean" default="true"/>
 								</xs:complexType>
