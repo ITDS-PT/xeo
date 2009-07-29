@@ -1077,7 +1077,7 @@
 			</xs:element>
 		</xs:all>
 	</xs:complexType>
-	<xs:complexType name="Events">
+	<xs:complexType name="tagEvents">
 		<xs:sequence minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="event">
 				<xs:complexType>
@@ -1179,7 +1179,7 @@
 			<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 			<xs:element name="lov" type="Lov" minOccurs="0"/>
 			<xs:element name="database" type="Database" minOccurs="0"/>
-			<xs:element name="events" type="Events" minOccurs="0"/>
+			<xs:element name="events" type="tagEvents" minOccurs="0"/>
 			<xs:element ref="methods" minOccurs="0"/>
 			<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 			<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1247,7 +1247,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1275,7 +1275,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1305,7 +1305,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1334,7 +1334,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1366,7 +1366,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1394,7 +1394,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1422,7 +1422,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1450,7 +1450,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1479,7 +1479,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1508,7 +1508,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1545,7 +1545,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1587,7 +1587,7 @@
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
-					<xs:element name="events" type="Events" minOccurs="0"/>
+					<xs:element name="events" type="tagEvents" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
