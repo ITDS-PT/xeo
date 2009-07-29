@@ -102,7 +102,7 @@
 			<xs:enumeration value="Suports"/>
 			<xs:enumeration value="NotSuported"/>
 		</xs:restriction>
-	</xs:simpleType>	
+	</xs:simpleType>
 	<xs:complexType name="xeoLanguage">
 		<xs:annotation>
 			<xs:documentation> Defines an element to put code that will be run by the framework. The
@@ -178,7 +178,7 @@
 			<xs:enumeration value="no"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="tagObjects">
+	<xs:complexType name="Objects">
 		<xs:annotation>
 			<xs:documentation> Defines the means to make reference to a set of XEO Objects
 			</xs:documentation>
@@ -379,7 +379,7 @@
 						<xs:documentation> XXXXXXXXXXXXXXXXXXXXXXX </xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="objects" type="tagObjects" minOccurs="0">
+				<xs:element name="objects" type="Objects" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation> This list of objects should only be used when declaring a
 							xeoModel of type "interface". Its purpose is to force a list of objects
@@ -972,7 +972,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="tagFilter">
+	<xs:complexType name="Filter">
 		<xs:annotation>
 			<xs:documentation> This type specifies a list of filters to be applied to a list of
 				items </xs:documentation>
@@ -1006,25 +1006,25 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="tagBridge">
+	<xs:complexType name="Bridge">
 		<xs:sequence>
 			<xs:element ref="attributes"/>
 		</xs:sequence>
 		<xs:attribute name="table" use="optional"/>
 	</xs:complexType>
-	<xs:complexType name="tagTransformer">
+	<xs:complexType name="Transformer">
 		<xs:sequence>
 			<xs:element name="from" type="xs:string"/>
 			<xs:element name="class" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="tagTextIndex">
+	<xs:complexType name="TextIndex">
 		<xs:attribute name="active" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="appendChilds" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="deep" type="xs:nonNegativeInteger" use="optional" default="1"/>
 		<xs:attribute name="onlyCardID" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
-	<xs:simpleType name="tagEditor">
+	<xs:simpleType name="Editor">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="HTML"/>
 			<xs:enumeration value="TEXT"/>
@@ -1032,13 +1032,13 @@
 			<xs:enumeration value="HTMLADVANCED"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="tagBehavior">
+	<xs:complexType name="Behavior">
 		<xs:sequence>
 			<xs:element name="img" type="xs:string"/>
 			<xs:element name="script" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="tagLov">
+	<xs:complexType name="Lov">
 		<xs:sequence>
 			<xs:element name="editable" type="xeoLanguageWithDepends" minOccurs="0"/>
 			<xs:element name="items" minOccurs="0" maxOccurs="unbounded">
@@ -1059,7 +1059,7 @@
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="retainValues" type="xs:boolean" use="required"/>
 	</xs:complexType>
-	<xs:complexType name="tagDatabase">
+	<xs:complexType name="Database">
 		<xs:all>
 			<xs:element name="fieldname" type="xs:string" minOccurs="0"/>
 			<xs:element name="unique" type="xs:boolean" default="false" minOccurs="0"/>
@@ -1077,7 +1077,7 @@
 			</xs:element>
 		</xs:all>
 	</xs:complexType>
-	<xs:complexType name="tagEvents">
+	<xs:complexType name="Events">
 		<xs:sequence minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="event">
 				<xs:complexType>
@@ -1107,7 +1107,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="attributeType">
+	<xs:complexType name="attribute">
 		<xs:annotation>
 			<xs:documentation> 
 				Defines the base elements that can constitute an attribute. Every
@@ -1141,12 +1141,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="objects" type="tagObjects" minOccurs="0">
+			<xs:element name="objects" type="Objects" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>XXXXXXXXXXXXXXXXXXXX</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="objectFilter" type="tagFilter" minOccurs="0">
+			<xs:element name="objectFilter" type="Filter" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Enables the creation of a filter for the list of object
 						instances that are selected Each filter has a BOL_Condition which is the
@@ -1155,17 +1155,17 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="bridge" type="tagBridge" minOccurs="0"/>
+			<xs:element name="bridge" type="Bridge" minOccurs="0"/>
 			<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-			<xs:element name="transformer" type="tagTransformer" minOccurs="0"/>
-			<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+			<xs:element name="transformer" type="Transformer" minOccurs="0"/>
+			<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 			<xs:element name="len" type="xs:nonNegativeInteger" minOccurs="0"/>
 			<xs:element name="min" type="xs:nonNegativeInteger" minOccurs="0"/>
 			<xs:element name="max" type="xs:nonNegativeInteger" minOccurs="0"/>
 			<xs:element name="grouping" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="decimals" type="xs:nonNegativeInteger" minOccurs="0"/>
 			<xs:element name="minDecimals" type="xs:nonNegativeInteger" minOccurs="0"/>
-			<xs:element name="editor" type="tagEditor" minOccurs="0"/>
+			<xs:element name="editor" type="Editor" minOccurs="0"/>
 			<xs:element name="clock" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="renderAsCheck" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="renderAsLov" type="xs:boolean" minOccurs="0"/>
@@ -1176,10 +1176,10 @@
 			<xs:element name="manualAdd" type="xs:boolean" default="true" minOccurs="0"/>
 			<xs:element name="manualCreate" type="xs:boolean" default="true" minOccurs="0"/>
 			<xs:element name="showLookup" type="xs:boolean" default="false" minOccurs="0"/>
-			<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-			<xs:element name="lov" type="tagLov" minOccurs="0"/>
-			<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-			<xs:element name="events" type="tagEvents" minOccurs="0"/>
+			<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+			<xs:element name="lov" type="Lov" minOccurs="0"/>
+			<xs:element name="database" type="Database" minOccurs="0"/>
+			<xs:element name="events" type="Events" minOccurs="0"/>
 			<xs:element ref="methods" minOccurs="0"/>
 			<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 			<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1228,15 +1228,15 @@
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:complexType name="attributeNumberType">
+	<xs:complexType name="attributeNumber">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger" minOccurs="0"/>
 					<xs:element name="min" type="xs:nonNegativeInteger" minOccurs="0"/>
 					<xs:element name="max" type="xs:nonNegativeInteger" minOccurs="0"/>
@@ -1244,10 +1244,10 @@
 					<xs:element name="decimals" type="xs:nonNegativeInteger" default="0"/>
 					<!-- Ver o efeito do MaxOccurs se não deixar ter, então remover -->
 					<xs:element name="minDecimals" type="xs:nonNegativeInteger" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1262,20 +1262,20 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeTextType">
+	<xs:complexType name="attributeText">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger"/>
-					<xs:element name="editor" type="tagEditor" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="editor" type="Editor" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1291,21 +1291,21 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeLongTextType">
+	<xs:complexType name="attributeLongText">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger" minOccurs="0"/>
-					<xs:element name="editor" type="tagEditor"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="editor" type="Editor"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1321,20 +1321,20 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeCurrencyType">
+	<xs:complexType name="attributeCurrency">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="grouping" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1350,23 +1350,23 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeSequenceType">
+	<xs:complexType name="attributeSequence">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="type" type="xs:string"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger"/>
 					<xs:element name="min" type="xs:nonNegativeInteger" minOccurs="0"/>
 					<xs:element name="max" type="xs:nonNegativeInteger" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1382,19 +1382,19 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeDateType">
+	<xs:complexType name="attributeDate">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1410,19 +1410,19 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeDateTimeType">
+	<xs:complexType name="attributeDateTime">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1438,19 +1438,19 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeBooleanType">
+	<xs:complexType name="attributeBoolean">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="renderAsCheck" type="xs:boolean" default="true" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1466,20 +1466,20 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeDurationType">
+	<xs:complexType name="attributeDuration">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="clock" type="xs:boolean"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1495,20 +1495,20 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeBinaryDataType">
+	<xs:complexType name="attributeBinaryData">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="renderAsLov" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1524,28 +1524,28 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeObjectType">
+	<xs:complexType name="attributeObject">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="type" type="xs:string"/>
-					<xs:element name="objects" type="tagObjects" minOccurs="0"/>
-					<xs:element name="objectFilter" type="tagFilter" minOccurs="0"/>
+					<xs:element name="objects" type="Objects" minOccurs="0"/>
+					<xs:element name="objectFilter" type="Filter" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="transformer" type="tagTransformer" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="transformer" type="Transformer" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="renderAsLov" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="runtimeMaxOccurs" type="maxOccursType" minOccurs="0"/>
 					<xs:element name="manualOperation" type="xs:boolean" default="true" minOccurs="0"/>
 					<xs:element name="manualAdd" type="xs:boolean" default="true" minOccurs="0"/>
 					<xs:element name="showLookup" type="xs:boolean" default="false" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1562,20 +1562,20 @@
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="attributeObjectCollectionType">
+	<xs:complexType name="attributeObjectCollection">
 		<xs:complexContent>
-			<xs:restriction base="attributeType">
+			<xs:restriction base="attribute">
 				<xs:all>
 					<xs:element name="label" type="xs:string"/>
 					<xs:element name="description" type="xs:string" minOccurs="0"/>
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="type" type="xs:string"/>
-					<xs:element name="objects" type="tagObjects" minOccurs="0"/>
-					<xs:element name="objectFilter" type="tagFilter" minOccurs="0"/>
-					<xs:element name="bridge" type="tagBridge"/>
+					<xs:element name="objects" type="Objects" minOccurs="0"/>
+					<xs:element name="objectFilter" type="Filter" minOccurs="0"/>
+					<xs:element name="bridge" type="Bridge"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
-					<xs:element name="transformer" type="tagTransformer" minOccurs="0"/>
-					<xs:element name="textIndex" type="tagTextIndex" minOccurs="0"/>
+					<xs:element name="transformer" type="Transformer" minOccurs="0"/>
+					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="renderAsLov" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="minOccurs" type="xs:nonNegativeInteger"/>
 					<xs:element name="maxOccurs" type="maxOccursType"/>
@@ -1584,10 +1584,10 @@
 					<xs:element name="manualAdd" type="xs:boolean" default="true" minOccurs="0"/>
 					<xs:element name="manualCreate" type="xs:boolean" default="true" minOccurs="0"/>
 					<xs:element name="showLookup" type="xs:boolean" default="false" minOccurs="0"/>
-					<xs:element name="behavior" type="tagBehavior" minOccurs="0"/>
-					<xs:element name="lov" type="tagLov" minOccurs="0"/>
-					<xs:element name="database" type="tagDatabase" minOccurs="0"/>
-					<xs:element name="events" type="tagEvents" minOccurs="0"/>
+					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
+					<xs:element name="lov" type="Lov" minOccurs="0"/>
+					<xs:element name="database" type="Database" minOccurs="0"/>
+					<xs:element name="events" type="Events" minOccurs="0"/>
 					<xs:element ref="methods" minOccurs="0"/>
 					<xs:element name="required" type="xeoLanguage" minOccurs="0"/>
 					<xs:element name="recommend" type="xeoLanguage" minOccurs="0"/>
@@ -1604,19 +1604,19 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<!-- Definition of the types of Attributes (Basically references to types that exist) -->
-	<xs:element name="attribute" type="attributeType" abstract="true"/>
-	<xs:element name="attributeNumber" type="attributeNumberType" substitutionGroup="attribute"/>
-	<xs:element name="attributeText" type="attributeTextType" substitutionGroup="attribute"/>
-	<xs:element name="attributeLongText" type="attributeLongTextType" substitutionGroup="attribute"/>
-	<xs:element name="attributeCurrency" type="attributeCurrencyType" substitutionGroup="attribute"/>
-	<xs:element name="attributeSequence" type="attributeSequenceType" substitutionGroup="attribute"/>
-	<xs:element name="attributeBoolean" type="attributeBooleanType" substitutionGroup="attribute"/>
-	<xs:element name="attributeDuration" type="attributeDurationType" substitutionGroup="attribute"/>
-	<xs:element name="attributeDate" type="attributeDateType" substitutionGroup="attribute"/>
-	<xs:element name="attributeDateTime" type="attributeDateTimeType" substitutionGroup="attribute"/>
-	<xs:element name="attributeBinaryData" type="attributeBinaryDataType" substitutionGroup="attribute"/>
-	<xs:element name="attributeObject" type="attributeObjectType" substitutionGroup="attribute"/>
-	<xs:element name="attributeObjectCollection" type="attributeObjectCollectionType" substitutionGroup="attribute"/>
+	<xs:element name="attribute" type="attribute" abstract="true"/>
+	<xs:element name="attributeNumber" type="attributeNumber" substitutionGroup="attribute"/>
+	<xs:element name="attributeText" type="attributeText" substitutionGroup="attribute"/>
+	<xs:element name="attributeLongText" type="attributeLongText" substitutionGroup="attribute"/>
+	<xs:element name="attributeCurrency" type="attributeCurrency" substitutionGroup="attribute"/>
+	<xs:element name="attributeSequence" type="attributeSequence" substitutionGroup="attribute"/>
+	<xs:element name="attributeBoolean" type="attributeBoolean" substitutionGroup="attribute"/>
+	<xs:element name="attributeDuration" type="attributeDuration" substitutionGroup="attribute"/>
+	<xs:element name="attributeDate" type="attributeDate" substitutionGroup="attribute"/>
+	<xs:element name="attributeDateTime" type="attributeDateTime" substitutionGroup="attribute"/>
+	<xs:element name="attributeBinaryData" type="attributeBinaryData" substitutionGroup="attribute"/>
+	<xs:element name="attributeObject" type="attributeObject" substitutionGroup="attribute"/>
+	<xs:element name="attributeObjectCollection" type="attributeObjectCollection" substitutionGroup="attribute"/>
 	<xs:element name="attributes">
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -1632,7 +1632,7 @@
 				types of viewers for different kinds of behaviors (edit, view, select). A viewer is
 				implemented through a set of forms and. XXXXXXXXXXX : </xs:documentation>
 		</xs:annotation>
-		<xs:complexType >
+		<xs:complexType>
 			<xs:sequence minOccurs="0" maxOccurs="unbounded">
 				<xs:any namespace="##any" processContents="skip"/>
 			</xs:sequence>
