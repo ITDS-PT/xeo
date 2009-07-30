@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2009 (http://www.altova.com) by acruz (EMBRACE) -->
 <!-- Editado por Pedro Rio (prio@itds.pt) in 26 Maio de 2009 -->
-<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified"  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        jaxb:version="2.0">
 	<!-- XPortal, objectos antigos? XEO_Image.xeomodel No package PORTAL$1.0$PORTLETS-->
+	<xs:annotation>
+    <xs:appinfo>
+      <jaxb:globalBindings typesafeEnumMemberName="generateName" />
+    </xs:appinfo>
+  </xs:annotation>
 	<xs:element name="documentation">
 		<xs:annotation>
 			<xs:documentation> This element represents documentation about a given element inside
@@ -46,17 +53,10 @@
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="lang" use="required">
+						<xs:attribute name="lang" use="required" type="languageEnum">
 							<xs:annotation>
 								<xs:documentation>The language of this inline documentation</xs:documentation>
 							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="pt"/>
-									<xs:enumeration value="en"/>
-									<xs:enumeration value="es"/>
-								</xs:restriction>
-							</xs:simpleType>
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
@@ -87,6 +87,85 @@
 		</xs:complexType>
 	</xs:element>
 	<!--definições globais -->
+		<xs:simpleType name="EditorEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HTML"/>
+			<xs:enumeration value="TEXT"/>
+			<xs:enumeration value="CODE"/>
+			<xs:enumeration value="HTMLADVANCED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AttributeEventsEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="onChange"/>
+			<xs:enumeration value="onBeforeGetValue"/>
+			<xs:enumeration value="onBeforeLoadBridge"/>
+			<xs:enumeration value="onBeforeAdd"/>
+			<xs:enumeration value="onBeforeChange"/>
+			<xs:enumeration value="onBeforeChangeOrder"/>
+			<xs:enumeration value="onAfterAdd"/>
+			<xs:enumeration value="onAfterChange"/>
+			<xs:enumeration value="onAfterGetValue"/>
+			<xs:enumeration value="onAfterLoadBridge"/>
+			<xs:enumeration value="onAfterChangeOrder"/>
+			<xs:enumeration value="onBeforeRemove"/>
+			<xs:enumeration value="onAfterRemove"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObjectEventsEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="onAfterCreate">
+				<xs:annotation>
+					<xs:documentation>Event that its fired, after the
+												creation of an Instance object of this
+												model</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onAfterDestroy">
+				<xs:annotation>
+					<xs:documentation>Event that is fired, after the
+												destruction of the object</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onAfterLoad">
+				<xs:annotation>
+					<xs:documentation>Event that is fired, upon successful
+												loading of the object</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onAfterSave">
+				<xs:annotation>
+					<xs:documentation>Event that is fired upon saving the
+												object</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onBeforeCreate">
+				<xs:annotation>
+					<xs:documentation>Event that is fired right before the
+												process of creating the object</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onBeforeDestroy">
+				<xs:annotation>
+					<xs:documentation>Event that is fired right before the
+												destruction of the object is carried
+												out</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onBeforeLoad">
+				<xs:annotation>
+					<xs:documentation>Event that is fired right before the
+												process of loading an object</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="onBeforeSave">
+				<xs:annotation>
+					<xs:documentation>Event that is fired right before the
+												object is saved in the database</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="xeoCodeNotEmptyElement">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
@@ -95,12 +174,38 @@
 			<xs:pattern value="[a-zA-Z0-9_-_.]+"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="transactionMode">
+	<xs:simpleType name="transactionModeEnum">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Required"/>
 			<xs:enumeration value="RequiresNew"/>
 			<xs:enumeration value="Suports"/>
 			<xs:enumeration value="NotSuported"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="xeoLanguageEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="XEP">
+				<xs:annotation>
+					<xs:documentation> XEP (XEO Program) - Scripting Language to use
+					in XEO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BOL">
+				<xs:annotation>
+					<xs:documentation> BOL - Business Object Language - A set of
+					logical expressions to use in XEO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="JAVA">
+				<xs:annotation>
+					<xs:documentation> SUN Java Language </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BOOLEAN">
+				<xs:annotation>
+					<xs:documentation> Boolean only - true/false </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="xeoLanguage">
@@ -110,42 +215,13 @@
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xeoCodeNotEmptyElement">
-				<xs:attribute name="language" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="XEP">
-								<xs:annotation>
-									<xs:documentation> XEP (XEO Program) - Scripting Language to use
-										in XEO </xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-							<xs:enumeration value="BOL">
-								<xs:annotation>
-									<xs:documentation> BOL - Business Object Language - A set of
-										logical expressions to use in XEO </xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-							<xs:enumeration value="JAVA">
-								<xs:annotation>
-									<xs:documentation> SUN Java Language </xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-						</xs:restriction>
-					</xs:simpleType>
+				<xs:attribute name="language" use="required" type="xeoLanguageEnum">
 				</xs:attribute>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="xeoLanguageComplex" mixed="true">
-		<xs:attribute name="language" use="required">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="XEP"/>
-					<xs:enumeration value="BOL"/>
-					<xs:enumeration value="BOOLEAN"/>
-					<xs:enumeration value="JAVA"/>
-				</xs:restriction>
-			</xs:simpleType>
+		<xs:attribute name="language" use="required" type="xeoLanguageEnum">
 		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="xeoLanguageWithDepends" mixed="true">
@@ -178,6 +254,22 @@
 			<xs:enumeration value="no"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="deepValueEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="countryEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="BR"/>
+			<xs:enumeration value="UK"/>
+			<xs:enumeration value="US"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Objects">
 		<xs:annotation>
 			<xs:documentation> Defines the means to make reference to a set of XEO Objects
@@ -189,6 +281,31 @@
 	</xs:complexType>
 	<xs:simpleType name="maxOccursType">
 		<xs:union memberTypes="unboundedType xs:nonNegativeInteger"/>
+	</xs:simpleType>
+	<xs:simpleType name="objectTypeEnum">
+		<xs:annotation>
+			<xs:documentation>Instance of this model can be XEO Objects, XEO Interfaces
+							or XEO Abstract Objects</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="object"/>
+			<xs:enumeration value="interface"/>
+			<xs:enumeration value="abstract"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DBConstraintTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="index"/>
+			<xs:enumeration value="unique"/>
+			<xs:enumeration value="primary"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="languageEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pt"/>
+			<xs:enumeration value="en"/>
+			<xs:enumeration value="es"/>
+		</xs:restriction>
 	</xs:simpleType>
 	<!-- fim de definições globais -->
 	<xs:element name="label" type="xs:string">
@@ -210,24 +327,9 @@
 							describe the model </xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="language" default="pt">
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="pt"/>
-									<xs:enumeration value="en"/>
-									<xs:enumeration value="es"/>
-								</xs:restriction>
-							</xs:simpleType>
+						<xs:attribute name="language" default="pt" type="languageEnum">
 						</xs:attribute>
-						<xs:attribute name="country" default="PT">
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="PT"/>
-									<xs:enumeration value="BR"/>
-									<xs:enumeration value="UK"/>
-									<xs:enumeration value="US"/>
-								</xs:restriction>
-							</xs:simpleType>
+						<xs:attribute name="country" default="PT" type="countryEnum">
 						</xs:attribute>
 						<xs:attribute name="variant" type="xs:string" use="required"/>
 					</xs:complexType>
@@ -260,14 +362,7 @@
 										<xs:element ref="label"/>
 										<xs:element name="expression"/>
 									</xs:sequence>
-									<xs:attribute name="type" use="required">
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:enumeration value="index"/>
-												<xs:enumeration value="unique"/>
-												<xs:enumeration value="primary"/>
-											</xs:restriction>
-										</xs:simpleType>
+									<xs:attribute name="type" use="required" type="DBConstraintTypeEnum">
 									</xs:attribute>
 									<xs:attribute name="id" use="required"/>
 								</xs:complexType>
@@ -335,16 +430,7 @@
 								<xs:restriction base="xs:boolean"/>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="deep" use="required">
-							<xs:simpleType>
-								<xs:restriction base="xs:byte">
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-									<xs:enumeration value="4"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
+						<xs:attribute name="deep" use="required" type="deepValueEnum"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="castTo" minOccurs="0">
@@ -408,22 +494,11 @@
 						it can be used to create bridges to other xeoModels </xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="type" use="required">
+			<xs:attribute name="type" use="required" type="objectTypeEnum">
 				<xs:annotation>
 					<xs:documentation>Declaration of kind of instances this model
 						defines</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:annotation>
-						<xs:documentation>Instance of this model can be XEO Objects, XEO Interfaces
-							or XEO Abstract Objects</xs:documentation>
-					</xs:annotation>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="object"/>
-						<xs:enumeration value="interface"/>
-						<xs:enumeration value="abstract"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="version" type="xs:string" use="required">
 				<xs:annotation>
@@ -809,7 +884,7 @@
 									not be visible in the object's toolbar </xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="requiredTransaction" type="transactionMode" default="Required">
+						<xs:attribute name="requiredTransaction" type="transactionModeEnum" default="Required">
 							<xs:annotation>
 								<xs:documentation>If the value is true the method needs to enclosed
 									in a transaction to be run, if it's false it does not need to be
@@ -871,65 +946,11 @@
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="name" use="required">
+						<xs:attribute name="name" use="required" type="ObjectEventsEnum">
 							<xs:annotation>
 								<xs:documentation>The name of the event that will trigger the
 									behavior to be executed</xs:documentation>
 							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="onAfterCreate">
-										<xs:annotation>
-											<xs:documentation>Event that its fired, after the
-												creation of an Instance object of this
-												model</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onAfterDestroy">
-										<xs:annotation>
-											<xs:documentation>Event that is fired, after the
-												destruction of the object</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onAfterLoad">
-										<xs:annotation>
-											<xs:documentation>Event that is fired, upon successful
-												loading of the object</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onAfterSave">
-										<xs:annotation>
-											<xs:documentation>Event that is fired upon saving the
-												object</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onBeforeCreate">
-										<xs:annotation>
-											<xs:documentation>Event that is fired right before the
-												process of creating the object</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onBeforeDestroy">
-										<xs:annotation>
-											<xs:documentation>Event that is fired right before the
-												destruction of the object is carried
-												out</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onBeforeLoad">
-										<xs:annotation>
-											<xs:documentation>Event that is fired right before the
-												process of loading an object</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="onBeforeSave">
-										<xs:annotation>
-											<xs:documentation>Event that is fired right before the
-												object is saved in the database</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-								</xs:restriction>
-							</xs:simpleType>
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
@@ -972,7 +993,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Filter">
+	<xs:complexType name="tagFilter">
 		<xs:annotation>
 			<xs:documentation> This type specifies a list of filters to be applied to a list of
 				items </xs:documentation>
@@ -1024,14 +1045,6 @@
 		<xs:attribute name="deep" type="xs:nonNegativeInteger" use="optional" default="1"/>
 		<xs:attribute name="onlyCardID" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
-	<xs:simpleType name="Editor">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="HTML"/>
-			<xs:enumeration value="TEXT"/>
-			<xs:enumeration value="htmladvanced"/>
-			<xs:enumeration value="HTMLADVANCED"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:complexType name="Behavior">
 		<xs:sequence>
 			<xs:element name="img" type="xs:string"/>
@@ -1084,24 +1097,8 @@
 					<xs:sequence>
 						<xs:element name="body" type="xeoLanguage"/>
 					</xs:sequence>
-					<xs:attribute name="name" use="required">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="onChange"/>
-								<xs:enumeration value="onBeforeGetValue"/>
-								<xs:enumeration value="onBeforeLoadBridge"/>
-								<xs:enumeration value="onBeforeAdd"/>
-								<xs:enumeration value="onBeforeChange"/>
-								<xs:enumeration value="onBeforeChangeOrder"/>
-								<xs:enumeration value="onAfterAdd"/>
-								<xs:enumeration value="onAfterChange"/>
-								<xs:enumeration value="onAfterGetValue"/>
-								<xs:enumeration value="onAfterLoadBridge"/>
-								<xs:enumeration value="onAfterChangeOrder"/>
-								<xs:enumeration value="onBeforeRemove"/>
-								<xs:enumeration value="onAfterRemove"/>
-							</xs:restriction>
-						</xs:simpleType>
+					<xs:attribute name="name" use="required" type="AttributeEventsEnum">
+
 					</xs:attribute>
 				</xs:complexType>
 			</xs:element>
@@ -1146,7 +1143,7 @@
 					<xs:documentation>XXXXXXXXXXXXXXXXXXXX</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="objectFilter" type="Filter" minOccurs="0">
+			<xs:element name="objectFilter" type="tagFilter" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Enables the creation of a filter for the list of object
 						instances that are selected Each filter has a BOL_Condition which is the
@@ -1165,7 +1162,7 @@
 			<xs:element name="grouping" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="decimals" type="xs:nonNegativeInteger" minOccurs="0"/>
 			<xs:element name="minDecimals" type="xs:nonNegativeInteger" minOccurs="0"/>
-			<xs:element name="editor" type="Editor" minOccurs="0"/>
+			<xs:element name="editor" type="EditorEnum" minOccurs="0"/>
 			<xs:element name="clock" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="renderAsCheck" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="renderAsLov" type="xs:boolean" minOccurs="0"/>
@@ -1271,7 +1268,7 @@
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger"/>
-					<xs:element name="editor" type="Editor" minOccurs="0"/>
+					<xs:element name="editor" type="EditorEnum" minOccurs="0"/>
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
@@ -1301,7 +1298,7 @@
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
 					<xs:element name="len" type="xs:nonNegativeInteger" minOccurs="0"/>
-					<xs:element name="editor" type="Editor"/>
+					<xs:element name="editor" type="EditorEnum"/>
 					<xs:element name="behavior" type="Behavior" minOccurs="0"/>
 					<xs:element name="lov" type="Lov" minOccurs="0"/>
 					<xs:element name="database" type="Database" minOccurs="0"/>
@@ -1533,7 +1530,7 @@
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="type" type="xs:string"/>
 					<xs:element name="objects" type="Objects" minOccurs="0"/>
-					<xs:element name="objectFilter" type="Filter" minOccurs="0"/>
+					<xs:element name="objectFilter" type="tagFilter" minOccurs="0"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="transformer" type="Transformer" minOccurs="0"/>
 					<xs:element name="textIndex" type="TextIndex" minOccurs="0"/>
@@ -1571,7 +1568,7 @@
 					<xs:element name="tooltip" type="xs:string" minOccurs="0"/>
 					<xs:element name="type" type="xs:string"/>
 					<xs:element name="objects" type="Objects" minOccurs="0"/>
-					<xs:element name="objectFilter" type="Filter" minOccurs="0"/>
+					<xs:element name="objectFilter" type="tagFilter" minOccurs="0"/>
 					<xs:element name="bridge" type="Bridge"/>
 					<xs:element name="setParent" type="xs:boolean" minOccurs="0"/>
 					<xs:element name="transformer" type="Transformer" minOccurs="0"/>
