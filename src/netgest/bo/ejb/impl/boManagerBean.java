@@ -3139,7 +3139,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
                 //APAGAR EBO_TEXTINDEX
                   PreparedStatement pstm = ctx.getConnectionData()
-                                    .prepareStatement("delete " + ebo_textIndexFullTableName + " where ui$=?");
+                                    .prepareStatement("delete from " + ebo_textIndexFullTableName + " where ui$=?");
                   pstm.setLong(1, bobj.getBoui());
                   try
                   {
@@ -3156,7 +3156,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                      if( pstm!=null)  pstm.close();
                   }
                   PreparedStatement pstm2 = ctx.getConnectionData()
-                                    .prepareStatement("delete " + ebo_registryFullTableName + " where ui$=?");
+                                    .prepareStatement("delete from " + ebo_registryFullTableName + " where ui$=?");
                   pstm2.setLong(1, bobj.getBoui());
                   try
                   {
