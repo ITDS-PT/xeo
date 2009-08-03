@@ -98,15 +98,20 @@ public class boSession implements Serializable {
         {
             p_iprofileBoui = Long.parseLong(iprofile);
             
-            if( boApplication.currentContext().getEboContext() != null ); {
-            	boObject profile = boObject.getBoManager().loadObject( boApplication.currentContext().getEboContext() , p_iprofileBoui);
-            	p_iprofileName = profile.getAttribute("name").getValueString();
-            }
-            
         }
         catch (Exception e)
         {
             p_iprofileBoui = 0;
+        }
+        
+        try {
+            if( boApplication.currentContext() != null &&  boApplication.currentContext().getEboContext() != null ); {
+            	boObject profile = boObject.getBoManager().loadObject( boApplication.currentContext().getEboContext() , p_iprofileBoui);
+            	p_iprofileName = profile.getAttribute("name").getValueString();
+            }
+        }
+        catch ( Exception e ) {
+        	
         }
     }
     
