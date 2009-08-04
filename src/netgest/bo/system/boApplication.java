@@ -119,12 +119,10 @@ public class boApplication
 	                {
 	                    appConfigPath += File.separator;
 	                }
-	                
-	                appConfigPath += "boconfig.xml"; 
-	                
 	                System.setProperty( "xeo.home" , appConfigPath );
 	                System.setProperty( "netgest.home" , appConfigPath );
 	                
+	                appConfigPath += "boconfig.xml"; 
 	                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 	                XEO_APPLICATION.initializeApplication();
                 }
