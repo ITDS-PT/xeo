@@ -2,24 +2,20 @@
 package netgest.bo.system;
 
 import java.io.File;
-import java.io.Serializable;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.WeakHashMap;
+
 import javax.ejb.CreateException;
-
 import javax.naming.NamingException;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections.map.HashedMap;
 
 import netgest.bo.data.DriverManager;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.def.boDefHandler;
-import netgest.bo.runtime.*;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boContextFactory;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boRuntimeException;
 
 /**
  *
