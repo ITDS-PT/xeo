@@ -37,10 +37,6 @@ public class boLoginBean implements SessionBean  {
     public void setSessionContext(SessionContext ctx) {    
     }
     
-
-//    boSession boLogin( boApplication app, String username , String password , String repository ) throws RemoteException,boLoginException;
-//    boSession boLogin( boApplication app, String username , String password , String repository, HttpServletRequest request ) throws RemoteException,boLoginException;    
-
     public boSession boLogin( boApplication app , String repository, String clientName,  String username , long time, long timeCheck ) throws boLoginException 
     {
       return this.boLogin( app, repository, clientName , username , time, timeCheck, null );

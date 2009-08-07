@@ -1,14 +1,11 @@
-/*Enconding=UTF-8*/
+/*Encoding=UTF-8*/
 package netgest.bo.def.v2;
 
-import netgest.bo.data.DataSet;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefXeoCode;
-import netgest.bo.def.v2.boDefHandlerImpl;
 import netgest.bo.runtime.boRuntimeException;
-
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
@@ -17,78 +14,28 @@ import org.w3c.dom.Node;
 
 public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
 {
-    private static final String[] nnames = 
-    {
-        "load", "load", "create", "create", "update", "edit", "revertToSaved",
-        "saveAsTemplate"
-    };
-    private static final String[][] nargtypes = 
-    {
-        { "long" },
-        { "String" },
-        { "long" },
-        { "long", "DataSet" },
-        {  },
-        {  },
-        {  },
-        {  }
-    };
-    private static final String[][] nargnames = 
-    {
-        { "xboui" },
-        { "xboql" },
-        { "xboui" },
-        { "xboui", "xdata" },
-        {  },
-        {  },
-        {  },
-        {  }
-    };
-    private static final Class[][] nargclass = 
-    {
-        { Long.TYPE },
-        { String.class },
-        { Long.TYPE },
-        { Long.TYPE, DataSet.class },
-        {  },
-        {  },
-        {  },
-        {  }
-    };
-    private static final String[] nrettypes = 
-    {
-        "void", "void", "void", "void", "void", "void", "void", "void"
-    };
-    private static final String[] caption = 
-    {
-        "Load", "Load", "New   ", "CreateWith", "Save", "Edit", "Cancel       ",
-        "Save As Template"
-    };
-    private String[] p_argsnames;
-    private String[] p_argclassnames;
-    private Class[] p_argsclasses;
+
+	private String[] 		 p_argsnames;
+    private String[] 		 p_argclassnames;
+    private Class[] 		 p_argsclasses;
     private boDefHandlerImpl p_defhandler;
-    private String p_name;
-    private boolean p_requiredtrans = false;
-    private boolean p_isnative = false;
-    private boolean p_overwrite = false;
-    private boolean p_menu = false;
-    private boolean p_toolbar = false;
+    private String 			 p_name;
+    private boolean 		 p_requiredtrans = false;
+    private boolean 		 p_isnative = false;
+    private boolean 		 p_overwrite = false;
+    private boolean 		 p_menu = false;
+    private boolean 		 p_toolbar = false;
     
-    private boolean p_public = false;
-    private boolean p_serverOnly = false;
-    private boolean p_modeTemplate = false;
+    private String  		 p_label;
     
-    private String  p_label;
-    
-    private String p_body;
-    private String p_returntype;
+    private String 			 p_body;
+    private String 			 p_returntype;
     private boDefXeoCodeImpl p_hiddenWhen;
-    private boolean p_openDoc;
-    private String p_toObject;
-    private boDefAttribute p_parentAtt;
+    private boolean 		 p_openDoc;
+    private String 			 p_toObject;
+    private boDefAttribute 	 p_parentAtt;
     
-    private ngtXMLHandler[] p_javascriptToRun;
+    private ngtXMLHandler[]  p_javascriptToRun;
 
     public boDefMethodImpl(boDefHandlerImpl defh, Node xml)
     {
@@ -135,13 +82,10 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
             ngtXMLHandler xnode = super.getChildNode("assinature");
             
             p_name          = getAttribute("name","");
-            p_public        = GenericParseUtils.parseBoolean( getAttribute("public") );
             p_menu          = GenericParseUtils.parseBoolean( getAttribute("menu") );
             p_toolbar       = GenericParseUtils.parseBoolean( getAttribute("toolbar") );
             p_requiredtrans = GenericParseUtils.parseBoolean( getAttribute("requiredTransaction") );
-            p_serverOnly    = GenericParseUtils.parseBoolean( getAttribute("serverOnly") );
             p_openDoc       = GenericParseUtils.parseBoolean( getAttribute("openDoc") );
-            p_modeTemplate  = GenericParseUtils.parseBoolean( getAttribute("modeTemplate") );
             p_toObject      = super.getAttribute("toObject");
             p_label         = super.getChildNodeText( "Label", p_name );
 
@@ -307,7 +251,6 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
 
     public boolean templateMode()
     {
-        String ret = "";
         ngtXMLHandler labnode = super.getChildNode("modeTemplate");
 
         if (labnode == null)
@@ -327,75 +270,6 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
                 return false;
             }
         }
-    }
-
-    protected static final boDefMethodImpl[] checkNativeMethods(
-        boDefMethodImpl[] methods, boDefHandlerImpl bodef)
-    {
-        boolean[] mexists = new boolean[nnames.length];
-
-        for (byte i = 0; i < methods.length; i++)
-        {
-            byte npos;
-
-            if ((npos = indexInNative(methods[i])) > -1)
-            {
-                mexists[npos] = true;
-                methods[i] = new boDefMethodImpl(nnames[npos], nrettypes[npos],
-                        nargnames[npos], nargtypes[npos], nargclass[npos],
-                        bodef, methods[i].getNode());
-                ((boDefMethodImpl)methods[i]).p_isnative = false;
-                ((boDefMethodImpl)methods[i]).p_overwrite = true;
-            }
-        }
-
-        boDefMethod[] bmethods = new boDefMethod[mexists.length];
-        byte missmethods = 0;
-
-        for (byte i = 0; i < mexists.length; i++)
-        {
-            if (!mexists[i])
-            {
-                bmethods[missmethods] = new boDefMethodImpl(nnames[i],
-                        nrettypes[i], nargnames[i], nargtypes[i], nargclass[i],
-                        bodef, null);
-                missmethods++;
-            }
-        }
-
-        if (missmethods > 0)
-        {
-            boDefMethodImpl[] nmethods = new boDefMethodImpl[methods.length +
-                missmethods];
-            System.arraycopy(methods, 0, nmethods, 0, methods.length);
-            System.arraycopy(bmethods, 0, nmethods, methods.length, missmethods);
-            methods = nmethods;
-        }
-
-        return methods;
-    }
-
-    private static final byte indexInNative(boDefMethod method)
-    {
-        byte i;
-        boolean exists = false;
-        String name = method.getName();
-
-        for (i = 0; i < nnames.length; i++)
-        {
-            if (nnames[i].equals(name))
-            {
-                if (compareMethodAssinature(nargclass[i],
-                            method.getAssinatureClasses()))
-                {
-                    exists = true;
-
-                    break;
-                }
-            }
-        }
-
-        return exists ? i : (-1);
     }
 
     public static final boolean compareMethodAssinature(Class[] leftargs,
@@ -424,10 +298,12 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
 
         return equals;
     }
+    
     public boolean openDoc()
     {
         return p_openDoc;
     }
+    
     public String getObjectName()
     {
         return p_toObject;
@@ -442,5 +318,4 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     {
         return p_parentAtt;
     }
-    
 }

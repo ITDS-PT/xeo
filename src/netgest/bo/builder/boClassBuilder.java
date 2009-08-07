@@ -346,24 +346,6 @@ public class boClassBuilder
             }
             ass.append("\n\r\t}");
             smeth.append(ass);
-            // Create Async_*** Method for asyncronous execute.
-//            if(createasync) {
-//                ass.delete(0,ass.length());
-//                ass.append("\n\r\tpublic ").append("void").append(" ").append("Async_"+meth[i].getName()).append("(");
-//                for (byte z=0;z<xc.length;z++)  {
-//                    ass.append(xc[z].getName()).append(" ").append(xan[z]);
-//                    if(z<xc.length-1)
-//                        ass.append(",");
-//                }
-//                ass.append(") throws boRuntimeException {\n\r\t");
-//                ass.append("Object[] args = new Object["+xc.length+"];\n\r\t");
-//                for (byte z=0;z<xc.length;z++)  {
-//                    ass.append("args["+z+"] = netgest.utils.ClassArgumentsUtils.toObject("+xan[z]+");\n\r\t");
-//                }
-//                ass.append("addAsynchMethod(\""+meth[i].getName()+"\",args);\n\r\t");
-//                ass.append("}\n\r");
-//                smeth.append(ass);
-//            }
         }
         return smeth.toString();
     }

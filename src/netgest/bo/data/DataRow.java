@@ -1,17 +1,14 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 
-import java.io.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
-
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.ArrayList;
 
 import netgest.bo.runtime.EboContext;
 import netgest.utils.ParametersHandler;
@@ -26,13 +23,17 @@ import netgest.utils.ParametersHandler;
  */
 public class DataRow extends ParametersHandler implements Serializable, Cloneable
 {
-    private static final BigDecimal NULL_SIMPLE_TYPE = BigDecimal.valueOf(0);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final BigDecimal NULL_SIMPLE_TYPE = BigDecimal.valueOf(0);
 
     private boolean waschanged=false;
     protected boolean wasdeleted=false;
     protected boolean isnew=false;
     private boolean wasnull=false;
-    private boolean isreadonly=false;
 
     protected Object[] rowdata;
     private Object[] olddata;
@@ -45,10 +46,8 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
     protected DataRow( DataSet data )
     {
         this.rowset = data;
-
         this.rowdata = new Object[this.rowset.metaData.p_column_count];
-
-        ResultSet rslt;
+        
     }
 
 
@@ -76,17 +75,6 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         return ret;
     }
 
-//    protected void refreshChilds( EboContext ctx )
-//    {
-//        if( p_child_nodes != null )
-//        {
-//            Enumeration childs = p_child_nodes.elements();
-//            while ( childs.hasMoreElements() )
-//            {
-//                ((DataSet)childs.nextElement()).refresh( ctx );
-//            }
-//        }
-//    }
     public final void setForInsert()
     {
         waschanged = false;
@@ -101,7 +89,6 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
     public final void setChanged( boolean p_waschanged )
     {
-
         if( !waschanged && p_waschanged )
         {
             olddata = new Object[ rowdata.length ];
@@ -109,8 +96,6 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         }
         waschanged = true;
         rowset.wasChanged = true;
-        this.waschanged = waschanged;
-
     }
 
     public final DataRow getFlashBackRow()
@@ -158,11 +143,24 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         return wasnull;
     }
     // Hierac Methods;
+    
     public final DataSet getRecordChild( EboContext ctx , String nodeName )
     {
         return getChildRows( ctx, nodeName );
     }
 
+    public final DataSet getChildDataSet( EboContext ctx , String nodeName )
+    {
+        return getChildRows( ctx, nodeName );
+    }
+    
+    public void addChildDataSet( String nodeName, DataSet dataSet ) {
+        if( p_child_nodes == null )
+        {
+            p_child_nodes = new Hashtable();
+        }
+        p_child_nodes.put( nodeName, dataSet );
+    }
 
     public final DataSet[] getLoadedChildRows()
     {
@@ -193,7 +191,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         }
     }
 
-    public final DataSet getChildRows( EboContext ctx , String nodeName )
+    private final DataSet getChildRows( EboContext ctx , String nodeName )
     {
         DataSet ret = null;
         if( p_child_nodes != null )

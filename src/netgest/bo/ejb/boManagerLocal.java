@@ -3,10 +3,10 @@ package netgest.bo.ejb;
 import javax.ejb.EJBLocalObject;
 
 import netgest.bo.data.DataSet;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectFactory;
-import netgest.bo.runtime.boObjectFactoryData;
 import netgest.bo.runtime.boRuntimeException;
 
 public interface boManagerLocal extends EJBLocalObject  {
@@ -38,8 +38,7 @@ public interface boManagerLocal extends EJBLocalObject  {
 
     public String 	getClassNameFromBOUI(EboContext ctx, long boui) throws boRuntimeException;
 
-    public void		registerRemoteBoui( EboContext ctx, long boui, boObjectFactory f, boObjectFactoryData fd );
-
+    public void		registerRemoteKey( EboContext ctx, XEODataManagerKey fd ) throws boRuntimeException;
 
     public boObject updateObject(EboContext ctx, boObject bobj) throws  boRuntimeException;
     public boObject updateObject(EboContext ctx, boObject bobj, boolean runEvents, boolean forceAllInTrasaction) throws boRuntimeException;

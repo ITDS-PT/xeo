@@ -368,7 +368,7 @@ public class QLParser  {
 
   public boDefHandler getSelectedObjectDef()
   {
-      if( prod().selObj != null )
+      if( prod() != null && prod().selObj != null )
       {
         return prod().selObj;
       }
@@ -449,7 +449,11 @@ public class QLParser  {
 
     private QLProducer prod()
     {
-        return (QLProducer)prodV.lastElement();
+    	if( prodV.size() > 0 ) {
+    		return (QLProducer)prodV.lastElement();
+    	}
+    	return null;
+    	
     }
     
     private int fromPos()

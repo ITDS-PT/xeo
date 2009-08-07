@@ -91,7 +91,7 @@ public class boSession implements Serializable {
     {
         return p_user.boui;
     }
-    
+     
     public void setPerformerIProfileBoui(String iprofile) 
     {
         try

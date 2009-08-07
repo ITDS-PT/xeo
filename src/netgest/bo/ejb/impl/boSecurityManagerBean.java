@@ -2,29 +2,25 @@
 package netgest.bo.ejb.impl;
 
 import java.math.BigDecimal;
-import javax.ejb.CreateException;
+
+import javax.ejb.EJBException;
+import javax.ejb.EJBLocalHome;
+import javax.ejb.EJBLocalObject;
+import javax.ejb.RemoveException;
 import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
 
-import javax.naming.NamingException;
-
 import netgest.bo.data.DataSet;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.ejb.boManagerLocal;
-import netgest.bo.ejb.boManagerLocalHome;
 import netgest.bo.plugins.DataPluginManager;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectFactory;
-import netgest.bo.runtime.boObjectFactoryData;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.security.securityOPL;
 import netgest.bo.security.securityRights;
-import javax.ejb.EJBLocalHome;
-import javax.ejb.EJBException;
-import javax.ejb.RemoveException;
-import javax.ejb.EJBLocalObject;
 
 
 public class boSecurityManagerBean implements SessionBean, boManagerLocal
@@ -456,15 +452,8 @@ public class boSecurityManagerBean implements SessionBean, boManagerLocal
     	return getBoManager().loadObject( ctx , objName, boui, data);
     }
 
-	public void registerRemoteBoui(EboContext ctx, long boui,
-			boObjectFactory f, boObjectFactoryData fd) {
-		try {
-			getBoManager().registerRemoteBoui( ctx , boui, f, fd);
-		} catch (boRuntimeException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException( e );
-		}
-		
+	public void registerRemoteKey(EboContext ctx , XEODataManagerKey fd) throws boRuntimeException {
+		getBoManager().registerRemoteKey( ctx, fd );
 	}
 
 }

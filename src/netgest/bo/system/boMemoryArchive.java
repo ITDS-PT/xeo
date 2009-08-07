@@ -1,6 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+
+import netgest.bo.data.IXEODataManager;
 import netgest.bo.runtime.EboContext;
 
 /**
@@ -25,14 +29,10 @@ public class boMemoryArchive
     private Hashtable       emptyDataSets;
     private Hashtable       emptyObjectDataSets;
     private Hashtable		dataSetRelations;
-    
-    
-    
-    private boApplication 	p_application;
+    private Map				xeoDataBaseManagers = new HashMap();
     
     public boMemoryArchive( boApplication app )
     {
-        p_application = app;
         initialize();
     }
     
@@ -128,11 +128,22 @@ public class boMemoryArchive
     	dataSetRelations.put( name, relations );
     }
     
+    public IXEODataManager getXEODataManager( String name ) {
+    	return (IXEODataManager)xeoDataBaseManagers.get( name );
+    }
+    
+    public void putXEODataManager( String name, IXEODataManager dataManager ) {
+    	synchronized ( xeoDataBaseManagers ) {
+    		xeoDataBaseManagers.put( name, dataManager );
+		}
+    }
+    
     public void clearCachedEmptyDataSet()
     {
         emptyDataSets.clear();
         emptyObjectDataSets.clear();
         dataSetRelations.clear();
+        xeoDataBaseManagers.clear();
     }
-    
+
 }

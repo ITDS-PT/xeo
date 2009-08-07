@@ -1,7 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
 import java.util.Hashtable;
-import netgest.utils.*;
+
+import netgest.bo.data.XEODataManagerKey;
 
 /**
  * 
@@ -9,8 +10,13 @@ import netgest.utils.*;
  */
 public final class cacheBouis 
 {
+	private static long		 remote_boui_cntr = Long.MAX_VALUE + 1000;
+	
     private static Hashtable bouis;
-    private static Hashtable remote_bouis;
+    
+    private static Hashtable remote_bouis = new Hashtable();
+    private static Hashtable remote_keys = new Hashtable();
+    
     private static Hashtable users;
     private static Hashtable bouisInvalid; 
     private static Hashtable classDefaultTemplate = new Hashtable(); 
@@ -42,16 +48,40 @@ public final class cacheBouis
         return users.size();
     }
     
-    public static void registerRemoteBoui( long boui, boObjectFactory f, boObjectFactoryData fd ) {
-    	remote_bouis.put( new Long( boui ) , new Object[] { f, fd } );
+    public static void createRemoteBoui( EboContext ctx, XEODataManagerKey remoteKey ) {
+    	Long boui;
+    	synchronized( cacheBouis.class ) {
+    		XEODataManagerKey key = null; 
+    		
+    		String objName 			= remoteKey.getObjectName();
+    		String serializedKey	= remoteKey.serialize();
+    		
+    		Hashtable ht = (Hashtable)remote_keys.get( objName );
+    		if( ht != null ) {
+    			key = (XEODataManagerKey)ht.get( serializedKey );
+    		}
+    		if( key == null ) {
+    			key = remoteKey;
+        		boui = new Long( cacheBouis.remote_boui_cntr++ );
+        		key.setBoui( boui.longValue() );
+        		if( ht == null ) {
+        			ht = new Hashtable();
+        			remote_keys.put( objName, ht );
+        		}
+        		ht.put(  serializedKey, key );
+        		remote_bouis.put( boui, remoteKey );
+    		}
+    		else {
+    			boui = new Long( key.getBoui() );
+    			remoteKey.setBoui( key.getBoui() );
+        		remote_bouis.put( boui, remoteKey );
+        		ht.put( key.serialize(), remoteKey );
+    		}
+    	}
     }
     
-    public static Object[] getRemoteBoui( long boui ) {
-    	return getRemoteBoui( new Long( boui ));
-    }
-
-    public static Object[] getRemoteBoui( Long boui ) {
-    	return (Object[])remote_bouis.get( boui  );
+    public static XEODataManagerKey getRemoteBouiKey( Long boui ) {
+    	return (XEODataManagerKey)remote_bouis.get( boui  );
     }
     
     public static String getClassName( long boui ) 
@@ -63,13 +93,6 @@ public final class cacheBouis
             return (String) bouis.get( new Long( boui ) );
         }
         return null;
-//      String ret=(String) bouis.get( new Long( boui ) );
-//      if( ret != null)
-//      {
-//          hits++;
-//          logger.debug("hits:"+hits );
-//      }
-//      return ret;
     }
     public static String getClassName( Long boui ) 
     {

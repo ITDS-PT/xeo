@@ -30,6 +30,8 @@ import netgest.bo.data.DataManager;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.data.KeyReference;
 import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefAttribute;
@@ -50,9 +52,6 @@ import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boBridgeMasterAttribute;
 import netgest.bo.runtime.boEvent;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectFactory;
-import netgest.bo.runtime.boObjectFactoryData;
-import netgest.bo.runtime.boObjectListResultFactoryLegacy;
 import netgest.bo.runtime.boObjectUpdateQueue;
 import netgest.bo.runtime.boReferencesManager;
 import netgest.bo.runtime.boRuntimeException;
@@ -72,11 +71,15 @@ import org.apache.log4j.Logger;
 
 public class boManagerBean implements SessionBean, boManagerLocal
 {
-    //logger
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	//logger
     private static Logger logger = Logger.getLogger("netgest.bo.ejb.impl.boManagerBean");
 
     private static final byte DEBUG = 0;
-    private SessionContext p_sessctx;
 
     public void ejbCreate()
     {
@@ -100,7 +103,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
     public void setSessionContext(SessionContext ctx)
     {
-        p_sessctx = ctx;
         my_trans = false;
     }
 
@@ -171,7 +173,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
         ArrayList nameArray = new ArrayList();
         String columnName;
         boDefHandler auxDef;
-        boDefHandler auxDef1;
 
         for (int i = 1; i <= dmd.getColumnCount(); i++)
         {
@@ -531,9 +532,9 @@ public class boManagerBean implements SessionBean, boManagerLocal
             //bridges
             for (int i = 0; i < relations.length; i++)
             {
-                newData.rows(1).getChildRows(ctx, relations[i]);
+                newData.rows(1).getChildDataSet(ctx, relations[i]);
 
-                if ((newData.rows(1).getChildRows(ctx, relations[i])
+                if ((newData.rows(1).getChildDataSet(ctx, relations[i])
                                 .getRowCount() > 0) &&
                         objectFrom.getAttribute(relations[i]).isBridge())
                 {
@@ -544,7 +545,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         rowSave = bridge.getRow();
                         bridge.beforeFirst();
 
-                        DataSet newBData = newData.rows(1).getChildRows(ctx, relations[i]);
+                        DataSet newBData = newData.rows(1).getChildDataSet(ctx, relations[i]);
 
                         if (bridge.next())
                         {
@@ -608,7 +609,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
         Enumeration oEnum = boArr.elements(), enum2;
         AttributeHandler attH, attH2;
         bridgeHandler bridge;
-        String aux;
         int rowSave;
 
         while (oEnum.hasMoreElements())
@@ -747,12 +747,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 ret.applyTemplate(name, defaultTemplate.longValue() );
             }
         }
-        
-        if( ret != null ) {
-        	if( !ret.getBoDefinition().getDataBaseManagerXeoCompatible() ) {
-        		registerRemoteBoui(  ctx, boui, new boObjectListResultFactoryLegacy(), null );
-        	}
-        }
         return ret;
     }
 
@@ -850,7 +844,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             {
                 if (atts[i].getDbIsTabled())
                 {
-                    DataSet childs = data.rows(1).getChildRows(ctx,
+                    DataSet childs = data.rows(1).getChildDataSet(ctx,
                             atts[i].getName());
 
                     for (int z = 0; z < childs.getRowCount(); z++)
@@ -860,7 +854,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 }
                 else
                 {
-                    DataSet childs = data.rows(1).getChildRows(ctx,
+                    DataSet childs = data.rows(1).getChildDataSet(ctx,
                             atts[i].getName());
 
                     for (int z = 0; z < childs.getRowCount(); z++)
@@ -1365,11 +1359,20 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
             if ((boui == 0) || (ret == null))
             {
-                //String classname =  getClassNameFromBOUI(ctx, boui);
-            	Object[] r = cacheBouis.getRemoteBoui( new Long( boui ));
-            	if( r != null ) {
-
-            		ret = ((boObjectFactory)r[0]).getObject( ctx, (boObjectFactoryData)r[1] );
+            	XEODataManagerKey 	dmKey 	= cacheBouis.getRemoteBouiKey( new Long(boui) );
+            	if( dmKey != null ) {
+            		
+            		IXEODataManager 	dm 		= dmKey.getDataManager();
+            		
+            		DataSet objectDataSet = ObjectDataManager.createEmptyObjectDataSet(
+            				ctx, 
+            				boDefHandler.getBoDefinition( dmKey.getObjectName() )
+            		);
+            		
+            		dm.fillObjectDataSet( ctx, objectDataSet, dmKey );
+            		ret = getObject( ctx, dmKey.getObjectName() );
+            		ret.setEboContext( ctx );
+            		ret.load( objectDataSet );
             		ret.setBoui( boui );
             		ret.setChanged( false );
             		ret.poolUnSetStateFull();
@@ -1414,9 +1417,9 @@ public class boManagerBean implements SessionBean, boManagerLocal
     	Long oBoui = new Long( boui );
     	String classname = null;
     	
-    	Object[] r = cacheBouis.getRemoteBoui( oBoui );
-    	if( r != null ) {
-    		classname = ((boObjectFactoryData)r[1]).getObjectName();
+    	XEODataManagerKey key = cacheBouis.getRemoteBouiKey( oBoui );
+    	if( key != null ) {
+    		classname = key.getObjectName();
     	}
     	
         if ( classname==null )
@@ -1552,6 +1555,9 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
 //        try
 //        {
+        
+        	boolean isXeoCompatible = bobj.getBoDefinition().getDataBaseManagerXeoCompatible();
+
 
             bobj.set_IsInOnSave(boObject.UPDATESTATUS_UPDATING);
             boolean dook = false;
@@ -1584,49 +1590,51 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 long currentboui = bobj.getBoui();
                 if (!(bobj.getMode() == boObject.MODE_DESTROY) && saveObjectData)
                 {
-                    PreparedStatement pstm = ctx.getConnectionData()
-                                                .prepareStatement("SELECT COUNT(*) FROM OEBO_REGISTRY WHERE UI$=?");
-                    pstm.setLong(1, currentboui);
-                    ResultSet rslt = pstm.executeQuery();
-                    rslt.next();
-
-                    boolean exists = rslt.getLong(1) > 0;
-                    rslt.close();
-                    pstm.close();
-
-                    if (!exists)
-                    {
-                    	String fieldSysDate = ctx.getDataBaseDriver().getDatabaseTimeConstant();
-                        pstm = ctx.getConnectionData().prepareStatement("insert into " +
-                                ebo_registryFullTableName +
-                                "   (sys_user, sys_icn, sys_dtcreate, sys_dtsave, ui$, ui_version, name, clsid, clsid_major_version, clsid_minor_version, boui, classname) " +
-                                "   values " +
-                                "  ( ? , 1 , " + fieldSysDate + " ,  " + fieldSysDate + " , ?, ?, ?, ?, ? , ?, ?, ?) ");
-                        pstm.setString(1, ctx.getSysUser().getUserName());
-                        pstm.setLong(2, bobj.getBoui());
-                        pstm.setLong(3, 1);
-                        pstm.setString(4, bobj.getName());
-                        pstm.setString(5, bobj.getName());
-                        pstm.setLong(6, bobj.bo_major_version);
-                        pstm.setLong(7, bobj.bo_minor_version);
-
-                        //                            pstm.setLong(10,DataUtils.getDBSequence(ctx.getConnectionSystem(),"borptsequence","nextval"));
-                        pstm.setLong(8, bobj.getBoui());
-                        pstm.setString(9, "Ebo_Registry");
-                        pstm.executeUpdate();
-                        pstm.close();
-                    }
-                    else if ( bobj.mustCast() )
-                    {
-                        pstm = ctx.getConnectionData().prepareStatement("update " +
-                                    ebo_registryFullTableName +
-                                    " set name = ? , clsid = ?  where boui = ?");
-                        pstm.setString(1, bobj.getName());
-                        pstm.setString(2, bobj.getName());
-                        pstm.setLong(3, bobj.getBoui());
-                        pstm.executeUpdate();
-                        pstm.close();
-                    }
+                	if( isXeoCompatible ) {
+	                    PreparedStatement pstm = ctx.getConnectionData()
+	                                                .prepareStatement("SELECT COUNT(*) FROM OEBO_REGISTRY WHERE UI$=?");
+	                    pstm.setLong(1, currentboui);
+	                    ResultSet rslt = pstm.executeQuery();
+	                    rslt.next();
+	
+	                    boolean exists = rslt.getLong(1) > 0;
+	                    rslt.close();
+	                    pstm.close();
+	
+	                    if (!exists)
+	                    {
+	                    	String fieldSysDate = ctx.getDataBaseDriver().getDatabaseTimeConstant();
+	                        pstm = ctx.getConnectionData().prepareStatement("insert into " +
+	                                ebo_registryFullTableName +
+	                                "   (sys_user, sys_icn, sys_dtcreate, sys_dtsave, ui$, ui_version, name, clsid, clsid_major_version, clsid_minor_version, boui, classname) " +
+	                                "   values " +
+	                                "  ( ? , 1 , " + fieldSysDate + " ,  " + fieldSysDate + " , ?, ?, ?, ?, ? , ?, ?, ?) ");
+	                        pstm.setString(1, ctx.getSysUser().getUserName());
+	                        pstm.setLong(2, bobj.getBoui());
+	                        pstm.setLong(3, 1);
+	                        pstm.setString(4, bobj.getName());
+	                        pstm.setString(5, bobj.getName());
+	                        pstm.setLong(6, bobj.bo_major_version);
+	                        pstm.setLong(7, bobj.bo_minor_version);
+	
+	                        //                            pstm.setLong(10,DataUtils.getDBSequence(ctx.getConnectionSystem(),"borptsequence","nextval"));
+	                        pstm.setLong(8, bobj.getBoui());
+	                        pstm.setString(9, "Ebo_Registry");
+	                        pstm.executeUpdate();
+	                        pstm.close();
+	                    }
+	                    else if ( bobj.mustCast() )
+	                    {
+	                        pstm = ctx.getConnectionData().prepareStatement("update " +
+	                                    ebo_registryFullTableName +
+	                                    " set name = ? , clsid = ?  where boui = ?");
+	                        pstm.setString(1, bobj.getName());
+	                        pstm.setString(2, bobj.getName());
+	                        pstm.setLong(3, bobj.getBoui());
+	                        pstm.executeUpdate();
+	                        pstm.close();
+	                    }
+                	}
                 }
 
                 boolean canUpdate = bobj.doWorkBeforeUpdate(runEvents, ctx.getForceAllInTransaction());
@@ -1709,17 +1717,21 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         
                         //setCycleReferencesToNull( ctx, bobj, destroyQueue );
 
-                        // Guarda o objecto com as brigdes limpas e atributos a null devido às foreign keys
-                        try {
-                        	bobj.setUpdateMode( boObject.MODE_EDIT );
-                        	ObjectDataManager.updateObjectData( bobj );
+                        if( isXeoCompatible ) {
+                            // Guarda o objecto com as brigdes limpas e atributos a null devido às foreign keys
+                            try {
+                            	bobj.setUpdateMode( boObject.MODE_EDIT );
+                            	ObjectDataManager.updateObjectData( bobj );
+                            }
+                            finally {
+                            	bobj.setUpdateMode( boObject.MODE_DESTROY );
+                            }
+                        	DataManager.updateDataSet(bobj.getEboContext(), (DataSet)bobj.getDataSet(), false);
                         }
-                        finally {
-                        	bobj.setUpdateMode( boObject.MODE_DESTROY );
+                        else {
+                        	IXEODataManager dm = ctx.getApplication().getXEODataManager( bobj.getBoDefinition() );
+                        	dm.destroyDataSet(bobj.getEboContext(), bobj.getDataSet(), bobj );
                         }
-                        	
-                        DataManager.updateDataSet(bobj.getEboContext(), (DataSet)bobj.getDataSet(), false);                         
-                        
                         updateQueue( ctx, destroyQueue,boObjectUpdateQueue.MODE_DESTROY_FORCED );
 
                         // Destroy DESTROY_FORCED in object queue
@@ -1728,22 +1740,20 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     }
                     else
                     {
-
+                    	
                         if ( refs != null )
                         {
-                            boReferencesManager.updateReferencesLists( bobj , null, refs[ boReferencesManager.ARRAY_TO_REMOVE ] );
+                            if( isXeoCompatible ) {
+                            	boReferencesManager.updateReferencesLists( bobj , null, refs[ boReferencesManager.ARRAY_TO_REMOVE ] );
+                            }
                         }
 
                         // Update related changed objects
-
-
-
                         if( !("Ebo_TextIndex".equalsIgnoreCase( bobj.getName() )  ) )
                         {
                         	q = buildUpdateQueueToSave( ctx, bobj, refs != null ?refs[ boReferencesManager.ARRAY_TO_REMOVE ]:null );
                             updateQueue( ctx, q.getObjectsToSave() , boObjectUpdateQueue.MODE_SAVE_FORCED  );
                         }
-
 
 
                         // Update SAVE_FORCED in objectqueue
@@ -1786,12 +1796,20 @@ public class boManagerBean implements SessionBean, boManagerLocal
                             // Update Ebo_References table
                             if ( refs != null )
                             {
-                                boReferencesManager.updateReferencesLists( bobj , refs[ boReferencesManager.ARRAY_TO_ADD ], null );
+                                if( isXeoCompatible ) {
+                                	boReferencesManager.updateReferencesLists( bobj , refs[ boReferencesManager.ARRAY_TO_ADD ], null );
+                                }
                             }
                         }
 
                         // Update the Object Data
-                        ObjectDataManager.updateObjectData(bobj);
+                        if( isXeoCompatible ) {
+                        	ObjectDataManager.updateObjectData(bobj);
+                        }
+                        else {
+                        	IXEODataManager dm = ctx.getApplication().getXEODataManager( bobj.getBoDefinition() );
+                        	dm.updateDataSet( ctx, bobj.getDataSet(), bobj );
+                        }
                         bobj.set_IsInOnSave( boObject.UPDATESTATUS_WAITING_ENDTRANSACTION );
 
                     }
@@ -2323,7 +2341,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 {
                     if( att.getDefAttribute().getDbIsTabled())
                     {
-                        DataSet childs = obj.getDataSet().rows( 1 ).getChildRows( ctx, att.getDefAttribute().getName() );
+                        DataSet childs = obj.getDataSet().rows( 1 ).getChildDataSet( ctx, att.getDefAttribute().getName() );
                         for (int i = 0; i < childs.getRowCount(); i++)
                         {
                             if ( !childs.rows( i + 1 ).isNew() )
@@ -3001,11 +3019,8 @@ public class boManagerBean implements SessionBean, boManagerLocal
     }
 
 
-    public void registerRemoteBoui(EboContext ctx, long boui,
-			boObjectFactory f, boObjectFactoryData fd) {
-		
-		cacheBouis.registerRemoteBoui( boui, f, fd);
-		
+    public void registerRemoteKey( EboContext ctx, XEODataManagerKey remoteKey ) throws boRuntimeException {
+    	cacheBouis.createRemoteBoui( ctx, remoteKey );
 	}
 
 	public boObject destroyForced(EboContext ctx, boObject bobj) throws boRuntimeException

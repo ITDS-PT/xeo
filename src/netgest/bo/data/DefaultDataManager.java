@@ -371,9 +371,9 @@ public class DefaultDataManager
                         ((atts[i].getAtributeType() == boDefAttribute.TYPE_OBJECTATTRIBUTE) &&
                         (atts[i].getMaxOccurs() > 1)))
                 {
-                    DataSet subDbData = dbData.rows(1).getChildRows(object.getEboContext(),
+                    DataSet subDbData = dbData.rows(1).getChildDataSet(object.getEboContext(),
                             atts[i].getName());
-                    DataSet subobjData = objData.rows(1).getChildRows(object.getEboContext(),
+                    DataSet subobjData = objData.rows(1).getChildDataSet(object.getEboContext(),
                             atts[i].getName());
 
                     ok = mergeNode(subobjData, subDbData);

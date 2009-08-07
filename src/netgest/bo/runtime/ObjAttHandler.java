@@ -6,7 +6,10 @@ import java.util.Hashtable;
 
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.impl.Ebo_TemplateImpl;
 import netgest.bo.impl.templates.*;
 import netgest.bo.runtime.AttributeHandler;
@@ -235,7 +238,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
 
     public void _setValues( BigDecimal[] newvalues  ) throws boRuntimeException 
     {
-        DataSet xnode =  parent.getDataRow().getChildRows( parent.getEboContext(), this.name );
+        DataSet xnode =  parent.getDataRow().getChildDataSet( parent.getEboContext(), this.name );
         if( newvalues == null || newvalues.length == 0 )
         {
             while( xnode.getRowCount() > 0 )
@@ -275,7 +278,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
     }
     
     public BigDecimal[] getValues() throws boRuntimeException {
-        DataSet xnode =  parent.getDataRow().getChildRows( parent.getEboContext(), this.name );
+        DataSet xnode =  parent.getDataRow().getChildDataSet( parent.getEboContext(), this.name );
         BigDecimal[] toRet = null;
         if( xnode.getRowCount() > 0 )
         {
@@ -312,15 +315,16 @@ public abstract class ObjAttHandler extends AttributeHandler {
     public boObject getObject() throws boRuntimeException {
         if( !this.getDefAttribute().getDbIsTabled() )
         {
-        	if( this.getValueObject() == null && !getDefAttribute().getReferencedObjectDef().getDataBaseManagerXeoCompatible() ) {
-	        	Object[] r = cacheBouis.getRemoteBoui( getParent().getBoui() );
-	        	if( r != null ) {
-	        		boObject ret = ((boObjectFactory)r[0]).getAttributeObject(getEboContext(), getParent(), this );
-	        		if( ret != null ) {
-	        			this._setValue( BigDecimal.valueOf( ret.getBoui() ) );
-	        		}
-	        		return ret;
-	        	}
+        	boDefHandler refDef = getDefAttribute().getReferencedObjectDef();
+        	if( this.getValueObject() == null && !refDef.getDataBaseManagerXeoCompatible() ) {
+        		
+        		IXEODataManager 		dm 	= getEboContext().getApplication().getXEODataManager( refDef );
+        		
+        		XEODataManagerKey		key = dm.getKeyForAttribute( getEboContext(), getParent(), getDefAttribute() );
+        		key.registerKey( getEboContext() );
+        		
+        		boObject.getBoManager().loadObject(  getEboContext(), key.getBoui() );
+        		
         	}
             return this.getValueLong() == 0 ? null : getParent().getObject(this.getValueLong());
         }
@@ -495,7 +499,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
             if ( newvalue != null && getDefAttribute().getSetParent()!=boDefAttribute.SET_PARENT_NO && !getName().equals("PARENT") ) 
             {
             boObject objNew = null;
-            if( newvalue != null && newvalue.longValue() > 0 )
+            if( newvalue != null && newvalue.longValue() != 0 )
             {
                 objNew = getParent().getObject( newvalue.longValue() );
             }
@@ -548,7 +552,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
             if ( oldvalue != null && getDefAttribute().getSetParent()!=boDefAttribute.SET_PARENT_NO && !getName().equals("PARENT") ) 
             {
                 boObject objOld = null;
-                if ( oldvalue != null && oldvalue.longValue() > 0 )
+                if ( oldvalue != null && oldvalue.longValue() != 0 )
             {
                     objOld = getParent().getObject( oldvalue.longValue() );
                 }

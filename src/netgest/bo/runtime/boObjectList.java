@@ -11,6 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataSet;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.data.ObjectDataManager;
+import netgest.bo.data.XEODataManagerForLegacyTables;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.sorter.AttributeSorter;
@@ -90,9 +93,7 @@ public class boObjectList extends boPoolable {
 
 	private int p_objectpreloaded = 0;
 	
-	private boObjectListResultFactoryLegacy p_legacydatamanager;
-	
-	
+	private IXEODataManager p_legacydatamanager;
 
 	public static final byte PAGESIZE_DEFAULT = 50;
 
@@ -1281,17 +1282,23 @@ public class boObjectList extends boPoolable {
 					}
 					else {
 						if ( p_legacydatamanager == null ) {
-							p_legacydatamanager = new boObjectListResultFactoryLegacy();
+							p_legacydatamanager = getEboContext().getApplication()
+										.getXEODataManager( this.getBoDef() );
 						}
-						
-						p_resultset = p_legacydatamanager.getResultSetByBOQL(
+
+						DataSet emptyDataSet = ObjectDataManager.createEmptyObjectDataSet( getEboContext(),  getBoDef() );
+						p_legacydatamanager.fillDataSetByBOQL(
+								getEboContext(),
+								emptyDataSet,
 								this, 
-								getEboContext(), this.p_boql, qArgs,
+								this.p_boql, 
+								qArgs,
 								this.p_orderby, this.p_page, this.p_pagesize,
 								p_fulltext, p_letter_filter, p_userQuery,
 								p_usesecurity
 							);
 						
+						p_resultset = new DataResultSet( emptyDataSet );
 					}
 				} catch (Exception e) {
 					throw new boRuntimeException2( e );
@@ -1553,25 +1560,39 @@ public class boObjectList extends boPoolable {
 	public long getRecordCount() {
 		if (p_qlp != null) {
 			if (p_nrrecords == Long.MIN_VALUE) {
-
-				Object[] qArgs;
-				if (p_userqueryargs != null) {
-					ArrayList parList = new ArrayList();
-
-	
-					if (this.p_sqlargs != null)
-						parList.addAll(Arrays.asList(this.p_sqlargs));
-
-					parList.addAll(Arrays.asList(this.p_userqueryargs));
-	
-					qArgs = parList.toArray();
-				} else {
-					qArgs = this.p_sqlargs;
+				if ( p_legacydatamanager != null ) {
+					p_nrrecords = p_legacydatamanager.getRecordCountByBOQL(
+							this, 
+							getEboContext(), 
+							p_boql, 
+							p_sqlargs, 
+							p_fulltext, 
+							p_letter_filter, 
+							p_userQuery, 
+							p_usesecurity
+					);
 				}
-				
-				
-				p_nrrecords = boObjectListResultFactory.getRecordCount(
-						getEboContext(), p_boql, qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
+				else 
+				{
+					Object[] qArgs;
+					if (p_userqueryargs != null) {
+						ArrayList parList = new ArrayList();
+	
+		
+						if (this.p_sqlargs != null)
+							parList.addAll(Arrays.asList(this.p_sqlargs));
+	
+						parList.addAll(Arrays.asList(this.p_userqueryargs));
+		
+						qArgs = parList.toArray();
+					} else {
+						qArgs = this.p_sqlargs;
+					}
+					
+					
+					p_nrrecords = boObjectListResultFactory.getRecordCount(
+							getEboContext(), p_boql, qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
+				}
 			}
 			return p_nrrecords;
 		}

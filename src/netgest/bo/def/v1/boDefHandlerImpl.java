@@ -50,51 +50,45 @@ public class boDefHandlerImpl extends boDefHandler
     private static Logger logger = Logger.getLogger("netgest.bo.def.boDefHandler");
 
     public boolean getDataBaseManagerManageTables() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean getDataBaseManagerManageViews() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean getDataBaseManagerXeoCompatible() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	private static Hashtable p_cachedef = new Hashtable();
-    private static boDefHandler[] p_definitions = null;
+	private static Hashtable 		p_cachedef = new Hashtable();
+    private static boDefHandler[] 	p_definitions = null;
 
     // NÃO ESQUECER DE INICIALIZAR AS VARIAVEIS NO MÉTODO REFRESH();
-    private String  p_name;
-    private byte    p_interfaceType;
-    private boDefAttribute[] p_attributes;
-    private boDefMethodImpl[] p_methods;
-    private boDefClsEvents[] p_events;
-    private boDefViewer[] p_viewers;
-    private boDefHandler[] p_businessImplements;
-    private boDefHandler[] p_implements;
-    private boDefActivity[] p_activities;
-    private boDefClsState p_clsstate;
-    private boDefDatabaseObject[] p_dbobject;
-    private String[] p_referencedby;
-    private String[] p_references;
-    private boDefAttribute[] p_references_atts;
-    private boDefHandler[] p_subobjects;
-    public boConfig boconf;
-    private boDefOPLImpl p_OPL;
-    private boolean p_secureObjects;
-//    private boDefObjectDS p_datasources;
-    private String p_bomastertable;
-    private String p_majorversion;
-    private String p_minorversion;
-    private Boolean p_indexValue = null;
-    private boDefHandler[] p_allsubbos = null;
-    private boDefForwardObject[] p_fwdObject = null;
-    
-    private ngtXMLHandler xmlNode;
+    private String  				p_name;
+    private byte    				p_interfaceType;
+    private boDefAttribute[] 		p_attributes;
+    private boDefMethodImpl[] 		p_methods;
+    private boDefClsEvents[] 		p_events;
+    private boDefViewer[] 			p_viewers;
+    private boDefHandler[] 			p_implements;
+    private boDefActivity[] 		p_activities;
+    private boDefClsState 			p_clsstate;
+    private boDefDatabaseObject[] 	p_dbobject;
+    private String[] 				p_referencedby;
+    private String[] 				p_references;
+    private boDefAttribute[] 		p_references_atts;
+    private boDefHandler[] 			p_subobjects;
+    public boConfig 				boconf;
+    private boDefOPLImpl 			p_OPL;
+    private boolean 				p_secureObjects;
+    private String 					p_bomastertable;
+    private String 					p_majorversion;
+    private String 					p_minorversion;
+    private Boolean 				p_indexValue = null;
+    private boDefHandler[] 			p_allsubbos = null;
+    private boDefForwardObject[] 	p_fwdObject = null;
+    private ngtXMLHandler 			xmlNode;
     
     public boDefHandlerImpl(Node node, boolean parse)
     {
@@ -198,15 +192,12 @@ public class boDefHandlerImpl extends boDefHandler
 
         Arrays.sort(xobjs, new boDefHandlerImpl.labelComparator());
 
-        int size = xobjs.length;
-
         return xobjs;
     }
 
     public static boDefHandler[] listBoDefinitions()
     {
-        boConfig bcfg = new boConfig();
-        java.io.File dir = new File(bcfg.getDeploymentDir());
+        java.io.File dir = new File(boConfig.getDeploymentDir());
         File[] files = dir.listFiles(new FileFilter()
                 {
                     public boolean accept(File file)
@@ -261,7 +252,7 @@ public class boDefHandlerImpl extends boDefHandler
                 {
                     if (xchilds[i].getAttribute("inheritfrom", "").length() > 0)
                     {
-                        inheritFromMaster = (boDefHandlerImpl)this.getBoDefinition(xchilds[(i)].getAttribute("inheritfrom", ""));
+                        inheritFromMaster = (boDefHandlerImpl)boDefHandlerImpl.getBoDefinition(xchilds[(i)].getAttribute("inheritfrom", ""));
                         inheritFromMaster = inheritFromMaster == null ? master:inheritFromMaster;            
                         p_attributes[i] = new boDefAttributeImpl( (boDefHandlerImpl)inheritFromMaster, xchilds[i].getNode() );
                     }
@@ -337,7 +328,6 @@ public class boDefHandlerImpl extends boDefHandler
         p_methods = null;
         p_events = null;
         p_viewers = null;
-        p_businessImplements = null;
         p_implements = null;
         p_activities = null;
         p_clsstate = null;
@@ -412,7 +402,7 @@ public class boDefHandlerImpl extends boDefHandler
             {
                 if (xchilds[i].getAttribute("inheritfrom", "").length() > 0)
                 {
-                    inheritFromMaster = (boDefHandlerImpl)this.getBoDefinition(xchilds[(i)].getAttribute("inheritfrom", ""));
+                    inheritFromMaster = (boDefHandlerImpl)boDefHandlerImpl.getBoDefinition(xchilds[(i)].getAttribute("inheritfrom", ""));
                     inheritFromMaster = inheritFromMaster == null ? master:inheritFromMaster;            
                     p_attributes[i] = new boDefAttributeImpl(inheritFromMaster,
                             xchilds[i].getNode());
@@ -495,8 +485,6 @@ public class boDefHandlerImpl extends boDefHandler
                         }
                     }
                 }
-
-                p_businessImplements = (boDefHandlerImpl[])intefs.toArray(new boDefHandlerImpl[(intefs.size())]);
             }
         }
 
@@ -545,7 +533,6 @@ public class boDefHandlerImpl extends boDefHandler
 
         if (xnode != null)
         {
-            short acount = 0;
             ngtXMLHandler[] xx = xnode.getChildNodes();
 
             ArrayList xactvs = new ArrayList();
@@ -752,7 +739,6 @@ public class boDefHandlerImpl extends boDefHandler
         boolean viewExtendedObject)
     {
         String[] names = attributeName.split("\\.");
-        boDefHandler od = this;
         boDefAttribute[] attrs = p_attributes;
 
         if (viewExtendedObject)
@@ -977,7 +963,6 @@ public class boDefHandlerImpl extends boDefHandler
 
     public String getCastToClassName()
     {
-        String[] ret = null;
         ngtXMLHandler labnode = xmlNode.getChildNode("General").getChildNode("castTo");
 
         if (labnode != null)
@@ -1079,7 +1064,7 @@ public class boDefHandlerImpl extends boDefHandler
         for (byte i = 0; i < this.p_methods.length; i++)
         {
             if (this.p_methods[i].getName().equalsIgnoreCase(xmethod) &&
-                    ((boDefMethodImpl)this.p_methods[i]).compareMethodAssinature(
+                    boDefMethodImpl.compareMethodAssinature(
                         this.p_methods[i].getAssinatureClasses(), assinature))
             {
                 ret = this.p_methods[i];
@@ -1263,7 +1248,6 @@ public class boDefHandlerImpl extends boDefHandler
 
     public boolean getBoCanBeOrphan()
     {
-        byte toRet = 0;
         String ret = xmlNode.getChildNode("General").getAttribute("orphan", "Yes");
 
         if (ret.equalsIgnoreCase("yes") || ret.equalsIgnoreCase("y"))
@@ -1628,9 +1612,7 @@ public class boDefHandlerImpl extends boDefHandler
     
     public boolean isMandatoryInterface()
     {
-        byte ret = TYPE_CLASS;
         ngtXMLHandler general = xmlNode.getChildNode("General");
-
         if (general != null)
         {
             if (general.getAttribute("bo_class", "").equalsIgnoreCase("mandatory_interface"))
@@ -1963,6 +1945,11 @@ public class boDefHandlerImpl extends boDefHandler
         }
         return null;
     }
+
+	public String getDataBaseManagerClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 }

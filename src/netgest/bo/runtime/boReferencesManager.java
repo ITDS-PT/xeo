@@ -80,7 +80,7 @@ public final class boReferencesManager
                     {
                         if( att.getDefAttribute().getDbIsTabled())
                         {
-                            DataSet dataSet = obj.getDataRow().getChildRows( obj.getEboContext(), att.getName() );
+                            DataSet dataSet = obj.getDataRow().getChildDataSet( obj.getEboContext(), att.getName() );
                             verifyRowChanges( rebuild , addvect, remvect, dataSet, att.getName(), att.getDefAttribute().getDbName(), att.getDefAttribute(), false );
                         }
                         else

@@ -53,6 +53,12 @@ public class boDefUtils
             createTextNode(dataBaseNode,"constraint", "" );
             createTextNode(dataBaseNode,"binding", "" );
         }
+        
+        if( "attributeNumber".equals( attType ) ) {
+            createTextNode( attNode, "grouping", "false" );
+            createTextNode( attNode, "decimals", "0" );
+        }
+        
         return attNode;
     }
     

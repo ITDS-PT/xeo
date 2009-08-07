@@ -179,8 +179,6 @@ public class DataManager
             {
                 wa = new WriterAdapter[relations.length];
     
-                String schemaName = "";
-    
                 for (byte i = 0; i < relations.length; i++)
                 {
                     wa[i] = ctx.getApplication().getDriverManager()
@@ -222,8 +220,7 @@ public class DataManager
                             while (childNodes.hasMoreElements())
                             {
                                 String nodename = (String) childNodes.nextElement();
-                                DataSet child = row.getChildRows(ctx, nodename);
-    
+                                DataSet child = row.getChildDataSet( ctx, nodename);
                                 if ((child.getDeletedRowsCount() > 0) ||
                                         (child.getRowCount() > 0))
                                 {

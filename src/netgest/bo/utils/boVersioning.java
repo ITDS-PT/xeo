@@ -1000,7 +1000,7 @@ public class boVersioning
                         (atts[i].getMaxOccurs() > 1)))
                 {
                     // Buscar as rows da bridge
-                    DataSet rslt = bobj.getDataRow().getChildRows(ctx, atts[i].getName());
+                    DataSet rslt = bobj.getDataRow().getChildDataSet(ctx, atts[i].getName());
 
                     //percorrer todas as rows da bridge
                     // Por cada row da bridge fazer comparação. Se for um atributo do tipo Tabled não existem atributos, apenas um campo com o nome obtido através do getDbTableChildFieldName()

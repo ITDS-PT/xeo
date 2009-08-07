@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.WeakHashMap;
 import javax.ejb.CreateException;
 
@@ -13,7 +14,11 @@ import javax.naming.NamingException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.map.HashedMap;
+
 import netgest.bo.data.DriverManager;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.*;
 
 /**
@@ -37,10 +42,9 @@ import netgest.bo.runtime.*;
  */
 public class boApplication
 {
-    private static boApplication XEO_APPLICATION;
+    private static 	boApplication XEO_APPLICATION;
 
-    private static WeakHashMap     applicationThreadsContext = new WeakHashMap();
-    
+    private static 	WeakHashMap     applicationThreadsContext = new WeakHashMap();
     
     public static final String XEO_WEBCLIENT = "XEO_WEBCLIENT";
     public static final String XEO_ROBOT     = "XEO_ROBOT";
@@ -54,7 +58,6 @@ public class boApplication
      */
     
     private boMemoryArchive         p_memoryarchive;
-    private boApplicationLogger     p_applogger;
     private boSessions              p_sessions;
     private boApplicationConfig     p_config;
     private IboAgentsController       p_boagentscontroller;
@@ -136,7 +139,6 @@ public class boApplication
     public void initializeApplication()
     {
         p_memoryarchive = new boMemoryArchive(this);
-        p_applogger = new boApplicationLogger(this);
         p_sessions = new boSessions(this);
         p_drivermanager = new netgest.bo.data.DriverManager( this );
         suspendAgents();
@@ -329,12 +331,12 @@ public class boApplication
     public boSession boLogin(String username, String password, String repository,HttpServletRequest request)
         throws boLoginException
     {
-        return boLogin(username, password, repository, this.XEO_WEBCLIENT , request);
+        return boLogin(username, password, repository, boApplication.XEO_WEBCLIENT , request);
     }
     public boSession boLogin(String username, long time, long timeCheck, String repository, HttpServletRequest request)
         throws boLoginException
     {
-        return boLogin(username, time, timeCheck, repository, this.XEO_WEBCLIENT , request);
+        return boLogin(username, time, timeCheck, repository, boApplication.XEO_WEBCLIENT , request);
     }
 
     public boSession boLogin(String username, String password, String repository, String clientName , HttpServletRequest request)
@@ -394,4 +396,32 @@ public class boApplication
     {
         return p_boagentscontroller;        
     }
+    
+    public IXEODataManager getXEODataManager( String objectName ) {
+    	IXEODataManager dataManager = getMemoryArchive().getXEODataManager( objectName );
+    	if( dataManager == null ) {
+    		getXEODataManager( boDefHandler.getBoDefinition( objectName )  );
+    	}
+    	return dataManager;
+    }
+    
+    public IXEODataManager getXEODataManager( boDefHandler def ) {
+    	IXEODataManager dataManager = getMemoryArchive().getXEODataManager( def.getName() );
+    	if( dataManager == null ) {
+			String className = def.getDataBaseManagerClassName();
+			try {
+				dataManager = (IXEODataManager) Class.forName( className ).newInstance();
+			} catch (InstantiationException e) {
+				throw new RuntimeException( e );
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException( e );
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException( e );
+			}
+			getMemoryArchive().putXEODataManager( def.getName(), dataManager );
+    	}
+    	return dataManager;
+    }
+    
+    
 }

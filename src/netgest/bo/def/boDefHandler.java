@@ -274,6 +274,8 @@ public abstract class boDefHandler implements boDef
 
     public abstract boolean getDataBaseManagerXeoCompatible();
     
+	public abstract String 	getDataBaseManagerClassName();
+    
     public abstract String getWordTemplate();
     
     public abstract byte getASPMode();

@@ -1,13 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import netgest.bo.data.DataRow;
+
 import netgest.bo.data.DataSet;
-import netgest.bo.system.*;
 import netgest.utils.ParametersHandler;
 
 /**
@@ -26,7 +23,6 @@ public class boObjectSavePoint
 
     // VARIABLES OF THE SAVED OBJECT
     private byte                    p_mode;
-    private bridgeHandler           p_parentBridge;
     private boolean                 p_exists;
     private byte                    p_state;
     private boBridgesArray          p_bridges;
@@ -35,16 +31,12 @@ public class boObjectSavePoint
     private boObjectUpdateQueue     p_updatequeue;
     private DataSet                 p_dataSet;
     private long                    p_template;
-    private String                  p_owner;
-    private boolean                 p_isstatefull;
-    private boolean                 p_poolissharable;
 
     // END
 
     // EXETENDED VARIABLED TO SAVE OBJECT STATE
 
     private Hashtable p_bridgesPositions  = new Hashtable();
-    private Hashtable p_bridgesAttributes = new Hashtable();
   //  private Hashtable p_bridgesVl = new Hashtable();
 
 
@@ -52,10 +44,8 @@ public class boObjectSavePoint
 
 
 
-    private boObject    p_object;             // Saved Object
-    private String      p_savepointname;      // Save Point Name
+    private boObject    		   p_object;             // Saved Object
     private boolean                p_hassavepoint;  // Save point was created
-    private long                   p_referedboui;   // Boui of the refered object
 
     private boObjectSavePoint(  ) throws boRuntimeException
     {
@@ -64,7 +54,6 @@ public class boObjectSavePoint
     {
         boObjectSavePoint savePoint = new boObjectSavePoint();
         savePoint.p_object        = object;
-        savePoint.p_savepointname = name;
 
         try
         {
@@ -81,7 +70,6 @@ public class boObjectSavePoint
                 // Object to Save
 
 
-                savePoint.p_isstatefull = object.poolIsStateFull();
 //                if ( savePoint.p_isstatefull )
 //                {
 //                    savePoint.p_owner = object.poolOwner();
@@ -133,7 +121,6 @@ public class boObjectSavePoint
             }
             else
             {
-                savePoint.p_referedboui = object.getBoui();
                 savePoint.p_hassavepoint = false;
             }
             return savePoint;
@@ -163,7 +150,6 @@ public class boObjectSavePoint
                 p_object.p_updatequeue  = this.p_updatequeue;
                 p_object.p_parameters   = this.p_parameters;
                 p_object.set_IsInOnSave( boObject.UPDATESTATUS_IDLE );
-                long boui=p_object.getBoui();
 
 
 //                if ( p_owner != null )
@@ -192,28 +178,13 @@ public class boObjectSavePoint
                     bridgeHandler bridge = (bridgeHandler)oEnum.nextElement();
                     Integer position = (Integer)this.p_bridgesPositions.get( bridge.getName() );
                     bridge.getRslt().absolute( position.intValue() );
-                    //bridge.p_vl = ((Boolean)this.p_bridgesVl.get( bridge.getName() )).booleanValue();
-                    if( bridge.getName().equalsIgnoreCase("workHistory" ) )
-                    {
-                        int xxx=2;
-                    }
-
+                    
                     if( !(bridge instanceof bridgeReverseHandler) )
                     {
-                        bridge.getRslt().newData( p_object.p_dataSet.rows( 1 ).getChildRows( p_object.getEboContext(), bridge.getName() ) , ((Integer)p_bridgesPositions.get( bridge.getName() )).intValue() );
+                        bridge.getRslt().newData( p_object.p_dataSet.rows( 1 ).getChildDataSet( p_object.getEboContext(), bridge.getName() ) , ((Integer)p_bridgesPositions.get( bridge.getName() )).intValue() );
                     }
                     bridge.refreshBridgeData();
 
-
-//                    bridge.p_lineatts = ( Vector )p_bridgesAttributes.get( bridge.getName() );
-//                    for (int i = 0; i < bridge.p_lineatts.size() ; i++)
-//                    {
-//                        Enumeration lineatts = (( boAttributesArray )bridge.p_lineatts.get( i )).elements();
-//                        while ( lineatts.hasMoreElements()  )
-//                        {
-//                            ( ( boIBridgeAttribute ) lineatts.nextElement() ).setLine( i + 1 );
-//                        }
-//                    }
                 }
             }
             else

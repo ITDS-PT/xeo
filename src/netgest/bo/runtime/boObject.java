@@ -23,6 +23,7 @@ import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
+import netgest.bo.data.IXEODataManager;
 import netgest.bo.data.ObjectDataManager;
 import netgest.bo.data.WriterException;
 import netgest.bo.def.boDefAttribute;
@@ -1519,7 +1520,37 @@ public abstract class boObject extends boObjectContainer implements Serializable
         return ret;
     }
 
+    public DataSet getBridgeDataSet( String bridgeName ) {
+    	try {
+			DataSet ret = null;
+			if( !bo_definition.getDataBaseManagerXeoCompatible() ) {
+				IXEODataManager dataManager = getEboContext().getApplication().getXEODataManager( bo_definition );
+				ret = ObjectDataManager.createEmptyObjectBridgeDataSet(getEboContext(),
+						bo_definition, 
+						bo_definition.getAttributeRef( bridgeName )
+					); 
+ 
+				dataManager.fillBridgeDataSet( 
+						getEboContext(), 
+						ret,
+						this,
+						bo_definition.getAttributeRef(  bridgeName ) 
+					);
+				
+				
+				getDataRow().addChildDataSet( bridgeName, ret );
 
+			}
+			
+			if( ret == null ) {
+				ret = getDataRow().getRecordChild( getEboContext() , bridgeName );
+			}
+			return ret;
+		} catch (boRuntimeException e) {
+			throw new RuntimeException( e );
+		}
+    }
+    
     private static final Pattern ATT_BRIDGE_PATTERN = Pattern.compile( "\\.[^\\.]{1,}\\.[1-9]{1,}$" );
 
     public AttributeHandler getAttribute(String attributeName) {
@@ -1871,7 +1902,6 @@ public abstract class boObject extends boObjectContainer implements Serializable
     }
 
     public EboContext removeEboContext() {
-        // TODO:  Override this netgest.bo.system.boPoolable method
         EboContext xret = super.removeEboContext();
         boBridgesArray bridges = this.getBridges();
 
@@ -2065,9 +2095,6 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 }
             }
         }
-        else if( p_ischanged && !changed ) {
-        	p_ischanged = p_ischanged;
-        }
     }
 
     public boolean isChanged() throws boRuntimeException {
@@ -2216,106 +2243,19 @@ public abstract class boObject extends boObjectContainer implements Serializable
         return toRet;
     }
 
-    //    private boolean checkChanged(boObject x, ArrayList queue)
-    //        throws boRuntimeException
-    //    {
-    //        boolean ret = false;
-    //        Long xboui = new Long(x.bo_boui);
-    //        if ( x.p_ischanged ) return true;
-    //        if (queue.indexOf(xboui) < 0)
-    //        {
-    //            queue.add(xboui);
-    //
-    //            if (x.p_updatequeue != null)
-    //            {
-    //                long[][] xbouis = x.p_updatequeue.getObjects();
-    //
-    //                for (short i = 0; !ret && (i < xbouis.length); i++)
-    //                {
-    //                    if ((xbouis[i][0] != 0) && (xbouis[i][0] != this.getBoui()))
-    //                    {
-    //                        try
-    //                        {
-    //                            ret = checkChanged(x.getObject(xbouis[i][0]), queue);
-    //                        }
-    //                        catch (boRuntimeException e)
-    //                        {
-    //                            if (e.getErrorCode().equals("BO-3015"))
-    //                            {
-    //                                logger.warn("Refereced object in Update Queue no longer exist's.. removing it...");
-    //                                p_updatequeue.remove(xbouis[i][0]);
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //
-    //        return ret;
-    //    }
     public void poolObjectActivate() {
-        // TODO:  Implement this netgest.bo.system.boPoolable abstract method
-        //super.poolObjectActivate();
-        //        try
-        //        {
-        //            long xboui = bo_boui;
-        //            this.load(bo_boui);
-        //            this.setBoui(xboui);
-        //        }
-        //        catch (boRuntimeException e)
-        //        {
-        //            RuntimeException ne = new RuntimeException("Error Activating object.\n" + e.getClass().getName() + "\n" + e.getMessage());
-        //            ne.fillInStackTrace();
-        //            throw ne;
-        //        }
     }
 
     public void poolObjectPassivate() {
-        //super.poolObjectPassivate();
         try {
-            //  If the object is new and is ready to be passivated destroy the object for no future use
             if (!exists()) {
                 super.poolDestroyObject();
                 ;
             }
-
-            //            bo_boui = this.getBoui();
-            //            p_dataSet = null;
-            //            p_ischanged = false;
-            //
-            //            // Clear the State of the attributes.
-            //            Enumeration oEnum = p_attributes.elements();
-            //
-            //            while (oEnum.hasMoreElements())
-            //            {
-            //                ((AttributeHandler) oEnum.nextElement()).reset();
-            //            }
-            //
-            //            if (p_updatequeue != null)
-            //            {
-            //                p_updatequeue.clear();
-            //            }
         } catch (boRuntimeException e) {
-            //CONFIRMAR JP
-            //            RuntimeException ne = new RuntimeException("Error Activating object.\n" + e.getClass().getName() + "\n" + e.getMessage());
-            //            ne.fillInStackTrace();
-            //            throw ne;
             throw new boRuntimeException2(this.getClass().getName() +
                 "Error activiting Object.\n" + "\n" + e.getMessage());
         }
-
-        // Clean session atributes
-        //        p_parameters = new ParametersHandler(); // User defined parameters.
-        //        p_ischanged = false; // Variable to save if the object was changed
-        //        p_errors = null; // to Store object error messages;
-        //        p_atterrors = null; // to Store attributes error messages;
-        //
-        //        p_attadvertisemsgs = null; // to Store advertise messages to the attributes;
-        //        p_advertisemsgs = null; // to Store advertise messages to the object;
-        //
-        //        p_updatequeue = null;
-        //        p_template = 0;
-        // TODO:  Implement this netgest.bo.system.boPoolable abstract method
     }
 
     public boObject getRequestObject() throws boRuntimeException {

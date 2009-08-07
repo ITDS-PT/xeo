@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2009 (http://www.altova.com) by acruz (EMBRACE) -->
 <!-- Editado por Pedro Rio (prio@itds.pt) in 26 Maio de 2009 -->
-<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified"  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-        jaxb:version="2.0">
+<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" elementFormDefault="unqualified" attributeFormDefault="unqualified" jaxb:version="2.0">
 	<!-- XPortal, objectos antigos? XEO_Image.xeomodel No package PORTAL$1.0$PORTLETS-->
 	<xs:annotation>
-    <xs:appinfo>
-      <jaxb:globalBindings typesafeEnumMemberName="generateName" />
-    </xs:appinfo>
-  </xs:annotation>
+		<xs:appinfo>
+			<jaxb:globalBindings typesafeEnumMemberName="generateName"/>
+		</xs:appinfo>
+	</xs:annotation>
 	<xs:element name="documentation">
 		<xs:annotation>
 			<xs:documentation> This element represents documentation about a given element inside
@@ -53,7 +51,7 @@
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="lang" use="required" type="languageEnum">
+						<xs:attribute name="lang" type="languageEnum" use="required">
 							<xs:annotation>
 								<xs:documentation>The language of this inline documentation</xs:documentation>
 							</xs:annotation>
@@ -87,7 +85,7 @@
 		</xs:complexType>
 	</xs:element>
 	<!--definições globais -->
-		<xs:simpleType name="EditorEnum">
+	<xs:simpleType name="EditorEnum">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="HTML"/>
 			<xs:enumeration value="TEXT"/>
@@ -215,14 +213,12 @@
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xeoCodeNotEmptyElement">
-				<xs:attribute name="language" use="required" type="xeoLanguageEnum">
-				</xs:attribute>
+				<xs:attribute name="language" type="xeoLanguageEnum" use="required"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="xeoLanguageComplex" mixed="true">
-		<xs:attribute name="language" use="required" type="xeoLanguageEnum">
-		</xs:attribute>
+		<xs:attribute name="language" type="xeoLanguageEnum" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="xeoLanguageWithDepends" mixed="true">
 		<xs:complexContent mixed="true">
@@ -327,10 +323,8 @@
 							describe the model </xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="language" default="pt" type="languageEnum">
-						</xs:attribute>
-						<xs:attribute name="country" default="PT" type="countryEnum">
-						</xs:attribute>
+						<xs:attribute name="language" type="languageEnum" default="pt"/>
+						<xs:attribute name="country" type="countryEnum" default="PT"/>
 						<xs:attribute name="variant" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
@@ -362,8 +356,7 @@
 										<xs:element ref="label"/>
 										<xs:element name="expression"/>
 									</xs:sequence>
-									<xs:attribute name="type" use="required" type="DBConstraintTypeEnum">
-									</xs:attribute>
+									<xs:attribute name="type" type="DBConstraintTypeEnum" use="required"/>
 									<xs:attribute name="id" use="required"/>
 								</xs:complexType>
 							</xs:element>
@@ -430,7 +423,7 @@
 								<xs:restriction base="xs:boolean"/>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="deep" use="required" type="deepValueEnum"/>
+						<xs:attribute name="deep" type="deepValueEnum" use="required"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="castTo" minOccurs="0">
@@ -480,6 +473,7 @@
 						<xs:attribute name="manageTables" type="xs:boolean"/>
 						<xs:attribute name="manageViews" type="xs:boolean"/>
 						<xs:attribute name="xeoCompatible" type="xs:boolean"/>
+						<xs:attribute name="dataManagerClass" type="xs:string"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="documentation" minOccurs="0">
@@ -494,7 +488,7 @@
 						it can be used to create bridges to other xeoModels </xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="type" use="required" type="objectTypeEnum">
+			<xs:attribute name="type" type="objectTypeEnum" use="required">
 				<xs:annotation>
 					<xs:documentation>Declaration of kind of instances this model
 						defines</xs:documentation>
@@ -946,7 +940,7 @@
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="name" use="required" type="ObjectEventsEnum">
+						<xs:attribute name="name" type="ObjectEventsEnum" use="required">
 							<xs:annotation>
 								<xs:documentation>The name of the event that will trigger the
 									behavior to be executed</xs:documentation>
@@ -1097,9 +1091,7 @@
 					<xs:sequence>
 						<xs:element name="body" type="xeoLanguage"/>
 					</xs:sequence>
-					<xs:attribute name="name" use="required" type="AttributeEventsEnum">
-
-					</xs:attribute>
+					<xs:attribute name="name" type="AttributeEventsEnum" use="required"/>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>

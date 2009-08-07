@@ -263,6 +263,11 @@ public class Mail
         return this.readMail(-1, null, false);
     }
 
+    public MailMessage[] readMail(int numOfMessagesToRead, String foldername )
+    throws RemoteException, MessagingException, IOException
+    {
+    	return readMail( numOfMessagesToRead, foldername, false );
+    }
     public MailMessage[] readMail(int numOfMessagesToRead, String foldername, boolean faxAccount)
         throws RemoteException, MessagingException, IOException
     {
