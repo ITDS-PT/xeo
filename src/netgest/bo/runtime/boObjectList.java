@@ -1562,8 +1562,8 @@ public class boObjectList extends boPoolable {
 			if (p_nrrecords == Long.MIN_VALUE) {
 				if ( p_legacydatamanager != null ) {
 					p_nrrecords = p_legacydatamanager.getRecordCountByBOQL(
-							this, 
 							getEboContext(), 
+							this, 
 							p_boql, 
 							p_sqlargs, 
 							p_fulltext, 
