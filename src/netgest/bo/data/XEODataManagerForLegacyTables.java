@@ -293,8 +293,8 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 	}
 
 	public long getRecordCountByBOQL(
-			boObjectList parentList, 
 			EboContext ctx,
+			boObjectList parentList, 
 			String boql, 
 			Object[] qArgs, 
 			String fullText,

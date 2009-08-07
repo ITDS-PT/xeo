@@ -6,14 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataSet;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.data.ObjectDataManager;
-import netgest.bo.data.XEODataManagerForLegacyTables;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.sorter.AttributeSorter;
@@ -70,7 +67,6 @@ public class boObjectList extends boPoolable {
 	private byte p_format;
 
 	private String p_parentAttributeName;
-	private AttributeHandler p_parentAttribute;
 
 	private boolean p_usesecurity = true;
 
@@ -195,7 +191,6 @@ public class boObjectList extends boPoolable {
 		p_resultset = data;
 		p_fieldname = fieldname;
 		p_parentAttributeName = attname;
-		p_parentAttribute = parentatt;
 		
 		p_bodef = refobjdef;
 		p_selbodef = refobjdef;
@@ -273,7 +268,6 @@ public class boObjectList extends boPoolable {
 		p_format = format;
 		p_usesecurity = useSecurity;
 		StringBuffer sb = new StringBuffer();
-		String classname = null;
 
 		if (!p_bodef.getBoName().equals("boObject")) {
 			sb.append("SELECT BOUI FROM ").append(p_bodef.getBoMasterTable());
@@ -1786,7 +1780,6 @@ public class boObjectList extends boPoolable {
 				SorterNode[] helper = cs.getValues(this);
 				cs.sort(helper);
 				long boui;
-				boolean moved = false;
 				String[] phisicalRow = this.getValueString().split(";");
 				if (sameOrder(phisicalRow, helper))
 					return;
@@ -1839,37 +1832,19 @@ public class boObjectList extends boPoolable {
 		return -1;
 	}
 
-	private void close() {
-		try {
-			p_resultset.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
 	public void poolObjectActivate() {
-		// TODO: Implement this netgest.bo.system.boArchival abstract method
-		// p_bobjpointers = new
-		// boObject[((DataRowSet)p_resultset).getRowCount()];
+		
 		this.refreshData();
+
 	}
 
 	public void poolObjectPassivate() {
-		// TODO: Implement this netgest.bo.system.boArchival abstract method
+	
 		this.p_container = null;
 		// p_vl = false;
 		p_resultset = null;
 		p_filter = null;
-		// if(p_selected != null) {
-		// try {
-		// p_selected.p_resultset.last();
-		// while(!p_selected.p_resultset.isBeforeFirst()) {
-		// p_selected.p_resultset.deleteRow();
-		// }
-		// } catch (SQLException e) {};
-		// }
 
-		// p_bobjpointers = null;
 	}
 
 	public void inserRow(long boui) {
@@ -1925,7 +1900,6 @@ public class boObjectList extends boPoolable {
 	// }
 
 	public EboContext removeEboContext() {
-		// TODO: Override this netgest.bo.system.boPoolable method
 		p_objectpreloaded = 0;
 		return super.removeEboContext();
 	}
@@ -2347,96 +2321,6 @@ public class boObjectList extends boPoolable {
 		logger.info("Tempo total " + (t1 - t0));
 	}
 
-	private void shakerSort(Comparator c) throws boRuntimeException {
-		int i = 1;
-		int k = this.getRowCount();
-		Object o1 = null, o2 = null, o3 = null, ot = null;
-		while (i < k) {
-			int min = i;
-			int max = i;
-			int j;
-			for (j = i + 1; j <= k; j++) {
-				this.moveTo(min);
-				o1 = this.getObject();
-				this.moveTo(j);
-				o2 = this.getObject();
-				this.moveTo(max);
-				o3 = this.getObject();
-				if (c.compare(o2, o1) < 0) {
-					min = j;
-				}
-				if (c.compare(o2, o3) > 0) {
-					max = j;
-				}
-			}
-			swap(min, i);
-			if (max == i) {
-				swap(min, k);
-			} else {
-				swap(max, k);
-			}
-			i++;
-			k--;
-		}
-	}
-
-	private void quickSort(Comparator c) throws Exception {
-		quickSort(c, 1, this.getRowCount());
-	}
-
-	private void quickSort(Comparator c, int l, int r)
-			throws boRuntimeException {
-		int M = 4;
-		int i;
-		int j;
-		int v;
-		boObject o1 = null, o2 = null, o3 = null, o4 = null;
-		this.moveTo(l);
-		if ((r - l) > M) {
-			o1 = this.getObject();
-			i = (r) / 2;
-			this.moveTo(i);
-			o2 = this.getObject();
-			this.moveTo(r);
-			o3 = this.getObject();
-			if (c.compare(o1, o2) > 0)
-				swap(l, i); // Tri-Median Methode!
-			if (c.compare(o1, o3) > 0)
-				swap(l, r);
-			if (c.compare(o2, o3) > 0)
-				swap(i, r);
-
-			j = r - 1;
-			swap(i, j);
-			i = l;
-			this.moveTo(j);
-			o1 = this.getObject();
-			for (;;) {
-				++i;
-				this.moveTo(i);
-				o2 = this.getObject();
-				while (c.compare(o2, o1) < 0) {
-					i++;
-					this.moveTo(i);
-					o2 = this.getObject();
-				}
-				--j;
-				this.moveTo(j);
-				o2 = this.getObject();
-				while (c.compare(o2, o1) > 0) {
-					j--;
-					this.moveTo(j);
-					o2 = this.getObject();
-				}
-				if (j < i)
-					break;
-				swap(i, j);
-			}
-			swap(i, r - 1);
-			quickSort(c, l, j);
-			quickSort(c, i + 1, r);
-		}
-	}
 
 	private void swap(int pos1, int pos2) throws boRuntimeException {
 		if ((pos2 - pos1) == 1 || (pos2 - pos1) == -1) {
@@ -2473,10 +2357,4 @@ public class boObjectList extends boPoolable {
 		this.p_fulltext = p_fulltext;
 	}
 	
-	
-	private String[] p_groupBy;
-	
-	public void setGroupBy( String[] groups ) {
-		this.p_groupBy = groups;
-	}
 }
