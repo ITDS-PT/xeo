@@ -323,7 +323,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
         		XEODataManagerKey		key = dm.getKeyForAttribute( getEboContext(), getParent(), getDefAttribute() );
         		key.registerKey( getEboContext() );
         		
-        		boObject.getBoManager().loadObject(  getEboContext(), key.getBoui() );
+        		return boObject.getBoManager().loadObject(  getEboContext(), key.getBoui() );
         		
         	}
             return this.getValueLong() == 0 ? null : getParent().getObject(this.getValueLong());
