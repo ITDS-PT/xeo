@@ -1017,26 +1017,6 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 getBoManager().loadObject(getEboContext(), xx.bo_boui);
                 p_parentBridgeRow.getBridge().setEboContext( getEboContext() );
                 p_parentBridgeRow.getBridge().getParent().setEboContext( getEboContext() );
-                //            if ( !p_parentBridge.haveBoui( this.getBoui() ))
-                //            {
-                //          //      return null ; será que é um bridgeObjectAttribute ?
-                //                   Enumeration xatrs = p_parentBridge.getAllAttributes().elements();
-                //                   while (xatrs.hasMoreElements())
-                //                   {
-                //                       AttributeHandler atr= ( AttributeHandler)xatrs.nextElement();
-                //                       if ( atr.getDefAttribute().getAtributeType() == boDefAttribute.TYPE_OBJECTATTRIBUTE )
-                //                       {
-                //                           if ( atr.getValueLong() == this.bo_boui )
-                //                           {
-                //                               p_parentBridge.moveTo( ((boIBridgeAttribute) atr).getLine() );
-                //                               break;
-                //                           }
-                //
-                //
-                //                       }
-                //                   }
-                //
-                //            }
             } catch (boRuntimeException e) {
                 //
                 throw new boRuntimeException2(this.getClass().getName() +
@@ -1524,6 +1504,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     	try {
 			DataSet ret = null;
 			if( !bo_definition.getDataBaseManagerXeoCompatible() ) {
+				
 				IXEODataManager dataManager = getEboContext().getApplication().getXEODataManager( bo_definition );
 				ret = ObjectDataManager.createEmptyObjectBridgeDataSet(getEboContext(),
 						bo_definition, 
@@ -1537,8 +1518,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
 						bo_definition.getAttributeRef(  bridgeName ) 
 					);
 				
-				
 				getDataRow().addChildDataSet( bridgeName, ret );
+				ret.reset();
 
 			}
 			

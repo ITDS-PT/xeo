@@ -159,10 +159,10 @@ public class boScheduleThreadBussinessLogic
           {
               reloadedsched.getAttribute("errormessage").setValueString( error );
           }
-          if( deactivate )
-          {
-              reloadedsched.getAttribute( "state" ).setValueString( "0" );
-          }
+//          if( deactivate )
+//          {
+//              reloadedsched.getAttribute( "state" ).setValueString( "0" );
+//          }
           reloadedsched.update();
           
           activeStatusWasSet = true;
