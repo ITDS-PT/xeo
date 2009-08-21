@@ -51,6 +51,7 @@ import netgest.bo.runtime.specific.ObjectBinary;
 import netgest.bo.runtime.specific.ObjectRes;
 import netgest.bo.runtime.specific.ObjectVersionControl;
 import netgest.bo.security.securityOPL;
+import netgest.bo.system.boApplication;
 import netgest.bo.transformers.CastInterface;
 import netgest.io.BasiciFile;
 import netgest.io.DBiFile;
@@ -1847,24 +1848,35 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
     public void onAfterDestroy(boEvent event) throws boRuntimeException
     {
-        evalEventCode( event );
-        iFile file = null;
-        List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
-        try
-        {
-            for (int i = 0; i < iFilesAttributes.size(); i++)
-            {
-                file = ((AttributeHandler)iFilesAttributes.get(i)).getValueiFile();
-                if(file != null && file.exists())
-                {
-                    file.delete();
-                }
-            }
-        }
-        catch (iFilePermissionDenied e)
-        {
-            logger.error("Não foi possível remover do repositório, o ficheiro " + file.getName(),e);
-        }
+		EboContext ctx;
+    	try {
+    		ctx = boApplication.currentContext().getEboContext();
+    		if( ctx == null ) {
+    			boApplication.currentContext().addEboContext( getEboContext() );
+    		}
+    		
+    		
+	        evalEventCode( event );
+	        iFile file = null;
+	        List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
+	        try
+	        {
+	            for (int i = 0; i < iFilesAttributes.size(); i++)
+	            {
+	                file = ((AttributeHandler)iFilesAttributes.get(i)).getValueiFile();
+	                if(file != null && file.exists())
+	                {
+	                    file.delete();
+	                }
+	            }
+	        }
+	        catch (iFilePermissionDenied e)
+	        {
+	            logger.error("Não foi possível remover do repositório, o ficheiro " + file.getName(),e);
+	        }
+    	}
+    	finally {
+    	}
     }
 
     public void onAfterLoad(boEvent event) throws boRuntimeException
