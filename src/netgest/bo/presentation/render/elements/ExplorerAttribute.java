@@ -82,19 +82,15 @@ public class ExplorerAttribute
             ngtXMLHandler lblnode=attr.getChildNode("label");
             int width = ClassUtils.convertToInt( attr.getAttribute("width","0") );
             
+            if ( attrdef!=null )
+            {
+                p_label=labelPrefix.toString()+attrdef.getLabel();
+                p_isAttribute=true;
+            }
+
             if ( lblnode !=null )
             {
                 p_label=lblnode.getChildNode(language).getText();
-            }
-            else
-            {
-            
-              if ( attrdef!=null )
-              {
-                  p_label=labelPrefix.toString()+attrdef.getLabel();
-                  p_isAttribute=true;
-              }
-              
             }
 
             // Format

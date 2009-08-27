@@ -1,13 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.io.Serializable;
-
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Properties;
-
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
@@ -18,6 +15,7 @@ import javax.servlet.jsp.PageContext;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.login.LoginUtil;
+
 import org.apache.log4j.Logger;
 public class boSession implements Serializable {
 
@@ -42,6 +40,11 @@ public class boSession implements Serializable {
     private String              p_iprofileName;
     
     private Hashtable           p_objects;
+    
+    private static ThreadLocal threadLocale = new ThreadLocal();
+    
+    
+    
     
     protected boSession( String id, boSessionUser user, String rep , String clientName, boApplication app, 
         String remoteAddr, String remoteHost, String remoteUser, String remoteSessionId  )
@@ -274,11 +277,22 @@ public class boSession implements Serializable {
         LoginUtil.logout(this);
     }
     
+    public void setDefaultLocale( Locale local )  {
+    	threadLocale.set( local );  
+    }
+    
+    public static Locale getDefaultLocale() {
+    	Locale locale = (Locale)threadLocale.get();
+    	if( locale == null ) {
+    		locale = defaultLocale;
+    	}
+    	return locale;
+    }
     
     static final Locale defaultLocale = new Locale( "pt","PT" );
     
     public static final ResourceBundle getResourceBundle( String bundleName )
     {
-        return ResourceBundle.getBundle( bundleName, defaultLocale );
+        return ResourceBundle.getBundle( bundleName, getDefaultLocale() );
     }
 }
