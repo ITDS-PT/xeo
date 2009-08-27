@@ -4,7 +4,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import netgest.bo.system.boSession;
 
-public class JSPMessages extends Thread
+public class JSPMessages 
 {
 
     public JSPMessages()
