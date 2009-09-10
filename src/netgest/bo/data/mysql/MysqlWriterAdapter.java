@@ -165,7 +165,7 @@ public class MysqlWriterAdapter implements WriterAdapter {
                 if (rslt.next())
                 {
                     throw new WriterException(WriterException.CONCURRENCY_FAILED,
-                        "Local ICN is [" + rslt.getString(1) +
+                        "[" + this.p_fulltablename + "] Local ICN is [" + rslt.getString(1) +
                         "] and remote icn is [" + row.getBigDecimal("SYS_ICN") +
                         "]");
                 }
