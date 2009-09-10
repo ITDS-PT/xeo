@@ -1142,7 +1142,7 @@ public class boBuilder {
 				boDefHandler intDef = (boDefHandler) interfaceDefs.get(i);
 
 				p_builderProgress.setCurrentTaskName(intDef.getLabel() + " ("
-						+ intDef.getName() + ")");
+						+ intDef.getName() + ")"); 
 
 				p_builderProgress.appendInfoLog("Building Interface View for:'"
 						+ intDef.getName() + "'");
