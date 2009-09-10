@@ -1145,7 +1145,11 @@ public final class boBuildJSP {
             JSPFooter.append("}\n");
             JSPFooter.append(" options.put(\"").append(BasicPresentation.OPTION_TYPE_FORM).append("\",\"").append(String.valueOf(p_typeForm)).append("\");\n");
             JSPFooter.append(" options.put(\"").append(BasicPresentation.OPTION_JSP_NAME).append("\",this.getClass().getName());\n");
+			JSPFooter.append("if (request.getParameter(\"userQuery\")!=null)\n {");
+            JSPFooter.append("out.println(\"<INPUT type='hidden' value=\\\"\"+request.getParameter(\"userQuery\")+\"\\\" name='userQuery' />\");");
+            JSPFooter.append("\n}");
             JSPFooter.append("%>\n");
+
 
             JSPFooter.append("\n<%= DOC.getController().getPresentation().writeJspFooter(BOI ,currObjectList,options,masterdoc,request) %>\n\n");
 

@@ -74,6 +74,7 @@ if(boctx==null) {
         filterName=oFilter.getAttribute("name").getValueString();
         onlyObjects=oFilter.getAttribute("onlyObjects").getValueString();
     }
+	if (onlyObjects==null)onlyObjects="";
     boDefHandler bodef = null;
     boDefHandler[] subClasses = null;
     if(!"".equals(objectName)){
