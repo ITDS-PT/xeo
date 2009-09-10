@@ -431,7 +431,7 @@ public abstract class AttributeHandler implements boIEvents
             if(!condition)
             continue;
 
-            if(forObjectAtt!=null && forObject!="" && !forObjectAtt.equalsIgnoreCase(forObject))
+            if( forObjectAtt!=null && forObjectAtt.length() >0 && forObject!="" && !forObjectAtt.equalsIgnoreCase(forObject))
             continue;
 
             boDefXeoCode codeCondition = filters[i].getCondition();
