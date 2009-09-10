@@ -244,7 +244,7 @@ public class boAttributeNumber extends boAttributeBase
     public void _setValue(BigDecimal newval) throws boRuntimeException
     {
         //Guarantee that the attribute has only the max decimals defined        
-        if (getDefAttribute().getDecimals()>0)
+        if (getDefAttribute().getDecimals()>0 && newval != null )
             newval=newval.setScale(getDefAttribute().getDecimals(),
                 BigDecimal.ROUND_HALF_UP);
         
