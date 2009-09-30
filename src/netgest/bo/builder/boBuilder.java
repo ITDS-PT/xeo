@@ -1,10 +1,12 @@
 /*Enconding=UTF-8*/
 package netgest.bo.builder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -25,6 +27,7 @@ import javax.naming.NamingException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import netgest.bo.boConfig;
 import netgest.bo.boException;
 import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.def.boDef;
@@ -65,7 +68,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+ 
 public class boBuilder {
 	private static final Logger logger = Logger.getLogger(boBuilder.class);
 
@@ -88,7 +91,10 @@ public class boBuilder {
 
 	private boBuilderProgress p_builderProgress = new boBuilderProgress();
 	private boBuilderOptions p_builderOptions = new boBuilderOptions();
-
+	
+	
+	private static long xeoStudioBuildLastRun=0;
+	
 	private boBuilder(EboContext ebo) {
 		p_eboctx = ebo;
 	}
@@ -223,8 +229,13 @@ public class boBuilder {
 
 			boDefHandler.clearCache();
 			boBuildRepository.clearCache();
-
-			boBuildRepository rep = new boBuildRepository(ebo.getBoSession()
+			
+			boBuildRepository rep = null;
+			if (buildOptions.getIntegrateWithXEOStudioBuilder())
+				rep = new boBuildRepository(ebo.getBoSession()
+						.getRepository(),true);				
+			else			
+				rep = new boBuildRepository(ebo.getBoSession()
 					.getRepository());
 
 			File[] toDepl = rep.getFilesToDeploy();
@@ -240,6 +251,8 @@ public class boBuilder {
 			builder.p_builderProgress.addOverallProgress();
 			builder.p_builderProgress
 					.setOverallTaskName("XEO Builder Finished...");
+			if (builder.p_builderOptions.getIntegrateWithXEOStudioBuilder())
+				resetXEOStudioBuilderLastRun();
 		} finally {
 			if (mybuild) {
 				boBuilder.p_running = false;
@@ -1922,6 +1935,40 @@ public class boBuilder {
 					createdFwdMethods);
 		}
 	}
+	
+	 public static long getXEOStudioBuilderLastRun()
+     {
+		 if (xeoStudioBuildLastRun==0)
+		 {
+	    	File buildFlag  = new File( boConfig.getDeploymentDir()+"buildflag" );
+	    	if (buildFlag.exists())
+	    	{
+	    		try
+	    		{
+	    			BufferedReader reader = new BufferedReader(new FileReader(buildFlag));	    					
+	    			String value=reader.readLine();
+	    			reader.close();
+	    			xeoStudioBuildLastRun = new Long(value).longValue();
+
+	    		}
+	    		catch (Exception e)
+	    		{
+	    			xeoStudioBuildLastRun=buildFlag.lastModified();
+	    		}
+	    	}
+		 }
+		 return xeoStudioBuildLastRun;
+     }
+	 
+	 public static void resetXEOStudioBuilderLastRun()
+	 {
+	    	File buildFlag  = new File( boConfig.getDeploymentDir()+"buildflag" );
+	    	if (buildFlag.exists())
+	    	{
+	    		buildFlag.delete();
+	    	}
+	    	xeoStudioBuildLastRun = 0;
+	 }
 
 	public static final void fillInterfaceAttributes(
 			boBuildRepository repository, boDefHandler bodef,

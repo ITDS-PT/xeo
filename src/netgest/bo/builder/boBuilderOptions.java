@@ -8,7 +8,18 @@ public class boBuilderOptions {
 	private boolean buildDatabase = true;
 	private boolean markDeployedObjects = true;
 	private boolean generateAndCompileJava = true;
+	private boolean integrateWithXEOStudioBuilder = false;
 	
+	
+	public boolean getIntegrateWithXEOStudioBuilder() {
+		return integrateWithXEOStudioBuilder;
+	}
+
+	public void setIntegrateWithXEOStudioBuilder(
+			boolean integrateWithXEOStudioBuilder) {
+		this.integrateWithXEOStudioBuilder = integrateWithXEOStudioBuilder;
+	}
+
 	public boolean getFullBuild() {
 		return fullBuild;
 	}

@@ -1,15 +1,16 @@
 package netgest.bo.builder;
-import java.io.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
-import java.sql.*;
-
-import java.util.*;
-
-import netgest.bo.*;
-import netgest.bo.builder.*;
+import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
-import netgest.bo.def.*;
-import netgest.bo.system.*;
+import netgest.bo.system.boRepository;
+
 import org.apache.log4j.Logger;
 
 
@@ -29,9 +30,9 @@ public class boBuildRepository
 
     private boRepository    p_repository;
     private File            deployDir;
+    private boolean integrateWithXEOStudioBuilder = false;
 
-
-    public boBuildRepository(boRepository repository)
+    public boBuildRepository(boRepository repository)     		
     {
         p_repository = repository;
         if( packagesHash == null )
@@ -42,6 +43,20 @@ public class boBuildRepository
             refresh();
         }
     }
+
+    public boBuildRepository(boRepository repository, 
+    		boolean integrateWithXEOStudioBuilder)
+    {
+    	this.integrateWithXEOStudioBuilder = integrateWithXEOStudioBuilder;
+        p_repository = repository;
+        if( packagesHash == null )
+        {
+            packagesHash = new Hashtable();
+            filesHash    = new Hashtable();
+            allFiles     = new Hashtable();
+            refresh();
+        }
+    }    
 
     public static void clearCache()
     {
@@ -210,7 +225,13 @@ public class boBuildRepository
                 file.packageName = filePackage.packageId;
                 file.filePath       = dirFile;
                 file.id             = dirFile.getName();
-                file.changed        = !deployFile.exists() || ( deployFile.lastModified() < dirFile.lastModified() );
+                if (this.integrateWithXEOStudioBuilder)
+                {
+                	long buildLastRun= boBuilder.getXEOStudioBuilderLastRun();
+                	file.changed        = !deployFile.exists() || ( buildLastRun>0 && deployFile.lastModified() > buildLastRun );
+                }
+                else
+                	file.changed        = !deployFile.exists() || ( deployFile.lastModified() < dirFile.lastModified() );
                 addFileVersion( file, filePackage );
             }
         }
@@ -340,5 +361,7 @@ public class boBuildRepository
         public File         filePath;
         public boolean      changed;
     }
+    
+   
 
 }
