@@ -114,8 +114,8 @@ public class XEOBuilderFilter implements Filter {
 	public boolean isValidRequestForFullBuild()
 	{		 
 		 boolean toRet=false;
-		 if (request.getRequestURL().toString().contains("Login.xvw") ||
-				 request.getRequestURL().toString().contains("login.jsp")) 
+		 if (request.getRequestURL().toString().indexOf("Login.xvw")>-1 ||
+				 request.getRequestURL().toString().indexOf("login.jsp")>-1) 
 			 toRet=true;
 		 return toRet;
 	}
