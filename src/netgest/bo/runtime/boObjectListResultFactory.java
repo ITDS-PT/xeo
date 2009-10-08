@@ -240,7 +240,12 @@ public class boObjectListResultFactory  {
         		defAtt = qp.getObjectDef().getAttributeRef( objAtt ); 
         		
             	if( orderby.indexOf(".") == -1 && defAtt == null ) {
-            		orderby = "[" + orderby + "]";
+            		if( boql.trim().startsWith("{") ) {
+            			orderby = orderby;
+            		}
+            		else {
+            			orderby = "[" + orderby + "]";
+            		}
             	}
             	else {
             		if( defAtt.getBridge() != null ) {
