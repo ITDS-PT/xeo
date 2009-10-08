@@ -216,7 +216,7 @@ public class MysqlReaderAdapter implements ReaderAdapter {
            for (int i = 0; i < count; i++)
            {
                String className = rsltMetaData.getColumnClassName(i + 1);
-               columnName[i] = rsltMetaData.getColumnName(i + 1);
+               columnName[i] = rsltMetaData.getColumnLabel(i + 1).toUpperCase();
                columnType[i] = rsltMetaData.getColumnType(i + 1);
                columnTypeName[i] = rsltMetaData.getColumnTypeName(i + 1);
 
