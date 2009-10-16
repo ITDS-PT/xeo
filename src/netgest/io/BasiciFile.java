@@ -10,7 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import netgest.bo.data.Driver;
+import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boLoginBean;
+import netgest.bo.system.boLoginException;
+import netgest.bo.system.boSession;
 import netgest.utils.ClassUtils;
 import netgest.utils.DataUtils;
 
@@ -97,8 +101,32 @@ public class BasiciFile implements iFile  {
         String prefixPath = PATH_SEP + PATH_SEP + IFILE_SERVICE_NAME + PATH_SEP;
         if(prefixPath.equals(this.filePath) || this.filePath == null)
         {
-            this.fileId = DataUtils.getDataDBSequence( boApplication.currentContext().getEboContext() , this.provider.p_dbfs_table_file + "_SEQ", Driver.SEQUENCE_NEXTVAL );
+        	//Workaround Files old Viewers
+        	EboContext ctx=boApplication.currentContext().getEboContext();
+        	boSession session=null;
+        	boolean newCtx=false;
+        	if (ctx==null)
+        	{
+				try {
+					session = boApplication.getApplicationFromConfig("XEO").
+						boLogin("SYSTEM", boLoginBean.getSystemKey());
+				} catch (boLoginException e) {
+					// TODO Auto-generated catch block
+				}
+				if (session!=null)
+				{
+					ctx =session.createRequestContext(null, null, null);
+					newCtx=true;
+				}
+        	}
+        		
+            this.fileId = DataUtils.getDataDBSequence( ctx , this.provider.p_dbfs_table_file + "_SEQ", Driver.SEQUENCE_NEXTVAL );            
             this.filePath = this.filePath + this.fileId + PATH_SEP;
+            if (newCtx)
+            {
+            	if (session!=null)session.closeSession();
+            	if (ctx!=null)ctx.close();
+            }
         }
         else
         {

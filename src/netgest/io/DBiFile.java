@@ -20,6 +20,9 @@ import javax.transaction.UserTransaction;
 import netgest.bo.data.Driver;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boLoginBean;
+import netgest.bo.system.boLoginException;
+import netgest.bo.system.boSession;
 
 import netgest.utils.DataUtils;
 
@@ -390,8 +393,26 @@ public class DBiFile implements iFile  {
                                                           //"(ID,FILENAME,DATECREATE,DATEMODIFIED,PARENT_ID,TYPE)"+
                                                           "(ID,FILENAME,DATECREATE,PARENT_ID,TYPE,KEY)"+
                                                           " VALUES "+
-                                                          "(?,?,?,?,?,?)");        
-                EboContext ctx = boApplication.currentContext().getEboContext();
+                                                          "(?,?,?,?,?,?)");                        
+            	//Workaround Files old Viewers
+            	EboContext ctx=boApplication.currentContext().getEboContext();
+            	boSession session=null;
+            	boolean newCtx=false;
+            	if (ctx==null)
+            	{
+    				try {
+    					session = boApplication.getApplicationFromConfig("XEO").
+    						boLogin("SYSTEM", boLoginBean.getSystemKey());
+    				} catch (boLoginException e) {
+    					// TODO Auto-generated catch block
+    				}
+    				if (session!=null)
+    				{
+    					ctx =session.createRequestContext(null, null, null);
+    					newCtx=true;
+    				}
+            	}
+            		                
                 p_dbfs_file_id = DataUtils.getDataDBSequence(ctx, ""+p_tablename+"_SEQ", Driver.SEQUENCE_NEXTVAL);
                 pstm.setLong(1,p_dbfs_file_id);
                 pstm.setString(2,p_filename);
@@ -402,6 +423,11 @@ public class DBiFile implements iFile  {
                 this.p_dbfs_file_key = DataUtils.getDataDBSequence(ctx, p_tablename + "_SEQKEY", Driver.SEQUENCE_NEXTVAL);
                 pstm.setLong(6,p_dbfs_file_key);
                 pstm.executeUpdate();
+                if (newCtx)
+                {
+                	if (session!=null)session.closeSession();
+                	if (ctx!=null)ctx.close();
+                }
             }
             catch (SQLException e)
             {
@@ -456,7 +482,24 @@ public class DBiFile implements iFile  {
                                                           " VALUES "+
                                                           //"(?,?,?,?,?,?,?)");
                                                           "(?,?,?,?,?,?,?,?)");
-                EboContext ctx = boApplication.currentContext().getEboContext();
+            	//Workaround Files old Viewers
+            	EboContext ctx=boApplication.currentContext().getEboContext();
+            	boSession session=null;
+            	boolean newCtx=false;
+            	if (ctx==null)
+            	{
+    				try {
+    					session = boApplication.getApplicationFromConfig("XEO").
+    						boLogin("SYSTEM", boLoginBean.getSystemKey());
+    				} catch (boLoginException e) {
+    					// TODO Auto-generated catch block
+    				}
+    				if (session!=null)
+    				{
+    					ctx =session.createRequestContext(null, null, null);
+    					newCtx=true;
+    				}
+            	}
                 p_dbfs_file_id =DataUtils.getDataDBSequence(ctx, ""+p_tablename+"_SEQ", Driver.SEQUENCE_NEXTVAL ); 
                 pstm.setLong(1,p_dbfs_file_id);
                 pstm.setString(2,p_filename);
@@ -478,7 +521,11 @@ public class DBiFile implements iFile  {
                 
                 cn.close();
                 ok=true;
-                
+                if (newCtx)
+                {
+                	if (session!=null)session.closeSession();
+                	if (ctx!=null)ctx.close();
+                }
             }
             catch (SQLException e)
             {
