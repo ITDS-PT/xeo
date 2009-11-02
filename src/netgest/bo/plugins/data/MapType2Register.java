@@ -236,11 +236,10 @@ public class MapType2Register implements boSchedule
                                 else
                                 {
                                     newboui = 
-                                    	
-                                    	ctx.getDataBaseDriver().getDBSequence(
-                                                    ctx.getConnectionSystem(),
+                                    	DataUtils.getSystemDBSequence( 
+                                                    ctx,
                                                     "borptsequence",
-                                                    Driver.SEQUENCE_NEXTVAL
+                                                    DataUtils.SEQUENCE_NEXTVAL
                                                 );
                                 }
                                 pstmRegistry.setString(1, ctx.getSysUser().getUserName());

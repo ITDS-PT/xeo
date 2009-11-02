@@ -205,13 +205,22 @@ public class OracleDriver implements Driver {
 		return "\"";
 	}
 
-    public long getDBSequence(Connection cn, String seqname, int operation) {
+    public long getDBSequence(EboContext ctx, String seqname, int dsType, int operation) {
 	try {
+		Connection cn;
+		switch( dsType ) {
+			case Driver.SEQUENCE_SYSTEMDS:
+				cn = ctx.getConnectionSystem();
+				break;
+			default:
+				cn = ctx.getConnectionData();
+				break;
+		}
+		
 		if (cn.getAutoCommit()==true) 
 			cn.setAutoCommit(false);
   
 		long ret = 0;
-		String seqFullTableName = "";
 			
 		String sql;
 		if( operation == SEQUENCE_NEXTVAL )
@@ -239,28 +248,44 @@ public class OracleDriver implements Driver {
 		  catch (SQLException e) 
 		  {
 			  if(e.getMessage().indexOf("08002")==-1) {
-		  pstm.close();              
-		  pstm = cn.prepareStatement("CREATE SEQUENCE "+seqname+" CACHE 20 NOCYCLE ORDER");
-			  pstm.execute();
-		      pstm.close();
-		  }
-		  if( operation == Driver.SEQUENCE_NEXTVAL ) {
-			  pstm = cn.prepareStatement("SELECT "+seqname+".nextval FROM DUAL");
-			  pstm.execute();
-		      pstm.close();
-		  }
-		  ResultSet rslt = (pstm=cn.prepareStatement(sql)).executeQuery();
-		  if(rslt.next()) {
-		      ret = rslt.getLong(1);
-		      //cn.commit();
-		      rslt.close();
-		      pstm.close();
-		      return ret;
-		  }
-		  else {
-		      rslt.close();
-		      pstm.close();
-		      throw(new SQLException("Erro a obter sequencia ["+seqname+"]"));
+				  pstm.close();     
+				  Connection cnded = null;
+				  try {
+					  switch( dsType ) {
+						case Driver.SEQUENCE_SYSTEMDS:
+							cnded = ctx.getConnectionManager().getSystemDedicatedConnection();
+							break;
+						default:
+							cnded = ctx.getDedicatedConnectionData();
+							break;
+				      }
+					  cnded = ctx.getDedicatedConnectionData();
+					  pstm = cnded.prepareStatement("CREATE SEQUENCE "+seqname+" CACHE 20 NOCYCLE ORDER");
+					  pstm.execute();
+					  pstm.close();
+				  }
+				  finally {
+					  if( cnded != null ) 
+						  cnded.close();
+				  }
+			  }
+			  if( operation == Driver.SEQUENCE_NEXTVAL ) {
+				  pstm = cn.prepareStatement("SELECT "+seqname+".nextval FROM DUAL");
+				  pstm.execute();
+			      pstm.close();
+			  }
+			  ResultSet rslt = (pstm=cn.prepareStatement(sql)).executeQuery();
+			  if(rslt.next()) {
+			      ret = rslt.getLong(1);
+			      //cn.commit();
+			      rslt.close();
+			      pstm.close();
+			      return ret;
+			  }
+			  else {
+			      rslt.close();
+			      pstm.close();
+			      throw(new SQLException("Erro a obter sequencia ["+seqname+"]"));
 			  }
 		  }
 		} catch (SQLException e) {

@@ -197,12 +197,12 @@ public class DataUtils
   }
 
 
-  public static final long getDataDBSequence( EboContext ctx, String seqname,byte OPER) {
-	  return ctx.getDataBaseDriver().getDBSequence( ctx.getConnectionData(), seqname, OPER );
+  public static final long getDataDBSequence( EboContext ctx, String seqname, byte OPER) {
+	  return ctx.getDataBaseDriver().getDBSequence( ctx, seqname, Driver.SEQUENCE_DATADS ,OPER );
   }
 
   public static final long getSystemDBSequence( EboContext ctx, String seqname,byte OPER) {
-	  return ctx.getDataBaseDriver().getDBSequence( ctx.getConnectionSystem(), seqname, OPER );
+	  return ctx.getDataBaseDriver().getDBSequence( ctx, seqname, Driver.SEQUENCE_SYSTEMDS, OPER );
   }
 
   /*

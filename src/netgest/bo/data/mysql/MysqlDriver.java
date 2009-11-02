@@ -207,7 +207,18 @@ public class MysqlDriver implements Driver
 		return "`";
 	}
 
-	public long getDBSequence( Connection cn, String sequenceName, int OPER) {
+	public long getDBSequence( EboContext ctx, String sequenceName, int dsType, int OPER) {
+		
+		Connection cn;
+		switch( dsType ) {
+			case Driver.SEQUENCE_SYSTEMDS:
+				cn = ctx.getConnectionSystem();
+				break;
+			default:
+				cn = ctx.getConnectionData();
+				break;
+		}
+		
 		PreparedStatement cstm = null;
 		ResultSet	rslt = null;
 		try {

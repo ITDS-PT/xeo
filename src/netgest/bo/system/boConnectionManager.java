@@ -73,12 +73,20 @@ public class boConnectionManager
         p_sysdriver = p_bosession.getApplication().getDriverManager().getDriver("SYS");
 
     }
+    
     public final Connection getDedicatedConnection()
     {
 
         return p_bosession.getRepository().getDriver().getDedicatedConnection();
 
     }
+    
+    public final Connection getSystemDedicatedConnection()
+    {
+        return p_sysdriver.getDedicatedConnection();
+    }
+    
+    
     public final Connection getConnection()
     {
         return getConnection( DATA_CONNECTION );

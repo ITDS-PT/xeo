@@ -19,6 +19,9 @@ public interface Driver
 	public static final byte SEQUENCE_NEXTVAL = 0;
 	public static final byte SEQUENCE_CURRENTVAL = 1;
 
+	public static final byte SEQUENCE_SYSTEMDS = 0;
+	public static final byte SEQUENCE_DATADS = 1;
+
 	public ReaderAdapter createReaderAdapter(EboContext ctx);
 
     public WriterAdapter createWriterAdapter(EboContext ctx);
@@ -44,7 +47,7 @@ public interface Driver
     
     public String getEscapeCharEnd();
     
-    public long getDBSequence( Connection cn, String sequenceName, int OPER );
+    public long getDBSequence( EboContext ctx, String sequenceName, int dsType, int OPER );
     
     public String getDatabaseTimeConstant();
     
