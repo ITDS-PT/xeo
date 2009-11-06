@@ -454,12 +454,7 @@ public class DocumentHelper extends Ebo_DocumentImpl{
             if(file.isCheckedOut() && userBoui.equals(file.getCheckOutUser()))
             {
                 file.setVersionUser(userBoui);
-                out =  new BufferedOutputStream(file.getOutputStream());
-                int x;
-                while((x = in.read()) != -1){
-                    out.write(x);
-                }
-                out.close();
+                file.setBinaryStream( in );
                 file.checkIn();
             }
         }

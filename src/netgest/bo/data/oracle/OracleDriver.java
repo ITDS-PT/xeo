@@ -75,8 +75,7 @@ public class OracleDriver implements Driver {
             {
                 ret = getDataSource(dataSource).getConnection(username, password);
                 // IMBR
-//                ret.setAutoCommit(false);
-
+                // ret.setAutoCommit(false);
                 return ret;
             }
             catch (SQLException e)

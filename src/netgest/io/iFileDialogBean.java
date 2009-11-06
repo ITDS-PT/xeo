@@ -641,14 +641,9 @@ public class iFileDialogBean {
                                        ifile.delete();
                                     }
                                     ifile.createNewFile();
-                                    OutputStream os = ifile.getOutputStream();
+                                    
                                     InputStream  is = new FileInputStream("./"+fname);
-                                    byte[] buff = new byte[8*1024];
-                                    int br;
-                                    while((br=is.read(buff))>0) {
-                                        os.write(buff,0,br);
-                                    }
-                                    os.close();
+                                    ifile.setBinaryStream( is );
                                     is.close();
                                     if(versioned) {
                                        ifile.makeVersioned();

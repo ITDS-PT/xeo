@@ -95,7 +95,8 @@ public class BasiciFile implements iFile  {
         this.filePath = path;
         this.fileName = name;
         setFileId(cn);
-    }    
+    }  
+    
     private void setFileId(Connection cn)
     {        
         String prefixPath = PATH_SEP + PATH_SEP + IFILE_SERVICE_NAME + PATH_SEP;
@@ -215,11 +216,8 @@ public class BasiciFile implements iFile  {
         return result;
     }
     
-    public OutputStream getOutputStream() throws iFilePermissionDenied
-    {
-        OutputStream result = null;
+    public void setBinaryStream( InputStream is ) throws iFilePermissionDenied {
         Connection cn = null;
-        Blob blob = null;        
         ResultSet rslt = null;
         PreparedStatement pstm = null;
         try
@@ -234,14 +232,11 @@ public class BasiciFile implements iFile  {
             {   
 				//JBOSS
                 //cn.setAutoCommit(false);                                
-                pstm = cn.prepareStatement("SELECT BINDATA FROM "+this.provider.p_dbfs_table_file+" WHERE ID=? FOR UPDATE WAIT 300");
-                pstm.setLong(1,this.fileId);
-                rslt = pstm.executeQuery();
-                if(rslt.next()) 
-                {
-                    blob = (Blob)rslt.getBlob(1);
-                    result = new BasicOutputStream(this,blob,cn);
-                }
+                pstm = cn.prepareStatement("UPDATE " + this.provider.p_dbfs_table_file+"" +
+                		" SET BINDATA=? WHERE ID=?");
+                pstm.setBinaryStream( 1, is, Integer.MAX_VALUE );
+                pstm.setLong(2,this.fileId );
+                pstm.executeUpdate();
             } 
             else 
             {
@@ -250,18 +245,22 @@ public class BasiciFile implements iFile  {
         }
         catch (IOException e)
         {
-            createRuntimeException("getOutputStream()",e);
+            throw createRuntimeException("getOutputStream()",e);
         }
         catch (SQLException e)
         {
-            createRuntimeException("getOutputStream()",e);
+            throw createRuntimeException("getOutputStream()",e);
         } 
         finally 
         {
             try {if(rslt!=null) rslt.close();} catch (SQLException e) {};
             try {if(pstm!=null) pstm.close();} catch (SQLException e) {};
         }
-        return result;
+    }
+    
+    public OutputStream getOutputStream() throws iFilePermissionDenied
+    {
+    	throw new RuntimeException( "This method was deprecated and is not available anymore!" );
     }
 
     public InputStream getInputStream() throws iFilePermissionDenied
@@ -309,7 +308,7 @@ public class BasiciFile implements iFile  {
         }
         return result;
     }    
-    private boolean createNewFile(Connection cn)throws IOException, iFilePermissionDenied
+    private boolean createNewFile(Connection cn) throws IOException, iFilePermissionDenied
     {
         boolean result = false;
         if(cn == null)
@@ -348,7 +347,7 @@ public class BasiciFile implements iFile  {
         {
             boolean mycn = false;
             PreparedStatement pstm = null;
-            String sql = "INSERT INTO dbfs_file (ID,FILENAME,BINDATA) VALUES (?,?,empty_blob())";
+            String sql = "INSERT INTO dbfs_file (ID,FILENAME) VALUES (?,?)";
             try
             {
                 if(cn == null)
@@ -564,15 +563,8 @@ public class BasiciFile implements iFile  {
             iFileServer fs = new iFileServer();
             fs.mount();            
             result = fs.getFile(filedir);                                                                           
-            InputStream input = this.getInputStream();                                
-            OutputStream out = result.getOutputStream();                        
-            byte buff[]= new byte[8192];
-            int br;
-            while((br=input.read(buff))>0) 
-            {
-                out.write(buff,0,br);
-            }
-            out.close();
+            InputStream input = this.getInputStream();
+            result.setBinaryStream( input );
             input.close();
             
             loadFileInformation(null);        

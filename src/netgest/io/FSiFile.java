@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import org.apache.log4j.Logger;
 
+import com.ibm.wsdl.util.IOUtils;
+
 public class FSiFile implements iFile {
     private File p_file;
     private FSiFileProvider p_fs;
@@ -148,6 +150,14 @@ public class FSiFile implements iFile {
         
         return ifiles;
     }
+    
+    public void setBinaryStream(InputStream is) throws iFilePermissionDenied,
+    		iFilePermissionDenied {
+    	
+    	netgest.utils.IOUtils.copy(is, p_file);
+    	
+    }
+    
     public OutputStream getOutputStream() {
         try {
             return (new FileOutputStream(p_file));

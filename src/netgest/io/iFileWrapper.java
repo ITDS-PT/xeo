@@ -115,9 +115,14 @@ public class iFileWrapper implements iFile {
         iFileWrapper retif = new iFileWrapper(p_ifileservice,p_ifile);
         return retif;
     }
-    public OutputStream getOutputStream() throws iFilePermissionDenied {
-        return p_ifile.getOutputStream();
+
+    public void setBinaryStream(InputStream is) throws iFilePermissionDenied,
+    		iFilePermissionDenied {
+    
+    	p_ifile.setBinaryStream( is );
+
     }
+    
     public InputStream getInputStream()  throws iFilePermissionDenied {
         return p_ifile.getInputStream();
     }

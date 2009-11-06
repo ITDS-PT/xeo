@@ -552,23 +552,13 @@ public final class MergeHelper
 
     private static void copyFile(File from, iFile to) throws Exception{
         byte[] b = new byte[1024*10];
-        int numBytes = 0;
 
-        BufferedOutputStream fos = null;
         FileInputStream fis = null;
         try{
-            fos = new BufferedOutputStream(to.getOutputStream());
             fis = new FileInputStream(from);
-
-            for(long i = 0; (numBytes = fis.read(b)) != -1;i++) {
-                fos.write(b,0,numBytes);
-            }
+        	to.setBinaryStream( fis );
         }
         finally{
-            if(fos != null){
-                fos.close();
-            }
-
             if(fis != null){
                 fis.close();
             }

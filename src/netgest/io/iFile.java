@@ -29,8 +29,11 @@ public interface iFile {
     public boolean  mkdirs() throws iFilePermissionDenied;
     public boolean  renameTo(iFile newfile) throws iFilePermissionDenied;
     public boolean  setReadOnly() throws iFilePermissionDenied;
-    public OutputStream getOutputStream() throws iFilePermissionDenied;
+    
+    public void setBinaryStream( InputStream is ) throws iFilePermissionDenied, iFilePermissionDenied;
+    
     public InputStream getInputStream() throws iFilePermissionDenied;
+
     public boolean checkIn() throws iFilePermissionDenied;
     public boolean checkOut() throws iFilePermissionDenied;
     public boolean isCheckedIn();

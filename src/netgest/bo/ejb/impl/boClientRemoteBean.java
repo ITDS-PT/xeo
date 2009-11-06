@@ -69,7 +69,7 @@ public class boClientRemoteBean implements SessionBean
             boctx = getEboContext(sessionId);
             boObject object = boObject.getBoManager().loadObject( boctx, Long.parseLong(boui));
             iFile ifile = object.getAttribute("file").getValueiFile();
-            saveDocument(buff,ifile.getOutputStream());            
+            ifile.setBinaryStream( new ByteArrayInputStream(buff) );
         }
         catch(Exception e)
         {        
@@ -209,16 +209,7 @@ public class boClientRemoteBean implements SessionBean
         return file;
     } 
 
-    private void saveDocument(byte[] input, OutputStream  out) throws Exception
-    {
-        ByteArrayInputStream buff = new ByteArrayInputStream(input);
-        int x;
-        while((x = buff.read()) != -1){
-            out.write(x);
-        }
-        out.close();                        
-        buff.close();   
-    }    
+
     private EboContext getEboContext(String sessionId)
     {        
         boSession bosess = boApplication.getApplicationFromStaticContext("XEO").getSessions().getSessionById(sessionId);

@@ -1124,5 +1124,11 @@ public class DBiFile implements iFile  {
     public void     setDescription(String description) {throw new RuntimeException("setDescription:Not Impelemented");}
     public String   getDescription() {throw new RuntimeException("getDescription:Not Impelemented");}
     public void     setCategory(String author) {throw new RuntimeException("setCategory:Not Impelemented");}
-    public String   getCategory() {throw new RuntimeException("getCategory:Not Impelemented");}    
+    public String   getCategory() {throw new RuntimeException("getCategory:Not Impelemented");}
+    
+	public void setBinaryStream(InputStream is) throws iFilePermissionDenied,
+			iFilePermissionDenied {
+		throw new RuntimeException("Not implemented after version of mysql!!!");
+		
+	}    
 }

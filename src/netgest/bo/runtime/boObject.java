@@ -3970,18 +3970,10 @@ public abstract class boObject extends boObjectContainer implements Serializable
                     iFile xfiledir = fs.getFile(filedir);
                     if(!xfiledir.exists())
                     {
-                        byte buff[]= new byte[8192];
-                        OutputStream out=xfiledir.getOutputStream();
                         InputStream  inp=file.getInputStream();
-                        int br;
-                        while((br=inp.read(buff))>0)
-                        {
-                            out.write(buff,0,br);
-                        }
-                        out.close();
+                        xfiledir.setBinaryStream(inp);
                         inp.close();
                         iFileAttribute.setValueiFile(xfiledir);
-
                         result = true;
                     }
                 }

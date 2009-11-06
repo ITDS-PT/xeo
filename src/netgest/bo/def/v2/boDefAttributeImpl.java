@@ -734,7 +734,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
         }
         if( word.length() > 0 )
         {
-            args.add( word.toString() );
+            args.add( word.toString().trim() );
         }
         return (String[])args.toArray( new String[ args.size() ] );
     }
