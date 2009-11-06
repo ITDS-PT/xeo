@@ -1,19 +1,15 @@
 /*Enconding=UTF-8*/
 package netgest.io;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.Vector;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.FileWriter;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileInputStream;
-import org.apache.log4j.Logger;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Vector;
 
-import com.ibm.wsdl.util.IOUtils;
+import org.apache.log4j.Logger;
 
 public class FSiFile implements iFile {
     private File p_file;
