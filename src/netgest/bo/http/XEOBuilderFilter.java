@@ -101,14 +101,10 @@ public class XEOBuilderFilter implements Filter {
 		 try {
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
 		} catch (boRuntimeException e) {	
-			try {
-				response.getWriter().print(builderProgress.getLog());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
+			System.out.println(builderProgress.getLog());
 			buildSucess=false;
-		}	
+		} 
 	}
 	
 	public boolean isValidRequestForFullBuild()

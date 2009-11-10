@@ -228,7 +228,7 @@ public class boBuildRepository
                 if (this.integrateWithXEOStudioBuilder)
                 {
                 	long buildLastRun= boBuilder.getXEOStudioBuilderLastRun();
-                	file.changed        = !deployFile.exists() || ( buildLastRun>0 && deployFile.lastModified() > buildLastRun );
+                	file.changed        = !deployFile.exists() || ( buildLastRun>0 && dirFile.lastModified() > buildLastRun );
                 }
                 else
                 	file.changed        = !deployFile.exists() || ( deployFile.lastModified() < dirFile.lastModified() );
