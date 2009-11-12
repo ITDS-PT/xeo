@@ -188,7 +188,7 @@ public class BasiciFile implements iFile  {
             try
             {
                 cn = provider.getConnection();
-                pstm = cn.prepareStatement("DELETE "+provider.p_dbfs_table_file+" WHERE ID = ?");
+                pstm = cn.prepareStatement("DELETE FROM "+provider.p_dbfs_table_file+" WHERE ID = ?");
                 pstm.setLong(1,this.fileId);
                 pstm.executeUpdate();  
                 pstm.close();
