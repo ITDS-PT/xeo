@@ -16,10 +16,28 @@ import netgest.bo.def.boDefViewer;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 
 public class boClassBuilder
 {
+	
+	public static final String ALL_NEEDS_CLASS = "NEEDCLASS";
+	
+	public static void setThreadFlag( String flag ) {
+		((Map)ThreadFlags.get()).put(  flag, Object.class );
+	}
+
+	public static void removeThreadFlag( String flag ) {
+		((Map)ThreadFlags.get()).remove( flag );
+	}
+	
+	public static ThreadLocal ThreadFlags = new ThreadLocal() {
+		protected Object initialValue() {
+			return new HashedMap();
+		};
+	};
+	
     //logger
     private static Logger logger = Logger.getLogger("netgest.bo.builder.boClassBuilder");
 
@@ -513,7 +531,7 @@ public class boClassBuilder
             cjc.setValues(att.getValid(), "validate", bodef, att, atts, bridge, attName );
             cjc.setCodeJavaDepends(att.getValid().getDepends(), bodef, att);
             String javaCode = cjc.getJava();
-            if(code.needsClass())
+            if(code.needsClass() )
             {
                 sb.append(javaCode);
                 sb.append("\n");
@@ -697,7 +715,7 @@ public class boClassBuilder
                 }
 
          //                if(atts[i].getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE && ( ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() )  || all ) && atts[i].getReferencedObjectDef()!=null )  {
-                if(atts[i].needsClass() && atts[i].getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE && ( ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() )  || all ) && atts[i].getReferencedObjectDef()!=null )
+                if( (((Map)ThreadFlags.get()).containsKey( ALL_NEEDS_CLASS ) || atts[i].needsClass()) && atts[i].getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE && ( ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() )  || all ) && atts[i].getReferencedObjectDef()!=null )
                 {
                     Hashtable ht = fillRptAttributes(atts[i],bridge);
                     Enumeration oEnum = ht.keys();
@@ -825,7 +843,7 @@ public class boClassBuilder
             String rarea ="";
             for(int i=0;atts != null && i<atts.length;i++) {
                 String area = srccode.substring(srccode.indexOf(starttag)+starttag.length(),srccode.indexOf(endtag));
-                if( !atts[i].needsClass() )
+                if( ((Map)ThreadFlags.get()).containsKey( ALL_NEEDS_CLASS ) || !atts[i].needsClass() )
                 {
                     area = area.replaceAll("#ATT.PRIMITIVEDATATYPE#", parseJavaDataType(atts[i].getType(),TYPE_DATA) );
                     area = area.replaceAll("#ATT.CLASSNAME#", atts[i].className() );
@@ -867,7 +885,7 @@ public class boClassBuilder
                     }
                 }
             //    if(atts[i].getAtributeType()==boDefAttribute.TYPE_ATTRIBUTE && ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() ) )  {
-                 if((atts[i].needsClass() || bridge) && atts[i].getAtributeType()==boDefAttribute.TYPE_ATTRIBUTE && ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() ) )
+                 if(( ((Map)ThreadFlags.get()).containsKey( ALL_NEEDS_CLASS ) || atts[i].needsClass() || bridge) && atts[i].getAtributeType()==boDefAttribute.TYPE_ATTRIBUTE && ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() ) )
                  {
                     Hashtable ht = fillRptAttributes(atts[i],bridge);
                     boolean simple = true;
