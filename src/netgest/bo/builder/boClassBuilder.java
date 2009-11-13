@@ -1,23 +1,41 @@
 /*Enconding=UTF-8*/
 package netgest.bo.builder;
-import netgest.bo.def.*;
-import netgest.bo.*;
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Vector;
+
+import netgest.bo.boConfig;
+import netgest.bo.boException;
+import netgest.bo.def.boDef;
+import netgest.bo.def.boDefActivity;
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefBridge;
+import netgest.bo.def.boDefClsEvents;
+import netgest.bo.def.boDefClsState;
+import netgest.bo.def.boDefDataTypeMapping;
+import netgest.bo.def.boDefForwardObject;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefMethod;
+import netgest.bo.def.boDefXeoCode;
 import netgest.bo.parser.CodeJavaConstructor;
-import netgest.bo.parser.beautifier.CallBeautifier;
-import netgest.utils.*;
-
-import com.ibm.regex.*;
-import java.util.*;
-import netgest.bo.runtime.*;
-import netgest.bo.def.boDefViewer;
-
+import netgest.bo.runtime.boRuntimeException;
+import netgest.utils.StringUtils;
+import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
+
+import com.ibm.regex.REUtil;
+import com.ibm.regex.RegularExpression;
 
 public class boClassBuilder
 {
@@ -34,7 +52,7 @@ public class boClassBuilder
 	
 	public static ThreadLocal ThreadFlags = new ThreadLocal() {
 		protected Object initialValue() {
-			return new HashedMap();
+			return new HashMap();
 		};
 	};
 	
