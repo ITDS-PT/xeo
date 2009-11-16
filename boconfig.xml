@@ -29,13 +29,13 @@
 		<!-- Default Data Source for the Objects -->
 		<DataSource name="DATA" boql="true">
 			<Driver>netgest.bo.data.mysql.MysqlDriver</Driver>
-			<DML>java:xeo</DML>
-			<DDL>java:xeo_nojta</DDL>
+			<DML>jdbc/xeo</DML>
+			<DDL>jdbc/xeo_nojta</DDL>
 		</DataSource>
 		<DataSource name="SYS" boql="true">
 			<Driver>netgest.bo.data.mysql.MysqlDriver</Driver>
-			<DML>java:xeo_nojta</DML>
-			<DDL>java:xeo_nojta</DDL>
+			<DML>jdbc/xeo_nojta</DML>
+			<DDL>jdbc/xeo_nojta</DDL>
 		</DataSource>
 		<!-- End default datasource -->
 	</DataSources>
@@ -59,7 +59,7 @@
 			<Password/>
 			<DataSource>DATA</DataSource>
 			<DataSourceDef>DATA</DataSourceDef>
-			<Schema>xeo_jp3</Schema>
+			<Schema>xeo_jp</Schema>
 			<Parent/>
 		</Repository>
 	</Repositories>
