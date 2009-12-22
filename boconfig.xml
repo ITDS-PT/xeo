@@ -39,6 +39,13 @@
 		</DataSource>
 		<!-- End default datasource -->
 	</DataSources>
+	<logConfig>
+		<logger active='true' for='pt,netgest' level='CONFIG' pattern='%d %5p [%t] (%F:%L) - %m%n' >
+			<console active='true'  />
+			<file active='true' logFile='.\log\fileName.log' backupFiles='5' maxSize='50MB' />
+			<email active='false' buffer='50' smtpHost='venus.itds.pt' from='machine@itds.pt' to='jp@itds.pt' cc='' bcc='' subject='ola' />
+		</logger>
+	</logConfig>
 	<authxentication>
 		<authclass-REMOVETHIS>netgest.bo.system.login.boLdapLogin</authclass-REMOVETHIS>
 		<usesso>false</usesso>
