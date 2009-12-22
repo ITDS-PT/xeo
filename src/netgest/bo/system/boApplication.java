@@ -9,6 +9,8 @@ import javax.ejb.CreateException;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.spi.LoggerFactory;
+
 import netgest.bo.data.DriverManager;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.def.boDefHandler;
@@ -42,10 +44,10 @@ public class boApplication
 
     private static 	WeakHashMap     applicationThreadsContext = new WeakHashMap();
     
-    public static final String XEO_WEBCLIENT = "XEO_WEBCLIENT";
-    public static final String XEO_ROBOT     = "XEO_ROBOT";
-    public static final String XEO_SYSTEM    = "XEO_SYSTEM";
-    private static final String XEO_WORKPLACE    = "SYSTEM";
+    public static final String XEO_WEBCLIENT 	= "XEO_WEBCLIENT";
+    public static final String XEO_ROBOT     	= "XEO_ROBOT";
+    public static final String XEO_SYSTEM    	= "XEO_SYSTEM";
+    private static final String XEO_WORKPLACE   = "SYSTEM";
 
     /**
      *
@@ -56,7 +58,7 @@ public class boApplication
     private boMemoryArchive         p_memoryarchive;
     private boSessions              p_sessions;
     private boApplicationConfig     p_config;
-    private IboAgentsController       p_boagentscontroller;
+    private IboAgentsController     p_boagentscontroller;
     private boolean                 p_isrunning;
     private boolean                 p_islocked = false;
     private EboContext              p_lockowner = null;
@@ -134,11 +136,16 @@ public class boApplication
 
     public void initializeApplication()
     {
+    	configureLoggers();
         p_memoryarchive = new boMemoryArchive(this);
         p_sessions = new boSessions(this);
         p_drivermanager = new netgest.bo.data.DriverManager( this );
         suspendAgents();
         startAgents();
+    }
+    
+    public void configureLoggers() {
+    	boApplicationLoggerConfig.applyConfig( getApplicationConfig().getLoggersConfig() );
     }
 
     public void addAContextToThread( )
@@ -209,6 +216,7 @@ public class boApplication
         {
             initializeApplication();
         }
+        
     }
 
     public synchronized void lock(EboContext ctx)
@@ -418,6 +426,4 @@ public class boApplication
     	}
     	return dataManager;
     }
-    
-    
 }

@@ -18,7 +18,7 @@ import netgest.bo.system.boPoolManager;
 import netgest.bo.system.boPoolable;
 
 import netgest.utils.ClassUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public final class docHTML_controler extends boPoolable {
 
@@ -71,7 +71,7 @@ public final class docHTML_controler extends boPoolable {
             
             if(closeddoc == null)
             {
-                //this.logger.debug("CLOSE_DOC: 01 docHTML with IDX " + String.valueOf(docid) + " will be marked as CLOSED.");
+                //this.logger.finest("CLOSE_DOC: 01 docHTML with IDX " + String.valueOf(docid) + " will be marked as CLOSED.");
                 
                 doc = getDocByIDX(docid, ctx);
                 
@@ -85,7 +85,7 @@ public final class docHTML_controler extends boPoolable {
                     
                     closedDocs.put(new Integer(docid), closeddoc);
 
-                    //this.logger.debug("CLOSE_DOC: 02 docHTML with PoolUniqueID " + doc.poolUniqueId() + " has been marked as a CLOSED Doc.");
+                    //this.logger.finest("CLOSE_DOC: 02 docHTML with PoolUniqueID " + doc.poolUniqueId() + " has been marked as a CLOSED Doc.");
                 }
                 
                 doc = null;
@@ -95,7 +95,7 @@ public final class docHTML_controler extends boPoolable {
                 closeddoc.lastRequestDate = currentTime;
                 closeddoc.closeRequestsReceived++;
                 
-                //this.logger.debug("CLOSE_DOC: docHTML with IDX " + String.valueOf(docid) + " received another request for CLOSING. Currently it has received " + String.valueOf(closeddoc.closeRequestsReceived) + " requests for CLOSE state.");
+                //this.logger.finest("CLOSE_DOC: docHTML with IDX " + String.valueOf(docid) + " received another request for CLOSING. Currently it has received " + String.valueOf(closeddoc.closeRequestsReceived) + " requests for CLOSE state.");
             }
             
             closeddoc = null;
@@ -142,7 +142,7 @@ public final class docHTML_controler extends boPoolable {
                     
                     if(force || lastUsageTime > DOCTOCLOSEEXPIRATIONTIME)
                     {
-                        //this.logger.debug("CLOSE_EXP_DOCS: 01 -> docHTML with IDX " + String.valueOf(docIdx) + ", defined as closed, has been FOUND in the closedDocs list.");
+                        //this.logger.finest("CLOSE_EXP_DOCS: 01 -> docHTML with IDX " + String.valueOf(docIdx) + ", defined as closed, has been FOUND in the closedDocs list.");
                         
                         doc = getDocByIDX(docIdx, boctx);
 
@@ -152,13 +152,13 @@ public final class docHTML_controler extends boPoolable {
                             boPoolMgr.realeaseAllObjects( docPoolUId );
                             boPoolMgr.destroyObject( doc );
                             docPoolUId = null;
-                            //this.logger.debug("CLOSE_EXP_DOCS: 02 -> docHTML with PoolUniqueID " + String.valueOf(docPoolUId) + ", defined as closed, has been DESTROYED.");
+                            //this.logger.finest("CLOSE_EXP_DOCS: 02 -> docHTML with PoolUniqueID " + String.valueOf(docPoolUId) + ", defined as closed, has been DESTROYED.");
                         }
                         
                         doc = null;
                         
                         this.closedDocs.remove( new Integer(docIdx) );
-                        //this.logger.debug("CLOSED_EXP_DOCS: 03 -> docHTML with IDX " + String.valueOf(docIdx) + ", defined as closed, has been REMOVED from the closedDocs list.");
+                        //this.logger.finest("CLOSED_EXP_DOCS: 03 -> docHTML with IDX " + String.valueOf(docIdx) + ", defined as closed, has been REMOVED from the closedDocs list.");
                     }
                     
                     lastUsageTime = 0;
@@ -229,7 +229,7 @@ public final class docHTML_controler extends boPoolable {
                         
                         if(oClosedDoc != null)
                         {
-                            logger.debug
+                            logger.finest
                             (
                                 "DOCID DO REQUEST ESTÁ NA POOL DE OBJECTOS FECHADOS: DOCID[" + DOCID + "]: " +
                                 "O Fecho do documento já foi solicitado pelo cliente \n" + 
@@ -241,7 +241,7 @@ public final class docHTML_controler extends boPoolable {
                         }
                         else
                         {
-                            logger.debug
+                            logger.finest
                             (
                                 "DOCID DO REQUEST NÃO EXISTE NA POOL DE OBJECTOS FECHADOS: DOCID["+DOCID+"]: " +
                                 "Não foi encontrada informação de quando o documento foi fechado."
@@ -284,7 +284,7 @@ public final class docHTML_controler extends boPoolable {
         boPoolManager   boPoolMgr    = boMemArchive.getPoolManager();
         
         if(this.poolUniqueId() == null)
-            logger.error("docHTML_controler.releseObjects -> call to this.poolUniqueId() returned null.");
+            logger.severe("docHTML_controler.releseObjects -> call to this.poolUniqueId() returned null.");
         
         boPoolMgr.realeaseObjects(this.poolUniqueId(), boctx);
         boctx.setController(null);

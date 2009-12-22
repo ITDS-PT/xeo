@@ -13,7 +13,7 @@ import netgest.io.DBiFile;
 import netgest.io.FSiFile;
 import netgest.io.iFile;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * Ebo_DocumentImpl é a classe estendida pelo Ebo_Document,
@@ -129,7 +129,7 @@ public abstract class Ebo_DocumentImpl extends boObject
         } 
         catch(Exception e) 
         {
-            logger.error(e);    
+            logger.severe(e);    
         }
         super.poolObjectPassivate();
     }    

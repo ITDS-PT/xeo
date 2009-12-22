@@ -21,7 +21,7 @@ import netgest.bo.system.boLoginException;
 import netgest.bo.system.boRepository;
 
 import netgest.utils.MD5Utils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boMD5Login implements LoginManager
 {
@@ -52,19 +52,19 @@ public class boMD5Login implements LoginManager
         try {
               SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss.SSS");              
               c = Calendar.getInstance();
-              logger.info("Tempo de calculo ->" + c.getTimeInMillis() + ":" +formatter.format(new Date(c.getTimeInMillis())));
+              logger.finer("Tempo de calculo ->" + c.getTimeInMillis() + ":" +formatter.format(new Date(c.getTimeInMillis())));
               Calendar auxC = (Calendar)c.clone();
               auxC.add(Calendar.SECOND, SECONDS_GAP);
               max_time =  auxC.getTimeInMillis();
-              logger.info("Tempo de calculo (MAX)->" + max_time+ ":" +formatter.format(new Date(max_time)));
+              logger.finer("Tempo de calculo (MAX)->" + max_time+ ":" +formatter.format(new Date(max_time)));
               c.add(Calendar.SECOND, -SECONDS_GAP);
               min_time =  c.getTimeInMillis();
-              logger.info("Tempo de calculo (MIN)->" + min_time+ ":" +formatter.format(new Date(min_time)));
+              logger.finer("Tempo de calculo (MIN)->" + min_time+ ":" +formatter.format(new Date(min_time)));
               long timeCheckCalc = MD5Utils.getCheckTime(time); 
-              logger.info("Tempo enviado ->" + time + ":" +formatter.format(new Date(time)));
-              logger.info("Tempo Check enviado ->" + timeCheck);
+              logger.finer("Tempo enviado ->" + time + ":" +formatter.format(new Date(time)));
+              logger.finer("Tempo Check enviado ->" + timeCheck);
               
-              logger.info("Tempo Check calculado ->" + timeCheckCalc);
+              logger.finer("Tempo Check calculado ->" + timeCheckCalc);
               
               
               if(MD5Utils.getCheckTime(time) == timeCheck &&  time>=min_time && time<=max_time)
@@ -79,31 +79,31 @@ public class boMD5Login implements LoginManager
                   rslt = pstm.executeQuery();
                   if(rslt.next()) 
                   {
-                    logger.info("Encontrou o Utilizador");
+                    logger.finer("Encontrou o Utilizador");
                     toReturn = rslt.getLong(1);
                   }
                   else 
                   {
-                    logger.error("Não encontrou o Utilizador");
+                    logger.severe("Não encontrou o Utilizador");
                     throw new boLoginException(boLoginException.INVALID_CREDENCIALS);
                   }
               }
               else 
               {
-                logger.error("Não passou do if");
+                logger.severe("Não passou do if");
                 throw new boLoginException(boLoginException.INVALID_CREDENCIALS);
               }
         }
         catch (SQLException e) {
-            logger.error(e);
+            logger.severe(e);
             throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);
         }
         catch (NamingException e) {
-            logger.error(e);
+            logger.severe(e);
             throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);
         }
         catch (Exception e) {
-            logger.error(e);
+            logger.severe(e);
             throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);
         }
         finally {

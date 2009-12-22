@@ -12,7 +12,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoNManual extends GtCampo {
@@ -171,7 +171,7 @@ public class GtCampoNManual extends GtCampo {
 
         while (oEnum.hasMoreElements()) {
             String o = (String) oEnum.nextElement();
-            logger.debug(o + " -> " + req.getParameter(o));
+            logger.finest(o + " -> " + req.getParameter(o));
         }
     }
 

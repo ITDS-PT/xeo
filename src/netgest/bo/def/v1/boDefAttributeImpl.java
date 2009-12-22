@@ -21,7 +21,7 @@ import netgest.bo.transformers.Transformer;
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -288,18 +288,18 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
                 }
                 catch (InstantiationException e)
                 {
-                    logger.fatal("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
                     throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.fatal("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
                     throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
                 }
             }
             catch (ClassNotFoundException e)
             {
-                logger.fatal("Interface Class Map (" + getTransformClassMapName() + ") not found");
+                logger.severe("Interface Class Map (" + getTransformClassMapName() + ") not found");
                 throw new boRuntimeException2("Interface Class Map (" + getTransformClassMapName() + ") not found");
             }
         }

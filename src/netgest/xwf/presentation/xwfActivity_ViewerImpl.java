@@ -12,7 +12,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.boObject;
 
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.sql.SQLException;
 

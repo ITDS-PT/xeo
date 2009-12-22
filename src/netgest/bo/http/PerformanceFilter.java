@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import netgest.bo.boConfig;
 import netgest.bo.system.boSession;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import javax.servlet.ServletOutputStream;
 
 import netgest.bo.message.server.mail.Mail;
@@ -111,11 +111,11 @@ public class PerformanceFilter implements Filter
         }
         catch( FileNotFoundException e )
         {
-            logger.error("Ficheiro de configuração PerformanceFilter não encontrado ["+ logDir + "perfConfig.properties" +"]"  );
+            logger.severe("Ficheiro de configuração PerformanceFilter não encontrado ["+ logDir + "perfConfig.properties" +"]"  );
         }
         catch( Exception e )
         {
-            logger.error("Erro a inicializar PerformanceFilter",e);            
+            logger.severe("Erro a inicializar PerformanceFilter",e);            
         }
     }
 
@@ -334,7 +334,7 @@ public class PerformanceFilter implements Filter
                 File logFile = new File( logDir + logCliName );
                 boolean exists = logFile.exists();
 
-                logger.info("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
+                logger.finer("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
                 logCliOut = new FileWriter( logFile , true ); 
                 if(!exists)  logCliOut.write( "Date Hora;IP do Cliente;Utilizador;Tempo de Render;Pagina\n" );
             }
@@ -423,7 +423,7 @@ public class PerformanceFilter implements Filter
                 File logFile = new File( logDir + logSrvName );
                 boolean exists = logFile.exists();
 
-                logger.info("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
+                logger.finer("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
                 logSrvOut = new FileWriter( logFile , true ); 
                 if(!exists)  logSrvOut.write( "Date Hora;Memoria Total;Memoria Livre;IP do Cliente;Utilizador;Tempo de Resposta;Escrita da Resposta;Metodo;Pagina;Parametros\n" );
             }
@@ -521,7 +521,7 @@ public class PerformanceFilter implements Filter
         {
             try
             {
-                logger.info( "Request Monitor Started" );
+                logger.finer( "Request Monitor Started" );
                 while( !super.isInterrupted() )
                 {
                     try
@@ -585,7 +585,7 @@ public class PerformanceFilter implements Filter
                     }
                     catch( Exception e )
                     {
-                        logger.error( "Erro na Thread de Monitorização de pedidos", e );
+                        logger.severe( "Erro na Thread de Monitorização de pedidos", e );
                     }
                     Thread.sleep(30000);
                 }

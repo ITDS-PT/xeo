@@ -19,7 +19,7 @@ import netgest.utils.DataUtils;
 
 import oracle.sql.BLOB;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,7 +110,7 @@ public class FileSystemMigration implements ITask
 
                     if (!result)
                      {
-                        logger.debug("Object invalid for migration: " +
+                        logger.finest("Object invalid for migration: " +
                             document.getBoui() + ", ClassName : " +
                             document.getName());
                     }
@@ -118,7 +118,7 @@ public class FileSystemMigration implements ITask
             }
             else
              {
-                logger.debug(" Migration already done ");
+                logger.finest(" Migration already done ");
             }
         }
          catch (boRuntimeException e)
@@ -128,7 +128,7 @@ public class FileSystemMigration implements ITask
 
         if (result)
          {
-            logger.debug("Validation successfull, you can now migrate.");
+            logger.finest("Validation successfull, you can now migrate.");
         }
 
         return result;
@@ -146,7 +146,7 @@ public class FileSystemMigration implements ITask
                 context.getApplication().suspendAgents();
                 Connection cn = connection.getConnection();
                 connection.beginContainerTransaction();
-                logger.info("Start migrating dbfs_file to new the version.");
+                logger.finer("Start migrating dbfs_file to new the version.");
                 if(!execute(cn, "alter table dbfs_file add (KEY NUMBER)", false))
                 {
                     execute(cn, "update dbfs_file set key = null", false);
@@ -203,7 +203,7 @@ public class FileSystemMigration implements ITask
                         }
                     }
                 }               
-                logger.info("Ended migrating dbfs_file to new the version.");
+                logger.finer("Ended migrating dbfs_file to new the version.");
             }
             else
              {
@@ -302,7 +302,7 @@ public class FileSystemMigration implements ITask
 
         if (!result && verbose)
          {
-            logger.error("Object attributes invalid : " + object.getBoui());
+            logger.severe("Object attributes invalid : " + object.getBoui());
         }
 
         return result;
@@ -481,11 +481,11 @@ public class FileSystemMigration implements ITask
 
                             path = "//basic/" + file.getKey() + "/" +
                                 file.getName();
-                            logger.info("Changing Ebo_DocBase : " +
+                            logger.finer("Changing Ebo_DocBase : " +
                                 document.getBoui() + " , File : " + path);
                             document.getAttribute("file").setValueString(path);
 
-//                            logger.info("updating dbfs_file_aux boui : " +
+//                            logger.finer("updating dbfs_file_aux boui : " +
 //                                document.getBoui() + " , key : " + file.getKey());
 //                            execute(connection,"UPDATE dbfs_file_aux set BOUI = " + document.getBoui() +" WHERE id = "+ file.getKey(),true);
                             }
@@ -494,7 +494,7 @@ public class FileSystemMigration implements ITask
                 }
                  catch (Exception e)
                  {
-                    logger.error("Cannot change document : " +
+                    logger.severe("Cannot change document : " +
                         document.getBoui());
                 }
             }
@@ -569,7 +569,7 @@ public class FileSystemMigration implements ITask
                     if (copyStream(getInputStream(connection, id),getOutputStream(connection, newId)))
                     {
                         insertKey(connection, id, newId);
-                        logger.debug("Already copy ID : " + id + " KEY : " + newId);
+                        logger.finest("Already copy ID : " + id + " KEY : " + newId);
                     }
                 }
             }

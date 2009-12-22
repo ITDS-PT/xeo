@@ -8,7 +8,7 @@ import netgest.bo.presentation.render.PageController;
 import netgest.bo.presentation.render.elements.ObjectCardReport;
 import netgest.bo.runtime.boObject;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 //import org.w3c.tidy.*;
 
 /**

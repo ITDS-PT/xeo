@@ -1,17 +1,10 @@
-/*Enconding=UTF-8*/
 package netgest.bo.builder;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -38,21 +31,10 @@ import netgest.bo.plugins.DataPluginManager;
 import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boRepository;
 
-import netgest.io.iFile;
-
-import netgest.utils.DataUtils;
-
-import oracle.sql.BLOB;
-
-import org.apache.log4j.Logger;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import netgest.bo.system.Logger;
 
 public class boBuildDB
 {
@@ -1134,7 +1116,7 @@ public class boBuildDB
                 }
                 else
                 {
-                    logger.error("ERROR ON GENERATE SCRIPTS [" + p_ngtdic.getString("OBJECTNAME") +
+                    logger.severe("ERROR ON GENERATE SCRIPTS [" + p_ngtdic.getString("OBJECTNAME") +
                         " -" + p_ngtdic.getString("OBJECTTYPE") +
                         "] expected error: " + e.getMessage());
                     throw new boException(this.getClass().getName() +
@@ -1225,7 +1207,7 @@ public class boBuildDB
                                                 migr.srcfield + " WHERE " +
                                                 migr.srcfield + " IS NOT NULL");
                                         int nrecs = csm.executeUpdate();
-                                        logger.debug("Migrating data from " +
+                                        logger.finest("Migrating data from " +
                                             migr.srctable + "." +
                                             migr.srcfield + "->" +
                                             migr.desttable + "." +
@@ -1257,7 +1239,7 @@ public class boBuildDB
                                                     migr.srctable + " SET " +
                                                     migr.srcfield + "= NULL");
                                             nrecs = csm.executeUpdate();
-                                            logger.debug(
+                                            logger.finest(
                                                 "Migrating data from " +
                                                 migr.srctable + "." +
                                                 migr.srcfield + "->" +
@@ -1650,155 +1632,155 @@ public class boBuildDB
     public void AnalyzeDictionarys()
     {
         if( true ) return;
-        try
-        {
-            DataResultSet node = p_ngtdic;
-            node.beforeFirst();
-
-            Vector tables = new Vector();
-
-            Vector schemas = new Vector();
-            Vector objectnames = new Vector();
-            Vector objecttypes = new Vector();
-
-            while (node.next())
-            {
-                if (tables.indexOf(node.getString("TABLENAME")) == -1)
-                {
-                    tables.add(node.getString("TABLENAME"));
-                }
-
-                if ("T,F".indexOf(node.getString("OBJECTTYPE")) == -1)
-                {
-                    if (schemas.indexOf(node.getString("SCHEMA")) == -1)
-                    {
-                        schemas.add(node.getString("SCHEMA"));
-                    }
-
-                    if (objectnames.indexOf(node.getString("objectname")) == -1)
-                    {
-                        objectnames.add(node.getString("objectname"));
-                    }
-
-                    if (objecttypes.indexOf(node.getString("objecttype")) == -1)
-                    {
-                        objecttypes.add(node.getString("objecttype"));
-                    }
-                }
-            }
-
-            for (int i = 0; i < tables.size(); i++)
-            {
-                String[] keys =
-                {
-                    "SCHEMA", "TABLENAME", "OBJECTNAME", "OBJECTTYPE"
-                };
-                String[] keysv = new String[4];
-
-                String ctable = ((String) tables.get(i)).toUpperCase();
-                DataResultSet tmpdic = loadVirtualTable("NGTDIC",
-                        "TABLENAME='" + ctable + "' AND SCHEMA='"+wksdef[0].toUpperCase()+"'", 1,
-                        99999, "", p_eboctx, p_repository);
-                node.first();
-
-                boolean changed;
-
-                do
-                {
-                    changed = false;
-
-                    String schema = node.getString("SCHEMA").toUpperCase();
-                    String tablename = node.getString("TABLENAME").toUpperCase();
-                    String objectname = node.getString("OBJECTNAME")
-                                            .toUpperCase();
-                    String objecttype = node.getString("OBJECTTYPE")
-                                            .toUpperCase();
-                    keysv[0] = schema;
-                    keysv[1] = tablename;
-                    keysv[2] = objectname;
-                    keysv[3] = objecttype;
-
-                    if (node.getString("TABLENAME").toUpperCase().equals(ctable) &&
-                            tmpdic.locatefor(keys, keysv) /* && tmpdic.locatefor("SCHEMA='"+schema+"' AND TABLENAME='"+tablename+"' AND OBJECTNAME='"+objectname+
-                        "' AND OBJECTTYPE='"+objecttype+"'")*/)
-                    {
-                        if (!changed &&
-                                !compareField(node, tmpdic, "REQUIRED"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "fieldsize"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "fieldtype"))
-                        {
-                            changed = true;
-                        }
-
-                        //if(!changed && !compareField(node,tmpdic,"friendlyname")) changed=true;
-                        if (!changed &&
-                                !compareField(node, tmpdic, "expression"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed && !compareField(node, tmpdic, "picture"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "tablereference"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "fieldreference"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "macrofield"))
-                        {
-                            changed = true;
-                        }
-
-                        if (!changed &&
-                                !compareField(node, tmpdic, "cachettl"))
-                        {
-                            changed = true;
-                        }
-                    }
-                    else
-                    {
-                        changed = true;
-                    }
-
-                    if (!changed)
-                    {
-                        node.deleteRow();
-                        tmpdic.beforeFirst();
-                    }
-                    else
-                    {
-                        String todebug = "";
-                    }
-                }
-                while ((node.getRowCount() > 0) && node.next());
-            }
-        }
-        catch (Exception e)
-        {
-            throw new boException(this.getClass().getName() +
-                "AnalyzeDictionarys", "BO-1307", e);
-        }
+//        try
+//        {
+//            DataResultSet node = p_ngtdic;
+//            node.beforeFirst();
+//
+//            Vector tables = new Vector();
+//
+//            Vector schemas = new Vector();
+//            Vector objectnames = new Vector();
+//            Vector objecttypes = new Vector();
+//
+//            while (node.next())
+//            {
+//                if (tables.indexOf(node.getString("TABLENAME")) == -1)
+//                {
+//                    tables.add(node.getString("TABLENAME"));
+//                }
+//
+//                if ("T,F".indexOf(node.getString("OBJECTTYPE")) == -1)
+//                {
+//                    if (schemas.indexOf(node.getString("SCHEMA")) == -1)
+//                    {
+//                        schemas.add(node.getString("SCHEMA"));
+//                    }
+//
+//                    if (objectnames.indexOf(node.getString("objectname")) == -1)
+//                    {
+//                        objectnames.add(node.getString("objectname"));
+//                    }
+//
+//                    if (objecttypes.indexOf(node.getString("objecttype")) == -1)
+//                    {
+//                        objecttypes.add(node.getString("objecttype"));
+//                    }
+//                }
+//            }
+//
+//            for (int i = 0; i < tables.size(); i++)
+//            {
+//                String[] keys =
+//                {
+//                    "SCHEMA", "TABLENAME", "OBJECTNAME", "OBJECTTYPE"
+//                };
+//                String[] keysv = new String[4];
+//
+//                String ctable = ((String) tables.get(i)).toUpperCase();
+//                DataResultSet tmpdic = loadVirtualTable("NGTDIC",
+//                        "TABLENAME='" + ctable + "' AND SCHEMA='"+wksdef[0].toUpperCase()+"'", 1,
+//                        99999, "", p_eboctx, p_repository);
+//                node.first();
+//
+//                boolean changed;
+//
+//                do
+//                {
+//                    changed = false;
+//
+//                    String schema = node.getString("SCHEMA").toUpperCase();
+//                    String tablename = node.getString("TABLENAME").toUpperCase();
+//                    String objectname = node.getString("OBJECTNAME")
+//                                            .toUpperCase();
+//                    String objecttype = node.getString("OBJECTTYPE")
+//                                            .toUpperCase();
+//                    keysv[0] = schema;
+//                    keysv[1] = tablename;
+//                    keysv[2] = objectname;
+//                    keysv[3] = objecttype;
+//
+//                    if (node.getString("TABLENAME").toUpperCase().equals(ctable) &&
+//                            tmpdic.locatefor(keys, keysv) /* && tmpdic.locatefor("SCHEMA='"+schema+"' AND TABLENAME='"+tablename+"' AND OBJECTNAME='"+objectname+
+//                        "' AND OBJECTTYPE='"+objecttype+"'")*/)
+//                    {
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "REQUIRED"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "fieldsize"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "fieldtype"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        //if(!changed && !compareField(node,tmpdic,"friendlyname")) changed=true;
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "expression"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed && !compareField(node, tmpdic, "picture"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "tablereference"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "fieldreference"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "macrofield"))
+//                        {
+//                            changed = true;
+//                        }
+//
+//                        if (!changed &&
+//                                !compareField(node, tmpdic, "cachettl"))
+//                        {
+//                            changed = true;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        changed = true;
+//                    }
+//
+//                    if (!changed)
+//                    {
+//                        node.deleteRow();
+//                        tmpdic.beforeFirst();
+//                    }
+//                    else
+//                    {
+//                        String todebug = "";
+//                    }
+//                }
+//                while ((node.getRowCount() > 0) && node.next());
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            throw new boException(this.getClass().getName() +
+//                "AnalyzeDictionarys", "BO-1307", e);
+//        }
     }
 
     public static final boolean compareField(ResultSet node, ResultSet node1,
@@ -5192,7 +5174,7 @@ public class boBuildDB
 
                 while (rs.next())
                 {
-                    logger.debug("Setting grants on table (" + rs.getString(1) + ")");
+                    logger.finest("Setting grants on table (" + rs.getString(1) + ")");
                     dml = "grant select, insert, update, delete, references on " +
                         rs.getString(1) + " to " + p_repository.getUserName();
                     odbm.executeDDL(dml, parentRepository.getName());

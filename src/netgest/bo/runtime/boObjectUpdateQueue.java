@@ -2,7 +2,7 @@
 package netgest.bo.runtime;
 import java.util.*;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -42,7 +42,7 @@ public class boObjectUpdateQueue
     private void error()
     {
         Throwable x = new Throwable();
-        logger.debug("Erro adding to save queue a object with BOUI 0\nCheck the Stack Trace to view where it come from:\n", x);
+        logger.finest("Erro adding to save queue a object with BOUI 0\nCheck the Stack Trace to view where it come from:\n", x);
     }
     public void add(long boui, byte mode)
     {

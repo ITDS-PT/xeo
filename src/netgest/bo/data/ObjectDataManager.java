@@ -28,7 +28,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.boRepository;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

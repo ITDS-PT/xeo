@@ -3,7 +3,7 @@ package netgest.bo.system.login;
 import java.util.Date;
 import netgest.bo.runtime.*;
 import netgest.bo.system.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class LoginUtil
         }
         catch (Exception e)
         {
-            logger.error("Erro a registar o LOGIN/OUT ["+type+"] do user ["+session.getUser().getUserName()+"]" + e.getClass() + ":" + e.getMessage(),e);
+            logger.severe("Erro a registar o LOGIN/OUT ["+type+"] do user ["+session.getUser().getUserName()+"]" + e.getClass() + ":" + e.getMessage(),e);
         }
         finally
         {

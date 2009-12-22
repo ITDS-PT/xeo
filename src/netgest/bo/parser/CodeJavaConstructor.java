@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -115,7 +115,7 @@ public class CodeJavaConstructor
         /*
         if(DEBUG && s.getSource() != null && !"".equals(s.getSource().trim() s.trim()) && !"Y".equalsIgnoreCase(s) && !"N".equalsIgnoreCase(s))
         {
-            logger.debug("Code: (" + s + ") Node: (" + nodeName + ") obj: (" 
+            logger.finest("Code: (" + s + ") Node: (" + nodeName + ") obj: (" 
                 + bodef.getBoMasterTable() + ") Atr: (" + att.getName() + ")");
         }
         */
@@ -1140,9 +1140,9 @@ public class CodeJavaConstructor
             {
                 //            if("default".equals(node))
                 //                {
-                //                    logger.debug("a");
+                //                    logger.finest("a");
                 //                }
-                //                logger.debug(" ---E code: " + code + " node: " + node);
+                //                logger.finest(" ---E code: " + code + " node: " + node);
                 if(code.getLanguage()== boDefXeoCode.LANG_JAVA )
                 {                    
                     if(codeJavaDepends != null)
@@ -1232,7 +1232,7 @@ public class CodeJavaConstructor
                         mdecl.setCode(new BlockStatement(code));
                     }
     
-                    //                logger.debug(" ---O code: " + code + " node: " + node);
+                    //                logger.finest(" ---O code: " + code + " node: " + node);
                     if ("formula".equals(node))
                     {
                         if (!bridge)
@@ -1598,7 +1598,7 @@ public class CodeJavaConstructor
     private Symbol codeTreater(XEORecognizer xeo) throws boRuntimeException
     {
         BlockStatement stat = (BlockStatement) xeo.getStatement();
-//        logger.debug(stat.toJAVA());
+//        logger.finest(stat.toJAVA());
 
         Hashtable resumeCode = xeo.getResumeCode();
         ArrayList codeList = new ArrayList();
@@ -1641,7 +1641,7 @@ public class CodeJavaConstructor
         {
             try
             {
-                logger.debug(resumeCommmands("TO_DATE(parent_asad.parent_dd.dao.aaa, 'yyy-mi-dd  MM at SDSD');", "TO_DATE", "aaa", "ddd"));
+                logger.finest(resumeCommmands("TO_DATE(parent_asad.parent_dd.dao.aaa, 'yyy-mi-dd  MM at SDSD');", "TO_DATE", "aaa", "ddd"));
             }
             catch (boRuntimeException e)
             {

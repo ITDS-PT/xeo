@@ -59,9 +59,6 @@ public final class boTemplateManager
         {
             boObject attObject = null;
             AttributeHandler attHandler = null;
-            AttributeHandler refObject = null;
-            bridgeHandler bridge = null;
-            boObject[] attBoObjects = null;
             boObject template = null;
 
             Enumeration oEnum = lastobj.getAttributes().elements();

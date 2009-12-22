@@ -8,7 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.FilterChain;
 import java.io.IOException;
 import netgest.bo.system.boApplication;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boContextFilter implements Filter 
 {
@@ -20,7 +20,7 @@ public class boContextFilter implements Filter
     
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        logger.info("Initializing XeoContextFilter.... ");
+        logger.finer("Initializing XeoContextFilter.... ");
         boApp = boApplication.getApplicationFromStaticContext( "XEO" );
     }
 

@@ -18,7 +18,7 @@ import netgest.utils.*;
 import netgest.bo.def.*;
 import netgest.bo.dochtml.*;
 import netgest.bo.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class xwfDefActivity extends Thread 
@@ -89,7 +89,7 @@ public class xwfDefActivity extends Thread
         boolean deactivate = false;
         try
         {
-            logger.debug("Starting Agent for Def Actividade "+ p_defActivity.getAttribute("label").getValueString() );
+            logger.finest("Starting Agent for Def Actividade "+ p_defActivity.getAttribute("label").getValueString() );
             
             InitialContext ic = new InitialContext();
             
@@ -134,7 +134,7 @@ public class xwfDefActivity extends Thread
         catch (Exception e)
         {
             deactivate = true;
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
         }
         boSession session = null;
         try

@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import netgest.bo.runtime.robots.boScheduleAgent;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.bo.runtime.robots.ejbtimers.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import javax.naming.*;
 import java.util.*;
 
@@ -92,7 +92,7 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
             try
             {
                 String tname = "XEO EjbTimer [" + name  +"]";
-                logger.debug("Starting " + tname );
+                logger.finest("Starting " + tname );
                 Context ic = new InitialContext();
                 Object objref =
                     ic.lookup("java:comp/env/"+ ejbName);   
@@ -103,7 +103,7 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
                 timerejb.start(name);
                 timerejb.remove();
                 ic.close();
-                logger.debug("Started "+tname);
+                logger.finest("Started "+tname);
                 this.activeEJBTimers.put(name,timerejb);
             }
             catch (NamingException e) {
@@ -199,9 +199,9 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
         {
             xeoEJBTimer activeEJBTimer=(xeoEJBTimer)this.activeEJBTimers.get(name);
 
-            logger.debug("Stopping XEO EjbTimer ["+ name +"]");
+            logger.finest("Stopping XEO EjbTimer ["+ name +"]");
             activeEJBTimer.suspend(name);            
-            logger.debug("Stopped XEO EjbTimer ["+ name +"]");
+            logger.finest("Stopped XEO EjbTimer ["+ name +"]");
         }
         catch (RemoteException e)
         {

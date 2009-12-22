@@ -41,6 +41,7 @@ import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefUtils;
 import netgest.bo.def.v2.boDefLovImpl;
 import netgest.bo.dochtml.docHTML_treeServer;
+import netgest.bo.http.Builder;
 import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.presentation.manager.uiObjectBuilder;
 import netgest.bo.presentation.render.elements.ExplorerServer;
@@ -61,7 +62,7 @@ import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.w3c.dom.Attr;
@@ -70,7 +71,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
  
 public class boBuilder {
+	
 	private static final Logger logger = Logger.getLogger(boBuilder.class);
+    private static final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger( Builder.class );
 
 	private static boApplicationConfig p_bcfg = boApplication
 			.getApplicationFromStaticContext("XEO").getApplicationConfig();
@@ -113,10 +116,10 @@ public class boBuilder {
 				appender = new WriterAppender(layout, System.out);
 				appender.setName("Console");
 			} catch (Exception e) {
-				logger.error("Error: ", e);
+				logger.severe("Error: ", e);
 			}
-			logger.addAppender(appender);
-			logger.setLevel(Level.DEBUG);
+			log4j.addAppender(appender);
+			log4j.setLevel(Level.DEBUG);
 			boApplication bapp = boApplication
 					.getApplicationFromStaticContext("XEO");
 			bapp.suspendAgents();
@@ -2335,7 +2338,7 @@ public class boBuilder {
 				try {
 					createMethodsFromFwdObjects(subbo);
 				} catch (boRuntimeException e) {
-					logger.error(e);
+					logger.severe(e);
 				}
 				return;
 			}
@@ -2651,7 +2654,7 @@ public class boBuilder {
 					try {
 						createMethodsFromFwdObjects(bobj);
 					} catch (boRuntimeException e) {
-						logger.error(e);
+						logger.severe(e);
 					}
 				}
 				p_undeployeddefs.put(boname, bobj);
@@ -2836,7 +2839,7 @@ public class boBuilder {
 		try {
 			uiObjectBuilder.buildWorkPlaceDefault(ctx);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.severe(e);
 		} finally {
 		}
 	}

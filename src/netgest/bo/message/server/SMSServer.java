@@ -21,7 +21,7 @@ import netgest.io.iFile;
 import netgest.utils.HTMLRemover;
 import netgest.utils.sms.SMSApi;
 import netgest.xwf.EngineGate;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.xwf.core.*;
 
 /**
@@ -73,7 +73,7 @@ public class SMSServer implements MediaServer
     }
     public boolean send(Object context, boObject message, boolean saveBinary) throws boRuntimeException
     {
-//        logger.info("SETTING TO");
+//        logger.finer("SETTING TO");
         String to = null;
         boolean toRet = true;
         boolean oneSent = false;
@@ -307,7 +307,7 @@ public class SMSServer implements MediaServer
         originalMessage.getAttribute("dtdoc").setValueDate(new Date());
         if(MessageUtils.isToWaitResponse(originalMessage) && receivers.size() > 0)
         {
-//            logger.info("Vou criar o wait para msg!");
+//            logger.finer("Vou criar o wait para msg!");
             originalMessage.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
             try
             {
@@ -389,7 +389,7 @@ public class SMSServer implements MediaServer
             out = new FileOutputStream(ff);
             out.write(texto.getBytes());
             result = ff.getAbsolutePath();
-            logger.error("Gerou para: " +result);
+            logger.severe("Gerou para: " +result);
         }
         catch (Exception ex)
         {
@@ -406,7 +406,7 @@ public class SMSServer implements MediaServer
             }
             catch (IOException e)
             {
-//                logger.error("", e);
+//                logger.severe("", e);
             }
         }
 
@@ -422,7 +422,7 @@ public class SMSServer implements MediaServer
      */
     public int adHocSend(boObject message) throws boRuntimeException
     {
-//        logger.info("SETTING TO");
+//        logger.finer("SETTING TO");
         String to = null;
         boolean toRet = true;
         boolean oneSent = false;

@@ -14,7 +14,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoFormula extends GtCampo {
@@ -215,7 +215,7 @@ public class GtCampoFormula extends GtCampo {
                 }
             }
             msg += "\n" + javaExec.getErrorMessage();
-            logger.error("Campo Formula[" + getNome() + "] : " + msg, javaExec.getException() );
+            logger.severe("Campo Formula[" + getNome() + "] : " + msg, javaExec.getException() );
             throw new boRuntimeException("",
                msg , null);
 
@@ -290,7 +290,7 @@ public class GtCampoFormula extends GtCampo {
                 }
             }
 
-            logger.error(Messages.getString("GtCampoFormula.47") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.severe(Messages.getString("GtCampoFormula.47") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
             throw new boRuntimeException("", //$NON-NLS-1$
                 Messages.getString("GtCampoFormula.50") + getPergunta() + //$NON-NLS-1$
                 Messages.getString("GtCampoFormula.51"), null); //$NON-NLS-1$

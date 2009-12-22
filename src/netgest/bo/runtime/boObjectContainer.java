@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import netgest.bo.system.boPoolOwner;
 import netgest.bo.system.boPoolable;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

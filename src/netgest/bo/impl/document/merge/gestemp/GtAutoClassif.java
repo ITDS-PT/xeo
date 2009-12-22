@@ -44,7 +44,7 @@ import netgest.xwf.common.xwfFunctions;
 import netgest.xwf.common.xwfHelper;
 import netgest.xwf.core.xwfManager;
 import netgest.xwf.core.xwfMessage;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 //TODO:Implement Interface LUSITANIA
 //import pt.lusitania.gd.AutomaticClassifications;
 public class GtAutoClassif 

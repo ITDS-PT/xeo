@@ -12,7 +12,7 @@ import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
 import netgest.bo.runtime.EboContext;
 import netgest.utils.XEOUserUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class GarbageController
                 {
                     if(email.equalsIgnoreCase(it.currentRow().getObject().getAttribute("email").getValueString()))
                     {
-                        logger.info("IT'S SPAM");
+                        logger.finer("IT'S SPAM");
                         return true;
                     }
                 }
@@ -57,9 +57,9 @@ public class GarbageController
         }
         catch (Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
-        logger.debug("NOT SPAM");
+        logger.finest("NOT SPAM");
         return false;
     }
     
@@ -77,7 +77,7 @@ public class GarbageController
                 {
                     if(server.equalsIgnoreCase(it.currentRow().getObject().getAttribute("server").getValueString()))
                     {
-                       logger.info("IT'S SPAM");
+                       logger.finer("IT'S SPAM");
                         return true;
                     }
                 }
@@ -85,9 +85,9 @@ public class GarbageController
         }
         catch (Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
-        logger.debug("NOT SPAM");
+        logger.finest("NOT SPAM");
         return false;
     }
     
@@ -122,9 +122,9 @@ public class GarbageController
         {
             if(email != null)
             {
-                logger.debug("Erro ao resolver o email: " + email);
+                logger.finest("Erro ao resolver o email: " + email);
             }
-            try{logger.debug("",e);}catch(Exception _e){};
+            try{logger.finest("",e);}catch(Exception _e){};
         }
         return false;
     }
@@ -180,7 +180,7 @@ public class GarbageController
         }
         catch (Exception e)
         {
-            try{logger.error("",e);}catch(Exception _e){};
+            try{logger.severe("",e);}catch(Exception _e){};
         }
         return false;
     }
@@ -225,7 +225,7 @@ public class GarbageController
 //            }
 //            catch (Exception e)
 //            {
-//                logger.error(e);
+//                logger.severe(e);
 //            }
 //        }
 //    }

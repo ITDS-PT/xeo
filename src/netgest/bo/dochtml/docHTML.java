@@ -1,19 +1,13 @@
 /*Enconding=UTF-8*/
 package netgest.bo.dochtml;
 import java.io.CharArrayWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -28,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import netgest.bo.boConfig;
-
 import netgest.bo.controller.Controller;
 import netgest.bo.controller.ControllerFactory;
 import netgest.bo.controller.xwf.XwfController;
@@ -56,16 +49,14 @@ import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.boThread;
 import netgest.bo.runtime.bridgeHandler;
-import netgest.bo.runtime.sorter.ClassSorter;
 import netgest.bo.security.securityRights;
 import netgest.bo.system.boMail;
 import netgest.bo.system.boPoolOwner;
 import netgest.bo.utils.SchemaUtils;
-
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 //Há pessoas que choram por saberem que as rosas têm espinhos; outras há que sorriem por saberem que os espinhos têm rosas.
 //
@@ -347,7 +338,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                        catch(Exception e)
                        {
                         //ignore
-                        //logger.error("",e);
+                        //logger.severe("",e);
                        }
                         
                         String lismode = request.getParameter("listmode");
@@ -395,7 +386,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                             p_masterBoList.setOrderBy(p_METH_LIST_ORDERBY);
                        }
                     }
-//                    logger.info(p_DROPINFO);
+//                    logger.finer(p_DROPINFO);
                     if ( p_DROPINFO != null )
                     {
                         String[] xdraginf = p_DROPINFO.split(":");
@@ -611,7 +602,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
 //                            request.getParameter( "docid" )!= null
 //                          )
 //                        {
-//                        //SER�? PRECISO ...... TODO
+//                        //SER�? PRECISO ...... TODO
 //                            boObject xparentobj = getObject( Long.parseLong( request.getParameter("ctxParent") ) );
 //                            bridgeHandler bridge = xparentobj.getBridge( request.getParameter( "addToCtxParentBridge" ) );
 //                            if( bridge!=null && bridge.haveBoui( p_BOUI ))
@@ -1016,7 +1007,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                 pars.append("\n");
             }
 
-            logger.error("Erro a construir o boObjectList para a JSP:\nRequest:\n" + pars, e);
+            logger.severe("Erro a construir o boObjectList para a JSP:\nRequest:\n" + pars, e);
 
             String[] args = { convertRequestToString() };
             throw new boRuntimeException(this.getClass().getName()+".buildMasterList","BO-3110",e,args);
@@ -2158,7 +2149,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
             }
             lastobj.computeSecurityKeys(false);
 
-            logger.info("Binding:"+(System.currentTimeMillis()-xt));
+            logger.finer("Binding:"+(System.currentTimeMillis()-xt));
         }
         catch ( boRuntimeException e )
         {
@@ -2639,7 +2630,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                             }
                             else
                             {
-                                logger.debug("Expected bobj");
+                                logger.finest("Expected bobj");
                             }
                         }
                     }
@@ -2753,7 +2744,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                         }
                         else
                         {
-                            logger.debug("Expected bobj");
+                            logger.finest("Expected bobj");
                         }
                     }
                 }
@@ -2793,7 +2784,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                     }
                     else
                     {
-                        logger.debug("Expected bobj");
+                        logger.finest("Expected bobj");
                     }
                 }
             }
@@ -3533,7 +3524,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
         }
         }catch(Exception e)
         {
-            logger.error(e, e);
+            logger.severe(e);
         }
     }
 
@@ -3569,7 +3560,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
             }
         }catch(Exception e)
         {
-            logger.error(e, e);
+            logger.severe( e );
         }
     }
 

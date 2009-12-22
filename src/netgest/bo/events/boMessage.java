@@ -11,7 +11,7 @@ import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
 import netgest.utils.DataUtils;
 import netgest.xwf.core.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -92,11 +92,11 @@ public class boMessage
         }
         catch (SQLException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
         catch (boRuntimeException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
     }
 
@@ -237,11 +237,11 @@ public class boMessage
         }
         catch (SQLException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
         catch (boRuntimeException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
         finally
         {
@@ -251,7 +251,7 @@ public class boMessage
             }
             catch (Exception e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
             try
             {
@@ -259,7 +259,7 @@ public class boMessage
             }
             catch (SQLException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
     }
@@ -426,7 +426,7 @@ public class boMessage
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);            
+            logger.severe(e);            
         }
         return false;
     }
@@ -506,7 +506,7 @@ public class boMessage
                     long receivers[] = MessageUtils.getToReceivers(message);
                     if(MessageUtils.isToWaitResponse(message) && receivers.length > 0)
                     {
-                        logger.info("Vou criar o wait para msg!");
+                        logger.finer("Vou criar o wait para msg!");
                         message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                         try
                         {

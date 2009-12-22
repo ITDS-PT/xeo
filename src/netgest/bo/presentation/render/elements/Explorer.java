@@ -53,7 +53,7 @@ import oracle.xml.parser.v2.XMLCDATA;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
@@ -470,7 +470,7 @@ public class Explorer implements Element {
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         try
         {
@@ -1371,7 +1371,7 @@ public class Explorer implements Element {
         }
         catch (boRuntimeException e)
         {
-            logger.error("",e);
+            logger.severe("",e);
         }
     }
 

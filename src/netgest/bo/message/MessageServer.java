@@ -22,7 +22,7 @@ import netgest.bo.workflow.*;
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.core.*;
 import netgest.bo.controller.xwf.XwfKeys;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.xwf.EngineGate;
 
 /**
@@ -67,7 +67,7 @@ public class MessageServer
         }
         catch (boRuntimeException e)
         {
-            logger.error("Error synchronizing mailBox from user: ", e);
+            logger.severe("Error synchronizing mailBox from user: ", e);
         }
     }
 
@@ -90,13 +90,13 @@ public class MessageServer
 //            controller = (XwfController)message.getEboContext().getController();
             if(MessageUtils.EMAIL.equals(mediaType) || MessageUtils.BV.equals(mediaType))
             {
-                logger.debug("SENDING RECEIPT");
+                logger.finest("SENDING RECEIPT");
                 MediaServer man = new EmailServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
             else if(MessageUtils.FAX.equals(mediaType))
             {
-                logger.debug("SENDING RECEIPT");
+                logger.finest("SENDING RECEIPT");
                 MediaServer man = new FaxServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
@@ -110,14 +110,14 @@ public class MessageServer
             }
             else if(MessageUtils.SGIS.equals(mediaType))
             {
-                logger.debug("SENDING RECEIPT");
+                logger.finest("SENDING RECEIPT");
                 MediaServer man = new SgisServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
             engine.addErrorMessage("Erro inesperado. Tente novamente." );
         }
         return toRet;
@@ -156,7 +156,7 @@ public class MessageServer
         }
         catch (Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
             String msg = e.getMessage();
             if(msg != null)
             {
@@ -205,7 +205,7 @@ public class MessageServer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
             String msg = e.getMessage();
             if(msg != null)
             {
@@ -239,9 +239,9 @@ public class MessageServer
             String mediaType = message.getAttribute(MessageUtils.ATT_PRF_MEDIA).getValueString();            
             if(MessageUtils.EMAIL.equals(mediaType))
             {
-                logger.debug("SENDING EMAIL");
+                logger.finest("SENDING EMAIL");
                 delivered = email(engine, message,activityBoui);
-                logger.debug("SENDING EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest("SENDING EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
             }
             else if(MessageUtils.FAX.equals(mediaType))
             {
@@ -265,15 +265,15 @@ public class MessageServer
             }
             else if(MessageUtils.BV.equals(mediaType))
             {
-                logger.debug("SENDING BV EMAIL");
+                logger.finest("SENDING BV EMAIL");
                 delivered = email(engine, message,activityBoui);
-                logger.debug("SENDING BV EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest("SENDING BV EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
             }
             else if(MessageUtils.SMS.equals(mediaType))
             {
-                logger.debug("SENDING SMS EMAIL");
+                logger.finest("SENDING SMS EMAIL");
                 delivered = sms(engine, message,activityBoui);
-                logger.debug("SENDING SMS EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest("SENDING SMS EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
             }
             else
             {
@@ -286,7 +286,7 @@ public class MessageServer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
             engine.addErrorMessage("Erro inesperado. Tente novamente." );
         }
         return delivered;

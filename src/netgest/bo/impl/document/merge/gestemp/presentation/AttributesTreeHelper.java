@@ -12,7 +12,7 @@ import netgest.bo.runtime.*;
 import netgest.utils.*;
 
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class AttributesTreeHelper

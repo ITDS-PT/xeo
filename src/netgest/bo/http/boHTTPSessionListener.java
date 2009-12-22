@@ -8,7 +8,7 @@ import netgest.bo.dochtml.docHTML_controler;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boSession;
 import netgest.bo.system.boSessions;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boHTTPSessionListener implements javax.servlet.http.HttpSessionListener 
 {
@@ -20,7 +20,7 @@ public class boHTTPSessionListener implements javax.servlet.http.HttpSessionList
     
     public void sessionCreated(HttpSessionEvent event)
     {
-//        logger.debug("Session created..");
+//        logger.finest("Session created..");
         HttpSession session = event.getSession(); 
         
     }
@@ -63,7 +63,7 @@ public class boHTTPSessionListener implements javax.servlet.http.HttpSessionList
         }
         catch (Exception e)
         {
-            logger.error("Error closing session.",e);
+            logger.severe("Error closing session.",e);
         }
         
         if( ( System.currentTimeMillis() - LastClean ) > (600000) )
@@ -98,24 +98,24 @@ public class boHTTPSessionListener implements javax.servlet.http.HttpSessionList
                             }
                         }
                         else
-                            logger.debug("boHTTPSessionListener.cleanSessions(): Session was Null, shouldn't happen!");
+                            logger.finest("boHTTPSessionListener.cleanSessions(): Session was Null, shouldn't happen!");
                     }
                     
-                    if( logger.isDebugEnabled() )
-                        logger.debug( icounter + " Sessions forced to close..." );
+                    if( logger.isFinestEnabled() )
+                        logger.finest( icounter + " Sessions forced to close..." );
                     
                 }//if(aSessions != null && aSessions.length > 0)
                 else
-                    logger.debug("boHTTPSessionListener.cleanSessions(): Active Sessions returned Null or has No Active Sessions");
+                    logger.finest("boHTTPSessionListener.cleanSessions(): Active Sessions returned Null or has No Active Sessions");
                 
             }//if(sessions != null)
             else
-                logger.debug("boHTTPSessionListener.cleanSessions(): Sessions returned Null");
+                logger.finest("boHTTPSessionListener.cleanSessions(): Sessions returned Null");
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            logger.error("Error cleaning sessions", e);
+            logger.severe("Error cleaning sessions", e);
         }
     }
 }

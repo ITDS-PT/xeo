@@ -13,7 +13,7 @@ import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoNFormula extends GtCampo {
@@ -187,7 +187,7 @@ public class GtCampoNFormula extends GtCampo {
                 }
             }
 
-            logger.error(Messages.getString("GtCampoNFormula.23") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.severe(Messages.getString("GtCampoNFormula.23") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
             throw new boRuntimeException("", //$NON-NLS-1$
                 Messages.getString("GtCampoNFormula.32") + getPergunta() + //$NON-NLS-1$
                 Messages.getString("GtCampoNFormula.33"), null); //$NON-NLS-1$

@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class FSiFile implements iFile {
     private File p_file;

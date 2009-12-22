@@ -2,7 +2,7 @@
 package netgest.bo.parser.beautifier;
 
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 class JSLineBreaker
 {
@@ -538,7 +538,7 @@ class JSLineBreaker
 
         void dump()
         {
-            logger.info("LB: str=" + breakStr + " wh=" + breakWhere +
+            logger.finer("LB: str=" + breakStr + " wh=" + breakWhere +
                 " dep=" + breakDepth + " tp=" + breakType);
         }
     }

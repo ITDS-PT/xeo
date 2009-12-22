@@ -7,7 +7,7 @@ import bsh.NameSpace;
 
 import bsh.TargetError;
 import netgest.bo.runtime.boRuntimeException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class JavaExecuter 
@@ -80,11 +80,11 @@ public class JavaExecuter
             this.errorException = e;
             try
             {
-                logger.error( "Error executing java code line#:" + e.getErrorLineNumber() + "\n" + this.javaCode );
+                logger.severe( "Error executing java code line#:" + e.getErrorLineNumber() + "\n" + this.javaCode );
             }
             catch (Exception ex)
             {
-                logger.error( "Erro dumping error.", e );
+                logger.severe( "Erro dumping error.", e );
             }
             
             String lineNumber = "<uknown>";
@@ -123,11 +123,11 @@ public class JavaExecuter
             this.errorException = e;
             try
             {
-                logger.error( e );
+                logger.severe( e );
             }
             catch (Exception ex)
             {
-                logger.error( "Erro dumping error.", e );
+                logger.severe( "Erro dumping error.", e );
             }
             
             this.errorMessage = 

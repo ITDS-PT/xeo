@@ -67,7 +67,7 @@ import netgest.bo.system.boRepository;
 import netgest.bo.utils.boVersioning;
 import netgest.utils.DataUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boManagerBean implements SessionBean, boManagerLocal
 {
@@ -716,7 +716,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.debug("BOBJ Create [" + name + "]:" +
+                logger.finest("BOBJ Create [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -772,7 +772,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.debug("BOBJ Create [" + name + "]:" +
+                logger.finest("BOBJ Create [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -803,7 +803,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.debug("BOBJ Create [" + name + "]:" +
+                logger.finest("BOBJ Create [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -867,7 +867,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         ctx.getApplication().getMemoryArchive().getPoolManager().putObject(ret, "BOOBJECT:BOUI[" + ret.getBoui() + "]:");
         if (DEBUG > 0)
         {
-            logger.debug("BOBJ Create [" + name + "]:" +
+            logger.finest("BOBJ Create [" + name + "]:" +
                 (System.currentTimeMillis() - mili));
         }
 
@@ -918,7 +918,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.debug("BOBJ Load name / long [" + name + "/" + boui +
+            logger.finest("BOBJ Load name / long [" + name + "/" + boui +
                 "]:" + (System.currentTimeMillis() - mili));
         }
         if( ctx.isInTransaction() )
@@ -940,7 +940,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.debug("BOBJ Load BOQL [" + qp.getObjectDef().getBoName() +
+            logger.finest("BOBJ Load BOQL [" + qp.getObjectDef().getBoName() +
                 "/" + sql + "]:" + (System.currentTimeMillis() - mili));
         }
         return ret;
@@ -986,7 +986,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.debug("BOBJ Load BOQL [" + boql + "]:" +
+                logger.finest("BOBJ Load BOQL [" + boql + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -1086,7 +1086,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.debug("BOBJ Load BOQL [" + sql + "+" + sqlargs + "]:" +
+            logger.finest("BOBJ Load BOQL [" + sql + "+" + sqlargs + "]:" +
                 (System.currentTimeMillis() - mili));
         }
         if( ctx.isInTransaction() )
@@ -1325,7 +1325,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
             if (DEBUG > 0)
             {
-                logger.debug("BOBJ Load BOUI [" + className + "/" + boui +
+                logger.finest("BOBJ Load BOUI [" + className + "/" + boui +
                     "]:" + (System.currentTimeMillis() - mili));
             }
         }
@@ -1385,7 +1385,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 	
 	                if (DEBUG > 0)
 	                {
-	                    logger.debug("BOBJ Load BOUI [" + getClassNameFromBOUI(ctx, boui) + "/" + boui +
+	                    logger.finest("BOBJ Load BOUI [" + getClassNameFromBOUI(ctx, boui) + "/" + boui +
 	                        "]:" + (System.currentTimeMillis() - mili));
 	                }
             	}
@@ -1476,7 +1476,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 	                    }
 	                    catch (Exception e)
 	                    {
-	                      logger.fatal( "Exception in boManagerBean.getClassFromBoui; trying to close resultset and preparestatment  "+e.getMessage() );
+	                      logger.severe( "Exception in boManagerBean.getClassFromBoui; trying to close resultset and preparestatment  "+e.getMessage() );
 	                    }
 	
 	
@@ -1866,7 +1866,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                           catch (SQLException e)
                           {
                                 int errorCode = e.getErrorCode( );
-                                logger.info("Error deleting Ebo_textIndex "+e.getMessage());
+                                logger.finer("Error deleting Ebo_textIndex "+e.getMessage());
                                 //ignore if error occur in delete Ebo_TextIndex
                           }
                           finally
@@ -1882,7 +1882,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                           }
                           catch (SQLException e)
                           {
-                                logger.error(e);
+                                logger.severe(e);
                                 StringBuffer xsql= new StringBuffer("SELECT boui FROM " +  ebo_referencesFullTableName + " WHERE REFBOUI$= ? ");
 
                                 PreparedStatement pst = ctx.getConnectionData()
@@ -1893,7 +1893,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                                 ResultSet rslt = pst.executeQuery();
                                 while(rslt.next())
                                 {
-                                    logger.info("Bouis não eliminados:" + rslt.getLong(1));
+                                    logger.finer("Bouis não eliminados:" + rslt.getLong(1));
                                 }
                                 rslt.close();
                                 pstm.close();
@@ -1956,7 +1956,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             }
             catch (SQLException e)
             {
-                logger.error(e,e);
+                logger.severe(e);
                 if ((e.getMessage() != null) &&
                         e.getMessage().startsWith("Registo já foi alterado por outro utilizador"))
                 {
@@ -2016,7 +2016,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     }
                 }
 
-                logger.error(msg, e);
+                logger.severe(msg, e);
 
                 throw new boRuntimeException(boManagerBean.class.getName() +
                     ".updateObject(EboContext, boObject)", "BO-3016", e,
@@ -2693,7 +2693,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             xxxxx.flushCache();
             xclass = Thread.currentThread().getContextClassLoader().loadClass(name);
 
-            logger.debug(xxxxx);*/
+            logger.finest(xxxxx);*/
 
             //            Class xclass = Class.forName();
             boObject retobj = (boObject) xclass.newInstance();
@@ -2940,7 +2940,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 }
                 catch(Exception e)
                 {
-                    logger.info("rollBackTransaction(EboContext ctx)", e);
+                    logger.finer("rollBackTransaction(EboContext ctx)", e);
                 }
             }
             else
@@ -2968,7 +2968,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 }
                 catch(Exception e)
                 {
-                    logger.info("rollBackTransaction(EboContext ctx)", e);
+                    logger.finer("rollBackTransaction(EboContext ctx)", e);
                 }
                 
 
@@ -3163,7 +3163,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                   catch (SQLException e)
                   {
                         int errorCode = e.getErrorCode( );
-                        logger.info("Error deleting Ebo_textIndex "+e.getMessage());
+                        logger.finer("Error deleting Ebo_textIndex "+e.getMessage());
                         //ignore if error occur in delete Ebo_TextIndex
                   }
                   finally
@@ -3179,7 +3179,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                   }
                   catch (SQLException e)
                   {
-                        logger.error(e);
+                        logger.severe(e);
 
                         int errorCode = e.getErrorCode( );
                         switch (errorCode)
@@ -3275,7 +3275,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         e.getErrorCode().equals("BO-3023") &&
                         e.getSrcObject().getName().equals("Ebo_Registry"))
                 {
-                    logger.error( e.getMessage() );
+                    logger.severe( e.getMessage() );
                     throw new boRuntimeException(loadObject(ctx, bobj.getBoui()),
                         "ObjectDataManager.updateObjectData(boObject)",
                         "BO-3023", e);
@@ -3287,7 +3287,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             }
             catch (SQLException e)
             {
-                logger.error(e,e);
+                logger.severe(e);
                 if ((e.getMessage() != null) &&
                         e.getMessage().startsWith("Registo já foi alterado por outro utilizador"))
                 {
@@ -3308,7 +3308,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             }
             catch (Exception e)
             {
-                logger.error(e,e);
+                logger.severe(e);
                 throw new boRuntimeException(boManagerBean.class.getName() +
                     ".destroyForced(EboContext, boObject)", "BO-3016", e,
                     bobj.bo_name + "(" + bobj.bo_boui + ")");

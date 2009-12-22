@@ -12,7 +12,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoManual extends GtCampo {
@@ -144,7 +144,7 @@ public class GtCampoManual extends GtCampo {
             s = redifineValue(s);
         }
 
-        //        logger.debug(getHTMLFieldName() + "->" + s);
+        //        logger.finest(getHTMLFieldName() + "->" + s);
         if (Integer.parseInt(getTipo()) == 4) {
             String time = request.getParameter("_ignore_" + getHTMLFieldName());
 
@@ -180,7 +180,7 @@ public class GtCampoManual extends GtCampo {
 
         while (oEnum.hasMoreElements()) {
             String o = (String) oEnum.nextElement();
-            logger.debug(o + " -> " + req.getParameter(o));
+            logger.finest(o + " -> " + req.getParameter(o));
         }
     }
 

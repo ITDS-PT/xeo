@@ -25,7 +25,7 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Node;
 
@@ -130,7 +130,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
         }
         catch (XSLException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
 
@@ -221,7 +221,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
         }
         catch (XSLException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
 

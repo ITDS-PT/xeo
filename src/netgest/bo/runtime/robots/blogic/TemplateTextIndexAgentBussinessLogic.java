@@ -11,7 +11,7 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class TemplateTextIndexAgentBussinessLogic 
 {
@@ -30,7 +30,7 @@ public class TemplateTextIndexAgentBussinessLogic
         EboContext ctx = null;
         boSession session = null;
         boolean locked = false;
-        logger.debug("Starting Template_TextIndex rebuilder agent.....");
+        logger.finest("Starting Template_TextIndex rebuilder agent.....");
         try
         {          
         	if ( boDefHandler.getBoDefinition("iXEOUser") != null ) {
@@ -41,11 +41,11 @@ public class TemplateTextIndexAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.error("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
+            logger.severe("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
         }  
         catch (boRuntimeException e)
         {
-            logger.error("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
+            logger.severe("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
         }
         finally
         {

@@ -4,7 +4,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boMail;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class EmailSchedule implements boSchedule
 {
@@ -63,7 +63,7 @@ public class EmailSchedule implements boSchedule
       {
         //write the exception to the log
         //and continue to next mailAccount
-         logger.error("Error synchronizing mailBox from user: " + object.getAttribute("username").getValueString(), e);
+         logger.severe("Error synchronizing mailBox from user: " + object.getAttribute("username").getValueString(), e);
       }
     }        
     return true;

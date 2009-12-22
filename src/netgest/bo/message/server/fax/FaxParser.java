@@ -29,7 +29,7 @@ import netgest.utils.ClassUtils;
 import netgest.utils.HTMLRemover;
 import netgest.xwf.EngineGate;
 import netgest.xwf.core.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -202,7 +202,7 @@ public class FaxParser
         }
         catch (Exception e)
         {
-           logger.error("", e);
+           logger.severe("", e);
         }
         return false;
     }

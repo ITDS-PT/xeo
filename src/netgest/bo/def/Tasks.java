@@ -14,7 +14,7 @@ import netgest.utils.ngtXMLUtils;
 
 import oracle.xml.parser.v2.XMLDocument;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class Tasks  
 {
@@ -65,7 +65,7 @@ public class Tasks
         } 
         catch (Exception e) 
         {
-            logger.error( "Isto indica um mau deployment ou ficheiro de tarefas inexistente : " + boConfig.getNgtHome() + File.separator + fileName);
+            logger.severe( "Isto indica um mau deployment ou ficheiro de tarefas inexistente : " + boConfig.getNgtHome() + File.separator + fileName);
         }
     }
     private TaskProperties getProperties(ngtXMLHandler node)
@@ -116,15 +116,15 @@ public class Tasks
         }
         catch (InstantiationException e)
         {
-            logger.error( null, e ); 
+            logger.severe( null, e ); 
         }
         catch (IllegalAccessException e)
         {
-            logger.error( null, e );
+            logger.severe( null, e );
         }
         catch (ClassNotFoundException e)
         {
-            logger.error( "Isto indica um mau deployment ou ficheiro de tarefa inexistente : " + className , e );            
+            logger.severe( "Isto indica um mau deployment ou ficheiro de tarefa inexistente : " + className , e );            
         }        
         return object;
     }     

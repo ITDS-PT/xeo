@@ -2,7 +2,7 @@
 package netgest.bo.utils;
 import netgest.bo.runtime.*;
 import netgest.bo.runtime.EboContext;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -82,7 +82,7 @@ public class AliasUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
 }

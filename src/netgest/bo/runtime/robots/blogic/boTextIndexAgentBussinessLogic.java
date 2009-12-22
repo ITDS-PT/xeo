@@ -14,7 +14,7 @@ import netgest.bo.system.boLogin;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.boTextIndexQueue;
 
 
@@ -59,7 +59,7 @@ public class boTextIndexAgentBussinessLogic
         long workTime=0;
         try
         {
-//            logger.debug("Starting EboTextIndex schedule agent.....");
+//            logger.finest("Starting EboTextIndex schedule agent.....");
             session =  p_app.boLogin( "SYSTEM", boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName() );
             EboContext ctx = null;
             try 
@@ -150,7 +150,7 @@ public class boTextIndexAgentBussinessLogic
                           ctx.beginContainerTransaction();
                           CharArrayWriter cw = new CharArrayWriter(  );
                           PrintWriter     pw = new PrintWriter( cw );
-                          logger.fatal("Error indexing object:["+itens[counter]+"]",e);
+                          logger.severe("Error indexing object:["+itens[counter]+"]",e);
                           e.printStackTrace( pw );
                           try
                           {
@@ -170,7 +170,7 @@ public class boTextIndexAgentBussinessLogic
                     {
                         if( itens != null && itens.length > 0 ) 
                         {
-                            logger.info(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
+                            logger.finer(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
                         }
                         ctx.releaseAllObjects();
                         if ( ctx.getThread() != null ) 
@@ -190,7 +190,7 @@ public class boTextIndexAgentBussinessLogic
               }
               if( itens != null && itens.length > 0 ) 
               {
-                  logger.info(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
+                  logger.finer(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
               }
               // Clean objects in queue
               // queue.p_objects.clear();
@@ -210,11 +210,11 @@ public class boTextIndexAgentBussinessLogic
                 if (cn!=null)cn.close();
                 cn = null;                
             }
-//            logger.info("Finished EboTextIndex schedule agent.....");
+//            logger.finer("Finished EboTextIndex schedule agent.....");
         }
         catch (Throwable e)
         {
-            logger.error( "Error building TextIndex \n"+e.getMessage(), e );
+            logger.severe( "Error building TextIndex \n"+e.getMessage(), e );
             e.printStackTrace();
         }
         finally

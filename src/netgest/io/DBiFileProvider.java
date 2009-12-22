@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.sql.*;
 import javax.sql.DataSource;
 import javax.naming.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class DBiFileProvider extends iFileProvider  {
     //logger
@@ -61,7 +61,7 @@ public class DBiFileProvider extends iFileProvider  {
 			//JBOSS
             //cn.setAutoCommit(false);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.severe("", e);
             cn=null;
         }
         return cn;            

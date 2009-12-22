@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataRow;

@@ -18,7 +18,7 @@ import netgest.bo.system.*;
 import netgest.io.FSiFile;
 import netgest.io.iFile;
 import netgest.utils.IOUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class ClientHelper  
 {
@@ -56,7 +56,7 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.error("Não foi possível efectuar o login", e);
+            logger.severe("Não foi possível efectuar o login", e);
         }
         catch (RuntimeException e)
         {
@@ -64,7 +64,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
         }
         finally
         {
@@ -117,7 +117,7 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.error("Não foi possível efectuar o login", e);
+            logger.severe("Não foi possível efectuar o login", e);
             throw new RuntimeException("Não foi possível efectuar o login");
         }
         catch (RuntimeException e)
@@ -126,7 +126,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally
@@ -175,7 +175,7 @@ public class ClientHelper
             }
             else
             {
-                logger.error("A sessão do utilizador foi fechada.");
+                logger.severe("A sessão do utilizador foi fechada.");
                 throw new RuntimeException("A sessão do utilizador foi fechada.");
             }
         }
@@ -252,7 +252,7 @@ public class ClientHelper
             }
             else
             {
-                logger.error("A sessão do utilizador foi fechada.");
+                logger.severe("A sessão do utilizador foi fechada.");
                 throw new RuntimeException("A sessão do utilizador foi fechada.");
             }
         }
@@ -262,7 +262,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally
@@ -325,7 +325,7 @@ public class ClientHelper
             }
             else
             {
-                logger.error("A sessão do utilizador foi fechada.");
+                logger.severe("A sessão do utilizador foi fechada.");
                 throw new RuntimeException("A sessão do utilizador foi fechada.");
             }
         }
@@ -335,7 +335,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e); 
+            logger.severe("Erro inesperado:", e); 
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally
@@ -386,11 +386,11 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.error("NÃ£o foi possÃ­vel efectuar o login", e);
+            logger.severe("NÃ£o foi possÃ­vel efectuar o login", e);
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
         }
         finally
         {
@@ -426,7 +426,7 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.error("Não foi possível efectuar o login", e);
+            logger.severe("Não foi possível efectuar o login", e);
             throw new RuntimeException("Não foi possível efectuar o login");
         }
         catch (RuntimeException e)
@@ -435,7 +435,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally
@@ -484,7 +484,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally
@@ -529,7 +529,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.error("Erro inesperado:", e);
+            logger.severe("Erro inesperado:", e);
             throw new RuntimeException("Erro no servidor. Tente novamente.");
         }
         finally

@@ -18,7 +18,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.boObjectUpdateQueue;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.xwf.common.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * <p>Title: xwfActivityEvent </p>
@@ -46,7 +46,7 @@ public final class xwfActivityEvent
         }
         catch (boRuntimeException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
             transferActivity.addErrorMessage(e.getMessage());
             return false;
         }

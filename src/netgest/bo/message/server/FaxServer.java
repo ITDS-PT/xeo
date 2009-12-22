@@ -32,7 +32,7 @@ import netgest.utils.ClassUtils;
 
 import netgest.xwf.EngineGate;
 import netgest.xwf.core.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -151,7 +151,7 @@ public class FaxServer extends Mail implements MediaServer
     {
         boolean toRetTo = false, toRetCC = false, toRetBCC = false;
         ArrayList filesTodelete = new ArrayList();
-        logger.info("Preparing to send Fax Via Email");
+        logger.finer("Preparing to send Fax Via Email");
         try
         {
             if(engine == null || ctx == null)
@@ -260,7 +260,7 @@ public class FaxServer extends Mail implements MediaServer
     public boolean send_via_email(Object context, boObject message, boolean saveBinary, String fromAddress, String faxNumber, int type) throws boRuntimeException
     {
         ArrayList filesTodelete = new ArrayList();
-        logger.info("Preparing to send Fax Via Email to number: " + faxNumber);
+        logger.finer("Preparing to send Fax Via Email to number: " + faxNumber);
         try
         {
             MailMessage mailmsg = MailMessage.getNewMailMessageToSent();
@@ -352,7 +352,7 @@ public class FaxServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o fax" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return false;
         }
@@ -373,7 +373,7 @@ public class FaxServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o email" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return false;
         }
@@ -424,7 +424,7 @@ public class FaxServer extends Mail implements MediaServer
                     }
                     catch (Exception e)
                     {
-                        logger.error(e);
+                        logger.severe(e);
                     }
                     finally
                     {
@@ -464,7 +464,7 @@ public class FaxServer extends Mail implements MediaServer
         }
         catch (Exception e)
         {
-            logger.error("",e);
+            logger.severe("",e);
         }
         return false;
     }
@@ -512,7 +512,7 @@ public class FaxServer extends Mail implements MediaServer
         }
         if(MessageUtils.isToWaitResponse(originalMessage) && receivers.size() > 0)
         {
-            logger.info("Vou criar o wait para msg!");
+            logger.finer("Vou criar o wait para msg!");
             originalMessage.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
             try
             {
@@ -680,14 +680,14 @@ public class FaxServer extends Mail implements MediaServer
                 }
                 catch (Exception e)
                 {
-                    logger.error(e);
+                    logger.severe(e);
                 }
             }
             
         }
         catch(Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
     

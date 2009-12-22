@@ -16,7 +16,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.login.LoginUtil;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 public class boSession implements Serializable {
 
     private static Logger logger = Logger.getLogger("netgest.bo.system.boSession");
@@ -158,7 +158,7 @@ public class boSession implements Serializable {
 //            }
 //            catch (Exception e)
 //            {
-//                logger.error("",e);
+//                logger.severe("",e);
 //            }
         }
         p_app.getSessions().removeSession( this );

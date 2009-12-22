@@ -6,7 +6,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.blogic.boSessionCleanAgentBussinessLogic;
 
 /**

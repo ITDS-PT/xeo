@@ -36,7 +36,7 @@ import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLNode;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -981,17 +981,17 @@ public class boDefHandlerImpl extends boDefHandler
         }
         catch (InstantiationException e)
         {
-            logger.fatal("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
             throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
         }
         catch (IllegalAccessException e)
         {
-            logger.fatal("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
             throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
         }
         catch (ClassNotFoundException e)
         {
-            logger.fatal("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
             throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
         }
     }

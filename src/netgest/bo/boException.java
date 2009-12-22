@@ -4,10 +4,15 @@ import java.util.*;
 import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boException extends RuntimeException {
-    //logger
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	//logger
     private static Logger logger = Logger.getLogger("netgest.bo.boException");
     
     public static Hashtable p_errors;
@@ -18,9 +23,11 @@ public class boException extends RuntimeException {
         init(src,code,base,(String[])null);
     }
     public boException(String src,String code,Exception base,String[] args) {
+    	super( base );
         init(src,code,base,args);
     }
     public boException(String src,String code,Exception base,String args) {
+    	super( base );
         String[] x= {args};
         init(src,code,base,x);
     }
@@ -83,7 +90,7 @@ public class boException extends RuntimeException {
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.error("Nexted expcetion is:", this);
+        logger.severe("Nexted expcetion is:", this);
         super.printStackTrace();
     }
 

@@ -8,7 +8,7 @@ import netgest.bo.def.*;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectFinder;
 import netgest.bo.runtime.boRuntimeException;
-import org.apache.log4j.*;
+import netgest.bo.system.Logger;
 import netgest.bo.plugins.IDataManager;
 import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.plugins.IDataPlugin;

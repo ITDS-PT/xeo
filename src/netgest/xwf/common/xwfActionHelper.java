@@ -41,7 +41,7 @@ import netgest.xwf.core.xwfManager;
 import netgest.xwf.core.xwfMessage;
 import netgest.xwf.core.xwfStepExec;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * <p>Title: xwfHelper </p>
@@ -518,7 +518,7 @@ public final class xwfActionHelper
                                 document = (boObject)binary.get(d);
                                 if(document.getAttribute("fileName").getValueString().endsWith(".eml"))
                                 {
-                                    logger.debug("Destroy EML");
+                                    logger.finest("Destroy EML");
                                     document.destroy();                                    
                                 }
                             }
@@ -529,7 +529,7 @@ public final class xwfActionHelper
                                 creator = document.getAttribute("CREATOR").getValueObject();
                                 if(creator == null)
                                 {
-                                    logger.debug("Destroy Anexo");
+                                    logger.finest("Destroy Anexo");
                                     document.destroy();                                    
                                 }
                                 
@@ -865,7 +865,7 @@ public final class xwfActionHelper
         }
         else
         {
-            logger.error("Erro ao criar Announce",e);
+            logger.severe("Erro ao criar Announce",e);
         }
       }
       catch(boRuntimeException ne)

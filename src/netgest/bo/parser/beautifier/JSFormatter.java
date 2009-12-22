@@ -4,7 +4,7 @@ package netgest.bo.parser.beautifier;
 import java.io.*;
 
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class JSFormatter
@@ -148,28 +148,28 @@ public class JSFormatter
             {
                 isHelpShown = true;
 
-                logger.error("");
-                logger.error(
+                logger.severe("");
+                logger.severe(
                     "Usage  : java jstyle.JSFormatter [options] < Original.java > Formatted.java");
-                logger.error(
+                logger.severe(
                     "         java jstyle.JSFormatter [options] Foo.java Bar.java  [...]");
-                logger.error("");
-                logger.error(
+                logger.severe("");
+                logger.severe(
                     "When given a specific file, JSFormatter will create an output file with a");
-                logger.error(
+                logger.severe(
                     "suffix of \".js\" added to the original filename, i.e: Foo.java --> Foo.java.js");
-                logger.error("");
-                logger.error(
+                logger.severe("");
+                logger.severe(
                     "Options: -ll#  Set preferred line length to #");
-                logger.error(
+                logger.severe(
                     "         -ld#  Set preferred upper line length deviation to #");
-                logger.error(
+                logger.severe(
                     "         -b    Break lines BEFORE '{' brackets (ala C++ style)");
-                logger.error(
+                logger.severe(
                     "         -ib   Same as '-b', but add extra indentation to brackets");
-                logger.error(
+                logger.severe(
                     "         -fs   flush (i.e. don't indent) 'switch' blocks");
-                logger.error("         -h    Print this help message");
+                logger.severe("         -h    Print this help message");
                 System.exit(0);
             }
             else
@@ -331,7 +331,7 @@ public class JSFormatter
       * formatted lines with the method nextFormattedLine(), i.e:
       *
       * while (formatter.hasMoreFormattedLines())
-      *     logger.debug(formatter.nextFormattedLine()
+      *     logger.finest(formatter.nextFormattedLine()
       */
     public boolean hasMoreFormattedLines()
     {

@@ -8,7 +8,7 @@ import netgest.bo.system.boPoolable;
 
 import netgest.utils.ClassUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.util.Hashtable;
 

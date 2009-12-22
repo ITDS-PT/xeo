@@ -3,7 +3,7 @@ package netgest.exceptions;
 import java.util.*;
 import java.io.*;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class ngtSystemException extends RuntimeException {
     //logger
@@ -42,7 +42,7 @@ public class ngtSystemException extends RuntimeException {
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.error("Nexted expcetion is:", this);
+        logger.severe("Nexted expcetion is:", this);
         super.printStackTrace();
     }
 

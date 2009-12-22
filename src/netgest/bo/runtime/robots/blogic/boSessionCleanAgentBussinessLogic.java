@@ -9,7 +9,7 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boSessionCleanAgentBussinessLogic {
     //logger
@@ -47,15 +47,15 @@ public class boSessionCleanAgentBussinessLogic {
                   currSession.closeSession();
                 }
               }
-              logger.debug("boSessionCleanAgent Cleaned Sessions: "+sessionsCleaned);
+              logger.finest("boSessionCleanAgent Cleaned Sessions: "+sessionsCleaned);
           }
           catch (boLoginException e)
           {
-              logger.error("Cleaning boSessions XEOLogin Error: ",e);
+              logger.severe("Cleaning boSessions XEOLogin Error: ",e);
           }
           catch(Exception e)
           {
-              logger.error("Cleaning boSessions Unexpected Error: ",e);   
+              logger.severe("Cleaning boSessions Unexpected Error: ",e);   
           }
           finally
           {

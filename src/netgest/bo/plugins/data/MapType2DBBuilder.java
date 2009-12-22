@@ -116,7 +116,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                     );
             if( def.getPreRegisterObjects() )
             {
-                p_bdb.logger.info(" Adding Register Schedule for mapping:" + boDef.getName() );
+                p_bdb.logger.finer(" Adding Register Schedule for mapping:" + boDef.getName() );
                 scheduleObj.getAttribute( "id" ).setValueString( schedName );
                 scheduleObj.getAttribute( "description" ).setValueString( "Pré registo do Objecto mapeado " + boDef.getName() );
                 scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2Register" );
@@ -146,7 +146,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                     
             if( def.getSyncTextIndex() )
             {
-                p_bdb.logger.info(" Adding TextIndex Schedule for mapping:" + boDef.getName() );
+                p_bdb.logger.finer(" Adding TextIndex Schedule for mapping:" + boDef.getName() );
                 scheduleObj.getAttribute( "id" ).setValueString( schedName );
                 scheduleObj.getAttribute( "description" ).setValueString( "Sincronização Ebo_TextIndex do Objecto mapeado "+boDef.getName() );
                 scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2SyncTextIndex" );

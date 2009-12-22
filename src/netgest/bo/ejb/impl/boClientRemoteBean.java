@@ -31,7 +31,7 @@ import netgest.io.iFile;
 
 import netgest.utils.IOUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import xeo.client.business.events.ClientEvents;
 import xeo.client.business.events.FileSystemEvents;
@@ -266,7 +266,7 @@ public class boClientRemoteBean implements SessionBean
         }
         catch(Exception e)
         {
-            logger.error("Erro na actualização do netgest Win32 Client : " + userHostClient);
+            logger.severe("Erro na actualização do netgest Win32 Client : " + userHostClient);
         }
         return result;
     }

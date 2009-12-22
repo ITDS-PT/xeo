@@ -3,7 +3,7 @@ package netgest.system.spy;
 
 import java.sql.*;
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class XEOSpyStatement implements Statement {
     //logger
@@ -27,10 +27,10 @@ public class XEOSpyStatement implements Statement {
         for(int i = 0; i < rsList.size(); i++){
             if(!((XEOSpyResultSet)rsList.get(i)).isClosed()){
                 ((XEOSpyResultSet)rsList.get(i)).close();
-                logger.debug("------------------------------------------------");
-                logger.debug("O ResultSet não foi fechado: " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
+                logger.finest("------------------------------------------------");
+                logger.finest("O ResultSet não foi fechado: " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
                 ((XEOSpyResultSet)rsList.get(i)).printStackTrace();
-                logger.debug("------------------------------------------------");
+                logger.finest("------------------------------------------------");
             }
         }
         rsList.clear();
@@ -241,7 +241,7 @@ public class XEOSpyStatement implements Statement {
     }
 
     private static void writeToLog(long time, String query){
-        logger.debug("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.finest("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
     
     public void printStackTrace()

@@ -9,7 +9,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.EboContext;
 import netgest.utils.DataUtils;
 import netgest.bo.runtime.boObject;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 /**
  * 
  * @Company Enlace3
@@ -54,11 +54,11 @@ public class EmailCast implements CastInterface
             }
             catch (SQLException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
             catch (boRuntimeException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
     }
@@ -93,11 +93,11 @@ public class EmailCast implements CastInterface
             }
             catch (SQLException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
             catch (boRuntimeException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
     }
@@ -127,7 +127,7 @@ public class EmailCast implements CastInterface
             }
             catch (SQLException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
     }

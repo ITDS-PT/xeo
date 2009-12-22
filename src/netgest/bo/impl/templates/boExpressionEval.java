@@ -17,7 +17,7 @@ import netgest.utils.*;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.NodeList;
 
 import java.math.*;
@@ -95,7 +95,7 @@ public class boExpressionEval
             }
             catch (boRuntimeException e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
         catch (boExpressionException e)
@@ -120,7 +120,7 @@ public class boExpressionEval
             }
             catch (EvalError e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
 
@@ -317,7 +317,7 @@ public class boExpressionEval
                 }
                 catch (boRuntimeException e)
                 {
-                    logger.error(e);
+                    logger.severe(e);
                 }
 
                 /*
@@ -485,11 +485,11 @@ public class boExpressionEval
             }
             catch (SQLException sqle)
             {
-                logger.error(sqle);
+                logger.severe(sqle);
             }
             catch (boRuntimeException e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
 
@@ -622,7 +622,7 @@ public class boExpressionEval
                     if(transform!=null) {
                         String javacode = transformToJava(transform);
                         Object rslt = xx.eval(javacode);
-                        logger.debug(transform +" ---> "+ rslt);
+                        logger.finest(transform +" ---> "+ rslt);
                     }
                 }
                 catch (EvalError e) {

@@ -31,7 +31,7 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -500,7 +500,7 @@ public class xwfStepExec
                 }
             }
         }
-    }catch(Exception e){logger.error(e.getMessage());}
+    }catch(Exception e){logger.severe(e.getMessage());}
     
     
   }

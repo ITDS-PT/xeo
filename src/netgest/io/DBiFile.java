@@ -276,7 +276,7 @@ public class DBiFile implements iFile  {
             try
             {
                 //cn = p_dbfp.getConnection();
-                pstm = cn.prepareStatement("SELECT ID FROM "+p_tablename+" WHERE PARENT_ID=? AND FILENAME=?");
+                pstm = cn.prepareStatement("SELECT ID FROM " + p_tablename + " WHERE PARENT_ID=? AND FILENAME=?");
     
                 for (int i = 0; i < dirs.length ; i++) 
                 {

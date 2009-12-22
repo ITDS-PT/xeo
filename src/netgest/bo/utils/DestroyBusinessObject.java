@@ -16,7 +16,7 @@ import netgest.xwf.EngineGate;
 import netgest.xwf.core.xwfAnnounceImpl;
 import netgest.xwf.xwfEngineGate;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * Classe responsável pela remoção de um objecto de negócio.  
@@ -36,7 +36,7 @@ public final class DestroyBusinessObject
     public static boolean destroy(boObject object)  throws boRuntimeException
     {
         boolean result = false;
-        logger.info("Starting destroying object " + object.getBoui());
+        logger.finer("Starting destroying object " + object.getBoui());
         if("message".equals(object.getName()) || 
            "message".equals(object.getBoDefinition().getBoSuperBo()) ||
            "messageSystem".equals(object.getBoDefinition().getBoSuperBo())
@@ -56,7 +56,7 @@ public final class DestroyBusinessObject
         {
             result = destroyObject(object);
         }            
-        logger.info("Ending destroying object " + object.getBoui());
+        logger.finer("Ending destroying object " + object.getBoui());
         return result;
     }
     /**
@@ -361,7 +361,7 @@ public final class DestroyBusinessObject
             document = (boObject)documents.get(i);
             if(document.getAttribute("fileName").getValueString().endsWith(".eml"))
             {
-                logger.debug("Destroy EML");                    
+                logger.finest("Destroy EML");                    
                 document.destroy();                                    
             }
             else if(usedTemplate &&
@@ -375,7 +375,7 @@ public final class DestroyBusinessObject
                 Object creator =  document.getAttribute("CREATOR").getValueObject();
                 if(creator == null)
                 {
-                    logger.debug("Destroy Anexo");
+                    logger.finest("Destroy Anexo");
                     boObject[] referencedBy = document.getReferencedByObjects();
                     if( referencedBy != null && referencedBy.length == 0 )
                     {

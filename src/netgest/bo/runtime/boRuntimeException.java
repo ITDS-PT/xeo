@@ -4,7 +4,7 @@ import java.util.*;
 import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boRuntimeException extends Exception {
     //logger
@@ -136,7 +136,7 @@ public class boRuntimeException extends Exception {
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.error("Nexted expcetion is:", this);
+        logger.severe("Nexted expcetion is:", this);
         super.printStackTrace();
     }
 

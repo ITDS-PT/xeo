@@ -2,16 +2,11 @@
 package netgest.bo;
 
 import java.io.File;
-
 import java.util.ArrayList;
 
-import netgest.bo.boException;
-
 import netgest.utils.ngtXMLUtils;
-
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
-import oracle.xml.parser.v2.XMLNode;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -39,7 +34,6 @@ public class boDataSource
     private String dataSourceDef;
     private String schema;
     private String parent;
-    private boolean builtRuntime;
 
     public boDataSource(String name, String schema, String username,
         String password, String dataSource, String dataSourceDef, 
@@ -52,8 +46,6 @@ public class boDataSource
         this.dataSourceDef = dataSourceDef;
         this.schema = schema;
         this.parent = parent;
-        if(parent != null)
-            builtRuntime = true;
     }
 
     public String getName()
@@ -105,7 +97,6 @@ public class boDataSource
 
                 NodeList list = xmldoc.getChildNodes();
                 Node aux;
-                XMLNode auxNode;
                 String auxS;
 
                 for (int i = 0; i < list.getLength(); i++)
@@ -238,14 +229,14 @@ public class boDataSource
     private synchronized static void writeTo(XMLDocument doc, File f,
         boDataSource source)
     {
-        XMLElement elem = new XMLElement("Repository");
-        XMLElement xdatasourceName = new XMLElement("Name");
-        XMLElement xusername = new XMLElement("UserName");
-        XMLElement xpassword = new XMLElement("Password");
-        XMLElement xschema = new XMLElement("Schema");
-        XMLElement xdtSource = new XMLElement("DataSource");
-        XMLElement xdtSourceDef = new XMLElement("DataSourceDef");
-        XMLElement xparent = new XMLElement("Parent");
+        XMLElement elem = (XMLElement)doc.createElement("Repository");
+        XMLElement xdatasourceName = (XMLElement)doc.createElement("Name");
+        XMLElement xusername = (XMLElement)doc.createElement("UserName");
+        XMLElement xpassword = (XMLElement)doc.createElement("Password");
+        XMLElement xschema = (XMLElement)doc.createElement("Schema");
+        XMLElement xdtSource = (XMLElement)doc.createElement("DataSource");
+        XMLElement xdtSourceDef = (XMLElement)doc.createElement("DataSourceDef");
+        XMLElement xparent = (XMLElement)doc.createElement("Parent");
         xdatasourceName.addText(source.name);
         xusername.addText(source.username);
         xpassword.addText(source.password);
@@ -292,7 +283,6 @@ public class boDataSource
         for(int i = 0; i < n.getLength(); i++)
         {
             aux = n.item(i);
-            String s = aux.getNodeName(); 
             if(aux.getNodeName().equalsIgnoreCase("Repositories"))
             {                
                 return aux;

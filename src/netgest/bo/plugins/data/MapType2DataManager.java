@@ -15,7 +15,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
 
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class MapType2DataManager implements IDataManager 
 {
@@ -441,10 +441,10 @@ public class MapType2DataManager implements IDataManager
             }
             object.setChanged( isChanged );
         }
-//        logger.debug( "onafterLoad ["+object.getName()+"] time:" + (System.currentTimeMillis() - ts) );
+//        logger.finest( "onafterLoad ["+object.getName()+"] time:" + (System.currentTimeMillis() - ts) );
 //        if( object.getName().equals("ANC_entity") )
 //        {
-//            logger.debug( object.getAttribute("id") + ":" + object.getBoui() );
+//            logger.finest( object.getAttribute("id") + ":" + object.getBoui() );
 //        }
         
     }
@@ -468,11 +468,11 @@ public class MapType2DataManager implements IDataManager
             }
         }
         
-        if( logger.isDebugEnabled() )
+        if( logger.isFinerEnabled() )
         {
             if( System.currentTimeMillis() - init > 10000  )
             {
-                logger.info( "Brige a carregar muito lenta: ["+parentObj.getName()+"("+parentObj.getBoui()+")].["+attName+"]" );
+                logger.finer( "Brige a carregar muito lenta: ["+parentObj.getName()+"("+parentObj.getBoui()+")].["+attName+"]" );
             }
         }
     }

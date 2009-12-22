@@ -26,7 +26,7 @@ import netgest.bo.security.securityRights;
 import netgest.bo.xep.Xep;
 
 import netgest.io.iFile;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -497,7 +497,7 @@ public abstract class AttributeHandler implements boIEvents
                             }
                             catch (Exception e)
                             {
-                                logger.error("Error evaluating XEOQL:\n"+tokAux+";",e);
+                                logger.severe("Error evaluating XEOQL:\n"+tokAux+";",e);
                             }
                             xeoql = xeoql.replaceAll(tok,xepStr == null ? "-1":xepStr);
                         }

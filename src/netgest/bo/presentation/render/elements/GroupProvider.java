@@ -47,7 +47,7 @@ import oracle.xml.parser.v2.XMLCDATA;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;

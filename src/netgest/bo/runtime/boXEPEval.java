@@ -15,7 +15,7 @@ import netgest.bo.def.boDefXeoCode;
 import netgest.bo.system.boApplication;
 import netgest.bo.xep.Xep;
 import netgest.xwf.core.xwfECMAparser;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boXEPEval 
 {
@@ -155,7 +155,7 @@ public class boXEPEval
 		}
 		catch (Exception e)
 		{
-			logger.error("Error evaluating Java Code:\n"+source,e);
+			logger.severe("Error evaluating Java Code:\n"+source,e);
 			if( throwException )  
 			{
 				throw new RuntimeException(e);
@@ -200,7 +200,7 @@ public class boXEPEval
         } 
         catch (Exception ex) 
         {
-			logger.error("Error evaluating Xep Code:\n"+source,ex);
+			logger.severe("Error evaluating Xep Code:\n"+source,ex);
 			if( throwException )  
 			{
 				throw new RuntimeException(ex);

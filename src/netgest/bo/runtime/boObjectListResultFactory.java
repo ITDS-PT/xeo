@@ -22,7 +22,7 @@ import netgest.bo.ql.QLParser;
 import netgest.bo.userquery.userquery;
 import netgest.bo.utils.XEOQLModifier;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boObjectListResultFactory  {
 
@@ -412,7 +412,7 @@ public class boObjectListResultFactory  {
             
             if( System.currentTimeMillis() - init > 5000 )
             {
-                logger.error("Query demorada TextIndex["+sqlTextIndex+"]Text:["+textQuery+"] Tempo:["+(System.currentTimeMillis() - init)+"]");
+                logger.severe("Query demorada TextIndex["+sqlTextIndex+"]Text:["+textQuery+"] Tempo:["+(System.currentTimeMillis() - init)+"]");
             }
             
             return bouis;

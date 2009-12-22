@@ -9,7 +9,7 @@ import netgest.utils.mail.mailMessage;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 
@@ -106,7 +106,7 @@ public class SMSApi
         }
         finally
         {
-            logger.debug("Envio de SMS para o número:"+number +" tempo(ms): " + (tf - ti));
+            logger.finest("Envio de SMS para o número:"+number +" tempo(ms): " + (tf - ti));
         }
         
         return true;

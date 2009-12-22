@@ -13,7 +13,7 @@ import netgest.bo.system.boLoginBean;
 
 import netgest.bo.system.boSession;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -75,10 +75,10 @@ public class boScheduleAgent extends Thread
         	}
         }
         catch (boLoginException e) {        
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
         catch (boRuntimeException e) {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
         finally
         {  

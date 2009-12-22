@@ -20,7 +20,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.utils.lock.DBLock;
 import netgest.utils.*;
 import netgest.xwf.common.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public abstract class Ebo_TextIndexImpl extends boObject {
 //    private static boolean isrunning;
@@ -123,7 +123,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                         catch( Exception e )
                         {
                             //ESTA A DAR UM ERRO AQUI QUANDO INDEXA UM XWFACTIVITYfill boui= 14964870
-                            logger.error("ERRO A INDEXAR ACTIVIDADE "+bobj.getBoui() );
+                            logger.severe("ERRO A INDEXAR ACTIVIDADE "+bobj.getBoui() );
                         }
                     }
                 }
@@ -250,7 +250,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                             }
                             catch ( Exception e )
                             {
-                                logger.error("",e);
+                                logger.severe("",e);
                             }
                         }
                         else
@@ -325,7 +325,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                             }
                                             catch ( Exception e )
                                             {
-                                                logger.error("",e);
+                                                logger.severe("",e);
                                             }
                                         }
                                     }
@@ -355,7 +355,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                     }
                                     catch ( Exception e )
                                     {
-                                        logger.error("",e);
+                                        logger.severe("",e);
                                     }
                                 }
                             }
@@ -476,7 +476,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
 //            ((v1_0.Ebo_TextIndex)this).Async_rebuildIndex();
 //            ((v1_0.Ebo_TextIndex)this).executeAsynch();
 //        }
-//        logger.debug("TextIndex update time:"+(System.currentTimeMillis()-initime));
+//        logger.finest("TextIndex update time:"+(System.currentTimeMillis()-initime));
     }
 
 
@@ -551,9 +551,9 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                         }
                         cobj.update();
                     } catch (Exception e) {
-                        logger.error(e);
+                        logger.severe(e);
                     }
-                    logger.debug("Tempo:" + (System.currentTimeMillis()-xx));
+                    logger.finest("Tempo:" + (System.currentTimeMillis()-xx));
                 }
 
                 if(pages==1) {
@@ -608,7 +608,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
         }
         catch (Exception e)
         {
-            logger.error("alreadySet method error", e);
+            logger.severe("alreadySet method error", e);
             //ignore
         }
         return false;

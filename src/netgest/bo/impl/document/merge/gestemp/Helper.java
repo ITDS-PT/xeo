@@ -53,7 +53,7 @@ import netgest.xwf.common.xwfFunctions;
 import netgest.xwf.core.xwfManager;
 import netgest.xwf.core.xwfMessage;
 import netgest.bo.runtime.boConvertUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 //TODO:Implement Interface LUSITANIA
 //import pt.lusitania.events.Message;
@@ -757,7 +757,7 @@ public class Helper
     public static boObject getMessage(EboContext boctx, GtTemplate template, String rosto, String doc, String text, String textAssunto) throws boRuntimeException
     {
         //mensagem normal
-//        logger.debug("--------------------------------Geração da Actividade-----------------------------------------");
+//        logger.finest("--------------------------------Geração da Actividade-----------------------------------------");
         long ti = System.currentTimeMillis();
         boObject destinatario = null;
         boObject mailobject = null;
@@ -1233,8 +1233,8 @@ public class Helper
 //         actvSend.getAttribute("assignedQueue").setValueLong();
 //         mailobject.getObjectBinary().setBinary(null);
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total Criação da Actividade (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//        logger.debug("--------------------------------FIM Geração da Actividade-----------------------------------------");
+        logger.finest("Tempo Total Criação da Actividade (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//        logger.finest("--------------------------------FIM Geração da Actividade-----------------------------------------");
          return actvSend;
     }
 
@@ -1273,18 +1273,18 @@ public class Helper
         boolean ok = false;
         for (int i = 0; i < toDelete.size(); i++)
         {
-            try{mailobject.update();}catch(Exception e){logger.error("",e);} //$NON-NLS-1$
+            try{mailobject.update();}catch(Exception e){logger.severe("",e);} //$NON-NLS-1$
             ok = false;
             try{
                 //TODO: Lusitania??
                 //DestroyBusinessObject.destroyDocuments(toDelete, true);
                 ok = true;
             }catch(Exception e)
-            {logger.error("",e);ok = false;}
+            {logger.severe("",e);ok = false;}
             if(!ok)
-                try{((boObject)toDelete.get(i)).destroy();}catch(Exception e){logger.error("",e);ok = false;} //$NON-NLS-1$
+                try{((boObject)toDelete.get(i)).destroy();}catch(Exception e){logger.severe("",e);ok = false;} //$NON-NLS-1$
             if(!ok)
-                try{((boObject)toDelete.get(i)).destroyForce();ok =true;}catch(Exception e){logger.error("",e);ok = false;}             //$NON-NLS-1$
+                try{((boObject)toDelete.get(i)).destroyForce();ok =true;}catch(Exception e){logger.severe("",e);ok = false;}             //$NON-NLS-1$
         }
     }
 
@@ -1688,7 +1688,7 @@ public class Helper
             }
             catch (SQLException e)
             {
-                logger.error("", e); //$NON-NLS-1$
+                logger.severe("", e); //$NON-NLS-1$
             }
             finally
             {
@@ -1768,7 +1768,7 @@ public class Helper
             }
             catch (SQLException e)
             {
-                logger.error("", e); //$NON-NLS-1$
+                logger.severe("", e); //$NON-NLS-1$
             }
             finally
             {
@@ -1871,7 +1871,7 @@ public class Helper
 
                         //TODO:Implement Interface LUSITANIA
                         //NumeroRegistado.rollBack(msg.getAttribute("registoCTT").getValueString());
-                        logger.info("Desregistar este número:" + msg.getAttribute("registoCTT").getValueString());
+                        logger.finer("Desregistar este número:" + msg.getAttribute("registoCTT").getValueString());
                     }
 
                     //se for carta tenho que ver se é de impressão Central e se ainda não foi impresso
@@ -1983,7 +1983,7 @@ public class Helper
         }
         catch (boRuntimeException e)
         {
-            logger.error("",e); //$NON-NLS-1$
+            logger.severe("",e); //$NON-NLS-1$
             return false;
         }
         return true;
@@ -2030,7 +2030,7 @@ public class Helper
         }
         catch (boRuntimeException e)
         {
-            logger.error("",e); //$NON-NLS-1$
+            logger.severe("",e); //$NON-NLS-1$
             return false;
         }
         return true;
@@ -2137,7 +2137,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.error("",e); //$NON-NLS-1$
+            logger.severe("",e); //$NON-NLS-1$
         }
         return docBoui;
    }
@@ -2208,7 +2208,7 @@ public class Helper
         }
         catch (SQLException e)
         {
-            logger.error("", e); //$NON-NLS-1$
+            logger.severe("", e); //$NON-NLS-1$
         }
         finally
         {
@@ -2240,7 +2240,7 @@ public class Helper
         }
         catch(Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return toRet;
    }
@@ -2267,7 +2267,7 @@ public class Helper
         }
         catch(Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return toRet;
    }
@@ -2499,7 +2499,7 @@ public class Helper
             }
             catch (Exception e)
             {
-                logger.error("", e); //$NON-NLS-1$
+                logger.severe("", e); //$NON-NLS-1$
             }
             finally
             {
@@ -2533,7 +2533,7 @@ public class Helper
     public static boObject setMessage(EboContext boctx, GtTemplate template, String rosto, String doc, String text, String textAssunto) throws boRuntimeException
     {
         //mensagem normal
-//        logger.debug("--------------------------------Geração da Actividade-----------------------------------------");
+//        logger.finest("--------------------------------Geração da Actividade-----------------------------------------");
         long ti = System.currentTimeMillis();
         boObject mailobject = null;
         boObject actvSend = null;
@@ -2886,7 +2886,7 @@ public class Helper
         }
         catch (SQLException e)
         {
-            logger.error("", e); //$NON-NLS-1$
+            logger.severe("", e); //$NON-NLS-1$
         }
         finally
         {
@@ -3083,7 +3083,7 @@ public class Helper
                         foundQ = true;
                         if(path.length == 1)
                         {
-                            logger.info(helper + "->" + querie.getBoui()); //$NON-NLS-1$
+                            logger.finer(helper + "->" + querie.getBoui()); //$NON-NLS-1$
                             return querie.getBoui();
                         }
                         //agora vou andar nos campos da querie
@@ -3097,7 +3097,7 @@ public class Helper
                                 if(path.length == 2)
                                 {
                                     foundC = true;
-                                    logger.info(helper + "->" + campo.getBoui()); //$NON-NLS-1$
+                                    logger.finer(helper + "->" + campo.getBoui()); //$NON-NLS-1$
                                     return campo.getBoui();
                                 }
                                 else
@@ -3110,7 +3110,7 @@ public class Helper
                                         if(path[2].equals(campo.getAttribute("nome").getValueString())) //$NON-NLS-1$
                                         {
                                             foundC = true;
-                                            logger.info(helper + "->" + campo.getBoui()); //$NON-NLS-1$
+                                            logger.finer(helper + "->" + campo.getBoui()); //$NON-NLS-1$
                                             return campo.getBoui();
                                         }
                                     }
@@ -3131,7 +3131,7 @@ public class Helper
                         campoManual = bit.currentRow().getObject();
                         if(path[0].equals(campoManual.getAttribute("nome").getValueString())) //$NON-NLS-1$
                         {
-                            logger.info(helper + "->" + campoManual.getBoui()); //$NON-NLS-1$
+                            logger.finer(helper + "->" + campoManual.getBoui()); //$NON-NLS-1$
                             return campoManual.getBoui();
                         }
                     }
@@ -3322,7 +3322,7 @@ public class Helper
             }
             catch (Exception e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
             finally
             {
@@ -3354,7 +3354,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.error("", e); //$NON-NLS-1$
+            logger.severe("", e); //$NON-NLS-1$
         }
         finally
         {
@@ -3382,7 +3382,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.error("", e); //$NON-NLS-1$
+            logger.severe("", e); //$NON-NLS-1$
         }
         finally
         {

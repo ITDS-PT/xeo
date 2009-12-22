@@ -18,7 +18,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.io.iFile;
 import netgest.io.iFileServer;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoObjecto extends GtCampo {
@@ -163,7 +163,7 @@ public class GtCampoObjecto extends GtCampo {
         {
             if( value == null )
             {
-                logger.error("Campo  ["+attDef.getBoDefHandler().getName()+"."+attDef.getName()+
+                logger.severe("Campo  ["+attDef.getBoDefHandler().getName()+"."+attDef.getName()+
                         "] está a null no modelo " +
                         " Header:["+this.getHeaderName()+"]"+
                         " Nome:["+this.getNome()+"]"+
@@ -181,7 +181,7 @@ public class GtCampoObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.info("Tempo Total (" +
+        logger.finer("Tempo Total (" +
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
             "s) campoObjecto:" + getNome());
     }
@@ -248,7 +248,7 @@ public class GtCampoObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.info("Tempo Total (" +
+        logger.finer("Tempo Total (" +
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
             "s) campoObjecto:" + getNome());
     }
@@ -308,7 +308,7 @@ public class GtCampoObjecto extends GtCampo {
                 }
             }
 
-            logger.error("Campo Objecto[" + getNome() + "] : " + msg, e);
+            logger.severe("Campo Objecto[" + getNome() + "] : " + msg, e);
             throw new boRuntimeException("",
                 "Não foi possível calcular [" + getPergunta() +
                 "]. Verifique se o valor introduzido está correcto.", null);

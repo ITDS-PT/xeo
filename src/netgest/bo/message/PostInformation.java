@@ -23,7 +23,7 @@ import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.EngineGate;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

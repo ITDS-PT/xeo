@@ -18,7 +18,7 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginLocalHome;
 import netgest.bo.system.boSession;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boScheduleAgentBussinessLogic 
 {
@@ -42,7 +42,7 @@ public class boScheduleAgentBussinessLogic
   
   public void execute()
   {
-      logger.debug("Starting schedule agent.....");
+      logger.finest("Starting schedule agent.....");
       boSession session = null;
       Context ic = null;
       try 
@@ -72,11 +72,11 @@ public class boScheduleAgentBussinessLogic
                       { 
                           try 
                           {
-                              logger.debug( "Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
+                              logger.finest( "Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
                               boObject sched = list.getObject();  
                               sched.getAttribute("activeStatus").setValueString("1");
                               sched.update();
-                              logger.debug( "End Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
+                              logger.finest( "End Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
                                                                 
                               if (p_group!=null)
                               {
@@ -90,14 +90,14 @@ public class boScheduleAgentBussinessLogic
                               else //Implementar com EJB Timer definir timer para executar de seguida e após execução é logo suspendido
                               {
                                   String tname = "XEO Schedule EjbTimer [" + sched.getAttribute("description").getValueString()  +"]";
-                                  logger.debug("Starting " + tname );
+                                  logger.finest("Starting " + tname );
                                   ic = new InitialContext();
                                   boScheduleThreadEJBLocalHome home = (boScheduleThreadEJBLocalHome)ic.lookup("java:comp/env/ejb/boScheduleThreadLocal");   
                                   boScheduleThreadLocalEJB schedejb = home.create();
                                   schedejb.addSchedule(sched);
                                   schedejb.start(sched.getAttribute("description").getValueString());
                                   ic.close();
-                                  logger.debug("Started "+tname);  
+                                  logger.finest("Started "+tname);  
                               }
                           } 
                           catch (Exception e) 
@@ -118,16 +118,16 @@ public class boScheduleAgentBussinessLogic
           }
           else
           {
-              logger.debug("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
+              logger.finest("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
           }
       }
       catch ( DataException e )
       {
-          logger.debug("Error reading schedule table.\n"+e.getMessage());
+          logger.finest("Error reading schedule table.\n"+e.getMessage());
       }
       catch ( Exception e )
       {
-          logger.debug("Schedule agent finished with errors ");
+          logger.finest("Schedule agent finished with errors ");
           e.printStackTrace();
       }
       finally
@@ -145,6 +145,6 @@ public class boScheduleAgentBussinessLogic
           }
       }
       
-      logger.debug("Schedule agent finished");
+      logger.finest("Schedule agent finished");
   }
 }

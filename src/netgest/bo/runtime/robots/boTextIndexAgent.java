@@ -2,7 +2,7 @@
 package netgest.bo.runtime.robots;
 
 import netgest.bo.system.boApplication;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 
 /**
@@ -78,13 +78,13 @@ public class boTextIndexAgent extends Thread
         }
         catch (InterruptedException e)
         {
-            //logger.error("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
+            //logger.severe("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
             // Thread was iterruped... terminate normaly
-            // logger.info( " Exiting boTextIndex Thread, thread was interrupted!!!" );
+            // logger.finer( " Exiting boTextIndex Thread, thread was interrupted!!!" );
         }
         catch (Throwable e)
         {
-            logger.error( "Error building TextIndex \n"+e.getMessage(), e );
+            logger.severe( "Error building TextIndex \n"+e.getMessage(), e );
         }
         finally
         {                  

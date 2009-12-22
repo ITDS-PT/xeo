@@ -32,7 +32,7 @@ import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import com.ibm.regex.REUtil;
 import com.ibm.regex.RegularExpression;
@@ -133,12 +133,12 @@ public class boClassBuilder
 
     //                long time2 = System.currentTimeMillis();
     //                long total = (time2 - time1)/1000;
-    //                logger.info("Beautifier time = " + total + " (s)");
+    //                logger.finer("Beautifier time = " + total + " (s)");
                     //remover o ficheiro temporario
     //                tempFile.delete();
 
 
-                   // logger.debug("Compile "+ version+" "+bodef.getLabel() );
+                   // logger.finest("Compile "+ version+" "+bodef.getLabel() );
                     srcfiles.add(srcfile);
                 }
                 p_buildProgress.addCurrentTaskProgress();
@@ -152,7 +152,7 @@ public class boClassBuilder
             ArrayList auxL = new ArrayList(COMPILE_MAX);
             File[] aux = new File[COMPILE_MAX];
             int pos = 0;
-            logger.info("Started Compiling " + a_srcfiles.length + " classes...");
+            logger.finer("Started Compiling " + a_srcfiles.length + " classes...");
 
             p_buildProgress.addOverallProgress();
             p_buildProgress.setOverallTaskName( "Compiling XEO Model java source files..." );            
@@ -172,18 +172,18 @@ public class boClassBuilder
                 	p_buildProgress.addCurrentTaskProgress();
                 
             }
-            logger.info("Ended Compiling...");
+            logger.finer("Ended Compiling...");
 
 
         } catch (IOException e) {
-            logger.error(e);
+            logger.severe(e);
             throw new boException(this.getClass().getName()+"build(String)","BO-1601",e,bodef.getBoName());
         } catch (RuntimeException e) {
-            logger.error(e);
+            logger.severe(e);
             throw new boException(this.getClass().getName()+"build(String)","BO-1601",e,bodef.getBoName());
         } catch(Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
             throw new boException(this.getClass().getName()+"build(String)","BO-1601",e,bodef.getBoName());
         }
     }
@@ -572,10 +572,6 @@ public class boClassBuilder
         }
 
         //disableWhen
-        if( "gestor".equalsIgnoreCase( att.getName()) )
-        {
-            boolean tobreak=true;
-        }
         code = att.getDisableWhen();
         if( code != null)
         {
@@ -677,7 +673,7 @@ public class boClassBuilder
 //        }
         if( sb.toString().trim().startsWith("null") )
         {
-            logger.error("ERRO.. codigo gerado a null");
+            logger.severe("ERRO.. codigo gerado a null");
         }
         return sb.toString();
 

@@ -7,7 +7,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public abstract class XEOTimedObjectWrapper {
     
@@ -22,7 +22,7 @@ public abstract class XEOTimedObjectWrapper {
         {
             TimerService timerService = context.getTimerService();
             timer = timerService.createTimer(timedObject.getInterval(), timedObject.getName());
-            logger.info("["+timedObject.getName()+"]  Schedule next run at ["+timer.getNextTimeout()+"] with timeout ["+timedObject.getInterval()+"]");
+            logger.finer("["+timedObject.getName()+"]  Schedule next run at ["+timer.getNextTimeout()+"] with timeout ["+timedObject.getInterval()+"]");
         }
         else logger.warn("XEOTimedObject Not Found!!");
     }

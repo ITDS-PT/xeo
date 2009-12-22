@@ -18,7 +18,7 @@ import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.presentation.render.elements.Explorer;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class ExplorerPrintResultSet
 {

@@ -7,7 +7,7 @@ import netgest.bo.runtime.robots.boSchedule;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class clearPrintQueuesTemporaryFiles implements boSchedule
 {

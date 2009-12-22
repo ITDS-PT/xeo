@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class CleanDirectory
 {
@@ -43,13 +43,13 @@ public class CleanDirectory
                 }
                 catch (Exception e)
                 {
-                    logger.error( "Erro a eliminar ficheiros temporarios 1:", e );
+                    logger.severe( "Erro a eliminar ficheiros temporarios 1:", e );
                 }
             }
         }
         catch (Exception e)
         {
-            logger.error( "Erro a eliminar ficheiros temporarios 2:", e );
+            logger.severe( "Erro a eliminar ficheiros temporarios 2:", e );
         }
     }
     

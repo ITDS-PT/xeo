@@ -37,7 +37,7 @@ import netgest.bo.system.boRepository;
 import netgest.utils.DataUtils;
 import netgest.utils.StringUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class OracleDBM
 {
@@ -2359,21 +2359,21 @@ public class OracleDBM
 
             if (!destexists && srcexists)
             {
-                logger.debug("Renaming table from [" + srcTableName +
+                logger.finest("Renaming table from [" + srcTableName +
                     "] to [" + destTableName + "]");
 
                 CallableStatement cstm = cn.prepareCall("ALTER TABLE " +
                         srcTableName + " RENAME TO " + destTableName);
                 cstm.execute();
                 cstm.close();
-                logger.debug(" Updating ngtdic... ");
+                logger.finest(" Updating ngtdic... ");
                 OracleDBM.createDictionaryFromTable(new String[] { destTableName },
                     "DATA", cndef, cn);
-                logger.debug("done renaming");
+                logger.finest("done renaming");
             }
             else
             {
-                logger.debug("Cannot rename table [" + srcTableName +
+                logger.finest("Cannot rename table [" + srcTableName +
                     "] to [" + destTableName +
                     "] because one of them does not exist.");
             }
@@ -2495,10 +2495,10 @@ public class OracleDBM
                     }
                 }
 
-                logger.debug("---  RENAMING TABLE FROM  [" + srcTableName +
+                logger.finest("---  RENAMING TABLE FROM  [" + srcTableName +
                     "] TO [" + newtable + "]");
                 ret = renameTable(p_eboctx, srcTableName, newtable);
-                logger.debug("---  END RENAMING TABLE FROM [" +
+                logger.finest("---  END RENAMING TABLE FROM [" +
                     srcTableName + "] TO [" + newtable + "]");
             }
         }
@@ -2555,12 +2555,12 @@ public class OracleDBM
                             srcTableName.toUpperCase());
                 }
 
-                logger.debug("---  CREATING A BACKUP OF [" + srcTableName +
+                logger.finest("---  CREATING A BACKUP OF [" + srcTableName +
                     "] TO [" + newtable + "]");
                 ret = copyDataToNewTable(p_eboctx, srcTableName, newtable,
                         null, false, 0);
 
-                //                logger.debug("---  END BACKUP OF ["+srcTableName+"] TO ["+newtable+"]");
+                //                logger.finest("---  END BACKUP OF ["+srcTableName+"] TO ["+newtable+"]");
             }
         }
         catch (boRuntimeException e)
@@ -2650,7 +2650,7 @@ public class OracleDBM
             {
                 if (log)
                 {
-                    logger.debug("Creating and copy Data from [" +
+                    logger.finest("Creating and copy Data from [" +
                         srcTableName + "] to [" + destTableName + "]");
                 }
 
@@ -2664,7 +2664,7 @@ public class OracleDBM
 
                 if (log)
                 {
-                    logger.debug(" Updating ngtdic... ");
+                    logger.finest(" Updating ngtdic... ");
                 }
 
                 //                 if( log ) dbmagf.loadTableFromDB( new String[] { destTableName } , "DATA", cndef , cn );
@@ -2675,7 +2675,7 @@ public class OracleDBM
             {
                 if (log)
                 {
-                    logger.debug("Copy Data from [" + srcTableName +
+                    logger.finest("Copy Data from [" + srcTableName +
                         "] to [" + destTableName + "]");
                 }
 
@@ -2716,11 +2716,11 @@ public class OracleDBM
                 //                 boolean desthavedata = tableExistsAndHaveQuery( p_eboctx, destTableName, where );
                 //                 if( desthavedata && srchavedata )
                 //                 {
-                //                     if( log ) logger.debug("Deleting destination table rows with query " + where );
+                //                     if( log ) logger.finest("Deleting destination table rows with query " + where );
                 //                     CallableStatement cstm = cn.prepareCall("DELETE "+destTableName +(where!=null&&where.length()>0?" WHERE " + where:""));
                 //                     int recs = cstm.executeUpdate();
                 //                     cstm.close();
-                //                     if( log ) logger.debug("["+recs+"] deleted.");
+                //                     if( log ) logger.finest("["+recs+"] deleted.");
                 //                 }
                 CallableStatement cstm;
                 int recs = 0;
@@ -2737,17 +2737,17 @@ public class OracleDBM
 
                     if (log)
                     {
-                        logger.debug("done. [" + recs + "] records copied.");
+                        logger.finest("done. [" + recs + "] records copied.");
                     }
                 }
 
                 //                 if( mode == 0 || mode == 2 )
                 //                 {
-                //                     if( log ) logger.debug("Deleting moved records");
+                //                     if( log ) logger.finest("Deleting moved records");
                 //                     cstm = cn.prepareCall("delete "+srcTableName+" "+(where!=null&&where.length()>0?" WHERE " + where:""));
                 //                     recs = cstm.executeUpdate();
                 //                     cstm.close();
-                //                     if( log ) logger.debug("done. ["+recs+"] deleted from "+srcTableName);
+                //                     if( log ) logger.finest("done. ["+recs+"] deleted from "+srcTableName);
                 //                 }
                 //                 if( log ) dbmagf.loadTableFromDB( new String[] { destTableName } , "DATA", cndef , cn );
                 cn.commit();

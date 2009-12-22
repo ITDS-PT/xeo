@@ -14,7 +14,7 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginHome;
 import netgest.bo.system.boSession;
 import netgest.xwf.core.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import netgest.xwf.common.xwfBoManager;
 import netgest.xwf.core.xwfControlFlow;
@@ -47,7 +47,7 @@ public class xwfDefActivAgent extends Thread
     
     public void run()
     {
-        logger.debug("Starting XEO Schedule Agent for Def Activity Thread.....");
+        logger.finest("Starting XEO Schedule Agent for Def Activity Thread.....");
         InitialContext ic = null;
         boSession session = null;
         try 
@@ -114,7 +114,7 @@ public class xwfDefActivAgent extends Thread
                             }
                             catch( NamingException e )
                             {
-                                logger.error( "OC4J Shutdown or XEO not deployed.  [boLogin] JNDI name not found" );
+                                logger.severe( "OC4J Shutdown or XEO not deployed.  [boLogin] JNDI name not found" );
                                 super.interrupt();
                                 break;
                             }
@@ -132,16 +132,16 @@ public class xwfDefActivAgent extends Thread
             }
             else
             {
-                logger.debug("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
+                logger.finest("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
             }
         }
         catch ( DataException e )
         {
-            logger.debug("Error reading schedule table.\n"+e.getMessage());
+            logger.finest("Error reading schedule table.\n"+e.getMessage());
         }
         catch ( Exception e )
         {
-            logger.debug("Schedule agent finished with errors ");
+            logger.finest("Schedule agent finished with errors ");
             e.printStackTrace();
         }
         finally

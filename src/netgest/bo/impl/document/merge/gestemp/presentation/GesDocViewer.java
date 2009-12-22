@@ -40,7 +40,7 @@ import netgest.bo.runtime.boRuntimeException;
 
 import netgest.bo.runtime.bridgeHandler;
 import netgest.utils.DataUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 //TODO:Implement Interface LUSITANIA
 //import pt.lusitania.explorerFilters.documentExplorer.FilterViewer;
@@ -153,7 +153,7 @@ public class GesDocViewer
             }
             catch (Exception e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
         else
@@ -205,7 +205,7 @@ public class GesDocViewer
             }
             catch (Exception e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
         else
@@ -1299,7 +1299,7 @@ public class GesDocViewer
     public void validate(EboContext boctx, ArrayList erros) throws boRuntimeException
     {
         long ti = System.currentTimeMillis();
-        logger.debug("--------------------------------Validação-----------------------------------------"); //$NON-NLS-1$
+        logger.finest("--------------------------------Validação-----------------------------------------"); //$NON-NLS-1$
         for (int i = 0; i < groupClassifications.size(); i++) 
         {
             ((GesDocObj)groupClassifications.get(i)).validate(boctx, erros);
@@ -1309,8 +1309,8 @@ public class GesDocViewer
             javaValidation(boctx, erros);
         }
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-        logger.debug("--------------------------------------------------------------------------------"); //$NON-NLS-1$
+        logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest("--------------------------------------------------------------------------------"); //$NON-NLS-1$
     }
     
     public void clear()

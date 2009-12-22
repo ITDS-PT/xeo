@@ -4,7 +4,7 @@ import bsh.NameSpace;
 import java.util.ArrayList;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 public class GtTag
 {
     private String name;
@@ -72,7 +72,7 @@ public class GtTag
         catch (Exception e)
         {
             String msg = "Não foi possível calcular a tag [" +getName() +"]";
-            logger.error("Query[" + getName()+"] : " + msg, e);
+            logger.severe("Query[" + getName()+"] : " + msg, e);
             throw new boRuntimeException("", msg, null);
         }
     }

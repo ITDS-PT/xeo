@@ -11,7 +11,7 @@ import netgest.bo.def.v2.boDefMethodImpl;
 
 import netgest.utils.ngtXMLHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class boDefBridgeImpl extends ngtXMLHandler implements boDefBridge
@@ -159,9 +159,9 @@ public class boDefBridgeImpl extends ngtXMLHandler implements boDefBridge
         if ((p_fatherdef == null) || (p_fatherdef.getBoName() == null) ||
                 (p_childdef == null) || (p_childdef.getBoName() == null))
         {
-            logger.info(this.p_atthandler.getReferencedObjectName());
-            logger.info(this.p_atthandler.getName());
-            logger.info("Null ");
+            logger.finer(this.p_atthandler.getReferencedObjectName());
+            logger.finer(this.p_atthandler.getName());
+            logger.finer("Null ");
         }
 
         if (p_fatherdef.getBoName().equals(p_childdef.getBoName()))

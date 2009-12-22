@@ -4,7 +4,7 @@ package netgest.bo.message.server.mail;
 import netgest.bo.message.Address;
 import netgest.bo.message.utils.XEOIDUtil;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

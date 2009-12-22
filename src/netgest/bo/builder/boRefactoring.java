@@ -43,7 +43,7 @@ import oracle.xml.parser.v2.XMLElement;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 /**
  * 
  * @Company Enlace3
@@ -86,7 +86,7 @@ public class boRefactoring
                 pathProvider.put(theFile);
                 if(theFile == null)
                 {
-                    logger.debug("Objecto inexistente.");
+                    logger.finest("Objecto inexistente.");
                     return;
                 }
                 else
@@ -104,7 +104,7 @@ public class boRefactoring
                 }
                 else
                 {
-                    logger.debug(files[i].getAbsolutePath() + " ERROR: Can't write.");
+                    logger.finest(files[i].getAbsolutePath() + " ERROR: Can't write.");
                 }
             }
         }
@@ -127,7 +127,7 @@ public class boRefactoring
             File bodef = new File(p_bcfg.getDefinitiondir()); 
             File[] files = p_repository.getXMLFiles();
             pathProvider.put( files);
-            logger.debug("Files that will be changed by this refactoring: ");
+            logger.finest("Files that will be changed by this refactoring: ");
             File theFile = p_repository.getXMLFile( objName);
             if(theFile == null)
             {
@@ -135,7 +135,7 @@ public class boRefactoring
             }
             if(!theFile.canWrite() || !theFile.getParentFile().canWrite())
             {
-                logger.debug(theFile.getAbsolutePath() + " ERROR: Can't write.");
+                logger.finest(theFile.getAbsolutePath() + " ERROR: Can't write.");
                 noPermission = true;
             }            
             String boname= theFile.getName().substring(0, theFile.getName().indexOf("$"));
@@ -146,17 +146,17 @@ public class boRefactoring
             Stack stack;
             if(stackToRemove.size() > 0)
                 files = removeDeletes(stackToRemove, files);
-            logger.debug("Objects to Remove: ");
+            logger.finest("Objects to Remove: ");
             for(int i = 0; i < stackToRemove.size(); i++)
             {
                 stack = new Stack();
-                logger.debug((String)stackToRemove.get(i));
+                logger.finest((String)stackToRemove.get(i));
                 referencesStack((String)stackToRemove.get(i), stack, files);
                 stackTochange.add(stack);
             }
             File aux;
             ArrayList search = new ArrayList();
-            logger.debug("Objects that will be changed by this refactoring: ");
+            logger.finest("Objects that will be changed by this refactoring: ");
             for(int i = 0; i < stackTochange.size(); i++)
             {
                 stack = (Stack)stackTochange.get(i);
@@ -167,12 +167,12 @@ public class boRefactoring
                     {
                         if(!aux.canWrite())
                         {
-                            logger.debug(aux.getAbsolutePath() + " ERROR: Can't write.");
+                            logger.finest(aux.getAbsolutePath() + " ERROR: Can't write.");
                             noPermission = true;
                         }
                         else
                         {
-                            logger.debug(aux.getName().substring(0, aux.getName().toUpperCase().indexOf("$BO.XML")));
+                            logger.finest(aux.getName().substring(0, aux.getName().toUpperCase().indexOf("$BO.XML")));
                         }
                         search.add(aux);
                     }
@@ -291,7 +291,7 @@ public class boRefactoring
             File bodef = new File(p_bcfg.getDefinitiondir()); 
             File[] files = p_repository.getXMLFiles();
             pathProvider.put( files);
-            logger.debug("Files that will be changed by this refactoring: ");
+            logger.finest("Files that will be changed by this refactoring: ");
             File theFile = p_repository.getXMLFile(fromObj);
             if(theFile == null)
             {
@@ -299,10 +299,10 @@ public class boRefactoring
             }
             if(!theFile.canWrite() || !theFile.getParentFile().canWrite())
             {
-                logger.debug(theFile.getAbsolutePath() + " ERROR: Can't write.");
+                logger.finest(theFile.getAbsolutePath() + " ERROR: Can't write.");
                 return -4;
             }
-            logger.debug(theFile.getAbsolutePath() );            
+            logger.finest(theFile.getAbsolutePath() );            
             String boname= theFile.getName().substring(0, theFile.getName().indexOf("$"));
             Stack stack = new Stack();           
             referencesStack(fromObj, stack, files);
@@ -314,12 +314,12 @@ public class boRefactoring
                 aux = p_repository.getXMLFileFromDefinition((String)stack.pop());                
                 if(!aux.canWrite())
                 {
-                    logger.debug(aux.getAbsolutePath() + " ERROR: Can't write.");
+                    logger.finest(aux.getAbsolutePath() + " ERROR: Can't write.");
                     noPermission = true;
                 }
                 else
                 {
-                    logger.debug(aux.getAbsolutePath());
+                    logger.finest(aux.getAbsolutePath());
                     toChange[i] = aux;
                 } 
             }
@@ -1063,7 +1063,7 @@ public class boRefactoring
         Node no;
         if(doc.getNodeName().equalsIgnoreCase(oldName))
         {
-            XMLElement elem = new XMLElement(newName);
+            XMLElement elem =  new XMLElement(newName);
             parent.replaceChild(elem, doc);
             NodeList l = doc.getChildNodes();
             for(int j = 0; j < l.getLength(); j++)
@@ -1468,7 +1468,7 @@ public class boRefactoring
                         catch (Exception e)
                         {
                             //vou ignorar
-                            logger.debug("Erro ao executar para a tabela: " + tableName + " column: " + columnName);
+                            logger.finest("Erro ao executar para a tabela: " + tableName + " column: " + columnName);
                         }
                     }
                     ps3.close();
@@ -2317,7 +2317,7 @@ public class boRefactoring
                         }
                         else
                         {
-                            logger.debug("Não foi efecutado update. [" + keyOnMidTab + ", " + bouiToTranform + "]");
+                            logger.finest("Não foi efecutado update. [" + keyOnMidTab + ", " + bouiToTranform + "]");
                         }                        
                         ctx.commitContainerTransaction();
                     }
@@ -2337,7 +2337,7 @@ public class boRefactoring
                 
             }
             e.printStackTrace();
-            logger.debug("TERMINOU - COM ERROS");
+            logger.finest("TERMINOU - COM ERROS");
             return -1;
         }
         finally
@@ -2389,7 +2389,7 @@ public class boRefactoring
                 }
             }
         }
-        logger.debug("TERMINOU - SEM ERROS");
+        logger.finest("TERMINOU - SEM ERROS");
         return 0;
     }
  

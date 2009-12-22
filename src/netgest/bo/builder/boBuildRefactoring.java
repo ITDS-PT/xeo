@@ -12,7 +12,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 
 import javax.naming.InitialContext;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -67,7 +67,7 @@ public class boBuildRefactoring
                             csm = con.prepareCall(update);
                             n = csm.executeUpdate();
                             csm.close();
-                            logger.debug("Executed Query (" +
+                            logger.finest("Executed Query (" +
                                 sqls[j].getText() + ") updated " + n +
                                 " records.");
                         }
@@ -77,7 +77,7 @@ public class boBuildRefactoring
                 }
                 catch (Exception e)
                 {
-                    logger.debug("Error (" + e.getMessage() +
+                    logger.finest("Error (" + e.getMessage() +
                         ") executing update(" + update + ").");
                 }
             }

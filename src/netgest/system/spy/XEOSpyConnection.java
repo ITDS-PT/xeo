@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class XEOSpyConnection implements java.sql.Connection {
 
@@ -41,10 +41,10 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoPs=(XEOSpyPreparedStatement)it.next();
             if( !xeoPs.isClosed() ){
                 xeoPs.close();                
-                logger.debug("------------------------------------------------");
-                logger.debug("O PreparedStatement não foi fechado: " + xeoPs.getQuery() );
+                logger.finest("------------------------------------------------");
+                logger.finest("O PreparedStatement não foi fechado: " + xeoPs.getQuery() );
                 xeoPs.printStackTrace();
-                logger.debug("------------------------------------------------");
+                logger.finest("------------------------------------------------");
             }
         }
         
@@ -54,10 +54,10 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoSt=(XEOSpyStatement)it.next();
             if( !xeoSt.isClosed() ){
                 xeoSt.close();                
-                logger.debug("------------------------------------------------");
-                logger.debug("O Statement não foi fechado: " + xeoSt.getQuery() );
+                logger.finest("------------------------------------------------");
+                logger.finest("O Statement não foi fechado: " + xeoSt.getQuery() );
                 xeoSt.printStackTrace();
-                logger.debug("------------------------------------------------");
+                logger.finest("------------------------------------------------");
             }
         }
         
@@ -67,10 +67,10 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoCa=(XEOSpyCallableStatement)it.next();
             if( !xeoCa.isClosed() ){
                 xeoCa.close();                
-                logger.debug("------------------------------------------------");
-                logger.debug("O CallableStatement não foi fechado: " + xeoCa.getQuery() );
+                logger.finest("------------------------------------------------");
+                logger.finest("O CallableStatement não foi fechado: " + xeoCa.getQuery() );
                 xeoCa.printStackTrace();
-                logger.debug("------------------------------------------------");
+                logger.finest("------------------------------------------------");
             }
         }
         

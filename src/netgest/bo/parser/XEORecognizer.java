@@ -36,7 +36,7 @@ import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -2311,7 +2311,7 @@ public class XEORecognizer
                     return toRet;
                 }
 
-                //                logger.debug(ret);
+                //                logger.finest(ret);
                 return ret;
             }
             else if (v.getValue().indexOf("CONCAT") != -1)
@@ -2964,7 +2964,7 @@ public class XEORecognizer
     {
         for (int i = 0; i < attributes.length; i++)
         {
-            //            logger.debug(attributes[i].getName());
+            //            logger.finest(attributes[i].getName());
             if (s.equals(attributes[i].getName()))
             {
                 if ((attributes[i].getFormula() == null) ||

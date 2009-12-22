@@ -20,7 +20,7 @@ import netgest.bo.runtime.robots.boSchedule;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.utils.DataUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 
 public class MapType2Register implements boSchedule 
@@ -50,12 +50,12 @@ public class MapType2Register implements boSchedule
             {
                 if( CurrentRegisterObjects.get( def.getName() ) != Thread.currentThread() )
                 {
-                    logger.debug("Wainting Concurrent Object Mapping ["+def.getName()+"]");
+                    logger.finest("Wainting Concurrent Object Mapping ["+def.getName()+"]");
                     wcounter ++;
                     Thread.sleep( 1000 );
                     if ( wcounter > 300 )
                     {
-                        logger.error("DeadLock detetcted in Object Mapping. 300 Seconds of wait ["+def.getName()+"]");
+                        logger.severe("DeadLock detetcted in Object Mapping. 300 Seconds of wait ["+def.getName()+"]");
                         return true;
                     }
                 }
@@ -80,7 +80,7 @@ public class MapType2Register implements boSchedule
                 MapType2Def mapdef = MapType2Def.getDataSourceDefinition( def );
                 if( mapdef != null && mapdef.getMapType().equals("2") && mapdef.getPreRegisterObjects() )
                 {
-                    logger.debug("Before register :"  + ctx.getConnectionData().hashCode() );
+                    logger.finest("Before register :"  + ctx.getConnectionData().hashCode() );
                     ObjectDS[] allods = mapdef.getObjectDataSources().getDataSources();
                     for (int d = 0 ; d < allods.length; d ++ ) 
                     {
@@ -288,7 +288,7 @@ public class MapType2Register implements boSchedule
                                     pstmInsert   = tcn1.prepareStatement( inslocsql.toString() );
 
                                     
-                                    logger.debug( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] avegared registry is ["+
+                                    logger.finest( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] avegared registry is ["+
                                                     (System.currentTimeMillis()-initTime) / totalcounter
                                                     +"] ms" 
                                                 );
@@ -304,7 +304,7 @@ public class MapType2Register implements boSchedule
                                 regBouis = new ArrayList();
                                 ctx.commitContainerTransaction();
     
-                                logger.debug( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] average registry is ["+
+                                logger.finest( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] average registry is ["+
                                                 (System.currentTimeMillis()-initTime) / totalcounter
                                                 +"] ms" 
                                             );
@@ -506,7 +506,7 @@ public class MapType2Register implements boSchedule
                                             pstmUpd = ctx.getConnectionData().prepareStatement( sqlUpdate.toString() );
                                             
                                             
-                                            logger.debug( "Commiting [ "+totalcounter+" ] average registry is ["+
+                                            logger.finest( "Commiting [ "+totalcounter+" ] average registry is ["+
                                                             (System.currentTimeMillis()-initTime) / totalcounter
                                                             +"] ms" 
                                                         );
@@ -523,7 +523,7 @@ public class MapType2Register implements boSchedule
                                         }
                                         error += "]";
                                         
-                                        logger.error( error, e );
+                                        logger.severe( error, e );
                                     }
                                     
                                 }
@@ -535,7 +535,7 @@ public class MapType2Register implements boSchedule
                                     int[] x = pstmUpd.executeBatch();
                                     
                                     ctx.commitContainerTransaction();
-                                    logger.debug( "Commiting [ "+totalcounter+" ] average registry is ["+
+                                    logger.finest( "Commiting [ "+totalcounter+" ] average registry is ["+
                                                     (System.currentTimeMillis()-initTime) / totalcounter
                                                     +"] ms" 
                                                 );
@@ -643,7 +643,7 @@ public class MapType2Register implements boSchedule
                         }
                     }
                 }
-                logger.debug("After register :"  + ctx.getConnectionData().hashCode() );
+                logger.finest("After register :"  + ctx.getConnectionData().hashCode() );
                 
             }
         }

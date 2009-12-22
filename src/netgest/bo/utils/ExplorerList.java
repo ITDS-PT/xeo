@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import oracle.xml.parser.v2.*;
 import netgest.bo.dochtml.*;
 import java.sql.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import java.util.Vector;
 
 import netgest.bo.localized.JSPMessages;
@@ -1816,8 +1816,8 @@ public final class ExplorerList  implements Serializable {
             }
         }
         tFinal = System.currentTimeMillis();
-//        logger.info("Tempo Total Print : " + (tFinal-tInicial)/1000 +"s" );
-        logger.info("Tempo Total Print : " + String.valueOf(tFinal-tInicial)  );
+//        logger.finer("Tempo Total Print : " + (tFinal-tInicial)/1000 +"s" );
+        logger.finer("Tempo Total Print : " + String.valueOf(tFinal-tInicial)  );
       
         return result;      
     }

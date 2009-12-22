@@ -48,7 +48,7 @@ import netgest.utils.ClassUtils;
 import netgest.utils.ConvertUTF7;
 import netgest.utils.TempFile;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
@@ -90,28 +90,28 @@ public class MailUtil
                     (message.getHeader(reportType, ";") != null) &&
                     (message.getHeader(reportType, ";").toLowerCase().indexOf("delivery-status") != -1))
             {
-//                logger.info("Recibo de entrega");
+//                logger.finer("Recibo de entrega");
                 return Mail.DELIVERED_RECEIPT;
             }
             else if ((reportType != null) &&
                     (message.getHeader(reportType, ";") != null) &&
                     (message.getHeader(reportType, ";").toLowerCase().indexOf("delivery-notification") != -1))
             {
-//                logger.info("Recibo de leitura");
+//                logger.finer("Recibo de leitura");
                 return Mail.READ_RECEIPT;
             }
             else if (message.getContentType().toLowerCase().indexOf("delivery-status") != -1)
             {
-//                logger.info("Recibo de entrega");
+//                logger.finer("Recibo de entrega");
                 return Mail.DELIVERED_RECEIPT;
             }
             else
             {
-//                logger.info("Recibo de leitura");
+//                logger.finer("Recibo de leitura");
                 return Mail.READ_RECEIPT;
             }
         }
-//        logger.info("Email normal");
+//        logger.finer("Email normal");
         return Mail.MESSAGE;
     }
 
@@ -167,7 +167,7 @@ public class MailUtil
         }
          catch (MessagingException e)
         {
-            logger.info("", e);
+            logger.finer("", e);
         }
 
         return null;
@@ -325,7 +325,7 @@ public class MailUtil
         }
          catch (boRuntimeException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
 
         MimeBodyPart content = mp.getContent();
@@ -365,7 +365,7 @@ public class MailUtil
             {
                 if (mp instanceof Multipart)
                 {
-//                    logger.info("Process Multipart");
+//                    logger.finer("Process Multipart");
                     processMultipart((Multipart) mp, mailmsg);
                 }
                 else if(mp instanceof MimeMessage)
@@ -420,7 +420,7 @@ public class MailUtil
                 }
                 catch (Exception e)
                 {
-                    logger.error("", e);
+                    logger.severe("", e);
                 }
                 finally
                 {
@@ -486,7 +486,7 @@ public class MailUtil
          catch (Exception e)
         {
             //        e.printStackTrace();
-            logger.error("", e);
+            logger.severe("", e);
             throw new boRuntimeException("", "", e);
         }
     }
@@ -586,7 +586,7 @@ public class MailUtil
         {
             try
             {
-                logger.info("EMAIL WITH DIFERENT TYPE = " + mp.getClass().getName());
+                logger.finer("EMAIL WITH DIFERENT TYPE = " + mp.getClass().getName());
             }
             catch (Exception e)
             {
@@ -725,7 +725,7 @@ public class MailUtil
         }
          catch (MessagingException e)
         {
-            logger.info("", e);
+            logger.finer("", e);
         }
     }
 
@@ -791,7 +791,7 @@ public class MailUtil
         }
          catch (MessagingException e)
         {
-            logger.info("", e);
+            logger.finer("", e);
         }
     }
 
@@ -934,7 +934,7 @@ public class MailUtil
         }
          catch (Exception e)
         {
-            logger.error("", e);
+            logger.severe("", e);
             return false;
         }
     }
@@ -1002,7 +1002,7 @@ public class MailUtil
         }
         catch (Exception e)
         {
-            logger.error("", e);
+            logger.severe("", e);
             try
             {
                 //caso do utf-7 ou sem encode

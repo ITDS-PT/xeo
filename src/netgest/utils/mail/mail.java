@@ -42,7 +42,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.utils.ConvertUTF7;
 
 /**
@@ -270,7 +270,7 @@ public class mail {
   catch (Exception e)
   {
     //fecha o folder mas nao apaga as msg
-   logger.error("", e);
+   logger.severe("", e);
 //   e.printStackTrace();
    if(folder != null)
    {
@@ -302,7 +302,7 @@ public class mail {
     }
     catch (MessagingException e)
     {
-        logger.info(e);
+        logger.finer(e);
     }
     return null;
   }
@@ -825,7 +825,7 @@ public class mail {
     catch (Exception e)
     {
 //        e.printStackTrace();
-        logger.error("", e);
+        logger.severe("", e);
     }
   }
 
@@ -1022,7 +1022,7 @@ public class mail {
     }
     catch (MessagingException e)
     {
-        logger.info(e);
+        logger.finer(e);
     }
   }
 
@@ -1049,7 +1049,7 @@ public class mail {
     }
     catch (MessagingException e)
     {
-        logger.info(e);
+        logger.finer(e);
     }
   }
 
@@ -1166,7 +1166,7 @@ public class mail {
         }
         catch (Exception e)
         {
-          logger.error("Erro a mover mensagens...",e);
+          logger.severe("Erro a mover mensagens...",e);
         }
         finally
         {

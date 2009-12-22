@@ -3,7 +3,7 @@ package netgest.bo.builder;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boBuilderProgress {
 
@@ -103,7 +103,7 @@ public class boBuilderProgress {
 		if( isLogToConsole() )
 			System.out.println( logMessage );
 		else
-			logger.info( logMessage );
+			logger.finer( logMessage );
 		getLogWriter().println( logMessage );
 	}
 
@@ -111,7 +111,7 @@ public class boBuilderProgress {
 		if( isLogToConsole() )
 			System.out.println( logMessage );
 		else
-			logger.error( logMessage );
+			logger.severe( logMessage );
 		
 		getLogWriter().println( logMessage );
 	}
@@ -120,7 +120,7 @@ public class boBuilderProgress {
 		if( isLogToConsole() )
 			System.err.println( logMessage );
 		else
-			logger.error( logMessage );
+			logger.severe( logMessage );
 		
 		getLogWriter().println( logMessage );
 	}
@@ -130,7 +130,7 @@ public class boBuilderProgress {
 			System.err.println( message );
 			e.printStackTrace( System.err );
 		} else
-			logger.error( message, e );
+			logger.severe( message, e );
 		
 		getLogWriter().println( message );  
 		e.printStackTrace( getLogWriter() );
@@ -140,7 +140,7 @@ public class boBuilderProgress {
 		if( isLogToConsole() )
 			e.printStackTrace( System.err );
 		else
-			logger.error( e );
+			logger.severe( e );
 		
 		e.printStackTrace( getLogWriter() );
 	}

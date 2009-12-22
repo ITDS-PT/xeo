@@ -20,7 +20,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -382,7 +382,7 @@ public class boConnectionManager
                 }
                 catch(Exception e)
                 {
-                    logger.info("boConnectionManager.rollbackContainerTransaction( EboContext )", e);
+                    logger.finer("boConnectionManager.rollbackContainerTransaction( EboContext )", e);
                 }
             }
             else
@@ -396,7 +396,7 @@ public class boConnectionManager
                 }
                 catch(Exception e)
                 {
-                    logger.info("boConnectionManager.rollbackContainerTransaction( EboContext )", e);
+                    logger.finer("boConnectionManager.rollbackContainerTransaction( EboContext )", e);
                 }
             }
         }

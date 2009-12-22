@@ -12,7 +12,7 @@ import netgest.bo.presentation.render.HTMLBuilder;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -216,7 +216,7 @@ public class Page implements Element {
         HTMLBuilder.writePage(out, this,docHTML, docList, control);
         long tf = System.currentTimeMillis() - ti;
         String t = ((float) (Math.round((float) (tf) / 100f)) / 10f) + "s";
-        logger.info("Tempo da constução da página: " + t);
+        logger.finer("Tempo da constução da página: " + t);
     }
 
     public String getHTML(docHTML docHTML, docHTML_controler docList, PageController control)

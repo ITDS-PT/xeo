@@ -14,7 +14,7 @@ import netgest.bo.runtime.robots.ejbtimers.XEOTimedObject;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginLocalHome;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boTextIndexAgentBean extends XEOTimedObjectWrapper
 implements SessionBean, TimedObject

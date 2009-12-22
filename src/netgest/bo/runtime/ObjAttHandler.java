@@ -19,7 +19,7 @@ import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.ClassUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public abstract class ObjAttHandler extends AttributeHandler {
     //logger
@@ -95,8 +95,8 @@ public abstract class ObjAttHandler extends AttributeHandler {
 
     public void setValue(BigDecimal boui, byte type) throws boRuntimeException 
     {
-//        if( this.getValue() != null ) logger.debug("Antigo :["+this.getName()+"]  " + getParent().getObject( this.getValue().longValue() ).getName() );
-//        if( boui != null ) logger.debug("Novo:  ["+this.getName()+"]  " + getParent().getObject( boui.longValue() ).getName() );
+//        if( this.getValue() != null ) logger.finest("Antigo :["+this.getName()+"]  " + getParent().getObject( this.getValue().longValue() ).getName() );
+//        if( boui != null ) logger.finest("Novo:  ["+this.getName()+"]  " + getParent().getObject( boui.longValue() ).getName() );
         //tranform ao adicionar a brige
         netgest.bo.transformers.Transformer transfClass = null;
         if((transfClass = this.getDefAttribute().getTransformClassMap()) != null)

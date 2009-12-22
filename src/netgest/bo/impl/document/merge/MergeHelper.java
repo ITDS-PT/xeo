@@ -28,7 +28,7 @@ import netgest.io.iFile;
 
 import netgest.utils.IOUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -110,7 +110,7 @@ public final class MergeHelper
             }
             catch (IOException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
 
@@ -185,7 +185,7 @@ public final class MergeHelper
             }
             catch (IOException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
 
@@ -256,7 +256,7 @@ public final class MergeHelper
             }
             catch (IOException e)
             {
-                logger.error("", e);
+                logger.severe("", e);
             }
         }
 
@@ -294,7 +294,7 @@ public final class MergeHelper
         }
         catch (Exception e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
         if (boDefPD.isWordTemplate(templateName))
         {
@@ -318,7 +318,7 @@ public final class MergeHelper
                     }
                     catch (Exception e)
                     {
-                        logger.error("", e);
+                        logger.severe("", e);
                     }
                 }
                 else if ("repeatBlock".equalsIgnoreCase(auxDs.getType()))
@@ -331,7 +331,7 @@ public final class MergeHelper
                     }
                     catch (Exception e)
                     {
-                        logger.error("", e);
+                        logger.severe("", e);
                     }
                 }
             }
@@ -391,7 +391,7 @@ public final class MergeHelper
         }
         catch (Exception e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
 
         try
@@ -646,7 +646,7 @@ public final class MergeHelper
     //                            }
     //                            catch (SQLException e)
     //                            {
-    //                               logger.error("", e);
+    //                               logger.severe("", e);
     //                            }
     //                            catch (Exception e)
     //                            {

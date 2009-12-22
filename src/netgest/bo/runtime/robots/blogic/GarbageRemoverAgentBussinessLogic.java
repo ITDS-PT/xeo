@@ -11,7 +11,7 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class GarbageRemoverAgentBussinessLogic 
 {
@@ -32,7 +32,7 @@ public class GarbageRemoverAgentBussinessLogic
         EboContext ctx = null;
         boSession session = null;
         boolean locked = false;
-        logger.debug("Starting Garbage Remover Agent ...");
+        logger.finest("Starting Garbage Remover Agent ...");
         try
         {
             session = p_app.boLogin("SYSTEM",boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName());
@@ -49,11 +49,11 @@ public class GarbageRemoverAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.error("Error in Garbage Remover Agent \n" + e.getMessage(), e);
+            logger.severe("Error in Garbage Remover Agent \n" + e.getMessage(), e);
         }  
         catch (boRuntimeException e)
         {
-            logger.error("Error in Garbage Remover Agent \n" + e.getMessage(), e);
+            logger.severe("Error in Garbage Remover Agent \n" + e.getMessage(), e);
         }
     }   
     /**
@@ -84,7 +84,7 @@ public class GarbageRemoverAgentBussinessLogic
             }
             catch (Exception ex) 
             {
-                logger.error("Cannot Remove xwfSerialObject " + object.getBoui());
+                logger.severe("Cannot Remove xwfSerialObject " + object.getBoui());
             }                    
         }
     }  

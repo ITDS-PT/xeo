@@ -3,7 +3,7 @@ package netgest.bo.runtime.robots.ejbtimers;
 import javax.ejb.*;
 import netgest.bo.system.boApplication;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class XEOTimedObject

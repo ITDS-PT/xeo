@@ -18,7 +18,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.utils.*;
 import netgest.utils.ClassUtils;
 import netgest.utils.XEOUserUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.Element;
 
 /**

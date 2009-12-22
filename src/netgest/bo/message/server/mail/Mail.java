@@ -37,7 +37,7 @@ import javax.mail.internet.MimeMultipart;
 
 import netgest.bo.message.utils.Attach;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.bouncycastle.mail.smime.SMIMESigned;
 
 
@@ -365,7 +365,7 @@ public class Mail
          catch (Exception e)
         {
             //fecha o folder mas nao apaga as msg
-            logger.error("", e);
+            logger.severe("", e);
 
             //   e.printStackTrace();
             if (folder != null)
@@ -462,7 +462,7 @@ public class Mail
         {            
             if (message.isMimeType("application/pkcs7-mime"))
             {
-//                logger.info("Message application/pkcs7-mime");
+//                logger.finer("Message application/pkcs7-mime");
                 SMIMESigned signedMsg = new SMIMESigned(message);
                 MailUtil.processMultipart(signedMsg, mailmsg);
             }
@@ -470,12 +470,12 @@ public class Mail
             {
                 if (message.isMimeType("multipart/signed"))
                 {
-//                  logger.info("Message multipart/signed");
+//                  logger.finer("Message multipart/signed");
                     mailmsg.setSignedMsg(true);
                 }
                 try
                 {
-//                    logger.info("Message multipart");
+//                    logger.finer("Message multipart");
                     MailUtil.processMultipart((Multipart) content, mailmsg);
                 }
                 catch (Exception e)
@@ -483,11 +483,11 @@ public class Mail
                     if(e != null && 
                         e.getMessage() != null && e.getMessage().toUpperCase().indexOf("MISSING START BOUNDARY") >=0)
                     {
-//                        logger.info("CORRECTING START BOUNDARY");
+//                        logger.finer("CORRECTING START BOUNDARY");
                         MimeMessage m = specialCases(session, message);
                         if(m != null)
                         {
-//                            logger.info("START BOUNDARY CORRECTED");
+//                            logger.finer("START BOUNDARY CORRECTED");
                             try
                             {
                                 MailUtil.processMultipart((Multipart) MailUtil.getMailContent(m), mailmsg);
@@ -529,7 +529,7 @@ public class Mail
         }
         else
         {
-//            logger.info("Message processPart");
+//            logger.finer("Message processPart");
             MailUtil.processPart(message, mailmsg);
         }
         
@@ -552,8 +552,8 @@ public class Mail
         {            
             bao = new ByteArrayOutputStream();
             msg.writeTo(bao);
-            logger.error("Error reading email2:");
-            logger.error(e);
+            logger.severe("Error reading email2:");
+            logger.severe(e);
         }
         catch(Exception _e)
         {

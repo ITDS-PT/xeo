@@ -2,7 +2,7 @@ package netgest.bo.system;
 import java.io.File;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boWebContextListener implements ServletContextListener
 {
@@ -15,7 +15,7 @@ public class boWebContextListener implements ServletContextListener
 
     public void contextInitialized(ServletContextEvent oServletContext )
     {
-        logger.info("Initializing XEO.... ");
+        logger.finer("Initializing XEO.... ");
         boApplication.getApplicationFromStaticContext("XEO");
     }
 

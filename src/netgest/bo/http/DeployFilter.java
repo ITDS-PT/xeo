@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 import netgest.bo.system.*;
 
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -158,16 +158,16 @@ public class DeployFilter implements Filter
 	            checkDeployDir();
 	        }
 	        
-	    	logger.info("Starting deploying modules webfiles ..." );
+	    	logger.finer("Starting deploying modules webfiles ..." );
 	        for( int i=0; i < srcDir.length; i++ ) {
 	        	File file = new File( srcDir[i] );
-	        	logger.info("Deployig root web files for:" + file.getName() );
+	        	logger.finer("Deployig root web files for:" + file.getName() );
 	        	deployDir( file, deployDir );
 	        }
-	    	logger.info("Finished deploying modules webfiles ..." );
+	    	logger.finer("Finished deploying modules webfiles ..." );
         }
         else {
-	    	logger.error("Cannoad load XEO Application..." );
+	    	logger.severe("Cannoad load XEO Application..." );
         }
     }
     
@@ -519,11 +519,11 @@ public class DeployFilter implements Filter
                 
                 if( e.getRootCause() != null )
                 {
-                    logger.debug( "Erro na Servlet "+request.getRequestURI()+":", e.getRootCause() );
+                    logger.finest( "Erro na Servlet "+request.getRequestURI()+":", e.getRootCause() );
                 }
                 else
                 {
-                    logger.debug( "Erro na Servlet "+request.getRequestURI()+":", e );
+                    logger.finest( "Erro na Servlet "+request.getRequestURI()+":", e );
                 }
                 
                 throw e;

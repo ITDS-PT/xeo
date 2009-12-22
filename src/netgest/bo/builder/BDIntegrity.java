@@ -1,17 +1,23 @@
 /*Enconding=UTF-8*/
 package netgest.bo.builder;
 import java.io.File;
-import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
-import netgest.bo.*;
-import netgest.bo.data.*;
-import netgest.bo.def.*;
-import netgest.bo.runtime.*;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import netgest.bo.def.boDefHandler;
+import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.boObject;
-import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boObjectUpdateQueue;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.runtime.bridgeHandler;
+
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -31,7 +37,6 @@ public class BDIntegrity
     private String objName;
     private boolean onlyTest = false;
     private String ebo_registryFullTableName;
-    private Connection con = null;
     private ArrayList listBoui;
     private ArrayList listClone;
 
@@ -96,24 +101,24 @@ public class BDIntegrity
             }
             else if(objName != null && !"".equals(objName))
             {
-                //logger.debug("-------------------------");
-                //logger.debug("Started Verifying : " + objName);
+                //logger.finest("-------------------------");
+                //logger.finest("Started Verifying : " + objName);
                 toRet = verifierDuplicatedNoOrphans();
-                //logger.debug("End Cleaning : "  + objName);
-                //logger.debug("-------------------------");
+                //logger.finest("End Cleaning : "  + objName);
+                //logger.finest("-------------------------");
             }
             else
             {
                 toRet = verifyAll();
             }
-            logger.debug("Total de objectos para duplicar : " + objsToDupl);
+            logger.finest("Total de objectos para duplicar : " + objsToDupl);
         }
         catch(Exception e)
         {
             e.printStackTrace();
             toRet = -1;
         }
-        logger.debug("Terminou");
+        logger.finest("Terminou");
         return toRet;
     }
 
@@ -146,13 +151,13 @@ public class BDIntegrity
                             }
                             catch(Exception _e)
                             {
-                                logger.fatal("?????????????????????????? objecto inválido: " + list.getCurrentBoui());
+                                logger.severe("?????????????????????????? objecto inválido: " + list.getCurrentBoui());
                             }
                             if(aux2 != null)
                             {
-                                logger.debug("*****Starting verifier for object: " + aux2.getBoui());
+                                logger.finest("*****Starting verifier for object: " + aux2.getBoui());
                                 verifierDuplicatedNoOrphans(aux2);
-                                logger.debug("*****Ending verifier for object: " + aux2.getBoui());
+                                logger.finest("*****Ending verifier for object: " + aux2.getBoui());
                             }
                         }
                         catch(Exception e)
@@ -207,16 +212,16 @@ public class BDIntegrity
                 if(boDefHandler.getBoDefinition(boname).getClassType() !=
                         boDefHandler.TYPE_ABSTRACT_CLASS)
                 {
-                    //logger.debug("-------------------------");
-                    //logger.debug("Started Verifying : " + boname);
+                    //logger.finest("-------------------------");
+                    //logger.finest("Started Verifying : " + boname);
                     toRet = verifyDuplicatedNoOrphans();
-                    //logger.debug("End Cleaning : "  + boname);
-                    //logger.debug("-------------------------");
+                    //logger.finest("End Cleaning : "  + boname);
+                    //logger.finest("-------------------------");
                     total++;
                 }
             }
         }
-        //logger.debug("Total : "  + total);
+        //logger.finest("Total : "  + total);
         return toRet;
     }
 
@@ -246,7 +251,7 @@ public class BDIntegrity
                 {
                     if(attH.getName() == null)
                     {
-                        logger.fatal("attH.getName() = a null");
+                        logger.severe("attH.getName() = a null");
                     }
                     if(attH.getName() != null && ATTRIBUTES.indexOf(attH.getName().toUpperCase()) < 0)
                     {
@@ -260,34 +265,34 @@ public class BDIntegrity
                             {
                                 if (!attH.getObject().getBoDefinition().getBoHaveMultiParent())
                                 {
-                                    //logger.debug("*****");
-                                    //logger.debug("Verifying Attribute: " + attH.getName());
+                                    //logger.finest("*****");
+                                    //logger.finest("Verifying Attribute: " + attH.getName());
                                     treatAttribute(parent, attH, bridgeName, bridgeTableName);
-                                    //logger.debug("*****");
+                                    //logger.finest("*****");
                                 }
                                 else
                                 {
                                     if(DEBUG)
-                                        logger.debug("Attribute: " + attH.getName() + " (multiparent)");
+                                        logger.finest("Attribute: " + attH.getName() + " (multiparent)");
                                 }
                             }
                             else
                             {
                                 if(DEBUG)
-                                    logger.debug("Attribute: " + attH.getName() + " (orphan)");
+                                    logger.finest("Attribute: " + attH.getName() + " (orphan)");
                             }
                         }
                         else
                         {
                             if(DEBUG)
-                                logger.debug("Attribute: " + attH.getName() + " (null value)");
+                                logger.finest("Attribute: " + attH.getName() + " (null value)");
                         }
                     }
                 }
                 else
                 {
                     if(DEBUG)
-                        logger.debug("Attribute: " + attH.getName() + " (not to treat)");
+                        logger.finest("Attribute: " + attH.getName() + " (not to treat)");
                 }
             }
             else
@@ -317,15 +322,15 @@ public class BDIntegrity
                     objsToDupl++;
                     if(onlyTest)
                     {
-                        logger.debug("Object should be duplicated");
+                        logger.finest("Object should be duplicated");
                     }
                     else
                     {
-                        logger.debug("Going to duplicate object: " + aux.getBoui() + " of type: " + aux.getName());
+                        logger.finest("Going to duplicate object: " + aux.getBoui() + " of type: " + aux.getName());
                         ctx.beginContainerTransaction();
                         con = ctx.getConnectionData();
                         newObject = boObject.getBoManager().createObject(ctx, aux);
-                        //logger.debug("Finished duplication new object identification: " + newObject.getBoui() + " of type: " + newObject.getName());
+                        //logger.finest("Finished duplication new object identification: " + newObject.getBoui() + " of type: " + newObject.getName());
                         newObject.getDataSet().setForInsert();
                         ObjectDataManager.updateObjectData(newObject);
 
@@ -338,7 +343,7 @@ public class BDIntegrity
                             auxTableName = parent.getBoDefinition().getBoPhisicalMasterTable();
                         }
 
-                        logger.debug("Setting parent: " + parent.getBoui() + " table: " + auxTableName + " field " + attH.getDefAttribute().getDbName() + "attribute.");
+                        logger.finest("Setting parent: " + parent.getBoui() + " table: " + auxTableName + " field " + attH.getDefAttribute().getDbName() + "attribute.");
 
                         ps = con.prepareStatement("insert into " +
                                 ebo_registryFullTableName +
@@ -369,22 +374,22 @@ public class BDIntegrity
                         ps.close();
 
                         ctx.commitContainerTransaction();
-                        //logger.debug("End setting parent attribute.");
-                        //logger.debug("Start Verifying new object: " + newObject.getBoui());
+                        //logger.finest("End setting parent attribute.");
+                        //logger.finest("Start Verifying new object: " + newObject.getBoui());
                         verifierDuplicatedNoOrphans(newObject);
-                        //logger.debug("End Verifying new object.");
+                        //logger.finest("End Verifying new object.");
                     }
                 }
                 else
                 {
                     if(DEBUG)
-                        logger.debug("Object/Attribute is correct.");
+                        logger.finest("Object/Attribute is correct.");
                 }
             }
             else
             {
                 if(DEBUG)
-                    logger.debug("Object not to treat.");
+                    logger.finest("Object not to treat.");
             }
         }
         catch(Exception e)
@@ -456,7 +461,7 @@ public class BDIntegrity
                         if(isInListClone(aux.getName()))
                         {
                             objsToDupl++;
-                            logger.debug("Object should be duplicated");
+                            logger.finest("Object should be duplicated");
                         }
                     }
                     else
@@ -466,11 +471,10 @@ public class BDIntegrity
                             if(isInListClone(aux.getName()))
                             {
                                 objsToDupl++;
-                                logger.debug("Going to duplicate object: " + aux.getBoui() + " of type: " + aux.getName());
+                                logger.finest("Going to duplicate object: " + aux.getBoui() + " of type: " + aux.getName());
                                 ctx.beginContainerTransaction();
-                                con = ctx.getConnectionData();
                                 newObject = boObject.getBoManager().createObject(ctx, aux);
-                                //logger.debug("Finished duplication new object identification: " + newObject.getBoui() + " of type: " + newObject.getName());
+                                //logger.finest("Finished duplication new object identification: " + newObject.getBoui() + " of type: " + newObject.getName());
                                 if(bh != null)
                                 {
                                     String s = bh.getName();
@@ -485,27 +489,27 @@ public class BDIntegrity
 
                                 parent.update(false, true);
                                 ctx.commitContainerTransaction();
-                                //logger.debug("End setting parent attribute.");
-                                //logger.debug("Start Verifying new object: " + newObject.getBoui());
+                                //logger.finest("End setting parent attribute.");
+                                //logger.finest("Start Verifying new object: " + newObject.getBoui());
                                 verifierDuplicatedNoOrphans(newObject);
-                                //logger.debug("End Verifying new object.");
+                                //logger.finest("End Verifying new object.");
                             }
                         }catch(Exception e)
                         {
-                            logger.error("ERRO INESPERADO: ", e);
+                            logger.severe("ERRO INESPERADO: ", e);
                         }
                     }
                 }
                 else
                 {
                     if(DEBUG)
-                        logger.debug("Object/Attribute is correct.");
+                        logger.finest("Object/Attribute is correct.");
                 }
             }
             else
             {
                 if(DEBUG)
-                    logger.debug("Object not to treat.");
+                    logger.finest("Object not to treat.");
             }
         }
         catch(boRuntimeException _e)
@@ -540,7 +544,7 @@ public class BDIntegrity
             }
             else
             {
-//                logger.debug("Preparing to verify bridge: " + attH.getName());
+//                logger.finest("Preparing to verify bridge: " + attH.getName());
                 bridgeHandler bh = parent.getBridge(attH.getName());
                 //int sv = bh.getRow();
                 bh.beforeFirst();
@@ -550,14 +554,14 @@ public class BDIntegrity
                     lineObject = null;
                     if(bh.getAllAttributes() != null)
                     {
-//                        logger.debug("Started verifying bridge Attributes.");
+//                        logger.finest("Started verifying bridge Attributes.");
                         verifyAttributes(parent, bh.getAllAttributes(), attH.getName(), bh.getDefAttribute().getBridge().getBoPhisicalMasterTable());
-//                        logger.debug("Ended verifying bridge Attributes.");
+//                        logger.finest("Ended verifying bridge Attributes.");
                     }
                     else
                     {
                         if(DEBUG)
-                            logger.debug("Bridge doesn't have attributes.");
+                            logger.finest("Bridge doesn't have attributes.");
                     }
                     try
                     {
@@ -567,7 +571,7 @@ public class BDIntegrity
                     {
                         if(r != null)
                         {
-                            logger.debug("Erro inesperado: " + r.getMessage());
+                            logger.finest("Erro inesperado: " + r.getMessage());
                         }
                         //ignore
                     }
@@ -578,26 +582,26 @@ public class BDIntegrity
                             if (!lineObject.getBoDefinition().getBoHaveMultiParent())
                             {
                                 if(DEBUG)
-                                    logger.debug("Started verifying bridge valueObject.");
+                                    logger.finest("Started verifying bridge valueObject.");
                                 verifyObject(parent,bh, attH, lineObject, bh.getDefAttribute().getBridge().getBoPhisicalMasterTable(), "child$");
                                 if(DEBUG)
-                                    logger.debug("Ended verifying bridge valueObject.");
+                                    logger.finest("Ended verifying bridge valueObject.");
                             }
                             else
                             {
                                 if(DEBUG)
-                                    logger.debug("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (multiparent)");
+                                    logger.finest("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (multiparent)");
                             }
                         }
                         else
                         {
                             if(DEBUG)
-                                logger.debug("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (orphan)");
+                                logger.finest("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (orphan)");
                         }
 
                     }
                 }
-//                logger.debug("Ended verifying bridge.");
+//                logger.finest("Ended verifying bridge.");
             }
         }
         catch(boRuntimeException _e)

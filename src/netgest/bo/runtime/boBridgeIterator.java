@@ -14,7 +14,7 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.runtime.sorter.AttributeSorter;
 import netgest.bo.runtime.sorter.CardidSorter;
 import netgest.bo.runtime.sorter.SorterNode;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.bo.runtime.sorter.ClassSorter;
 
 /**
@@ -68,15 +68,15 @@ public final class boBridgeIterator
                     }
                     catch (InstantiationException e)
                     {
-                        logger.error(e);
+                        logger.severe(e);
                     }
                     catch (IllegalAccessException e)
                     {
-                        logger.error(e);
+                        logger.severe(e);
                     }
                     catch (ClassNotFoundException e)
                     {
-                        logger.error(e);
+                        logger.severe(e);
                     }
                     SorterNode[] helper = cs.getValues(bridge);
                     cs.sort(helper);
@@ -94,7 +94,7 @@ public final class boBridgeIterator
                         p_virtualRow[i] = pos+1;
                     }
                 }
-                logger.info("Total time:" + (System.currentTimeMillis() - ti));
+                logger.finer("Total time:" + (System.currentTimeMillis() - ti));
             }
             catch (boRuntimeException e)
             {

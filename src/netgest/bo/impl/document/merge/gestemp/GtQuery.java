@@ -16,7 +16,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtQuery {
@@ -530,7 +530,7 @@ public class GtQuery {
                         "]. Verifique a formula.\n" + javaExec.getErrorMessage(), null);
             }
         
-            logger.info("Java caculate campo ["+getNome()+"] ["+(System.currentTimeMillis()-init)+"]ms");
+            logger.finer("Java caculate campo ["+getNome()+"] ["+(System.currentTimeMillis()-init)+"]ms");
         }
     }  
 

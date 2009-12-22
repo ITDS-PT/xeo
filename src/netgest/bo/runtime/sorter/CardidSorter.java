@@ -6,7 +6,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.sorter.ClassSorter;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 /**
  * 
  * @Company Enlace3
@@ -53,7 +53,7 @@ public class CardidSorter implements ClassSorter
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return sn;
     }

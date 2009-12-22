@@ -1,6 +1,6 @@
 package netgest.bo.def.v2;
 import netgest.utils.ngtXMLHandler;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class GenericParseUtils 
 {

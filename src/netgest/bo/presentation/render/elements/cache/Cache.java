@@ -2,7 +2,7 @@ package netgest.bo.presentation.render.elements.cache;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class Cache
 {
@@ -18,7 +18,7 @@ public class Cache
 
     public Cache(String cacheName, int minutes, int maxObjects, int gap)
     {
-        logger.info("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap);
+        logger.finer("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap);
         cache = new Hashtable();
         this.cacheName = cacheName;
         this.minutes = minutes;
@@ -28,7 +28,7 @@ public class Cache
 
     public String getState()
     {
-        logger.info("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap+" shrinkTimes:" +shrinkTimes);
+        logger.finer("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap+" shrinkTimes:" +shrinkTimes);
         return "New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap+" shrinkTimes:" +shrinkTimes;
     }
 
@@ -49,19 +49,19 @@ public class Cache
 
     public void clear()
     {
-        logger.info("Cache "+cacheName+" ("+cache.size()+") cleared");
+        logger.finer("Cache "+cacheName+" ("+cache.size()+") cleared");
         cache.clear();
     }
 
     public void remove(String key)
     {
-        logger.info("Cache removed Key("+key+")");
+        logger.finer("Cache removed Key("+key+")");
         cache.remove(key);
     }
 
     public void remove(long user)
     {
-        logger.info("Cache "+cacheName+" removed user("+user+")");
+        logger.finer("Cache "+cacheName+" removed user("+user+")");
         Enumeration oEnum = cache.keys();
         CacheElement c = null;
         String k = null;
@@ -78,7 +78,7 @@ public class Cache
 
     public void removeWPrefix(String prefix)
     {
-        logger.info("Cache "+cacheName+" removed explorers w prefix("+prefix+")");
+        logger.finer("Cache "+cacheName+" removed explorers w prefix("+prefix+")");
         Enumeration oEnum = cache.keys();
         CacheElement c = null;
         String k = null;
@@ -107,13 +107,13 @@ public class Cache
 
         if( (getSize() ) >= maxObjects )
         {
-            logger.info("["+cacheName+"] LRU Started running ");
+            logger.finer("["+cacheName+"] LRU Started running ");
             if( !lruRunning )
             {
                 shrinkTimes++;
                 runLRU();
             }
-            logger.info("["+cacheName+"] LRU ENDED running ");
+            logger.finer("["+cacheName+"] LRU ENDED running ");
         }
     }
 
@@ -152,7 +152,7 @@ public class Cache
                 boolean runOne = false;
                 while(!runOne || (getSize() > maxObjects && run <= 3))
                 {
-                    logger.info("["+cacheName+"] Started  cycle "+run+": " + getSize());
+                    logger.finer("["+cacheName+"] Started  cycle "+run+": " + getSize());
                     runOne = true;
                     while (oEnum.hasMoreElements())
                     {
@@ -174,7 +174,7 @@ public class Cache
                         //vou tirar mais minutos para libertar memoria até ao GAP.
                         validTime -= Math.abs( minutes * 60000 );
                     }
-                    logger.info("["+cacheName+"] ENDED cycle "+run+": " + getSize());
+                    logger.finer("["+cacheName+"] ENDED cycle "+run+": " + getSize());
                 }
 
                 if( shrinkTimes > 20 )

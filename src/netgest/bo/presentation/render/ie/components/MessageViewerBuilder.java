@@ -26,7 +26,7 @@ import netgest.bo.security.securityOPL;
 
 import netgest.utils.ClassUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

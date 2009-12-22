@@ -22,7 +22,7 @@ import netgest.bo.workflow.*;
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.core.*;
 import netgest.bo.controller.xwf.XwfKeys;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.xwf.EngineGate;
 public class SMSAdhocSender 
 {

@@ -12,7 +12,7 @@ import netgest.bo.runtime.*;
 import netgest.utils.*;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.NodeList;
 
 public class boExpressionEval  {
@@ -77,7 +77,7 @@ public class boExpressionEval  {
             }
             catch ( boRuntimeException e )
             {
-                logger.error("Error: ", e);
+                logger.severe("Error: ", e);
             }
         } 
         catch (boExpressionException e) 
@@ -102,7 +102,7 @@ public class boExpressionEval  {
             }
             catch (EvalError e) 
             {
-                logger.error(e);
+                logger.severe(e);
             }
         }
         return ret;
@@ -267,7 +267,7 @@ public class boExpressionEval  {
             }
             catch (boRuntimeException e)
             {
-                logger.error(e);
+                logger.severe(e);
             }
             
             String toadd = "";
@@ -393,7 +393,7 @@ public class boExpressionEval  {
                 if(transform!=null) {
                     String javacode = transformToJava(transform);
                     Object rslt = xx.eval(javacode);
-                    logger.debug(transform +" ---> "+ rslt);
+                    logger.finest(transform +" ---> "+ rslt);
                 }
             }
             catch (EvalError e) {

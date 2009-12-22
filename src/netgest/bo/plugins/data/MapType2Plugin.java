@@ -1,21 +1,19 @@
 /*Enconding=UTF-8*/
 package netgest.bo.plugins.data;
-import java.io.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import netgest.bo.builder.*;
-import netgest.bo.def.*;
 
-import netgest.bo.runtime.boObjectFinder;
-import netgest.bo.runtime.boRuntimeException;
-import org.apache.log4j.*;
-import netgest.bo.plugins.IDataManager;
+import netgest.bo.builder.boBuildRepository;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.plugins.IDataBuilderDB;
+import netgest.bo.plugins.IDataManager;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
-import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectFinder;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.Logger;
 
 
 public class MapType2Plugin implements IDataPlugin

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import netgest.bo.def.*;
 import netgest.bo.runtime.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -196,15 +196,15 @@ public class Utils
                             }
                             catch (NoSuchMethodException e)
                             {
-                                logger.error(e);
+                                logger.severe(e);
                             }
                             catch (InvocationTargetException _e)
                             {
-                                logger.error(_e);
+                                logger.severe(_e);
                             }
                             catch (IllegalAccessException __e)
                             {
-                                logger.error(__e);
+                                logger.severe(__e);
                             }
                         }
                     }
@@ -261,7 +261,7 @@ public class Utils
 //                            catch (ClassNotFoundException e)
 //                            {
 //                                //ignore
-//                                logger.error(e);
+//                                logger.severe(e);
 //                            }
                             try
                             {
@@ -272,15 +272,15 @@ public class Utils
                             }
                             catch (NoSuchMethodException e)
                             {
-                                logger.error(e);
+                                logger.severe(e);
                             }
                             catch (InvocationTargetException _e)
                             {
-                                logger.error(_e);
+                                logger.severe(_e);
                             }
                             catch (IllegalAccessException __e)
                             {
-                                logger.error(__e);
+                                logger.severe(__e);
                             }
                         }
                     }

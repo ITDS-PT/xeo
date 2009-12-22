@@ -2,7 +2,7 @@
 package netgest.bo.runtime.robots;
 import netgest.bo.system.boApplication;
 import netgest.bo.runtime.robots.blogic.xwfTimeAgentBussinessLogic;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 

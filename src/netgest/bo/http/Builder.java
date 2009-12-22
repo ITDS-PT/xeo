@@ -30,14 +30,15 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boSession;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import java.io.FileReader;
 
 public class Builder extends HttpServlet  {
     //logger
-    private static Logger logger = Logger.getRootLogger();
+    private static Logger logger = Logger.getLogger( Builder.class.getName() );
+    private static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger( Builder.class );
 
     private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 
@@ -81,19 +82,21 @@ public class Builder extends HttpServlet  {
                 if (!isXEOUpAndRunning()) 
                   useInternalAuthentication=true;
                 
+                
                 WriterAppender appender = null;
                 try {
                     PatternLayout layout = new PatternLayout("%d (%F:%L) - %m%n");
                     appender = new WriterAppender(layout, response.getOutputStream());
                     appender.setName(appenderName);
+                    appender.activateOptions();
                 } 
                 catch( Exception e )
                 {
-                    logger.error("Error: ", e );
+                    logger.severe("Error: ", e );
                 }
                 
-                logger.addAppender(appender);
-                logger.setLevel(Level.DEBUG); 
+                log4j.addAppender(appender);
+                log4j.setLevel(Level.DEBUG); 
                                
                 if (useInternalAuthentication) {
                 	bosess = boapp.boLogin( "SYSTEM", boLoginBean.getSystemKey(), boapp.getDefaultRepositoryName()  );
@@ -103,7 +106,7 @@ public class Builder extends HttpServlet  {
 					bosess = (boSession)request.getSession().getAttribute("boSession");
 					if (bosess==null || !bosess.getUser().getUserName().equalsIgnoreCase("SYSUSER"))
 					{
-					    logger.error("Authentication was not performed or your Session TimedOut. You must authenticate before you can run Builder.");
+					    logger.severe("Authentication was not performed or your Session TimedOut. You must authenticate before you can run Builder.");
 					    return;
 					}
                 }
@@ -114,9 +117,9 @@ public class Builder extends HttpServlet  {
                 boolean ok = false;
                 try
                 {
-                    logger.info("Starting suspending Agents");
+                    logger.finer("Starting suspending Agents");
                     boctx.getApplication().suspendAgents();
-                    logger.info("Ended suspending Agents");
+                    logger.finer("Ended suspending Agents");
                     final InitialContext ic = new InitialContext();
                     ut = (UserTransaction) ic.lookup("java:comp/UserTransaction");
                     ut.setTransactionTimeout(6000000);
@@ -141,9 +144,9 @@ public class Builder extends HttpServlet  {
                     }
                     try
                     {
-                        logger.info("Starting Agents");
+                        logger.finer("Starting Agents");
                         boctx.getApplication().startAgents();
-                        logger.info("Ended starting Agents");
+                        logger.finer("Ended starting Agents");
                     }
                     catch (Exception e)
                     {
@@ -157,7 +160,7 @@ public class Builder extends HttpServlet  {
 
                 if(module != null && module.indexOf("taskValidation") != -1)
                 {
-                    logger.debug("Starting Tasks Validation ...");
+                    logger.finest("Starting Tasks Validation ...");
                     Enumeration oEnum = Tasks.getInstance().getActiveTasksNames();
                     while(oEnum.hasMoreElements())
                     {
@@ -165,28 +168,28 @@ public class Builder extends HttpServlet  {
                         task = Tasks.getInstance().getClass(taskName);
                         if(!task.done(boctx))
                         {
-                            logger.debug("Starting [" + taskName + "] Validation");
+                            logger.finest("Starting [" + taskName + "] Validation");
                             if(task.validation(boctx))
                             {
-                                logger.debug("Validation [" + taskName + "] : OK" );
+                                logger.finest("Validation [" + taskName + "] : OK" );
                             }
                             else
                             {
-                                logger.debug("Validation [" + taskName + "] : NOT OK" );
+                                logger.finest("Validation [" + taskName + "] : NOT OK" );
                             }
-                            logger.debug("Ended [" + taskName + "] Validation");
+                            logger.finest("Ended [" + taskName + "] Validation");
                         }
                         else
                         {
-                            logger.debug("Task [" + taskName + "] : DONE ALREADY");
+                            logger.finest("Task [" + taskName + "] : DONE ALREADY");
                         }
                     }
-                    logger.debug("Ended Tasks Validation");
+                    logger.finest("Ended Tasks Validation");
                 }
 
                 if(module != null && module.indexOf("taskExecution") != -1)
                 {
-                    logger.debug("Starting Tasks Execution ...");
+                    logger.finest("Starting Tasks Execution ...");
                     Enumeration oEnum = Tasks.getInstance().getActiveTasksNames();
                     while(oEnum.hasMoreElements())
                     {
@@ -194,23 +197,23 @@ public class Builder extends HttpServlet  {
                         task = Tasks.getInstance().getClass(taskName);
                         if(!task.done(boctx))
                         {
-                            logger.debug("Starting [" + taskName + "] Task");
+                            logger.finest("Starting [" + taskName + "] Task");
                             if(task.execute(boctx))
                             {
-                                logger.debug("Execution [" + taskName + "] : OK" );
+                                logger.finest("Execution [" + taskName + "] : OK" );
                             }
                             else
                             {
-                                logger.debug("Execution [" + taskName + "] : NOT OK" );
+                                logger.finest("Execution [" + taskName + "] : NOT OK" );
                             }
-                            logger.debug("Ended [" + taskName + "] Task.");
+                            logger.finest("Ended [" + taskName + "] Task.");
                         }
                         else
                         {
-                            logger.debug("Task [" + taskName + "] : DONE ALREADY");
+                            logger.finest("Task [" + taskName + "] : DONE ALREADY");
                         }
                     }
-                    logger.debug("Ended Tasks Execution");
+                    logger.finest("Ended Tasks Execution");
                 }
             }
             catch (Exception e)
@@ -220,7 +223,7 @@ public class Builder extends HttpServlet  {
             finally
             {
                 if(boctx != null) boctx.close();
-                logger.setLevel(sv);
+                log4j.setLevel(sv);
             }
         } catch (Exception e) {
             PrintWriter out = response.getWriter();
@@ -231,7 +234,7 @@ public class Builder extends HttpServlet  {
         }
         finally
         {
-            logger.removeAppender(appenderName);
+        	log4j.removeAppender(appenderName);
         }
     }
 

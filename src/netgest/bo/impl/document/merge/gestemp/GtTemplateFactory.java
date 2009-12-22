@@ -6,7 +6,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class GtTemplateFactory 
 {

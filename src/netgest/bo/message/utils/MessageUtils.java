@@ -11,7 +11,7 @@ import netgest.bo.boConfig;
 import netgest.bo.runtime.*;
 import netgest.bo.security.securityRights;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
@@ -222,7 +222,7 @@ public class MessageUtils
         }
         catch(Exception e)
         {
-            logger.error("Error ao efectuar o set do already_read", e);
+            logger.severe("Error ao efectuar o set do already_read", e);
         }
     }
     
@@ -415,7 +415,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return toRet;
     }
@@ -436,7 +436,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return null;
     }
@@ -455,7 +455,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
     
@@ -839,7 +839,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return false;
     }
@@ -884,7 +884,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return toRet;
     }
@@ -915,7 +915,7 @@ public class MessageUtils
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return toRet;
     }

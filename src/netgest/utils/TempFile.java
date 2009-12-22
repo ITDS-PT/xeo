@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import netgest.bo.runtime.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -66,7 +66,7 @@ public class TempFile extends Object{
             }
 			File auxFile = new File(sb.toString());
             auxFile.createNewFile();
-            logger.debug(sb.toString());
+            logger.finest(sb.toString());
 			return auxFile;
         }
         catch(IOException e){
@@ -116,7 +116,7 @@ public class TempFile extends Object{
                 }
                 auxFile = new File(sb.toString());
                 exists = auxFile.exists();
-                logger.debug(sb.toString());
+                logger.finest(sb.toString());
             }
             if(!auxFile.getParentFile().exists())
             {
@@ -126,7 +126,7 @@ public class TempFile extends Object{
 			return auxFile;
         }
         catch(IOException e){
-            logger.error("", e);
+            logger.severe("", e);
 			throw new boRuntimeException("","",e);
         }
     }

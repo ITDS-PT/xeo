@@ -23,7 +23,7 @@ import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
 import oracle.xml.parser.v2.XMLDocument;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -197,7 +197,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
             p_type           = GeneralParseUtils.parseAttributeNode( getNodeName(), getChildNodeText( "type" , null ), p_len, p_decimals );
             if( p_type == null )
             {
-                logger.error("Not valid:" + p_type );
+                logger.severe("Not valid:" + p_type );
             }
             p_attType        = p_type.indexOf("object.")==0?TYPE_OBJECTATTRIBUTE:TYPE_ATTRIBUTE;
             
@@ -516,18 +516,18 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
                 }
                 catch (InstantiationException e)
                 {
-                    logger.fatal("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
                     throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.fatal("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
                     throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
                 }
             }
             catch (ClassNotFoundException e)
             {
-                logger.fatal("Interface Class Map (" + getTransformClassMapName() + ") not found");
+                logger.severe("Interface Class Map (" + getTransformClassMapName() + ") not found");
                 throw new boRuntimeException2("Interface Class Map (" + getTransformClassMapName() + ") not found");
             }
         }

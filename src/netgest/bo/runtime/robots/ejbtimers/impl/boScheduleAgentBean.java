@@ -24,7 +24,7 @@ import netgest.bo.runtime.robots.ejbtimers.boScheduleThreadEJBLocalHome;
 import netgest.bo.system.boLoginLocalHome;
 
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boScheduleAgentBean extends XEOTimedObjectWrapper
     implements SessionBean, TimedObject
@@ -135,10 +135,10 @@ public class boScheduleAgentBean extends XEOTimedObjectWrapper
             } 
         }
         catch (boLoginException e) {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
         catch (boRuntimeException e) {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }        
         finally
         {  

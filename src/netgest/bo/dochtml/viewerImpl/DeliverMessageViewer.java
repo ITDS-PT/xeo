@@ -21,7 +21,7 @@ import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.Element;
 
 /**
@@ -788,7 +788,7 @@ public class DeliverMessageViewer implements ObjectViewer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return sb.toString();
      }
@@ -983,7 +983,7 @@ public class DeliverMessageViewer implements ObjectViewer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return sb.toString();
      }
@@ -1009,7 +1009,7 @@ public class DeliverMessageViewer implements ObjectViewer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return sb.toString();
      }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -232,7 +232,7 @@ public class DataManager
                         for (byte z = 0; z < wa.length; z++)
                         {
                             rows++;
-//                            logger.debug("DELETING ROW IN [" +
+//                            logger.finest("DELETING ROW IN [" +
 //                                relations[z].getObjectName() + "]");
     
                             boolean ok = true;
@@ -272,7 +272,7 @@ public class DataManager
                                 if (row.isNew())
                                 {
                                     rows++;
-//                                    logger.debug("INSERTING ROW IN [" +
+//                                    logger.finest("INSERTING ROW IN [" +
 //                                        relations[z].getObjectName() + "]");
     
                                     if (!wa[z].insertRow(ctx, row))
@@ -284,7 +284,7 @@ public class DataManager
                                 else if (row.wasChanged())
                                 {
                                     rows++;
-//                                    logger.debug("UPDATING ROW IN [" +
+//                                    logger.finest("UPDATING ROW IN [" +
 //                                        relations[z].getObjectName() + "]");
 //    
                                     if (!wa[z].updateRow(ctx, row))

@@ -9,7 +9,11 @@ import org.w3c.dom.NodeList;
 
 public class boConfigRepository implements Serializable
 {
-    Node p_node;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Node p_node;
     String p_constrdata;
     String p_constrdef;
     String p_constrdatadbm;

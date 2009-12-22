@@ -9,7 +9,7 @@ import netgest.bo.impl.document.print.PrintHelper;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
 import netgest.xwf.EngineGate;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import netgest.xwf.core.*;
 
 /**
@@ -139,7 +139,7 @@ public class LetterServer implements MediaServer
         }
         if(MessageUtils.isToWaitResponse(originalMessage) && receivers.size() > 0)
         {
-            logger.info("Vou criar o wait para msg!");
+            logger.finer("Vou criar o wait para msg!");
             originalMessage.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
             try
             {

@@ -11,7 +11,7 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XSLException;
 
 import org.w3c.dom.NodeList;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -68,19 +68,19 @@ public class DriverManager
                 }
                 catch (InstantiationException e)
                 {
-                    logger.debug(
+                    logger.finest(
                         "netgest.bo.data.DriverManager: InstantiationException when loading Driver Class [" +
                         driver + "]", e);
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.debug(
+                    logger.finest(
                         "netgest.bo.data.DriverManager: IllegalAccessException when loading Driver Class [" +
                         driver + "]", e);
                 }
                 catch (ClassNotFoundException e)
                 {
-                    logger.debug(
+                    logger.finest(
                         "netgest.bo.data.DriverManager: ClassNotFoundException when loading Driver Class [" +
                         driver + "]", e);
                 }
@@ -88,7 +88,7 @@ public class DriverManager
         }
         catch (XSLException e)
         {
-            logger.error("Error: ",e);
+            logger.severe("Error: ",e);
         }
     }
 

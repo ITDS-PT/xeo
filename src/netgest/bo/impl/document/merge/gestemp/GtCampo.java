@@ -22,7 +22,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public abstract class GtCampo {
@@ -299,7 +299,7 @@ public abstract class GtCampo {
     public void setValues(EboContext boctx) throws boRuntimeException {
         HttpServletRequest request = boctx.getRequest();
         String s = request.getParameter(getHTMLFieldName());
-        logger.debug(getHTMLFieldName() + "->" + s);
+        logger.finest(getHTMLFieldName() + "->" + s);
 
         if (Integer.parseInt(getTipo()) == 4) {
             String time = request.getParameter("_ignore_" + getHTMLFieldName());

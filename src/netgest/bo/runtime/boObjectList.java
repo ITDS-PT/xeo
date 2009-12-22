@@ -21,7 +21,7 @@ import netgest.bo.system.boPoolable;
 import netgest.utils.ExpressionParser;
 import netgest.utils.ParametersHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boObjectList extends boPoolable {
 
@@ -497,7 +497,7 @@ public class boObjectList extends boPoolable {
 			String fulltext, String[] letter_filter) {
 		boObjectList toReturn = boObjectList.list(ctx, "select " + objName
 				+ " where 1=0");
-		logger.debug("STARTED listOnlyUsingAlias");
+		logger.finest("STARTED listOnlyUsingAlias");
 		long t1 = System.currentTimeMillis();
 		String alias[] = arrangeAlias(fulltext);
 		if (alias != null && alias.length > 0) {
@@ -536,7 +536,7 @@ public class boObjectList extends boPoolable {
 						pagesize, orderby, null, letter_filter, null,
 						boObjectList.FORMAT_MANY, true, true, true);
 				long t2 = System.currentTimeMillis();
-				logger.debug("listOnlyUsingAlias took "
+				logger.finest("listOnlyUsingAlias took "
 						+ (float) (Math.round((float) (t2 - t1) / 100f)) / 10f
 						+ "s");
 				return toReturn;
@@ -553,7 +553,7 @@ public class boObjectList extends boPoolable {
 		;
 		long t1 = System.currentTimeMillis();
 		String alias[] = arrangeAlias(fulltext);
-		logger.info("STARTED listUsingAlias");
+		logger.finer("STARTED listUsingAlias");
 		if (alias != null && alias.length > 0) {
 			StringBuffer sbBoql = new StringBuffer("select Ebo_Alias where ");
 			for (int i = 0; i < alias.length; i++) {
@@ -602,7 +602,7 @@ public class boObjectList extends boPoolable {
 					null, page, pagesize, orderby, fulltext, letter_filter,
 					null, boObjectList.FORMAT_MANY, true, true, true);
 			long t2 = System.currentTimeMillis();
-			logger.info("listUsingAlias took "
+			logger.finer("listUsingAlias took "
 					+ (float) (Math.round((float) (t2 - t1) / 100f)) / 10f
 					+ "s");
 			return toReturn;
@@ -1794,9 +1794,9 @@ public class boObjectList extends boPoolable {
 					}
 				}
 				long t1 = System.currentTimeMillis();
-				logger.info("Tempo total " + (t1 - t0));
+				logger.finer("Tempo total " + (t1 - t0));
 			} catch (Exception e) {
-				logger.error("", e);
+				logger.severe("", e);
 			}
 		}
 	}
@@ -2038,11 +2038,11 @@ public class boObjectList extends boPoolable {
 	// arg_obj[0] = getObject();
 	// moveRowTo(i+1);
 	// }
-	// }catch(Exception e){logger.error("",e);}
+	// }catch(Exception e){logger.severe("",e);}
 	// }
 	// }
 	// long t1 = System.currentTimeMillis();
-	// logger.info("Tempo total "+ (t1-t0));
+	// logger.finer("Tempo total "+ (t1-t0));
 	// }
 
 	public void BidirectionalBubbleSortAlgorithm(Comparator c)
@@ -2086,7 +2086,7 @@ public class boObjectList extends boPoolable {
 			}
 		}
 		long t1 = System.currentTimeMillis();
-		logger.info("Tempo total " + (t1 - t0));
+		logger.finer("Tempo total " + (t1 - t0));
 	}
 
 	public void selectionSort(Comparator c) throws boRuntimeException {
@@ -2299,7 +2299,7 @@ public class boObjectList extends boPoolable {
 		boolean change = true;
 		boObject o1 = null, o2 = null;
 		while (change) {
-			logger.info("1st");
+			logger.finer("1st");
 			print();
 			change = false;
 			for (int i = 1; i < this.getRowCount(); i++) {
@@ -2308,7 +2308,7 @@ public class boObjectList extends boPoolable {
 				this.moveTo(i + 1);
 				o2 = getObject();
 				if (c.compare(o1, o2) > 0) {
-					logger.info("2st (" + (i) + "," + (i + 1) + ")");
+					logger.finer("2st (" + (i) + "," + (i + 1) + ")");
 					print();
 					swap(i, i + 1);
 					change = true;
@@ -2318,7 +2318,7 @@ public class boObjectList extends boPoolable {
 		}
 		print();
 		long t1 = System.currentTimeMillis();
-		logger.info("Tempo total " + (t1 - t0));
+		logger.finer("Tempo total " + (t1 - t0));
 	}
 
 
@@ -2342,7 +2342,7 @@ public class boObjectList extends boPoolable {
 				sb.append(this.getObject().getAttribute("id").getValueString())
 						.append("|");
 			}
-			logger.info(sb.toString());
+			logger.finer(sb.toString());
 		} catch (boRuntimeException e) {
 
 		}

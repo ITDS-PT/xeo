@@ -19,7 +19,7 @@ import netgest.bo.system.boRepository;
 import netgest.bo.system.boSession;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import java.util.*;
 import netgest.bo.*;
 import netgest.bo.utils.*;

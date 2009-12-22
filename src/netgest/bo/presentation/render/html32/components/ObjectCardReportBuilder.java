@@ -43,7 +43,7 @@ import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XSLException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -1199,7 +1199,7 @@ public class ObjectCardReportBuilder {
                     __url + "?frameID=" + id + "&" + parameters);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.severe(e);
         }
     }
 

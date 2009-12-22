@@ -1,6 +1,6 @@
 package netgest.utils;
 import java.io.IOException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class CommandLineExecuter 
 {
@@ -34,7 +34,7 @@ public class CommandLineExecuter
         }
         catch (Exception e)
         {
-            logger.error(e);   
+            logger.severe(e);   
             createProcessError = e.getClass().getName() + " - " + e.getMessage();
         }
         return false;

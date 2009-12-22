@@ -13,7 +13,7 @@ import netgest.bo.system.boSession;
 import netgest.xwf.common.xwfBoManager;
 import netgest.xwf.core.xwfControlFlow;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class xwfTimeAgentBussinessLogic 
 {
@@ -80,7 +80,7 @@ public class xwfTimeAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.error("", e);
+            logger.severe("", e);
         }
         finally
         {

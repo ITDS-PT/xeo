@@ -13,7 +13,7 @@ import netgest.bo.presentation.render.HTMLBuilder;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

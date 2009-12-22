@@ -4,7 +4,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import netgest.bo.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 public class ngtOut  
 {
     private static Logger logger = Logger.getLogger("netgest.utils.ngtOut");
@@ -20,7 +20,7 @@ public class ngtOut
         {
             //pq do builder
             System.out.println(dtf.format(new Date())+" - "+"DBG:"+msg);
-            logger.debug(msg);
+            logger.finest(msg);
         }
     }
     public static final void WarningInf(String msg){
@@ -44,7 +44,7 @@ public class ngtOut
         {
             //pq do builder
             System.out.println(dtf.format(new Date())+" - "+"*** CRITICAL *** :"+msg);
-            logger.fatal(msg);
+            logger.severe(msg);
         }
     }
 
@@ -55,7 +55,7 @@ public class ngtOut
         }
         else
         {
-            logger.error(msg);
+            logger.severe(msg);
         }
     }    
 
@@ -66,7 +66,7 @@ public class ngtOut
         }
         else
         {
-            logger.info(msg);
+            logger.finer(msg);
         }
     } 
 
@@ -82,7 +82,7 @@ public class ngtOut
             //pq do builder
             System.out.print(dtf.format(new Date())+" - "+"DBG:"+msg);
             System.out.println(" >>>> From  "+ClassName+"."+Method);
-            logger.debug(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.finest(msg + " >>>> From  "+ClassName+"."+Method);
         }
     }
     public static final void WarningInf(String msg,String ClassName,String Method){
@@ -107,7 +107,7 @@ public class ngtOut
         }
         else
         {
-            logger.fatal(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.severe(msg + " >>>> From  "+ClassName+"."+Method);
         }
     }
     public static final void errorInf(String msg,String ClassName,String Method){
@@ -118,7 +118,7 @@ public class ngtOut
         }
         else
         {
-            logger.error(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.severe(msg + " >>>> From  "+ClassName+"."+Method);
         }
     }
      public static final void info(String msg,String ClassName,String Method){        
@@ -129,7 +129,7 @@ public class ngtOut
         }
         else
         {
-            logger.info(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.finer(msg + " >>>> From  "+ClassName+"."+Method);
         }
     }
 //--------------------------------------
@@ -141,7 +141,7 @@ public class ngtOut
         }
         else
         {
-            logger.debug(msg, exception);
+            logger.finest(msg, exception);
         }
     }
     public static final void WarningInf(String msg, Throwable exception){
@@ -161,7 +161,7 @@ public class ngtOut
         }
         else
         {
-            logger.fatal(msg, exception);
+            logger.severe(msg, exception);
         }
     }
 
@@ -172,7 +172,7 @@ public class ngtOut
         }
         else
         {
-            logger.error(msg, exception);
+            logger.severe(msg, exception);
         }
     }    
 
@@ -183,7 +183,7 @@ public class ngtOut
         }
         else
         {
-            logger.info(msg, exception);
+            logger.finer(msg, exception);
         }
     }
     
@@ -195,7 +195,7 @@ public class ngtOut
         }
         else
         {
-            logger.debug("", exception);
+            logger.finest("", exception);
         }
     }
     public static final void WarningInf(Throwable exception){
@@ -215,7 +215,7 @@ public class ngtOut
         }
         else
         {
-            logger.fatal("", exception);
+            logger.severe("", exception);
         }
     }
 
@@ -226,7 +226,7 @@ public class ngtOut
         }
         else
         {
-            logger.error("", exception);
+            logger.severe("", exception);
         }
     }    
 
@@ -237,7 +237,7 @@ public class ngtOut
         }
         else
         {
-            logger.info("", exception);
+            logger.finer("", exception);
         }
     }
 
@@ -245,7 +245,7 @@ public class ngtOut
 //------------------------------
     public static final void writeToDebugFile(String msg)
     {
-        logger.error(msg);
+        logger.severe(msg);
 //          String configpath = "netgest/";
 //          String filename   = "ngterror.log";
 //          String fullpath=null;

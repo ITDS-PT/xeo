@@ -3,7 +3,7 @@ package netgest.bo.events;
 import java.util.Iterator;
 import netgest.bo.runtime.*;
 import netgest.bo.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -73,7 +73,7 @@ public class MailAccountEvents
         }
         catch(Exception e)
         {
-            logger.error ("EMAILACCOUNT ERROR ", e);
+            logger.severe("EMAILACCOUNT ERROR ", e);
         }
         finally
         {

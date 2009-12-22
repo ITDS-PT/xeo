@@ -10,7 +10,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class Query {
@@ -137,7 +137,7 @@ public class Query {
                 return boObject.getBoManager().loadObject(boctx,
                     valor.longValue());
             }
-            logger.error("Value a NULL a obter valor XEO. Verificar esta situação.");
+            logger.severe("Value a NULL a obter valor XEO. Verificar esta situação.");
         }
 
         return null;

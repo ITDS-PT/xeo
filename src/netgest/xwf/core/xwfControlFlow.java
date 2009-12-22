@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.rmi.server.UID;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * Classe responsavel pelo controlo de fluxos de um programa XWF.
@@ -3241,7 +3241,7 @@ public class xwfControlFlow
         }
         catch (Exception e)
         {
-            logger.info("Treated error:",e);
+            logger.finer("Treated error:",e);
             return false;
         }
         return false;

@@ -1,7 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.lang.reflect.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import javax.naming.*;
 import java.util.*;
 
@@ -126,7 +126,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 Thread activeListener = (Thread)list.get( i );
                 if( !activeListener.isAlive() )
                 {
-                    logger.debug( "Dead XEO Thread found... Removing it" );
+                    logger.finest( "Dead XEO Thread found... Removing it" );
                     list.remove( i );
                     p_boapp.removeContextFromThread( activeListener );
 
@@ -140,7 +140,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 try
                 {
                     String tname = "XEO Thread [" + name  +"]";
-                    logger.debug("Starting " + tname );
+                    logger.finest("Starting " + tname );
                     Class threadClass = Class.forName(  p_boapp.getApplicationConfig().getThreadsClass()[ id_idx ]  );
                     Constructor constructor = threadClass.getConstructor( new Class[] {ThreadGroup.class,boApplication.class,String.class} );
                     xthread = (Thread)constructor.newInstance( new Object[] { this.tGroup, this.p_boapp, tname } );
@@ -205,7 +205,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 try
                 {
                     Thread thread = ((Thread)active.get( i ));
-                    logger.debug("Stopping XEO Thread ["+ thread.getName() +"]");
+                    logger.finest("Stopping XEO Thread ["+ thread.getName() +"]");
                     thread.interrupt();
                     int wait = 0;                  
                     while( thread.isAlive() && !thread.isInterrupted() && wait < this.maxWaitTime )

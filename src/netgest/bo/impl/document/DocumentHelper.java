@@ -48,7 +48,7 @@ import netgest.io.iFilePermissionDenied;
 
 import netgest.utils.ngtXMLHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import xeo.client.business.events.ClientEvents;
 import xeo.client.business.events.FileSystemEvents;
@@ -384,7 +384,7 @@ public class DocumentHelper extends Ebo_DocumentImpl{
         InputStream bufferedIn = new BufferedInputStream( input );
         docContainer.setInputStream(bufferedIn);
         tFinal = System.currentTimeMillis();
-        logger.info("Tempo Total CheckOut: " + (tFinal-tInicial)/1000 +"s" );
+        logger.finer("Tempo Total CheckOut: " + (tFinal-tInicial)/1000 +"s" );
     }
     private static void setUpLoadFiles(boObject object,String userBoui,File upLoadFile, String bridge) throws boRuntimeException,IOException,iFilePermissionDenied
     {
@@ -429,7 +429,7 @@ public class DocumentHelper extends Ebo_DocumentImpl{
            setUpLoadFile(object,userBoui,upLoadFile,bridge);
         }
         tFinal = System.currentTimeMillis();
-        logger.info("Tempo Total CheckIn: " + (tFinal-tInicial)/1000 +"s" );
+        logger.finer("Tempo Total CheckIn: " + (tFinal-tInicial)/1000 +"s" );
 
     }
     private static void setUpLoadFile(boObject object,String userBoui,File upLoadFile, String bridge) throws boRuntimeException,IOException,iFilePermissionDenied

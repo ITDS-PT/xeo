@@ -21,7 +21,7 @@ import netgest.bo.runtime.boRuntimeException;
 
 import netgest.bo.system.*;
 import netgest.utils.DataUtils;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -215,14 +215,14 @@ public class SyncronizeExternalTables implements boSchedule
 /*                DataSetMetaData meta = extDataSet.getMetaData();
                 for (int i = 0; i < meta.getColumnCount(); i++) 
                 {
-                    logger.info( meta.getColumnName( i + 1 ) + "\t|" );
+                    logger.finer( meta.getColumnName( i + 1 ) + "\t|" );
                 }
                 
                 for (int i = 0; i < extDataSet.getRowCount(); i++) 
                 {
                     for (int z = 0; z < meta.getColumnCount(); z++) 
                     {
-                        logger.info( extDataSet.rows( i + 1 ).getObject( z + 1 ) + "\t|" );
+                        logger.finer( extDataSet.rows( i + 1 ).getObject( z + 1 ) + "\t|" );
                     }
                 }
 */                
@@ -241,7 +241,7 @@ public class SyncronizeExternalTables implements boSchedule
                         newrow.updateString( "CLASSNAME", p_parameter );
                         objDataSet.insertRow( newrow );
                     }
-                    logger.debug("Registing objects ["+ handler.getBoName() +"]");
+                    logger.finest("Registing objects ["+ handler.getBoName() +"]");
                     long ini = System.currentTimeMillis();
                     
                     if( boui != null )
@@ -253,7 +253,7 @@ public class SyncronizeExternalTables implements boSchedule
                         MapType1DataManager.registerObjects( ctx, objDataSet, handler.getBoName() );
                     }
                     
-                    logger.debug("Importing ["+p_parameter+"], ["+objDataSet.getRowCount()+"] imported in ["+(System.currentTimeMillis() - ini )+" secs], average for each object is ["+((System.currentTimeMillis() - ini)/objDataSet.getRowCount() )+" ms]");
+                    logger.finest("Importing ["+p_parameter+"], ["+objDataSet.getRowCount()+"] imported in ["+(System.currentTimeMillis() - ini )+" secs], average for each object is ["+((System.currentTimeMillis() - ini)/objDataSet.getRowCount() )+" ms]");
                     
                     if( extraquery == null )
                     {
@@ -283,7 +283,7 @@ public class SyncronizeExternalTables implements boSchedule
         }
         else
         {
-            logger.debug( "Object [" + handler.getName() + "] not synchronized because is not mapped." );
+            logger.finest( "Object [" + handler.getName() + "] not synchronized because is not mapped." );
         }
         
         return true; 

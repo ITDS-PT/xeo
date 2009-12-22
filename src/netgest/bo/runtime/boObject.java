@@ -63,7 +63,7 @@ import netgest.utils.ParametersHandler;
 import netgest.utils.ngtXMLHandler;
 import netgest.xwf.common.xwfActionHelper;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -172,13 +172,13 @@ public abstract class boObject extends boObjectContainer implements Serializable
     public void set_IsInOnSave( byte status)
      {
          isInOnSave = status;
-        // logger.debug(this.getName() + " IS in ONSAVE = "+status );
+        // logger.finest(this.getName() + " IS in ONSAVE = "+status );
      }
 
     public byte get_IsInOnSave( )
      {
          return isInOnSave;
-         //logger.debug(this.getName() + " IS in ONSAVE = "+status );
+         //logger.finest(this.getName() + " IS in ONSAVE = "+status );
      }
     public void bindRemoteData(DataSet data, long boui)
         throws boRuntimeException {
@@ -1832,7 +1832,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 }
             }
         }
-        catch(Exception e){logger.error(e); /*Ignore*/}
+        catch(Exception e){logger.severe(e); /*Ignore*/}
     }
 
     public boolean onBeforeDestroy(boEvent event) throws boRuntimeException
@@ -1872,7 +1872,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 	        }
 	        catch (iFilePermissionDenied e)
 	        {
-	            logger.error("Não foi possível remover do repositório, o ficheiro " + file.getName(),e);
+	            logger.severe("Não foi possível remover do repositório, o ficheiro " + file.getName(),e);
 	        }
     	}
     	finally {
@@ -3447,7 +3447,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 	            return parentDepends(attributeName);
 	        } catch (boRuntimeException e) {
 	            //ignore
-	            logger.error("", e);
+	            logger.severe("", e);
 	            return false;
 	        }
     	}

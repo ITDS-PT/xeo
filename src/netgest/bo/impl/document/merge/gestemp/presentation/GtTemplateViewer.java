@@ -51,7 +51,7 @@ import netgest.xwf.common.xwfBoManager;
 import netgest.xwf.common.xwfHelper;
 import netgest.xwf.core.xwfECMAevaluator;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import xeo.client.business.events.ClientEvents;
 import xeo.client.business.helper.RegistryHelper;

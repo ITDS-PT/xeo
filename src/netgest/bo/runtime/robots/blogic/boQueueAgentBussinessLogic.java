@@ -11,7 +11,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 public class boQueueAgentBussinessLogic 
 {
 
@@ -118,7 +118,7 @@ public class boQueueAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.error("",e);
+            logger.severe("",e);
         }
         finally
         {

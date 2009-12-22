@@ -21,7 +21,7 @@ import netgest.utils.ngtXMLUtils;
 
 import oracle.xml.parser.v2.XMLDocument;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;

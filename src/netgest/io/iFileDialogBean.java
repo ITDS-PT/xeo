@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import netgest.utils.ObjectSorter;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class iFileDialogBean {
@@ -420,7 +420,7 @@ public class iFileDialogBean {
                 try {
                     Jimi.putImage("image/png",ximg,response.getOutputStream());
                 } catch (IOException e) {
-                    logger.info(path + " - User abort download" );
+                    logger.finer(path + " - User abort download" );
                 }
                 ximg.flush();
                 is.close();
@@ -803,7 +803,7 @@ public class iFileDialogBean {
             fimword += end.charAt(i);
             if(brk) break;
         }
-        //logger.debug(iniword + " - " + fimword.toLowerCase());
+        //logger.finest(iniword + " - " + fimword.toLowerCase());
         return iniword;
    }
    public String getReturnResult() {

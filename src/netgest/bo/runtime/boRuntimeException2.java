@@ -1,7 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -15,7 +15,7 @@ public final class boRuntimeException2 extends RuntimeException
     public boRuntimeException2()
     {
     super();
-    logger.fatal( " execpção sem mensagem!!! " );  
+    logger.severe( " execpção sem mensagem!!! " );  
     
 	
     
@@ -24,19 +24,19 @@ public final class boRuntimeException2 extends RuntimeException
     public boRuntimeException2(String message) {
         
         super(message);
-        logger.fatal( message );
+        logger.severe( message );
     
     }
 
     public boRuntimeException2(String message, Throwable cause) {
         
         super(message, cause);
-        logger.fatal( message );
+        logger.severe( message );
     }
 
     public boRuntimeException2(Throwable cause) {
         
         super(cause);
-        logger.fatal( cause.toString() );
+        logger.severe( cause.toString() );
     }
 }

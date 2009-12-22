@@ -15,7 +15,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.workflow.*;
 import netgest.utils.*;
 import oracle.xml.parser.v2.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.*;
 import netgest.bo.utils.DifferenceContainer;
 import netgest.bo.utils.DifferenceHelper;

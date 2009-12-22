@@ -40,7 +40,7 @@ import netgest.bo.security.securityRights;
 
 import netgest.utils.ClassUtils;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import xeo.client.business.helper.RegistryHelper;
 
 
@@ -347,7 +347,7 @@ public class TreeBuilder {
                                             xkey += (vg[k] + TREE_MINUS);
                                         }
     
-                                        //    logger.debug( TREE_LETTER_G+z+TREE_SIGN_1+xkey+" |-->"+vl[z] );
+                                        //    logger.finest( TREE_LETTER_G+z+TREE_SIGN_1+xkey+" |-->"+vl[z] );
                                         tree.groupCnt.put(TREE_LETTER_G + z +
                                             TREE_SIGN_1 + xkey, new Integer(vl[z]));
     
@@ -383,9 +383,9 @@ public class TreeBuilder {
                 }
                 catch(Exception e)
                 {
-                    logger.error(e, e);
+                    logger.severe(e);
                     
-                    logger.error("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + sqlGroups);
+                    logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + sqlGroups);
                     throw new boRuntimeException("TreeBuilder", "writeTree", e);
                 }
                 finally
@@ -598,7 +598,7 @@ public class TreeBuilder {
                         }
 
                         //Integer counterLines= ( Integer ) groupCnt.get( TREE_LETTER_G+ xGroup +TREE_SIGN_1+ xGroupValue );
-                        //if( debug ) logger.debug(TREE_LETTER_G+ xGroup +TREE_SIGN_1+ xkey );
+                        //if( debug ) logger.finest(TREE_LETTER_G+ xGroup +TREE_SIGN_1+ xkey );
                         Integer counterLines = (Integer) tree.groupCnt.get(TREE_LETTER_G +
                                 xGroup + TREE_SIGN_1 + xkey);
 
@@ -728,15 +728,15 @@ public class TreeBuilder {
                         renderFooter(out, tree, !completePage);
                         if(tree.hasBoqlInitJSP())
                         {
-//                            logger.info("Executed SQL [" +xsql+ "]");
+//                            logger.finer("Executed SQL [" +xsql+ "]");
                         }
                     }
                 }
                 catch(Exception e)
                 {
-                    logger.error(e, e);
+                    logger.severe(e);
                     
-                    logger.error("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
+                    logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
                     throw new boRuntimeException("TreeBuilder", "writeTree", e);
                 }
                 finally
@@ -932,9 +932,9 @@ public class TreeBuilder {
                     }
                     catch(Exception e)
                     {
-                        logger.error(e, e);
+                        logger.severe( e );
                         
-                        logger.error("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
+                        logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
                         throw new boRuntimeException("TreeBuilder", "writeTree", e);
                     }
                     finally
@@ -1212,7 +1212,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
         }
         catch(Exception e)
         {
-            logger.error("Erro no preLoadObjects", e);
+            logger.severe("Erro no preLoadObjects", e);
         }
         writeToLog(out, "preload".toCharArray(), System.currentTimeMillis()-ti);
 
@@ -1880,7 +1880,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
                 out.append(HTMLCommon.UTIL_NEW_LINE);
                 out.append(HTMLCommon.HTML_TABLE_LINE_END);
                 out.append(HTMLCommon.UTIL_NEW_LINE);
-                logger.error(e,e);
+                logger.severe(e);
                 
                 String sTmp = "";
                 for(int z=0; z < e.getStackTrace().length; z++)
@@ -1888,7 +1888,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
                     sTmp += e.getStackTrace()[z].getClassName() + "." + e.getStackTrace()[z].getMethodName() + "(" + 
                             e.getStackTrace()[z].getFileName() + ":" + String.valueOf(e.getStackTrace()[z].getLineNumber()) + ")";
                 }
-                logger.error(sTmp, e);
+                logger.severe(sTmp, e);
             }
         }
         writeToLog(out, "2 ciclo".toCharArray(), System.currentTimeMillis()-ti);

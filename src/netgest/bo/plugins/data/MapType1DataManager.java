@@ -22,7 +22,7 @@ import netgest.bo.plugins.data.MapType1Def.ChangeDetectionHandler;
 
 import netgest.utils.*;
 
-import org.apache.log4j.*;
+import netgest.bo.system.Logger;
 import netgest.bo.plugins.IDataManager;
 
 

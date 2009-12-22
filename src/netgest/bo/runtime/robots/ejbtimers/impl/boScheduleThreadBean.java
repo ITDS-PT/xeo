@@ -20,7 +20,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginHome;
 import netgest.bo.system.boLoginLocalHome;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class boScheduleThreadBean 
     implements SessionBean, TimedObject

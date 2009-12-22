@@ -18,7 +18,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.userquery.userquery;
 
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -66,7 +66,7 @@ public class FilterBuilder {
         catch (Exception e)
         {
             try{
-                logger.info("Erro ao desenhar o user filter queries para a definição("+
+                logger.finer("Erro ao desenhar o user filter queries para a definição("+
                     tree.p_bodef.getName()+") do utilizador("+
                         doc.getEboContext().getBoSession().getPerformerBoui()+"): ", e);
             }catch(Exception _e){/*IGNORE*/}

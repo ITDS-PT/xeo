@@ -21,7 +21,7 @@ import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.WriterException;
 import netgest.bo.runtime.EboContext;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**

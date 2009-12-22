@@ -7,7 +7,7 @@ import netgest.bo.message.Message;
 
 import java.util.Date;
 import netgest.bo.message.server.mail.MailMessage;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -93,7 +93,7 @@ public class XEOIDUtil
         }
         catch (Exception e)
         {
-            logger.error("Error treating: " + value, e);
+            logger.severe("Error treating: " + value, e);
         }
         
         return (value == null) ? "" : value;

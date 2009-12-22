@@ -19,7 +19,7 @@ import netgest.xwf.core.xwfManager;
 import netgest.xwf.core.xwfMessage;
 import netgest.xwf.xwfEngineGate;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -108,7 +108,7 @@ public class SgisServer implements MediaServer
             xwfMessage.receiveMessage(((xwfEngineGate)this.engine).getManager(), message, engine.getBoManager().getProgram());
             if(MessageUtils.isToWaitResponse(message) && receivers.size() > 0)
             {
-                logger.info("Vou criar o wait para msg!");
+                logger.finer("Vou criar o wait para msg!");
                 message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                 try
                 {
@@ -356,7 +356,7 @@ public class SgisServer implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar a sua mensagem" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return null;
         }

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.EboContext;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class UserUtils
               }
         }
         catch (SQLException e) {
-            logger.error("Erro:", e);
+            logger.severe("Erro:", e);
         }
         finally {
             try {

@@ -11,7 +11,7 @@ import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
 import netgest.bo.system.boRepository;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 

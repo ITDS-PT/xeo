@@ -21,7 +21,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boRepository;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -137,10 +137,10 @@ public class BDReport
         {
             //String s = ((File) files.get(i)).getName();
 
-            //            logger.debug("--------" + s);
+            //            logger.finest("--------" + s);
             //            if(s.equals("forumtopic$bo.xml"))
             //            {
-            //                logger.debug("STOP");
+            //                logger.finest("STOP");
             //            }
             //s = s.substring(0, s.indexOf("$"));
             //bodef = boDefHandler.getBoDefinition(s);

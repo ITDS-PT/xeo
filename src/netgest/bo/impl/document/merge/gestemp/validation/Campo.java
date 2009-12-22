@@ -8,7 +8,7 @@ import netgest.bo.impl.document.merge.gestemp.Helper;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class Campo {
@@ -41,7 +41,7 @@ public class Campo {
             try {
                 val = Helper.setImg(fieldValue);
             } catch (Exception e) {
-                logger.error("", e);
+                logger.severe("", e);
             } finally {
                 if (val == null) {
                     val = new GtValue();

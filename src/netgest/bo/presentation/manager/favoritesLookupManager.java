@@ -13,7 +13,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,11 +75,11 @@ public final class favoritesLookupManager
         }
         catch (FileNotFoundException e)
         {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
         catch (IOException e)
         {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 
@@ -118,11 +118,11 @@ public final class favoritesLookupManager
             }
             catch (IOException e)
             {
-                logger.error(e.getMessage());
+                logger.severe(e.getMessage());
             }
             catch (ClassNotFoundException e)
             {
-                logger.error(e.getMessage());
+                logger.severe(e.getMessage());
             }
 
             //String today = (String)s.readObject();
@@ -176,11 +176,11 @@ public final class favoritesLookupManager
         }
         catch (FileNotFoundException e)
         {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
         catch (IOException e)
         {
-            logger.error(e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 

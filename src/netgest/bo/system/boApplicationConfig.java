@@ -16,7 +16,7 @@ import netgest.utils.*;
 
 import oracle.xml.parser.v2.*;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -25,8 +25,6 @@ import org.xml.sax.SAXException;
 
 public class boApplicationConfig
 {
-    //logger
-    private Logger logger = Logger.getLogger( boApplicationConfig.class );
     private XMLDocument xmldoc          = null;
     private String p_definitiondir;
     private String p_uiDefinitiondir;
@@ -68,6 +66,9 @@ public class boApplicationConfig
     private String p_vbprogPath = null;
 
     private Properties[] p_repositories = null;
+    
+    private boApplicationLoggerConfig[] p_loggerConfig = null;
+    
 
     //deploy de esquemas
     private String p_tablespace;
@@ -230,7 +231,7 @@ public class boApplicationConfig
         public  void refresh( String configFile )
         {
             // Inicialização do Objecto
-
+        	
             p_repositorys     = new Hashtable();
             
             p_cfgFile         = configFile;
@@ -238,6 +239,8 @@ public class boApplicationConfig
             File config = new File( configFile );
 
             p_ngthome = config.getParent();
+
+            p_ngthome = fixRelativePath( "", p_ngthome );
     
             try
             {
@@ -251,8 +254,17 @@ public class boApplicationConfig
     
             try
             {
-                XMLNode xnode = ( XMLNode ) xmldoc.selectSingleNode("//definitiondir");
-    
+            	
+            	
+            	
+                XMLNode xnode = ( XMLNode ) xmldoc.selectSingleNode("//logConfig");
+                
+                if( xnode != null ) {
+                	parseLogConfig( (XMLElement)xnode );
+                }
+                
+                
+            	xnode = ( XMLNode ) xmldoc.selectSingleNode("//definitiondir");
                 if (xnode != null)
                 {
                     p_definitiondir = getNodeText( xnode );
@@ -375,7 +387,7 @@ public class boApplicationConfig
     
                     p_libdir     = (xnode.selectSingleNode("lib_dir") != null)
                         ? getNodeText( xnode.selectSingleNode("lib_dir") )
-                        : (p_ngthome + File.pathSeparator + "lib");
+                        : (p_ngthome + "lib");
     
                     p_tablespace = (xnode.selectSingleNode("tablespace") != null)
                         ? getNodeText( xnode.selectSingleNode("tablespace") ) : "";
@@ -491,8 +503,6 @@ public class boApplicationConfig
                         while ((nextnode = ( XMLNode ) nextnode.getNextSibling()) != null);
                     }
                 }
-                
-                p_ngthome              = fixRelativePath( "", p_ngthome );
                 
                 p_win32ClientProp.put( "path", fixRelativePath( p_ngthome, p_win32ClientProp.getProperty("path") ) );
                 p_wordTemplateProp.put( "path", fixRelativePath( p_ngthome, p_wordTemplateProp.getProperty("path") ) );
@@ -776,6 +786,11 @@ public class boApplicationConfig
       return p_threadsType;
     }
     
+    public boApplicationLoggerConfig[] getLoggersConfig() {
+    	return p_loggerConfig;
+    }
+    
+    
     private static final Properties[] removeDuplicated(Properties[] ret)
     {
         if(ret == null) return ret;
@@ -868,4 +883,67 @@ public class boApplicationConfig
         return ((XMLNode)node).getText();
     }
     
+    private void parseLogConfig( XMLElement logConfig ) {
+    	
+    	NodeList 	loggers 		= logConfig.getElementsByTagName("logger");
+    	ArrayList 	loggersArray 	= new ArrayList();
+    	for( int i=0; i < loggers.getLength(); i++ ) {
+    		XMLElement logger = (XMLElement)loggers.item( i );
+    		
+    		String[] forPackages = logger.getAttribute( "for" ).split( "," );
+    		for(int k=0; k < forPackages.length; k++  ) {
+    			
+    			String forPackage = forPackages[k];
+    			
+				boApplicationLoggerConfig loggerConfig = new boApplicationLoggerConfig();
+				loggerConfig.setActive( Boolean.parseBoolean( logger.getAttribute( "active" ) ) );
+				loggerConfig.setForClasses( forPackage );
+				loggerConfig.setLevel( logger.getAttribute( "level" ) );
+				loggerConfig.setPattern( "%d %5p [%t] (%F:%L) - %m%n" );
+	    		NodeList loggerAppenders = logger.getChildNodes();
+	    		
+				for( int z=0; z < loggerAppenders.getLength(); z++ ) {
+					if( loggerAppenders.item( z ).getNodeType() == Node.ELEMENT_NODE ) {
+						
+						Element logAppender = (Element)loggerAppenders.item( z );
+						String	logAppName = logAppender.getNodeName();
+						if( "console".equals( logAppName ) ) {
+							
+							boApplicationLoggerConfig.ConsoleProperties capp
+								= new boApplicationLoggerConfig.ConsoleProperties();
+							capp.setActive( Boolean.parseBoolean( logAppender.getAttribute("active") ) );
+							loggerConfig.setConsoleProperties( capp );
+							
+						}
+						else if( "file".equals( logAppName ) ) {
+							boApplicationLoggerConfig.FileProperties capp
+								= new boApplicationLoggerConfig.FileProperties();
+							
+							capp.setActive( Boolean.parseBoolean( logAppender.getAttribute("active") ) );
+							capp.setLogFile( fixRelativePath( p_ngthome, logAppender.getAttribute("logFile"), false ) );
+							
+							capp.setMaxSize( logAppender.getAttribute("maxSize") );
+							capp.setHistoryFiles( Integer.parseInt( logAppender.getAttribute("backupFiles") ) );
+							capp.setLogStandardOutput( logAppender.getAttribute("logStandardOutput") );
+							capp.setLogErrorOutput( logAppender.getAttribute("logErrorOutput") );
+							loggerConfig.setFileProperties( capp );
+						}
+						else if( "email".equals( logAppName ) ) {
+							boApplicationLoggerConfig.EmailProperties capp
+								= new boApplicationLoggerConfig.EmailProperties();
+							capp.setActive( Boolean.parseBoolean( logAppender.getAttribute("active") ) );
+							capp.setBuffer( Integer.parseInt( logAppender.getAttribute("buffer") ) );
+							capp.setFrom( logAppender.getAttribute("from") );
+							capp.setSmtpHost( logAppender.getAttribute("smtpHost") );
+							capp.setSubject( logAppender.getAttribute("subject") );
+							capp.setTo( logAppender.getAttribute("to") );
+							loggerConfig.setEmailProperties( capp );
+						}
+					}
+				}
+				loggersArray.add( loggerConfig );
+    		}
+    	}
+        p_loggerConfig = (boApplicationLoggerConfig[])loggersArray.toArray( new boApplicationLoggerConfig[ loggersArray.size() ] );
+    }
 }

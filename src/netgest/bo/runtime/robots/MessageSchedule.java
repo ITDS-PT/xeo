@@ -5,7 +5,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boMail;
 import netgest.utils.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class MessageSchedule implements boSchedule
 {

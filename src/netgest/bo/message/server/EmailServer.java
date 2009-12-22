@@ -28,7 +28,7 @@ import netgest.utils.ClassUtils;
 
 import netgest.xwf.EngineGate;
 import netgest.xwf.core.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -133,7 +133,7 @@ public class EmailServer extends Mail implements MediaServer
     {
         try
         {
-            logger.info("Synchronizing mailBox from user: " +
+            logger.finer("Synchronizing mailBox from user: " +
                 mailAccount.getAttribute("username").getValueString());
 
             setPOPHost(mailAccount.getAttribute("receivehost").getValueString());
@@ -176,7 +176,7 @@ public class EmailServer extends Mail implements MediaServer
         {
             //write the exception to the log
             //and continue to next mailAccount
-            logger.error("Error synchronizing mailBox from user: " +
+            logger.severe("Error synchronizing mailBox from user: " +
                 mailAccount.getAttribute("username").getValueString(), e);
         }
     }
@@ -207,7 +207,7 @@ public class EmailServer extends Mail implements MediaServer
                 try
                 {
                     xeoid =auxMsg.getXEOID();
-                    logger.debug("looking for XEOID="+xeoid + " of messageid="+auxMsg.getMessageID());
+                    logger.finest("looking for XEOID="+xeoid + " of messageid="+auxMsg.getMessageID());
 
                     boObjectList list = boObjectList.list(ctx, 
                         "select message where XEOID='" + xeoid +"' and classname <> 'messageDelivered' and classname <> 'messageSystem' and classname <> 'messageReceipt'",false,false);
@@ -218,7 +218,7 @@ public class EmailServer extends Mail implements MediaServer
                         GarbageController.isSpamServer(mailAccount, auxMsg.getFrom().getAddress()))
                     )
                     {
-                        logger.info("START TREATING A SPAM MESSAGE");
+                        logger.finer("START TREATING A SPAM MESSAGE");
                         mailFolder.getAttribute("lastmessageid").setValueString(auxMsg.getMessageID());
                         mailFolder.update();
                         if (getDeleteMessages())
@@ -226,14 +226,14 @@ public class EmailServer extends Mail implements MediaServer
                             deleteMessage(auxMsg.getMessageID());
                         }
                         addFilesTodelete(auxMsg, filesTodelete);
-                        logger.info("END TREATING A SPAM MESSAGE");
+                        logger.finer("END TREATING A SPAM MESSAGE");
                     }
                     else if ((next = list.next()) || treatedXEOid.contains(xeoid))
                     {
                         if(next)
                         {
                             boObject mailObject = list.getObject();
-                            logger.debug("Atenção msg já existe com o boui = " + mailObject.getBoui());
+                            logger.finest("Atenção msg já existe com o boui = " + mailObject.getBoui());
                                                     
                               
                             //object já existe e já foi tratado
@@ -248,7 +248,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getTO().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getTO()[j];
-                                logger.debug("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
                                 
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -259,7 +259,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getCC()[j];
-                                logger.debug("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
                                 
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -270,7 +270,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getBCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getBCC()[j];
-                                logger.debug("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
     
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -281,7 +281,7 @@ public class EmailServer extends Mail implements MediaServer
                             {
                                 if(mailAccount.getParent() != null)
                                 {
-                                    logger.debug("Vou adicionar o bcc!");
+                                    logger.finest("Vou adicionar o bcc!");
                                     mailObject.getBridge("bcc").add(mailAccount.getParent().getBoui());
                                     mailObject.getAttribute("already_read").setValueString("0");
                                 }
@@ -292,7 +292,7 @@ public class EmailServer extends Mail implements MediaServer
                                 listProgram.beforeFirst();
                                 while(listProgram.next())
                                 {
-                                    logger.debug("Vou criar o recv msg para o bcc!");
+                                    logger.finest("Vou criar o recv msg para o bcc!");
                                     program = listProgram.getObject();
                                     man = new xwfManager(ctx, program);
                                     xwfMessage.createRecActv(man,mailAccount.getParent().getBoui(), mailObject, program.getBoui());
@@ -312,7 +312,7 @@ public class EmailServer extends Mail implements MediaServer
                     }
                     else
                     {   
-                        logger.debug("Não existe");
+                        logger.finest("Não existe");
                         //verificar se é para ler apenas mensagens XEO e se trata de uma mensagem XEO
                         if (relatedBoui == null)
                         {
@@ -324,7 +324,7 @@ public class EmailServer extends Mail implements MediaServer
                             relatedBoui.clear();
                             relatedProgs.clear();
                         }
-                        logger.debug("XEO MESSAGE");
+                        logger.finest("XEO MESSAGE");
                         String auxs = (auxMsg.getContent() == null || auxMsg.getContent().length() == 0 ) ?
                                         auxMsg.getContentHTML():
                                         auxMsg.getContent();
@@ -333,7 +333,7 @@ public class EmailServer extends Mail implements MediaServer
 
                         if (isXEOMessage || !onlyXEOMessage())
                         {
-                            logger.debug("SIM XEO MESSAGE");
+                            logger.finest("SIM XEO MESSAGE");
                             boObject mailobject = null;
                             faxReceipt = FaxServer.isFaxReceipt(auxMsg.getFrom(), auxMsg.getSubject(), auxs);
                             if(auxMsg.isSystemMessage() || faxReceipt)
@@ -440,13 +440,13 @@ public class EmailServer extends Mail implements MediaServer
                             //ao mesmo tempo que preencho estes campos
                             //senão existir introduz-se no bcc
                             //to
-                            logger.debug("TO");
+                            logger.finest("TO");
                             MailAddress mailaddress = null;
                             boolean exists = false;
                             for (int j = 0; j < auxMsg.getTO().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getTO()[j];
-                                logger.debug("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
+                                logger.finest("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
                                 if(mailaddress.getEmail().toLowerCase().indexOf(accountEmail)>=0)
                                 {
                                     exists = true;
@@ -456,11 +456,11 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             
                             //cc
-                            logger.debug("CC");
+                            logger.finest("CC");
                             for (int j = 0; j < auxMsg.getCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getCC()[j];
-                                logger.debug("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
+                                logger.finest("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail)>=0)
                                 {
                                     exists = true;
@@ -477,7 +477,7 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             
                             //attach
-                            logger.debug("ATTACH");
+                            logger.finest("ATTACH");
                             for (int j = 0; j < auxMsg.getAttach().length;
                                     j++)
                             {
@@ -509,7 +509,7 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             //subject
                             //tenho que remover [XEO...] do subject
-                            logger.debug("ASSUNTO");
+                            logger.finest("ASSUNTO");
                             String assunto = auxMsg.getSubject();  
                             if(assunto != null && assunto.length() >= 3000)
                             {
@@ -537,7 +537,7 @@ public class EmailServer extends Mail implements MediaServer
                             mailobject.getAttribute("messageid").setValueString(auxMsg.getMessageID());
                             
                             //content
-                            logger.debug("CONTENT");
+                            logger.finest("CONTENT");
                             if(faxReceipt)
                             {
                                 //TODO: Lusitania??
@@ -552,11 +552,11 @@ public class EmailServer extends Mail implements MediaServer
                             else if ((auxMsg.getContentHTML() != null) &&
                                     !"".equals(auxMsg.getContentHTML()))
                             {
-                                logger.debug("XEO TAGS");
+                                logger.finest("XEO TAGS");
                                 String descr = removeXEOTags(auxMsg.getContentHTML());
-                                logger.debug("XEO TAGS 2");
+                                logger.finest("XEO TAGS 2");
                                 descr = removeSRCTags(descr);
-                                logger.debug("XEO TAGS 3");
+                                logger.finest("XEO TAGS 3");
                                 mailobject.getAttribute("description")
                                           .setValueString(descr);
                             }
@@ -651,14 +651,14 @@ public class EmailServer extends Mail implements MediaServer
 
                                 try
                                 {
-                                    logger.debug("ei :" + program.getBoDefinition().getName());
+                                    logger.finest("ei :" + program.getBoDefinition().getName());
                                     if (!bridgeContainsBoui(
                                                 program.getBridge("message"),
                                                 mailobject.getBoui()))
                                     {
                                         if(!faxReceipt)
                                         {
-                                            logger.debug("ei vou criar os receives");                                            
+                                            logger.finest("ei vou criar os receives");                                            
                                             xwfManager man = new xwfManager(ctx, program);
                                             xwfMessage.receiveMessage(man, mailobject, program);
                                         }
@@ -778,7 +778,7 @@ public class EmailServer extends Mail implements MediaServer
                 }
                 catch (Exception e)
                 {
-                    logger.error("", e);
+                    logger.severe("", e);
                     //erro ao lêr um email
                     //marcar no mailfolder e passar para o próximo
                     treatError(auxMsg, mailFolder,e);
@@ -792,7 +792,7 @@ public class EmailServer extends Mail implements MediaServer
         }
         catch (Exception e)
         {
-            logger.error("Error synchronizing mailBox from user: " +
+            logger.severe("Error synchronizing mailBox from user: " +
                 mailAccount.getAttribute("username").getValueString(), e);
         }
     }
@@ -859,14 +859,14 @@ public class EmailServer extends Mail implements MediaServer
                 }
                 catch (Exception e)
                 {
-                    logger.error(e);
+                    logger.severe(e);
                 }
             }
             
         }
         catch(Exception e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
     }
 
@@ -1298,7 +1298,7 @@ public class EmailServer extends Mail implements MediaServer
 //                {
 //                    try
 //                    {
-//                        logger.error("Erro reading mails: \n Account name: " +
+//                        logger.severe("Erro reading mails: \n Account name: " +
 //                            this.getPOPHost() + " " + this.getUserName() +
 //                            " Email(subject - messageid):" +
 //                            treatingEmail.getAttribute("name").getValueString() +
@@ -1309,14 +1309,14 @@ public class EmailServer extends Mail implements MediaServer
 //                    }
 //                     catch (Exception _e)
 //                    {
-//                        logger.error("Erro reading mails: \n Account name: " +
+//                        logger.severe("Erro reading mails: \n Account name: " +
 //                            this.getPOPHost() + " " + this.getUserName() +
 //                            "\n" + e.getMessage(), e);
 //                    }
 //                }
 //                else
 //                {
-//                    logger.error("Erro reading mails: \n Account name: " +
+//                    logger.severe("Erro reading mails: \n Account name: " +
 //                        this.getPOPHost() + " " + this.getUserName() + "\n" +
 //                        e.getMessage(), e);
 //                }
@@ -1324,7 +1324,7 @@ public class EmailServer extends Mail implements MediaServer
 //        }
 //         catch (Exception e)
 //        {
-//            logger.error("Error synchronizing mailBox from user: " +
+//            logger.severe("Error synchronizing mailBox from user: " +
 //                mailAccount.getAttribute("username").getValueString(), e);
 //        }
 //    }
@@ -1387,7 +1387,7 @@ public class EmailServer extends Mail implements MediaServer
         }
          catch (Exception e)
         {
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return 0;
         }
@@ -1416,7 +1416,7 @@ public class EmailServer extends Mail implements MediaServer
             int progSeparator = toProcess.indexOf(":",start);
             if(progSeparator > -1 && progSeparator < m.end())
             {
-//                logger.info("Trata-se de uma mensagem XEO com programa");
+//                logger.finer("Trata-se de uma mensagem XEO com programa");
                 msgStrboui = toProcess.substring(start + 4, progSeparator);
                 prgStrboui = toProcess.substring(progSeparator + 1, m.end()-1);
     
@@ -1435,19 +1435,19 @@ public class EmailServer extends Mail implements MediaServer
                 {
                     if (!msgbouis.contains(msgStrboui))
                     {
-//                        logger.info("adicionei o attached object: "+ msgStrboui);
+//                        logger.finer("adicionei o attached object: "+ msgStrboui);
                         msgbouis.add(msgStrboui);
                     }
                     if (!progbouis.contains(prgStrboui))
                     {
-//                        logger.info("adicionei o programa: "+ prgStrboui);
+//                        logger.finer("adicionei o programa: "+ prgStrboui);
                         progbouis.add(prgStrboui);
                     }
                 }
             }
             else
             {
-//                 logger.info("Trata-se de uma mensagem XEO sem programa");
+//                 logger.finer("Trata-se de uma mensagem XEO sem programa");
                  boui = -1;
                  try
                  {
@@ -1540,7 +1540,7 @@ public class EmailServer extends Mail implements MediaServer
             else if (receiptEmail.getSentDate() != null)
             {
                 d = receiptEmail.getSentDate();
-                //                logger.info("Recibo sem data");
+                //                logger.finer("Recibo sem data");
             }
 
             if ((receiptEmail.getContextThread() != null) &&
@@ -2041,7 +2041,7 @@ public class EmailServer extends Mail implements MediaServer
         }
          catch (Exception e)
         {
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
             throw new boRuntimeException("", "", e);
         }
     }
@@ -2050,7 +2050,7 @@ public class EmailServer extends Mail implements MediaServer
         boObject mailobject, boolean newmail) throws boRuntimeException
     {
         boolean ret = false;
-        logger.debug(boql);
+        logger.finest(boql);
         boObjectList bobj = boObjectList.list(ctx, boql);
         bobj.beforeFirst();
 
@@ -2125,7 +2125,7 @@ public class EmailServer extends Mail implements MediaServer
             }
              catch (MessagingException e)
             {
-                logger.error(
+                logger.severe(
                     "Erro reading mails: Deleting messages on the server \n Account name: " +
                     this.getPOPHost() + " " + this.getUserName() + "\n" +
                     e.getMessage(), e);
@@ -2144,76 +2144,76 @@ public class EmailServer extends Mail implements MediaServer
     public boolean send(boObject message, boolean saveBinary)
     {
         ArrayList filesTodelete = new ArrayList();
-//        logger.info("Preparing to send");
+//        logger.finer("Preparing to send");
         try
         {
-//            logger.info("1");
+//            logger.finer("1");
             if(engine == null || ctx == null)
             {
-//                logger.info("2");
+//                logger.finer("2");
                 return false;
             }
-//            logger.info("3");
+//            logger.finer("3");
 //            if (!message.exists())
 //            {
-//                logger.info("4");
+//                logger.finer("4");
 //                message.addErrorMessage(ERROR_MAIL_NOT_SAVED);
 //
 //                return false;
 //            }
 
             //De
-//            logger.info("5");
+//            logger.finer("5");
             boObject assigned = message.getAttribute("from").getObject();
 
             if (assigned == null)
             {
                 this.addErrorMessage(ERROR_FROM);
-//                logger.info("Error no FROM");
+//                logger.finer("Error no FROM");
                 return false;
             }
-//            logger.info("6");
+//            logger.finer("6");
             long performerBoui = ctx.getBoSession().getPerformerBoui();
             boObject performer = boObject.getBoManager().loadObject(ctx,
                     performerBoui);
 
-//            logger.info("5");
+//            logger.finer("5");
             if (!verifySender(performer, assigned))
             {
                 this.addErrorMessage(ERROR_SENDER);
-//                logger.info("Error Verifying send");
+//                logger.finer("Error Verifying send");
                 return false;
             }
-//            logger.info("8");
+//            logger.finer("8");
             String address = assigned.getAttribute("email").getValueString();
 
             if ((address == null) || address.equals(""))
             {
                 this.addErrorMessage(ERROR_FROM);
-//                logger.info("FROM no email");
+//                logger.finer("FROM no email");
                 return false;
             }
-//            logger.info("9");
+//            logger.finer("9");
             String smtphost = boConfig.getMailConfig().getProperty("smtphost");
 
             if ((smtphost != null) && !smtphost.equals(""))
             {
-//                logger.info("10");
+//                logger.finer("10");
                 setSMTPHost(smtphost);
-//                logger.info("11");
+//                logger.finer("11");
             }
             else
             {
                 this.addErrorMessage(ERROR_SMTP);
-//                logger.info("NO SMTP HOST");
+//                logger.finer("NO SMTP HOST");
                 return false;
             }
 
-//            logger.info("11");
+//            logger.finer("11");
             MailMessage mailmsg = MailMessage.getNewMailMessageToSent();
 
             //prioridade
-//            logger.info("SETTING PRIORITY");
+//            logger.finer("SETTING PRIORITY");
             String priority = message.getAttribute("priority").getValueString();
 
             if ("0".equals(priority))
@@ -2228,15 +2228,15 @@ public class EmailServer extends Mail implements MediaServer
             {
                 mailmsg.setPriority(Mail.NORMAL);
             }
-//            logger.info("FINISHED SETTING PRIORITY");
+//            logger.finer("FINISHED SETTING PRIORITY");
             //de
-//            logger.info("SETTING FROM");
+//            logger.finer("SETTING FROM");
             mailmsg.setFrom(new MailAddress(address));
 
             boolean hasRecipient = false;
 
             //to
-//            logger.info("SETTING TO");
+//            logger.finer("SETTING TO");
             bridgeHandler bridge = message.getBridge("to");
             bridge.beforeFirst();
 
@@ -2248,7 +2248,7 @@ public class EmailServer extends Mail implements MediaServer
                 auxObj = bridge.getObject();
                 if(MessageUtils.EMAIL.equals(auxObj.getAttribute("media").getValueString()))
                 {
-//                    logger.info("-----------------EMAIL---------------------");
+//                    logger.finer("-----------------EMAIL---------------------");
                     emailaddress = auxObj.getAttribute("email").getValueString();
     
                     if ((emailaddress != null) && !emailaddress.equals(""))
@@ -2271,11 +2271,11 @@ public class EmailServer extends Mail implements MediaServer
                     }
                 }
             }
-//            logger.info("FINISHED SETTING TO");
+//            logger.finer("FINISHED SETTING TO");
             //cc
             bridge = message.getBridge("cc");
             bridge.beforeFirst();
-//            logger.info("SETTING CC");
+//            logger.finer("SETTING CC");
             while (bridge.next())
             {
                 auxObj = bridge.getObject();
@@ -2303,9 +2303,9 @@ public class EmailServer extends Mail implements MediaServer
                     }
                 }
             }
-//            logger.info("FINISHED SETTING CC");
+//            logger.finer("FINISHED SETTING CC");
             //bcc
-//            logger.info("SETTING BCC");
+//            logger.finer("SETTING BCC");
             bridge = message.getBridge("bcc");
             bridge.beforeFirst();
 
@@ -2336,21 +2336,21 @@ public class EmailServer extends Mail implements MediaServer
                     }
                 }
             }
-//            logger.info("FINISHED SETTING BCC");
+//            logger.finer("FINISHED SETTING BCC");
             //tem que ter pelo menos um destinatário
             if (!hasRecipient)
             {
                 this.addErrorMessage(ERROR_TO);
-//                logger.info("ERROR NO RECIPIENT");
+//                logger.finer("ERROR NO RECIPIENT");
                 return false;
             }
 
             //subject
-//            logger.info("SETTING SUBJECT");
+//            logger.finer("SETTING SUBJECT");
             String subject = message.getAttribute("name").getValueString();
 
             //footprint
-//            logger.info("SETTING FOOTPRINT");
+//            logger.finer("SETTING FOOTPRINT");
             String footprint = boConfig.getMailConfig().getProperty("footprint");
 
             if (((footprint == null) || footprint.equalsIgnoreCase("true")) &&
@@ -2366,7 +2366,7 @@ public class EmailServer extends Mail implements MediaServer
             mailmsg.setSubject(subject);
 
             //Links Relacionados
-//            logger.info("SETTING attachedObjects");
+//            logger.finer("SETTING attachedObjects");
             String links = "";
             String link = "";
 //            bridge = message.getBridge("attachedObjects");
@@ -2413,7 +2413,7 @@ public class EmailServer extends Mail implements MediaServer
                                       .getValueString() /*+ links*/ + refs);
 
             //Attachs
-//            logger.info("SETTING ATTACH");
+//            logger.finer("SETTING ATTACH");
             int i = 0;
             bridge = message.getBridge("documents");
             bridge.beforeFirst();
@@ -2437,14 +2437,14 @@ public class EmailServer extends Mail implements MediaServer
                 mailmsg.setPartialSend(false);
             }
             
-//            logger.info("FINISHED SETTING ATTACH");
+//            logger.finer("FINISHED SETTING ATTACH");
             this.addMailMessage(mailmsg);
 
             if ((message.getAttribute("requestDeliveryReceipt").getValueString() != null) &&
                     "1".equals(message.getAttribute("requestDeliveryReceipt")
                                           .getValueString()))
             {
-//                logger.info("SETTING ASK FOR RECEIPT");                
+//                logger.finer("SETTING ASK FOR RECEIPT");                
                 mailmsg.setAskForDeliveredReceipt(true);
             }
 
@@ -2452,10 +2452,10 @@ public class EmailServer extends Mail implements MediaServer
                     "1".equals(message.getAttribute("requestReadReceipt")
                                           .getValueString()))
             {
-//                logger.info("SETTING ASK FOR DELIVERY RECEIPT");
+//                logger.finer("SETTING ASK FOR DELIVERY RECEIPT");
                 mailmsg.setAskForReadReceipt(true);
             }
-//            logger.info("SENDING-----");
+//            logger.finer("SENDING-----");
             this.send(saveBinary);
             
             if(saveBinary && this.getSavedEML() != null)
@@ -2475,7 +2475,7 @@ public class EmailServer extends Mail implements MediaServer
                     }
                 }catch (Exception e){}
             }
-//            logger.info("FINISHED SENDING-----");
+//            logger.finer("FINISHED SENDING-----");
             //datas
             try
             {
@@ -2491,7 +2491,7 @@ public class EmailServer extends Mail implements MediaServer
             }
 
             //to
-//            logger.info("TRETING TO ");
+//            logger.finer("TRETING TO ");
             bridge = message.getBridge("to");
             bridge.beforeFirst();
             while (bridge.next())
@@ -2504,7 +2504,7 @@ public class EmailServer extends Mail implements MediaServer
             }
 
             //cc
-//            logger.info("TREATING CC ");
+//            logger.finer("TREATING CC ");
             bridge = message.getBridge("cc");
             bridge.beforeFirst();
             while (bridge.next())
@@ -2517,7 +2517,7 @@ public class EmailServer extends Mail implements MediaServer
             }
 
             //bcc
-//            logger.info("TREATING BCC ");
+//            logger.finer("TREATING BCC ");
             bridge = message.getBridge("bcc");
             bridge.beforeFirst();
             while (bridge.next())
@@ -2528,12 +2528,12 @@ public class EmailServer extends Mail implements MediaServer
                     auxObj.getAttribute("already_send").setValueString("1");                    
                 }
             }
-//            logger.info("TRETING XEOID ");
+//            logger.finer("TRETING XEOID ");
             message.getAttribute("XEOID").setValueString(XEOIDUtil.MessageXEOID(mailmsg));
             long receivers[] = MessageUtils.getToReceivers(message);
             if(MessageUtils.isToWaitResponse(message) && receivers != null && receivers.length > 0)
             {
-                logger.info("Vou criar o wait para msg!");
+                logger.finer("Vou criar o wait para msg!");
                 message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                 try
                 {
@@ -2593,7 +2593,7 @@ public class EmailServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o email" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return false;
         }
@@ -2610,7 +2610,7 @@ public class EmailServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o email" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return false;
         }
@@ -2749,7 +2749,7 @@ public class EmailServer extends Mail implements MediaServer
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return false;
     }
@@ -2991,7 +2991,7 @@ public class EmailServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o email" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return null;
         }
@@ -3008,7 +3008,7 @@ public class EmailServer extends Mail implements MediaServer
             this.addErrorMessage(
                 "Ocorreu um erro inesperado a enviar o email" +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
 
             return null;
         }
@@ -3076,7 +3076,7 @@ public class EmailServer extends Mail implements MediaServer
                 }
                 catch (Exception e)
                 {
-                    logger.error(e);
+                    logger.severe(e);
                 }
                 finally
                 {

@@ -234,7 +234,11 @@ public class runtimePolicyPerformer
     
     public boolean isSupervisor(boObject performerObj)  throws boRuntimeException,SQLException
     {
-        if (("SYSUSER").equals(performerObj.getAttribute("username").getValueString()) )
+        if ( 
+        		("SYSUSER").equals(performerObj.getAttribute("username").getValueString())
+        		||
+        		("SYSTEM").equals(performerObj.getAttribute("username").getValueString())
+        )
         {
             return true;
         }

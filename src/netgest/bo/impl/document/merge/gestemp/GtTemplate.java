@@ -34,7 +34,7 @@ import netgest.io.iFile;
 import netgest.io.iFilePermissionDenied;
 import netgest.utils.CommandLineExecuter;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import com.softartisans.wordwriter.WordTemplate;
 
@@ -783,7 +783,7 @@ public class GtTemplate
         }
         catch(boRuntimeException e )
         {
-            logger.error("Erro a carregar Template ["+templateBoui+"] EboContext["+(boctx!=null?boctx.poolUniqueId():"")+"]" , e ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            logger.severe("Erro a carregar Template ["+templateBoui+"] EboContext["+(boctx!=null?boctx.poolUniqueId():"")+"]" , e ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             throw e;
         }
         return aux;        
@@ -1077,7 +1077,7 @@ public class GtTemplate
         try
         {
             String rosto=null, doc=null, text=null, textAssunto=null;
-//            logger.debug("--------------------------------Geração-----------------------------------------");
+//            logger.finest("--------------------------------Geração-----------------------------------------");
             if(bind)
             {
                 setValues(boctx);
@@ -1185,8 +1185,8 @@ public class GtTemplate
 //                    actvSend.update();
                     setActvSendBoui(actvSend.getBoui());
                     long tf = System.currentTimeMillis();
-                    logger.debug("Tempo Total da Geração (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//                    logger.debug("--------------------------------------------------------------------------------");
+                    logger.finest("Tempo Total da Geração (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//                    logger.finest("--------------------------------------------------------------------------------");
                     if(canChooseLetterType())
                         hasSelectedLetterType = false;
                     return actvSend;
@@ -1309,7 +1309,7 @@ public class GtTemplate
 
         try
         {
-//            logger.debug("--------------------------------Text Merge-----------------------------------------");
+//            logger.finest("--------------------------------Text Merge-----------------------------------------");
             long ti = System.currentTimeMillis();
             TextTemplate template = new TextTemplate();
             template.open(smsTexto);
@@ -1339,15 +1339,15 @@ public class GtTemplate
                 out = new FileOutputStream(ff);
                 template.save(out);
                 result = ff.getAbsolutePath();
-                logger.error("Gerou para: " +result); //$NON-NLS-1$
+                logger.severe("Gerou para: " +result); //$NON-NLS-1$
             }
             else
             {
                 result = template.getResult();
             }
             long tf = System.currentTimeMillis();
-            logger.debug("Tempo Total do Text Merge (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//            logger.debug("--------------------------------------------------------------------------------");
+            logger.finest("Tempo Total do Text Merge (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//            logger.finest("--------------------------------------------------------------------------------");
         }
         catch(boRuntimeException e)
         {
@@ -1368,7 +1368,7 @@ public class GtTemplate
             }
             catch (IOException e)
             {
-//                logger.error("", e);
+//                logger.severe("", e);
             }
         }
 
@@ -1414,7 +1414,7 @@ public class GtTemplate
             }
             catch (IOException e)
             {
-//                logger.error("", e);
+//                logger.severe("", e);
             }
         }
     }
@@ -1479,7 +1479,7 @@ public class GtTemplate
             }
             catch (IOException e)
             {
-//                logger.error("", e);
+//                logger.severe("", e);
             }
         }
     }
@@ -1518,7 +1518,7 @@ public class GtTemplate
 
         try
         {
-//            logger.debug("--------------------------------WORD Merge-----------------------------------------");
+//            logger.finest("--------------------------------WORD Merge-----------------------------------------");
             long ti = System.currentTimeMillis();
             input = new BufferedInputStream(file);
 
@@ -1548,10 +1548,10 @@ public class GtTemplate
             out = new FileOutputStream(ff);
             template.save(out);
             filePath = ff.getAbsolutePath();
-            logger.debug("Gerou para: " +filePath); //$NON-NLS-1$
+            logger.finest("Gerou para: " +filePath); //$NON-NLS-1$
             long tf = System.currentTimeMillis();
-            logger.debug("Tempo Total WORD MERGE (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//            logger.debug("--------------------------------------------------------------------------------");
+            logger.finest("Tempo Total WORD MERGE (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//            logger.finest("--------------------------------------------------------------------------------");
         }
         finally
         {
@@ -1574,7 +1574,7 @@ public class GtTemplate
             }
             catch (IOException e)
             {
-//                logger.error("", e);
+//                logger.severe("", e);
             }
         }
 
@@ -1600,7 +1600,7 @@ public class GtTemplate
             throw new RuntimeException(e);
         }
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total WORD MACRO (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest("Tempo Total WORD MACRO (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
         return toRet;
     }
 
@@ -1689,7 +1689,7 @@ public class GtTemplate
                     }
                     catch (Exception e)
                     {
-                        logger.error("ERROR Kiling Processes",e);
+                        logger.severe("ERROR Kiling Processes",e);
                     }
                     
                     if( !runLocal )
@@ -1701,7 +1701,7 @@ public class GtTemplate
                         }
                         catch (Exception e)
                         {
-                            logger.error("ERROR Releasing OCX Remote ",e);
+                            logger.severe("ERROR Releasing OCX Remote ",e);
                         }
                     }
                     
@@ -1720,7 +1720,7 @@ public class GtTemplate
         
         if( ( error || ex.size() > 0 ) && autoRetry )
         {
-            logger.error("ERRO - RETRY Runnig Method:" + method,ex.size()>0?(Exception)ex.get(0):new Exception("Timeout running") );
+            logger.severe("ERRO - RETRY Runnig Method:" + method,ex.size()>0?(Exception)ex.get(0):new Exception("Timeout running") );
             return runGDUtilsMethod( method, args, false, timeout );
         }
 
@@ -1753,7 +1753,7 @@ public class GtTemplate
             throw new RuntimeException(e);
         }
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total WORD MACRO (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
+        logger.finest("Tempo Total WORD MACRO (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
         return toRet;
     }
         
@@ -1792,7 +1792,7 @@ public class GtTemplate
     private static boolean runExternalProgram(String[] filePaths)
     {
         boolean toRet = true;
-//        logger.debug("----------------------------START EXTERNAL PROG----------------------------------------");
+//        logger.finest("----------------------------START EXTERNAL PROG----------------------------------------");
         long ti = System.currentTimeMillis();
         if(filePaths != null && filePaths.length > 0)
         {
@@ -1820,8 +1820,8 @@ public class GtTemplate
             
         }
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total EXTERNAL PROG (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//        logger.debug("----------------------------FIM EXTERNAL PROG----------------------------------------");
+        logger.finest("Tempo Total EXTERNAL PROG (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//        logger.finest("----------------------------FIM EXTERNAL PROG----------------------------------------");
         return toRet;
     }
     
@@ -2034,7 +2034,7 @@ public class GtTemplate
 //                    erro = msg[1];
 //                }
 //            }
-//            logger.error(e);
+//            logger.severe(e);
 //        }
     }
     
@@ -2140,7 +2140,7 @@ public class GtTemplate
 //                    erro = msg[1];
 //                }
 //            }
-//            logger.error(e);
+//            logger.severe(e);
 //        }
     }
     
@@ -2219,7 +2219,7 @@ public class GtTemplate
             {
                 erro = Messages.getString("GtTemplate.84") + executingQuery == null ? "":executingQuery +"]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
-            logger.error(e,e);
+            logger.severe(e);
             fillParams = false;
             fillListParams = false;
         }
@@ -2250,7 +2250,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.error(e);
+            logger.severe(e);
             fillListParams = false;
         }
     }
@@ -2280,7 +2280,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.error("Erro a gerar template Modelo ["+this.getDescricao()+"] User:["+ boctx.getSysUser().getUserName() +"]",e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            logger.severe("Erro a gerar template Modelo ["+this.getDescricao()+"] User:["+ boctx.getSysUser().getUserName() +"]",e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         return null;
     }
@@ -2306,7 +2306,7 @@ public class GtTemplate
     {
         // Query's
         long ti = System.currentTimeMillis();
-//        logger.debug("--------------------------------Validação-----------------------------------------");
+//        logger.finest("--------------------------------Validação-----------------------------------------");
         setValues(boctx);
         
         if( Helper.getDestinatario( boctx, this ) == null )
@@ -2342,16 +2342,16 @@ public class GtTemplate
                     javaValidation(boctx, erros);
             }
             long tf = System.currentTimeMillis();
-            logger.debug("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
         }
-//        logger.debug("--------------------------------------------------------------------------------");
+//        logger.finest("--------------------------------------------------------------------------------");
     }
     
     public void listValidate(EboContext boctx, ArrayList erros) throws boRuntimeException
     {
         // Query's
         long ti = System.currentTimeMillis();
-//        logger.debug("--------------------------------Validação-----------------------------------------");
+//        logger.finest("--------------------------------Validação-----------------------------------------");
         setListValues(boctx);
         GtQuery[] gtQuery = getQueries();
         GtParametro parametro = null;
@@ -2367,8 +2367,8 @@ public class GtTemplate
             }
         }
         long tf = System.currentTimeMillis();
-        logger.debug("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-//        logger.debug("--------------------------------------------------------------------------------");
+        logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+//        logger.finest("--------------------------------------------------------------------------------");
     }
     
     public void templateValidate(EboContext boctx, ArrayList erros) throws boRuntimeException
@@ -2600,7 +2600,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.error(e);
+            logger.severe(e);
         }
     }
     
@@ -2654,7 +2654,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.error(e); 
+            logger.severe(e); 
         }
     }
     
@@ -2698,7 +2698,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.error(e);
+            logger.severe(e);
         }
     }
     

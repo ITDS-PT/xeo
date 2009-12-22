@@ -4,7 +4,7 @@ package netgest.bo.parser;
 import netgest.bo.parser.symbol.*;
 import netgest.bo.parser.modifiers.*;
 import netgest.bo.parser.types.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 /**
  * 
  * @Company Enlace3
@@ -53,7 +53,7 @@ public class Verifier
     {
         
         Verifier verifier = new Verifier("if(tlinha===\"C\" ) {  returnValue={\"333\", \"a\"} } else { returnValue=null }", "valid");
-        logger.debug(verifier.getJava());
+        logger.finest(verifier.getJava());
         System.exit(0);
     }
 }

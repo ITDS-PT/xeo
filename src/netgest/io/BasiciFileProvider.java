@@ -8,7 +8,7 @@ import javax.naming.InitialContext;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class BasiciFileProvider extends iFileProvider  {
     //logger
@@ -60,7 +60,7 @@ public class BasiciFileProvider extends iFileProvider  {
 			//JBOSS
             //cn.setAutoCommit(false);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.severe("", e);
             cn=null;
         }
         return cn;            

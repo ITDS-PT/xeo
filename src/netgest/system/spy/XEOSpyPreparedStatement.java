@@ -6,7 +6,7 @@ import java.sql.*;
 import java.math.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class XEOSpyPreparedStatement extends XEOSpyStatement implements PreparedStatement {
@@ -43,10 +43,10 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
             xeoRs=(XEOSpyResultSet)it.next();
             if( !xeoRs.isClosed() ){
                 xeoRs.close();
-                logger.debug("------------------------------------------------");
-                logger.debug("O ResultSet não foi fechado: " + xeoRs.getQuery() );
+                logger.finest("------------------------------------------------");
+                logger.finest("O ResultSet não foi fechado: " + xeoRs.getQuery() );
                 xeoRs.printStackTrace();
-                logger.debug("------------------------------------------------");
+                logger.finest("------------------------------------------------");
             }
         }
         rsList.clear();
@@ -250,7 +250,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     /* we override this because the p6statement version will not be able to return
      * the accurate prepared statement or query information */
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        logger.debug("Metodo não preparado ! : " + getQueryFromPreparedStatement() );
+        logger.finest("Metodo não preparado ! : " + getQueryFromPreparedStatement() );
         return new XEOSpyResultSet(passthru.getResultSet(), this, preparedQuery, getQueryFromPreparedStatement());
     }
 
@@ -358,7 +358,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     }
 
     private static void writeToLog(long time, String query){
-        logger.debug("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.finest("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
 
     public void printStackTrace()

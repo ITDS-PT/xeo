@@ -14,7 +14,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.boRepository;
 import netgest.bo.system.boSession;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 /**
  *
@@ -211,7 +211,7 @@ public class SchemaUtils
         {
             String schemaName = objController.getName() + "_" +
                 objController.getBoui();
-            logger.info("criar o schema: " + schemaName);
+            logger.finer("criar o schema: " + schemaName);
             dbm = new OracleDBM();
             dbm.setEnvironment(ctx);
 

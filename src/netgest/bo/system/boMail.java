@@ -17,7 +17,7 @@ import java.util.regex.*;
 import java.rmi.*;
 import netgest.bo.ejb.boManagerLocal;
 import netgest.bo.workflow.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class boMail extends mail 
@@ -262,7 +262,7 @@ public class boMail extends mail
            "<span style='display:none'>" + e.getMessage() +
             "</span>"
             );
-                  logger.error("Error: ", e);
+                  logger.severe("Error: ", e);
            return false; 
         }
         catch(IOException e)
@@ -280,7 +280,7 @@ public class boMail extends mail
                 "<span style='display:none'>" + e.getMessage() +
                 "</span>"            
             );
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
             return false;
         }
     }
@@ -547,7 +547,7 @@ public class boMail extends mail
        "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
-              logger.error("Error: ", e);
+              logger.severe("Error: ", e);
        return false; 
       }
       catch(IOException e)
@@ -565,7 +565,7 @@ public class boMail extends mail
             "<span style='display:none'>" + e.getMessage() +
             "</span>"            
         );
-        logger.error("Error: ", e);
+        logger.severe("Error: ", e);
         return false;
       }
 /*    }
@@ -607,7 +607,7 @@ public class boMail extends mail
     }
     catch(MessagingException e)
     {
-      logger.error("Erro reading mails: Deleting messages on the server \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);      
+      logger.severe("Erro reading mails: Deleting messages on the server \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);      
     }   
   }
   
@@ -652,7 +652,7 @@ public class boMail extends mail
     }
     catch (Exception e)
     {
-       logger.error("Error: ", e);
+       logger.severe("Error: ", e);
       return 0;
     }
   }
@@ -903,16 +903,16 @@ public class boMail extends mail
         {
             try
             {
-                logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName() + " Email(subject - messageid):" +treatingEmail.getAttribute("name").getValueString() +" - "+treatingEmail.getAttribute("messageid").getValueString() +"\n"+e.getMessage(), e);
+                logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName() + " Email(subject - messageid):" +treatingEmail.getAttribute("name").getValueString() +" - "+treatingEmail.getAttribute("messageid").getValueString() +"\n"+e.getMessage(), e);
             }
             catch (Exception _e)
             {
-                logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+                logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
             }
         }
         else
         {
-            logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+            logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
         }
       }
       this.mailfolder.update();
@@ -940,22 +940,22 @@ public class boMail extends mail
     }
     catch (boRuntimeException e)
     {
-      logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }
     catch (RemoteException e)
     {
-      logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;      
     }
     catch(MessagingException e)
     {
-      logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }   
     catch(IOException e)
     {
-      logger.error("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }   
     
@@ -976,12 +976,12 @@ public class boMail extends mail
             }
             else
             {
-//                logger.info("Recibo sem data");
+//                logger.finer("Recibo sem data");
             }
         }
         catch (ParseException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         if(receiptEmail.getReceiptThread() != null && !"".equals(receiptEmail.getReceiptThread().trim()))
         {
@@ -1336,7 +1336,7 @@ public class boMail extends mail
     }
     catch(Exception e)
     {
-            logger.error("Error: ", e);
+            logger.severe("Error: ", e);
       return null;
     }
   }

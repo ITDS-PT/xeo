@@ -8,7 +8,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.sorter.ClassSorter;
 import netgest.xwf.common.xwfFunctions;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class ActivtiyDatesComparator implements ClassSorter
 {
@@ -44,7 +44,7 @@ public class ActivtiyDatesComparator implements ClassSorter
         }
         catch (boRuntimeException e)
         {
-            logger.error(e);
+            logger.severe(e);
         }
         return sn;
     }

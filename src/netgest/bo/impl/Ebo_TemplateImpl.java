@@ -10,7 +10,7 @@ import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.templates.*;
 import netgest.utils.*;
 import oracle.xml.parser.v2.XMLNode;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.*;
 import netgest.bo.impl.templates.boExpressionEval;
 

@@ -7,7 +7,7 @@ import netgest.bo.def.v1.boDefHandlerImpl;
 
 import netgest.utils.ngtXMLHandler;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import org.w3c.dom.Node;
 /**

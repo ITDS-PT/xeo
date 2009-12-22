@@ -23,7 +23,7 @@ import netgest.bo.runtime.bridgeHandler;
 import netgest.io.iFile;
 import netgest.io.iFileServer;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class GtCampoNObjecto extends GtCampo {
@@ -241,7 +241,7 @@ public class GtCampoNObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.info(Messages.getString("GtCampoNObjecto.27") + //$NON-NLS-1$
+        logger.finer(Messages.getString("GtCampoNObjecto.27") + //$NON-NLS-1$
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
             Messages.getString("GtCampoNObjecto.28") + getNome()); //$NON-NLS-1$
     }
@@ -294,7 +294,7 @@ public class GtCampoNObjecto extends GtCampo {
                 }
             }
 
-            logger.error(Messages.getString("GtCampoNObjecto.35") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.severe(Messages.getString("GtCampoNObjecto.35") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
             throw new boRuntimeException("", //$NON-NLS-1$
                 Messages.getString("GtCampoNObjecto.38") + getPergunta() + //$NON-NLS-1$
                 Messages.getString("GtCampoNObjecto.39"), null); //$NON-NLS-1$

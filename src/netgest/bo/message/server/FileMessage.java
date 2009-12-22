@@ -16,7 +16,7 @@ import netgest.io.FSiFile;
 import netgest.xwf.core.xwfManager;
 import netgest.xwf.core.xwfMessage;
 import netgest.bo.runtime.robots.boSchedule;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class FileMessage implements MediaServer, boSchedule
 {

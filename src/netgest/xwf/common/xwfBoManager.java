@@ -21,7 +21,7 @@ import netgest.utils.StringUtils;
 import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.DOMParser;
 import oracle.xml.parser.v2.XMLParseException;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.Node;
 
 import java.util.regex.Matcher;
@@ -766,7 +766,7 @@ public class xwfBoManager
                 refobj = this.getDocHTML().getObject( boui.longValue() );
             }catch(Exception e)
             {
-                logger.info("",e);
+                logger.finer("",e);
                 refobj = null;
             }
           }

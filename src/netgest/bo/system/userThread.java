@@ -14,7 +14,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.boThread;
 import netgest.bo.system.boPoolOwner;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public final class userThread extends boObjectContainer implements boPoolOwner
 {

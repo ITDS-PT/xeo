@@ -10,7 +10,7 @@ import netgest.utils.*;
 import java.sql.*;
 
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 /**
@@ -581,7 +581,7 @@ public class WFinternal
         }
         else if (pstate.equals(WF.STATE_CREATE))
         {
-            //logger.debug("Activity already in mode " + WF.STATE_CREATE);
+            //logger.finest("Activity already in mode " + WF.STATE_CREATE);
                WFinternal.computeChildStates_STATUS_CREATE( activity );
         }
         else if (pstate.equals(WF.STATE_CLOSE))
@@ -594,7 +594,7 @@ public class WFinternal
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
         
-           logger.debug("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_CREATE);
+           logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_CREATE);
             toRet = false;
         }
         else
@@ -787,7 +787,7 @@ public class WFinternal
         }
         else if (pstate.equals(WF.STATE_OPEN))
         {
-            //logger.debug("Activity already in mode " + WF.STATE_OPEN);
+            //logger.finest("Activity already in mode " + WF.STATE_OPEN);
             WFinternal.computeChildStates_STATUS_OPEN( activity );
         }
         else if (pstate.equals(WF.STATE_CLOSE))
@@ -839,7 +839,7 @@ public class WFinternal
         }
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
-            logger.debug("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
+            logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
             toRet = false;
         }
         else
@@ -991,7 +991,7 @@ String xname=activity.getAttribute("name").getValueString();
         }
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
-            logger.debug("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
+            logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
             toRet = false;
         }
         else

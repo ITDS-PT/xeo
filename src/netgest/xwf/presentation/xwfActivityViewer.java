@@ -42,7 +42,7 @@ import netgest.xwf.common.xwfBoManager;
 import netgest.xwf.common.xwfHelper;
 import netgest.xwf.core.xwfECMAevaluator;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 import xeo.client.business.helper.RegistryHelper;
 
@@ -685,7 +685,7 @@ public class xwfActivityViewer
         }
         else 
         {
-            logger.error("Variable["+variable.getBoui()+"] with VarValue NULL");          //$NON-NLS-1$ //$NON-NLS-2$
+            logger.severe("Variable["+variable.getBoui()+"] with VarValue NULL");          //$NON-NLS-1$ //$NON-NLS-2$
         }            
     }
     private static String renderList(Controller controller,boObject activity,boObject variable, int idx, boolean forceDisabled)  throws boRuntimeException 

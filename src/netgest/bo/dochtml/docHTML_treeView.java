@@ -30,7 +30,7 @@ import netgest.bo.userquery.userquery;
 
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 
 public class docHTML_treeView
@@ -155,7 +155,7 @@ public class docHTML_treeView
                                         xkey+=vg[k]+"-";
                                      }
                                      
-                                 //    logger.debug( "G"+z+"-:-"+xkey+" |-->"+vl[z] );
+                                 //    logger.finest( "G"+z+"-:-"+xkey+" |-->"+vl[z] );
                                      groupCnt.put( "G"+z+"-:-"+xkey , new Integer( vl[z] ) );
                                      
                                     //groupCnt.put( "G"+z+"-:-"+vg[z] , new Integer( vl[z] ) ); 
@@ -357,7 +357,7 @@ public class docHTML_treeView
          {
              String name=(String )h.nextElement();
              String xxx=DOC.getEboContext().getRequest().getHeader(name);
-             logger.debug(name+"-->"+xxx);
+             logger.finest(name+"-->"+xxx);
              
          }
        
@@ -660,7 +660,7 @@ public class docHTML_treeView
                     
                     
                     //Integer counterLines= ( Integer ) groupCnt.get( "G"+ xGroup +"-:-"+ xGroupValue );
-                    //if( debug ) logger.debug("G"+ xGroup +"-:-"+ xkey );
+                    //if( debug ) logger.finest("G"+ xGroup +"-:-"+ xkey );
                     Integer counterLines= ( Integer ) groupCnt.get( "G"+ xGroup +"-:-"+ xkey );
                     
                     currentLine++;
@@ -1377,7 +1377,7 @@ public class docHTML_treeView
     toRet[0]=renderLines;
     toRet[1]=currentLine;
     toRet[2]=rslt.next()?1:0;
-    logger.info( String.valueOf(System.currentTimeMillis() -xt));
+    logger.finer( String.valueOf(System.currentTimeMillis() -xt));
     return toRet;    
     }
     private static void writeQueryToLog(JspWriter out, long time, String query)throws IOException {

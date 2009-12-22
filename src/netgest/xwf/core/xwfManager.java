@@ -13,7 +13,7 @@ import netgest.xwf.StepControl;
 import netgest.xwf.stepControllers.*;
 import netgest.xwf.common.*;
 import java.util.*;
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 import org.w3c.dom.*;
 /**
  * Gestor das tarefas relacionadas com o programa em execução.

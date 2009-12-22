@@ -16,7 +16,7 @@ import netgest.xwf.*;
 import netgest.xwf.common.*;
 import netgest.xwf.core.*;
 
-import org.apache.log4j.Logger;
+import netgest.bo.system.Logger;
 
 public class xwfActivityRobotBussinessLogic 
 {
