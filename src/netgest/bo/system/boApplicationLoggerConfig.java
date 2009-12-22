@@ -127,6 +127,10 @@ public class boApplicationLoggerConfig {
     			
 	    		String domainClasses = logConfig[i].getForClasses();
 	    		
+	    		if( logConfig[i].getPattern() == null || "".equals( logConfig[i].getPattern() ) ) {
+	    			logConfig[i].setPattern("%d %5p [%t] (%F:%L) - %m%n");	    			
+	    		}
+	    		
 	    		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( domainClasses, Logger.loggerFactory );
 	    		
 	    		LoggerLevel level = LoggerLevels.getLevel( logConfig[i].getLevel() );
