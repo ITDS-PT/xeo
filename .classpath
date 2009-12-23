@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="project_lib/cos.jar"/>
 	<classpathentry kind="lib" path="project_lib/java_sql_interfaces_1_6.jar"/>
 	<classpathentry kind="lib" path="project_lib/JimiProClasses.jar"/>
-	<classpathentry kind="lib" path="project_lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="project_lib/regex4j.jar"/>
 	<classpathentry kind="lib" path="project_lib/timerservice.jar"/>
 	<classpathentry kind="lib" path="project_lib/WordWriter-v2-License.jar"/>
@@ -23,18 +22,18 @@
 	<classpathentry kind="lib" path="base_lib/j2ee/jndi.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/jta.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/mail.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/mysql-connector-java-5.1.7-bin.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/ojsp.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/servlet.jar"/>
 	<classpathentry kind="lib" path="base_lib/j2ee/soap.jar"/>
 	<classpathentry kind="lib" path="project_lib/xmlparserv2.jar"/>
+	<classpathentry kind="lib" path="project_lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.generic.runtimeTarget/JBoss v4.2">
+	<classpathentry kind="lib" path="base_lib/modules_lib/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="base_lib/modules_lib/ojdbc14.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_17">
 		<attributes>
-			<attribute name="owner.project.facets" value="jst.utility"/>
+			<attribute name="owner.project.facets" value="jst.java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
