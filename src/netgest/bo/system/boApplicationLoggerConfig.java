@@ -120,63 +120,64 @@ public class boApplicationLoggerConfig {
 	}
 	
     public static void applyConfig(boApplicationLoggerConfig[] logConfig ) {
-
-    	for( int i=0; i < logConfig.length; i++ ) {
-    		
-    		if( logConfig[i].isActive() ) {
-    			
-	    		String domainClasses = logConfig[i].getForClasses();
+    	if( logConfig != null ) {
+	    	for( int i=0; i < logConfig.length; i++ ) {
 	    		
-	    		if( logConfig[i].getPattern() == null || "".equals( logConfig[i].getPattern() ) ) {
-	    			logConfig[i].setPattern("%d %5p [%t] (%F:%L) - %m%n");	    			
-	    		}
-	    		
-	    		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( domainClasses, Logger.loggerFactory );
-	    		
-	    		LoggerLevel level = LoggerLevels.getLevel( logConfig[i].getLevel() );
-	    		if( level != null ) {
-	    			logger.setLevel( level.getLevel() );
-	    		}
-	    		
-	    		boApplicationLoggerConfig.ConsoleProperties console = logConfig[i].getConsoleProperties();
-	    		if( console != null && console.isActive() ) {
-	    			ConsoleAppender capp = new ConsoleAppender();
-	    			capp.setName("XEO Console Logger");
-	    			capp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
-	    			capp.activateOptions();
-	    			logger.addAppender( capp );
-	    		}
-	    		
-	    		boApplicationLoggerConfig.FileProperties file = logConfig[i].getFileProperties();
-	    		if ( file != null && file.isActive() ) {
-	    			RollingFileAppender fapp = new RollingFileAppender();
-	    			fapp.setName("XEO RollingFile Logger");
-	    			fapp.setFile( file.getLogFile() );
-	    			fapp.setMaxFileSize( file.getMaxSize() );
-	    			fapp.setMaxBackupIndex( file.getHistoryFiles() );
-	    			fapp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
-	    			fapp.activateOptions();
+	    		if( logConfig[i].isActive() ) {
 	    			
-	    			// Implement console capture.
-	    			logger.addAppender( fapp );
+		    		String domainClasses = logConfig[i].getForClasses();
+		    		
+		    		if( logConfig[i].getPattern() == null || "".equals( logConfig[i].getPattern() ) ) {
+		    			logConfig[i].setPattern("%d %5p [%t] (%F:%L) - %m%n");	    			
+		    		}
+		    		
+		    		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( domainClasses, Logger.loggerFactory );
+		    		
+		    		LoggerLevel level = LoggerLevels.getLevel( logConfig[i].getLevel() );
+		    		if( level != null ) {
+		    			logger.setLevel( level.getLevel() );
+		    		}
+		    		
+		    		boApplicationLoggerConfig.ConsoleProperties console = logConfig[i].getConsoleProperties();
+		    		if( console != null && console.isActive() ) {
+		    			ConsoleAppender capp = new ConsoleAppender();
+		    			capp.setName("XEO Console Logger");
+		    			capp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
+		    			capp.activateOptions();
+		    			logger.addAppender( capp );
+		    		}
+		    		
+		    		boApplicationLoggerConfig.FileProperties file = logConfig[i].getFileProperties();
+		    		if ( file != null && file.isActive() ) {
+		    			RollingFileAppender fapp = new RollingFileAppender();
+		    			fapp.setName("XEO RollingFile Logger");
+		    			fapp.setFile( file.getLogFile() );
+		    			fapp.setMaxFileSize( file.getMaxSize() );
+		    			fapp.setMaxBackupIndex( file.getHistoryFiles() );
+		    			fapp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
+		    			fapp.activateOptions();
+		    			
+		    			// Implement console capture.
+		    			logger.addAppender( fapp );
+		    		}
+		
+		    		boApplicationLoggerConfig.EmailProperties email = logConfig[i].getEmailProperties();
+		    		if ( email != null && email.isActive() ) {
+		    			SMTPAppender smtApp = new SMTPAppender();
+		    			smtApp.setName("XEO Email Logger");
+		    			smtApp.setBufferSize( email.getBuffer() );
+		    			smtApp.setSMTPHost( email.getSmtpHost() );
+		    			smtApp.setFrom( email.getFrom() );
+		    			smtApp.setTo( email.getTo() );
+		    			smtApp.setCc( email.getCc() );
+		    			smtApp.setBcc( email.getBcc() );
+		    			smtApp.setSubject( email.getSubject() );
+		    			smtApp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
+		    			smtApp.activateOptions();
+		    			logger.addAppender( smtApp );
+		    		}
 	    		}
-	
-	    		boApplicationLoggerConfig.EmailProperties email = logConfig[i].getEmailProperties();
-	    		if ( email != null && email.isActive() ) {
-	    			SMTPAppender smtApp = new SMTPAppender();
-	    			smtApp.setName("XEO Email Logger");
-	    			smtApp.setBufferSize( email.getBuffer() );
-	    			smtApp.setSMTPHost( email.getSmtpHost() );
-	    			smtApp.setFrom( email.getFrom() );
-	    			smtApp.setTo( email.getTo() );
-	    			smtApp.setCc( email.getCc() );
-	    			smtApp.setBcc( email.getBcc() );
-	    			smtApp.setSubject( email.getSubject() );
-	    			smtApp.setLayout( new PatternLayout( logConfig[i].getPattern() ) );
-	    			smtApp.activateOptions();
-	    			logger.addAppender( smtApp );
-	    		}
-    		}
+	    	}
     	}
     }
     
