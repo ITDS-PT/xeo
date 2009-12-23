@@ -1,10 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo;
-import java.util.*;
-import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import netgest.bo.system.Logger;
+import java.util.Hashtable;
+
+import netgest.utils.StringUtils;
 
 public class boException extends RuntimeException {
     /**
@@ -12,9 +12,6 @@ public class boException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//logger
-    private static Logger logger = Logger.getLogger("netgest.bo.boException");
-    
     public static Hashtable p_errors;
     private String p_message;
     private Exception p_baseexception;
@@ -90,7 +87,6 @@ public class boException extends RuntimeException {
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.severe("Nexted expcetion is:", this);
         super.printStackTrace();
     }
 

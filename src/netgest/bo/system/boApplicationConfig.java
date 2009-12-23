@@ -1,26 +1,30 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
-import java.io.*;
-
-import java.nio.charset.*;
-
-import java.util.*;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Properties;
 import java.util.regex.Pattern;
-import netgest.bo.presentation.render.*;
-import netgest.bo.runtime.*;
-import netgest.bo.*;
 
-import netgest.utils.*;
+import netgest.bo.boConfigRepository;
+import netgest.bo.boException;
+import netgest.bo.presentation.render.Browser;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.utils.ngtXMLHandler;
+import netgest.utils.ngtXMLUtils;
+import oracle.xml.parser.v2.XMLDocument;
+import oracle.xml.parser.v2.XMLElement;
+import oracle.xml.parser.v2.XMLNode;
+import oracle.xml.parser.v2.XSLException;
 
-import oracle.xml.parser.v2.*;
-
-import netgest.bo.system.Logger;
-
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-//import netgest.system.ngtconfig;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 
 public class boApplicationConfig
@@ -248,8 +252,7 @@ public class boApplicationConfig
             }
             catch (RuntimeException e)
             {
-                String[] emsg = { configFile };
-                throw new boException("netgest.bo.builder._init()", "BO-1201", e, emsg);
+            	throw e;
             }
     
             try
@@ -318,7 +321,7 @@ public class boApplicationConfig
                     }
                     
                     NodeList x= xnode.getChildNodes();
-                    ArrayList threadsName=new ArrayList();
+                    ArrayList<String> threadsName=new ArrayList<String>();
                     ArrayList threadsClass=new ArrayList(); 
                     ArrayList threadsEjbName=new ArrayList(); 
                     ArrayList threadsInterval=new ArrayList(); 

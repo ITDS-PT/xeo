@@ -40,7 +40,10 @@ import netgest.bo.runtime.boRuntimeException;
  */
 public class boApplication
 {
-    private static 	boApplication XEO_APPLICATION;
+	
+	private static Logger logger;
+	
+    private static boApplication XEO_APPLICATION;
 
     private static 	WeakHashMap     applicationThreadsContext = new WeakHashMap();
     
@@ -88,49 +91,73 @@ public class boApplication
         return XEO_APPLICATION;
     }
 
-    public synchronized static final boApplication getApplicationFromStaticContext(String appName)
+    public static final boApplication getApplicationFromStaticContext(String appName)
     {
         if (appName.equals("XEO"))
         {
             if (XEO_APPLICATION == null)
             {
-                String appConfigPath = System.getProperty("netgest.home");
-                
-                if( appConfigPath == null ) {
-                	appConfigPath = System.getProperty("xeo.home");
-                }
-                if( appConfigPath == null ) {
-                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
-                	if( u != null && u.getFile() != null ) {
-	                	File file = new File(u.getFile());
-	                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
-	                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
-	                	if( xeoHome1.exists() ) {
-	                		appConfigPath = homeFolder.getAbsolutePath();
-	                	}
-	                	homeFolder = homeFolder.getParentFile();
-	                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
-	                	if( xeoHome1.exists() ) {
-	                		appConfigPath = homeFolder.getAbsolutePath();
-	                	}
-                	}
-                }
-                if( appConfigPath != null ) {
-	                if( !appConfigPath.endsWith( "/" ) || !appConfigPath.endsWith( "\\" ) )
-	                {
-	                    appConfigPath += File.separator;
-	                }
-	                System.setProperty( "xeo.home" , appConfigPath );
-	                System.setProperty( "netgest.home" , appConfigPath );
+            	synchronized (Object.class) {
+	                String appConfigPath = System.getProperty("netgest.home");
 	                
-	                appConfigPath += "boconfig.xml"; 
-	                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
-	                XEO_APPLICATION.initializeApplication();
-                }
-            }
+	                if( appConfigPath == null ) {
+	                	appConfigPath = System.getProperty("xeo.home");
+	                }
+	                if( appConfigPath == null ) {
+	                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
+	                	if( u != null && u.getFile() != null ) {
+		                	File file = new File(u.getFile());
+		                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
+		                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+		                	if( xeoHome1.exists() ) {
+		                		appConfigPath = homeFolder.getAbsolutePath();
+		                	}
+		                	homeFolder = homeFolder.getParentFile();
+		                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+		                	if( xeoHome1.exists() ) {
+		                		appConfigPath = homeFolder.getAbsolutePath();
+		                	}
+	                	}
+	                }
+	                if( appConfigPath != null ) {
+		                if( !appConfigPath.endsWith( "/" ) && !appConfigPath.endsWith( "\\" ) )
+		                {
+		                    appConfigPath += File.separator;
+		                }
+		                System.setProperty( "xeo.home" , appConfigPath );
+		                System.setProperty( "netgest.home" , appConfigPath );
+		                
+		                appConfigPath += "boconfig.xml"; 
+		                
+		                if( new File(appConfigPath).exists() ) {
+		                	try {
+				                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
+				                XEO_APPLICATION.initializeApplication();
+				                logger.config( "XEO Initialized from config file [%s]", appConfigPath );
+		                	}
+		                	catch( Throwable e ) {
+			                	System.err.println("-----------------------------------------------------------------------------------");
+			                	System.err.println("Failed to Initialize XEO. Error occurred loading configuration!");
+			                	e.printStackTrace();
+			                	System.err.println("-----------------------------------------------------------------------------------");
+		                	}
+		                }
+		                else {
+		                	System.err.println("-----------------------------------------------------------------------------------");
+		                	System.err.println("Failed to Initialize XEO. boconfig.xml not found at: [" + appConfigPath + "]!");
+		                	System.err.println("-----------------------------------------------------------------------------------");
+		                }
+	                }
+	                else {
+	                	System.err.println("-----------------------------------------------------------------------------------");
+	                	System.err.println("Failed to Initialize XEO. boconfig.xml not found!");
+	                	System.err.println("System property xeo.home not specified or WEB-INF/classes/xeo.home file is missing!");
+	                	System.err.println("-----------------------------------------------------------------------------------");
+	                }
+	            }
+	        }
             return XEO_APPLICATION;
-        }
-
+    	}
         return null;
     }
 
@@ -146,6 +173,7 @@ public class boApplication
     
     public void configureLoggers() {
     	boApplicationLoggerConfig.applyConfig( getApplicationConfig().getLoggersConfig() );
+    	logger = Logger.getLogger( boApplication.class );
     }
 
     public void addAContextToThread( )

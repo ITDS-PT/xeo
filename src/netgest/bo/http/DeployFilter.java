@@ -167,6 +167,7 @@ public class DeployFilter implements Filter
 	    	logger.finer("Finished deploying modules webfiles ..." );
         }
         else {
+        	System.err.println("DeployFilter disabled because XEO Failed to initialize!");
 	    	logger.severe("Cannoad load XEO Application..." );
         }
     }
@@ -430,7 +431,7 @@ public class DeployFilter implements Filter
                 // Flag para verificar se o ficheiro está sobre o controlo do filtro.
                 boolean isunderfilter = false;
                 // Verifica se o ficheiro se encontra na Directoria do XEO
-                for (int i = 0; i < srcDir.length; i++) 
+                for (int i = 0; i <  srcDir.length; i++) 
                 {
                 	File srcFile =  new File( srcDir[i] + file );
                     if( srcFile.exists() && srcFile.getAbsolutePath().endsWith( fsFile )  )
@@ -588,7 +589,7 @@ public class DeployFilter implements Filter
                 
                 // Tenta fazer o foward para um ficheiro XEO
                 // Devolve true/false. true se o pedido foi reenviado para outro endereço.
-                if( !fowardToXeoFile( kpath, hrequest, response ) )
+                if( srcDir != null && !fowardToXeoFile( kpath, hrequest, response ) )
                 {
             		chain.doFilter( request , response);
                 }
