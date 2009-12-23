@@ -1728,15 +1728,15 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                                 }
 
                                 Method xmethod = ctxobj.getClass().getMethod(xname,argsclass);
-                                ctxobj = xmethod.invoke(ctxobj,methargs);
+                                ctxobj = xmethod.invoke(ctxobj, (Object[])methargs );
                                 i = xprops.length-2;
                             }
                             else
                             {
                                 try
                                 {
-                                    Method xmeth = ctxobj.getClass().getMethod( xprop , null );
-                                    ctxobj = xmeth.invoke( ctxobj, null );
+                                    Method xmeth = ctxobj.getClass().getMethod( xprop , (Class[])null );
+                                    ctxobj = xmeth.invoke( ctxobj, (Object[])null );
                                 }
                                 catch (NoSuchMethodException e)
                                 {

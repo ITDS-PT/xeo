@@ -183,7 +183,7 @@ public class xwfBasicStepController implements StepControl
               {
                 String xml = actv.getAttribute("xmlStep").getValueString();
                 String usid = actv.getAttribute("unique_sid").getValueString();
-                ngtXMLHandler code = manag.getControlFlow().addCodeTag("code", usid, xml, true);
+                manag.getControlFlow().addCodeTag("code", usid, xml, true);
               }
           }
           return true;
@@ -200,12 +200,12 @@ public class xwfBasicStepController implements StepControl
             boObject poll = att_poll.getObject();
             if(poll != null)
             {
-                Class cpoll = manag.getControlFlow().getStepControlClass("poll");
+                Class<?> cpoll = manag.getControlFlow().getStepControlClass("poll");
                 if(cpoll != null)
                 {
                     try{
-                        Constructor stc_const = cpoll.getConstructor(null);
-                        StepControl se = (StepControl)stc_const.newInstance(null);
+                        Constructor stc_const = cpoll.getConstructor();
+                        StepControl se = (StepControl)stc_const.newInstance();
                         return se.specialTreatment(actv, option, manag);
                     }catch(Exception e){}
                 }

@@ -268,7 +268,7 @@ public class Utils
                                 Method ometh = fromObj.getClass().getMethod(fwds[i].getMapMethodName(), new Class[0] );
                                 //Method ometh = fromObj.getClass().getMethod(fwds[i].getMapMethodName(), classtype);
                                 //toBridge.add(((boObject)ometh.invoke(fromObj, new Object[]{new Long(fromObj.getBoui())})).getBoui());
-                                toBridge.add(((boObject)ometh.invoke(fromObj,null )).getBoui());
+                                toBridge.add(((boObject)ometh.invoke(fromObj, (Object[])null )).getBoui());
                             }
                             catch (NoSuchMethodException e)
                             {
