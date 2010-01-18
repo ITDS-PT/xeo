@@ -156,7 +156,7 @@ public class DataManager
 
             fetched++;
         }
-        if( haveResults ) {
+        if( haveResults && adapters[0].next() ) {
         	dataSet.setParameter("HaveMoreData", Boolean.toString( haveResults ) );
         }
     }
