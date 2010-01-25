@@ -223,7 +223,6 @@ public class BasiciFile implements iFile  {
         try
         {    
             cn = this.provider.getConnection();
-                            
             if(!exists()) 
             {
                 createNewFile(cn);
@@ -255,6 +254,7 @@ public class BasiciFile implements iFile  {
         {
             try {if(rslt!=null) rslt.close();} catch (SQLException e) {};
             try {if(pstm!=null) pstm.close();} catch (SQLException e) {};
+            try {if(cn!=null) cn.close();} catch (SQLException e) {};
         }
     }
     
