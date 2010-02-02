@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,6 +51,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
 import netgest.bo.system.boLoginBean;
@@ -62,7 +65,6 @@ import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
 import org.apache.log4j.Level;
-import netgest.bo.system.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.w3c.dom.Attr;
@@ -197,6 +199,10 @@ public class boBuilder {
 				buildTasks -= 2;
 
 			if (buildOptions.getFullBuild())
+				buildTasks++;
+			
+			// rest web services module is present
+			if (new File(Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices").getFile()).exists())
 				buildTasks++;
 
 			builder.p_builderProgress.setOverallTasks(buildTasks);
@@ -918,6 +924,25 @@ public class boBuilder {
 			p_eboctx.getApplication().getMemoryArchive()
 					.clearCachedEmptyDataSet();
 			ExplorerServer.clearCache();
+			
+			// rest web services module is present
+			if (new File(Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices").getFile()).exists()) {
+				// build rest web services
+				try {
+					Class<?> xclass = Class.forName("netgest.bo.webservices.rest.builder.RESTwebServicesBuilder");
+					p_builderProgress.appendInfoLog("Building REST WebServices...");
+					Constructor con =  xclass.getConstructor(new Class[] {  boBuilderProgress.class } );
+					Object xclassInstance = con.newInstance( new Object[] { p_builderProgress }  );
+					Method m = xclass.getMethod("build",new Class<?>[]{}); 
+					m.invoke(xclassInstance,new Object[]{});
+				} catch (Exception e) {
+					p_builderProgress.appendInfoLog("___________________________________");
+					p_builderProgress.appendInfoLog("Failed build of REST WebServices...");
+					p_builderProgress.appendInfoLog("___________________________________");
+					e.printStackTrace();
+				}
+			}
+
 			p_builderProgress.appendInfoLog("Deploy take "
 					+ ((System.currentTimeMillis() - ms) / 1000) + " seconds.");
 			p_builderProgress.appendInfoLog("Deploy finished.");

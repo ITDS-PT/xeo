@@ -61,7 +61,7 @@ public class boClassBuilder
 
     protected static final byte TYPE_OBJECT=0;
     protected static final byte TYPE_SIMPLE=1;
-    protected static final byte TYPE_DATA=2;
+    public static final byte TYPE_DATA=2;
 
     protected static final int LINELENGTH = 80;
     protected static final int SPACENUM = 4;
@@ -506,7 +506,7 @@ public class boClassBuilder
         ht.put("#ATT.TYPE#",att.getType());
         return ht;
     }
-    protected static final String parseJavaDataType(String type,byte objtype) {
+    public static final String parseJavaDataType(String type,byte objtype) {
         if(type.startsWith("object."))
             return "BigDecimal";
 
