@@ -202,7 +202,7 @@ public class boBuilder {
 				buildTasks++;
 			
 			// rest web services module is present
-			if (new File(Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices").getFile()).exists())
+			if (Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices") != null )
 				buildTasks++;
 
 			builder.p_builderProgress.setOverallTasks(buildTasks);
@@ -926,7 +926,7 @@ public class boBuilder {
 			ExplorerServer.clearCache();
 			
 			// rest web services module is present
-			if (new File(Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices").getFile()).exists()) {
+			if (Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices") != null ) {
 				// build rest web services
 				try {
 					Class<?> xclass = Class.forName("netgest.bo.webservices.rest.builder.RESTwebServicesBuilder");
