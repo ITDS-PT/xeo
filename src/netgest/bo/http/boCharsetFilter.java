@@ -16,7 +16,8 @@ public class boCharsetFilter implements Filter {
         if( encoding==null ) encoding="UTF-8";
     }
 
-    Pattern p = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
+    Pattern p1 = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
+    Pattern p2 = Pattern.compile( "(.*)/resources/(.*)\\.gif" );
     
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
         throws IOException, ServletException {
@@ -24,9 +25,22 @@ public class boCharsetFilter implements Filter {
         
         String path = ((HttpServletRequest)request).getRequestURI();
         
-        Matcher m = p.matcher( path );
-        if( m.matches() && request.getAttribute("__forwardResourceGIF") == null ) { 
-        	String newUril = "/.xeodeploy/resources/"+m.group(3)+".gif";
+        Matcher m1 = p1.matcher( path );
+        Matcher m2 = p2.matcher( path );
+        
+        if( m1.matches() && request.getAttribute("__forwardResourceGIF") == null ) { 
+        	String newUril = "/.xeodeploy/resources/"+m1.group(3)+".gif";
+            RequestDispatcher dispatch = request.getRequestDispatcher( newUril );
+            if( dispatch != null ) {
+            	request.setAttribute("__forwardResourceGIF",Boolean.TRUE);
+            	dispatch.forward( request, response );
+            }
+            else {
+            	next.doFilter(request, response);            	
+            }
+		}
+        else if( m2.matches() && request.getAttribute("__forwardResourceGIF") == null ) { 
+        	String newUril = "/.xeodeploy/resources/"+m2.group(2)+".gif";
             RequestDispatcher dispatch = request.getRequestDispatcher( newUril );
             if( dispatch != null ) {
             	request.setAttribute("__forwardResourceGIF",Boolean.TRUE);
