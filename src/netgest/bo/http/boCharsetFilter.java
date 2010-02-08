@@ -16,19 +16,20 @@ public class boCharsetFilter implements Filter {
         if( encoding==null ) encoding="UTF-8";
     }
 
+    Pattern p = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
+    
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
         throws IOException, ServletException {
         
         
         String path = ((HttpServletRequest)request).getRequestURI();
         
-        Pattern p = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
         Matcher m = p.matcher( path );
-        if( m.matches() && request.getAttribute("__forward") == null ) { 
+        if( m.matches() && request.getAttribute("__forwardResourceGIF") == null ) { 
         	String newUril = "/.xeodeploy/resources/"+m.group(3)+".gif";
             RequestDispatcher dispatch = request.getRequestDispatcher( newUril );
             if( dispatch != null ) {
-            	request.setAttribute("__forward",Boolean.TRUE);
+            	request.setAttribute("__forwardResourceGIF",Boolean.TRUE);
             	dispatch.forward( request, response );
             }
             else {
