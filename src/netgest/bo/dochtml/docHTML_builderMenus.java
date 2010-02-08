@@ -1954,14 +1954,14 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                )
                {
             	if( (suportManualAdd && suportManualCreate) || showAddinNoOrphan) {
-                opt =new String[2][];
+            		opt =new String[2][];
             	} else {
             		opt =new String[1][];
             	}
                 menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
-               }
+            }
             else
-                {                    
+            {                    
                     if( bolist.getBoDef().getInterfaceType()!=boDefHandler.INTERFACE_STANDARD )
                     {
                         opt =new String[1][];
