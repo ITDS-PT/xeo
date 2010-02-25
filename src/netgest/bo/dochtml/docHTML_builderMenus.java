@@ -1940,8 +1940,6 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
             menuFlat.put("SUBMENU_CRIAR",optSUBMENUCRIAR); //$NON-NLS-1$
             
         }
-      
-        
 
         boolean flat = false;
         boolean showAddinNoOrphan= suportShowLookup && suportManualAdd && !bolist.getBoDef().getBoCanBeOrphan();

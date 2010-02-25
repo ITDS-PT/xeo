@@ -130,10 +130,19 @@ public class DeployFilter implements Filter
         File srcDirFile = getViewersDirectory();
         
         if( srcDirFile != null ) {
-	        ArrayList webDirs = new ArrayList(); 
-	
+	        ArrayList<String> webDirs = new ArrayList<String>(); 
+	        
+	        
+	        String extraDirs = _filterConfig.getInitParameter("extraDirs");
+	        
 	        File moduleDirFile = getModulesWebDir();
 	        File[] moduleDir = moduleDirFile.listFiles();
+	        if( extraDirs != null ) {
+	        	List<File> srcDirs = new ArrayList<File>( Arrays.asList( moduleDir ) );
+	        	srcDirs.add( new File( extraDirs ) );
+	        	moduleDir = srcDirs.toArray( new File[ srcDirs.size() ] );
+	        }
+	        
 	        
 	        if( moduleDir != null ) {
 	        	for( int i=0;i < moduleDir.length; i++ ) {

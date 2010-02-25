@@ -14,6 +14,7 @@ import org.apache.log4j.spi.LoggerFactory;
 import netgest.bo.data.DriverManager;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
@@ -68,6 +69,9 @@ public class boApplication
     
     private boCompilerClassLoader   p_compilingclassloader  = null;
     private boClassLoader           p_classLoader           = null;
+    
+    private PreferenceManager p_preferencesManager = null;
+    
     
     private DriverManager p_drivermanager;
     private String p_name;
@@ -169,6 +173,7 @@ public class boApplication
         p_drivermanager = new netgest.bo.data.DriverManager( this );
         suspendAgents();
         startAgents();
+        p_preferencesManager = new PreferenceManager();
     }
     
     public void configureLoggers() {
@@ -202,6 +207,10 @@ public class boApplication
         {
             applicationThreadsContext.remove( thread );
         }
+    }
+    
+    public PreferenceManager getPreferencesManager() {
+    	return p_preferencesManager;
     }
 
     public synchronized static boContext currentContext()

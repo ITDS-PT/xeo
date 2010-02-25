@@ -3963,9 +3963,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 {
                     iFileServer fs = new iFileServer();
                     fs.mount();
-
                     iFile file = iFileAttribute.getValueiFile();
-
                     String filedir = "//" + BasiciFile.IFILE_SERVICE_NAME + "/" + file.getName();
                     iFile xfiledir = fs.getFile(filedir);
                     if(!xfiledir.exists())

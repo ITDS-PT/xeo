@@ -23,11 +23,11 @@ import netgest.bo.security.securityRights;
 
     public abstract class bridgeHandler extends boObjectList {
     
-        private String            p_name;
-        private DataResultSet     p_data;
-        private boObject          p_parent;
-        private boDefAttribute    p_defatt;
-        private List         		p_rows = new ArrayList();
+        private String          p_name;
+        private DataResultSet   p_data;
+        private boObject        p_parent;
+        private boDefAttribute  p_defatt;
+        private List         	p_rows = new ArrayList();
         
         public bridgeHandler(String name,DataResultSet data, String childfield, boObject parent ) {
             super(parent.getEboContext(),

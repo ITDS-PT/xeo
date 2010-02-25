@@ -62,7 +62,7 @@ public class ObjectViewerImpl implements ObjectViewer
          if( xC.toString().trim().length() < 1 && !ctxObj.exists() )
         {
             xC.setLength(0);
-            xC.append("Novo(a) "+ ctxObj.getBoDefinition().getLabel() );
+            xC.append(Messages.getString("OBJECT_NEW") + " " + ctxObj.getBoDefinition().getLabel() );
         }
 
         if (xC.length() > 46 && cut)
@@ -150,7 +150,7 @@ public class ObjectViewerImpl implements ObjectViewer
         if( xC.toString().trim().length() < 1 && !ctxObj.exists() )
         {
             xC.setLength(0);
-            xC.append("Novo(a) "+ ctxObj.getBoDefinition().getLabel() );
+            xC.append(Messages.getString("OBJECT_NEW") + " " + ctxObj.getBoDefinition().getLabel() );
         }
         else
         {
@@ -261,7 +261,7 @@ public class ObjectViewerImpl implements ObjectViewer
         if( xC.toString().trim().length() < 1 && !ctxObj.exists() )
         {
             xC.setLength(0);
-            xC.append("Novo(a) "+ ctxObj.getBoDefinition().getLabel() );
+            xC.append(Messages.getString("OBJECT_NEW") + " " + ctxObj.getBoDefinition().getLabel() );
         }
         root.appendChild(img);
         

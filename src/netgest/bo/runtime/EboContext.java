@@ -18,6 +18,7 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import netgest.bo.controller.Controller;
 import netgest.bo.data.Driver;
+import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boConnectionManager;
 import netgest.bo.system.boPoolable;
@@ -56,6 +57,7 @@ public class EboContext extends boPoolable implements Cloneable
     private  Vector p_poolowners = new Vector(1);
     private Hashtable p_transactedobjects = new Hashtable();
     private boolean forceAllInTransaction = false;
+    
 
     // Guarda todos os Objectos trsaccionados numa transacção de apenas base de dados
     private Hashtable p_dbtransactedobjects;
@@ -270,6 +272,10 @@ public class EboContext extends boPoolable implements Cloneable
     public boApplication getApplication()
     {
         return p_app;
+    }
+    
+    public PreferenceManager getPreferencesManager() {
+    	return p_app.getPreferencesManager();
     }
 
     public boConnectionManager getConnectionManager()
