@@ -16,13 +16,13 @@ public class boCharsetFilter implements Filter {
         if( encoding==null ) encoding="UTF-8";
     }
 
-    Pattern p1 = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
-    Pattern p2 = Pattern.compile( "(.*)/resources/(.*)\\.gif" );
+    //Pattern p1 = Pattern.compile( "(.*)/viewers/(.*)/resources/(.*)\\.gif" );
+    //Pattern p2 = Pattern.compile( "(.*)/resources/(.*)\\.gif" );
     
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
         throws IOException, ServletException {
         
-        
+        /*
         String path = ((HttpServletRequest)request).getRequestURI();
         
         Matcher m1 = p1.matcher( path );
@@ -51,12 +51,13 @@ public class boCharsetFilter implements Filter {
             }
 		}
         else {
+        */
             // Respect the client-specified character encoding
             // (see HTTP specification section 3.4.1)
             if(null == request.getCharacterEncoding())
                 request.setCharacterEncoding(encoding);
         	next.doFilter(request, response);
-        }
+        //}
         
     }
 
