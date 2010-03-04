@@ -97,9 +97,12 @@ public class XEOBuilderFilter implements Filter {
 		 buildOptions.setBuildDatabase(true);
 		 buildOptions.setIntegrateWithXEOStudioBuilder(true);
 		 buildOptions.setGenerateAndCompileJava(false);
+		 buildOptions.setBuildWorkplaces(true);
 		 buildOptions.setMarkDeployedObjects(true);
 		 try {
+			System.out.println("XEO Studio Partial Build Started...");
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
+			System.out.println("OK");
 		} catch (boRuntimeException e) {	
 			e.printStackTrace();
 			System.out.println(builderProgress.getLog());
