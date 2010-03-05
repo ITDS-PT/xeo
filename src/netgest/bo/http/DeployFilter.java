@@ -137,6 +137,9 @@ public class DeployFilter implements Filter
 	        
 	        File moduleDirFile = getModulesWebDir();
 	        File[] moduleDir = moduleDirFile.listFiles();
+	        if( moduleDir == null ) {
+	        	moduleDir = new File[0];
+	        }
 	        if( extraDirs != null ) {
 	        	List<File> srcDirs = new ArrayList<File>( Arrays.asList( moduleDir ) );
 	        	srcDirs.add( new File( extraDirs ) );
