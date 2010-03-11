@@ -1,6 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by pcampos (Enlace3) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by pcampos (Enlace3) --><xeoLov name="Ebo_DAOparameter">
    <General bo_class="abstract" public="no" nacionalityDefault="pt">
       <classextends/>
       <cls_version_control>yes</cls_version_control>
@@ -15,13 +13,13 @@
          <delete_menor_major_versions/>
          <delete_menor_minor_versions/>
       </active_information>
-      <description></description>
+      <description/>
       <label>
          <pt/>
          <en-us/>
       </label>
    </General>
-   <inout retainValues="No">
+   <Lov name="inout" retainValues="No">
       <description>
          <pt>Lov referente aos parametros RO</pt>
          <en-us>RO options parameters</en-us>
@@ -40,5 +38,5 @@
             <label>Envia/Recebe</label>
          </item>
       </details>
-   </inout>
-</Lov>
+   </Lov>
+</xeoLov>

@@ -1,6 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
    <general name="Ebo_Versioning" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
@@ -16,8 +17,9 @@
    <opl active="false"/>
    <states/>
    <methods>
-      <method name="rollback" public="false" menu="true" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="rollback" public="false" menu="true" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label>Rollback</label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>

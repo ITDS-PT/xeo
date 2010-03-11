@@ -1,11 +1,12 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
    <general name="Ebo_Registry" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
       <database>
-         <object id="">
+         <object id="" type="index">
             <label></label>
             <expression></expression>
          </object>
@@ -14,6 +15,8 @@
       <textIndex active="true" appendChilds="false" deep="1">
          <process/>
       </textIndex>
+      <castTo class=""></castTo>
+      <description></description>
       <cardID></cardID>
       <label>Ebo_Registry</label>
    </general>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2006 U (http://www.altova.com) by acruz (EMBRACE) -->
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
 	<general name="Ebo_Schedule" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
 		<locale language="pt" country="PT" variant=""/>
 		<implements/>
@@ -17,8 +18,9 @@
 	<opl active="false"/>
 	<states/>
 	<methods>
-		<method name="update" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+		<method name="update" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
 			<label/>
+			<icon></icon>
 			<javascriptToRun>
 				<viewer name="edit">
 					<before><![CDATA[]]></before>
@@ -35,8 +37,9 @@
 				super.update();
 				]]></body>
 		</method>
-		<method name="runNow" public="false" menu="true" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+		<method name="runNow" public="false" menu="true" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
 			<label>Executar Agora</label>
+			<icon></icon>
 			<javascriptToRun>
 				<viewer name="edit">
 					<before><![CDATA[]]></before>

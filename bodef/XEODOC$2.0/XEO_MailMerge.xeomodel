@@ -1,6 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:20 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
    <general name="XEO_MailMerge" type="object" version="1.0" extends="" orphan="true" multiparent="true" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
@@ -16,8 +17,9 @@
    <opl active="false"/>
    <states/>
    <methods>
-      <method name="process" public="false" menu="false" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="process" public="false" menu="false" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label>Processar</label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>
@@ -33,8 +35,9 @@
             <![CDATA[netgest.bo.impl.XEO_MailMergeImpl.process(this);]]>
          </body>
       </method>
-      <method name="print" public="false" menu="false" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="print" public="false" menu="false" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label>Imprimir Resultados</label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>
@@ -106,7 +109,7 @@
          <tooltip></tooltip>
          <objectFilter>
             <filter>
-               <condition/>
+               <condition language="BOL"/>
                <xeoql>select Ebo_Template where masterObjectClass.name='message'</xeoql>
             </filter>
          </objectFilter>

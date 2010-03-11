@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 U (http://www.altova.com) by acruz (EMBRACE) -->
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo (nowhere) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2006 U (http://www.altova.com) by acruz (EMBRACE) --><!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo (nowhere) --><xeoLov name="Ebo_Schedule">
 	<General bo_class="abstract" public="no" nacionalityDefault="pt">
 		<classextends/>
 		<cls_version_control>yes</cls_version_control>
@@ -22,7 +19,7 @@
 			<en-us/>
 		</label>
 	</General>
-	<EBO_scheduleType retainValues="No">
+	<Lov name="EBO_scheduleType" retainValues="No">
 		<description>
 			<pt>Lov com os tipos de agendamento</pt>
 			<en-us>Lov with the scheduling types</en-us>
@@ -45,8 +42,8 @@
 				<label>Mensal</label>
 			</item>
 		</details>
-	</EBO_scheduleType>
-	<EBO_scheduleDays retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleDays" retainValues="No">
 		<description>
 			<pt>Lov com agendamentos do tipo diário</pt>
 			<en-us>Lov with the scheduling types for DAILY</en-us>
@@ -65,8 +62,8 @@
 				<label>Fim de semana</label>
 			</item>
 		</details>
-	</EBO_scheduleDays>
-	<EBO_scheduleWeek retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleWeek" retainValues="No">
 		<description>
 			<pt>Lov com os agendamentos do tipo Semanal</pt>
 			<en-us>Lov with the scheduling types for Week</en-us>
@@ -101,8 +98,8 @@
 				<label>Domingos</label>
 			</item>
 		</details>
-	</EBO_scheduleWeek>
-	<EBO_scheduleStates retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleStates" retainValues="No">
 		<description>
 			<pt>Lov com os tipos de estado</pt>
 			<en-us>Lov with the types of states</en-us>
@@ -117,8 +114,8 @@
 				<label>Activo</label>
 			</item>
 		</details>
-	</EBO_scheduleStates>
-	<EBO_scheduleActiveStates retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleActiveStates" retainValues="No">
 		<description>
 			<pt>Lov com os tipos de estado</pt>
 			<en-us>Lov with the types of states</en-us>
@@ -137,8 +134,8 @@
 				<label>Em erro...</label>
 			</item>
 		</details>
-	</EBO_scheduleActiveStates>
-	<EBO_scheduleMonth retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleMonth" retainValues="No">
 		<description>
 			<pt>Lov com agendamentos do tipo Mensal</pt>
 			<en-us>Lov with the scheduling types for Month</en-us>
@@ -273,8 +270,8 @@
 				<label>31</label>
 			</item>
 		</details>
-	</EBO_scheduleMonth>
-	<EBO_scheduleResults retainValues="No">
+	</Lov>
+	<Lov name="EBO_scheduleResults" retainValues="No">
 		<description>
 			<pt>Lov com os tipos de Resultados</pt>
 			<en-us>Lov with the result codes</en-us>
@@ -289,5 +286,5 @@
 				<label>Erro</label>
 			</item>
 		</details>
-	</EBO_scheduleResults>
-</Lov>
+	</Lov>
+</xeoLov>

@@ -1,6 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by enlace3 (enlace3) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by enlace3 (enlace3) --><xeoLov name="Ebo_Document">
    <General bo_class="abstract" public="no" nacionalityDefault="pt">
       <classextends/>
       <cls_version_control>yes</cls_version_control>
@@ -15,13 +13,13 @@
          <delete_menor_major_versions/>
          <delete_menor_minor_versions/>
       </active_information>
-      <description></description>
+      <description/>
       <label>
          <pt/>
          <en-us/>
       </label>
    </General>
-   <documentType retainValues="No">
+   <Lov name="documentType" retainValues="No">
       <description>
          <pt>Lov referente aos tipos de Documentos</pt>
          <en-us>Document type  options parameters</en-us>
@@ -220,8 +218,8 @@
             <label>Informação Interna</label>
          </item>
       </details>
-   </documentType>
-   <arquive retainValues="No">
+   </Lov>
+   <Lov name="arquive" retainValues="No">
       <description>
          <pt>Lov referente aos parametros de Aquivo</pt>
          <en-us>Arquive options parameters</en-us>
@@ -236,5 +234,5 @@
             <label>Geral</label>
          </item>
       </details>
-   </arquive>
-</Lov>
+   </Lov>
+</xeoLov>

@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:16 BST 2006-->
-<xeoModel>
-   <general name="horario" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
+   <general name="horario" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass=""><Element/>
       <locale language="pt" country="PT" variant=""/>
       <implements/>
       <database/>
@@ -15,68 +15,72 @@
    </general>
    <opl active="false"/>
    <states/>
-   <methods/>
-   <events/>
+   <methods>
+      
+   </methods>
+   <events>
+      
+   </events>
    <fwdObjects/>
    <attributes>
       <attributeText name="name">
          <len>100</len>
          <label>Nome</label>
-         <tooltip></tooltip>
+         <tooltip/>
       </attributeText>
       <attributeText name="description">
          <len>4000</len>
          <label>Descrição</label>
          <editor>HTML</editor>
-         <tooltip></tooltip>
+         <tooltip/>
       </attributeText>
       <attributeObject name="day1">
          <type>object.horario_dia</type>
          <label>Domingo</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day2">
          <type>object.horario_dia</type>
          <label>Segunda</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day3">
          <type>object.horario_dia</type>
          <label>Terça</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day4">
          <type>object.horario_dia</type>
          <label>Quarta</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day5">
          <type>object.horario_dia</type>
          <label>Quinta</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day6">
          <type>object.horario_dia</type>
          <label>Sexta</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
       <attributeObject name="day7">
          <type>object.horario_dia</type>
          <label>Sábado</label>
          <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
+         <tooltip/>
          <objectFilter/>
       </attributeObject>
    </attributes>

@@ -1,6 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Luís Barreira (ITDS) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Luís Barreira (ITDS) --><xeoLov name="yearHolidays">
    <General bo_class="abstract" public="no" nacionalityDefault="pt">
       <classextends/>
       <cls_version_control>yes</cls_version_control>
@@ -15,13 +13,13 @@
          <delete_menor_major_versions/>
          <delete_menor_minor_versions/>
       </active_information>
-      <description></description>
+      <description/>
       <label>
          <pt/>
          <en-us/>
       </label>
    </General>
-   <lovYear retainValues="Yes">
+   <Lov name="lovYear" retainValues="Yes">
       <description>
          <pt>Lov Anos</pt>
          <en-us>Year Lov</en-us>
@@ -104,8 +102,8 @@
             <label>2005</label>
          </item>
       </details>
-   </lovYear>
-   <lovHoliday retainValues="Yes">
+   </Lov>
+   <Lov name="lovHoliday" retainValues="Yes">
       <description>
          <pt>Lov Feriados</pt>
          <en-us>Holidays Lov</en-us>
@@ -124,5 +122,5 @@
             <label>Corpo de Deus</label>
          </item>
       </details>
-   </lovHoliday>
-</Lov>
+   </Lov>
+</xeoLov>

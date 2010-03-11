@@ -1,9 +1,6 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by José Formiga (ORiON) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) --><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by José Formiga (ORiON) --><xeoLov name="uiScreenPointer">
    <General/>
-   <screenPointertTo retainValues="No">
+   <Lov name="screenPointertTo" retainValues="No">
       <description>Screen Pointer To</description>
       <details>
          <item>
@@ -23,5 +20,5 @@
             <label>Explorador</label>
          </item>
       </details>
-   </screenPointertTo>
-</Lov>
+   </Lov>
+</xeoLov>

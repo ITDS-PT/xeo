@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
 	<general name="xwfReassignHist" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
 		<locale language="pt" country="PT" variant=""/>
 		<implements/>
@@ -90,8 +91,6 @@
 			<len>3000</len>
 			<label>Programa</label>
 			<tooltip>
-				<disableWhen language="BOL">
-					<depends/>true</disableWhen>
 			</tooltip>
 			<disableWhen language="BOL">
 				<depends/>true</disableWhen>

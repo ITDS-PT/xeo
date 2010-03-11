@@ -38,7 +38,7 @@
 			<type>object.Ebo_ClsReg</type>
 			<label>Atributo do Objecto</label>
 			<renderAsLov>false</renderAsLov>
-			<setParent>N</setParent>
+			<setParent>false</setParent>
 			<tooltip/>
 			<objectFilter/>
 			<database>

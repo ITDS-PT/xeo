@@ -1,6 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) --><xeoLov name="timeZone">
    <General bo_class="abstract" public="no" nacionalityDefault="pt">
       <classextends/>
       <cls_version_control>yes</cls_version_control>
@@ -15,13 +13,13 @@
          <delete_menor_major_versions/>
          <delete_menor_minor_versions/>
       </active_information>
-      <description></description>
+      <description/>
       <label>
          <pt/>
          <en-us/>
       </label>
    </General>
-   <timeZone retainValues="Yes">
+   <Lov name="timeZone" retainValues="Yes">
       <description>
          <pt>Fuso Horário</pt>
          <en-us>Time Zone</en-us>
@@ -164,5 +162,5 @@
             <label>GMT+13:00</label>
          </item>
       </details>
-   </timeZone>
-</Lov>
+   </Lov>
+</xeoLov>

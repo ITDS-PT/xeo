@@ -1,6 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
    <general name="Ebo_DAOparameter" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
@@ -16,8 +17,9 @@
    <opl active="false"/>
    <states/>
    <methods>
-      <method name="getCardIDByExtendAttributeAlias" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="getCardIDByExtendAttributeAlias" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label></label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>
@@ -44,8 +46,9 @@ return new StringBuffer();
 			 ]]>
          </body>
       </method>
-      <method name="getAliasChildLov" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="getAliasChildLov" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label></label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>

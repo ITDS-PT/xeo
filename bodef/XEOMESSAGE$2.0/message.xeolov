@@ -1,7 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) --><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) --><xeoLov name="message">
    <General bo_class="abstract" public="no" nacionalityDefault="pt">
       <classextends/>
       <cls_version_control>yes</cls_version_control>
@@ -16,13 +13,13 @@
          <delete_menor_major_versions/>
          <delete_menor_minor_versions/>
       </active_information>
-      <description></description>
+      <description/>
       <label>
          <pt/>
          <en-us/>
       </label>
    </General>
-   <mediaMessage retainValues="No">
+   <Lov name="mediaMessage" retainValues="No">
       <description>
          <pt>Lov referente ao Meio de Resposta</pt>
          <en-us>Media Type</en-us>
@@ -45,8 +42,8 @@
             <label>Carta</label>
          </item>
       </details>
-   </mediaMessage>
-   <mediaMessageWuserPrefered retainValues="No">
+   </Lov>
+   <Lov name="mediaMessageWuserPrefered" retainValues="No">
       <description>
          <pt>Lov referente ao Meio de Resposta</pt>
          <en-us>Media Type</en-us>
@@ -85,5 +82,5 @@
             <label>Preferência Utilizador</label>
          </item>
       </details>
-   </mediaMessageWuserPrefered>
-</Lov>
+   </Lov>
+</xeoLov>

@@ -33,30 +33,34 @@
 	<methods>
 		<method name="orderByValue" menu="true" toolbar="true">
 			<label>Ordenar p/ Valor</label>
+			<icon></icon>
 			<javascriptToRun>
 				<viewer name="edit">
 					<before/>
 					<after/>
 				</viewer>
 			</javascriptToRun>
+			<hiddenWhen language="JAVA">
+				<![CDATA[return false;]]></hiddenWhen>
 			<assinature return=""/>
 			<body language="JAVA"><![CDATA[netgest.bo.lovmanager.LovManager.orderByValue(this);]]></body>
-			<hiddenWhen language="JAVA">
-				<depends/><![CDATA[return false;]]></hiddenWhen>
+			
 		</method>
 		<method name="orderByDesc" menu="true" toolbar="true">
 			<label>Ordenar p/ Descrição</label>
+			<icon></icon>
 			<javascriptToRun>
 				<viewer name="edit">
 					<before/>
 					<after/>
 				</viewer>
 			</javascriptToRun>
+			<hiddenWhen language="JAVA">
+				<![CDATA[return false;]]></hiddenWhen>
 			<assinature return=""/>
 			<body language="JAVA"><![CDATA[netgest.bo.lovmanager.LovManager.orderByDescription(this);]]></body>
-			<hiddenWhen language="JAVA">
-				<depends/><![CDATA[return false;]]></hiddenWhen>
-		</method>
+			
+			</method>
 	</methods>
 	<events>
 		<event name="onBeforeSave">

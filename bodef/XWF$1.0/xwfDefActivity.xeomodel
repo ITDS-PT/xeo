@@ -1,6 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
-<xeoModel>
+<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
    <general name="xwfDefActivity" type="object" version="1.0" extends="" orphan="true" multiparent="true" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
@@ -33,8 +34,9 @@
    </opl>
    <states refers="xwfDefActivity"/>
    <methods>
-      <method name="cancelar" public="false" menu="true" toolbar="true" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="cancelar" public="false" menu="true" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label>Cancelar</label>
+         <icon></icon>
          <hiddenWhen language="JAVA">return netgest.xwf.core.xwfDefActivity.cancelHiddenWhen(this); </hiddenWhen>
          <assinature return="void"/>
          <body language="JAVA">
@@ -42,8 +44,9 @@
 super.update();]]>
          </body>
       </method>
-      <method name="update" public="false" menu="false" toolbar="false" requiredTransaction="false" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
+      <method name="update" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
          <label></label>
+         <icon></icon>
          <javascriptToRun>
             <viewer name="edit">
                <before>
@@ -300,7 +303,7 @@ return true;]]>
          <setParent>false</setParent>
          <objectFilter>
             <filter>
-               <condition/>
+               <condition language="BOL"/>
                <xeoql>select Ebo_ClsReg where name = 'Ebo_Document' or name = 'ESP_Relatorio'</xeoql>
             </filter>
          </objectFilter>
@@ -653,7 +656,7 @@ return true;]]>
          <setParent>false</setParent>
          <objectFilter>
             <filter>
-               <condition/>
+               <condition language="BOL"/>
                <xeoql>select Ebo_ClsReg where name = 'Ebo_Document' or name = 'ESP_Relatorio'</xeoql>
             </filter>
          </objectFilter>

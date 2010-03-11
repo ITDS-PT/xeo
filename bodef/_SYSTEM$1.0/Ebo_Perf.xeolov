@@ -1,8 +1,6 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) -->
-<Lov>
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) --><xeoLov name="Ebo_Perf">
    <General/>
-   <NOTIFICATIONTYPE retainValues="No">
+   <Lov name="NOTIFICATIONTYPE" retainValues="No">
       <description>Lov referente ao Tipo de Notificação</description>
       <details>
          <item>
@@ -18,8 +16,8 @@
             <label>SMS</label>
          </item>
       </details>
-   </NOTIFICATIONTYPE>
-   <docType retainValues="No">
+   </Lov>
+   <Lov name="docType" retainValues="No">
       <description>
          <pt>Lov referente ao Tipo de Documentos</pt>
          <en-us>Documents Type</en-us>
@@ -46,8 +44,8 @@
             <label>Outro</label>
          </item>
       </details>
-   </docType>
-   <situationType retainValues="No">
+   </Lov>
+   <Lov name="situationType" retainValues="No">
       <description>
          <pt>Lov referente ao Tipo de Situação</pt>
          <en-us>Situation Type</en-us>
@@ -98,8 +96,8 @@
             <label>Estagiário</label>
          </item>
       </details>
-   </situationType>
-   <genderType retainValues="No">
+   </Lov>
+   <Lov name="genderType" retainValues="No">
       <description>
          <pt>Lov referente ao genério da pessoa</pt>
          <en-us>Gender Type</en-us>
@@ -114,5 +112,5 @@
             <label>Feminino</label>
          </item>
       </details>
-   </genderType>
-</Lov>
+   </Lov>
+</xeoLov>
