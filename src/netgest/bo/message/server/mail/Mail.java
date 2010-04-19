@@ -108,6 +108,7 @@ public class Mail
     private boolean deleteMessages = false;
     private Vector mailmessages = new Vector();
     private Vector errors = new Vector();
+    private Vector errorsObjects = new Vector();
     private String protocol = "pop3";
     private int whatMessages = 1;
     private int messageOrder = 2;
@@ -133,6 +134,11 @@ public class Mail
     public Vector getErrorMessages()
     {
         return this.errors;
+    }
+
+    public Vector getErrorObjects()
+    {
+        return this.errorsObjects;
     }
 
     public void setMailMessages(Vector mailmessages)
@@ -859,7 +865,7 @@ public class Mail
             }
         }
 
-        add = e.getValidUnsentAddresses();
+        add = e.getValidSentAddresses();
         for (int i = 0; add != null && i < add.length; i++) 
         {
             if(i == 0)
@@ -873,6 +879,7 @@ public class Mail
             }
         }
         errors.add(k, sb.toString());
+        errorsObjects.add(e);
     }
     
     private static MimeMessage specialCases(Session s, MimeMessage msg)
