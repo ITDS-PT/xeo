@@ -103,7 +103,7 @@ public class XEOBuilderFilter implements Filter {
 			System.out.println("XEO Studio Partial Build Started...");
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
 			System.out.println("OK");
-		} catch (boRuntimeException e) {	
+		} catch (Exception e) {	
 			e.printStackTrace();
 			System.out.println(builderProgress.getLog());
 			buildSucess=false;
