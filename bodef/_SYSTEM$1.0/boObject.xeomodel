@@ -17,34 +17,6 @@
 	<opl active="false"/>
 	<states/>
 	<methods>
-		<method name="update" toolbar="true" public="true">
-			<label>Guardar</label>
-			<icon></icon>
-			<javascriptToRun />
-			<assinature return="void"/>
-			<body language="JAVA">super.update();</body>
-		</method>
-		<method name="destroy" toolbar="true" public="true">
-			<label>Remover</label>
-			<icon></icon>
-			<javascriptToRun/>
-			<assinature return="void"/>
-			<body language="JAVA">super.destroy();</body>
-		</method>
-		<method name="cloneObject" toolbar="true" public="true">
-			<label>Remover</label>
-			<icon></icon>
-			<javascriptToRun/>
-			<assinature return="netgest.bo.runtime.boObject"/>
-			<body language="JAVA">return super.cloneObject();</body>
-		</method>
-		<method name="valid" toolbar="true" public="true">
-			<label>Remover</label>
-			<icon></icon>
-			<javascriptToRun/>
-			<assinature return="boolean"/>
-			<body language="JAVA">return super.valid();</body>
-		</method>
 	</methods>
 	<events/>
 	<fwdObjects/>
