@@ -1,31 +1,35 @@
 /*Enconding=UTF-8*/
 package netgest.bo.impl;
-import com.ibm.regex.REUtil;
-import com.ibm.regex.RegularExpression;
-import java.lang.ClassCastException;
-import java.math.*;
-import java.sql.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import netgest.bo.def.*;
-import netgest.bo.runtime.*;
-import netgest.bo.utils.lock.DBLock;
-import netgest.utils.*;
-import netgest.xwf.common.*;
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefBridge;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.runtime.AttributeHandler;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boAttributesArray;
+import netgest.bo.runtime.boBridgeIterator;
+import netgest.bo.runtime.boBridgeMasterAttribute;
+import netgest.bo.runtime.boEvent;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boObjectUtils;
+import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
+import netgest.xwf.common.xwfHelper;
 
 public abstract class Ebo_TextIndexImpl extends boObject {
 //    private static boolean isrunning;
 
-    //logger
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//logger
     private static Logger logger = Logger.getLogger("netgest.bo.impl.Ebo_TextIndexImpl");
     private static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
     private static String []NOT_INDEX = {"SYS_ORIGIN", "SYS_DTSAVE", "SYS_FLDINPUTTYPE", "SYS_USER", "SYS_ICN"};
@@ -80,7 +84,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
             boObject bobj = super.getBoManager().loadObject(super.getEboContext(),name,objectui);
             if(bobj.exists())
 			{
-				this.processObject(bobj,bobj.getBoDefinition().getIfIndexChilds());
+				this.processObject(bobj,bobj.getBoDefinition().getIfIndexChilds(),1);
 			}
 
 
@@ -131,7 +135,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
         }
     }
 
-	private void processObject(boObject bobj, int deep) throws boRuntimeException
+	private void processObject(boObject bobj, int maxDeep, int deep) throws boRuntimeException
 	{
 		Enumeration oEnum = bobj.getAllAttributes().elements();
 		while(oEnum.hasMoreElements()) {
@@ -228,7 +232,15 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                     }
                                     else
                                     {
-                                        this.appendOrphanObject( att.getValuesLong() );
+                                    	if( maxDeep > 1 && deep < maxDeep ) {
+	                                    	boObject objects[] = att.getObjects();
+	                                    	for (int i = 0; i < objects.length; i++) {
+												processObject( objects[i], maxDeep, deep + 1 );
+											}
+                                    	}
+                                    	else {
+	                                        this.appendOrphanObject( att.getValuesLong() );
+                                    	}
                                     }
                                 }
                                 else
@@ -244,7 +256,12 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                     }
                                     else
                                     {
-                                        this.appendOrphanObject( att.getValueLong() );
+                                    	if( maxDeep > 1 && deep < maxDeep ) {
+                                    		processObject( att.getObject(), maxDeep, deep + 1 );
+                                    	}
+                                    	else {
+                                    		this.appendOrphanObject( att.getValueLong() );
+                                    	}
                                     }
                                 }
                             }
@@ -316,11 +333,24 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                             {
                                                 if( att.getDefAttribute().getDbIsTabled() )
                                                 {
-                                                    this.appendOrphanObject( bit.currentRow().getAttribute(brAtt[i].getName()).getValuesLong() );
+                                                	if( maxDeep > 1 && deep < maxDeep ) {
+            	                                    	boObject objects[] = att.getObjects();
+            	                                    	for (int j = 0; j < objects.length; j++) {
+            												processObject( objects[j], maxDeep, deep + 1 );
+            											}
+                                                	}
+                                                	else {
+                                                		this.appendOrphanObject( att.getValuesLong() );
+                                                	}
                                                 }
                                                 else
                                                 {
-                                                    this.appendOrphanObject( bit.currentRow().getAttribute(brAtt[i].getName()).getValueLong() );
+                                                	if( maxDeep > 1 && deep < maxDeep ) {
+        												processObject( att.getObject(), maxDeep, deep + 1 );
+                                                	}
+        	                                    	else {
+        	                                    		this.appendOrphanObject( bit.currentRow().getAttribute(brAtt[i].getName()).getValueLong() );
+        	                                    	}
                                                 }
                                             }
                                             catch ( Exception e )

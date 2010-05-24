@@ -206,52 +206,57 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 		StringBuffer pk_sql = new StringBuffer();
 		
 		String[] keys 			= att.getDbRelationKeys();
-		Object[] keysValues		= new Object[ keys.length ];
-		String[] pk_fields 		= pk.getExpression().split(",");
-		for( int i=0; i < keys.length; i++ ) {
-			
-			if( i > 0 ) {
-				pk_sql.append( ',' );
-			}
-			
-			pk_sql.append( pk_fields[i] ).append( '=' ).append( '?' );
-			AttributeHandler keyAtt = parent.getAttribute( keys[i] );
-			if( keyAtt != null ) {
-				keysValues[i] = keyAtt.getValueObject();
-			}
-			else {
-				throw new RuntimeException( "Cannot relate object because the attribute [" + keys[i] + "] doesn't exist." );
-			}
-
-		}
 		
-		DataSet tempDataSet = ObjectDataManager.createEmptyObjectDataSet(ctx, att.getReferencedObjectDef() );
-		fillDataSetByBOQL( ctx,
-				tempDataSet,
-				null,
-				"select "+ att.getReferencedObjectName() + " where " + pk_sql.toString(), 
-				keysValues, 
-				"", 
-				1, 
-				Integer.MAX_VALUE, 
-				null, 
-				null, 
-				null, 
-				false
-			);
-
-		DataResultSet r = new DataResultSet( tempDataSet ); 
 		
-		try {
-			r.beforeFirst();
-			while( r.next() ) {
-				DataRow dr = emptyDataSet.createRow();
-				dr.updateLong( "PARENT$" , parent.getBoui() );
-				dr.updateLong( "CHILD$" , r.getLong("BOUI") );
-				emptyDataSet.insertRow( dr );
+		if( keys != null && pk != null ) {
+			
+			Object[] keysValues		= new Object[ keys.length ];
+			String[] pk_fields 		= pk.getExpression().split(",");
+			for( int i=0; i < keys.length; i++ ) {
+				
+				if( i > 0 ) {
+					pk_sql.append( ',' );
+				}
+				
+				pk_sql.append( pk_fields[i] ).append( '=' ).append( '?' );
+				AttributeHandler keyAtt = parent.getAttribute( keys[i] );
+				if( keyAtt != null ) {
+					keysValues[i] = keyAtt.getValueObject();
+				}
+				else {
+					throw new RuntimeException( "Cannot relate object because the attribute [" + keys[i] + "] doesn't exist." );
+				}
+	
 			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			
+			DataSet tempDataSet = ObjectDataManager.createEmptyObjectDataSet(ctx, att.getReferencedObjectDef() );
+			fillDataSetByBOQL( ctx,
+					tempDataSet,
+					null,
+					"select "+ att.getReferencedObjectName() + " where " + pk_sql.toString(), 
+					keysValues, 
+					"", 
+					1, 
+					Integer.MAX_VALUE, 
+					null, 
+					null, 
+					null, 
+					false
+				);
+	
+			DataResultSet r = new DataResultSet( tempDataSet ); 
+			
+			try {
+				r.beforeFirst();
+				while( r.next() ) {
+					DataRow dr = emptyDataSet.createRow();
+					dr.updateLong( "PARENT$" , parent.getBoui() );
+					dr.updateLong( "CHILD$" , r.getLong("BOUI") );
+					emptyDataSet.insertRow( dr );
+				}
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
