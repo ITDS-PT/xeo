@@ -533,11 +533,16 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
         }
         return null;
     }
-    
+
     public boolean getChildIsOrphan()
     {
+    	return getChildIsOrphan( getReferencedObjectName() );
+    }
+    
+    public boolean getChildIsOrphan( String objectName )
+    {
     	if ( p_orphanRelation == null ) {
-	        boDefHandler refdef = getReferencedObjectDef();
+	        boDefHandler refdef = boDefHandler.getBoDefinition( objectName );
 	        if( refdef != null )
 	        {
 	            if( refdef.getBoCanBeOrphan() )

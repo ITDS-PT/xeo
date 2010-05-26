@@ -73,6 +73,8 @@ public interface boDefAttribute
     public boDefHandler[] getTransformObjects();
     public Transformer getTransformClassMap() throws boRuntimeException2;
     
+    public boolean getChildIsOrphan( String relObjectName );
+    
     public boolean getChildIsOrphan();
     
     public byte getSetParent();
