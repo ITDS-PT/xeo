@@ -120,7 +120,7 @@ public class MysqlReaderAdapter implements ReaderAdapter {
                for (short z = 1; z <= meta.getColumnCount(); z++)
                {
                	if( columnIdx[z] == 0 ) {
-               		columnIdx[z] = row.getDataSet().findColumn( meta.getColumnName( z ) );
+               		columnIdx[z] = row.getDataSet().findColumn( meta.getColumnLabel( z ) );
                	}
                	if( columnIdx[z] > 0 ) {
                    int type = meta.getColumnType(z);

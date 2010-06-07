@@ -49,6 +49,7 @@ import netgest.bo.presentation.manager.uiObjectBuilder;
 import netgest.bo.presentation.render.elements.ExplorerServer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.Logger;
@@ -1476,21 +1477,18 @@ public class boBuilder {
 									!intf ? TYPE_BO : TYPE_INTERFACE));
 					boObject clsreg = null;
 
-					try {
-						clsreg = boObject.getBoManager().loadObject(p_eboctx,
-								"Ebo_ClsReg", "NAME='" + name + "'");
-						if (clsreg.exists()) {
-							if (first) {
-								sbClsrg.append(" boui = ").append(
-										clsreg.getBoui());
-								first = false;
-							} else {
-								sbClsrg.append(" or boui = ").append(
-										clsreg.getBoui());
-							}
+					boObjectList clsRegList = boObjectList.list(  p_eboctx, "select Ebo_ClsReg where name=?", new Object[]{ name });
+//						clsreg = boObject.getBoManager().loadObject(p_eboctx,
+//								"Ebo_ClsReg", "NAME='" + name + "'");
+					if (clsRegList.next()) {
+						if (first) {
+							sbClsrg.append(" boui = ").append(
+									clsreg.getBoui());
+							first = false;
+						} else {
+							sbClsrg.append(" or boui = ").append(
+									clsreg.getBoui());
 						}
-					} catch (boRuntimeException e) {
-						p_builderProgress.appendErrorLog(e);
 					}
 				}
 			}

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataSet;
@@ -22,6 +23,7 @@ import netgest.utils.ExpressionParser;
 import netgest.utils.ParametersHandler;
 
 import netgest.bo.system.Logger;
+import netgest.bo.utils.XEOQLModifier;
 
 public class boObjectList extends boPoolable {
 
@@ -73,6 +75,9 @@ public class boObjectList extends boPoolable {
 	private String p_fieldname = "BOUI";
 
 	private String p_orderby = "";
+	
+	private SqlField[] p_sqlfields = null;
+	
 	private boolean p_ordered = false;
 	private String p_filter = null;
 
@@ -197,7 +202,7 @@ public class boObjectList extends boPoolable {
 		
 		p_usesecurity = useSecurity;
 		p_format = format;
-		refreshData();
+		refreshDataLazy();
 		// p_selected.p_fieldname=this.p_fieldname;
 	}
 
@@ -223,7 +228,7 @@ public class boObjectList extends boPoolable {
 		p_letter_filter = letter_filter;
 		p_userQuery = userQuery;
 		p_usesecurity = useSecurity;
-		refreshData();
+		refreshDataLazy();
 		// p_selected = new boObjectList(ctx,p_resultset,format);
 		// p_selected.p_fieldname=this.p_fieldname; 
 	}
@@ -252,7 +257,7 @@ public class boObjectList extends boPoolable {
 			sb.append(bouis[i]).append(",");
 		sb.append(bouis[i]).append(")");
 		p_sql = sb.toString();
-		refreshData();
+		refreshDataLazy();
 	}
 
 	private boObjectList(EboContext ctx, String objectname, long[] bouis,
@@ -281,7 +286,7 @@ public class boObjectList extends boPoolable {
 			sb.append(bouis[i]).append(",");
 		sb.append(bouis[i]).append(")");
 		p_sql = sb.toString();
-		refreshData();
+		refreshDataLazy();
 	}
 
 	public static boObjectList list(EboContext ctx, long boui)
@@ -1132,6 +1137,7 @@ public class boObjectList extends boPoolable {
 
 	public long getCurrentBoui() {
 		try {
+			checkLazyResult();
 			return this.p_resultset.getLong(this.p_fieldname);
 		} catch (SQLException e) {
 			throw new boRuntimeException2("boObjectList.getCurrentBoui() "
@@ -1140,11 +1146,13 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void setRowProperty(String property, String value) {
+		checkLazyResult();
 		((DataResultSet) this.p_resultset).getCurrentRow().setParameter(
 				property, value);
 	}
 
 	public String getRowProperty(String propertyName) {
+		checkLazyResult();
 		return ((DataResultSet) this.p_resultset).getCurrentRow().getParameter(
 				propertyName);
 	}
@@ -1157,6 +1165,7 @@ public class boObjectList extends boPoolable {
 		BigDecimal oBoui;
 		
 		oBoui = new BigDecimal( boui );
+		checkLazyResult();
 		dataSet = this.p_resultset.getDataSet();
 		colIdx = dataSet.getMetaData().findColumn( this.p_fieldname );
 		rowCount = dataSet.getRowCount();
@@ -1219,6 +1228,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public boolean haveMorePages() {
+		checkLazyResult();
 		String hm = p_resultset.getParameter("HaveMoreData");
 		if (hm != null && hm.equals("true")) {
 			return true;
@@ -1226,16 +1236,31 @@ public class boObjectList extends boPoolable {
 		return false;
 	}
 
-	private boolean refreshData = true;
-	
-	public void setRefreshData( boolean value ) {
-		this.refreshData = false;
-	}
-	
 	public void refreshData() {
 		
-		if( refreshData ) {
+//		if( refreshData ) {
 			if( this.p_boql != null || this.p_sql != null ) {
+				
+				String 			l_boql 		= p_boql;
+				
+				if( this.p_sqlfields != null && this.p_boql != null  ) {
+					XEOQLModifier ql = new XEOQLModifier( this.p_boql , this.p_sqlargs!=null?Arrays.asList( this.p_sqlargs ):null );
+					String fieldsPart = ql.getFieldsPart();
+					
+					if( fieldsPart.length() == 0 ) {
+						fieldsPart += "BOUI";
+					}
+					
+					for( SqlField field : this.p_sqlfields ) {
+						if( fieldsPart.length() > 1 ) {
+							fieldsPart += ",";
+						}
+						fieldsPart += "[(" + field.getSqlExpression() + ") AS " + field.getSqlAlias() + "]";
+					}
+					ql.setFieldsPart( fieldsPart );
+					List<Object> l_sqlargsList = new ArrayList<Object>();
+					l_boql = ql.toBOQL( l_sqlargsList );
+				}
 				
 				p_nrrecords = Long.MIN_VALUE;
 				try {
@@ -1257,9 +1282,9 @@ public class boObjectList extends boPoolable {
 					if( this.getBoDef() == null || this.getBoDef().getDataBaseManagerXeoCompatible() ) {
 			
 						if (p_qlp != null || p_resultset == null) {
-							if (p_boql != null) {
+							if (l_boql != null) {
 								p_resultset = boObjectListResultFactory.getResultSetByBOQL(
-										getEboContext(), this.p_boql, qArgs,
+										getEboContext(), l_boql, qArgs,
 										this.p_orderby, this.p_page, this.p_pagesize,
 										p_fulltext, p_letter_filter, p_userQuery,
 										p_usesecurity);
@@ -1285,7 +1310,7 @@ public class boObjectList extends boPoolable {
 								getEboContext(),
 								emptyDataSet,
 								this, 
-								this.p_boql, 
+								l_boql, 
 								qArgs,
 								this.p_orderby, this.p_page, this.p_pagesize,
 								p_fulltext, p_letter_filter, p_userQuery,
@@ -1298,7 +1323,7 @@ public class boObjectList extends boPoolable {
 					throw new boRuntimeException2( e );
 				}
 			}
-		}
+//		}
 	}
 
 	public boolean onlyOne() {
@@ -1324,6 +1349,7 @@ public class boObjectList extends boPoolable {
 
 	public boObject getObject(long boui) throws boRuntimeException {
 		try {
+			checkLazyResult();
 			int row = this.p_resultset.getRow();
 			boObject ret = null;
 			if (p_resultset.locatefor(p_fieldname + "=" + boui)) {// new
@@ -1351,6 +1377,7 @@ public class boObjectList extends boPoolable {
 		try {
 
 			// Check if the resultset is in a valid position
+			checkLazyResult();
 			if (p_resultset.isBeforeFirst())
 				p_resultset.first();
 			if (p_resultset.isAfterLast())
@@ -1548,6 +1575,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public int getRowCount() {
+		checkLazyResult();
 		return p_resultset.getRowCount();
 	}
 
@@ -1569,10 +1597,8 @@ public class boObjectList extends boPoolable {
 				else 
 				{
 					Object[] qArgs;
+					ArrayList parList = new ArrayList();
 					if (p_userqueryargs != null) {
-						ArrayList parList = new ArrayList();
-	
-		
 						if (this.p_sqlargs != null)
 							parList.addAll(Arrays.asList(this.p_sqlargs));
 	
@@ -1583,9 +1609,15 @@ public class boObjectList extends boPoolable {
 						qArgs = this.p_sqlargs;
 					}
 					
+					if( qArgs == null ) {
+						qArgs = new Object[0];
+					}
+					XEOQLModifier qm = new XEOQLModifier(p_boql, Arrays.asList( qArgs ) );
+					qm.setOrderByPart("");
+					parList.clear();
 					
 					p_nrrecords = boObjectListResultFactory.getRecordCount(
-							getEboContext(), p_boql, qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
+							getEboContext(), qm.toBOQL( parList ), qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
 				}
 			}
 			return p_nrrecords;
@@ -1632,6 +1664,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public boolean next() {
+		checkLazyResult();
 		boolean ret = false;
 		try {
 			if (p_filter != null) {
@@ -1665,6 +1698,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public boolean moveTo(int recno) {
+		checkLazyResult();
 		try {
 			return p_resultset.absolute(recno);
 		} catch (SQLException e) {
@@ -1674,6 +1708,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public int getRow() {
+		checkLazyResult();
 		try {
 			return p_resultset.getRow();
 		} catch (SQLException e) {
@@ -1711,6 +1746,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public boolean previous() {
+		checkLazyResult();
 		try {
 			return p_resultset.previous();
 		} catch (SQLException e) {
@@ -1720,6 +1756,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public boolean first() {
+		checkLazyResult();
 		try {
 			return p_resultset.first();
 		} catch (SQLException e) {
@@ -1729,15 +1766,19 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void beforeFirst() {
-		try {
-			p_resultset.beforeFirst();
-		} catch (SQLException e) {
-			throw new boRuntimeException2("boObjectList.beforeFirst() "
-					+ e.getMessage());
+		if( p_resultset != null ) {
+			checkLazyResult();
+			try {
+				p_resultset.beforeFirst();
+			} catch (SQLException e) {
+				throw new boRuntimeException2("boObjectList.beforeFirst() "
+						+ e.getMessage());
+			}
 		}
 	}
 
 	public boolean last() {
+		checkLazyResult();
 		try {
 			return p_resultset.last();
 		} catch (SQLException e) {
@@ -1834,7 +1875,7 @@ public class boObjectList extends boPoolable {
 
 	public void poolObjectActivate() {
 		
-		this.refreshData();
+		this.refreshDataLazy();
 
 	}
 
@@ -1849,6 +1890,7 @@ public class boObjectList extends boPoolable {
 
 	public void inserRow(long boui) {
 		try {
+			checkLazyResult();
 			p_resultset.moveToInsertRow();
 			p_resultset.updateLong(p_fieldname, boui);
 			p_resultset.insertRow();
@@ -1930,6 +1972,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void removeCurrent() throws boRuntimeException {
+		checkLazyResult();
 		if (this.p_resultset.getCurrentRow().getRow() > 0) {
 			if (p_resultset.getRowCount() > 0) {
 				int row = this.getRow();
@@ -1952,6 +1995,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void add(long obj_boui) throws boRuntimeException {
+		checkLazyResult();
 		try {
 			this.p_resultset.moveToInsertRow();
 			this.p_resultset.insertRow();
@@ -2007,6 +2051,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public DataResultSet getRslt() {
+		checkLazyResult();
 		return this.p_resultset;
 	}
 
@@ -2015,6 +2060,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void moveRowTo(int row) throws boRuntimeException {
+		checkLazyResult();
 		this.p_resultset.moveRowTo(row + 1);
 	}
 
@@ -2355,6 +2401,52 @@ public class boObjectList extends boPoolable {
 
 	public void setFullTextSearch(String p_fulltext) {
 		this.p_fulltext = p_fulltext;
+	}
+	
+	private final void checkLazyResult() {
+		if( p_resultset == null ) {
+			this.refreshData();
+		}
+	}
+	
+	private final void refreshDataLazy() {
+//		this.refreshData();
+	}
+	
+	
+	
+	public static class SqlField {
+		private String sqlExpression;
+		private String sqlAlias;
+		
+		public SqlField( String sqlExpression, String sqlAlias ) {
+			this.sqlExpression = sqlExpression;
+			this.sqlAlias = sqlAlias;
+		}
+		
+		public String getSqlExpression() {
+			return this.sqlExpression;
+		}
+		
+		public String getSqlAlias() {
+			return this.sqlAlias;
+		}
+		
+		public void setSqlAlias( String sqlAlias ) {
+			this.sqlAlias = sqlAlias;
+		}
+		
+		public void setSqlExpression( String sqlExpression ) {
+			this.sqlExpression = sqlExpression;
+		}
+	}
+	
+	public void setSqlFields( SqlField[] sqlFields ) {
+		this.p_sqlfields = sqlFields;
+	}
+	
+	public SqlField[] getSqlFields() {
+		return this.p_sqlfields;
 	}
 	
 }
