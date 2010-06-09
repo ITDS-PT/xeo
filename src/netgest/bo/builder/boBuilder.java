@@ -1475,7 +1475,6 @@ public class boBuilder {
 							0,
 							f[i].getName().toLowerCase().indexOf(
 									!intf ? TYPE_BO : TYPE_INTERFACE));
-					boObject clsreg = null;
 
 					boObjectList clsRegList = boObjectList.list(  p_eboctx, "select Ebo_ClsReg where name=?", new Object[]{ name });
 //						clsreg = boObject.getBoManager().loadObject(p_eboctx,
@@ -1483,11 +1482,11 @@ public class boBuilder {
 					if (clsRegList.next()) {
 						if (first) {
 							sbClsrg.append(" boui = ").append(
-									clsreg.getBoui());
+									clsRegList.getCurrentBoui());
 							first = false;
 						} else {
 							sbClsrg.append(" or boui = ").append(
-									clsreg.getBoui());
+									clsRegList.getCurrentBoui());
 						}
 					}
 				}

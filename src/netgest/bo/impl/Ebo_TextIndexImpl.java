@@ -366,22 +366,24 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                 {
                                     try
                                     {
-                                        if( !att.getDefAttribute().getDbIsTabled() )
-                                        {
-                                            if(bobj.getBoDefinition().getIndexProcessChild(att.getName()) &&
-                                               bobj.getBoDefinition().indexOnlyCardID(att.getName()))
-                                            {
-                                                this.appendCardId( obj.getBoui());
-                                            }
-                                            else if(att.getDefAttribute().indexOnlyCardId())
-                                            {
-                                                this.appendCardId( obj.getBoui());
-                                            }
-                                            else
-                                            {
-                                                this.appendOrphanObject( obj.getBoui() );
-                                            }
-                                        }
+                                        if(bobj.getBoDefinition().getIndexProcessChild(att.getName()) &&
+                                                bobj.getBoDefinition().indexOnlyCardID(att.getName()))
+                                         {
+                                             this.appendCardId( obj.getBoui() );
+                                         }
+                                         else if(att.getDefAttribute().indexOnlyCardId())
+                                         {
+                                             this.appendCardId( obj.getBoui() );
+                                         }
+                                         else
+                                         {
+                                         	if( maxDeep > 1 && deep < maxDeep ) {
+                                         		processObject( obj, maxDeep, deep + 1 );
+                                         	}
+                                         	else {
+                                         		this.appendOrphanObject( obj.getBoui() );
+                                         	}
+                                         }
                                     }
                                     catch ( Exception e )
                                     {
