@@ -7,9 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import netgest.bo.system.Logger;
+import netgest.io.metadata.iMetadataItem;
 
 public class FSiFile implements iFile {
     private File p_file;
@@ -212,4 +215,32 @@ public class FSiFile implements iFile {
     
     public long     getKey() {throw new RuntimeException("getKey : Not Impelemented");}
     public iFile     getCopy() {throw new RuntimeException("getCopy : Not Impelemented");}
+	@Override
+	public void addMetadata(String name, iMetadataItem item) {
+		// File system does not implement metadata
+		
+	}
+	@Override
+	public List<iMetadataItem> getAllMetadata() {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<iMetadataItem> getMetadata(String name) {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<String> getMetadataTypes() {
+		//File system does not implement metadata
+		return new LinkedList<String>();
+	}
+	@Override
+	public void removeMetadata(String metadataItemId) {
+		//File system does not implement metadata
+	}
+	@Override
+	public boolean close() {
+		return false;
+	}
 }

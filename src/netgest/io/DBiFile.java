@@ -3,18 +3,17 @@ package netgest.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.transaction.UserTransaction;
 
 import netgest.bo.data.Driver;
@@ -23,7 +22,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
-
+import netgest.io.metadata.iMetadataItem;
 import netgest.utils.DataUtils;
 
 
@@ -1130,5 +1129,33 @@ public class DBiFile implements iFile  {
 			iFilePermissionDenied {
 		throw new RuntimeException("Not implemented after version of mysql!!!");
 		
+	}
+	@Override
+	public void addMetadata(String name, iMetadataItem item) {
+		// DBiFile does not implement metadata
+		
+	}
+	@Override
+	public List<iMetadataItem> getAllMetadata() {
+		// DBiFile does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<iMetadataItem> getMetadata(String name) {
+		// DBiFile does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<String> getMetadataTypes() {
+		// DBiFile does not implement metadata
+		return new LinkedList<String>();
+	}
+	@Override
+	public void removeMetadata(String metadataItemId) {
+		// DBiFile does not implement metadata
+	}
+	@Override
+	public boolean close() {
+		return true;
 	}    
 }

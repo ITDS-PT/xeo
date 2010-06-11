@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import netgest.bo.data.Driver;
 import netgest.bo.runtime.EboContext;
@@ -15,6 +17,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
+import netgest.io.metadata.iMetadataItem;
 import netgest.utils.ClassUtils;
 import netgest.utils.DataUtils;
 
@@ -578,5 +581,33 @@ public class BasiciFile implements iFile  {
             
         }
         return result;
-    }        
+    }
+    @Override
+	public void addMetadata(String name, iMetadataItem item) {
+		// File system does not implement metadata
+		
+	}
+	@Override
+	public List<iMetadataItem> getAllMetadata() {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<iMetadataItem> getMetadata(String name) {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<String> getMetadataTypes() {
+		//File system does not implement metadata
+		return new LinkedList<String>();
+	}
+	@Override
+	public void removeMetadata(String metadataItemId) {
+		//File system does not implement metadata
+	}
+	@Override
+	public boolean close() {
+		return false;
+	} 
 }

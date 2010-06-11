@@ -5,6 +5,10 @@ import java.io.FilenameFilter;
 import java.io.FileFilter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.LinkedList;
+import java.util.List;
+
+import netgest.io.metadata.iMetadataItem;
 
 public class iFileWrapper implements iFile {
     private iFile p_ifile;
@@ -184,5 +188,34 @@ public class iFileWrapper implements iFile {
     public long getVersion()
     {
       return p_ifile.getVersion();
-    }        
+    }
+
+    @Override
+	public void addMetadata(String name, iMetadataItem item) {
+		// File system does not implement metadata
+		
+	}
+	@Override
+	public List<iMetadataItem> getAllMetadata() {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<iMetadataItem> getMetadata(String name) {
+		//File system does not implement metadata
+		return new LinkedList<iMetadataItem>();
+	}
+	@Override
+	public List<String> getMetadataTypes() {
+		//File system does not implement metadata
+		return new LinkedList<String>();
+	}
+	@Override
+	public void removeMetadata(String metadataItemId) {
+		//File system does not implement metadata
+	}
+	@Override
+	public boolean close() {
+		return false;
+	}  
 }

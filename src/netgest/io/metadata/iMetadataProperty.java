@@ -1,0 +1,180 @@
+/**
+ * 
+ */
+package netgest.io.metadata;
+
+import java.io.InputStream;
+import java.util.Date;
+
+
+/**
+ * 
+ * Represents a property for a given {@link iMetadataItem}.
+ * Properties are key/value pairs where values must have a data type
+ * (list of type in the <code>METADATA_TYPE</code> enumeration in
+ * {@link iMetadataProperty.METADATA_TYPE}
+ * 
+ *
+ * 
+ * @author PedroRio
+ *
+ */
+public interface iMetadataProperty 
+{
+	/**
+	 * 
+	 * The list of valid metadata property data types
+	 * 
+	 * @author PedroRio
+	 *
+	 */
+	public static enum METADATA_TYPE 
+	{ 
+		STRING, 
+		LONG, 
+		DOUBLE, 
+		TIME, 
+		DATE,
+        DATETIME, 
+        BOOLEAN,
+        BINARY, //Binary content
+        REFERENCE //Reference to another item
+    }
+	
+	/**
+	 * 
+	 * Retrieves the metadata type for this property
+	 * 
+	 * @return One of the types from the <code>METADATA_TYPE</code> enum
+	 */
+	public String getMetadataType();
+	
+	/**
+	 * 
+	 * Retrieves the property name
+	 * 
+	 * @return A string with the name
+	 */
+	public String getPropertyName();
+	
+	
+	/**
+	 * Retrieve the value of this property as a String
+	 * 
+	 * @return A string with the value of the property
+	 * 
+	 * @throws ValueFormatException If the property value cannot
+	 * be converted to String
+	 */
+	public String getValueString() throws ValueFormatException;
+	
+	/**
+	 * 
+	 * Sets the value of the property as String
+	 * 
+	 * @param newValue The value of the property
+	 */
+	public void setValueString(String newValue);
+	
+	/**
+	 * Retrieve the value of this property a Long
+	 * 
+	 * 
+	 * @return The property of the value as long
+	 * 
+	 * @throws ValueFormatException If the property value cannot be
+	 * converted to Long
+	 */
+	public Long getValueLong() throws ValueFormatException;
+	
+	/**
+	 * 
+	 * Sets the value of the property as a long value
+	 * 
+	 * @param newValue The value of the property
+	 */
+	public void setValueLong(Long newValue);
+	
+	
+	/**
+	 * 
+	 * Retrieve the value of this property as a Boolean
+	 * 
+	 * @return True or False
+	 * 
+	 *  @throws ValueFormatException If the property value cannot be
+	 * converted to Boolean
+	 */
+	public boolean getValueBoolean() throws ValueFormatException;;
+	
+	/**
+	 * 
+	 * Set the value of this property as a boolean
+	 * 
+	 * @param newValue The value of the property
+	 */
+	public void setValueBoolean(boolean newValue);
+	
+	/**
+	 * 
+	 * Retrieve the value of this property as a Date
+	 * 
+	 * @return The value of the property as a Date
+	 * 
+	 *  @throws ValueFormatException If the property value cannot be
+	 * converted to Date
+	 */
+	public Date getValueDate() throws ValueFormatException;;
+	
+	/**
+	 * 
+	 * Sets the value of this property as a Date
+	 * 
+	 * @param newValue The value of the property
+	 */
+	public void setValueDate(Date newValue);
+	
+	
+	/**
+	 * 
+	 * Retrieve the value of this property as a reference to
+	 * an existing item 
+	 * 
+	 * @return A reference to an existing item
+	 * 
+	 *  @throws ValueFormatException If the property value cannot be
+	 * converted to a {@link iMetadataItem}
+	 */
+	public iMetadataItem getReference() throws ValueFormatException;;
+	
+	/**
+	 * 
+	 * Sets the value of this property as a reference to an
+	 * existing item
+	 * 
+	 * @param newReference A reference to an existing item
+	 */
+	public void setValueReference(iMetadataItem newReference);
+
+	
+	/**
+	 * 
+	 * Retrieves the content of this property as an input stream
+	 * to the binary content
+	 * 
+	 * @return An input stream to the content of the property
+	 * 
+	 *  @throws ValueFormatException If the property value cannot be
+	 * converted to an input stream
+	 */
+	public InputStream getValueBinary() throws ValueFormatException;;
+	
+	/**
+	 * 
+	 * Sets the value of this property as binary content
+	 * 
+	 * @param newValue
+	 */
+	public void setValueBinary(InputStream newValue);
+	
+}
