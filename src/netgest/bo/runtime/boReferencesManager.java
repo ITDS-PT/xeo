@@ -421,7 +421,38 @@ public final class boReferencesManager
     {
         return getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCES);
     }
+    
+    
+    /**
+     * Get the objects referenced by certain object, within a certain range (i.e. the first 200 referenced objects, start = 0, end = 200)
+     * 
+     * @param obj the Object to be updated
+     * @param start The start of the range
+     * @param end The end of the range 
+     * 
+     * @return Array with the <i>BOUIS</i> of the objects referenced by the object passed as the second argument.
+     * 
+     */
+    public static final referenceHandler[] getReference(boObject obj, long start, long end)
+    {
+        return getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCES, start,end);
+    }
+    
+    /**
+     * 
+     * Returns the references (direct or inverse) of a given object
+     * 
+     * @param ctx The Context
+     * @param boui The Boui of the object to get the references from
+     * @param type The type of references (direct or inverse, {@link }
+     * @return
+     */
     public static final referenceHandler[] getReferences(EboContext ctx,long boui,byte type)
+    {
+    	return getReferences(ctx, boui, type,-1,-1);
+    }
+    
+    public static final referenceHandler[] getReferences(EboContext ctx,long boui,byte type, long start, long end)
     {
         Connection cn = null;
         PreparedStatement pstm = null;
@@ -438,9 +469,23 @@ public final class boReferencesManager
 
             pstm.setLong(1,boui);
             rslt = pstm.executeQuery();
-            while(rslt.next())
+            //If the values are correct (start && end > 0, also start > end)
+            if (start >= 0 && end >= 0 && start <= end)
             {
-                list.add( new referenceHandler( rslt.getString(2), rslt.getBigDecimal(1), null ) );
+            	int index = 0;
+    			while(rslt.next())
+	            {
+    				if (index >= start && index <= end)
+    					list.add( new referenceHandler( rslt.getString(2), rslt.getBigDecimal(1), null ) );
+    				index++;
+	            }
+	        }
+            else
+            {
+            	while(rslt.next())
+	            {
+	                list.add( new referenceHandler( rslt.getString(2), rslt.getBigDecimal(1), null ) );
+	            }
             }
         }
         catch (SQLException e)
@@ -502,15 +547,29 @@ public final class boReferencesManager
 
     /**
      * Get the objects referenced by certain object
-     * @param boctx the current EboContext
      * @param obj the instance of the Object to lookup references
-     * @return Array with the <i>boObjects</i> that are referenced by the object passed as the second argument.
+     * 
+     * @return Array with the <i>boObjects</i> that are referenced by the object passed as argument.
      */
     public static final boObject[] getReferenceObjects(boObject obj)
     {
         return getObjectsFromBoui(obj,getReference(obj));
     }
 
+    /**
+     * Get the objects referenced by certain object within a certain range
+     * 
+     * @param obj the instance of the Object to lookup references
+     * @param start The start of the range
+     * @param end The end of the range
+     * 
+     * @return Array with the <i>boObjects</i> that are referenced by the object passed as first argument (and within a certain range).
+     */
+    public static final boObject[] getReferenceObjects(boObject obj, long start, long end)
+    {
+        return getObjectsFromBoui(obj,getReference(obj,start,end));
+    }
+    
 
     /**
      * Get the objects who reference this instance of the object
@@ -522,6 +581,24 @@ public final class boReferencesManager
     {
         return getReferences(ctx,boui,TYPE_REFERENCES);
     }
+    
+    /**
+     * Get the objects who reference an instance object (within a certain range)
+     * 
+     * @param obj The object
+     * @param start The start of the range
+     * @param end The end of the range
+     * 
+     * @return Array with the <i>BOUIS</i> who reference the instance passed.
+     */
+    public static final referenceHandler[] getReferencedBy(boObject obj, long start, long end)
+    {
+        return getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCES,start,end);
+        
+    }
+    
+    
+    
 
     /**
      * Get the objects who reference this instance of the object
@@ -533,6 +610,7 @@ public final class boReferencesManager
     {
         return getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCEDBY);
     }
+    
     /**
      * Get the objects who reference this instance of the object
      * @param boctx the current EboContext
@@ -544,6 +622,27 @@ public final class boReferencesManager
         try
         {
             return getObjectsFromBoui(obj,getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCEDBY));
+        }
+        catch (Exception e)
+        {
+            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".getReferencedByObjects\n"+e.getClass().getName()+"\n"+e.getMessage());
+        }
+    }
+    
+    /**
+     * Get the objects who reference this instance of the object (within a certain range, i.e. the first 2000 objects, or the first 2000 objects after the first 4000)
+     * 
+     * @param obj the instance of the Object to lookup references
+     * @param start The start of the range
+     * @param end the end of the range
+     * 
+     * @return Array with the <i>boObjects</i> who reference the instance passed.
+     */
+    public static final boObject[] getReferencedByObjects(boObject obj, long start, long end)
+    {
+        try
+        {
+            return getObjectsFromBoui(obj,getReferences(obj.getEboContext(),obj.getBoui(),TYPE_REFERENCEDBY,start,end));
         }
         catch (Exception e)
         {

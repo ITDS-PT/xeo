@@ -1,12 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
-import bsh.BshClassManager;
-import bsh.NameSpace;
-
 import java.math.BigDecimal;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -21,12 +16,9 @@ import netgest.bo.def.boDefClsEvents;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localized.JSPMessages;
-import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.security.securityRights;
-import netgest.bo.xep.Xep;
-
-import netgest.io.iFile;
 import netgest.bo.system.Logger;
+import netgest.io.iFile;
 
 /**
  *
@@ -174,6 +166,45 @@ public abstract class AttributeHandler implements boIEvents
         else
             setValueLong(obj.getBoui(), type);
     }
+    
+    
+    /**
+     * 
+     * Sets the value of the attribute as a boolean value
+     * 
+     * @param value The boolean value
+     * 
+     * @throws boRuntimeException 
+     */
+    public void setValueBoolean(boolean value) throws boRuntimeException
+    {
+    	if (value)
+    		setValueObject("1");
+    	else
+    		setValueObject("0");
+    }
+    
+    /**
+     * 
+     * Retrieves the value of the attribute as a boolean value
+     * 
+     * @return The value of the attribute as a boolean
+     * 
+     * @throws boRuntimeException
+     */
+    public Boolean getValueBoolean() throws boRuntimeException
+    {
+    	BigDecimal booleanVal = (BigDecimal)this.getValueObject();
+        if( booleanVal != null )
+        {
+            if (booleanVal.intValue() == 1)
+            	return new Boolean(true);
+            else
+            	return new Boolean(false);
+        }
+        return null;
+    }
+    
 
     public void setValueLong(long value, byte type)  throws boRuntimeException
     {

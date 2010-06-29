@@ -3,7 +3,6 @@ package netgest.bo.runtime;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -14,11 +13,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.jcr.Session;
+
+import netgest.bo.boConfig;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
@@ -51,7 +56,9 @@ import netgest.bo.runtime.specific.ObjectBinary;
 import netgest.bo.runtime.specific.ObjectRes;
 import netgest.bo.runtime.specific.ObjectVersionControl;
 import netgest.bo.security.securityOPL;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boApplicationConfig;
 import netgest.bo.transformers.CastInterface;
 import netgest.io.BasiciFile;
 import netgest.io.DBiFile;
@@ -63,7 +70,6 @@ import netgest.utils.ParametersHandler;
 import netgest.utils.ngtXMLHandler;
 import netgest.xwf.common.xwfActionHelper;
 
-import netgest.bo.system.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -401,7 +407,26 @@ public abstract class boObject extends boObjectContainer implements Serializable
 	        }
         }
     }
-
+    
+    /**
+     * 
+     * Retrieves a copy of the current object with the values that are stored in the database
+     * It's used when there's the need to know the differences between an object being edited
+     * in a form/viewer and the object currently saved in the database
+     * 
+     * IMPORTANT: Do not use this object to make updates/save
+     * 
+     * @return A copy of the current object in which the attributes have the values that are
+     * saved in the database, or null if the object was not changed
+     * 
+     * @throws boRuntimeException If a problem occurs while creating the copy (in clone) 
+     */
+    public boFlashBackHandler getFlashBackHandler() throws boRuntimeException
+    {
+    	return new boFlashBackHandler(this);
+    }
+    
+   
     public void load(long xboui) throws boRuntimeException {
         ArrayList args = new ArrayList(1);
         args.add(BigDecimal.valueOf(xboui));
@@ -1482,6 +1507,13 @@ public abstract class boObject extends boObjectContainer implements Serializable
         }
     }
 
+    /**
+     * 
+     * Returns a {@link boBridgesArray} with all the bridge attributes of the
+     * 
+     * 
+     * @return
+     */
     public boBridgesArray getBridges() {
         return p_bridges;
     }
@@ -1655,6 +1687,13 @@ public abstract class boObject extends boObjectContainer implements Serializable
         }
     }
 
+    /**
+     * 
+     * Returns all attributes of the object (bridges and normal attributes)
+     * Also, system attributes are also included in the return array
+     * 
+     * @return A boAttributesArray with all the attribute of the object
+     */
     public boAttributesArray getAllAttributes() {
         boAttributesArray aatts = new boAttributesArray();
         Enumeration atts = this.p_attributes.elements();
@@ -2063,6 +2102,35 @@ public abstract class boObject extends boObjectContainer implements Serializable
     //    }
     public boObject[] getReferencedByObjects() {
         return boReferencesManager.getReferencedByObjects(this);
+    }
+    
+    /**
+     * 
+     * Retrieves a list of objects referenced by the current object (within a certain range)
+     * 
+     * @param startRange The start of the range ( for instance, 0,1...2000), must be > 0
+     * @param endRange The end of the range (50, 2000, 5000) must be > 0 and > <code>start</code>
+     * 
+     * @return An array of objects referenced by the current object within the range passed as parameter
+     */
+    public boObject[] getReferencedByObjects(long startRange, long endRange)
+    {
+    	return boReferencesManager.getReferencedByObjects(this,startRange,endRange);
+    }
+    
+    /**
+     * 
+     * Retrieves a list of objects which reference the current object, within a certain range (i.e. The first 2000 objects, or the 
+     * objects between 1000 and 4000)
+     * 
+     * @param startRange The start of the range
+     * @param endRange The end of the range
+     * @return An array of objects which reference the current object (within the range passed as parameter)
+     * @throws boRuntimeException
+     */
+    public boObject[] getReferencesObjects(long startRange, long endRange) throws boRuntimeException 
+    {
+        return boReferencesManager.getReferenceObjects(this,startRange,endRange);
     }
 
     public void setChanged(boolean changed) throws boRuntimeException {
@@ -3914,12 +3982,50 @@ public abstract class boObject extends boObjectContainer implements Serializable
      */
     private boolean beforeSaveIFiles() throws boRuntimeException
     {
+    	//OLD CODE
+    	List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
+        for (int i = 0; i < iFilesAttributes.size(); i++)
+        {
+        	uploadFile((AttributeHandler)iFilesAttributes.get(i));
+    	}  
+    	return true;
+    	
+    	//Keep the repository name to use, can be the default or
+    	//another one
+    	/*String repositoryName = null;
+    	
+    	//Get the default repository name
+    	RepositoryConfig repository = boConfig.getApplicationConfig().getDefaultECMRepositoryConfiguration();
+    	if (repository != null)
+    		repositoryName = repository.getName();
+    	else 
+    		throw new boRuntimeException2("There's no configuration for ECM Repositories");
+    	//Iterate all file attributes 
         List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
         for (int i = 0; i < iFilesAttributes.size(); i++)
         {
-            uploadFile((AttributeHandler)iFilesAttributes.get(i));
+        	//Retrieve the current attribute handler
+        	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
+        	//Check if we have an JCR Repository linked to this attribute
+        	
+        	if (currHandler.getDefAttribute().getDocumentDefinitions() != null)
+        	{
+        		/*String overrideName = currHandler.getDefAttribute().getDocumentDefinitions().getRepositoryName();
+        		if (overrideName != null)
+        			repositoryName = overrideName;
+        		//Session for the repository
+            	Session current = this.getEboContext().getBoSession().
+        				getECMRepositorySession(repositoryName);
+            	
+            	iFile currentFile = currHandler.getValueiFile();
+            	currentFile.save();
+            	
+            }
+        	else //If not, it's a regular binary attribute
+        		uploadFile((AttributeHandler)iFilesAttributes.get(i));
+        	
         }
-        return true;
+        return true;*/
     }
     /**
      * Devolve uma lista com os <code>AttributeHandler</code> do tipo pretendido
