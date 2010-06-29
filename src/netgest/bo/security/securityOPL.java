@@ -302,8 +302,21 @@ public class securityOPL
 
             if (!found)
             {
-                bkeys.remove();
-                bkeys.previous();
+            	//FIXME: Estou a mudar isto, mas não sei se é só isto
+            	if (bkeys.getAttribute("securityType") != null)
+            	{
+            		if (bkeys.getAttribute("securityType").getValueLong() == 0)
+            		{ //Só remove caso
+            			bkeys.remove();
+    	                bkeys.previous();
+            		}
+            	
+            	}
+            	else
+            	{
+	                bkeys.remove();
+	                bkeys.previous();
+            	}
             }
         }
 
