@@ -1044,9 +1044,9 @@ public class Helper
             {
                 boObject docRosto = null;
                 //vou transformar em PDF
-                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
-                iFile ifile = new FSiFile(null,pdfFile,null);
-//                iFile ifile = new FSiFile(null,new File(rosto),null);
+//                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
+//                iFile ifile = new FSiFile(null,pdfFile,null);
+                iFile ifile = new FSiFile(null,new File(rosto),null);
                 docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
                 docRosto.getAttribute("description").setValueString(Messages.getString("Helper.243") + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
                 docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
@@ -1065,9 +1065,9 @@ public class Helper
             {
                 boObject docTemplate = null;
                 //vou transformar em PDF
-                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
-                iFile ifile = new FSiFile(null,pdfFile,null);
-//                iFile ifile = new FSiFile(null,new File(doc),null);
+//                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
+//                iFile ifile = new FSiFile(null,pdfFile,null);
+                iFile ifile = new FSiFile(null,new File(doc),null);
                 docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
                 docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.262") + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
                 docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
@@ -1238,22 +1238,24 @@ public class Helper
          return actvSend;
     }
 
-    private static File convertToPdf(String doc, String outPrefix)
+    public static File convertToPdf(String oper, String user, String doc, String outPrefix)
     {
         String fName = null;
-        if("rosto".equals(outPrefix)) //$NON-NLS-1$
+        if("rosto".equals(outPrefix))
             fName = getMailRostoDocumentName(false);
-        else if("documento".equals(outPrefix)) //$NON-NLS-1$
+        else if("documento".equals(outPrefix))
             fName = getMailDocumentName(false);
         if(fName != null)
         {
             //File outFile = TempFile.createTempFile(outPrefix, "pdf");
-
+            
             RemoteFileConversion rc = new RemoteFileConversion();
-            File outFile = rc.converIFile(
+            File outFile = rc.converIFile( 
+                    oper,
+                    user,
                     new FSiFile(null,new File(doc),null),
                     System.currentTimeMillis(),
-                    "pdf",  //$NON-NLS-1$
+                    "pdf", 
                     Boolean.TRUE )[0];
             //PDFConvert.convert(doc, outFile.getAbsolutePath(), false);
             return outFile;
@@ -2647,9 +2649,9 @@ public class Helper
             {
                 boObject docRosto = null;
                 //vou transformar em PDF
-                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
-                iFile ifile = new FSiFile(null,pdfFile,null);
-//                iFile ifile = new FSiFile(null,new File(rosto),null);
+//                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
+//                iFile ifile = new FSiFile(null,pdfFile,null);
+                iFile ifile = new FSiFile(null,new File(rosto),null);
                 docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
                 docRosto.getAttribute("description").setValueString(Messages.getString("Helper.683") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
                 docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
@@ -2671,9 +2673,9 @@ public class Helper
             {
                 boObject docTemplate = null;
                 //vou transformar em PDF
-                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
-                iFile ifile = new FSiFile(null,pdfFile,null);
-//                iFile ifile = new FSiFile(null,new File(doc),null);
+//                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
+//                iFile ifile = new FSiFile(null,pdfFile,null);
+                iFile ifile = new FSiFile(null,new File(doc),null);
                 docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
                 docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.706") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
                 docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$

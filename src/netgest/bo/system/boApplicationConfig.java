@@ -48,6 +48,11 @@ public class boApplicationConfig
     private String p_aspMode            = "no";
     private String p_encoding           = null; // A function determines the System default encoding
     private boolean p_developerMode=true;    
+    
+    //Conversor de documentos
+    public String p_macrosws = "";    
+    public String p_convertws = "";    
+    public String p_importws = "";
 
     //browser
     private String p_browserName                = "IE";
@@ -234,7 +239,7 @@ public class boApplicationConfig
         
         public  void refresh( String configFile )
         {
-            // Inicialização do Objecto
+            // InicializaÃ§Ã£o do Objecto
         	
             p_repositorys     = new Hashtable();
             
@@ -417,6 +422,17 @@ public class boApplicationConfig
                         ? getNodeText( xnode.selectSingleNode("cscriptPath") ) : p_cscriptPath;
                     p_vbprogPath     = (xnode.selectSingleNode("vbprogPath") != null)
                         ? getNodeText( xnode.selectSingleNode("vbprogPath") ) : p_vbprogPath;
+                }
+
+                xnode = ( XMLNode ) xmldoc.selectSingleNode("//GDWebServices");
+                if (xnode != null)
+                {
+                    p_macrosws     = (xnode.selectSingleNode("WordMacroWSEndPoint") != null)
+                        ? getNodeText( xnode.selectSingleNode("WordMacroWSEndPoint") ) : p_macrosws;
+                    p_convertws    = (xnode.selectSingleNode("ConvertImagesWSEndPoint") != null)
+                        ? getNodeText( xnode.selectSingleNode("ConvertImagesWSEndPoint") ) : p_convertws;
+                    p_importws    = (xnode.selectSingleNode("IndexImageImportWSEndPoint") != null)
+                        ? getNodeText( xnode.selectSingleNode("IndexImageImportWSEndPoint") ) : p_importws;
                 }
     
                 xnode = ( XMLNode ) xmldoc.selectSingleNode("//Repositories");
@@ -948,5 +964,10 @@ public class boApplicationConfig
     		}
     	}
         p_loggerConfig = (boApplicationLoggerConfig[])loggersArray.toArray( new boApplicationLoggerConfig[ loggersArray.size() ] );
+    }
+    
+    public String getConvertImagesEndPoint()
+    {
+        return p_convertws;
     }
 }

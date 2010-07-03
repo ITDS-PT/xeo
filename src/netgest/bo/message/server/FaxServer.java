@@ -411,7 +411,10 @@ public class FaxServer extends Mail implements MediaServer
                 if( suffix.endsWith("tif") || suffix.endsWith("tiff") )
                 {
                     RemoteFileConversion rc = new RemoteFileConversion();
-                    tempFile = rc.converIFile( fich, bridge.getObject().getBoui(),"pdf", Boolean.TRUE )[0];
+                    tempFile = rc.converIFile( 
+                    		"SendFax", 
+                    		bridge.getEboContext().getSysUser().getUserName()
+                    		, fich, bridge.getObject().getBoui(),"pdf", Boolean.TRUE )[0];
                 }
                 else
                 {

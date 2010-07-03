@@ -8,6 +8,7 @@ import netgest.utils.ngtXMLHandler;
 import oracle.xml.parser.v2.XMLElement;
 import org.w3c.dom.Node;
 import netgest.bo.boConfig;
+import netgest.bo.impl.document.print.remote.ConvertImagesStub;
 import netgest.bo.system.boApplication;
 import java.nio.channels.FileLock;
 
@@ -45,7 +46,7 @@ public class PDFConvert
         
         if (xnode == null) 
         {
-            throw new RuntimeException("Não foi indicado no ficheiro boconfig.xml a localização do conversor para PDF.");
+            throw new RuntimeException("NÃ£o foi indicado no ficheiro boconfig.xml a localizaÃ§Ã£o do conversor para PDF.");
         }
                
         return xnode.getText();
@@ -55,14 +56,14 @@ public class PDFConvert
     // tem sempre que indicar o caminho completo dos ficheiros
     static public void convert( String fileName, String outputFileName, boolean useCache ) throws RuntimeException
     {
-        // retira a terminação do nome do ficheiro
+        // retira a terminaÃ§Ã£o do nome do ficheiro
         int index = fileName.lastIndexOf('.');
         if (index == -1)
         {
-            throw new RuntimeException("Não foi indicado a terminação do ficheiro.");
+            throw new RuntimeException("NÃ£o foi indicado a terminaÃ§Ã£o do ficheiro.");
         }
         
-        // fileType guarda a terminação do ficheiro, assume o texto entre o ultimo . e o fim da string
+        // fileType guarda a terminaÃ§Ã£o do ficheiro, assume o texto entre o ultimo . e o fim da string
         String fileType = fileName.substring(index+1, fileName.length()).toLowerCase();
         
         // se for um documento do Microsoft Word
@@ -84,7 +85,7 @@ public class PDFConvert
 //            }
 //            catch (IOException e)
 //            {
-//                throw new RuntimeException("Erro na Conversão " + fileName);   
+//                throw new RuntimeException("Erro na ConversÃ£o " + fileName);   
 //            }
         
             
@@ -110,14 +111,14 @@ public class PDFConvert
         }
         else
         {
-            throw new RuntimeException("Conversão para PDF não suportada para ficheiros " + fileType);  
+            throw new RuntimeException("ConversÃ£o para PDF nÃ£o suportada para ficheiros " + fileType);  
         }
         
     
     }
 */    
 
-    static public void convert( String doc, String out, boolean useCache )
+    static public void convert( String oper, String user, String doc, String out, boolean useCache )
     {
         try
         {
@@ -126,7 +127,7 @@ public class PDFConvert
             FileInputStream fin = new FileInputStream( fdoc );
             fin.read( fbytes );
             fin.close();
-            byte[] bout = convert( fdoc.getName(), fbytes, useCache );
+            byte[] bout = convert( oper, user, fdoc.getName(), fbytes, useCache );
             FileOutputStream fout = new FileOutputStream( out );
             fout.write( bout );
             fout.close();
@@ -140,15 +141,21 @@ public class PDFConvert
         
     }
 
-    static public byte[] convert( String mimeType, byte[] file, boolean useCache )
+    static public byte[] convert( String oper, String user, String mimeType, byte[] file, boolean useCache )
     {
         if (mimeType.toLowerCase().equals("application/msword"))
         {
             long time = System.currentTimeMillis();
             try {
                 ConvertImagesStub cisStub = new ConvertImagesStub();
-                cisStub.setEndpoint("http://localhost:8888/xeoRemoteConversion/ConvertImages");
-                String[] files = cisStub.convertBytes( "tmp" + time + "." + APPLICATION_MSWORD, file, String.valueOf( time ), "pdf" );
+
+                cisStub.setEndpoint(
+                    boApplication.getApplicationFromStaticContext("XEO")
+                        .getApplicationConfig()
+                        .getConvertImagesEndPoint()
+                );
+
+                String[] files = cisStub.convertBytes( oper, user, "tmp" + time + "." + APPLICATION_MSWORD, file, String.valueOf( time ), "pdf" );
                 return cisStub.getCachedFile( files[0] );
             } 
             catch (Exception e) 
@@ -158,11 +165,11 @@ public class PDFConvert
         }
         else
         {
-            throw new RuntimeException("Conversão para PDF não suportada para ficheiros " + mimeType);     
+            throw new RuntimeException("ConversÃ£o para PDF nÃ£o suportada para ficheiros " + mimeType);     
         }  
     }
     
-    static public void convert( String mimeType, InputStream file, OutputStream outputPdf, boolean useCache )
+    static public void convert( String oper, String user, String mimeType, InputStream file, OutputStream outputPdf, boolean useCache )
     {
         try 
         {
@@ -184,13 +191,13 @@ public class PDFConvert
             for (int i=0; i < in.length; i++)
                 in[i] = (byte)Integer.parseInt(vin.get(i).toString());
                 
-            byte[] out = convert(mimeType, in, useCache);
+            byte[] out = convert(oper, user, mimeType, in, useCache);
             outputPdf.write(out, 0, out.length);
             
         }  
         catch (IOException e)
         {
-            throw new RuntimeException("Problemas na conversão para pdf. ", e);
+            throw new RuntimeException("Problemas na conversÃ£o para pdf. ", e);
         }
     }
 

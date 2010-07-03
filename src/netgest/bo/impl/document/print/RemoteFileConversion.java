@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import netgest.bo.impl.document.print.remote.ConvertImagesStub;
+import netgest.bo.system.boApplicationConfig;
 import netgest.io.iFile;
 import netgest.io.iFilePermissionDenied;
 import netgest.utils.IOUtils;
@@ -18,17 +20,17 @@ import org.w3c.dom.Node;
 import netgest.bo.system.boApplication;
 import netgest.bo.boConfig;
 
-public class RemoteFileConversion extends TIFFConvert
+public class RemoteFileConversion 
 {
     public RemoteFileConversion()
     {
     }
-    public synchronized static File[] converIFile( iFile file, long docBoui, String toMimeType)
+    public synchronized static File[] converIFile( String oper, String user, iFile file, long docBoui, String toMimeType)
     {
-        return converIFile(file, docBoui, toMimeType, Boolean.TRUE);
+        return converIFile(oper, user, file, docBoui, toMimeType, Boolean.TRUE);
     }
     
-    public synchronized static File[] converIFile( iFile file, long docBoui, String type, Boolean useCache )
+    public synchronized static File[] converIFile( String oper, String user, iFile file, long docBoui, String type, Boolean useCache )
     {
         try
         {
@@ -43,7 +45,7 @@ public class RemoteFileConversion extends TIFFConvert
             out.close();
             is.close();
             
-            return converIFile( file.getName(),out, docBoui, type, useCache );
+            return converIFile( oper, user, file.getName(),out, docBoui, type, useCache );
             
         }
         catch (Exception e)
@@ -52,7 +54,7 @@ public class RemoteFileConversion extends TIFFConvert
         }
     }
 
-    public synchronized static File[] convertFile( File file, long docBoui, String type, Boolean useCache )
+    public synchronized static File[] convertFile( String oper, String user, File file, long docBoui, String type, Boolean useCache )
     {
             try
             {
@@ -66,7 +68,7 @@ public class RemoteFileConversion extends TIFFConvert
                 }
                 out.close();
                 is.close();
-                return converIFile( file.getName(),out, docBoui, type, useCache );
+                return converIFile( oper, user, file.getName(),out, docBoui, type, useCache );
             }
             catch (IOException e)
             {
@@ -74,21 +76,17 @@ public class RemoteFileConversion extends TIFFConvert
             }
     }
     
-    public synchronized static File[] converIFile(String fileName, ByteArrayOutputStream out, long docBoui, String type, Boolean useCache )
+    public synchronized static File[] converIFile(String oper, String user, String fileName, ByteArrayOutputStream out, long docBoui, String type, Boolean useCache )
     {
         try
         {           
             ConvertImagesStub cisStub = new ConvertImagesStub();
-            cisStub.setEndpoint( "http://localhost:8888/xeoRemoteConversion/ConvertImages" );
-            
-            String hn = InetAddress.getLocalHost().getHostName();
-            final boolean runLocal = true; //hn.startsWith("jpnbook");
-            if( runLocal )
-            {
-                cisStub.setEndpoint( "http://localhost:8888/xeoRemoteConversion/ConvertImages" );
-            }
-            
-            
+            cisStub.setEndpoint( 
+                    boApplication.getApplicationFromStaticContext("XEO")
+                    .getApplicationConfig()
+                    .getConvertImagesEndPoint()
+                );
+                        
             if( fileName.toLowerCase().endsWith(".tiff") )
             {
                 fileName = fileName.substring(0, fileName.lastIndexOf('.') ) + ".tif";
@@ -98,20 +96,19 @@ public class RemoteFileConversion extends TIFFConvert
                 fileName = fileName.substring(0, fileName.lastIndexOf('.') ) + ".jpg";
             }
             
-            String[] images = cisStub.convertBytes( fileName, out.toByteArray(),String.valueOf( docBoui ), type );
+            String[] images = cisStub.convertBytes( oper, user ,fileName, out.toByteArray(),String.valueOf( docBoui ), type );
             File[] ret = new File[ images.length ];
             for (int i = 0; i < images.length; i++) 
             {
                 File tmpFile = new File( getTMPDirectory() + File.separator + images[i] );
-                if( !tmpFile.exists() )
-                {
-                    byte[] imgbytes = cisStub.getCachedFile( images[i] );
-                    FileOutputStream fout = new FileOutputStream( tmpFile );
-                    fout.write( imgbytes );
-                    fout.close();
-                    tmpFile.deleteOnExit();
-                }
+
+                byte[] imgbytes = cisStub.getCachedFile( images[i] );
+                FileOutputStream fout = new FileOutputStream( tmpFile );
+                fout.write( imgbytes );
+                fout.close();
+
                 ret[i] = tmpFile;
+
             }
             return ret;
         }
@@ -119,6 +116,53 @@ public class RemoteFileConversion extends TIFFConvert
         {
             throw new RuntimeException(e);
         }
+    }
+    
+    //Para manter compatibilidade
+    @Deprecated
+    public synchronized static byte[] convertFile(String fileName, byte[] fileData, String type, Boolean useCache )
+    {
+        try
+        {           
+            ConvertImagesStub cisStub = new ConvertImagesStub();
+            cisStub.setEndpoint( 
+                    boApplication.getApplicationFromStaticContext("XEO")
+                    .getApplicationConfig()
+                    .getConvertImagesEndPoint()
+                );
+                        
+            if( fileName.toLowerCase().endsWith(".tiff") )
+            {
+                fileName = fileName.substring(0, fileName.lastIndexOf('.') ) + ".tif";
+            }
+            else if( fileName.toLowerCase().endsWith(".jpeg") )
+            {
+                fileName = fileName.substring(0, fileName.lastIndexOf('.') ) + ".jpg";
+            }
+            
+            String[] images = cisStub.convertBytes( null, null , fileName, fileData, null, type );
+
+            if(images.length>1)
+            	throw new RuntimeException("Multiple File Convertion not Suported");
+
+            if(images.length==0)
+            	return new byte[0];
+
+           return cisStub.getCachedFile( images[0] );
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }    
+
+    protected static String getTMPDirectory() 
+    {
+        String tmp = System.getProperty("java.io.tmpdir");
+        File f = new File(tmp+File.separator+"XEOPREVIEWCACHE");
+        if (!f.exists())
+            f.mkdir();
+        return tmp+File.separator+"XEOPREVIEWCACHE";
     }
 
 
