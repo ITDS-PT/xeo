@@ -13,17 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.jcr.Session;
-
-import netgest.bo.boConfig;
-import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
@@ -58,7 +52,6 @@ import netgest.bo.runtime.specific.ObjectVersionControl;
 import netgest.bo.security.securityOPL;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
-import netgest.bo.system.boApplicationConfig;
 import netgest.bo.transformers.CastInterface;
 import netgest.io.BasiciFile;
 import netgest.io.DBiFile;
