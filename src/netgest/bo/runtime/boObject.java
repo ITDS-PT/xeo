@@ -4044,7 +4044,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     /**
      * Para retirar daqui para um nova classe que controla os ficheiros
      */
-    private boolean uploadFile(AttributeHandler iFileAttribute) throws boRuntimeException
+    protected boolean uploadFile(AttributeHandler iFileAttribute) throws boRuntimeException
     {
         boolean result = false;
         String fileUri = iFileAttribute.getValueString();
