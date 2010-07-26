@@ -2939,7 +2939,7 @@ public class boBuilder {
 					"Ebo_Group", "name='PUBLIC'");
 			if (!group.exists()) {
 				group = boObject.getBoManager().createObject(ctx, "Ebo_Group");
-
+				group.getAttribute("boui").setValueLong(-2);
 				group.getAttribute("name").setValueString("PUBLIC");
 				group.getAttribute("id").setValueString("PUBLIC");
 				group.update();
