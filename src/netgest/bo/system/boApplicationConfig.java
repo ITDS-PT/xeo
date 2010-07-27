@@ -82,8 +82,13 @@ public class boApplicationConfig
 
     //deploy de esquemas
     private String p_tablespace;
+    
+    public XMLDocument getXmldoc() {
+    	return xmldoc;
+    }
 
-        public boApplicationConfig( String home )
+
+		public boApplicationConfig( String home )
         {
             refresh( home );
         }
