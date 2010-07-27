@@ -1,27 +1,20 @@
 package netgest.bo.system;
 
 import java.io.FileReader;
-
-import java.lang.reflect.*;
-
 import java.rmi.RemoteException;
-
-import netgest.bo.runtime.robots.boScheduleAgent;
-import netgest.bo.runtime.robots.boTextIndexAgent;
-import netgest.bo.runtime.robots.ejbtimers.*;
-import netgest.bo.system.Logger;
-import javax.naming.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.ejb.CreateException;
-
 import javax.ejb.RemoveException;
-
-import javax.ejb.TimerService;
-
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 
 import netgest.bo.boConfig;
+import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimer;
+import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimerHome;
 
 public class boAgentsControllerEjbTimer implements IboAgentsController
 {
@@ -72,8 +65,11 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
     {
         if( activeEJBTimers.get( name ) != null )
         {
-
-            return (Object[])((ArrayList)activeEJBTimers.get( name )).toArray(  );
+        	Object[] ret = new Object[1];
+        	ret[0] = activeEJBTimers.get( name );
+        	
+        	return ret;
+        	
         }
         return null;
     }
@@ -200,7 +196,8 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
             xeoEJBTimer activeEJBTimer=(xeoEJBTimer)this.activeEJBTimers.get(name);
 
             logger.finest("Stopping XEO EjbTimer ["+ name +"]");
-            activeEJBTimer.suspend(name);            
+            activeEJBTimer.suspend(name);    
+            activeEJBTimers.remove(name);
             logger.finest("Stopped XEO EjbTimer ["+ name +"]");
         }
         catch (RemoteException e)

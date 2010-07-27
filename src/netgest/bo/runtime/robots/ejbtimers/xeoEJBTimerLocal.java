@@ -1,7 +1,6 @@
 package netgest.bo.runtime.robots.ejbtimers;
 
 import javax.ejb.EJBLocalObject;
-import netgest.bo.system.boApplication;
 
 public interface xeoEJBTimerLocal
     extends EJBLocalObject
@@ -10,4 +9,9 @@ public interface xeoEJBTimerLocal
     public void start(String name);
 
     public void suspend(String name);
+    
+    public boolean isActive(String name);
+
+    public boolean isRunning(String name);
+    
 }

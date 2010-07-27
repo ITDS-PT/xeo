@@ -89,5 +89,14 @@ public abstract class XEOTimedObjectWrapper {
             currTimer = (Timer)it.next();
             currTimer.cancel();
         }    
-    }    
+    } 
+    
+    public boolean isActive(String name) {
+        return this.getXEOTimedObject(name).isActive();
+    }
+
+    public boolean isRunning(String name) {
+    	 return this.getXEOTimedObject(name).isRunning();
+    }
+    
 }
