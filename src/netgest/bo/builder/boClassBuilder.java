@@ -685,13 +685,16 @@ public class boClassBuilder
             StringBuffer sb = new StringBuffer();
             for(int i=0;atts != null && i<atts.length;i++)
             {
-                if(atts[i].getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE && ( ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() )  || all ) && atts[i].getReferencedObjectDef()!=null )
+                if(atts[i].getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE && 
+                		( ( atts[i].getMaxOccurs()==1 || atts[i].getDbIsTabled() )  || all ) 
+                		&& atts[i].getReferencedObjectDef()!=null)
                 {
                     sb = sb.delete(0, sb.length());
                     sb.append(getAttributeMethods(bodef,atts[i], atts, cjc, bridge, attBridgeName)).append("\n");
                     if(bridge)
                     {
-                        codeJavaHash.put(attBridgeName + "." + atts[i].getName(), sb.toString());
+                    	if (!attBridgeName.equals(atts[i].getName()))
+                    		codeJavaHash.put(attBridgeName + "." + atts[i].getName(), sb.toString());
                     }
                     else
                     {
@@ -746,13 +749,15 @@ public class boClassBuilder
                     //sb.append(getAttributeMethods(bodef,atts[i], atts, cjc, bridge, attBridgeName)).append("\n");
                     if(bridge)
                     {
-                        sb.append(codeJavaHash.get(attBridgeName + "." + atts[i].getName())).append("\n");
+                    	if (codeJavaHash.get(attBridgeName + "." + atts[i].getName())!=null)
+                    		sb.append(codeJavaHash.get(attBridgeName + "." + atts[i].getName())).append("\n");
                     }
                     else
                     {
-                        sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
+                    	if (codeJavaHash.get(atts[i].getName())!=null)
+                    		sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
                     }
-                    area = StringUtils.replacestr(area,"#OBJECT.METHODS#", sb.toString());
+                    area = StringUtils.replacestr(area,"#OBJECT.METHODS#", sb.toString()==null?"":sb.toString());
                     area = StringUtils.replacestr(area,"#OBJECT.EVENTS#",this.getEvents( atts[i].getEvents() ) );
                     rarea += area;
                 }
@@ -934,13 +939,15 @@ public class boClassBuilder
                     //sb.append(getAttributeMethods(bodef,atts[i], atts, cjc, bridge, attName)).append("\n");
                     if(bridge)
                     {
-                        sb.append(codeJavaHash.get(attName + "." + atts[i].getName())).append("\n");
+                    	if (codeJavaHash.get(attName + "." + atts[i].getName())!=null)
+                    		sb.append(codeJavaHash.get(attName + "." + atts[i].getName())).append("\n");
                     }
                     else
                     {
-                        sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
+                    	if (codeJavaHash.get(atts[i].getName())!=null)
+                    		sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
                     }
-                    area = StringUtils.replacestr(area,"#OBJECT.METHODS#",sb.toString());
+                    area = StringUtils.replacestr(area,"#OBJECT.METHODS#",sb.toString()==null?"":sb.toString());
                     area = StringUtils.replacestr(area,"#OBJECT.EVENTS#",this.getEvents(atts[i].getEvents()));
                     rarea += area;
                 }
@@ -1029,7 +1036,8 @@ public class boClassBuilder
                 if(have) {
                     sb = sb.delete(0, sb.length());
                     sb.append(this.buildClassMethods(atts[i].getBridge().getMethods(),false)).append("\n");
-                    sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
+                    if (codeJavaHash.get(atts[i].getName())!=null)
+                    	sb.append(codeJavaHash.get(atts[i].getName())).append("\n");
                     area = StringUtils.replacestr(area,"#OBJECT.METHODS#",sb.toString());
                     area = StringUtils.replacestr(area,"#OBJECT.EVENTS#",this.getEvents(atts[i].getEvents()));
                     rarea += area;
