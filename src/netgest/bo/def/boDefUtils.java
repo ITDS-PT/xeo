@@ -2,8 +2,11 @@ package netgest.bo.def;
 import java.util.ArrayList;
 import oracle.xml.parser.v2.XMLCDATA;
 import oracle.xml.parser.v2.XMLElement;
+
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class boDefUtils 
@@ -144,10 +147,31 @@ public class boDefUtils
     
     public static final Element createTextNode( Element node, String nodeName, String value )
     {
+        return createTextNode(node, nodeName, value,null);
+    }
+
+    public static final Element createTextNode( Element node, String nodeName, String value,
+    		String[][]attributes)
+    {
         Element elem = node.getOwnerDocument().createElement( nodeName );
+        if (attributes!=null)
+        {
+        	NamedNodeMap atts = elem.getAttributes();
+        	String attname="";
+        	String attvalue="";
+    		for (int i=0;i<attributes.length;i++)
+    		{
+    			attname=attributes[i][0];
+    			attvalue=attributes[i][1];
+    			Attr attaux = elem.getOwnerDocument().createAttribute(attname);
+    			attaux.setNodeValue(attvalue);
+    			atts.setNamedItem(attaux);
+    		}
+        }
         node.appendChild( elem );
         elem.appendChild( node.getOwnerDocument().createTextNode( value ) );
         return elem;
     }
 
+    
 }
