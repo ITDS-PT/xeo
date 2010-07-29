@@ -2258,6 +2258,11 @@ public class boBuilder {
 								"attributeObject", "object.boObject", 0, false,
 								atts.getNode().getOwnerDocument()));
 			}
+			if (bodef.implementsSecurityRowObjects())
+			{
+				boBuilderOPL builderOPL=new boBuilderOPL(bodef, atts);
+				builderOPL.createOPLAttributes();
+			}
 		}
 
 		fillBrigdesAtts(bodef);
