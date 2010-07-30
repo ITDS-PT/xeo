@@ -1,6 +1,5 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -9,12 +8,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import javax.jcr.LoginException;
-import javax.jcr.NamespaceRegistry;
-import javax.jcr.Repository;
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +17,6 @@ import javax.servlet.jsp.PageContext;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.login.LoginUtil;
-
-import org.apache.jackrabbit.core.TransientRepository;
 public class boSession implements Serializable {
 
     private static Logger logger = Logger.getLogger("netgest.bo.system.boSession");
@@ -322,21 +314,21 @@ public class boSession implements Serializable {
     {
     	if (p_ecmRepositories.containsKey(repositoryName))
 			return this.p_ecmRepositories.get(repositoryName);
-		else{
+		/*else{
 			try {
 				System.setProperty("org.apache.jackrabbit.repository.conf", "c:/jackrabbit/teste/repository.xml");
 				System.setProperty("org.apache.jackrabbit.repository.home", "c:/jackrabbit/teste");
-				Repository repository = (Repository )new TransientRepository();
+				//Repository repository = (Repository )new TransientRepository();
 				
-				Session session = repository.login(new SimpleCredentials("username", "password".toCharArray()));
+				//Session session = repository.login(new SimpleCredentials("username", "password".toCharArray()));
 				
-				p_ecmRepositories.put(repositoryName, session);
+				//p_ecmRepositories.put(repositoryName, session);
 			} catch (LoginException e) {
 				e.printStackTrace();
 			} catch (RepositoryException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return this.p_ecmRepositories.get(repositoryName);
     }
     
