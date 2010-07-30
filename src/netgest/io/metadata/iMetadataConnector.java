@@ -90,7 +90,69 @@ public interface iMetadataConnector {
 	 * 
 	 * @param itemId The identifier of the {@link iMetadataItem}
 	 * 
+	 * @throws MetadataException If an error occurs while removing the 
+	 * 
 	 */
-	public void removeMetadataItem(String itemId);
+	public void removeMetadataItem(String itemId) throws MetadataException;
+
+	/**
+	 * 
+	 * Creates a new empty metadata item with a given identifier and 
+	 *  name a returns a reference to it
+	 * 
+	 * @param name A name for the metadata item
+	 * 
+	 * @param identifier An identifier for the metadata item
+	 * 
+	 * @return A reference to an empty identifier 
+	 */
+	public iMetadataItem createMetadataItem(String name, String identifier);
+	
+	
+	/**
+	 * 
+	 * Creates a new empty metadata item with a name
+	 *  and returns a reference to it
+	 * 
+	 * 
+	 * @param name A name for the metadata item (can be null, in that case
+	 * the implementation is responsible for generating an identifier)
+	 * 
+	 * @return A reference to an empty identifier 
+	 */
+	public iMetadataItem createMetadataItem(String name);
+	
+	
+	
+	/**
+	 * 
+	 * Creates an {@link iMetadataProperty} that can be used to set as a value of
+	 * a {@link iMetadataItem}
+	 * 
+	 * 
+	 * 
+	 * @param propId The identifier of the property
+	 * @param propValue The value of the property (if the type is a String, a string object should be passed as parameter) 
+	 * @param propType The data type of the property, from {@link iMetadataProperty.METADATA_TYPE}
+	 * 
+	 * @return A reference to an {@link iMetadataProperty} 
+	 */
+	public iMetadataProperty createProperty(String propId, Object propValue, iMetadataProperty.METADATA_TYPE propType);
+	
+	
+	/**
+	 * 
+	 * Creates an {@link iMetadataProperty} that can be used to set as a value of
+	 * a {@link iMetadataItem}, the property has multiple values
+	 * 
+	 * @param propId The identifier of the property
+	 * @param propValue The array of values of the property (if the type is a String, a String[] should be passed
+	 * as parameter) 
+	 * 
+	 * @param propType The data type of the property, from {@link iMetadataProperty.METADATA_TYPE}
+	 * 
+	 * @return A reference to an {@link iMetadataProperty} 
+	 */
+	public iMetadataProperty createProperty(String propId, Object[] propValues, iMetadataProperty.METADATA_TYPE propType);
 	
 }

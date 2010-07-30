@@ -56,6 +56,12 @@ public abstract class AttributeHandler implements boIEvents
     private boolean     p_isEnabledforRequest   = false;
     private boolean     p_eventsDisabled        = false;
     private ArrayList   p_eventListeners;
+    
+    /**
+     * The iFile object for an iFile that is stored
+     * in a Java Content Repository (JCR)
+     */
+    protected iFile p_valueIFileECM;
 
     public AttributeHandler(boObject parent,boDefAttribute def)
     {
@@ -118,7 +124,11 @@ public abstract class AttributeHandler implements boIEvents
 
     public void setValueiFile(iFile file, byte type)  throws boRuntimeException
     {
-        setValueObject( file, type );
+    	if (getDefAttribute().getECMDocumentDefinitions() != null){
+    		this.p_valueIFileECM = file;
+    	}
+    	else
+    		setValueObject( file, type );
     }
 
     public void setValueiFile(iFile file)  throws boRuntimeException
@@ -194,10 +204,10 @@ public abstract class AttributeHandler implements boIEvents
      */
     public Boolean getValueBoolean() throws boRuntimeException
     {
-    	BigDecimal booleanVal = (BigDecimal)this.getValueObject();
+    	String booleanVal = String.valueOf(this.getValueObject());
         if( booleanVal != null )
         {
-            if (booleanVal.intValue() == 1)
+            if (booleanVal.equalsIgnoreCase("1") || booleanVal.equalsIgnoreCase("true"))
             	return new Boolean(true);
             else
             	return new Boolean(false);
@@ -295,7 +305,11 @@ public abstract class AttributeHandler implements boIEvents
 
     public iFile getValueiFile()  throws boRuntimeException
     {
-        return (iFile)getValueObject();
+        if (getDefAttribute().getECMDocumentDefinitions() != null){
+        	return p_valueIFileECM;
+        }
+        else
+        	return (iFile)getValueObject();
     }
 
     public double getValueDouble()  throws boRuntimeException
@@ -908,6 +922,13 @@ public abstract class AttributeHandler implements boIEvents
         return false;
     }
 
+    /**
+     * 
+     * Retrieves the EboContext associated to the parent {@link boObject}
+     * of this AttributeHandler
+     * 
+     * @return
+     */
     public EboContext getEboContext()
     {
         return getParent().getEboContext();
@@ -1114,4 +1135,7 @@ public abstract class AttributeHandler implements boIEvents
         return false;
     }
 
+    
+    
+    
 }

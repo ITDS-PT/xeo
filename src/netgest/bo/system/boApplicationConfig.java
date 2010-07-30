@@ -6,12 +6,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
 import netgest.bo.boConfigRepository;
 import netgest.bo.boException;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.presentation.render.Browser;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.utils.ngtXMLHandler;
@@ -79,6 +83,11 @@ public class boApplicationConfig
     
     private boApplicationLoggerConfig[] p_loggerConfig = null;
     
+    //ECM Repositores
+    /**
+     * The configuration for all repositories
+     */
+    private HashMap<String,RepositoryConfig> p_ecmRepositories;
 
     //deploy de esquemas
     private String p_tablespace;
@@ -87,9 +96,9 @@ public class boApplicationConfig
     	return xmldoc;
     }
 
-
-		public boApplicationConfig( String home )
+        public boApplicationConfig( String home )
         {
+        	p_ecmRepositories = new HashMap<String, RepositoryConfig>();
             refresh( home );
         }
 
@@ -189,6 +198,55 @@ public class boApplicationConfig
             return p_cscriptPath;
         }
     
+        /**
+         * 
+         * Retrieves an ECM Repository Configuration given its name
+         * 
+         * @param name The name of the repository
+         * 
+         * @return A {@link RepositoryConfig} instance with the configurations
+         * for the repository
+         */
+        public RepositoryConfig getECMRepositoryConfiguration(String name)
+        {
+        	return p_ecmRepositories.get(name);
+        }
+        
+        
+        /**
+         * 
+         * Retrieves a list with all the (registered) ECM Repository names
+         * 
+         * @return A list with all the ECM Repository Names registered in the
+         * application
+         */
+        public List<String> getECMRepositoryNames(){
+        	return new ArrayList<String>(p_ecmRepositories.keySet());
+        }
+        
+        /**
+         * 
+         * Retrieves the default repository configuration
+         * 
+         * @return A reference to the default repository configuration
+         * or null if no repository configurations exist
+         * 
+         */
+        public RepositoryConfig getDefaultECMRepositoryConfiguration()
+        {
+        	if (p_ecmRepositories != null){
+        		Iterator<String> it = this.p_ecmRepositories.keySet().iterator();
+        		while (it.hasNext()) {
+					String repositoryName = (String) it.next();
+					RepositoryConfig current = p_ecmRepositories.get(repositoryName);
+					if (current.isDefault())
+						return current;
+				}
+        	}
+        	
+        	return null;
+        }
+        
         public  String getBrowserDirPrefix()
             throws boRuntimeException
         {
@@ -553,6 +611,23 @@ public class boApplicationConfig
                 else
                 	p_modulesdir			= p_moduleswebdir + ".." + File.separator + "modules" + File.separator;
 
+                //ECM Repositories
+                nodelist  = xmldoc.selectNodes("//bo-config//ecmRepository");
+                if (nodelist!=null)
+                {
+                	for (int i = 0; i < nodelist.getLength(); i++)
+                    {
+                        XMLNode node     = ( XMLNode ) nodelist.item(i);
+                        //Debug
+                        StringBuffer buf = new StringBuffer();
+                        ngtXMLUtils.print(node, buf);
+                        //End debug
+                        ngtXMLHandler handler = new ngtXMLHandler(node);
+                        RepositoryConfig currentConfig = new RepositoryConfig(handler);
+                        this.p_ecmRepositories.put(currentConfig.getName(),currentConfig);
+                    }
+                }
+                
             }
             catch (Exception e)
             {

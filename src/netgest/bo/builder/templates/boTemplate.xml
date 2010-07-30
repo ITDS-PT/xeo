@@ -1267,15 +1267,18 @@ public #BO.MODIFIERS# class _boTemplate_ extends #BO.SUPERCLASS# implements  #BO
             }
             //@ELSEIF ARRAY
             public #ATT.JAVADATATYPE# getValue#ATT.JAVADATATYPEOBJ#() throws boRuntimeException {
+            	
                 return boConvertUtils.convertTo#ATT.JAVADATATYPE#(this.getValue(),this);
             }
             public void setValue(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
             {
                 this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+                #IFILE.SET#
             }
             public void setValue#ATT.JAVADATATYPE#(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
             {
                 this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
+                #IFILE.SET#
             }
             //@ENDIF ARRAY
         //@ENDIF SIMPLEDATATYPE

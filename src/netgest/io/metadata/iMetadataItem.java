@@ -109,4 +109,14 @@ public interface iMetadataItem
 		 * filesystem or content repository, etc...) 
 		 */
 		public void save();
+		
+		
+		/**
+		 * 
+		 * Whether the {@link iMetadataItem} exists (is physically saved)
+		 * or not
+		 * 
+		 * @return True if the item exists and false otherwise
+		 */
+		public boolean exists();
 }

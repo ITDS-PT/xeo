@@ -27,12 +27,11 @@ import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.Logger;
 import netgest.utils.StringUtils;
 import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
-
-import netgest.bo.system.Logger;
 
 import com.ibm.regex.REUtil;
 import com.ibm.regex.RegularExpression;
@@ -428,6 +427,24 @@ public class boClassBuilder
         ht.put("#ATT.JAVADATATYPE#",parseJavaDataType(att.getType(),TYPE_SIMPLE));
         ht.put("#ATT.PRIMITIVEDATATYPE#",parseJavaDataType(att.getType(),TYPE_DATA));
         ht.put("#ATT.TYPE#",att.getType());
+        
+        /* 
+         * Required because the set/get of iFiles is done by setting a String 
+         * with the URI that identifies the iFile which is then translated to
+         * the iFile itself, this works well with iFiles that are stored in the filesystem
+         * with no additional information but does not work well if iFiles that have metadata
+         * and such. In order to solve the problem, a "p_valueIFileECM" field was added
+         * to the netgest.bo.runtime.AttributeHandler base class and whenever an iFile is
+         * used its also stored in there. When the getIfile() operation is attempted
+         * if the attribute (binary) is a regular attribute the normal getIFile() is used, if a
+         * repository iFile is used the value in the p_valueIFileECM is returned
+         * 
+        */
+        if (parseJavaDataType(att.getType(),TYPE_OBJECT).equalsIgnoreCase("iFile"))
+        	ht.put("#IFILE.SET#","this.p_valueIFileECM = value;");
+        else
+        	ht.put("#IFILE.SET#","");
+        
         if(att.getAtributeType()==boDefAttribute.TYPE_OBJECTATTRIBUTE)
         {
             ht.put("#ATT.REFOBJECTNAME#",att.getReferencedObjectName());

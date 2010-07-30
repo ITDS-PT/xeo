@@ -153,6 +153,9 @@ public class ObjectDifference
     			{
     				bridgeHandler attHandler = baseObject.getBridge(attHandlerNow.getName());
     				//bridgeHandler attHandler = (bridgeHandler) listOfBridges.nextElement();
+    				if (attHandler != null){
+    					
+    				
     	    		bridgeHandler flashBackHandler = toCompareObject.getBridge(attHandler.getName());
     	    		GridFlashBack currentBridgeFlashBack = new GridFlashBack();
     	    		
@@ -205,6 +208,7 @@ public class ObjectDifference
     	    			}
     	    		}
     	    		result.put(attHandler.getName(), currentBridgeFlashBack);
+    				}
     			}
     			
 	    	}

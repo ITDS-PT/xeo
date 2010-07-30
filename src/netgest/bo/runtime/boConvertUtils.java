@@ -11,7 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import netgest.bo.boConfig;
+import netgest.bo.def.boDefDocument;
 import netgest.io.iFile;
+import netgest.io.iFileConnector;
+import netgest.io.iFileException;
 
 
 public class boConvertUtils
@@ -487,7 +491,43 @@ public class boConvertUtils
 
     public static final iFile convertToiFile(String value, AttributeHandler attr)
     {
-        return attr.getParent().getiFile(value);
+        if (attr.getDefAttribute().getECMDocumentDefinitions() != null){
+        	if (attr.p_valueIFileECM != null)
+        		return attr.p_valueIFileECM;
+        	else{
+        		
+        		boDefDocument ecmDef = attr.getDefAttribute().getECMDocumentDefinitions();
+            	iFileConnector con = null;
+            	iFile toReturn;
+    			try {
+    				
+    				//Get the default repository name
+    				String repName = boConfig.getApplicationConfig().
+    					getDefaultECMRepositoryConfiguration().getName();
+    				
+    				//Check if this attribute uses a different repository
+    				if (ecmDef.getRepositoryName()!= null)
+    					repName = ecmDef.getRepositoryName();
+    				
+    				//Retrieve the FileConnector
+    				con = boConfig.getApplicationConfig().
+    					getECMRepositoryConfiguration(repName).getConnector(attr);
+    				
+    				//Return the iFile
+    				toReturn = con.getIFile(value);
+    	        	return toReturn;
+    			} catch (iFileException e) {
+    				e.printStackTrace();
+    			} catch (boRuntimeException e) {
+    				e.printStackTrace();
+    			}
+        	}
+        	
+        }
+        else{
+        	return attr.getParent().getiFile(value);
+        }
+        return null;
     }
 
     public static final BigDecimal convertToBigDecimal(long value,

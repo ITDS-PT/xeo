@@ -248,8 +248,20 @@ public interface boDefAttribute
     public String className();
     
     public boolean getDbRequired();
-
-    //public boolean isFinder();
+    
+    /**
+     * 
+     * Retrieves the definitions regarding an attributeBinaryData
+     * that is stored in a Java Content Repository (JCR). If it returns
+     * null, this is a regular attribute, if it returns a
+     * {@link boDefDocument} instance the attribute is stored in a JCR 
+     * 
+     * @return A {@link boDefDocument} instance with the definitions for the
+     * content repository or null if the attributes a normal attribute
+     */
+    public boDefDocument getECMDocumentDefinitions();
+    
+        //public boolean isFinder();
     
     
     // XML Direct Access...

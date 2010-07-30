@@ -10,6 +10,7 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefBridge;
 import netgest.bo.def.boDefClsEvents;
 import netgest.bo.def.boDefDataTypeMapping;
+import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefObjectFilter;
@@ -175,6 +176,8 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
     
     private boDefClsEvents[] p_events = null;  
     private Hashtable        p_eventsHash = null;
+    //Document definitions
+    private boDefDocument 	p_documentDef;
 
     public boDefAttributeImpl(boDefHandlerImpl bodef,Node x) 
     {
@@ -420,6 +423,12 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
                 }
                 p_events = (boDefClsEvents[])events.toArray( new boDefClsEvents[ events.size() ] );
             }
+            
+            //Binary Documents (boDefDocument)
+            node = getChildNode("ecmRepository");
+            if (node != null)
+            p_documentDef = new boDefDocumentImpl(node);
+            
         }
         
     }
@@ -1236,6 +1245,11 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
     {
         return null;
     }
+
+	@Override
+	public boDefDocument getECMDocumentDefinitions() {
+		return p_documentDef;
+	}
    
     
 }

@@ -1,27 +1,24 @@
 /*Enconding=UTF-8*/
 package netgest.bo.def.v1;
 import java.util.ArrayList;
-
 import java.util.Vector;
+
 import netgest.bo.boException;
 import netgest.bo.builder.boBuildDBUtils;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefBridge;
 import netgest.bo.def.boDefClsEvents;
 import netgest.bo.def.boDefDataTypeMapping;
+import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
-import netgest.bo.def.v1.boDefBridgeImpl;
-import netgest.bo.def.v1.boDefHandlerImpl;
 import netgest.bo.runtime.boRuntimeException2;
+import netgest.bo.system.Logger;
 import netgest.bo.transformers.Transformer;
-
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
-
-import netgest.bo.system.Logger;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -1659,6 +1656,12 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
 
    public String[] getDbRelationKeys() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boDefDocument getECMDocumentDefinitions() {
+		// Not supported in this version
 		return null;
 	}
 

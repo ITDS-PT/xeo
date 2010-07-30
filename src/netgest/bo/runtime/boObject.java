@@ -57,6 +57,7 @@ import netgest.io.BasiciFile;
 import netgest.io.DBiFile;
 import netgest.io.FSiFile;
 import netgest.io.iFile;
+import netgest.io.iFileException;
 import netgest.io.iFilePermissionDenied;
 import netgest.io.iFileServer;
 import netgest.utils.ParametersHandler;
@@ -1309,6 +1310,13 @@ public abstract class boObject extends boObjectContainer implements Serializable
         iFile result = null;
         if(file != null)
         {
+        	
+        	//TODO:
+        	
+        	
+        	
+        	
+        	
             if(file.startsWith("//"+DBiFile.IFILE_SERVICE_NAME) || file.startsWith("//"+BasiciFile.IFILE_SERVICE_NAME))
             {
 //                iFileServer fs = this.getiFileServer();
@@ -3975,24 +3983,6 @@ public abstract class boObject extends boObjectContainer implements Serializable
      */
     private boolean beforeSaveIFiles() throws boRuntimeException
     {
-    	//OLD CODE
-    	List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
-        for (int i = 0; i < iFilesAttributes.size(); i++)
-        {
-        	uploadFile((AttributeHandler)iFilesAttributes.get(i));
-    	}  
-    	return true;
-    	
-    	//Keep the repository name to use, can be the default or
-    	//another one
-    	/*String repositoryName = null;
-    	
-    	//Get the default repository name
-    	RepositoryConfig repository = boConfig.getApplicationConfig().getDefaultECMRepositoryConfiguration();
-    	if (repository != null)
-    		repositoryName = repository.getName();
-    	else 
-    		throw new boRuntimeException2("There's no configuration for ECM Repositories");
     	//Iterate all file attributes 
         List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
         for (int i = 0; i < iFilesAttributes.size(); i++)
@@ -4000,25 +3990,21 @@ public abstract class boObject extends boObjectContainer implements Serializable
         	//Retrieve the current attribute handler
         	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
         	//Check if we have an JCR Repository linked to this attribute
-        	
-        	if (currHandler.getDefAttribute().getDocumentDefinitions() != null)
+        	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
         	{
-        		/*String overrideName = currHandler.getDefAttribute().getDocumentDefinitions().getRepositoryName();
-        		if (overrideName != null)
-        			repositoryName = overrideName;
-        		//Session for the repository
-            	Session current = this.getEboContext().getBoSession().
-        				getECMRepositorySession(repositoryName);
-            	
-            	iFile currentFile = currHandler.getValueiFile();
-            	currentFile.save();
-            	
+        		try{
+        			iFile currentFile = currHandler.getValueiFile();
+        			if (currentFile != null)
+        				currentFile.save(currHandler.getEboContext());
+				}catch (iFileException e) {
+					throw new boRuntimeException2(e);
+				}
             }
         	else //If not, it's a regular binary attribute
         		uploadFile((AttributeHandler)iFilesAttributes.get(i));
         	
         }
-        return true;*/
+        return true;
     }
     /**
      * Devolve uma lista com os <code>AttributeHandler</code> do tipo pretendido
@@ -4044,7 +4030,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     /**
      * Para retirar daqui para um nova classe que controla os ficheiros
      */
-    protected boolean uploadFile(AttributeHandler iFileAttribute) throws boRuntimeException
+    private boolean uploadFile(AttributeHandler iFileAttribute) throws boRuntimeException
     {
         boolean result = false;
         String fileUri = iFileAttribute.getValueString();

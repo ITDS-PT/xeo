@@ -112,6 +112,14 @@ public class DataSet extends ParametersHandler implements Serializable, Cloneabl
         return null;
     }
     
+    /**
+     * 
+     * Position of the row in the data set (starts at row 1)
+     * 
+     * @param position The position of the row (must be size >= position >= 1)
+     * 
+     * @return The row in the given position 
+     */
     public final DataRow rows( int position ) 
     {
         checkPosition(position);

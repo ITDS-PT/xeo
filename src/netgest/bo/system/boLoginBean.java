@@ -1,22 +1,22 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.math.BigDecimal;
-
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
-
+import javax.jcr.Session;
 import javax.servlet.http.HttpServletRequest;
 
-import netgest.bo.def.boDefHandler;
+import netgest.bo.boConfig;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
-import netgest.bo.system.boLoginException;
-
-import netgest.bo.system.login.*;
+import netgest.bo.system.login.boMD5Login;
+import netgest.io.jcr.ECMRepositoryConnection;
 import netgest.utils.MD5Utils;
 
 public class boLoginBean implements SessionBean  {
@@ -98,6 +98,32 @@ public class boLoginBean implements SessionBean  {
             //toReturn = new boSession( perfboui , repository ,user, app );
             toReturn = app.getSessions().createSession( repository, user, clientName, request != null ? request.getRemoteAddr():null, 
                 request != null ? request.getRemoteHost():null, request != null ? request.getRemoteUser():null, request != null ? request.getRequestedSessionId():null  );
+            
+            //Check for every ECM Repository and create session with it
+            Iterator<String> it = boConfig.getApplicationConfig().
+            	getECMRepositoryNames().iterator();
+            
+           /* while (it.hasNext()){
+            	String repositoryName = it.next();
+            	RepositoryConfig repConfig = boConfig.getApplicationConfig().
+            		getECMRepositoryConfiguration(repositoryName);
+            	
+            	String className = repConfig.getClassConnections();
+            	//If there's no class name the only thing that matters is the file connector class which
+            	//can be used
+            	if (className != null){
+            		ECMRepositoryConnection conn = 
+                		(ECMRepositoryConnection)Class.forName(className).newInstance();
+                	
+                	Session rep = conn.getConnection(username,password,repConfig.connectionParameters());
+
+                	toReturn.setECMRepositorySession(repositoryName, rep);
+            	}
+            		
+            }*/
+            //Done with ECM Repositories
+            
+            
           } else {
               throw new boLoginException(boLoginException.INVALID_CREDENCIALS);
           }

@@ -55,7 +55,7 @@ public interface iMetadataProperty
 	 * 
 	 * @return A string with the name
 	 */
-	public String getPropertyName();
+	public String getPropertyIdentifier();
 	
 	
 	/**
@@ -67,6 +67,16 @@ public interface iMetadataProperty
 	 * be converted to String
 	 */
 	public String getValueString() throws ValueFormatException;
+	
+	/**
+	 * Retrieve the value of this property as a String array
+	 * 
+	 * @return An array with the value of the property
+	 * 
+	 * @throws ValueFormatException If the property value cannot
+	 * be converted to String[]
+	 */
+	public String[] getValuesString() throws ValueFormatException;
 	
 	/**
 	 * 
@@ -86,6 +96,17 @@ public interface iMetadataProperty
 	 * converted to Long
 	 */
 	public Long getValueLong() throws ValueFormatException;
+	
+	
+	/**
+	 * Retrieve the value of this property as a long array
+	 * 
+	 * @return An array with the value of the property
+	 * 
+	 * @throws ValueFormatException If the property value cannot
+	 * be converted to Long array
+	 */
+	public Long[] getValuesLong() throws ValueFormatException;
 	
 	/**
 	 * 
@@ -107,6 +128,17 @@ public interface iMetadataProperty
 	 */
 	public boolean getValueBoolean() throws ValueFormatException;;
 	
+	
+	/**
+	 * Retrieve the value of this property as a boolean array
+	 * 
+	 * @return An array with the value of the property
+	 * 
+	 * @throws ValueFormatException If the property value cannot
+	 * be converted to String
+	 */
+	public boolean[] getValuesBoolean() throws ValueFormatException;
+	
 	/**
 	 * 
 	 * Set the value of this property as a boolean
@@ -114,6 +146,39 @@ public interface iMetadataProperty
 	 * @param newValue The value of the property
 	 */
 	public void setValueBoolean(boolean newValue);
+	
+	
+	/**
+	 * 
+	 * Sets the value of the property as generic object
+	 * 
+	 * @param newValue The object
+	 */
+	public void setValueObject(Object newValue);
+	
+	/**
+	 * 
+	 * Sets the value of the property as an array 
+	 * 
+	 * @param newValue
+	 */
+	public void setValueObjects(Object[] newValue);
+	
+	/**
+	 * 
+	 * Retrieves the value of the property as an object
+	 *  
+	 * @return Retrieves the value of the property as an object
+	 */
+	public Object getValueObject();
+	
+	/**
+	 * 
+	 * Retrieves the value of property as an object[]
+	 * 
+	 * @return
+	 */
+	public Object[] getValueObjects();
 	
 	/**
 	 * 
@@ -125,6 +190,16 @@ public interface iMetadataProperty
 	 * converted to Date
 	 */
 	public Date getValueDate() throws ValueFormatException;;
+	
+	/**
+	 * Retrieve the value of this property as a Date array
+	 * 
+	 * @return An array with the value of the property
+	 * 
+	 * @throws ValueFormatException If the property value cannot
+	 * be converted to Date array
+	 */
+	public Date[] getValuesDate() throws ValueFormatException;
 	
 	/**
 	 * 
@@ -145,7 +220,7 @@ public interface iMetadataProperty
 	 *  @throws ValueFormatException If the property value cannot be
 	 * converted to a {@link iMetadataItem}
 	 */
-	public iMetadataItem getReference() throws ValueFormatException;;
+	public iMetadataItem getReference() throws ValueFormatException;
 	
 	/**
 	 * 

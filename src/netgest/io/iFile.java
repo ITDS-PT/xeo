@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import netgest.bo.runtime.EboContext;
 import netgest.io.metadata.iMetadataItem;
 
 /**
@@ -17,6 +18,13 @@ import netgest.io.metadata.iMetadataItem;
  *
  */
 public interface iFile {
+	
+	
+	/**
+	 * The name of the default metadata item
+	 */
+	public static final String DEFAULT_METADATA = "default";
+	
     public boolean  canRead();
     public boolean  canWrite();
     public boolean  createNewFile() throws IOException,iFilePermissionDenied;
@@ -244,6 +252,15 @@ public interface iFile {
     public long     getVersion();
     
     public long     getKey();
+    
+    /**
+     * 
+     * Retrieves the Key of the {@link iFile} as a string value
+     * 
+     * @return A string with the key of the object
+     */
+    public String     getId();
+    
     public iFile    getCopy();
     
     
@@ -253,12 +270,13 @@ public interface iFile {
 	 * Retrieves a list of {@link iMetadataItem} about the file given
 	 * its name.
 	 * 
-	 * @param name The name of the metadata item 
+	 * @param identifier The identifier of the metadata item 
 	 * 
 	 * 
 	 * @return An <code>iFileMetadata</code>
+     * @throws iFileException 
 	 */
-	public List<iMetadataItem> getMetadata(String name);
+	public iMetadataItem getMetadata(String identifier) throws iFileException;
 	
 	/**
 	 * 
@@ -267,8 +285,11 @@ public interface iFile {
 	 * 
 	 * @param name The name of metadata relation
 	 * @param item A reference to item to reference
+	 * @throws iFileException 
 	 */
-	public void addMetadata(String name, iMetadataItem item);
+	public void addMetadata(iMetadataItem item) throws iFileException;
+	
+
 	
 	/**
 	 * 
@@ -276,10 +297,10 @@ public interface iFile {
 	 * {@link iMetadataItem} identified by the value passed as parameter
 	 * If such association does not exist, nothing happens
 	 * 
-	 * @param metadataItemId The identifier of a {@link iMetadataItem}
+	 * @param identifier The identifier of a {@link iMetadataItem}
 	 * 
 	 */
-	public void removeMetadata(String metadataItemId);
+	public void removeMetadata(String identifier);
 	
 	
 	/**
@@ -287,8 +308,21 @@ public interface iFile {
 	 * Retrieves a list with all meta data items from this file
 	 * 
 	 * @return A list of meta data items (empty list if none)
+	 * @throws iFileException 
 	 */
-	public List<iMetadataItem> getAllMetadata();
+	public List<iMetadataItem> getAllMetadata() throws iFileException;
+	
+	/**
+	 * 
+	 * Retrieves a list of meta data items with a given name from this file 
+	 * 
+	 * @param name The name of metadata items
+	 * 
+	 * @return A list of {@link iMetadataItem}
+	 * 
+	 * @throws iFileException
+	 */
+	public List<iMetadataItem> getMetadataByName(String name) throws iFileException;
 	
 	
 	/**
@@ -313,5 +347,43 @@ public interface iFile {
 	 * and false otherwise
 	 */
 	public boolean close();
+	
+	/**
+	 * 
+	 * The default metadata item is the set of properties that are
+	 * not grouped under a name, like other metadata items.
+	 * If one wants to simply set properties in an item
+	 * the default metadata item should be used
+	 * 
+	 * 
+	 * @return THe default metadata item
+	 */
+	public iMetadataItem getDefaultMetadata();
+	
+	
+	/**
+	 * 
+	 * Adds a new file to this {@link iFile}, only works when {@link #isDirectory()} returns true
+	 * otherwise throws an {@link iFileException}
+	 * 
+	 * @param file The file to add
+	 * 
+	 * @return True if the file is added to this folder and false otherwise
+	 * 
+	 * @throws iFileException If the 
+	 */
+	public boolean addChild(iFile file) throws iFileException;
+	
+	
+	/**
+	 * 
+	 * Saves the current iFile (persistently)
+	 * 
+	 * @param ctx The XEO context
+	 * @return True if the {@link iFile} is saved and false otherwise
+	 * 
+	 * @throws iFileException If any error occurs
+	 */
+	public boolean save(EboContext ctx) throws iFileException;
 	
 }

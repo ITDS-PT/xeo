@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.io.metadata.iMetadataItem;
 
@@ -215,20 +216,16 @@ public class FSiFile implements iFile {
     
     public long     getKey() {throw new RuntimeException("getKey : Not Impelemented");}
     public iFile     getCopy() {throw new RuntimeException("getCopy : Not Impelemented");}
-	@Override
-	public void addMetadata(String name, iMetadataItem item) {
-		// File system does not implement metadata
-		
-	}
+
 	@Override
 	public List<iMetadataItem> getAllMetadata() {
 		//File system does not implement metadata
 		return new LinkedList<iMetadataItem>();
 	}
 	@Override
-	public List<iMetadataItem> getMetadata(String name) {
+	public iMetadataItem getMetadata(String name) {
 		//File system does not implement metadata
-		return new LinkedList<iMetadataItem>();
+		return null;
 	}
 	@Override
 	public List<String> getMetadataTypes() {
@@ -242,5 +239,31 @@ public class FSiFile implements iFile {
 	@Override
 	public boolean close() {
 		return false;
+	}
+	
+	@Override
+	public iMetadataItem getDefaultMetadata() {
+		return null;
+	}
+	@Override
+	public boolean addChild(iFile file) throws iFileException {
+		throw new iFileException("Not implemented");
+	}
+	@Override
+	public boolean save(EboContext ctx) throws iFileException {
+		return false;
+	}
+	@Override
+	public String getId() {
+		return null;
+	}
+	@Override
+	public void addMetadata(iMetadataItem item) throws iFileException {
+		
+	}
+	@Override
+	public List<iMetadataItem> getMetadataByName(String name)
+			throws iFileException {
+		return null;
 	}
 }

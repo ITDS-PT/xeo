@@ -72,11 +72,12 @@ public class boFlashBackHandler
 	public boObject getFlashBackObject() throws boRuntimeException
 	{
 		//Clone the object and retrieve its attributes
-		if (current.getDataRow().getFlashBackRow() != null)
+		//if (current.getDataRow().getFlashBackRow() != null)
+		if (current.isChanged())
     	{
 	    	boObject flashBackObject = current.cloneObject();
 	    	
-	    	//Iterate through all non object collection attributes
+	    	// Iterate through all non object collection attributes
 	    	// and set the values to their previous (database saved) ones
 	    	boAttributesArray arrayAttributes = flashBackObject.getAllAttributes();
 	    	Enumeration listOfAttributes = arrayAttributes.elements();
@@ -85,7 +86,7 @@ public class boFlashBackHandler
 	    		 
 	    		AttributeHandler attHandler = (AttributeHandler) listOfAttributes.nextElement();
 	    		String attributeType = attHandler.getDefAttribute().getAtributeDeclaredType();
-	    		if (!attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION))
+	    		if (!attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION) && current.getDataRow().getFlashBackRow() != null)
 	    			this.setAttributeValueFlashBack(attHandler);
 	    	}
 	    	
@@ -263,9 +264,8 @@ public class boFlashBackHandler
 				{
 					newValue = attHandler.getValueString();
 					String oldValue = flashBackHandler.getValueString();
-		    		
 					//The BOUI is always different so it cannot enter the list
-					if (!attHandler.getName().equalsIgnoreCase("BOUI"))
+					if (!isSystemAttribute(attHandler.getName()))
 					{
 						if (!newValue.equalsIgnoreCase(oldValue))
 			    		{
@@ -282,6 +282,25 @@ public class boFlashBackHandler
     		}
     	}
     	return result;
+    }
+    
+    /**
+     * 
+     * Checks if a given attribute name is a system attribute
+     * 
+     * @param name
+     * @return
+     */
+    private boolean isSystemAttribute(String name){
+    	if (name.equalsIgnoreCase("BOUI") ||
+    			name.equalsIgnoreCase("SYS_DTCREATE") ||
+    			name.equalsIgnoreCase("SYS_DTSAVE") ||
+    			name.equalsIgnoreCase("CREATOR") ||
+    			name.equalsIgnoreCase("SYS_USER"))
+    			
+    		return true;
+    	else
+    		return false;
     }
     
     /**

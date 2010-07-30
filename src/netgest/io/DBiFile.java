@@ -1130,20 +1130,16 @@ public class DBiFile implements iFile  {
 		throw new RuntimeException("Not implemented after version of mysql!!!");
 		
 	}
-	@Override
-	public void addMetadata(String name, iMetadataItem item) {
-		// DBiFile does not implement metadata
-		
-	}
+	
 	@Override
 	public List<iMetadataItem> getAllMetadata() {
 		// DBiFile does not implement metadata
 		return new LinkedList<iMetadataItem>();
 	}
 	@Override
-	public List<iMetadataItem> getMetadata(String name) {
+	public iMetadataItem getMetadata(String name) {
 		// DBiFile does not implement metadata
-		return new LinkedList<iMetadataItem>();
+		return null;
 	}
 	@Override
 	public List<String> getMetadataTypes() {
@@ -1157,5 +1153,31 @@ public class DBiFile implements iFile  {
 	@Override
 	public boolean close() {
 		return true;
+	}
+	
+	@Override
+	public iMetadataItem getDefaultMetadata() {
+		return null;
+	}
+	@Override
+	public boolean addChild(iFile file) throws iFileException {
+		throw new iFileException("Not implemented");
+	}
+	@Override
+	public boolean save(EboContext ctx) throws iFileException {
+		return false;
+	}
+	@Override
+	public String getId() {
+		return null;
+	}
+	@Override
+	public void addMetadata(iMetadataItem item) throws iFileException {
+		
+	}
+	@Override
+	public List<iMetadataItem> getMetadataByName(String name)
+			throws iFileException {
+		return null;
 	}    
 }
