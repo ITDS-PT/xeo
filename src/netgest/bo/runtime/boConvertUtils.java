@@ -503,7 +503,7 @@ public class boConvertUtils
     				
     				//Get the default repository name
     				String repName = boConfig.getApplicationConfig().
-    					getDefaultECMRepositoryConfiguration().getName();
+    					getDefaultFileRepositoryConfiguration().getName();
     				
     				//Check if this attribute uses a different repository
     				if (ecmDef.getRepositoryName()!= null)
@@ -511,7 +511,7 @@ public class boConvertUtils
     				
     				//Retrieve the FileConnector
     				con = boConfig.getApplicationConfig().
-    					getECMRepositoryConfiguration(repName).getConnector(attr);
+    					getFileRepositoryConfiguration(repName).getConnector(attr);
     				
     				//Return the iFile
     				toReturn = con.getIFile(value);

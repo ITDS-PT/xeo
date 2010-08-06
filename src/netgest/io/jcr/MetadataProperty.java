@@ -19,8 +19,6 @@ public class MetadataProperty implements iMetadataProperty {
 
 	
 	
-	
-	
 	/**
 	 * The data type of the property
 	 */
@@ -37,6 +35,11 @@ public class MetadataProperty implements iMetadataProperty {
 	private String p_name;
 	
 	/**
+	 * If the property has multiple values
+	 */
+	private boolean p_hasMultipleValues;
+	
+	/**
 	 * 
 	 * Public constructor for a new String property
 	 * 
@@ -47,6 +50,22 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_value = value;
 		this.p_name = name; 
 		this.p_dataType = METADATA_TYPE.STRING;
+		this.p_hasMultipleValues = false;
+	}
+	
+	
+	/**
+	 * 
+	 * Public constructor for a new[] String property
+	 * 
+	 * @param name The name of the property
+	 * @param value The String[] value of the property
+	 */
+	public MetadataProperty(String name, String[] value){
+		this.p_value = value;
+		this.p_name = name; 
+		this.p_dataType = METADATA_TYPE.STRING;
+		this.p_hasMultipleValues = true;
 	}
 	
 	/**
@@ -60,7 +79,23 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_value = value;
 		this.p_name = name;
 		this.p_dataType = METADATA_TYPE.DATE;
+		this.p_hasMultipleValues = false;
 	}
+	
+	/**
+	 * 
+	 * Public constructor for a new Date[] property
+	 * 
+	 * @param name The name of the property
+	 * @param value The Date[] value of the property
+	 */
+	public MetadataProperty(String name, Date[] value){
+		this.p_value = value;
+		this.p_name = name;
+		this.p_dataType = METADATA_TYPE.DATE;
+		this.p_hasMultipleValues = true;
+	}
+	
 	
 	
 	/**
@@ -74,7 +109,23 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_value = value;
 		this.p_name = name;
 		this.p_dataType = METADATA_TYPE.LONG;
+		this.p_hasMultipleValues = false;
 	}
+	
+	/**
+	 * 
+	 * Public constructor for a new Long[] property
+	 * 
+	 * @param name The name of the property
+	 * @param value The Long[] value of the property
+	 */
+	public MetadataProperty(String name, Long[] value){
+		this.p_value = value;
+		this.p_name = name;
+		this.p_dataType = METADATA_TYPE.LONG;
+		this.p_hasMultipleValues = true;
+	}
+	
 	
 	/**
 	 * 
@@ -86,7 +137,22 @@ public class MetadataProperty implements iMetadataProperty {
 	public MetadataProperty(String name, Boolean value){
 		this.p_value = value;
 		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.STRING;
+		this.p_dataType = METADATA_TYPE.BOOLEAN;
+		this.p_hasMultipleValues = false;
+	}
+	
+	/**
+	 * 
+	 * Public constructor for a new Boolean[] property
+	 * 
+	 * @param name The name of the property
+	 * @param value The Boolean[] value of the property
+	 */
+	public MetadataProperty(String name, Boolean[] value){
+		this.p_value = value;
+		this.p_name = name;
+		this.p_dataType = METADATA_TYPE.BOOLEAN;
+		this.p_hasMultipleValues = true;
 	}
 	
 	/**
@@ -100,24 +166,67 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_value = value;
 		this.p_name = name;
 		this.p_dataType = METADATA_TYPE.BINARY;
+		this.p_hasMultipleValues = false;
 	}
+	
+	/**
+	 * 
+	 * Public constructor for a new Binary[] property
+	 * 
+	 * @param name The name of the property
+	 * @param value The Binary[] value of the property
+	 */
+	public MetadataProperty(String name, InputStream[] value){
+		this.p_value = value;
+		this.p_name = name;
+		this.p_dataType = METADATA_TYPE.BINARY;
+		this.p_hasMultipleValues = true;
+	}
+	
+	
 	
 	/**
 	 * 
 	 * Public constructor for a new reference property
 	 * 
 	 * @param name The name of the property
-	 * @param value The String value of the property
+	 * @param value The reference value of the property
 	 */
 	public MetadataProperty(String name, iMetadataItem value){
 		this.p_value = value;
 		this.p_name = name;
 		this.p_dataType = METADATA_TYPE.REFERENCE;
+		this.p_hasMultipleValues = false;
 	}
+	
+	/**
+	 * 
+	 * Public constructor for a new reference[] property
+	 * 
+	 * @param name The name of the property
+	 * @param value The reference[] value of the property
+	 */
+	public MetadataProperty(String name, iMetadataItem[] value){
+		this.p_value = value;
+		this.p_name = name;
+		this.p_dataType = METADATA_TYPE.REFERENCE;
+		this.p_hasMultipleValues = true;
+	}
+	
 	
 	@Override
 	public String getMetadataType() {
 		return p_dataType.name();
+	}
+	
+	/**
+	 * 
+	 * Whether the property has multiple values or not
+	 * 
+	 * @return True if the property has multiple values and false otherwise
+	 */
+	public boolean hasMultipleValues(){
+		return p_hasMultipleValues;
 	}
 
 	@Override
@@ -127,33 +236,45 @@ public class MetadataProperty implements iMetadataProperty {
 
 	@Override
 	public iMetadataItem getReference() throws ValueFormatException {
-		// TODO Auto-generated method stub
+		try{ return (iMetadataItem) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("iMetadataItem"); }
 		return null;
+		
 	}
 
 	@Override
 	public InputStream getValueBinary() throws ValueFormatException {
-		return (InputStream) p_value;
+		try{ return (InputStream) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("InputStream"); }
+		return null;
 	}
 
 	@Override
 	public boolean getValueBoolean() throws ValueFormatException {
-		return (Boolean) p_value;
+		try{ return (Boolean) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Boolean"); }
+		return false;
 	}
 
 	@Override
 	public Date getValueDate() throws ValueFormatException {
-		return (Date) p_value;
+		try{ return (Date) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Date"); }
+		return null;
 	}
 
 	@Override
 	public Long getValueLong() throws ValueFormatException {
-		return (Long) p_value;
+		try{ return (Long) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Long"); }
+		return null;
 	}
 
 	@Override
 	public String getValueString() throws ValueFormatException {
-		return (String) p_value;
+		try{ return (String) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("String"); }
+		return null;
 	}
 
 	@Override
@@ -194,25 +315,28 @@ public class MetadataProperty implements iMetadataProperty {
 
 	@Override
 	public boolean[] getValuesBoolean() throws ValueFormatException {
-		// TODO Auto-generated method stub
-		return null;
+		return (boolean[])p_value;
 	}
 
 	@Override
 	public Date[] getValuesDate() throws ValueFormatException {
-		// TODO Auto-generated method stub
+		try{ return (Date[]) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Date[]"); }
 		return null;
+			
 	}
 
 	@Override
 	public Long[] getValuesLong() throws ValueFormatException {
-		// TODO Auto-generated method stub
+		try{ return (Long[]) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Long[]"); }
 		return null;
 	}
 
 	@Override
 	public String[] getValuesString() throws ValueFormatException {
-		// TODO Auto-generated method stub
+		try{ return (String[]) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("String[]"); }
 		return null;
 	}
 	
@@ -223,27 +347,39 @@ public class MetadataProperty implements iMetadataProperty {
 	}
 
 	@Override
-	public Object getValueObject() {
-		// TODO Auto-generated method stub
-		return null;
+	public Object getValueObject(){
+		return p_value;
 	}
 
 	@Override
-	public Object[] getValueObjects() {
-		// TODO Auto-generated method stub
+	public Object[] getValueObjects() throws ValueFormatException{
+		try{ return (Object[]) p_value; }
+		catch (ClassCastException e) { throwInvalidDataTypeConversion("Object[]"); }
 		return null;
 	}
 
 	@Override
 	public void setValueObject(Object newValue) {
-		// TODO Auto-generated method stub
+		p_value = newValue;
 		
 	}
 
 	@Override
 	public void setValueObjects(Object[] newValue) {
-		// TODO Auto-generated method stub
-		
+		p_value = newValue;
+	}
+	
+	/**
+	 * 
+	 * Throws a value format exception when an conversion to the wrong type occurs
+	 * 
+	 * @param convertionAttempt The name of the attempted conversion
+	 * 
+	 * @throws ValueFormatException 
+	 */
+	public void throwInvalidDataTypeConversion(String convertionAttempt) throws ValueFormatException{
+		throw new ValueFormatException("The value of property " + p_name +"("+ 
+				p_dataType.name() + ") is not of type " + convertionAttempt);
 	}
 
 }

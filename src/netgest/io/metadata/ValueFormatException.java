@@ -21,9 +21,25 @@ public class ValueFormatException extends Exception {
 	private static final long serialVersionUID = 2572776360512185045L;
 
 	
+	/**
+	 * 
+	 * Throws a value format exception based on another exception
+	 * 
+	 * @param e The base exception
+	 */
 	public ValueFormatException(Exception e)
 	{
 		super(e);
+	}
+	
+	/**
+	 * 
+	 * Throws a value format exception with a given message
+	 * 
+	 * @param message The message to display
+	 */
+	public ValueFormatException(String message){
+		super(message);
 	}
 	
 }

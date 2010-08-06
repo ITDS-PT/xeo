@@ -29,7 +29,7 @@ public class iFileProcessor {
 			String repositoryName) throws boRuntimeException, iFileException
 	{
 		//Get the repository configurations
-		RepositoryConfig config = boConfig.getApplicationConfig().getDefaultECMRepositoryConfiguration();
+		RepositoryConfig config = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
 		
 		//Get the File and Folder configurations from the attribute
 		//TODO: The same with the metadata

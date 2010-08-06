@@ -200,7 +200,7 @@ public class RepositoryConfig
 			
 			//Retrieve the repository configurations
 			RepositoryConfig config = boConfig.getApplicationConfig().
-				getECMRepositoryConfiguration(repositoryName);
+				getFileRepositoryConfiguration(repositoryName);
 			//Including the Nodes representing files
 			FileNodeConfig fileConf = config.getFileConfig();
 			//... the Nodes representing folders
@@ -233,7 +233,7 @@ public class RepositoryConfig
 			
 			String nameRep = handler.getDefAttribute().getECMDocumentDefinitions().getRepositoryName();
 			if (nameRep == null)
-				nameRep = boConfig.getApplicationConfig().getDefaultECMRepositoryConfiguration().getName();
+				nameRep = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration().getName();
 			
 			FileNodeConfig fileConfig = null;
 			FolderNodeConfig folderConfig = null;
@@ -241,17 +241,17 @@ public class RepositoryConfig
 			if (ecmDef.getFileNodeConfig() != null)
 				fileConfig = ecmDef.getFileNodeConfig();
 			else
-				fileConfig = boConfig.getApplicationConfig().getECMRepositoryConfiguration(nameRep).getFileConfig();
+				fileConfig = boConfig.getApplicationConfig().getFileRepositoryConfiguration(nameRep).getFileConfig();
 			if (ecmDef.getFileNodeConfig() != null)
 				folderConfig = ecmDef.getFolderNodeConfig();
 			else
-				folderConfig = boConfig.getApplicationConfig().getECMRepositoryConfiguration(nameRep).getFolderConfig();
+				folderConfig = boConfig.getApplicationConfig().getFileRepositoryConfiguration(nameRep).getFolderConfig();
 			if (ecmDef.getMetadataConfigs() != null)
 				metaConfig = ecmDef.getMetadataConfigs();
 			else
 			{
 				MetadataNodeConfig[] metaArray = boConfig.getApplicationConfig().
-				getECMRepositoryConfiguration(nameRep).getAllMetadataConfig();
+				getFileRepositoryConfiguration(nameRep).getAllMetadataConfig();
 				Map<String,MetadataNodeConfig> metaConfigReturn = new HashMap<String, MetadataNodeConfig>();
 				for (MetadataNodeConfig p : metaArray){
 					metaConfigReturn.put(p.getName(), p);

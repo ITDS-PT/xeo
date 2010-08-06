@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.jcr.Node;
@@ -150,36 +152,41 @@ public class FileJCR implements iFile {
 	 * @return
 	 */
 	private iMetadataItem createDefaultItem() {
-		// The default metadata is a special case because it merges all
-		// non-reference properties
-		// into a single metadata item
-		// Add all properties to the equation
-		// FIXME: Isto não está recursivo, só procura no primeiro nível dos nós
-		// fihos
 		try {
 			Map<String, NodePropertyDefinition> fileProps = p_fileNodeConfig
 					.getProperties();
 			iMetadataItem defaultItem = new MetadataItem(null,
 					DEFAULT_METADATA, p_session, null,null);
+			
 			if (fileProps != null) {
 				if (p_node != null) {
 					PropertyIterator itProps = p_node.getProperties();
 					// Iterate through all properties in the node
 					while (itProps.hasNext()) {
 						Property currentProp = itProps.nextProperty();
-						if (fileProps.containsKey(currentProp.getName())) {
-							NodePropertyDefinition def = fileProps
-									.get(currentProp.getName());
+						if (fileProps.containsKey(currentProp.getName())) 
+						{
+							NodePropertyDefinition def = fileProps.get(currentProp.getName());
 							// Any property which is not a
 							if (def.getReference() == null) {
-								createMetadataItemPropertyFromJCRProperty(
-										defaultItem, currentProp);
+								createMetadataItemPropertyFromJCRProperty(defaultItem, currentProp);
 							}
+						}
+						else
+						{
+							if (!currentProp.isNode())
+								createMetadataItemPropertyFromJCRProperty(defaultItem, currentProp);
+							/*try { currentProp.getNode(); } 
+							catch (ValueFormatException e) {
+								createMetadataItemPropertyFromJCRProperty(defaultItem, currentProp); }
+							catch (PathNotFoundException e ){
+								e.printStackTrace();
+							}*/
 						}
 					}
 				}
 			}
-			// Now find every other propretry in children
+			// Now find every other property in children
 			Map<String, ChildNodeConfig> childNodes = p_fileNodeConfig
 					.getChildNodes();
 			if (childNodes != null) {
@@ -187,18 +194,22 @@ public class FileJCR implements iFile {
 					NodeIterator itNodes = p_node.getNodes();
 					while (itNodes.hasNext()) {
 						Node currentChildNode = (Node) itNodes.next();
-						if (childNodes.containsKey(currentChildNode.getName())) {
+						if (childNodes.containsKey(currentChildNode.getName())) 
+						{
 							PropertyIterator itProps = currentChildNode
 									.getProperties();
 							// Iterate through all properties in the node
-							while (itProps.hasNext()) {
+							while (itProps.hasNext()) 
+							{
 								Property currentProp = itProps.nextProperty();
 								if (fileProps
-										.containsKey(currentProp.getName())) {
+										.containsKey(currentProp.getName())) 
+								{
 									NodePropertyDefinition def = fileProps
 											.get(currentProp.getName());
-									// Any property which is not a
-									if (def.getReference() == null) {
+									//Any property which is not a reference should be kept as default metadata
+									if (def.getReference() == null) 
+									{
 										createMetadataItemPropertyFromJCRProperty(
 												defaultItem, currentProp);
 									}
@@ -269,7 +280,7 @@ public class FileJCR implements iFile {
 	 */
 	@Override
 	public void addMetadata(iMetadataItem item) {
-		this.p_metadata.put(item.getName(), item);
+		this.p_metadata.put(item.getID(), item);
 	}
 
 	/*
@@ -596,17 +607,19 @@ public class FileJCR implements iFile {
 	@Override
 	public iMetadataItem getMetadata(String name) {
 		try {
-			if (p_node != null) {
-				// FIXME: Isto pode ter outras properties não só no nó, como
-				// também nos filhos, por isso....
-				// tenho de ir verificar recursivamente, BLEH
-				try {
+			if (name.equalsIgnoreCase(DEFAULT_METADATA))
+				return p_metadata.get(name);
+				
+			if (p_node != null) 
+			{
+				try 
+				{
 					if (p_node.getProperty(name).getType() == PropertyType.REFERENCE)
-						return new MetadataItem(p_node.getProperty(name)
-								.getNode(), null,null);
+					{
+						MetadataNodeConfig conf = p_metadataDefinition.get(name);
+						return new MetadataItem(p_node.getProperty(name).getNode(), conf , p_metadataDefinition);
+					}
 				} catch (PathNotFoundException e) {
-					// May be the default metadata element, try through the
-					// metadata elements
 					return p_metadata.get(name);
 				}
 
@@ -614,6 +627,7 @@ public class FileJCR implements iFile {
 				return p_metadata.get(name);
 			}
 		} catch (RepositoryException e) {
+			e.printStackTrace();
 			return null;
 		}
 		return null;
@@ -1346,6 +1360,8 @@ public class FileJCR implements iFile {
 						// Save any metadata items
 						saveMetadataItems();
 
+						printNode(p_node);
+						
 						parent.save();
 
 						result = true;
@@ -1363,6 +1379,37 @@ public class FileJCR implements iFile {
 		return result;
 	}
 
+		private void printNode(Node nodeToPrint){
+		
+			try {
+				System.out.println("*** First Level Properties ****");
+				PropertyIterator itProps = nodeToPrint.getProperties();
+				while (itProps.hasNext()) {
+					Property currProp = itProps.nextProperty();
+					System.out.print(currProp.getName()+"|");
+				}
+				System.out.println("");
+				System.out.println("*** Second Level Properties ****");
+				
+				NodeIterator itNodes = nodeToPrint.getNodes();
+				while (itNodes.hasNext()) {
+					Node currNode = itNodes.nextNode();
+					System.out.println("--- "+ currNode.getName() +"  ---");
+					PropertyIterator itProps2 = currNode.getProperties();
+					while (itProps2.hasNext()) {
+						Property currProp = itProps2.nextProperty();
+						System.out.print(currProp.getName()+"|");
+					}
+				}
+			} catch (RepositoryException e) {
+				e.printStackTrace();
+			}
+		
+		
+		
+		
+	}
+	
 	/**
 	 * 
 	 * Sets a {@link Node} property with the value from an
@@ -1400,6 +1447,7 @@ public class FileJCR implements iFile {
 						identifier);
 				node.setProperty(prop.getPropertyIdentifier(), target);
 			}
+			System.out.println("Added Property  " + prop.getPropertyIdentifier() + " to " + node.getName());
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		} catch (netgest.io.metadata.ValueFormatException e) {
@@ -1449,33 +1497,13 @@ public class FileJCR implements iFile {
 			if (!currItem.getName().equalsIgnoreCase(DEFAULT_METADATA)) {
 				// Save the metadata item in case it does not exist or update
 				// its properties
-				if (this.p_metadataDefinition.containsKey(currItem.getType())) {
-					if (p_metadataDefinition.get(currItem.getType())
-							.canCreateMetadata()) {
-						currItem.save();
-					}
-				} /*else {
-					currItem.save();
-				}*/
-
-				// Set the property as one
-				/*if (p_node != null) {
 					try {
-						// Provavelmente o ideal é fazer no save o criar de
-						// todas a propriedades
-						// existentes e depois preencho-as com os valores
-						// correctos??????
-						// Tenho dúvida se será mesmo assim.
-						// Questão principal é se por exemplo a estrutura para
-						// os nós deixa de ser como se quer
-						// Podemos ter as propriedades noutro filho :/
-						Node reference = p_session.getRootNode().getNode(
-								currItem.getID());
-						p_node.setProperty(currItem.getName(), reference);
+						Node metaItemNode = p_session.getNode(currItem.getID());
+						p_node.setProperty(currItem.getID(), metaItemNode);
+						
 					} catch (RepositoryException e) {
 						e.printStackTrace();
 					}
-				}*/
 			}
 		}
 	}
@@ -1509,13 +1537,16 @@ public class FileJCR implements iFile {
 			Map<String, ChildNodeConfig> childNodes) {
 		// Lets checks all properties of this Node
 		Iterator<String> itProps = nodeProps.keySet().iterator();
+		Set<String> propsUsed = new HashSet<String>(); 
 		while (itProps.hasNext()) {
 			String propName = (String) itProps.next();
-
 			NodePropertyDefinition currentPropDef = nodeProps.get(propName);
 			// If this property is a main property
 			if (currentPropDef.isMainNode()) {
 				iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+				//Confirm this property has handled
+				propsUsed.add(propName);
+				
 				if (property != null) //If it's a default metadata property, set it
 					setPropertyValueFromMetadata(property, reference);
 				else{
@@ -1523,7 +1554,6 @@ public class FileJCR implements iFile {
 					iMetadataItem item = getMetadata(propName);
 					if (item != null){
 						String identifier = item.getID();
-						
 						Node referenceMetadata;
 						try {
 							referenceMetadata = p_session.getRootNode().getNode(identifier);
@@ -1535,6 +1565,20 @@ public class FileJCR implements iFile {
 							e.printStackTrace();
 							return false;
 						}
+					}
+					
+				}
+			}
+			//Deal with the remaining 
+			List<iMetadataProperty> propsDefault = getDefaultMetadata().getProperties();
+			if (propsUsed.size() < propsDefault.size()){
+				Iterator<iMetadataProperty> it = propsDefault.iterator();
+				while (it.hasNext()) 
+				{
+					iMetadataProperty currProp = (iMetadataProperty) it
+							.next();
+					if (!propsUsed.contains(currProp.getPropertyIdentifier())){
+						setPropertyValueFromMetadata(currProp, reference);
 					}
 					
 				}
@@ -1572,15 +1616,20 @@ public class FileJCR implements iFile {
 						}
 					} else {
 						Node toSet = reference.addNode(childName,currentChild.getNodeType());
+						System.out.println("Added child " + childName);
 						iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
 						if (property != null) //If it's a default metadata property, set it
 							setPropertyValueFromMetadata(property, toSet);
 						else{
 							//If it's a reference to another node, get the identifier and
 							iMetadataItem item = getMetadata(propName);
-							String identifier = item.getID();
-							Node referenceMetadata = p_session.getRootNode().getNode(identifier);
-							p_node.setProperty(propName, referenceMetadata);
+							if (item != null){
+								String identifier = item.getID();
+								Node referenceMetadata = p_session.getRootNode().getNode(identifier);
+								p_node.setProperty(propName, referenceMetadata);
+							}
+							else
+								System.out.println(propName + " does not exist anywhere");
 						}
 					}
 					
@@ -1659,8 +1708,7 @@ public class FileJCR implements iFile {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getPath();
 	}
 
 	@Override

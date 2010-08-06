@@ -101,12 +101,12 @@ public class boLoginBean implements SessionBean  {
             
             //Check for every ECM Repository and create session with it
             Iterator<String> it = boConfig.getApplicationConfig().
-            	getECMRepositoryNames().iterator();
+            	getFileRepositoryNames().iterator();
             
-           /* while (it.hasNext()){
+            while (it.hasNext()){
             	String repositoryName = it.next();
             	RepositoryConfig repConfig = boConfig.getApplicationConfig().
-            		getECMRepositoryConfiguration(repositoryName);
+            		getFileRepositoryConfiguration(repositoryName);
             	
             	String className = repConfig.getClassConnections();
             	//If there's no class name the only thing that matters is the file connector class which
@@ -119,10 +119,8 @@ public class boLoginBean implements SessionBean  {
 
                 	toReturn.setECMRepositorySession(repositoryName, rep);
             	}
-            		
-            }*/
+            }
             //Done with ECM Repositories
-            
             
           } else {
               throw new boLoginException(boLoginException.INVALID_CREDENCIALS);

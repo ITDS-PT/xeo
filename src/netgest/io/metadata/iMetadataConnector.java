@@ -72,7 +72,7 @@ public interface iMetadataConnector {
 	 * @param parent The parent to add (can be null)
 	 * @param itemToAdd The item to add
 	 */
-	public void addMetadataItem(iMetadataItem parent, iMetadataItem itemToAdd);
+	public void addMetadataItem(iMetadataItem parent, iMetadataItem itemToAdd) throws MetadataException;
 	
 	/**
 	 * 
@@ -82,7 +82,7 @@ public interface iMetadataConnector {
 	 * @param parent The parent identifier (can be null, to add to root)
 	 * @param itemToAdd The item to add
 	 */
-	public void addMetadataItem(String parentIdentifier, iMetadataItem itemToAdd);
+	public void addMetadataItem(String parentIdentifier, iMetadataItem itemToAdd) throws MetadataException;
 	
 	/**
 	 * 
@@ -106,7 +106,7 @@ public interface iMetadataConnector {
 	 * 
 	 * @return A reference to an empty identifier 
 	 */
-	public iMetadataItem createMetadataItem(String name, String identifier);
+	public iMetadataItem createMetadataItem(String name, String identifier) throws MetadataException;
 	
 	
 	/**
@@ -120,7 +120,7 @@ public interface iMetadataConnector {
 	 * 
 	 * @return A reference to an empty identifier 
 	 */
-	public iMetadataItem createMetadataItem(String name);
+	public iMetadataItem createMetadataItem(String name) throws MetadataException;
 	
 	
 	

@@ -19,6 +19,7 @@ import netgest.io.iFileConnector;
 import netgest.io.iFileException;
 import netgest.io.iFileList;
 import netgest.io.iFilePermissionDenied;
+import netgest.io.metadata.MetadataConnector;
 import netgest.io.metadata.iMetadataConnector;
 import netgest.io.metadata.iSearchParameter;
 
@@ -32,20 +33,34 @@ public class FileConnector implements iFileConnector {
 	/**
 	 * Represents a connector a given JCR Repository
 	 */
-	private Session sessionJCR;
-	private FileNodeConfig fileConfig;
-	private Map<String,MetadataNodeConfig> metaConfig;
-	private FolderNodeConfig folderConfig;
+	private Session p_sessionJCR;
+	/**
+	 * Represents the configuration of file nodes in a JCR repository
+	 */
+	private FileNodeConfig p_fileConfig;
+	/**
+	 * Represents the configuration of metadata nodes in a JCR Repository
+	 */
+	private Map<String,MetadataNodeConfig> p_metaConfig;
+	/**
+	 * Represents the configuration of folder nodes in a JCR repository
+	 */
+	private FolderNodeConfig p_folderConfig;
+	/**
+	 * A reference to the {@link iMetadataConnector} for this JCR repository
+	 */
+	private MetadataConnector p_metadataConnector; 
 	
 	public FileConnector(){}
 	
 	public FileConnector(Session session, FileNodeConfig fileConf,
 			FolderNodeConfig folderConf, Map<String,MetadataNodeConfig> metaConf) 
 	{
-		sessionJCR = 	session;
-		fileConfig = 	fileConf;
-		folderConfig = 	folderConf;
-		metaConfig = metaConf;
+		p_sessionJCR = 	session;
+		p_fileConfig = 	fileConf;
+		p_folderConfig = 	folderConf;
+		p_metaConfig = metaConf;
+		p_metadataConnector = new MetadataConnector(p_metaConfig, p_sessionJCR);
 	}
 	
 	/* (non-Javadoc)
@@ -54,7 +69,7 @@ public class FileConnector implements iFileConnector {
 	@Override
 	public iFile createIFile(String fileName, String identifier,
 			boolean isFolder) throws iFileException{
-		return new FileJCR(null, fileConfig, folderConfig, sessionJCR, metaConfig, isFolder, identifier);
+		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, identifier);
 		
 	}
 
@@ -64,7 +79,7 @@ public class FileConnector implements iFileConnector {
 	 */
 	@Override
 	public iFile createIFile(String filename, boolean isFolder) throws iFileException{
-		return new FileJCR(null, fileConfig, folderConfig, sessionJCR, metaConfig, isFolder, filename);
+		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, filename);
 	}
 
 	/* (non-Javadoc)
@@ -76,16 +91,16 @@ public class FileConnector implements iFileConnector {
 			if (fileID == null)
 				return null;
 			
-			Node node = this.sessionJCR.getRootNode().getNode(fileID);
+			Node node = this.p_sessionJCR.getRootNode().getNode(fileID);
 			boolean isFolder = false;
-			if (node.isNodeType(folderConfig.getNodeType()))
+			if (node.isNodeType(p_folderConfig.getNodeType()))
 				isFolder = true;
 			return new FileJCR(
 					node, //The node to wrap the file
-					fileConfig, //The fileNode config
-					folderConfig, //The folderNode config
-					sessionJCR, //The session with the repository
-					metaConfig, 
+					p_fileConfig, //The fileNode config
+					p_folderConfig, //The folderNode config
+					p_sessionJCR, //The session with the repository
+					p_metaConfig, 
 					isFolder, 
 					fileID);
 		}  catch (RepositoryException e) {
@@ -133,7 +148,7 @@ public class FileConnector implements iFileConnector {
 	 */
 	@Override
 	public boolean supportsVersioning() {
-		if (sessionJCR.getRepository().
+		if (p_sessionJCR.getRepository().
 				getDescriptor(Repository.OPTION_VERSIONING_SUPPORTED) != null)
 			return true;
 		return false;
@@ -144,7 +159,7 @@ public class FileConnector implements iFileConnector {
 	public boolean deleteIFile(String fileID) throws iFilePermissionDenied,
 			iFileException {
 		try {
-			Node currentNode = sessionJCR.getRootNode().getNode(fileID);
+			Node currentNode = p_sessionJCR.getRootNode().getNode(fileID);
 			Node parent = currentNode.getParent();
 			currentNode.remove();
 			parent.save();
@@ -156,8 +171,7 @@ public class FileConnector implements iFileConnector {
 
 	@Override
 	public iMetadataConnector getMetadataConnector() {
-		// TODO Auto-generated method stub
-		return null;
+		return p_metadataConnector;
 	}
 	
 	

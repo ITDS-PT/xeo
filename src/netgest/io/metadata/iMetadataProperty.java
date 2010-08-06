@@ -178,7 +178,7 @@ public interface iMetadataProperty
 	 * 
 	 * @return
 	 */
-	public Object[] getValueObjects();
+	public Object[] getValueObjects() throws ValueFormatException;
 	
 	/**
 	 * 

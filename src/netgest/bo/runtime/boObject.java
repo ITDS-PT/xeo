@@ -1310,16 +1310,9 @@ public abstract class boObject extends boObjectContainer implements Serializable
         iFile result = null;
         if(file != null)
         {
-        	
-        	//TODO:
-        	
-        	
-        	
-        	
-        	
             if(file.startsWith("//"+DBiFile.IFILE_SERVICE_NAME) || file.startsWith("//"+BasiciFile.IFILE_SERVICE_NAME))
             {
-//                iFileServer fs = this.getiFileServer();
+//              iFileServer fs = this.getiFileServer();
                 iFileServer fs = new iFileServer();
                 fs.mount();
                 result = fs.getFile(file);

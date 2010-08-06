@@ -207,7 +207,7 @@ public class boApplicationConfig
          * @return A {@link RepositoryConfig} instance with the configurations
          * for the repository
          */
-        public RepositoryConfig getECMRepositoryConfiguration(String name)
+        public RepositoryConfig getFileRepositoryConfiguration(String name)
         {
         	return p_ecmRepositories.get(name);
         }
@@ -220,7 +220,7 @@ public class boApplicationConfig
          * @return A list with all the ECM Repository Names registered in the
          * application
          */
-        public List<String> getECMRepositoryNames(){
+        public List<String> getFileRepositoryNames(){
         	return new ArrayList<String>(p_ecmRepositories.keySet());
         }
         
@@ -232,7 +232,7 @@ public class boApplicationConfig
          * or null if no repository configurations exist
          * 
          */
-        public RepositoryConfig getDefaultECMRepositoryConfiguration()
+        public RepositoryConfig getDefaultFileRepositoryConfiguration()
         {
         	if (p_ecmRepositories != null){
         		Iterator<String> it = this.p_ecmRepositories.keySet().iterator();

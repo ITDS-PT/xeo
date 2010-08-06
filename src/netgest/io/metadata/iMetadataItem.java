@@ -34,7 +34,7 @@ public interface iMetadataItem
 		 * which represents a category/class of this Metadata item
 		 * Mainly intended for grouping purposes
 		 * 
-		 * @return A category for the item, or null none
+		 * @return A category for the item, or null if none
 		 */
 		public String getType();
 		

@@ -1,19 +1,26 @@
 package netgest.io.metadata;
 
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Vector;
 
-import javax.jcr.AccessDeniedException;
-import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import com.sun.org.apache.xpath.internal.operations.Gte;
+
+import netgest.bo.boConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.io.jcr.MetadataItem;
+import netgest.io.jcr.MetadataProperty;
 import netgest.io.metadata.iMetadataProperty.METADATA_TYPE;
 
 /**
@@ -53,36 +60,88 @@ public class MetadataConnector implements iMetadataConnector {
 	
 	@Override
 	public void addMetadataItem(iMetadataItem parent, iMetadataItem itemToAdd) {
-		// TODO Auto-generated method stub
-
+		parent.addChild(itemToAdd);
+		parent.save();
 	}
 
 	@Override
 	public void addMetadataItem(String parentIdentifier, iMetadataItem itemToAdd) {
-		// TODO Auto-generated method stub
-
+		iMetadataItem parent = getMetadataItem(parentIdentifier);
+		parent.addChild(itemToAdd);
+		parent.save();
 	}
 
+	
 	@Override
-	public iMetadataItem createMetadataItem(String name, String identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public iMetadataItem createMetadataItem(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public iMetadataItem createMetadataItem(String name) throws MetadataException {
+		//Find the repository with the definition for this MetadataItem
+		RepositoryConfig repoConfig = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
+		//Get the definition for the meta data node configuration
+		MetadataNodeConfig metaConfig = repoConfig.getMetadataConfigByName(name);
+		
+		try {
+			
+			//Retrieve the parent node of the metadata node
+			Node parentNode = p_session.getRootNode().getNode(metaConfig.getQueryToReach());
+			//Add the new node to that parent (assuming it exists)
+			Node metaNode = parentNode.addNode(generateId(), metaConfig.getNodeType());
+			MetadataItem itemToReturn = new MetadataItem(metaNode, metaConfig, p_configs);
+			return itemToReturn;
+		}  
+		catch (RepositoryException e) {
+			throw new MetadataException(e);
+		}
 	}
 	
-	public iMetadataItem createMetadataItem(String name, String identifier, String type){
+	@Override
+	public iMetadataItem createMetadataItem(String name, String identifier) throws MetadataException{
+		
+		//Find the repository with the definition for this MetadataItem
+		RepositoryConfig repoConfig = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
+		//Get the definition for the meta data node configuration
+		MetadataNodeConfig metaConfig = repoConfig.getMetadataConfigByName(name);
+		
+		try {
+			//Retrieve the parent node of the metadata node
+			Node parentNode = p_session.getRootNode().getNode(metaConfig.getQueryToReach());
+			//Add the new node to that parent (assuming it exists)
+			Node metaNode = parentNode.addNode(identifier, metaConfig.getNodeType());
+			MetadataItem itemToReturn = new MetadataItem(metaNode, metaConfig, p_configs);
+			return itemToReturn;
+		}  
+		catch (PathNotFoundException e) 
+		{
+			throw new MetadataException("Could not create metadata item with id '" 
+					+ identifier + "' no path to the item");
+		}  catch (RepositoryException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<iMetadataItem> getMetadataAllItems() {
-		// TODO Auto-generated method stub
-		return null;
+		Vector<iMetadataItem> result = new Vector<iMetadataItem>();
+		Map<String,MetadataNodeConfig> configs = this.p_configs;
+		Iterator<String> itMeta = configs.keySet().iterator();
+		while (itMeta.hasNext())
+		{
+			String metaName = itMeta.next();
+			MetadataNodeConfig currentConfig = p_configs.get(metaName);
+			String queryToReach = currentConfig.getQueryToReach();
+			try {
+				Node parent = p_session.getRootNode().getNode(queryToReach);
+				NodeIterator itNodes = parent.getNodes();
+				while (itNodes.hasNext()){
+					Node curr = itNodes.nextNode();
+					iMetadataItem nodeAddResult = getMetadataItem(curr.getPath());
+					result.add(nodeAddResult);
+				}
+			}  catch (RepositoryException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -117,7 +176,8 @@ public class MetadataConnector implements iMetadataConnector {
 				NodeIterator it = parent.getNodes();
 				while (it.hasNext()) {
 					Node currentNode = (Node) it.next();
-					
+					iMetadataItem resultToAdd = getMetadataItem(currentNode.getPath());
+					result.add(resultToAdd);
 				}
 				return result;
 			}
@@ -151,15 +211,23 @@ public class MetadataConnector implements iMetadataConnector {
 	public List<iMetadataItem> searchMetadataItems(String query,
 			Map<String, iSearchParameter> paramsAnd,
 			Map<String, iSearchParameter> paramsOr) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Vector<iMetadataItem>();
 	}
 
 
 	@Override
 	public iMetadataProperty createProperty(String propName, Object propValue,
 			METADATA_TYPE propType) {
-		// TODO Auto-generated method stub
+		switch (propType){
+			case BOOLEAN: return new MetadataProperty(propName, (Boolean) propValue);
+			case BINARY: return new MetadataProperty(propName, (InputStream) propValue);
+			case TIME: return new MetadataProperty(propName, (Date) propValue);
+			case DATE: return new MetadataProperty(propName, (Date) propValue);
+			case DATETIME: return new MetadataProperty(propName, (Date) propValue);
+			case STRING: return new MetadataProperty(propName, (String) propValue);
+			case LONG: return new MetadataProperty(propName, (Long) propValue);
+			case REFERENCE : return new MetadataProperty(propName, (iMetadataItem) propValue);
+		}
 		return null;
 	}
 
@@ -167,8 +235,28 @@ public class MetadataConnector implements iMetadataConnector {
 	@Override
 	public iMetadataProperty createProperty(String propName,
 			Object[] propValues, METADATA_TYPE propType) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (propType){
+		case BOOLEAN: return new MetadataProperty(propName, (Boolean[]) propValues);
+		case BINARY: return new MetadataProperty(propName, (InputStream[]) propValues);
+		case TIME: return new MetadataProperty(propName, (Date[]) propValues);
+		case DATE: return new MetadataProperty(propName, (Date[]) propValues);
+		case DATETIME: return new MetadataProperty(propName, (Date[]) propValues);
+		case STRING: return new MetadataProperty(propName, (String[]) propValues);
+		case LONG: return new MetadataProperty(propName, (Long[]) propValues);
+		case REFERENCE : return new MetadataProperty(propName, (iMetadataItem[]) propValues);
+	}
+	return null;
 	}
 
+	
+	/**
+	 * 
+	 * Generates a random unique UUID
+	 * 
+	 * @return A string with the UUID
+	 */
+	private String generateId(){
+		return UUID.randomUUID().toString();
+	}
+	
 }
