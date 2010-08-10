@@ -1500,7 +1500,7 @@ public class FileJCR implements iFile {
 				// Save the metadata item in case it does not exist or update
 				// its properties
 					try {
-						Node metaItemNode = p_session.getNode(currItem.getID());
+						Node metaItemNode = p_session.getRootNode().getNode(currItem.getID());
 						p_node.setProperty(currItem.getID(), metaItemNode);
 						
 					} catch (RepositoryException e) {
