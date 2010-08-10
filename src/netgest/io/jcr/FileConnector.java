@@ -68,7 +68,8 @@ public class FileConnector implements iFileConnector {
 	 */
 	@Override
 	public iFile createIFile(String fileName, String identifier,
-			boolean isFolder) throws iFileException{
+			boolean isFolder, boolean inTransaction) throws iFileException{
+		//FIXME: Falta usar o intransaction
 		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, identifier);
 		
 	}
@@ -78,7 +79,8 @@ public class FileConnector implements iFileConnector {
 	 * @see netgest.io.iFileConnector#createIFile(java.lang.String, boolean)
 	 */
 	@Override
-	public iFile createIFile(String filename, boolean isFolder) throws iFileException{
+	public iFile createIFile(String filename, boolean isFolder, boolean inTransaction) throws iFileException{
+		//FIXME: Falta usar o intransaction
 		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, filename);
 	}
 

@@ -5,10 +5,15 @@ package netgest.bo.def.v2;
 
 import java.util.HashMap;
 
+import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.def.boDefDocument;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.io.iFileConnector;
 import netgest.utils.ngtXMLHandler;
 
 /**
@@ -159,7 +164,12 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public String getRepositoryName() {
-		return repositoryName;
+		if (repositoryName != null)
+			return repositoryName;
+		else
+		{
+			return boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration().getName();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -176,6 +186,15 @@ public class boDefDocumentImpl implements boDefDocument {
 	@Override
 	public boolean isMetadataRequired() {
 		return metadataRequired;
+	}
+
+
+	@Override
+	public iFileConnector getFileConnector() throws boRuntimeException {
+		String repositoryName = getRepositoryName();
+		RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
+		return config.getConnector((EboContext)null);
+		
 	}
 
 }

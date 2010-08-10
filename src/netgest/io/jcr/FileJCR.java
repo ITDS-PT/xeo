@@ -102,14 +102,14 @@ public class FileJCR implements iFile {
 	private String p_filename;
 
 	/**
-	 * A reference to the inputstream for the iFile
-	 */
-	private InputStream p_stream;
-
-	/**
 	 * Children files of this folder
 	 */
 	private List<iFile> p_childrenFiles;
+	
+	/**
+	 * If the iFile is in transaction or not
+	 */
+	private boolean p_inTransaction = false;
 
 	/**
 	 * 
@@ -279,8 +279,11 @@ public class FileJCR implements iFile {
 	 * netgest.io.metadata.iMetadataItem)
 	 */
 	@Override
-	public void addMetadata(iMetadataItem item) {
-		this.p_metadata.put(item.getID(), item);
+	public void addMetadata(iMetadataItem item) 
+	{
+		String id = getFullPathFromMetadataItem(item);
+		if (id != null)
+			this.p_metadata.put(id, item);
 	}
 
 	/*
@@ -1188,7 +1191,6 @@ public class FileJCR implements iFile {
 		defaultMetadata.setMetadataProperty(binProp, new MetadataProperty(
 				binProp, is));
 		updateLastModifiedDate();
-		p_stream = is;
 	}
 
 	/**
@@ -1717,7 +1719,70 @@ public class FileJCR implements iFile {
 		// TODO Auto-generated method stub
 		return null;
 	}
-		
-	
 
+	
+	/**
+	 * 
+	 * Retrieves the full path of a Metadata Item from from the root path
+	 * 
+	 * @param item The {@link iMetadataItem} from which to get the path
+	 * 
+	 * @return A string builder with
+	 */
+	private String getFullPathFromMetadataItem(iMetadataItem item){
+		
+		if (item != null){
+			StringBuilder b = new StringBuilder();
+			recursiveGetFullPathFromMetadataItem(item, b);
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Retrieves the full path of a metadata item recursively searching the parent
+	 * 
+	 * @param item The item to retrieve the full path to
+	 * @param b The {@link StringBuilder} to keep the result on
+	 * 
+	 * @return A {@link StringBuilder} with the full path
+	 */
+	private StringBuilder recursiveGetFullPathFromMetadataItem(iMetadataItem item, StringBuilder b){
+		
+		if (item != null){
+			iMetadataItem p = item.getParent();
+			b.insert(0, item.getID());
+			if (p != null){
+				recursiveGetFullPathFromMetadataItem(p, b);
+			}
+			else
+			{
+				if (item instanceof MetadataItem)
+				{
+					MetadataItem itemMeta = (MetadataItem) item;
+					Node itemNode = itemMeta.getNode();
+					if (itemNode != null);
+						try {
+							Node parent = itemNode.getParent();
+							if (parent != null)
+								b.insert(0, itemNode.getPath());
+						} catch (RepositoryException e) {
+							e.printStackTrace();
+						}
+				}
+				return b;	
+			}
+				
+		}
+		else
+			return b;
+		
+		return null;
+	}
+
+	@Override
+	public boolean inTransaction() {
+		return p_inTransaction;
+	}
+	
 }

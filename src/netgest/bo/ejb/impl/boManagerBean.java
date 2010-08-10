@@ -22,10 +22,12 @@ import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
+import netgest.bo.boConfig;
 import netgest.bo.boException;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.builder.boBuilderProgress;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
@@ -55,6 +57,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectUpdateQueue;
 import netgest.bo.runtime.boReferencesManager;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.runtime.cacheBouis;
 import netgest.bo.runtime.robots.ObjectMap;
@@ -68,6 +71,9 @@ import netgest.bo.utils.boVersioning;
 import netgest.utils.DataUtils;
 
 import netgest.bo.system.Logger;
+import netgest.io.iFile;
+import netgest.io.iFileException;
+import netgest.io.iFileTransactionManager;
 
 public class boManagerBean implements SessionBean, boManagerLocal
 {
@@ -2026,6 +2032,22 @@ public class boManagerBean implements SessionBean, boManagerLocal
             {
                 if (dook)
                 {
+                	//Retrieve all iFiles from the attributes and "commit" them
+                	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
+                    for (int i = 0; i < iFilesAttributes.size(); i++)
+                    {
+                    	//Retrieve the current attribute handler
+                    	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
+                    	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
+                    	{
+                    			iFile currentFile = currHandler.getValueiFile();
+                    			try {
+									iFileTransactionManager.commitIFile(currentFile, bobj.getEboContext().getConnectionData());
+								} catch (iFileException e) {
+									throw new boRuntimeException2(e);
+								}
+                    	}
+                    }
                     commitTransaction(ctx);
                 }
                 else

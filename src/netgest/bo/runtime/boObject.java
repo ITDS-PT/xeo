@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import netgest.bo.boConfig;
+import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
@@ -60,6 +62,7 @@ import netgest.io.iFile;
 import netgest.io.iFileException;
 import netgest.io.iFilePermissionDenied;
 import netgest.io.iFileServer;
+import netgest.io.iFileTransactionManager;
 import netgest.utils.ParametersHandler;
 import netgest.utils.ngtXMLHandler;
 import netgest.xwf.common.xwfActionHelper;
@@ -3986,9 +3989,17 @@ public abstract class boObject extends boObjectContainer implements Serializable
         	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
         	{
         		try{
+        			
+        			String repositoryName = currHandler.getDefAttribute().getECMDocumentDefinitions().getRepositoryName();
+        			RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
+        			String connectorClass = config.getFileConnectorClass();
         			iFile currentFile = currHandler.getValueiFile();
-        			if (currentFile != null)
+        			if (currentFile != null){
         				currentFile.save(currHandler.getEboContext());
+        				iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
+        			}
+        				
+        			
 				}catch (iFileException e) {
 					throw new boRuntimeException2(e);
 				}

@@ -255,7 +255,7 @@ public class FSiFile implements iFile {
 	}
 	@Override
 	public String getId() {
-		return null;
+		return p_file.getName();
 	}
 	@Override
 	public void addMetadata(iMetadataItem item) throws iFileException {
@@ -265,5 +265,9 @@ public class FSiFile implements iFile {
 	public List<iMetadataItem> getMetadataByName(String name)
 			throws iFileException {
 		return null;
+	}
+	@Override
+	public boolean inTransaction() {
+		return false;
 	}
 }

@@ -630,5 +630,9 @@ public class BasiciFile implements iFile  {
 	public List<iMetadataItem> getMetadataByName(String name)
 			throws iFileException {
 		return null;
+	}
+	@Override
+	public boolean inTransaction() {
+		return false;
 	} 
 }

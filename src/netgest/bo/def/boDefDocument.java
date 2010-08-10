@@ -8,6 +8,8 @@ import java.util.HashMap;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.io.iFileConnector;
 
 /**
  * 
@@ -97,5 +99,13 @@ public interface boDefDocument
 	public HashMap<String,MetadataNodeConfig> getMetadataConfigs();
 	
 	
-	
+	/**
+	 * 
+	 * Retrieves the file connector associated to this attributeBinaryData
+	 * 
+	 * @return An {@link iFileConnector} implementation
+	 * 
+	 * @throws boRuntimeException
+	 */
+	public iFileConnector getFileConnector() throws boRuntimeException;
 }
