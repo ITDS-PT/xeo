@@ -47,6 +47,13 @@ public class RepositoryConfig
 	private String connectorClass;
 	
 	/**
+	 * @return the connectorClass
+	 */
+	public String getFileConnectorClass() {
+		return connectorClass;
+	}
+
+	/**
 	 * If this repository is the default repository
 	 */
 	private boolean isDefault;
@@ -287,7 +294,7 @@ public class RepositoryConfig
 		}
 		
 		//Load the class that connects to the repository
-		this.classConnections = classNode.getAttribute("classConnection");
+		this.classConnections = handler.getAttribute("classConnection");
 		//Whether this configuration is the default repository
 		String value = handler.getAttribute("default");
 		if (value != null)
@@ -295,7 +302,7 @@ public class RepositoryConfig
 		else
 			this.isDefault = false;
 		//Load the file connector class for this
-		this.connectorClass = classNode.getAttribute("fileConnector");
+		this.connectorClass = handler.getAttribute("fileConnector");
 		
 		//Load the file nodes configuration
 		ngtXMLHandler fileNode  = handler.getChildNode("fileNode");
