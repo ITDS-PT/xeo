@@ -5,7 +5,6 @@ package netgest.io;
 
 import java.util.List;
 
-import netgest.io.metadata.MetadataConnector;
 import netgest.io.metadata.iMetadataConnector;
 import netgest.io.metadata.iSearchParameter;
 
@@ -44,10 +43,11 @@ public interface iFileConnector
 	 * @param isFolder If the created {@link iFile} is a folder
 	 * (if false, creates a file)
 	 * 
+	 * @param inTransaction If the file should be created within a transaction
 	 * 
 	 * @return A reference to the created {@link iFile}
 	 */
-	public iFile createIFile(String fileName, String identifier, boolean isFolder) throws iFileException;;
+	public iFile createIFile(String fileName, String identifier, boolean isFolder, boolean inTransactiom) throws iFileException;;
 	
 	/**
 	 * 
@@ -59,9 +59,11 @@ public interface iFileConnector
 	 * @param isFolder If the created {@link iFile} is a folder
 	 * (if false, creates a file)
 	 * 
+	 * @param inTransaction If the file should be created within a transaction
+	 * 
 	 * @return A reference to the created file
 	 */
-	public iFile createIFile(String filename, boolean isFolder) throws iFileException;
+	public iFile createIFile(String filename, boolean isFolder, boolean inTransaction) throws iFileException;
 	
 	
 	/**
