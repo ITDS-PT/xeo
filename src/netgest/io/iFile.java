@@ -283,7 +283,7 @@ public interface iFile {
 	 * Adds a reference of a given {@link iMetadataItem} to
 	 * this {@link iFile} with a given type
 	 * 
-	 * @param name The name of metadata relation
+	 * 
 	 * @param item A reference to item to reference
 	 * @throws iFileException 
 	 */
@@ -386,4 +386,12 @@ public interface iFile {
 	 */
 	public boolean save(EboContext ctx) throws iFileException;
 	
+	
+	/**
+	 * 
+	 * Retrieves whether or not the {@link iFile} is in a transaction
+	 * 
+	 * @return True if the iFile is in a Transaction and false otherwise
+	 */
+	public boolean inTransaction();
 }
