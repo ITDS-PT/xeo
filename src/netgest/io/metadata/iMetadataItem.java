@@ -51,22 +51,21 @@ public interface iMetadataItem
 		 * 
 		 * Retrieve a property by its name
 		 * 
-		 * @param name The name of the property
+		 * @param id The id of the property
 		 * 
-		 * @return The {@link iMetadataProperty} with the given name
-		 * or null if no property by that name exists
+		 * @return The {@link iMetadataProperty} with the given id
+		 * or null if no property by that id exists
 		 */
-		public iMetadataProperty getPropertyByName(String name);
+		public iMetadataProperty getPropertyById(String id);
 		
 		/**
 		 * 
 		 * Add or replace a metadata property in this {@link iMetadataItem}
 		 * 
-		 * @param name The name of the property to add/replace
 		 * @param prop The property to add/replace
 		 * 
 		 */
-		public void setMetadataProperty(String name, iMetadataProperty prop);
+		public void setMetadataProperty(iMetadataProperty prop);
 		
 		/**
 		 * 

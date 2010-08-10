@@ -251,23 +251,23 @@ public class FileJCR implements iFile {
 
 		String name = prop.getName();
 		if (prop.getType() == PropertyType.BINARY) {
-			item.setMetadataProperty(name, new MetadataProperty(name, prop
+			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getStream()));
 		} else if (prop.getType() == PropertyType.DATE) {
-			item.setMetadataProperty(name, new MetadataProperty(name, prop
+			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getDate().getTime()));
 		} else if (prop.getType() == PropertyType.BOOLEAN) {
-			item.setMetadataProperty(name, new MetadataProperty(name, prop
+			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getBoolean()));
 		} else if (prop.getType() == PropertyType.STRING) {
-			item.setMetadataProperty(name, new MetadataProperty(name, prop
+			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getString()));
 		} else if (prop.getType() == PropertyType.LONG) {
-			item.setMetadataProperty(name, new MetadataProperty(name, prop
+			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getLong()));
 		} else if (prop.getType() == PropertyType.REFERENCE) {
 			iMetadataItem itemNew = new MetadataItem(prop.getNode(), null,null);
-			item.setMetadataProperty(name, new MetadataProperty(name, itemNew));
+			item.setMetadataProperty(new MetadataProperty(name, itemNew));
 		}
 
 	}
@@ -1188,7 +1188,7 @@ public class FileJCR implements iFile {
 		// Retrieve the binary property of the file
 		String binProp = p_fileNodeConfig.getBinaryPropertyName();
 		iMetadataItem defaultMetadata = getDefaultMetadata();
-		defaultMetadata.setMetadataProperty(binProp, new MetadataProperty(
+		defaultMetadata.setMetadataProperty(new MetadataProperty(
 				binProp, is));
 		updateLastModifiedDate();
 	}
@@ -1199,7 +1199,7 @@ public class FileJCR implements iFile {
 	private void updateLastModifiedDate() {
 		iMetadataItem metadataItem = getDefaultMetadata();
 		String dateProp = p_fileNodeConfig.getDateUpdatePropertyName();
-		metadataItem.setMetadataProperty(dateProp, new MetadataProperty(
+		metadataItem.setMetadataProperty(new MetadataProperty(
 				dateProp, new Date(System.currentTimeMillis())));
 
 	}
@@ -1304,7 +1304,7 @@ public class FileJCR implements iFile {
 									.get(propName);
 
 							iMetadataProperty prop = defaultMetadata
-									.getPropertyByName(currentPropDef.getName());
+									.getPropertyById(currentPropDef.getName());
 							if (prop != null)
 								setPropertyValueFromMetadata(prop, data);
 						}
@@ -1545,7 +1545,7 @@ public class FileJCR implements iFile {
 			NodePropertyDefinition currentPropDef = nodeProps.get(propName);
 			// If this property is a main property
 			if (currentPropDef.isMainNode()) {
-				iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+				iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 				//Confirm this property has handled
 				propsUsed.add(propName);
 				
@@ -1603,7 +1603,7 @@ public class FileJCR implements iFile {
 				try {
 					if (reference.hasNode(childName)) {
 						Node toSet = reference.getNode(childName);
-						iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+						iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 						if (property != null) //If it's a default metadata property, set it
 							setPropertyValueFromMetadata(property, toSet);
 						else{
@@ -1619,7 +1619,7 @@ public class FileJCR implements iFile {
 					} else {
 						Node toSet = reference.addNode(childName,currentChild.getNodeType());
 						System.out.println("Added child " + childName);
-						iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+						iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 						if (property != null) //If it's a default metadata property, set it
 							setPropertyValueFromMetadata(property, toSet);
 						else{
@@ -1676,7 +1676,7 @@ public class FileJCR implements iFile {
 					
 					if (reference.hasNode(childName)) {
 							Node toSet = reference.getNode(childName);
-							iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+							iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 							if (property != null) //If it's a default metadata property, set it
 								setPropertyValueFromMetadata(property, toSet);
 							else{
@@ -1688,7 +1688,7 @@ public class FileJCR implements iFile {
 							}
 					}else {
 							Node toSet = reference.addNode(childName,currentChild.getNodeType());
-							iMetadataProperty property = getDefaultMetadata().getPropertyByName(propName);
+							iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 							if (property != null) //If it's a default metadata property, set it
 								setPropertyValueFromMetadata(property, toSet);
 							else{

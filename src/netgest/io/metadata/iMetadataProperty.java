@@ -38,7 +38,8 @@ public interface iMetadataProperty
         DATETIME, 
         BOOLEAN,
         BINARY, //Binary content
-        REFERENCE //Reference to another item
+        REFERENCE, //Reference to another item
+        ARRAY
     }
 	
 	/**

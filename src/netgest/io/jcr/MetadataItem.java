@@ -55,7 +55,7 @@ public class MetadataItem implements iMetadataItem {
 	 * When a new {@link iMetadataItem} is save all properties are
 	 * from this field are saved in the JCR Repository
 	 */
-	private Map<String,MetadataProperty> p_props;
+	private List<iMetadataProperty> p_props;
 	
 	/**
 	 * The set of children to remove
@@ -120,7 +120,7 @@ public class MetadataItem implements iMetadataItem {
 	 * Initializes the fields with empty values
 	 */
 	private void initEmpty(){
-		this.p_props = new HashMap<String, MetadataProperty>();
+		this.p_props = new LinkedList<iMetadataProperty>();
 		this.p_children = new LinkedList<iMetadataItem>();
 		this.p_childrenRemove = new HashSet<String>();
 	}
@@ -202,7 +202,7 @@ public class MetadataItem implements iMetadataItem {
 				return result;
 			}
 			else{
-				return new ArrayList<iMetadataProperty>(p_props.values());
+				return p_props;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,10 +211,10 @@ public class MetadataItem implements iMetadataItem {
 	}
 
 	@Override
-	public iMetadataProperty getPropertyByName(String name) {
+	public iMetadataProperty getPropertyById(String id) {
 		if (p_itemNode != null){
 			try {
-				Property prop = p_itemNode.getProperty(name);
+				Property prop = p_itemNode.getProperty(id);
 				return createMetadataProperty(prop);
 			} catch (RepositoryException e) {
 				e.printStackTrace();
@@ -222,7 +222,9 @@ public class MetadataItem implements iMetadataItem {
 				e.printStackTrace();
 			}
 		} else {
-			return p_props.get(name);
+			for (int i = 0; i < p_props.size(); i++)
+				if(p_props.get(i).getPropertyIdentifier().equals(id))			
+					return p_props.get(i);
 		}
 		return null;
 	}
@@ -243,11 +245,8 @@ public class MetadataItem implements iMetadataItem {
 		
 		try {
 			if (exists()){
-				Iterator<String> it = this.p_props.keySet().iterator();
-				//Set the value of all properties
-				while (it.hasNext()) {
-					String nameProp = (String) it.next();
-					MetadataProperty prop = p_props.get(nameProp);
+				for (int i = 0; i < p_props.size(); i++) {
+					MetadataProperty prop = (MetadataProperty) p_props.get(i);
 					setNodeProperty(p_itemNode, prop);
 				}
 				//Save any required children nodes
@@ -267,11 +266,8 @@ public class MetadataItem implements iMetadataItem {
 			else{ 
 				//Node does not exist in the repository
 				Node metadataNode = p_session.getRootNode().addNode(this.p_identifier);
-				//Set the value
-				Iterator<String> itPropName = this.p_props.keySet().iterator();
-				while (itPropName.hasNext()) {
-					String propName = (String) itPropName.next();
-					iMetadataProperty prop = p_props.get(propName);
+				for (int i = 0; i < p_props.size(); i++) {
+					iMetadataProperty prop = p_props.get(i);
 					setNodeProperty(metadataNode,(MetadataProperty) prop);
 				}
 				
@@ -309,10 +305,8 @@ public class MetadataItem implements iMetadataItem {
 		try {
 			Node currentNode = item.getNode();
 			if (currentNode != null){
-				Iterator<String> it = this.p_props.keySet().iterator();
-				while (it.hasNext()) {
-					String nameProp = (String) it.next();
-					MetadataProperty prop = p_props.get(nameProp);
+				for (int i = 0; i < p_props.size(); i++){
+					MetadataProperty prop = (MetadataProperty) p_props.get(i);
 					setNodeProperty(p_itemNode, prop);
 				}
 				Iterator<iMetadataItem> itChildMeta = this.p_children.iterator();
@@ -327,10 +321,8 @@ public class MetadataItem implements iMetadataItem {
 			else{ //Create in the repository
 				Node metadataNode = p_session.getRootNode().addNode(this.p_identifier);
 				//Set the value
-				Iterator<String> itPropName = this.p_props.keySet().iterator();
-				while (itPropName.hasNext()) {
-					String propName = (String) itPropName.next();
-					iMetadataProperty prop = p_props.get(propName);
+				for (int i = 0; i < p_props.size(); i++){
+					iMetadataProperty prop = p_props.get(i);
 					setNodeProperty(metadataNode,(MetadataProperty) prop);
 				}
 				Iterator<iMetadataItem> itChildMeta = this.p_children.iterator();
@@ -348,13 +340,9 @@ public class MetadataItem implements iMetadataItem {
 	}
 
 	@Override
-	public void setMetadataProperty(String name, iMetadataProperty prop) {
+	public void setMetadataProperty(iMetadataProperty prop) {
 		//Only set valid properties
-		if (name != null)
-		{
-			if (name.length() > 0)
-				this.p_props.put(name,(MetadataProperty)prop);
-		}
+		this.p_props.add((MetadataProperty)prop);
 		
 	}
 	
