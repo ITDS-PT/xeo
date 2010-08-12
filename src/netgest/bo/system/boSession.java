@@ -314,28 +314,14 @@ public class boSession implements Serializable {
      * @param repositoryName The name of the repository for which
      * to retrieve the <code>{@link Session}</code>
      * 
-     * @return A {@link Session} to a repository
+     * @return A {@link Session} with a repository or null if one does not exist
      */
     public Session getECMRepositorySession(String repositoryName)
     {
     	if (p_ecmRepositories.containsKey(repositoryName))
 			return this.p_ecmRepositories.get(repositoryName);
-		else{
-			try {
-				System.setProperty("org.apache.jackrabbit.repository.conf", "c:/jackrabbit/teste/repository.xml");
-				System.setProperty("org.apache.jackrabbit.repository.home", "c:/jackrabbit/teste");
-				Repository repository = (Repository )new TransientRepository();
-				
-				Session session = repository.login(new SimpleCredentials("username", "password".toCharArray()));
-				
-				p_ecmRepositories.put(repositoryName, session);
-			} catch (LoginException e) {
-				e.printStackTrace();
-			} catch (RepositoryException e) {
-				e.printStackTrace();
-			}
-		}
-		return this.p_ecmRepositories.get(repositoryName);
+    	
+		return null;
     }
     
     
