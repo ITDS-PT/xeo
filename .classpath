@@ -35,5 +35,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="project_lib/mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="lib" path="project_lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="project_lib/jcr-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

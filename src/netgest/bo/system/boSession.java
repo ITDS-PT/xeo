@@ -8,11 +8,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import javax.jcr.LoginException;
-import javax.jcr.Repository;
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +17,6 @@ import javax.servlet.jsp.PageContext;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.login.LoginUtil;
-
-import org.apache.jackrabbit.core.TransientRepository;
 public class boSession implements Serializable {
 
     private static Logger logger = Logger.getLogger("netgest.bo.system.boSession");
