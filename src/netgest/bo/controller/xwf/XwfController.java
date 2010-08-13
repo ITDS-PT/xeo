@@ -345,7 +345,7 @@ public class XwfController extends BasicController
     {    
         return runtimeActivityBoui;
     }
-    private void setRuntimeActivityBoui(long boui)
+    public void setRuntimeActivityBoui(long boui)
     {    
         runtimeActivityBoui = boui;
     }
@@ -1250,4 +1250,9 @@ public class XwfController extends BasicController
         }
         return result;
     }
+
+    public List getOptionalQueueObjects()
+    {
+        return optionalQueueObjects;
+    }    
 }

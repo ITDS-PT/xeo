@@ -25,7 +25,7 @@ public final class XwfValidator
     private final static String MSG_FULFILL_REQUIRED = "Campo de preenchimento obrigatório";
     private final static String MSG_EXECUTED_REQUIRED = "Acção obrigatória";
          
-    protected static boolean validate(docHTML doc, boObject object, String code) throws boRuntimeException
+    public static boolean validate(docHTML doc, boObject object, String code) throws boRuntimeException
     {
         boolean result = true;
         if(XwfKeys.ACTION_OPEN_KEY.equals(code))
