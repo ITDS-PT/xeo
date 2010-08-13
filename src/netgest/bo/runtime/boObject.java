@@ -3993,10 +3993,14 @@ public abstract class boObject extends boObjectContainer implements Serializable
         			String repositoryName = currHandler.getDefAttribute().getECMDocumentDefinitions().getRepositoryName();
         			RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
         			String connectorClass = config.getFileConnectorClass();
+        			if (connectorClass == null)
+        				connectorClass = "netgest.io.jcr.FileConnector";
         			iFile currentFile = currHandler.getValueiFile();
+        			
         			if (currentFile != null){
         				currentFile.save(currHandler.getEboContext());
-        				iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
+        				if (!currentFile.exists())
+        					iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
         			}
         				
         			

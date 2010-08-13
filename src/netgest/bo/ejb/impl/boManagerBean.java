@@ -37,6 +37,7 @@ import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.data.KeyReference;
 import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.ejb.boManagerLocal;
@@ -73,6 +74,7 @@ import netgest.utils.DataUtils;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
 import netgest.io.iFileException;
+import netgest.io.iFilePermissionDenied;
 import netgest.io.iFileTransactionManager;
 
 public class boManagerBean implements SessionBean, boManagerLocal
@@ -2041,17 +2043,42 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
                     	{
                     			iFile currentFile = currHandler.getValueiFile();
-                    			try {
-									iFileTransactionManager.commitIFile(currentFile, bobj.getEboContext().getConnectionData());
-								} catch (iFileException e) {
-									throw new boRuntimeException2(e);
-								}
+                    			try {	iFileTransactionManager.commitIFile(currentFile, 
+                    					bobj.getEboContext().getConnectionData());
+								} catch (iFileException e) { throw new boRuntimeException2(e);	}
                     	}
                     }
                     commitTransaction(ctx);
                 }
                 else
                 {
+                	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
+                    for (int i = 0; i < iFilesAttributes.size(); i++)
+                    {
+                    	//Retrieve the current attribute handler
+                    	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
+                    	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
+                    	{
+                    			boDefDocument defDoc = currHandler.getDefAttribute().getECMDocumentDefinitions();
+                    			String connClass = boConfig.getApplicationConfig().
+                    				getFileRepositoryConfiguration(defDoc.getRepositoryName()).getFileConnectorClass();
+                    			
+                    			iFile currentFile = currHandler.getValueiFile();
+                    			try {
+                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), connClass, null);
+								} catch (iFileException e) {
+									throw new boRuntimeException2(e);
+								} catch (InstantiationException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								} catch (iFilePermissionDenied e) {
+									e.printStackTrace();
+								}
+                    	}
+                    }
                     rollBackTransaction(ctx);
 
                 }

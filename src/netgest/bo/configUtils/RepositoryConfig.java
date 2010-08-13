@@ -143,6 +143,9 @@ public class RepositoryConfig
 	}
 
 	/**
+	 * 
+	 * Retrieves the list of metadata configurations
+	 * 
 	 * @return the metadataConfig
 	 */
 	public MetadataNodeConfig[] getAllMetadataConfig() {
@@ -162,6 +165,17 @@ public class RepositoryConfig
 	
 	/**
 	 * 
+	 * Retrieves the map of metadata settings
+	 * 
+	 * @return
+	 */
+	public Map<String,MetadataNodeConfig> getAllMetadataConfigMap(){
+		return metadataConfig;
+	}
+	
+	
+	/**
+	 * 
 	 * Retrieves a given metadata node config given its name
 	 * 
 	 * @param name The name of the metadata node config
@@ -170,6 +184,24 @@ public class RepositoryConfig
 	public MetadataNodeConfig getMetadataConfigByName(String name)
 	{
 		return this.metadataConfig.get(name);
+	}
+	
+	/**
+	 * 
+	 * Checks if the
+	 * 
+	 * @param connectorClass
+	 * @return
+	 */
+	private boolean checkNotDefaultValue(String connectorClass){
+		if (connectorClass != null){
+			if (connectorClass.equalsIgnoreCase(netgest.io.jcr.FileConnector.class.getName()))
+				return false;
+			else
+				return true;
+		}
+		else
+			return true;
 	}
 	
 	/**
@@ -183,7 +215,7 @@ public class RepositoryConfig
 	 */
 	public iFileConnector getConnector(EboContext ctx) throws boRuntimeException{
 		iFileConnector connector;
-		if (connectorClass != null)
+		if (connectorClass != null && checkNotDefaultValue(connectorClass))
 		{
 			try {
 				//Create a new Connector from the 

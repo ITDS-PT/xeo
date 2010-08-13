@@ -27,11 +27,14 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.ValueFormatException;
 
+import netgest.bo.boConfig;
 import netgest.bo.configUtils.ChildNodeConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.bo.configUtils.NodePropertyDefinition;
+import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
@@ -143,6 +146,31 @@ public class FileJCR implements iFile {
 		// Create the default metadata item
 		this.p_metadata.put(DEFAULT_METADATA, createDefaultItem());
 		this.p_childrenFiles = null;
+		p_inTransaction = false;
+	}
+	
+	protected FileJCR(Node node, String repositoryName){
+		
+		try {
+			RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
+			p_node = node;
+			p_session = node.getSession();
+			p_path = p_node.getPath();
+			if (p_node.getPrimaryNodeType().getName().equals(
+					p_folderNodeConfig.getNodeType()))
+				p_isFolder = true;
+			else
+				p_isFolder = false;
+					
+			p_fileNodeConfig = config.getFileConfig();
+			p_folderNodeConfig = config.getFolderConfig();
+			p_metadataDefinition = config.getAllMetadataConfigMap();
+			p_metadata.put(DEFAULT_METADATA, createDefaultItem());
+			p_childrenFiles = null;
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -1279,46 +1307,26 @@ public class FileJCR implements iFile {
 							p_folderNodeConfig.getProperties(), 
 							p_folderNodeConfig.getChildNodes());
 				} else {
-					iMetadataItem defaultMetadata = this.getDefaultMetadata();
-					// Set the create date for the file and update the last
-					// modified date
-
-					// Let's process any child nodes that the "file" node may
-					// have
-					Map<String, ChildNodeConfig> childConfigs = p_fileNodeConfig
-							.getChildNodes();
-					Iterator<String> itChildren = childConfigs.keySet()
-							.iterator();
-					while (itChildren.hasNext()) {
-						String childName = (String) itChildren.next();
-						ChildNodeConfig childNode = childConfigs.get(childName);
-						// Add this child node to the file and fill its
-						// properties
-						Node data = p_node.getNode(childNode.getName());
-						Map<String, NodePropertyDefinition> props = childNode
-								.getProperties();
-						Iterator<String> itProps = props.keySet().iterator();
-						while (itProps.hasNext()) {
-							String propName = (String) itProps.next();
-							NodePropertyDefinition currentPropDef = props
-									.get(propName);
-
-							iMetadataProperty prop = defaultMetadata
-									.getPropertyById(currentPropDef.getName());
-							if (prop != null)
-								setPropertyValueFromMetadata(prop, data);
-						}
-					}
+					createAndSetPropertiesOfNode(p_node, 
+							p_fileNodeConfig.getProperties(), 
+							p_fileNodeConfig.getChildNodes());
+					
 				}
 
 				// Save any metadata items
 				saveMetadataItems();
 
+				p_node.save();
+				
+				p_node.getNode("jcr:content").save();
+				
 				// Save the Node (by saving the parent)
-				if (p_node.getParent() != null) {
-					p_node.getParent().save();
+				/*if (p_node.getParent() != null) {
+					Node parent = p_node.getParent();
+					//parent.save();
+					p_node.save();
 					result = true;
-				}
+				}*/
 
 			} else { // Create the new iFile
 
@@ -1435,8 +1443,10 @@ public class FileJCR implements iFile {
 					.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueString());
 			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BINARY
-					.name())
+					.name()){
+				System.out.println("BINARY *********" + prop.getPropertyIdentifier());
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBinary());
+			}
 			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.DATE
 					.name()) {
 				Calendar cal = Calendar.getInstance();
@@ -1568,24 +1578,27 @@ public class FileJCR implements iFile {
 							return false;
 						}
 					}
-					
-				}
-			}
-			//Deal with the remaining 
-			List<iMetadataProperty> propsDefault = getDefaultMetadata().getProperties();
-			if (propsUsed.size() < propsDefault.size()){
-				Iterator<iMetadataProperty> it = propsDefault.iterator();
-				while (it.hasNext()) 
-				{
-					iMetadataProperty currProp = (iMetadataProperty) it
-							.next();
-					if (!propsUsed.contains(currProp.getPropertyIdentifier())){
-						setPropertyValueFromMetadata(currProp, reference);
-					}
-					
 				}
 			}
 		}
+		
+		//Deal with the remaining properties (only if they are main node properties)
+		List<iMetadataProperty> propsDefault = getDefaultMetadata().getProperties();
+		if (propsUsed.size() < propsDefault.size()){
+			Iterator<iMetadataProperty> it = propsDefault.iterator();
+			while (it.hasNext()) 
+			{
+				iMetadataProperty currProp = (iMetadataProperty) it.next();
+				if (!propsUsed.contains(currProp.getPropertyIdentifier())){
+					NodePropertyDefinition prop = nodeProps.get(currProp.getPropertyIdentifier());
+					if (prop != null){
+						if (prop.isMainNode())
+							setPropertyValueFromMetadata(currProp, reference);
+					}
+				}
+			}
+		}
+		
 		// Lets now check the child nodes
 		Iterator<String> itChild = childNodes.keySet().iterator();
 		while (itChild.hasNext()) {

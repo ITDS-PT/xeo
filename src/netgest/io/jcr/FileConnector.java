@@ -3,6 +3,7 @@
  */
 package netgest.io.jcr;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +12,12 @@ import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.system.boApplication;
 import netgest.io.iFile;
 import netgest.io.iFileConnector;
 import netgest.io.iFileException;
@@ -51,7 +55,22 @@ public class FileConnector implements iFileConnector {
 	 */
 	private MetadataConnector p_metadataConnector; 
 	
-	public FileConnector(){}
+	/**
+	 * Public constructor with no arguments
+	 */
+	public FileConnector(){
+		RepositoryConfig current =boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration(); 
+		p_fileConfig = current.getFileConfig();
+		p_folderConfig = current.getFolderConfig();
+		MetadataNodeConfig[] confMeta = current.getAllMetadataConfig();
+		Map<String,MetadataNodeConfig> metaConf = new HashMap<String, MetadataNodeConfig>();
+		for (MetadataNodeConfig p : confMeta){
+			metaConf.put(p.getName(), p);
+		}
+		p_metaConfig = metaConf;
+		p_sessionJCR = boApplication.currentContext().getEboContext().getBoSession().getECMRepositorySession(current.getName());
+		p_metadataConnector = new MetadataConnector(p_metaConfig, p_sessionJCR);
+	}
 	
 	public FileConnector(Session session, FileNodeConfig fileConf,
 			FolderNodeConfig folderConf, Map<String,MetadataNodeConfig> metaConf) 
@@ -92,6 +111,9 @@ public class FileConnector implements iFileConnector {
 		try {
 			if (fileID == null)
 				return null;
+			
+			if (fileID.startsWith("/"))
+				fileID = fileID.substring(1, fileID.length());
 			
 			Node node = this.p_sessionJCR.getRootNode().getNode(fileID);
 			boolean isFolder = false;
@@ -161,6 +183,9 @@ public class FileConnector implements iFileConnector {
 	public boolean deleteIFile(String fileID) throws iFilePermissionDenied,
 			iFileException {
 		try {
+			if (fileID.startsWith("/")) //Cannot have absolute paths
+				fileID = fileID.substring(1, fileID.length());
+			
 			Node currentNode = p_sessionJCR.getRootNode().getNode(fileID);
 			Node parent = currentNode.getParent();
 			currentNode.remove();

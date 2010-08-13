@@ -15,12 +15,47 @@ import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
 
+/**
+ * 
+ * 
+ * The {@link iFileTransactionManager} is an auxiliary class to deal with the Commit/Rollback of files saved
+ * in XEO transaction. {@link iFileTransactionManager#registerIFile(iFile, String, EboContext)} allows to register
+ * an {@link iFile} to mark it as part of a transaction, and the {@link iFileTransactionManager#commitIFile(iFile, Connection)}
+ * operation marks the file as successfully saved while the {@link iFileTransactionManager#rollbackIFile(String, String, Connection)}
+ * operation is used to delete a file that was created, in order to maintain consistency
+ * 
+ * @author LuisBarreira
+ * @author PedroRio
+ *
+ */
 public class iFileTransactionManager extends Thread {
 
+    /**
+     * A reference to the {@link boApplication}
+     */
     private boApplication p_app;
+    /**
+     * The logger for this class
+     */
     private static Logger logger = Logger.getLogger("netgest.io.iFileTransactionManager");
+    /**
+     * The time between the consecutive executions of this thread
+     */
     private static long WAIT_TIME = 15000;
     
+    /**
+     * The name of the database table where the {@link iFile} instances in transaction are kept
+     * until they're committed
+     */
+    private static final String IFILE_TRANSACTION_MANAGER_TBL = "ifileTransaction"; 
+    /**
+     * 
+     * Constructor for a new {@link iFileTransactionManager}
+     * 
+     * @param group
+     * @param app The {@link boApplication}
+     * @param name 
+     */
     public iFileTransactionManager(ThreadGroup group, boApplication app, String name )
     {
         super( group , "iFile Transaction Manager Rollback Thread" );
@@ -96,10 +131,11 @@ public class iFileTransactionManager extends Thread {
 		        }
 		        catch (InterruptedException e)
 		        {
+		        	e.printStackTrace();
 		        }
 		        catch (Throwable e)
 		        {
-		            logger.severe( "Error cleaning iFile \n"+e.getMessage(), e );
+		            logger.severe( "Error cleaning iFile \n" +e.getMessage(), e );
 		        }
 		        finally
 		        {                  
@@ -120,11 +156,26 @@ public class iFileTransactionManager extends Thread {
           }
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Thread#start()
+     */
     public synchronized void start()
     {
         super.start();
     }
     
+	/**
+	 * 
+	 * Registers a given {@link iFile} as "in transaction" so that when the XEO commit operation fails, the files
+	 * that must be deleted are known. The register process is inserting a entry in the Transaction
+	 * 
+	 * @param file The {@link iFile} to register
+	 * @param connectorClass The fully qualified name of the java class that implements the {@link iFileConnector} interface
+	 * that is responsible for creating correct instances of this {@link iFile} instance passed as parameter 
+	 * @param ctx The {@link EboContext} for this {@link iFile}
+	 * 
+	 * @throws iFileException If something goes wrong registering the file in the database table
+	 */
 	public static void registerIFile(iFile file, String connectorClass, EboContext ctx) throws iFileException{
 		
 		long user = ctx.getBoSession().getPerformerBoui();
@@ -135,7 +186,7 @@ public class iFileTransactionManager extends Thread {
 		
 		try {
 			
-			String sqlInsert = "insert into ifileTransaction (FILEID, INSERT_DATE, AUTHOR, IFILECONNCLASS, STATE) values (?," +
+			String sqlInsert = "INSERT INTO "+IFILE_TRANSACTION_MANAGER_TBL+" (FILEID, INSERT_DATE, AUTHOR, IFILECONNCLASS, STATE) values (?," +
 								driver.getDatabaseTimeConstant() +
 								",?,?,?)";
 			
@@ -157,16 +208,26 @@ public class iFileTransactionManager extends Thread {
 					ps.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
+					throw new iFileException(e);
 				}
 		}
 	}
 	
+	/**
+	 * 
+	 * Commits a given {@link iFile}. Deletes the entry from the database table to mark the file as committed
+	 * 
+	 * @param file The {@link iFile} to commit
+	 * @param conn The Database connection to issue the SQL query
+	 * 
+	 * @throws iFileException If something goes wrong with the SQL delete operation
+	 */
 	public static void commitIFile(iFile file, Connection conn) throws iFileException {
 		String fileId = file.getId();
 		PreparedStatement ps = null;
 		try {
 			
-			String sqlInsert = "delete ifileTransaction where FILEID = ?";
+			String sqlInsert = "DELETE FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
 			
 			ps = conn.prepareStatement(sqlInsert);
 			ps.setString(1, fileId);
@@ -187,9 +248,44 @@ public class iFileTransactionManager extends Thread {
 		}
 	}
 	
+	/**
+	 * 
+	 * Rollback an {@link iFile} 
+	 * 
+	 * @param fileID The {@link iFile} identifier
+	 * @param fileClass The fully qualified class implementing the {@link iFileConnector} for the kind of {@link iFile} passed
+	 * as parameter
+	 * @param conn a connection to the database
+	 * 
+	 * 
+	 * @throws InstantiationException If a new instance of {@link iFileConnector} cannot be created
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException If the class implementing the {@link iFileConnector} does not exist
+	 * @throws iFilePermissionDenied If the user does not permissions to delete the {@link iFile}
+	 * @throws iFileException If any other thing goes wrong
+	 */
 	public static void rollbackIFile(String fileID, String fileClass, Connection conn) throws InstantiationException, IllegalAccessException, ClassNotFoundException, iFilePermissionDenied, iFileException {
 		
-		iFileConnector fileConn = (iFileConnector)Class.forName(fileClass).newInstance();
-		fileConn.deleteIFile(fileID);
+		try {
+			String sqlInsert = "SELECT * FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
+			PreparedStatement ps = conn.prepareStatement(sqlInsert);
+			ps.setString(1, fileID);
+			ps.executeUpdate();
+			
+			boolean isRegistered = false;
+			ResultSet data = ps.getResultSet();
+			while (data.next()){
+				isRegistered = true;
+			}
+			
+			if (isRegistered){
+				iFileConnector fileConn = (iFileConnector)Class.forName(fileClass).newInstance();
+				fileConn.deleteIFile(fileID);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 }
