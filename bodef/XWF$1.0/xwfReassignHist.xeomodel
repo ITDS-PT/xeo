@@ -8,7 +8,7 @@
 		<implements/>
 		<database/>
 		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
+		<textIndex active="false" appendChilds="false" deep="1">
 			<process/>
 		</textIndex>
 		<description>Histórico Atribuições</description>
@@ -91,6 +91,8 @@
 			<len>3000</len>
 			<label>Programa</label>
 			<tooltip>
+				<disableWhen language="BOL">
+					<depends/>true</disableWhen>
 			</tooltip>
 			<disableWhen language="BOL">
 				<depends/>true</disableWhen>

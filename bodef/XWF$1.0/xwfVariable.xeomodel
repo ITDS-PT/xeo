@@ -44,7 +44,7 @@
 			<tooltip/>
 		</attributeText>
 		<attributeText name="mask">
-			<len>200</len>
+         <len>4000</len>
 			<label>Mascara</label>
 			<editor>HTML</editor>
 			<tooltip/>
@@ -76,19 +76,19 @@
 			<tooltip/>
 		</attributeBoolean>
 		<attributeText name="availableMethods">
-			<len>500</len>
+         <len>4000</len>
 			<label>Texto</label>
 			<editor>HTML</editor>
 			<tooltip/>
 		</attributeText>
 		<attributeText name="hiddenMethods">
-			<len>500</len>
+         <len>4000</len>
 			<label>Texto</label>
 			<editor>HTML</editor>
 			<tooltip/>
 		</attributeText>
 		<attributeText name="requireMethods">
-			<len>500</len>
+         <len>4000</len>
 			<label>Texto</label>
 			<editor>HTML</editor>
 			<tooltip/>
@@ -114,7 +114,7 @@
 			<tooltip/>
 		</attributeBoolean>
 		<attributeText name="objectFilterQuery">
-			<len>1000</len>
+         <len>4000</len>
 			<label>Texto</label>
 			<editor>HTML</editor>
 			<tooltip/>
@@ -153,7 +153,7 @@
 			<objectFilter/>
 		</attributeObject>
 		<attributeText name="keyWords">
-			<len>200</len>
+         <len>4000</len>
 			<label>Palavras Chave</label>
 			<editor>HTML</editor>
 			<tooltip/>

@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Fri Jul 07 20:13:11 BST 2006-->
 <xeoModel>
-   <general name="messageInternal" type="object" version="1.0" extends="messageLetter" mastertable="message" orphan="true" multiparent="false" extendsJavaClass="">
+	<general name="messageInternal" type="object" version="1.0" extends="messageLetter" mastertable="message" orphan="true" multiparent="false" markInputType="true" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
       <database/>
@@ -13,13 +13,14 @@
             <attribute onlyCardID="true">toRef</attribute>
             <attribute onlyCardID="true">ccRef</attribute>
             <attribute onlyCardID="true">bccRef</attribute>
+				<attribute onlyCardID="false">objReferences</attribute>
          </process>
       </textIndex>
       <description>messageInternal</description>
       <cardID>[name] </cardID>
       <label>Mensagem Interna</label>
    </general>
-   <opl active="false"/>
+	<opl active="true"/>
    <states/>
    <methods/>
    <events/>

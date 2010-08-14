@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Fri Jul 07 20:13:11 BST 2006-->
 <xeoModel>
-   <general name="messageSystem" type="object" version="1.0" extends="message" mastertable="message" orphan="true" multiparent="false" extendsJavaClass="">
+	<general name="messageSystem" type="object" version="1.0" extends="message" mastertable="message" orphan="true" multiparent="false" markInputType="true" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
       <database/>
@@ -19,7 +19,7 @@
       <cardID>[name] </cardID>
       <label>Email de Sistema</label>
    </general>
-   <opl active="false"/>
+	<opl active="true"/>
    <states/>
    <methods/>
    <events/>
@@ -27,15 +27,15 @@
    <attributes>
       <attributeDateTime name="delivery">
          <label>Entregue/Falhou</label>
-         <tooltip></tooltip>
+			<tooltip/>
       </attributeDateTime>
       <attributeDateTime name="read">
          <label>Lido</label>
-         <tooltip></tooltip>
+			<tooltip/>
       </attributeDateTime>
    </attributes>
    <viewers>
-      <viewer name="general">
+		<viewer name="general" viewerClass="netgest.bo.dochtml.viewerImpl.SystemMessageViewer">
          <forms>
             <form name="edit" template="std" style="padding:6px;">
                <panel>
@@ -100,9 +100,6 @@
                   <cols>
                      <col width="120">
                         <attribute>from</attribute>
-                     </col>
-                     <col width="150">
-                        <attribute>name</attribute>
                      </col>
                      <col width="110">
                         <attribute>delivery</attribute>

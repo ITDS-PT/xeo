@@ -26,7 +26,12 @@
          <tooltip></tooltip>
          <setParent>false</setParent>
          <objectFilter/>
-         <disableWhen language="BOL"><depends/>true</disableWhen>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+			<textIndex>
+				<active>true</active>
+				<onlyCardId>true</onlyCardId>
+			</textIndex>
       </attributeObject>
       <attributeText name="description">
          <len>200</len>
@@ -57,8 +62,12 @@
          <decimals>0</decimals>
          <minDecimals>0</minDecimals>
          <label>Tamanho</label>
-         <tooltip></tooltip>
-         <disableWhen language="BOL"><depends/>true</disableWhen>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+			<textIndex>
+				<active>false</active>
+			</textIndex>
       </attributeNumber>
       <attributeText name="fileName">
          <len>200</len>
@@ -67,15 +76,19 @@
       </attributeText>
       <attributeDateTime name="lastModified">
          <label>Ultima Modificação</label>
-         <tooltip></tooltip>
-         <disableWhen language="BOL"><depends/>true</disableWhen>
+			<tooltip/>
+			<disableWhen language="BOL">
+				<depends/>true</disableWhen>
+			<textIndex>
+				<active>false</active>
+			</textIndex>
       </attributeDateTime>
    </attributes>
    <viewers>
       <viewer name="general">
          <forms>
             <form name="edit" template="std">
-               <panel voui="panel" bo_node="global" order="10">
+					<panel voui="panel" bo_node="global" name="panelDocBase" order="10">
                   <tab bo_node="global" order="10" name="tabprincipal" style="overflow-y:auto">
                      <section showlabel="no" label="node.label" order="10" name="seccao_master">
                         <rows>

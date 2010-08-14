@@ -7,7 +7,7 @@
 		<implements/>
 		<database/>
 		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
+		<textIndex active="false" appendChilds="false" deep="1">
 			<process/>
 		</textIndex>
 		<description>recipient</description>

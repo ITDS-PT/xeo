@@ -41,6 +41,10 @@
             <value>Letter</value>
             <label>Carta</label>
          </item>
+			<item>
+				<value>SMS</value>
+				<label>SMS</label>
+			</item>
       </details>
    </Lov>
    <Lov name="mediaMessageWuserPrefered" retainValues="No">
@@ -81,6 +85,10 @@
             <value>Prefered</value>
             <label>Preferência Utilizador</label>
          </item>
+			<item>
+				<value>SMS</value>
+				<label>SMS</label>
+			</item>
       </details>
    </Lov>
 </xeoLov>

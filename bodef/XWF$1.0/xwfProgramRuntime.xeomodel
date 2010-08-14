@@ -242,10 +242,10 @@
 				<form name="edit" template="std">
 					<code intersectPoint="afterProcess">if(true){
 StringBuffer url = new StringBuffer("?method=edit&amp;masterdoc=true&amp;docid="+IDX);
-  Enumeration enum = request.getParameterNames();
-  while( enum.hasMoreElements() )
+  Enumeration oEnum = request.getParameterNames();
+  while( oEnum.hasMoreElements() )
   {
-      String pname = enum.nextElement().toString();
+      String pname = oEnum.nextElement().toString();
       if( !pname.equalsIgnoreCase("method") &amp;&amp; !pname.equalsIgnoreCase("docid") )
       {
           url.append("&amp;").append( pname ).append( "=" ).append( java.net.URLEncoder.encode( request.getParameter( pname ) ) );
