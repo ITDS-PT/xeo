@@ -135,16 +135,16 @@ public class BasicPresentation  implements Presentation
         if(boui > 0)
         {
             boObject object = this.getDocHTML().getObject(boui);
-        if(object != null)
-        {
-            List attributes = object.getAttributes(boDefAttribute.VALUE_CLOB);
-            for (int i = 0; i < attributes.size() && !found;  i++) 
+            if(object != null)
             {
-                attribute = (AttributeHandler)attributes.get(i);
-                if(!"text".equalsIgnoreCase(attribute.getDefAttribute().getEditorType()))
+                List attributes = object.getAttributes(boDefAttribute.VALUE_CLOB);
+                for (int i = 0; i < attributes.size() && !found;  i++) 
                 {
-                    result.append("\n<script type=\"text/javascript\" src=\"FCKeditor/fckeditor.js\"></script>");
-                    found = true;
+                    attribute = (AttributeHandler)attributes.get(i);
+                    if(!"text".equalsIgnoreCase(attribute.getDefAttribute().getEditorType()))
+                    {
+                        result.append("\n<script type=\"text/javascript\" src=\"FCKeditor/fckeditor.js\"></script>");
+                        found = true;
                     }
                 }
             }

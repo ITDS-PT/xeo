@@ -58,7 +58,7 @@ public class PrintQueueJobEvents
                 logger.finest("Attribute printQueue -> BOUI: " + String.valueOf(queueJob.getAttribute("printQueue").getObject().getBoui()));
                 logger.finest("Attribute printQueue -> Attribute id: " + queueJob.getAttribute("printQueue").getObject().getAttribute( "id" ).getValueString());
                 
-                queueFolder = PrintJob.getQueueFolder(queueJob.getAttribute("printQueue").getObject().getAttribute("id").getValueString(), queueJob.getBoui());
+                queueFolder = PrintJob.getQueueFolder( queueJob.getEboContext(), queueJob.getAttribute("printQueue").getObject().getAttribute("id").getValueString(), queueJob.getBoui());
             }
             else
                 logger.finest("Attribute printQueue is NULL.");

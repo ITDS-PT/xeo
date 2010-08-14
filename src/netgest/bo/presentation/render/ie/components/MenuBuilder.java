@@ -44,95 +44,95 @@ public class MenuBuilder {
     //MENU_TYPE
     public static final int TYPE_MNUBAR_MENU = 0;
     public static final int TYPE_MNULIST_MENU = 0;
-    private static final char[] MNU_MNUBAR_MENU = "mnubar menu".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_MNULIST_MENU = "mnuList menu".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_WMENU = " menu".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BAR = "BAR".toCharArray(); //$NON-NLS-1$
-    private static final char[] WORD_CLASS = "class".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_LIST = "LIST".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_VSPACE = ("<img hspace=\"3\" src=\"" + //$NON-NLS-1$
-        Browser.getThemeDir() + "menu/mnu_vSpacer.gif\" WIDTH=\"5\" HEIGHT=\"18\">").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_VSPACER = ("<td style='padding-top:4px;padding-bottom:4px' ><img src='" + //$NON-NLS-1$
+    private static final char[] MNU_MNUBAR_MENU = "mnubar menu".toCharArray();
+    private static final char[] MNU_MNULIST_MENU = "mnuList menu".toCharArray();
+    private static final char[] MNU_WMENU = " menu".toCharArray();
+    private static final char[] MNU_BAR = "BAR".toCharArray();
+    private static final char[] WORD_CLASS = "class".toCharArray();
+    private static final char[] MNU_LIST = "LIST".toCharArray();
+    private static final char[] MNU_VSPACE = ("<img hspace=\"3\" src=\"" +
+        Browser.getThemeDir() + "menu/mnu_vSpacer.gif\" WIDTH=\"5\" HEIGHT=\"18\">").toCharArray();
+    private static final char[] MNU_VSPACER = ("<td style='padding-top:4px;padding-bottom:4px' ><img src='" +
         Browser.getThemeDir() +
-        "menu/mnu_hSpacer.gif' WIDTH='2' HEIGHT='100%'/></td>").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_TABINDEX = "tabindex=\"0\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_ACCESSKEY = "accessKey=".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_THIRTY = "30".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_NINE = "9".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_LABEL = "class=\"mnuLabel\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_OPTION = "class=\"mnuOption\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_ITEM = "class=\"mnuItem\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_HSPACER = "<tr class=\"mnuSpacer\"><td>&nbsp;</td><td><hr class=\"mnuSpacer\"></td></tr>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_MENU = "menu=\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_LIST_COL = "<colgroup><col class=\"mnuLeft\"/><col/></colgroup>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_IMG_START = "<img class=\"buttonMenu\" src=\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_IMG_END = "\" WIDTH=\"16\" HEIGHT=\"16\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_0 = "<td style='width:170px' ><table  class='explorerfullTextSearch' cellpadding=0 cellspacing=0 width='100%'><tr>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_1 = "<td class=\"mnuLabel\" style=\"padding-left:5px;padding-right:5px\">".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_2 = (JSPMessages.getString("MenuBuilder.24")+ //$NON-NLS-1$
-    													"</td><td class='tdTextFull'>").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_3 = "<input class='explorerfullTextSearch' value='".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_3_1 = "' id='TEXTSEARCH' key='".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_4 = "' onchange='setExplorerFullTextGroup(\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_5 = "\",TEXTSEARCH.value )' name = 'TEXTSEARCH' tabIndex='".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_6 = "'/></td>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_7 = ("<td class='tdImgTextFull' ><img  title='" //$NON-NLS-1$
-    	+JSPMessages.getString("MenuBuilder.32")+ //$NON-NLS-1$
-    	"' onclick='setExplorerFullTextGroup(\"").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_8 = ("\",\"\" )' style='' border='0' src='" + //$NON-NLS-1$
+        "menu/mnu_hSpacer.gif' WIDTH='2' HEIGHT='100%'/></td>").toCharArray();
+    private static final char[] MNU_TABINDEX = "tabindex=\"0\"".toCharArray();
+    private static final char[] MNU_ACCESSKEY = "accessKey=".toCharArray();
+    private static final char[] MNU_THIRTY = "30".toCharArray();
+    private static final char[] MNU_NINE = "9".toCharArray();
+    private static final char[] MNU_LABEL = "class=\"mnuLabel\"".toCharArray();
+    private static final char[] MNU_OPTION = "class=\"mnuOption\"".toCharArray();
+    private static final char[] MNU_ITEM = "class=\"mnuItem\"".toCharArray();
+    private static final char[] MNU_HSPACER = "<tr class=\"mnuSpacer\"><td>&nbsp;</td><td><hr class=\"mnuSpacer\"></td></tr>".toCharArray();
+    private static final char[] MNU_MENU = "menu=\"".toCharArray();
+    private static final char[] MNU_LIST_COL = "<colgroup><col class=\"mnuLeft\"/><col/></colgroup>".toCharArray();
+    private static final char[] MNU_IMG_START = "<img class=\"buttonMenu\" src=\"".toCharArray();
+    private static final char[] MNU_IMG_END = "\" WIDTH=\"16\" HEIGHT=\"16\"".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_0 = "<td style='width:170px' ><table  class='explorerfullTextSearch' cellpadding=0 cellspacing=0 width='100%'><tr>".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_1 = "<td class=\"mnuLabel\" style=\"padding-left:5px;padding-right:5px\">".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_2 = (JSPMessages.getString("MenuBuilder.24")+
+    													"</td><td class='tdTextFull'>").toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_3 = "<input class='explorerfullTextSearch' value='".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_3_1 = "' id='TEXTSEARCH' key='".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_4 = "' onchange='setExplorerFullTextGroup(\"".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_5 = "\",TEXTSEARCH.value )' name = 'TEXTSEARCH' tabIndex='".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_6 = "'/></td>".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_7 = ("<td class='tdImgTextFull' ><img  title='"
+    	+JSPMessages.getString("MenuBuilder.32")+
+    	"' onclick='setExplorerFullTextGroup(\"").toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_8 = ("\",\"\" )' style='' border='0' src='" +
 													        Browser.getThemeDir() +
-													        "menu/fulltextdelete.gif' width='10' height='10'/></td></tr></table>").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_9 = "</td><td style='width:60px;padding-left:5px' ><button id='BTNSRCH".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_10 = ("' title='"+ //$NON-NLS-1$
-														    JSPMessages.getString("MenuBuilder.23")+ //$NON-NLS-1$
-														    "' tabindex = '").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_11 = "' onclick='setExplorerFullTextGroup(\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SEARCH_COMPONENT_12 = ("\",TEXTSEARCH.value )' style='height:20px;width:60px;'>"+ //$NON-NLS-1$
-    														JSPMessages.getString("MenuBuilder.42")+ //$NON-NLS-1$
-    														"</button></td>").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_1 = "<td style='width:62px;padding-left:5px' ><button tabIndex='".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_2 = ("' title='"+ //$NON-NLS-1$
-    															JSPMessages.getString("MenuBuilder.46")+ //$NON-NLS-1$
-    															"' style='height:20px;width:62px;'").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_2_1 = "class='filterSet'".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_3 = " onclick=\"winmain().openDocUrl(',800,580','__queryBuilder.jsp','?".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_4 = "docid='+getDocId()+'&explorer=true&relatedIDX='+getIDX()+'&object=".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_4_1 = "&referenceFrame='+getReferenceFrame()+'&reference=".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_5 = ("','lookup')\">"+ //$NON-NLS-1$
-    																JSPMessages.getString("MenuBuilder.53")+ //$NON-NLS-1$
-    																"</button></td>").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_FILTER_COMPONENT_1 = "<td style='width:130px' ><span style=''>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_FILTER_COMPONENT_2 = "</td></span>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_EMPTY_COLUMN = "<td style=\"width:100%\">&nbsp;</td>".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_TABLE_SP0_PAD0 = "<table cellSpacing=\"0\" cellPadding=\"0\">".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_SUBM_GIF_CLASS = "class=\"OPENGIF\">".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_XML_FILTER = "&xmlFilter=".toCharArray(); //$NON-NLS-1$
+													        "menu/fulltextdelete.gif' width='10' height='10'/></td></tr></table>").toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_9 = "</td><td style='width:60px;padding-left:5px' ><button id='BTNSRCH".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_10 = ("' title='"+
+														    JSPMessages.getString("MenuBuilder.23")+
+														    "' tabindex = '").toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_11 = "' onclick='setExplorerFullTextGroup(\"".toCharArray();
+    private static final char[] MNU_SEARCH_COMPONENT_12 = ("\",TEXTSEARCH.value )' style='height:20px;width:60px;'>"+
+    														JSPMessages.getString("MenuBuilder.42")+
+    														"</button></td>").toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_1 = "<td style='width:62px;padding-left:5px' ><button tabIndex='".toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_2 = ("' title='"+
+    															JSPMessages.getString("MenuBuilder.46")+
+    															"' style='height:20px;width:62px;'").toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_2_1 = "class='filterSet'".toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_3 = " onclick=\"winmain().openDocUrl(',800,580','__queryBuilder.jsp','?".toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_4 = "docid='+getDocId()+'&explorer=true&relatedIDX='+getIDX()+'&object=".toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_4_1 = "&referenceFrame='+getReferenceFrame()+'&reference=".toCharArray();
+    private static final char[] MNU_EXPERT_SEARCH_COMPONENT_5 = ("','lookup')\">"+
+    																JSPMessages.getString("MenuBuilder.53")+
+    																"</button></td>").toCharArray();
+    private static final char[] MNU_FILTER_COMPONENT_1 = "<td style='width:130px' ><span style=''>".toCharArray();
+    private static final char[] MNU_FILTER_COMPONENT_2 = "</td></span>".toCharArray();
+    private static final char[] MNU_EMPTY_COLUMN = "<td style=\"width:100%\">&nbsp;</td>".toCharArray();
+    private static final char[] MNU_TABLE_SP0_PAD0 = "<table cellSpacing=\"0\" cellPadding=\"0\">".toCharArray();
+    private static final char[] MNU_SUBM_GIF_CLASS = "class=\"OPENGIF\">".toCharArray();
+    private static final char[] MNU_XML_FILTER = "&xmlFilter=".toCharArray();
     private static final int[] MNU_FUNTIONS = {FunctionBuilder.FUNC_START_FILTER};
     private static final int[] MNU_SCRIPTS = {};
     private static final int[] MNU_IMPORTS = {
         ImportBuilder.IMP_CSS_UI_GLOBAL, ImportBuilder.IMP_CSS_MENU,
         ImportBuilder.IMP_CSS_UI_MENU
     };
-    private static final char[] MNU_NAME = "name=\"".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_ID = "id=\"".toCharArray(); //$NON-NLS-1$
+    private static final char[] MNU_NAME = "name=\"".toCharArray();
+    private static final char[] MNU_ID = "id=\"".toCharArray();
 
 
-    private static final char[] MNU_BOQL_INIT_COMPONENT_1 = "<td style='width:62px;padding-left:5px' ><button tabIndex='".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_COMPONENT_2 = ("' title='"+ //$NON-NLS-1$
-    															JSPMessages.getString("MenuBuilder.65")+ //$NON-NLS-1$
-    															"' style='height:20px;width:62px;'").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_COMPONENT_2_1 = "class='filterSet'".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_COMPONENT_7 = " onclick=\"startInitialFilter(".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_COMPONENT_7_1 = ");".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_COMPONENT_7_2 = ("\">"+JSPMessages.getString("MenuBuilder.71")+"</button></td>").toCharArray(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    private static final char[] MNU_BOQL_INIT_COMPONENT_1 = "<td style='width:62px;padding-left:5px' ><button tabIndex='".toCharArray();
+    private static final char[] MNU_BOQL_INIT_COMPONENT_2 = ("' title='"+
+    															JSPMessages.getString("MenuBuilder.65")+
+    															"' style='height:20px;width:62px;'").toCharArray();
+    private static final char[] MNU_BOQL_INIT_COMPONENT_2_1 = "class='filterSet'".toCharArray();
+    private static final char[] MNU_BOQL_INIT_COMPONENT_7 = " onclick=\"startInitialFilter(".toCharArray();
+    private static final char[] MNU_BOQL_INIT_COMPONENT_7_1 = ");".toCharArray();
+    private static final char[] MNU_BOQL_INIT_COMPONENT_7_2 = ("\">"+JSPMessages.getString("MenuBuilder.71")+"</button></td>").toCharArray();
     
-    private static final char[] MNU_BOQL_INIT_CMPN_1 = "<TD tabindex=\"".toCharArray();  //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_CMPN_2 = ("\" title=\""+ //$NON-NLS-1$
-    														JSPMessages.getString("MenuBuilder.75")+ //$NON-NLS-1$
-    														"\" class=\"mnuOption\"").toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_CMPN_7 = " onclick=\"startInitialFilter(".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_CMPNT_7_1 = ");".toCharArray(); //$NON-NLS-1$
-    private static final char[] MNU_BOQL_INIT_CMPN_7_2 = "\"><img class=\"buttonMenu\" src=\"templates/form/std/search16.gif\" WIDTH=\"16\" HEIGHT=\"16\"></td>".toCharArray(); //$NON-NLS-1$
+    private static final char[] MNU_BOQL_INIT_CMPN_1 = "<TD tabindex=\"".toCharArray(); 
+    private static final char[] MNU_BOQL_INIT_CMPN_2 = ("\" title=\""+
+    														JSPMessages.getString("MenuBuilder.75")+
+    														"\" class=\"mnuOption\"").toCharArray();
+    private static final char[] MNU_BOQL_INIT_CMPN_7 = " onclick=\"startInitialFilter(".toCharArray();
+    private static final char[] MNU_BOQL_INIT_CMPNT_7_1 = ");".toCharArray();
+    private static final char[] MNU_BOQL_INIT_CMPN_7_2 = "\"><img class=\"buttonMenu\" src=\"templates/form/std/search16.gif\" WIDTH=\"16\" HEIGHT=\"16\"></td>".toCharArray();
     
     
 //    private static final char[] MNU_BOQL_INIT_COMPONENT_3 = " onclick=\"winmain().openDocUrl(',800,580','".toCharArray();
@@ -151,7 +151,7 @@ public class MenuBuilder {
     public static final void writeMenu(PrintWriter out, Menu menu,
         docHTML doc, docHTML_controler docList, PageController control) throws IOException, boRuntimeException {
         menu.rearrangeMenu();
-        menu.setOnClickParameters("idx", String.valueOf(doc.getDocIdx())); //$NON-NLS-1$
+        menu.setOnClickParameters("idx", String.valueOf(doc.getDocIdx()));
 
         if(menu.getImportCode() != null)
         {
@@ -176,7 +176,7 @@ public class MenuBuilder {
             out.write(HTMLCommon.UTIL_NEW_LINE);
         }
 
-        writeMenu(out, menu, "menu", !menu.isHorizontalMenu(), doc, docList, control, menu.getParameters()); //$NON-NLS-1$
+        writeMenu(out, menu, "menu", !menu.isHorizontalMenu(), doc, docList, control, menu.getParameters());
     }
 
     private static final void writeMenu(PrintWriter out, Menu mnu,
@@ -263,15 +263,15 @@ public class MenuBuilder {
         out.write(HTMLCommon.WORD_CELLPADDING);
         out.write(HTMLCommon.SYMBOL_EQUAL);
         out.write(HTMLCommon.SYMBOL_QUOTE);
-        if ( subMenu ) out.write("3".toCharArray()); //$NON-NLS-1$
-        else out.write("0".toCharArray()); //$NON-NLS-1$
+        if ( subMenu ) out.write("3".toCharArray());
+        else out.write("0".toCharArray());
         
         out.write(HTMLCommon.SYMBOL_QUOTE);
         out.write(HTMLCommon.UTIL_WHITE_SPACE);
         out.write(HTMLCommon.WORD_CELLSPACING);
         out.write(HTMLCommon.SYMBOL_EQUAL);
         out.write(HTMLCommon.SYMBOL_QUOTE);
-        out.write("0".toCharArray()); //$NON-NLS-1$
+        out.write("0".toCharArray());
         out.write(HTMLCommon.SYMBOL_QUOTE);
         out.write(HTMLCommon.SYMBOL_GT);
 
@@ -302,7 +302,7 @@ public class MenuBuilder {
             out.write(HTMLCommon.SYMBOL_QUOTE);
             out.write(MNU_NINE);
             out.write(HTMLCommon.SYMBOL_QUOTE);
-            out.write(" onclick='setDefaultExplorer();'".toCharArray()); //$NON-NLS-1$
+            out.write(" onclick='setDefaultExplorer();'".toCharArray());
             out.write(HTMLCommon.SYMBOL_GT);
             out.write(HTMLCommon.UTIL_NEW_LINE);
             out.write(MNU_VSPACE);
@@ -312,7 +312,7 @@ public class MenuBuilder {
 
         MenuItem item;
         MenuAdHocItem itemAdHoc;
-        String subMenuName = mnuName + ""; //$NON-NLS-1$
+        String subMenuName = mnuName + "";
 
         for (int i = 0; i < menusItens.size(); i++) {
             subMenuName = null;
@@ -321,7 +321,7 @@ public class MenuBuilder {
                 item = (MenuItem) menusItens.get(i);
 
                 if (item.getSubMenuSize() > 0) {
-                    subMenuName = mnuName + "_" + (i + 1); //$NON-NLS-1$
+                    subMenuName = mnuName + "_" + (i + 1);
                 }
                 out.write(HTMLCommon.UTIL_NEW_LINE);
 
@@ -361,7 +361,7 @@ public class MenuBuilder {
     
                 if ((item.getSubMenuSize() > 0) && item.isVisible() &&
                         !item.isDisabled()) {
-                    subMenuName = mnuName + "_" + (i + 1); //$NON-NLS-1$
+                    subMenuName = mnuName + "_" + (i + 1);
                     writeMenu(out, item.getSubMenu(), subMenuName, true, doc, docList, control, parameters);
                 }
             }
@@ -503,6 +503,9 @@ public class MenuBuilder {
         if (!item.isHorizontalLine() && item.isVisible()) {
             if (item.isVerticalLine()) {
                 out.write(MNU_VSPACER);
+            }
+            else if( item.isCustomRenderer() ) {
+                item.renderComponent( mnu, item, out, doc, docList, control, param );
             } else if (item.isSearchComponent()) {
                 if (item.isVisible()) {
 //                    if (item.getCode() == null) {
@@ -542,7 +545,7 @@ public class MenuBuilder {
                         out.write(MNU_EXPERT_SEARCH_COMPONENT_1);
                         out.write(String.valueOf(item.getTabIndex()).toCharArray());
                         out.write(MNU_EXPERT_SEARCH_COMPONENT_2);
-                        if(mnu.getTextUserQuery() != null && !"".equals(mnu.getTextUserQuery())) //$NON-NLS-1$
+                        if(mnu.getTextUserQuery() != null && !"".equals(mnu.getTextUserQuery()))
                         {
                             out.write(MNU_EXPERT_SEARCH_COMPONENT_2_1);
                         }
@@ -554,7 +557,7 @@ public class MenuBuilder {
 
                         char[] key = item.getSearchComponentKey().toCharArray();
                         out.write(key);
-                        if(mnu.getTextUserQuery() != null && !"".equals(mnu.getTextUserQuery())) //$NON-NLS-1$
+                        if(mnu.getTextUserQuery() != null && !"".equals(mnu.getTextUserQuery()))
                         {
                             out.write(MNU_XML_FILTER);
                             

@@ -42,17 +42,17 @@ public final class docHTML_builderMenus  {
     
      private static String getViewerInAction(PageContext page)
     {
-        String viewer = ""; //$NON-NLS-1$
+        String viewer = "";
         String tmpViewer = page.getPage().toString();  
         String[] part = null;
-        if(tmpViewer.indexOf("@") != -1) //$NON-NLS-1$
+        if(tmpViewer.indexOf("@") != -1)
         {
-            part = tmpViewer.split("@");    //$NON-NLS-1$
+            part = tmpViewer.split("@");   
         }
         String[] part2 = null;
-        if(part != null && part[0].indexOf("general") != -1) //$NON-NLS-1$
+        if(part != null && part[0].indexOf("general") != -1)
         {
-            part2 = part[0].split("general");    //$NON-NLS-1$
+            part2 = part[0].split("general");   
             viewer = part2[1];
         }                
         return viewer;
@@ -81,8 +81,8 @@ public final class docHTML_builderMenus  {
         
         
         objParent       = bolist.getParent();
-        objIstemplate   = bolist.getBoDef().getName().equalsIgnoreCase("Ebo_Template"); //$NON-NLS-1$
-        objIstemplateDet= bolist.getBoDef().getName().equalsIgnoreCase("Ebo_Map"); //$NON-NLS-1$
+        objIstemplate   = bolist.getBoDef().getName().equalsIgnoreCase("Ebo_Template");
+        objIstemplateDet= bolist.getBoDef().getName().equalsIgnoreCase("Ebo_Map");
 
         if ( obj != null )
         {
@@ -94,9 +94,9 @@ public final class docHTML_builderMenus  {
         }
         
         
-        String attributeRelated=""; //$NON-NLS-1$
-        String clsRelated=""; //$NON-NLS-1$
-        String relatedClsAttribute=""; //$NON-NLS-1$
+        String attributeRelated="";
+        String clsRelated="";
+        String relatedClsAttribute="";
         long templateBoui=0;
         
         
@@ -104,25 +104,25 @@ public final class docHTML_builderMenus  {
             String r=null;
             if ( obj != null )
             {
-                r=obj.getParameter("relatedObjBOUI"); //$NON-NLS-1$
+                r=obj.getParameter("relatedObjBOUI");
             }
             if( r !=null ) relatedObjBOUI=ClassUtils.convertToLong(r,0);
             
             if( relatedObjBOUI > 0 )
             {
-                masterObjClass = obj.getAttribute("masterObjectClass").getValueString(); //$NON-NLS-1$
+                masterObjClass = obj.getAttribute("masterObjectClass").getValueString();
                 edit = EDIT_OBJECT_TEMPLATE;
             }
             else 
             {
-                r=bolist.getParameter("relatedObjBOUI") ; //$NON-NLS-1$
+                r=bolist.getParameter("relatedObjBOUI") ;
                 if( r !=null ) relatedObjBOUI=ClassUtils.convertToLong(r,0);
                 if ( relatedObjBOUI >0 )
                 {    
-                    attributeRelated= bolist.getParameter("relatedObjAttribute") ; //$NON-NLS-1$
-                    clsRelated      = bolist.getParameter("relatedCls") ; //$NON-NLS-1$
-                    relatedClsAttribute = bolist.getParameter("relatedClsAttribute") ;  //$NON-NLS-1$
-                    templateBoui    = ClassUtils.convertToLong(bolist.getParameter("template_boui"),0); //$NON-NLS-1$
+                    attributeRelated= bolist.getParameter("relatedObjAttribute") ;
+                    clsRelated      = bolist.getParameter("relatedCls") ;
+                    relatedClsAttribute = bolist.getParameter("relatedClsAttribute") ; 
+                    templateBoui    = ClassUtils.convertToLong(bolist.getParameter("template_boui"),0);
                     edit = EDIT_TEMPLATE;
                     mode = MODE_LIST_OBJECT_BRIDGE;    
                 }
@@ -135,11 +135,11 @@ public final class docHTML_builderMenus  {
             //boObject t=bolist.getParent();
             String r = null;
             if(objParent != null)
-                r=objParent.getParameter("relatedObjBOUI"); //$NON-NLS-1$
+                r=objParent.getParameter("relatedObjBOUI");
             if( r !=null ) relatedObjBOUI=ClassUtils.convertToLong(r,0);
             if( relatedObjBOUI > 0 ) 
             {
-                masterObjClass = objParent.getAttribute("masterObjectClass").getValueString(); //$NON-NLS-1$
+                masterObjClass = objParent.getAttribute("masterObjectClass").getValueString();
                 edit = EDIT_OBJECT_TEMPLATE;
                 mode = MODE_LIST_OBJECT_BRIDGE;
             }
@@ -183,12 +183,12 @@ public final class docHTML_builderMenus  {
                 }
             }
         }
-        String searchMode=page.getRequest().getParameter("listmode"); //$NON-NLS-1$
+        String searchMode=page.getRequest().getParameter("listmode");
        // boolean parentWin = (page.getRequest().getParameter("relatedClientIDX") == null 
        //                     || "".equals(page.getRequest().getParameter("relatedClientIDX")))
                             
-        boolean parentWin= (page.getRequest().getParameter("ctxParentIdx") == null  //$NON-NLS-1$
-                            || "".equals(page.getRequest().getParameter("ctxParentIdx"))); //$NON-NLS-1$ //$NON-NLS-2$
+        boolean parentWin= (page.getRequest().getParameter("ctxParentIdx") == null 
+                            || "".equals(page.getRequest().getParameter("ctxParentIdx")));
                             
         if ( searchMode != null )
         {
@@ -252,77 +252,77 @@ public final class docHTML_builderMenus  {
         
         
         String[][] opt =new String[3][];
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.24"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.24");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), JSPMessages.getString("docHTML_builderMenus.25"), DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), JSPMessages.getString("docHTML_builderMenus.25"), DOCLIST));
         }
         else
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "DOCUMENTO", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "DOCUMENTO", DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_DOCUMENTO"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_DOCUMENTO";
     
         menuNumber++;
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.23"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.23");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Accoes", DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
 
 
         menuNumber++;
 
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.34"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.34");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Help", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Help", DOCLIST));
         }
         else
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Help", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Help", DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="J"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_AJUDA"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="J";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_AJUDA";
 
      //SUBMENU DOCUMENTO   
          menuNumber=0;
          String[][] opt2 =new String[20][];
 
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.39"); //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.39");
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="N"; //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_NEW"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="N";
+        opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_NEW";
         menuNumber++;
 
 
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
         menuNumber++;
         boObject masterObj = obj;
-        if("BasicController".equals(DOC.getController().getName()))         //$NON-NLS-1$
+        if("BasicController".equals(DOC.getController().getName()))        
         {
         
             
@@ -338,17 +338,17 @@ public final class docHTML_builderMenus  {
                 if( masterObj.isEnabled  )
                 {
                       opt2[menuNumber]=new String[5];
-                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.45"); //$NON-NLS-1$
-                      if("Ebo_Filter".equals(obj.getName())) //$NON-NLS-1$
+                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.45");
+                      if("Ebo_Filter".equals(obj.getName()))
                       {
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.Save(); savePressed(true);}"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.Save(); savePressed(true);}";
                       }
                       else
                       {
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Save(); savePressed(true);wait();"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Save(); savePressed(true);wait();";
                       }
-                      opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+                      opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
                       opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                       menuNumber++;
                 }
@@ -362,94 +362,94 @@ public final class docHTML_builderMenus  {
                     if( masterObj.isEnabled )  
                     {
                         opt2[menuNumber]=new String[5];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.51"); //$NON-NLS-1$
-                        if("Ebo_Filter".equals(obj.getName())) //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.51");
+                        if("Ebo_Filter".equals(obj.getName()))
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndClose(); savePressed(true);}"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndClose(); savePressed(true);}";
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndClose(); savePressed(true);wait();"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndClose(); savePressed(true);wait();";
                         }
-                        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
                         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                         menuNumber++;
                     }
             }
         }
         
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Duplicate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Duplicate",obj.getEboContext().getBoSession().getPerformerBoui())
             && obj.getBoDefinition().getBoCanBeOrphan()
         ) 
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.466"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.duplicate('" + obj.getName() + "', "+ obj.getBoui() + ");wait();"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.466");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.duplicate('" + obj.getName() + "', "+ obj.getBoui() + ");wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
        }
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
-            boObject template = obj.getAttribute("TEMPLATE").getObject(); //$NON-NLS-1$
+            boObject template = obj.getAttribute("TEMPLATE").getObject();
             if(template == null)
             {
               opt2[menuNumber]=new String[5];
-              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.66"); //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAsTemplate()"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.66");
+              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAsTemplate()";
+              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
               opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
               menuNumber++;
             }
             else
             {
               opt2[menuNumber]=new String[5];
-              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.22"); //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.RemoveTemplate();wait();"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.22");
+              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.RemoveTemplate();wait();";
+              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
               opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
               menuNumber++;
                 
             }
         }
  
-        if("BasicController".equals(DOC.getController().getName()))         //$NON-NLS-1$
+        if("BasicController".equals(DOC.getController().getName()))        
         {       
-            if (securityRights.hasRightsToMethod(obj,obj.getName(),"LaunchProgram",obj.getEboContext().getBoSession().getPerformerBoui()))         //$NON-NLS-1$
+            if (securityRights.hasRightsToMethod(obj,obj.getName(),"LaunchProgram",obj.getEboContext().getBoSession().getPerformerBoui()))        
             {
                 String objName = obj.getBoDefinition().getName();
-                if("xwfProgram".equals(objName)) //$NON-NLS-1$
+                if("xwfProgram".equals(objName))
                 {         
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.21"); //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.21");
     //              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfMainViewer.jsp' )";
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&programMode=1&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfWorkPlace.jsp' )"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="T"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&programMode=1&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfWorkPlace.jsp' )";
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="T";
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;
                   
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.83"); //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.83");
     //              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfMainViewer.jsp' )";
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfWorkPlace.jsp' )"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&masterdoc=true&fromPathItem=&defProgramBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfWorkPlace.jsp' )";
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P";
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;
                 }
                 else
                 {
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.89"); //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&inputObjectBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfProgramStartViewer.jsp' )"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.89");
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'','list','method=new&inputObjectBoui=" + obj.getBoui() +"&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&docid='+getDocId()+'"+"','','__xwfProgramStartViewer.jsp' )";
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P";
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;                
                 }
@@ -458,26 +458,26 @@ public final class docHTML_builderMenus  {
         
         //APLICAR INTERFACE
         if(obj.getBoDefinition().getBoInterfaces()!=null && obj.getBoDefinition().getBoInterfaces().length>0 && 
-          securityRights.hasRightsToMethod(obj,obj.getName(),"ActivateInterface",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+          securityRights.hasRightsToMethod(obj,obj.getName(),"ActivateInterface",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
             opt2[menuNumber]=new String[5];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.96"); //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.96");
             opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_INTERFACE"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
+            opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_INTERFACE";
             menuNumber++;
         }
         
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
         menuNumber++;
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           String  XeoWin32Client_address = obj.getEboContext().getXeoWin32Client_adress();
           boolean wordTemplate = boDefPrinterDefinitions.existsWordTemplatesFor(obj);
@@ -486,96 +486,96 @@ public final class docHTML_builderMenus  {
                 if(!wordTemplate)
                 {
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.102"); //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()";           //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.102");
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()";          
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;                    
                 }
                 else
                 {
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106"); //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");
                   //String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                 
                   opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;//"boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                   
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_IMPRIMIR"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
+                  opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_IMPRIMIR";
                   menuNumber++;                                   
                 }
           }                    
           else // Para alterar, não é necessário ter cliente 
           {
               opt2[menuNumber]=new String[5];
-              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.110");               //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.110");              
               opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;//"boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printObject',['this'])";          
-              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_IMPRIMIR"; //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
+              opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_IMPRIMIR";
               menuNumber++;          
               
               opt2[menuNumber]=new String[5];
-              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.114"); //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.114");
               //String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                 
               opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;//"boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                   
-              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="V"; //$NON-NLS-1$
-              opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_VISUALIZAR"; //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+              opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="V";
+              opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_VISUALIZAR";
               menuNumber++; 
               
               if(DocumentHelper.existsDocuments(obj))
               {
                   opt2[menuNumber]=new String[5];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.118"); //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printAllDocuments',['this'])"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.118");
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printAllDocuments',['this'])";
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;
               }
           }
         }
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ExportObject",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ExportObject",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.123"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__choseExport.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"','lookup') "; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="E"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.123");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__choseExport.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"','lookup') ";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="E";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ExportProgramDef",obj.getEboContext().getBoSession().getPerformerBoui()) && //$NON-NLS-1$
-            "xwfProgramDef".equals(obj.getName())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ExportProgramDef",obj.getEboContext().getBoSession().getPerformerBoui()) &&
+            "xwfProgramDef".equals(obj.getName()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.130"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__exportProgramDef.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"&modeType=export','lookup') "; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="x"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.130");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__exportProgramDef.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"&modeType=export','lookup') ";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="x";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
           
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.20"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__exportProgramDef.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"&modeType=import','lookup');  "; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.20");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('small','__exportProgramDef.jsp','?docid='+getDocId()+'&exportBoui="+obj.getBoui()+"&modeType=import','lookup');  ";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="O";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
           
         }
 
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Properties",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Properties",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.141"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.getProperties()"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.141");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.getProperties()";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
@@ -584,42 +584,42 @@ public final class docHTML_builderMenus  {
             && securityOPL.hasFullControl(obj))
         { 
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.144"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('0,670px,350px','add_keys_permissions.jsp','?docid='+getDocId()+'&method=edit&boui="+obj.getBoui()+"','std')"; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.144");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('0,670px,350px','add_keys_permissions.jsp','?docid='+getDocId()+'&method=edit&boui="+obj.getBoui()+"','std')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }               
-        if ( obj.exists() && securityRights.hasRightsToMethod(obj,obj.getName(),"ReferencedBy",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if ( obj.exists() && securityRights.hasRightsToMethod(obj,obj.getName(),"ReferencedBy",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.149"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?referencedby=yes&boui="+obj.getBoui()+"','lookup')"; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.149");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?referencedby=yes&boui="+obj.getBoui()+"','lookup')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
           
         }          
-        if ( obj.exists() && securityRights.hasRightsToMethod(obj,obj.getName(),"References",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if ( obj.exists() && securityRights.hasRightsToMethod(obj,obj.getName(),"References",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.154"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?references=yes&boui="+obj.getBoui()+"','lookup')"; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.154");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?references=yes&boui="+obj.getBoui()+"','lookup')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
           
         }
         
-        if ( obj.exists() && obj.getBridge("DAO") != null && securityRights.hasRightsToMethod(obj,obj.getName(),"Tree",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$ //$NON-NLS-2$
+        if ( obj.exists() && obj.getBridge("DAO") != null && securityRights.hasRightsToMethod(obj,obj.getName(),"Tree",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
             opt2[menuNumber]=new String[5];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.19"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__runtimePathObjects.jsp','?method=edit&docid='+getDocId()+'&boui="+obj.getBoui()+"','lookup') "; //$NON-NLS-1$ //$NON-NLS-2$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.19");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__runtimePathObjects.jsp','?method=edit&docid='+getDocId()+'&boui="+obj.getBoui()+"','lookup') ";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             menuNumber++;
@@ -635,10 +635,10 @@ public final class docHTML_builderMenus  {
         
         String[][] optSUBMENUDOCUMENTO = null;
         
-        if("BasicController".equals(DOC.getController().getName()))         //$NON-NLS-1$
+        if("BasicController".equals(DOC.getController().getName()))        
         {
             opt2[menuNumber]=new String[5];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
             opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -646,10 +646,10 @@ public final class docHTML_builderMenus  {
             menuNumber++;
     
             opt2[menuNumber]=new String[5];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.166"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Close()"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="F"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.166");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Close()";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="F";
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
             optSUBMENUDOCUMENTO = new String[menuNumber+1][];    
@@ -662,7 +662,7 @@ public final class docHTML_builderMenus  {
         }
 
 //        String[][] optSUBMENUDOCUMENTO = new String[menuNumber+1][];        
-        menuFlat.put("SUBMENU_DOCUMENTO",optSUBMENUDOCUMENTO); //$NON-NLS-1$
+        menuFlat.put("SUBMENU_DOCUMENTO",optSUBMENUDOCUMENTO);
 
      //---------------------------------- 
 
@@ -675,8 +675,8 @@ public final class docHTML_builderMenus  {
         
           opt2[menuNumber]=new String[5];
           opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=obj.getBoDefinition().getLabel();
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+obj.getBoDefinition().getName().toLowerCase()+"','edit','ctxParent="+obj.bo_boui+"&method=new&object="+obj.getBoDefinition().getName()+"')"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+obj.getBoDefinition().getName().toLowerCase()+"','edit','ctxParent="+obj.bo_boui+"&method=new&object="+obj.getBoDefinition().getName()+"')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
@@ -686,7 +686,7 @@ public final class docHTML_builderMenus  {
         for (int i = 0; i < subClasses.length; i++)  {
             if ( i == 0 ){
                 opt2[menuNumber]=new String[5];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
                 opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -697,8 +697,8 @@ public final class docHTML_builderMenus  {
             {            
               opt2[menuNumber]=new String[5];
               opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=subClasses[i].getLabel();
-              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+subClasses[i].getName().toLowerCase()+"','edit','ctxParent="+obj.bo_boui+"&method=new&object="+subClasses[i].getName()+"')"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+              opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+subClasses[i].getName().toLowerCase()+"','edit','ctxParent="+obj.bo_boui+"&method=new&object="+subClasses[i].getName()+"')";
+              opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
               opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
               opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
               menuNumber++;
@@ -707,7 +707,7 @@ public final class docHTML_builderMenus  {
         }
         
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -717,14 +717,14 @@ public final class docHTML_builderMenus  {
         if (securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.ADD))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.183");       //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.183");      
           StringBuffer onclick=new StringBuffer();
-          onclick.append("winmain().openDocUrl('','__newFromTemplate.jsp','"); //$NON-NLS-1$
-          onclick.append( "?objectName="); //$NON-NLS-1$
+          onclick.append("winmain().openDocUrl('','__newFromTemplate.jsp','");
+          onclick.append( "?objectName=");
           onclick.append( obj.getName() );
-          onclick.append("','lookup');"); //$NON-NLS-1$
+          onclick.append("','lookup');");
           opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=onclick.toString();
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
@@ -737,7 +737,7 @@ public final class docHTML_builderMenus  {
 
         String[][] optSUBMENU_NOVO =new String[menuNumber][];
         System.arraycopy(opt2,0,optSUBMENU_NOVO,0,menuNumber);
-        menuFlat.put("SUBMENU_NEW",optSUBMENU_NOVO); //$NON-NLS-1$
+        menuFlat.put("SUBMENU_NEW",optSUBMENU_NOVO);
 
 
         //SUBMENU INTERFACE
@@ -753,17 +753,17 @@ public final class docHTML_builderMenus  {
                 {
                 
                   opt2[menuNumber]=new String[5];
-                  if(obj.getAttribute("implements_" + interfs[x].getName()).getValueString().equals("S")) //$NON-NLS-1$ //$NON-NLS-2$
+                  if(obj.getAttribute("implements_" + interfs[x].getName()).getValueString().equals("S"))
                   {
-                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="<b>"+interfs[x].getLabel()+"</b>"; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="<b>"+interfs[x].getLabel()+"</b>";
                     opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
                   }
                   else
                   {
                     opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=interfs[x].getLabel();
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.applyInterface('"+interfs[x].getName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.applyInterface('"+interfs[x].getName()+"');";
                   }
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                   opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;
@@ -772,7 +772,7 @@ public final class docHTML_builderMenus  {
     
             String[][] optSUBMENU_INTERFACE =new String[menuNumber][];
             System.arraycopy(opt2,0,optSUBMENU_INTERFACE,0,menuNumber);
-            menuFlat.put("SUBMENU_INTERFACE",optSUBMENU_INTERFACE); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_INTERFACE",optSUBMENU_INTERFACE);
 
         }
 
@@ -787,17 +787,17 @@ public final class docHTML_builderMenus  {
             boDefPrinterDefinitions bodefPrinter = boDefPrinterDefinitions.loadPrinterDefinitions(obj.getName());
             int nWord = bodefPrinter.getNumberOfWordTemplates();
             opt2[menuNumber]=new String[5];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.197"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.197");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
             opt3[menuNumber]=new String[5];
-            opt3[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.201"); //$NON-NLS-1$
-            opt3[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=JSPMessages.getString("docHTML_builderMenus.202"); //$NON-NLS-1$
-            opt3[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt3[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+            opt3[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.201");
+            opt3[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=JSPMessages.getString("docHTML_builderMenus.202");
+            opt3[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt3[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
             opt3[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
             menuNumber++;
@@ -808,18 +808,18 @@ public final class docHTML_builderMenus  {
             {
                 opt2[menuNumber]=new String[5];
                 opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=((TemplateWord)l.get(i)).getLabel();
-                param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx()+"&templateName="+((TemplateWord)l.get(i)).getName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')"; //$NON-NLS-1$ //$NON-NLS-2$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+                param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx()+"&templateName="+((TemplateWord)l.get(i)).getName();
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
                 opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                 
                 opt3[menuNumber]=new String[5];
                 opt3[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=((TemplateWord)l.get(i)).getLabel();
-                param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx()+"&templateName="+((TemplateWord)l.get(i)).getName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                opt3[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printObject',['this', '"+((TemplateWord)l.get(i)).getName()+"'])"; //$NON-NLS-1$ //$NON-NLS-2$
-                opt3[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                opt3[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
+                param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx()+"&templateName="+((TemplateWord)l.get(i)).getName();
+                opt3[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printObject',['this', '"+((TemplateWord)l.get(i)).getName()+"'])";
+                opt3[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                opt3[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
                 opt3[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                 menuNumber++;
               
@@ -827,11 +827,11 @@ public final class docHTML_builderMenus  {
     
             String[][] optSUBMENU_IMPRIMIR =new String[menuNumber][];
             System.arraycopy(opt3,0,optSUBMENU_IMPRIMIR,0,menuNumber);
-            menuFlat.put("SUBMENU_IMPRIMIR",optSUBMENU_IMPRIMIR); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_IMPRIMIR",optSUBMENU_IMPRIMIR);
             
             String[][] optSUBMENU_VISUALIZAR =new String[menuNumber][];
             System.arraycopy(opt2,0,optSUBMENU_VISUALIZAR,0,menuNumber);
-            menuFlat.put("SUBMENU_VISUALIZAR",optSUBMENU_VISUALIZAR);             //$NON-NLS-1$
+            menuFlat.put("SUBMENU_VISUALIZAR",optSUBMENU_VISUALIZAR);            
 
             
             
@@ -853,13 +853,13 @@ public final class docHTML_builderMenus  {
             opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=userMethods[i].getLabel();
             if(!userMethods[i].openDoc())
             {
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() + "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethod('"+userMethods[i].getName()+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() + "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethod('"+userMethods[i].getName()+"');wait();";
             }
             else
             {
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() + "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethodOpenDoc('"+userMethods[i].getName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() + "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethodOpenDoc('"+userMethods[i].getName()+"');";
             }            
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             menuNumber++;
@@ -876,20 +876,20 @@ public final class docHTML_builderMenus  {
                 boDefMethod meth;
                for (int i = 0; i < meths.length ; i++) 
                {              
-                  String xmth[]=meths[i].split(";"); //$NON-NLS-1$
+                  String xmth[]=meths[i].split(";");
                   opt2[menuNumber]=new String[5];
                   opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=xmth[0] ;
                   meth = obj.getBoDefinition().getBoMethod(removeObject(xmth[1]));
                   if(meth != null)
                   {
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + removeObject(xmth[1]) + "');setLastMethodToRun('" + removeObject(xmth[1]) + "'); boForm.executeMethod('"+xmth[1]+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + removeObject(xmth[1]) + "');setLastMethodToRun('" + removeObject(xmth[1]) + "'); boForm.executeMethod('"+xmth[1]+"');wait();";
                   }
                   else
                   {
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=" boForm.executeMethod('"+xmth[1]+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=" boForm.executeMethod('"+xmth[1]+"');wait();";
                   }                  
                   //opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="alert('1'); boForm.executeMethod('"+xmth[1]+"'); alert('2');";
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                   opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                   opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                   menuNumber++;
@@ -901,7 +901,7 @@ public final class docHTML_builderMenus  {
     {
          String[][] optSUBMENUACCOES =new String[menuNumber][];
          System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber);
-         menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+         menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
     }
 
 //------- MENU BAR
@@ -912,7 +912,7 @@ public final class docHTML_builderMenus  {
            !obj.exists() ||  
            (obj.getBoDefinition().haveVersionControl() && obj.getObjectVersionControl().canCheckIn()))
         {                    
-            if("BasicController".equals(DOC.getController().getName()))         //$NON-NLS-1$
+            if("BasicController".equals(DOC.getController().getName()))        
             {
                 if( parentWin ) //obj.getParent() == null ) // || obj.getBoDefinition().getBoCanBeOrphan() )
                 {            
@@ -921,26 +921,26 @@ public final class docHTML_builderMenus  {
                     if( obj.isEnabled )                      
                     {
                         opt2[menuNumber]=new String[7];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.240"); //$NON-NLS-1$
-                        if("Ebo_Filter".equals(obj.getName())) //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.240");
+                        if("Ebo_Filter".equals(obj.getName()))
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.Save(); savePressed(true);}"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(!this.document.getElementById('frIDQueryBuilder').contentWindow.oQB||this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.Save(); savePressed(true);}";
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Save(); savePressed(true);wait();"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Save(); savePressed(true);wait();";
                         }
                         if(obj != null)
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Guardar", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Guardar", DOCLIST));
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Guardar", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Guardar", DOCLIST));
                         }
-                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.248");         //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif";
+                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.248");        
                         menuNumber++;
                     }
                   }
@@ -949,26 +949,26 @@ public final class docHTML_builderMenus  {
                         if( obj.isEnabled )
                         {
                             opt2[menuNumber]=new String[7];
-                            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
-                            if("Ebo_Filter".equals(obj.getName())) //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
+                            if("Ebo_Filter".equals(obj.getName()))
                             {
-                                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndNew();wait(); }"; //$NON-NLS-1$
+                                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndNew();wait(); }";
                             }
                             else
                             {
-                                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndNew(); savePressed(true);wait();"; //$NON-NLS-1$
+                                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndNew(); savePressed(true);wait();";
                             }
                             if(obj != null)
                             {
-                                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndNew", DOCLIST)); //$NON-NLS-1$
+                                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndNew", DOCLIST));
                             }
                             else
                             {
-                                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndNew", DOCLIST)); //$NON-NLS-1$
+                                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndNew", DOCLIST));
                             }
-                            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                            opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveNew.gif"; //$NON-NLS-1$
-                            opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.257");             //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                            opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveNew.gif";
+                            opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.257");            
                             menuNumber++;
                         }
                   }
@@ -977,26 +977,26 @@ public final class docHTML_builderMenus  {
                     if( obj.isEnabled )
                     {
                         opt2[menuNumber]=new String[7];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
-                        if("Ebo_Filter".equals(obj.getName())) //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
+                        if("Ebo_Filter".equals(obj.getName()))
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndClose(); savePressed(true);}"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(this.document.getElementById('frIDQueryBuilder').contentWindow.oQB.verify()) {boForm.SaveAndClose(); savePressed(true);}";
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndClose(); savePressed(true);wait();"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveAndClose(); savePressed(true);wait();";
                         }
                         if(obj != null)
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndClose", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndClose", DOCLIST));
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndClose", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndClose", DOCLIST));
                         }
-                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.266");             //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif";
+                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.266");            
                         menuNumber++;
                     }
                   }
@@ -1012,19 +1012,19 @@ public final class docHTML_builderMenus  {
                     if( obj.isEnabled )
                     {
                         opt2[menuNumber]=new String[7];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.267"); //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveMaster(); savePressed(true);wait();"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.267");
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveMaster(); savePressed(true);wait();";
                         if(obj != null)
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Guardar", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Guardar", DOCLIST));
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Guardar", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Guardar", DOCLIST));
                         }
-                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.273");         //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif";
+                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.273");        
                         menuNumber++;
                     }
                   }
@@ -1036,19 +1036,19 @@ public final class docHTML_builderMenus  {
                     if( obj.isEnabled )    
                     {
                         opt2[menuNumber]=new String[7];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveMasterAndClose(); savePressed(true);wait();"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.SaveMasterAndClose(); savePressed(true);wait();";
                         if(obj != null)
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndClose", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "SaveAndClose", DOCLIST));
                         }
                         else
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndClose", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "SaveAndClose", DOCLIST));
                         }
-                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif"; //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.280");             //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif";
+                        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.280");            
                         menuNumber++;
                     }
                   }
@@ -1092,7 +1092,7 @@ public final class docHTML_builderMenus  {
                 }
                 
                 opt2[menuNumber]=new String[7];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
                 opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -1102,50 +1102,50 @@ public final class docHTML_builderMenus  {
         }
         
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
 //        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= DOC.p_path.renderLinkForPriorPage().toString() ;
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= DOC.getController().getNavigator().renderLinkForPriorPage().toString() ;
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="P";
         //opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.p_path.getImageLinkForPriorPage();
         opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.getController().getNavigator().getImageLinkForPriorPage();
-        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.284"); //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.284");
         menuNumber++;  
         
         
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
 //        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.p_path.renderLinkForNextPage().toString() ;
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.getController().getNavigator().renderLinkForNextPage().toString() ;
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="N"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="N";
 //        opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.p_path.getImageLinkForNextPage();
         opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.getController().getNavigator().getImageLinkForNextPage();        
-        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.287"); //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.287");
         menuNumber++;
         
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
 //        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.getController().getNavigator().p_path.renderLinkForCancelEdit().toString() ;
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.getController().getNavigator().renderLinkForCancelEdit().toString() ;        
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="X"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="X";
 //        opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.p_path.getImageLinkForCancelEdit();
         opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.getController().getNavigator().getImageLinkForCancelEdit();        
-        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.18"); //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.18");
         menuNumber++;
         
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
 //        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.p_path.renderLinkForHomePage().toString() ;
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=DOC.getController().getNavigator().renderLinkForHomePage().toString() ;
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
 //        opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.p_path.getImageLinkForHomePage();
         opt2[menuNumber][docHTMLgenerateToolBar.IMG]=DOC.getController().getNavigator().getImageLinkForHomePage();
-        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Inicio"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Inicio";
         menuNumber++;
         
         
         
         
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()) && securityOPL.canWrite(obj))  //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()) && securityOPL.canWrite(obj)) 
         {        
               String  XeoWin32Client_address = obj.getEboContext().getXeoWin32Client_adress();
               boolean wordTemplate = boDefPrinterDefinitions.existsWordTemplatesFor(obj);
@@ -1154,53 +1154,53 @@ public final class docHTML_builderMenus  {
                  if(!wordTemplate)
                  {
                       opt2[menuNumber]=new String[7];
-                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106"); //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print();"; //$NON-NLS-1$
+                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");
+                      opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print();";
                       if(obj != null)
                       {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Imprimir", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Imprimir", DOCLIST));
                       }
                       else
                       {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Imprimir", DOCLIST)); //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, "Imprimir", DOCLIST));
                       }
-                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif"; //$NON-NLS-1$
+                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+                      opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";
                       opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.118");
                       menuNumber++;           
                  }
                  else
                   {
                       opt2[menuNumber]=new String[7];
-                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");                   //$NON-NLS-1$
-                      String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                  //$NON-NLS-1$ //$NON-NLS-2$
-                      opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                    //$NON-NLS-1$ //$NON-NLS-2$
-                      opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";  //$NON-NLS-1$
-                      opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.310"); //$NON-NLS-1$
+                      opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");                  
+                      String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                 
+                      opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                   
+                      opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                      opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
+                      opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif"; 
+                      opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.310");
                       menuNumber++;                                     
                   }                 
               }
               else
               {
                   opt2[menuNumber]=new String[7];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");               //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printObject',['this'])";           //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";                   //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.316"); //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.106");              
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.executeStaticMeth('netgest.bo.impl.document.print.PrintHelper.printObject',['this'])";          
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="I";
+                  opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";                  
+                  opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.316");
                   menuNumber++;          
                   
                   opt2[menuNumber]=new String[7];
-                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.317");                   //$NON-NLS-1$
-                  String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                  //$NON-NLS-1$ //$NON-NLS-2$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                    //$NON-NLS-1$ //$NON-NLS-2$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="V"; //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";  //$NON-NLS-1$
-                  opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.325"); //$NON-NLS-1$
+                  opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.317");                  
+                  String param = "look_parentBoui=" + obj.getBoui() + "&att_display=y&docid=" + DOC.getDocIdx();                 
+                  opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.BindExt();window.open('__document_preview.jsp?"+param+"')";                   
+                  opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+                  opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="V";
+                  opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif"; 
+                  opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.325");
                   menuNumber++;                   
                                                   
               }
@@ -1208,7 +1208,7 @@ public final class docHTML_builderMenus  {
         }
 
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -1224,7 +1224,7 @@ public final class docHTML_builderMenus  {
         
         if (obj.exists() && 
             delete && 
-            !"XwfController".equals(DOC.getController().getName()) && //$NON-NLS-1$
+            !"XwfController".equals(DOC.getController().getName()) &&
             (!obj.getBoDefinition().haveVersionControl() || (obj.getBoDefinition().haveVersionControl() && obj.getObjectVersionControl().canCheckIn())))
         {
             if (securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.DELETE)
@@ -1232,31 +1232,31 @@ public final class docHTML_builderMenus  {
             if( obj.isEnabled )
             {
                 opt2[menuNumber]=new String[7];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.17");             //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(boForm.Destroy('" + getRemoveMessage(obj.getBoDefinition().getLabel(), getCardId(obj.getBoDefinition().getCARDID(), obj)) + "')){wait();}"; //$NON-NLS-1$ //$NON-NLS-2$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.17");            
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="if(boForm.Destroy('" + getRemoveMessage(obj.getBoDefinition().getLabel(), getCardId(obj.getBoDefinition().getCARDID(), obj)) + "')){wait();}";
                 
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST)); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.334")+obj.getBoDefinition().getLabel(); //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST));
+                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
+                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif";
+                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.334")+obj.getBoDefinition().getLabel();
                 menuNumber++;            
             }
           }
         }
         if (obj.exists() &&  boConfig.aspmodeOn()
-            && securityRights.hasRightsToMethod(obj,obj.getName(),"CreateSchema",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+            && securityRights.hasRightsToMethod(obj,obj.getName(),"CreateSchema",obj.getEboContext().getBoSession().getPerformerBoui())
             && obj.getBoDefinition().getASPMode() == boDefHandler.ASP_CONTROLLER 
-            && !SchemaUtils.existSchema(obj.getEboContext(), obj.getName() + "_" + obj.getBoui()) //$NON-NLS-1$
+            && !SchemaUtils.existSchema(obj.getEboContext(), obj.getName() + "_" + obj.getBoui())
         ) {
           opt2[menuNumber]=new String[7];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar Esquema"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.createSchema(); wait();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "createSchema", DOCLIST)); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="S"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar Esquema";
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.createSchema(); wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "createSchema", DOCLIST));
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="S";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           
-          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_schema.gif"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Criação do esquema "+ obj.getName() + "_" + obj.getBoui(); //$NON-NLS-1$ //$NON-NLS-2$
+          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_schema.gif";
+          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Criação do esquema "+ obj.getName() + "_" + obj.getBoui();
           
           menuNumber++;
        }
@@ -1264,7 +1264,7 @@ public final class docHTML_builderMenus  {
         if(obj.exists() && obj.getBoDefinition().haveVersionControl())
         {
             opt2[menuNumber]=new String[7];
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
             opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -1275,12 +1275,12 @@ public final class docHTML_builderMenus  {
             if(obj.getObjectVersionControl().canCheckOut())
             {            
                 opt2[menuNumber]=new String[7];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.345");             //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('checkOut'); setLastMethodToRun('checkOut'); boForm.executeMethod('checkOut');wait();";                         //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST)); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.350")+obj.getBoDefinition().getLabel(); //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.345");            
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('checkOut'); setLastMethodToRun('checkOut'); boForm.executeMethod('checkOut');wait();";                        
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST));
+                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
+                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif";
+                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.350")+obj.getBoDefinition().getLabel();
                 menuNumber++;
             }
             
@@ -1288,24 +1288,24 @@ public final class docHTML_builderMenus  {
             if(obj.getObjectVersionControl().canUndoCheckOut())
             {
                 opt2[menuNumber]=new String[7];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.16"); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('undoCheckOut'); setLastMethodToRun('undoCheckOut'); boForm.executeMethod('undoCheckOut');wait();";                                     //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST)); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.356")+obj.getBoDefinition().getLabel(); //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.16");
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('undoCheckOut'); setLastMethodToRun('undoCheckOut'); boForm.executeMethod('undoCheckOut');wait();";                                    
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Remover", DOCLIST));
+                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
+                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif";
+                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.356")+obj.getBoDefinition().getLabel();
                 menuNumber++;        
             }
             
             if(obj.getObjectVersionControl().canCheckIn())
             {
                 opt2[menuNumber]=new String[7];
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.357"); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('checkIn'); setLastMethodToRun('checkIn'); boForm.executeMethod('checkIn');wait();";                         //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), JSPMessages.getString("docHTML_builderMenus.359"), DOCLIST)); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif"; //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Reservar "+obj.getBoDefinition().getLabel(); //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.357");
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]= "runBeforeMethodExec('checkIn'); setLastMethodToRun('checkIn'); boForm.executeMethod('checkIn');wait();";                        
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), JSPMessages.getString("docHTML_builderMenus.359"), DOCLIST));
+                opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
+                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif";
+                opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Reservar "+obj.getBoDefinition().getLabel();
                 menuNumber++;
             }
         }
@@ -1315,7 +1315,7 @@ public final class docHTML_builderMenus  {
        //boDefMethod[] userMethods= obj.getMenuMethods();
        userMethods= obj.getToolbarMethods();
        //se for xwfController os userMethods são controlados pelo wkflw
-       if(!"xwfController".equalsIgnoreCase(obj.getEboContext().getController().getName())) //$NON-NLS-1$
+       if(!"xwfController".equalsIgnoreCase(obj.getEboContext().getController().getName()))
        {
            for (int i=0; i< userMethods.length ; i++ ) {
            
@@ -1327,15 +1327,15 @@ public final class docHTML_builderMenus  {
                     opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=userMethods[i].getLabel();
                     if(!userMethods[i].openDoc())
                     {
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() +  "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethod('"+userMethods[i].getName()+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() +  "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethod('"+userMethods[i].getName()+"');wait();";
                     }
                     else
                     {
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() +  "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethodOpenDoc('"+ userMethods[i].getObjectName() +"', '"+ obj.getBoui() +"', '" + userMethods[i].getName() + "');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + userMethods[i].getName() +  "'); setLastMethodToRun('" + userMethods[i].getName() + "'); boForm.executeMethodOpenDoc('"+ userMethods[i].getObjectName() +"', '"+ obj.getBoui() +"', '" + userMethods[i].getName() + "');";
                     }
                     opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), userMethods[i].getName(), DOCLIST));
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_method.gif"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_method.gif";
                     opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=userMethods[i].getLabel();
                     menuNumber++;
                   }
@@ -1351,22 +1351,22 @@ public final class docHTML_builderMenus  {
                boDefMethod meth; 
                for (int i = 0; i < meths.length ; i++) 
                {
-                String xmth[]=meths[i].split(";"); //$NON-NLS-1$
+                String xmth[]=meths[i].split(";");
                 opt2[menuNumber]=new String[7];
                 opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=xmth[0] ;
                 meth = obj.getBoDefinition().getBoMethod(removeObject(xmth[1]));
                 if(meth != null)
                 {
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + removeObject(xmth[1]) +  "'); setLastMethodToRun('" + removeObject(xmth[1]) + "'); boForm.executeMethod('"+xmth[1]+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="runBeforeMethodExec('" + removeObject(xmth[1]) +  "'); setLastMethodToRun('" + removeObject(xmth[1]) + "'); boForm.executeMethod('"+xmth[1]+"');wait();";
                 }
                 else
                 {
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=" boForm.executeMethod('"+xmth[1]+"');wait();"; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=" boForm.executeMethod('"+xmth[1]+"');wait();";
                 }             
                 //opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="alert('1'); boForm.executeMethod('"+xmth[1]+"'); alert('2');";
                 opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(DOC.getTabindex(DOC.MENU, obj.getName(), String.valueOf(obj.getBoui()), xmth[0], DOCLIST));
                 opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_method.gif"; //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_method.gif";
                 opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=xmth[0];              
                 menuNumber++;
                }    
@@ -1377,13 +1377,13 @@ public final class docHTML_builderMenus  {
      if(menuNumber>0){
          String[][] optBAR =new String[menuNumber][];
          System.arraycopy(opt2,0,optBAR,0,menuNumber);
-         menuBar.put("MENUBAR",optBAR); //$NON-NLS-1$
+         menuBar.put("MENUBAR",optBAR);
     }   
         
         
-    if("XwfController".equals(DOC.getEboContext().getController().getName())) //$NON-NLS-1$
+    if("XwfController".equals(DOC.getEboContext().getController().getName()))
     {
-        menuFlat.put("MENUFLAT",new String[0][0]); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",new String[0][0]);
         toRet[0]=menuFlat;
         toRet[1]=menuBar;
     }
@@ -1401,11 +1401,11 @@ public final class docHTML_builderMenus  {
     
  public static String menuWEBFORM_OBJECT_NORMAL (docHTML DOC, docHTML_controler DOCLIST,  boObject obj, HttpServletRequest request,String toSay ) throws boRuntimeException
     {
-        String toRet = "";      //$NON-NLS-1$
+        String toRet = "";     
         
         
-        boolean parentWin= ( request.getParameter("ctxParentIdx") == null  //$NON-NLS-1$
-                            || "".equals( request.getParameter("ctxParentIdx"))); //$NON-NLS-1$ //$NON-NLS-2$
+        boolean parentWin= ( request.getParameter("ctxParentIdx") == null 
+                            || "".equals( request.getParameter("ctxParentIdx")));
 
 
             if( parentWin ) //obj.getParent() == null ) // || obj.getBoDefinition().getBoCanBeOrphan() )
@@ -1413,7 +1413,7 @@ public final class docHTML_builderMenus  {
               if (securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.WRITE)
                   && securityOPL.canWrite(obj)|| (!obj.exists() && securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.ADD))) 
               {      
-                toRet+="<button onclick='boForm.SaveAndClose()'>"+toSay+"</button>"; //$NON-NLS-1$ //$NON-NLS-2$
+                toRet+="<button onclick='boForm.SaveAndClose()'>"+toSay+"</button>";
               }
             }
             else
@@ -1421,12 +1421,12 @@ public final class docHTML_builderMenus  {
                 
                 
              String onclick =  DOC.getController().getNavigator().renderLinkForPriorPage().toString();
-            toRet+="<button style='margin:4px' onclick=\""+onclick+JSPMessages.getString("docHTML_builderMenus.393");   //$NON-NLS-1$ //$NON-NLS-2$
+            toRet+="<button style='margin:4px' onclick=\""+onclick+JSPMessages.getString("docHTML_builderMenus.393");  
                 
              onclick = DOC.getController().getNavigator().renderLinkForCancelEdit().toString() ;        
         //opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Cancelar últimas alterações efectuadas e voltar para o ecran anterior";
         //menuNumber++;            
-            toRet+="<button style='margin:4px' onclick=\""+onclick+JSPMessages.getString("docHTML_builderMenus.15"); //$NON-NLS-1$ //$NON-NLS-2$
+            toRet+="<button style='margin:4px' onclick=\""+onclick+JSPMessages.getString("docHTML_builderMenus.15");
             }
             
         
@@ -1435,7 +1435,7 @@ public final class docHTML_builderMenus  {
         
         
         
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()) && securityOPL.canWrite(obj))  //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()) && securityOPL.canWrite(obj)) 
         {        
              /*
                   opt2[menuNumber]=new String[7];
@@ -1470,9 +1470,9 @@ public final class docHTML_builderMenus  {
 
     private static String removeObject(String meth)
     {
-        if(meth.startsWith("object.")) //$NON-NLS-1$
+        if(meth.startsWith("object."))
         {   
-            int end = meth.indexOf(":", 0); //$NON-NLS-1$
+            int end = meth.indexOf(":", 0);
             return meth.substring(7, end == -1 ? meth.length(): end);
         }
         return meth;
@@ -1487,107 +1487,107 @@ private static Hashtable[] menuEDIT_OBJECT_TEMPLATE ( boObject obj) throws boRun
         
         
         String[][] opt =new String[2][];
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.400"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.400");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_DOCUMENTO"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_DOCUMENTO";
     
         menuNumber++;
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.404"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.404");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="J"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_AJUDA"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="J";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_AJUDA";
 
      //SUBMENU DOCUMENTO   
          menuNumber=0;
          String[][] opt2 =new String[20][];
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui())
             && securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.WRITE)
             && securityOPL.canWrite(obj)) {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.14"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm();wait();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.14");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm();wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
   
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui())
             && securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.WRITE)
             && securityOPL.canWrite(obj)) {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.414"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm(true);wait();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.414");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm(true);wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
   
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Duplicate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Duplicate",obj.getEboContext().getBoSession().getPerformerBoui())
             && obj.getBoDefinition().getBoCanBeOrphan()
         ) {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.419"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.duplicateTemplate('" + obj.getName() + "', "+ obj.getBoui() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.419");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.duplicateTemplate('" + obj.getName() + "', "+ obj.getBoui() + ")";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
       
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
         menuNumber++;
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui())) { //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui())) {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.427"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.427");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="G";
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Properties",obj.getEboContext().getBoSession().getPerformerBoui())) { //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Properties",obj.getEboContext().getBoSession().getPerformerBoui())) {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.432"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="templateForm().getProperties()"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.432");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="templateForm().getProperties()";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ReferencedBy",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"ReferencedBy",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.436"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?referencedby=yes&boui="+obj.getBoui()+"','lookup')"; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.436");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?referencedby=yes&boui="+obj.getBoui()+"','lookup')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
         }
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"References",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"References",obj.getEboContext().getBoSession().getPerformerBoui()))
         {
           opt2[menuNumber]=new String[5];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.441"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?references=yes&boui="+obj.getBoui()+"','lookup')"; //$NON-NLS-1$ //$NON-NLS-2$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.441");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDocUrl('medium','__ebo_references.jsp','?references=yes&boui="+obj.getBoui()+"','lookup')";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
           opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
           opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
           menuNumber++;
@@ -1595,7 +1595,7 @@ private static Hashtable[] menuEDIT_OBJECT_TEMPLATE ( boObject obj) throws boRun
         
 
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
@@ -1603,16 +1603,16 @@ private static Hashtable[] menuEDIT_OBJECT_TEMPLATE ( boObject obj) throws boRun
         menuNumber++;
 
         opt2[menuNumber]=new String[5];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.446"); //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Close()"; //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="F"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.446");
+        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Close()";
+        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+        opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="F";
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
 
 
         String[][] optSUBMENUDOCUMENTO =new String[menuNumber+1][];
         System.arraycopy(opt2,0,optSUBMENUDOCUMENTO,0,menuNumber+1);
-        menuFlat.put("SUBMENU_DOCUMENTO",optSUBMENUDOCUMENTO); //$NON-NLS-1$
+        menuFlat.put("SUBMENU_DOCUMENTO",optSUBMENUDOCUMENTO);
 
      
 
@@ -1621,68 +1621,68 @@ private static Hashtable[] menuEDIT_OBJECT_TEMPLATE ( boObject obj) throws boRun
         menuNumber=0;
         opt2 =new String[20][];
         
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui())
             && securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.WRITE)
             && securityOPL.canWrite(obj)) {
           opt2[menuNumber]=new String[7];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.452"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm();wait();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.457");         //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.452");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm();wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_save.gif";
+          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.457");        
           menuNumber++;
         }
 
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui()) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"CreateTemplate",obj.getEboContext().getBoSession().getPerformerBoui())
             && securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.WRITE)
             && securityOPL.canWrite(obj)) {
           opt2[menuNumber]=new String[7];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=""; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm(true);wait();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.464"); //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="";
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="saveTemplateForm(true);wait();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_saveClose.gif";
+          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.464");
           menuNumber++;
         }
         
         opt2[menuNumber]=new String[7];
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="SPACER";
         opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
         menuNumber++;        
         
-        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui())) //$NON-NLS-1$
+        if (securityRights.hasRightsToMethod(obj,obj.getName(),"Print",obj.getEboContext().getBoSession().getPerformerBoui()))
         {  
           opt2[menuNumber]=new String[7];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.13"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()" ; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.472"); //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.13");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="boForm.Print()" ;
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="D";
+          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_print.gif";
+          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.472");
           menuNumber++;
         }
 
         if (securityRights.hasRights(obj,obj.getName(),obj.getEboContext().getBoSession().getPerformerBoui(),securityRights.DELETE)
             && securityOPL.canDelete(obj)) {        
           opt2[menuNumber]=new String[7];
-          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.473"); //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="removeTemplate();"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="1"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif"; //$NON-NLS-1$
-          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.478"); //$NON-NLS-1$
+          opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.473");
+          opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="removeTemplate();";
+          opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="1";
+          opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="R";
+          opt2[menuNumber][docHTMLgenerateToolBar.IMG]="16_delete.gif";
+          opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.478");
         }
         
         
      if(menuNumber>0){
          String[][] optBAR =new String[menuNumber+1][];
          System.arraycopy(opt2,0,optBAR,0,menuNumber+1);
-         menuBar.put("MENUBAR",optBAR); //$NON-NLS-1$
+         menuBar.put("MENUBAR",optBAR);
     }   
         
         
@@ -1737,20 +1737,20 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                     if((!canAlter || !canWrite) || !objParent.isEnabledforRequest){ 
                         
                         opt =new String[1][];
-                        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+                        menuFlat.put("MENUFLAT",opt);
                         opt[menuNumber]=new String[5];
-                        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.481"); //$NON-NLS-1$
+                        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.481");
                         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
                         if(obj != null)
                         {
-                            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+                            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
                         }
                         else
                         {
-                            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, "Accoes", DOCLIST)); //$NON-NLS-1$
+                            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, "Accoes", DOCLIST));
                         }
-                        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-                        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+                        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+                        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
                         
                         String[][] opt2 =new String[20][];
                         menuNumber=0;
@@ -1759,9 +1759,9 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                       //bolist
                         if(!bolist.isReadOnly() && canAlter && canWrite)
                         {
-                            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.12"); //$NON-NLS-1$
-                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.12");
+                            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+                            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                             
@@ -1769,11 +1769,11 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                              //if(menuNumber>0){
                             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
                             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-                            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+                            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
                         }
                         else
                         {
-                            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+                            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
                         }
                 
          
@@ -1789,14 +1789,14 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
         
         if(bridgeFilter != null)
         {
-            int grau = countParent(bridgeFilter, "parent"); //$NON-NLS-1$
+            int grau = countParent(bridgeFilter, "parent");
             int nAttrib = countAttribute(bridgeFilter, grau);
             boObject sourceParent = getSourceObject(bridgeFilter, objParent, grau, nAttrib);
             return menuLIST_BRIDGE_TO_BRIDGE(obj, objParent , bolist, doc, DOCLIST, hui, sourceParent, bridgeFilter);
         }
         
         
-        if ( !objName.equalsIgnoreCase("boObject") ) //$NON-NLS-1$
+        if ( !objName.equalsIgnoreCase("boObject") )
         {
             opt =new String[1][];
         }
@@ -1805,7 +1805,7 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
            opt =new String[2][];
         }
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
 
         bridgeHandler bridge= (bridgeHandler) bolist;        
@@ -1814,11 +1814,11 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
         
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.495"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.495");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.getName(), String.valueOf(objParent.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.getName(), String.valueOf(objParent.getBoui()), "Accoes", DOCLIST));
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
         
         
 
@@ -1831,9 +1831,9 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
         securityRights.hasRights(bolist.getEboContext(),objName,securityRights.DELETE))
         {
                         
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.499"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.499");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
@@ -1850,8 +1850,8 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                     menuNumber++;
                     opt2[menuNumber]=new String[5];
                     opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=xmth[i].getLabel();
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="executeBridgeMeth("+hui+",'"+bridge.getAttributeName()+"','"+xmth[i].getName()+"')"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="executeBridgeMeth("+hui+",'"+bridge.getAttributeName()+"','"+xmth[i].getName()+"')";
+                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                     opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                    }
@@ -1862,25 +1862,25 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
              //if(menuNumber>0){
             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
             
         }
         else
         {
-            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
         }
                         
 
         
-         if (suportManualAdd && objName.equalsIgnoreCase("boObject") ) //$NON-NLS-1$
+         if (suportManualAdd && objName.equalsIgnoreCase("boObject") )
          {
             menuNumber=1;
             opt[menuNumber]=new String[5];
-            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.511"); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.511");
             opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="C"; //$NON-NLS-1$
-            opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR"; //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="C";
+            opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR";
         
             boDefAttribute xatt         = objParent.getBoDefinition().getAttributeRef( bolist.getParentAtributeName() );
             boDefHandler[] xdefs=xatt != null ? xatt.getObjects():null;
@@ -1894,7 +1894,7 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                 {
                     if
                     (
-                      !"guiding".equals(viewer)  //$NON-NLS-1$
+                      !"guiding".equals(viewer) 
                       && (
                             securityRights.hasRights(bolist.getEboContext(),xdefs[i].getName(),securityRights.ADD)
                             && 
@@ -1908,8 +1908,8 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                     {
                         opt2r[menuNumber2]=new String[5];
                         opt2r[menuNumber2][docHTMLgenerateToolBar.TEXT_MENU]= xdefs[i].getLabel();
-                        opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage(getIDX() ,'"+xdefs[i].getName().toLowerCase()+"','edit','method=new&controllerName=DOC.getController().getName()&relatedClientIDX='+getIDX()+'&docid='+getDocId()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                        opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                        opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage(getIDX() ,'"+xdefs[i].getName().toLowerCase()+"','edit','method=new&controllerName=DOC.getController().getName()&relatedClientIDX='+getIDX()+'&docid='+getDocId()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');";
+                        opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0";
                         opt2r[menuNumber2][docHTMLgenerateToolBar.ACCESSKEY]=null;
                         opt2r[menuNumber2][docHTMLgenerateToolBar.SUBMENU]=null;
                         menuNumber2++;
@@ -1918,15 +1918,15 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                     {
                         if
                         (
-                          ("Res_Master".equalsIgnoreCase(xdefs[i].getName()) || "Res_Guiding".equalsIgnoreCase(xdefs[i].getName()))  //$NON-NLS-1$ //$NON-NLS-2$
+                          ("Res_Master".equalsIgnoreCase(xdefs[i].getName()) || "Res_Guiding".equalsIgnoreCase(xdefs[i].getName())) 
                           &&
                           securityRights.hasRights(bolist.getEboContext(), xdefs[i].getName() ,securityRights.ADD)
                         )
                         {
                             opt2r[menuNumber2]=new String[5];
                             opt2r[menuNumber2][docHTMLgenerateToolBar.TEXT_MENU]= xdefs[i].getLabel();
-                            opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'"+xdefs[i].getName().toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&docid='+getDocId()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                            opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                            opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'"+xdefs[i].getName().toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&docid='+getDocId()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');";
+                            opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0";
                             opt2r[menuNumber2][docHTMLgenerateToolBar.ACCESSKEY]=null;
                             opt2r[menuNumber2][docHTMLgenerateToolBar.SUBMENU]=null;
                             menuNumber2++;                        
@@ -1937,13 +1937,13 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
             }
             String[][] optSUBMENUCRIAR =new String[menuNumber2][];
             System.arraycopy(opt2r,0,optSUBMENUCRIAR,0,menuNumber2);
-            menuFlat.put("SUBMENU_CRIAR",optSUBMENUCRIAR); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_CRIAR",optSUBMENUCRIAR);
             
         }
 
         boolean flat = false;
         boolean showAddinNoOrphan= suportShowLookup && suportManualAdd && !bolist.getBoDef().getBoCanBeOrphan();
-        if ( (suportManualAdd||suportManualCreate) && !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName)) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if ( (suportManualAdd||suportManualCreate) && !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName))
         {
             if (
                   (bolist.getBoDef().getBoCanBeOrphan() || bolist.getBoDef().getBoHaveMultiParent()
@@ -1956,20 +1956,20 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
             	} else {
             		opt =new String[1][];
             	}
-                menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+                menuFlatRight.put("MENUFLATRIGHT",opt);
             }
             else
             {                    
                     if( bolist.getBoDef().getInterfaceType()!=boDefHandler.INTERFACE_STANDARD )
                     {
                         opt =new String[1][];
-                        menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+                        menuFlatRight.put("MENUFLATRIGHT",opt);
                     }
                     else
                     {
                         opt =new String[2][];
-                        opt[0] = ((String[][])menuFlat.get("MENUFLAT"))[0]; //$NON-NLS-1$
-                        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+                        opt[0] = ((String[][])menuFlat.get("MENUFLAT"))[0];
+                        menuFlat.put("MENUFLAT",opt);
                         flat = true;
                     }
                 }
@@ -1977,12 +1977,12 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
         else if(suportManualAdd||suportManualCreate)
         {
             opt =new String[1][];
-            menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+            menuFlatRight.put("MENUFLATRIGHT",opt);
         }
         
         menuNumber=0;
         if ( suportManualCreate && 
-            !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName)
             && !bolist.isReadOnly() 
             && securityRights.hasRights(bolist.getEboContext(), objName ,securityRights.ADD)
             )
@@ -1993,25 +1993,25 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                 
                 if ( doc.p_WebForm )
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.11"); //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.11");
                 }
                 else
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.10")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.10")+bolist.getBoDef().getLabel();
                 }
                 if(bolist.getBoDef().getBoCanBeOrphan())
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'"+objName.toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+objName+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"&docid='+getDocId()+'"+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage( getIDX() ,'"+objName.toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+objName+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"&docid='+getDocId()+'"+"');";
                 }    
                 else
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage(getIDX(),'"+objName.toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+objName+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"&docid='+getDocId()+'"+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().newPage(getIDX(),'"+objName.toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+objName+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"&docid='+getDocId()+'"+"');";
                 }
-                opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                 opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objName+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
+                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objName+"/ico16.gif" ;
                 
-                opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.559")+bolist.getBoDef().getLabel()+JSPMessages.getString("docHTML_builderMenus.560") ; //$NON-NLS-1$ //$NON-NLS-2$
+                opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.559")+bolist.getBoDef().getLabel()+JSPMessages.getString("docHTML_builderMenus.560") ;
             }
             else
             {
@@ -2020,46 +2020,46 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
                     menuNumber=1;
                 }
                 opt[menuNumber]=new String[7];
-                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.9")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
-                opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR"; //$NON-NLS-1$
-                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
+                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.9")+bolist.getBoDef().getLabel();
+                opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR";
+                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
                 if(obj != null)
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Criar", DOCLIST)); //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Criar", DOCLIST));
                 }
                 else
                 {
                     opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
                 }
-                opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="c"; //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="c";
 
                 menuNumber=0;
                 boDefInterface bodI = boDefHandler.getInterfaceDefinition(objName);                
                 String implObjs[] = bodI.getImplObjects();
                 opt2 =new String[implObjs.length][7];
-                String searchMode=doc.getController().getRequest().getParameter("listmode");                 //$NON-NLS-1$
-                String option=""; //$NON-NLS-1$
-                if ( "searchone".equalsIgnoreCase(searchMode) ) //$NON-NLS-1$
+                String searchMode=doc.getController().getRequest().getParameter("listmode");                
+                String option="";
+                if ( "searchone".equalsIgnoreCase(searchMode) )
                 {
-                    option+="&searchClientIdx='+getIDX()+'"; //$NON-NLS-1$
+                    option+="&searchClientIdx='+getIDX()+'";
                 }
                 for (int i = 0; i < implObjs.length; i++) 
                 {
-                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar "+boDefHandler.getBoDefinition(implObjs[i]).getLabel(); //$NON-NLS-1$
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+implObjs[i].toLowerCase()+"','edit','method=new&object="+implObjs[i]+option+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar "+boDefHandler.getBoDefinition(implObjs[i]).getLabel();
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+implObjs[i].toLowerCase()+"','edit','method=new&object="+implObjs[i]+option+"');";
+                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+implObjs[i]+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Criar novo objecto do tipo "+boDefHandler.getBoDefinition(implObjs[i]).getLabel()+JSPMessages.getString("docHTML_builderMenus.579") ; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+implObjs[i]+"/ico16.gif" ;
+                    opt2[menuNumber][docHTMLgenerateToolBar.TITLE]="Criar novo objecto do tipo "+boDefHandler.getBoDefinition(implObjs[i]).getLabel()+JSPMessages.getString("docHTML_builderMenus.579") ;
                     menuNumber++;
                 }
                 if(flat)
                 {
-                    menuFlat.put("SUBMENU_CRIAR",opt2); //$NON-NLS-1$
+                    menuFlat.put("SUBMENU_CRIAR",opt2);
                 }
                 else
                 {
-                    menuFlatRight.put("SUBMENU_CRIAR",opt2); //$NON-NLS-1$
+                    menuFlatRight.put("SUBMENU_CRIAR",opt2);
                 }
             }
         }
@@ -2068,30 +2068,30 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
           && securityRights.hasRights(bolist.getEboContext(),objName) )
         {
             menuNumber = 0;
-            if ( !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName)) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            if ( !objName.equalsIgnoreCase("boObject") && !"Ebo_Perf".equals(objName) && !"Ebo_PerfAnacom".equals(objName))
             {
               if (opt[0]!=null) menuNumber++;
             }                        
             opt[menuNumber]=new String[7];
             
-            if (bolist.getBoDef().getLabel() != null && !"boObject".equals( bolist.getBoDef().getName() ) ) //$NON-NLS-1$
+            if (bolist.getBoDef().getLabel() != null && !"boObject".equals( bolist.getBoDef().getName() ) )
             {
-                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.8")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.8")+bolist.getBoDef().getLabel();
             }
             else
             {
-                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.7"); //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.7");
             }
             StringBuffer onclick=new StringBuffer();
-            onclick.append("LookupObjects('','multi','"); //$NON-NLS-1$
+            onclick.append("LookupObjects('','multi','");
             onclick.append( objName );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( bolist.getParent().getName() );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( bolist.getParent().bo_boui );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( bolist.getParentAtributeName() );
-            onclick.append("','1')"); //$NON-NLS-1$
+            onclick.append("','1')");
         
             //onclick.append("','1','");
             //onclick.append( doc.getDocIdx() );
@@ -2104,17 +2104,17 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE( boObject obj, boObject objPa
             opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=onclick.toString();
 
         
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-            opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objName+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-            opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.596");//onclick.toString().replace('"',' ').replace('\'',' '); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objName+"/ico16.gif" ;
+            opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.596");//onclick.toString().replace('"',' ').replace('\'',' ');
             //"Adicionar objectos já criados do tipo "+bolist.getBoDef().getLabel() ;
             
         }
         if(bolist.isReadOnly() || !(suportManualAdd||suportManualCreate))
         {
             opt =new String[0][];
-            menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+            menuFlatRight.put("MENUFLATRIGHT",opt);
         }
         toRet[0]=menuFlat;
         toRet[1]=menuBar;
@@ -2133,22 +2133,22 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE_SEARCH( boObject obj, boObjec
 
         String[][] opt =new String[1][];
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="<u>A</u>cções"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="<u>A</u>cções";
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if( obj != null )
         { 
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
             opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
 
         String[][] opt2 =new String[20][];
         menuNumber=0;
@@ -2157,9 +2157,9 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE_SEARCH( boObject obj, boObjec
          //bolist
         if(!bolist.isReadOnly())
         {
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.603"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.603");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
@@ -2167,18 +2167,18 @@ private  static Hashtable[] menuLIST_NORMAL_BRIDGE_SEARCH( boObject obj, boObjec
              //if(menuNumber>0){
             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
         }
         else
         {
-            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
         }
 
 
         
         opt =new String[0][]; 
         
-        menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+        menuFlatRight.put("MENUFLATRIGHT",opt);
            
        
         toRet[0]=menuFlat;
@@ -2208,22 +2208,22 @@ private  static Hashtable[] menuLIST_TEMPLATE_BRIDGE( boObject obj,
 
         String[][] opt =new String[1][];
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.611"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.611");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, "Accoes", DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
 
         String[][] opt2 =new String[20][];
         menuNumber=0;
@@ -2232,9 +2232,9 @@ private  static Hashtable[] menuLIST_TEMPLATE_BRIDGE( boObject obj,
          //bolist
         if(!bolist.isReadOnly())
         {
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.616"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.616");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
@@ -2242,43 +2242,43 @@ private  static Hashtable[] menuLIST_TEMPLATE_BRIDGE( boObject obj,
              //if(menuNumber>0){
             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
         }
         else
         {
-            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
         }
 
 
 
         opt =new String[2][];
         menuNumber=0;
-        menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+        menuFlatRight.put("MENUFLATRIGHT",opt);
         opt[menuNumber]=new String[7];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.623")+boDefHandler.getBoDefinition(relatedClsAttribute ).getLabel(); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.623")+boDefHandler.getBoDefinition(relatedClsAttribute ).getLabel();
         //opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+obj.getBoDefinition().getName()+"','edit','method=new&ctxParent="+objParent.bo_boui+"&object="+obj.getBoDefinition().getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');";
-        opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="alert('ja la vamos')"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="alert('ja la vamos')";
+        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
         opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-        opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+relatedClsAttribute+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-        opt[menuNumber][docHTMLgenerateToolBar.TITLE]="" ; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+relatedClsAttribute+"/ico16.gif" ;
+        opt[menuNumber][docHTMLgenerateToolBar.TITLE]="" ;
         
        
         menuNumber++;
         opt[menuNumber]=new String[7];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.6")+boDefHandler.getBoDefinition(relatedClsAttribute ).getLabel(); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.6")+boDefHandler.getBoDefinition(relatedClsAttribute ).getLabel();
         StringBuffer onclick=new StringBuffer();
-        onclick.append("LookupTemplates('lookupmultiTemplates.jsp','"); //$NON-NLS-1$
+        onclick.append("LookupTemplates('lookupmultiTemplates.jsp','");
         onclick.append( templateBoui );
-        onclick.append("','"); //$NON-NLS-1$
+        onclick.append("','");
         onclick.append( clsRelated );
-        onclick.append("','"); //$NON-NLS-1$
+        onclick.append("','");
         onclick.append( relatedClsAttribute );
-        onclick.append("','"); //$NON-NLS-1$
+        onclick.append("','");
         onclick.append( attributeRelated );
-        onclick.append("','"); //$NON-NLS-1$
+        onclick.append("','");
         onclick.append( relatedObjBoui );
-        onclick.append("','1')"); //$NON-NLS-1$
+        onclick.append("','1')");
         //onclick.append( doc.getDocIdx() );
        // onclick.append("');");
         
@@ -2289,10 +2289,10 @@ private  static Hashtable[] menuLIST_TEMPLATE_BRIDGE( boObject obj,
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=onclick.toString();
 
         
-        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
         opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-        opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+relatedClsAttribute+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-        opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.5"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+relatedClsAttribute+"/ico16.gif" ;
+        opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.5");
         //onclick.toString().replace('"',' ').replace('\'',' ');
         //"Adicionar objectos já criados do tipo "+bolist.getBoDef().getLabel() ;
             
@@ -2316,22 +2316,22 @@ private  static Hashtable[] menuLIST_NORMAL( boObject obj, boObjectList bolist, 
 
         String[][] opt =new String[1][];
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.4"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.4");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
             opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
 
         String[][] opt2 =new String[20][];
         menuNumber=0;
@@ -2357,50 +2357,50 @@ private  static Hashtable[] menuLIST_NORMAL( boObject obj, boObjectList bolist, 
                     { 
                         objDef = boDefHandler.getBoDefinition(objs[i]);
                         opt2[menuNumber]=new String[6];
-                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar " + objDef.getLabel(); //$NON-NLS-1$
-                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+objs[i].toLowerCase()+"','edit','method=new&object="+objs[i]+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]="Criar " + objDef.getLabel();
+                        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+objs[i].toLowerCase()+"','edit','method=new&object="+objs[i]+"');";
+                        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
-                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objs[i]+"/ico16.gif" ;; //$NON-NLS-1$ //$NON-NLS-2$
+                        opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+objs[i]+"/ico16.gif" ;;
                         menuNumber++;
                     }
                     opt2[menuNumber]=new String[5];
-                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.652"); //$NON-NLS-1$
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.652");
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                     opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
     
                 }
                 else
                 {
-                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.656"); //$NON-NLS-1$
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.656");
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                     opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                 }
             }
             else
             {
-                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.660"); //$NON-NLS-1$
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.660");
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                 opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             }
              //if(menuNumber>0){
             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
         }
         else
         {
-            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
         }
         
-        if ( ! bolist.getBoDef().getName().equals("Ebo_Template") && !bolist.isReadOnly()) //$NON-NLS-1$
+        if ( ! bolist.getBoDef().getName().equals("Ebo_Template") && !bolist.isReadOnly())
         {
             if(bolist.getBoDef() instanceof boDefInterface)
             {
@@ -2409,35 +2409,35 @@ private  static Hashtable[] menuLIST_NORMAL( boObject obj, boObjectList bolist, 
                 {
                     opt =new String[1][];
                     menuNumber=0;
-                    menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+                    menuFlatRight.put("MENUFLATRIGHT",opt);
                     opt[menuNumber]=new String[7];
-                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.3")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
-                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.3")+bolist.getBoDef().getLabel();
+                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+"');";
+                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.675")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.676") ; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
+                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.675")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.676") ;
                 }
             }
             else
             {
                 opt =new String[1][];
                     menuNumber=0;
-                    menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+                    menuFlatRight.put("MENUFLATRIGHT",opt);
                     opt[menuNumber]=new String[7];
-                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.678")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
-                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.678")+bolist.getBoDef().getLabel();
+                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+"');";
+                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.685")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.686") ; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
+                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.685")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.686") ;
             }
             
         }
         else
         {
             opt =new String[0][];
-            menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+            menuFlatRight.put("MENUFLATRIGHT",opt);
             
         }
         toRet[0]=menuFlat;
@@ -2459,22 +2459,22 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
 
         String[][] opt =new String[1][];
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
 /* isto estva comentado ...PORQUE? - preciso p causa dos DETACH_ATTRIBUTES */        
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.2"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.2");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
             opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
 
         String[][] opt2 =new String[20][];
         menuNumber=0;
@@ -2500,9 +2500,9 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
          //bolist
         if(!bolist.isReadOnly() && canWrite)
         {
-            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.693"); //$NON-NLS-1$
-            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.693");
+            opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+            opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
             opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
             
@@ -2510,41 +2510,41 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
              //if(menuNumber>0){
             String[][] optSUBMENUACCOES =new String[menuNumber+1][];
             System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
         }
         else
         {
-            menuFlat.put("SUBMENU_ACCOES",new String[0][]); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_ACCOES",new String[0][]);
         }
 
 /* ATE AQUI ... descomentei - 21-2-2004 JMF  */
        
  
-       if ( !bolist.getBoDef().getName().equals("Ebo_Template") && canWrite) //$NON-NLS-1$
+       if ( !bolist.getBoDef().getName().equals("Ebo_Template") && canWrite)
         {
             if( bolist.getBoDef().getInterfaceType()!=boDefHandler.INTERFACE_STANDARD )
             {
                 opt =new String[1][];
                 menuNumber=0;
-                menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+                menuFlatRight.put("MENUFLATRIGHT",opt);
                 opt[menuNumber]=new String[7];
-                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.701")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.701")+bolist.getBoDef().getLabel();
                 
-                String searchMode=page.getRequest().getParameter("listmode");    //$NON-NLS-1$
+                String searchMode=page.getRequest().getParameter("listmode");   
                 
-                String option=""; //$NON-NLS-1$
+                String option="";
 //                if ( "searchone".equalsIgnoreCase(searchMode) )
 //                {
                    // option="&ctxParent="+page.getRequest().getParameter("look_parentBoui");
                   //  option+="&addToCtxAttribute="+page.getRequest().getParameter("look_parentAttribute");
                   //  option+="&relatedClientIDX="+page.getRequest().getParameter("clientIDX");
-                    option+="&searchClientIdx='+getIDX()+'"; //$NON-NLS-1$
-                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+option+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    option+="&searchClientIdx='+getIDX()+'";
+                    opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+bolist.getBoDef().getName().toLowerCase()+"','edit','method=new&object="+bolist.getBoDef().getName()+option+"');";
                     //opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="parent.newObject('"+bolist.getBoDef().getName()+"');";
-                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.711")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.1") ; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
+                    opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.711")+bolist.getBoDef().getLabel() +JSPMessages.getString("docHTML_builderMenus.1") ;
 //                }
 //                else
 //                {
@@ -2558,51 +2558,51 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             else
             {
                 opt =new String[2][];
-                opt[0] = ((String[][])menuFlat.get("MENUFLAT"))[0]; //$NON-NLS-1$
+                opt[0] = ((String[][])menuFlat.get("MENUFLAT"))[0];
                 menuNumber=1;                
                 opt[menuNumber]=new String[7];
-                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.0")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
-                opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR"; //$NON-NLS-1$
-                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
+                opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.0")+bolist.getBoDef().getLabel();
+                opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR";
+                opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
                 if(obj != null)
                 {
-                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Criar", DOCLIST)); //$NON-NLS-1$
+                    opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Criar", DOCLIST));
                 }
                 else
                 {
                     opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
                 }
-                opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="c"; //$NON-NLS-1$
+                opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="c";
                 
-                menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+                menuFlat.put("MENUFLAT",opt);
 
                 menuNumber=0;
                 String implObjs[] = ((boDefInterface)bolist.getBoDef()).getImplObjects();
                 opt2 =new String[implObjs.length][7];
-                String searchMode=page.getRequest().getParameter("listmode");                 //$NON-NLS-1$
-                String option="&searchClientIdx='+getIDX()+'"; //$NON-NLS-1$
+                String searchMode=page.getRequest().getParameter("listmode");                
+                String option="&searchClientIdx='+getIDX()+'";
 //                if ( "searchone".equalsIgnoreCase(searchMode) )
 //                {
 //                    option+="&searchClientIdx='+getIDX()+'";
 //                }
                 for (int i = 0; i < implObjs.length; i++) 
                 {
-                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.723")+boDefHandler.getBoDefinition(implObjs[i]).getLabel(); //$NON-NLS-1$
-                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+implObjs[i].toLowerCase()+"','edit','method=new&object="+implObjs[i]+option+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                    opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.723")+boDefHandler.getBoDefinition(implObjs[i]).getLabel();
+                    opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+implObjs[i].toLowerCase()+"','edit','method=new&object="+implObjs[i]+option+"');";
+                    opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                     opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+implObjs[i]+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-                    opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.730")+boDefHandler.getBoDefinition(implObjs[i]).getLabel()+JSPMessages.getString("docHTML_builderMenus.731") ; //$NON-NLS-1$ //$NON-NLS-2$
+                    opt2[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+implObjs[i]+"/ico16.gif" ;
+                    opt2[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.730")+boDefHandler.getBoDefinition(implObjs[i]).getLabel()+JSPMessages.getString("docHTML_builderMenus.731") ;
                     menuNumber++;
                 }
-                menuFlat.put("SUBMENU_CRIAR",opt2); //$NON-NLS-1$
+                menuFlat.put("SUBMENU_CRIAR",opt2);
 
             }
         }
         else
         {
             opt =new String[0][];
-            menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+            menuFlatRight.put("MENUFLATRIGHT",opt);
             
         }
  
@@ -2622,12 +2622,12 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
         Hashtable toRet[]=new Hashtable[3];
         byte menuNumber=0;
         String[][] opt;
-        if ( !bolist.getBoDef().getName().equalsIgnoreCase("boObject") ) //$NON-NLS-1$
+        if ( !bolist.getBoDef().getName().equalsIgnoreCase("boObject") )
             opt =new String[1][];
         else
             opt =new String[2][];
         
-        menuFlat.put("MENUFLAT",opt); //$NON-NLS-1$
+        menuFlat.put("MENUFLAT",opt);
         
         bridgeHandler bridge= (bridgeHandler) bolist;
         boDefMethod[] xmth=bridge.getDefAttribute().getMethods();
@@ -2635,18 +2635,18 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
         
         
         opt[menuNumber]=new String[5];
-        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.736"); //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.736");
         opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
         if(obj != null)
         {
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST)); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, obj.getName(), String.valueOf(obj.getBoui()), "Accoes", DOCLIST));
         }
         else
         {
             opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]=String.valueOf(doc.getTabindex(doc.MENU, bolist.poolUniqueId(), DOCLIST));
         }
-        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A"; //$NON-NLS-1$
-        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES"; //$NON-NLS-1$
+        opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="A";
+        opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_ACCOES";
         
         
 
@@ -2656,9 +2656,9 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
 
          //bolist
          
-        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.740"); //$NON-NLS-1$
-        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")"; //$NON-NLS-1$ //$NON-NLS-2$
-        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+        opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.740");
+        opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="deleteSelected("+hui+")";
+        opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
         opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
         opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
         
@@ -2675,8 +2675,8 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
                 menuNumber++;
                 opt2[menuNumber]=new String[5];
                 opt2[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=xmth[i].getLabel();
-                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="executeBridgeMeth("+hui+",'"+bridge.getAttributeName()+"','"+xmth[i].getName()+"')"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                opt2[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]="executeBridgeMeth("+hui+",'"+bridge.getAttributeName()+"','"+xmth[i].getName()+"')";
+                opt2[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
                 opt2[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
                 opt2[menuNumber][docHTMLgenerateToolBar.SUBMENU]=null;
                }
@@ -2687,17 +2687,17 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
          //if(menuNumber>0){
         String[][] optSUBMENUACCOES =new String[menuNumber+1][];
         System.arraycopy(opt2,0,optSUBMENUACCOES,0,menuNumber+1);
-        menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES); //$NON-NLS-1$
+        menuFlat.put("SUBMENU_ACCOES",optSUBMENUACCOES);
         
-         if ( sourceObject != null &&  bolist.getBoDef().getName().equalsIgnoreCase("boObject") ) //$NON-NLS-1$
+         if ( sourceObject != null &&  bolist.getBoDef().getName().equalsIgnoreCase("boObject") )
         {
             menuNumber=1;
             opt[menuNumber]=new String[5];
-            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.751"); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.751");
             opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=null;
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
-            opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="C"; //$NON-NLS-1$
-            opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR"; //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
+            opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]="C";
+            opt[menuNumber][docHTMLgenerateToolBar.SUBMENU]="SUBMENU_CRIAR";
         
             boDefAttribute xatt         = objParent.getBoDefinition().getAttributeRef( bolist.getParentAtributeName() );
             boDefHandler[] xdefs=xatt.getObjects();
@@ -2709,8 +2709,8 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             {
                 opt2r[menuNumber2]=new String[5];
                 opt2r[menuNumber2][docHTMLgenerateToolBar.TEXT_MENU]= xdefs[i].getLabel();
-                opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+xdefs[i].getName().toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+                opt2r[menuNumber2][docHTMLgenerateToolBar.ONCLICK_MENU]="winmain().openDoc('medium','"+xdefs[i].getName().toLowerCase()+"','edit','method=new&relatedClientIDX='+getIDX()+'&ctxParentIdx='+getDocId()+'&ctxParent="+objParent.bo_boui+"&object="+xdefs[i].getName()+"&addToCtxParentBridge="+bolist.getParentAtributeName()+"');";
+                opt2r[menuNumber2][docHTMLgenerateToolBar.TABINDEX]="0";
                 opt2r[menuNumber2][docHTMLgenerateToolBar.ACCESSKEY]=null;
                 opt2r[menuNumber2][docHTMLgenerateToolBar.SUBMENU]=null;
                 menuNumber2++;
@@ -2718,7 +2718,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             
             String[][] optSUBMENUCRIAR =new String[menuNumber2][];
             System.arraycopy(opt2r,0,optSUBMENUCRIAR,0,menuNumber2);
-            menuFlat.put("SUBMENU_CRIAR",optSUBMENUCRIAR); //$NON-NLS-1$
+            menuFlat.put("SUBMENU_CRIAR",optSUBMENUCRIAR);
             
         }
       
@@ -2728,12 +2728,12 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             opt =new String[1][];
             
             menuNumber=0;
-            menuFlatRight.put("MENUFLATRIGHT",opt); //$NON-NLS-1$
+            menuFlatRight.put("MENUFLATRIGHT",opt);
             opt[menuNumber]=new String[7];                    
             if (bolist.getBoDef().getLabel() != null)
-            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.763")+bolist.getBoDef().getLabel(); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.763")+bolist.getBoDef().getLabel();
             else
-            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.764"); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TEXT_MENU]=JSPMessages.getString("docHTML_builderMenus.764");
             
             String attributeName = getAttribute(bridgeValue);
         
@@ -2743,34 +2743,34 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             
             StringBuffer onclick=new StringBuffer();
             //onclick.append("LookupBridge('" + sourceSelect + "',");
-            onclick.append("LookupBridge('','', "); //$NON-NLS-1$
+            onclick.append("LookupBridge('','', ");
             //onclick.append("'" + destinationSelect + "',");
             //onclick.append("'select ISM_ApoliceResponsab.extras where boui=" + objParent.getBoui() + "',");
-            onclick.append("'multi','"); //$NON-NLS-1$
+            onclick.append("'multi','");
             onclick.append(sourceType);
             //onclick.append("DMS_CarExtras");
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append(objParent.getName());        
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( sourceObject.getBoui() );
             //onclick.append( parentBoui );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( objParent.getBoui() );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( attributeName );        
             //onclick.append( "extras" );
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
             onclick.append( bolist.getName() );
             //onclick.append( "extras" );
-            onclick.append("','"); //$NON-NLS-1$
-            onclick.append( "Y" ); //$NON-NLS-1$
-            onclick.append("','"); //$NON-NLS-1$
-            onclick.append( "Y" ); //$NON-NLS-1$
-            onclick.append("','"); //$NON-NLS-1$
-            onclick.append( "Y" ); //$NON-NLS-1$
-            onclick.append("','"); //$NON-NLS-1$
+            onclick.append("','");
+            onclick.append( "Y" );
+            onclick.append("','");
+            onclick.append( "Y" );
+            onclick.append("','");
+            onclick.append( "Y" );
+            onclick.append("','");
             onclick.append( doc.getDocIdx() );
-            onclick.append("','1')");         //$NON-NLS-1$
+            onclick.append("','1')");        
             //onclick.append("','1','");
             //onclick.append( doc.getDocIdx() );
             //onclick.append("');");
@@ -2782,10 +2782,10 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             opt[menuNumber][docHTMLgenerateToolBar.ONCLICK_MENU]=onclick.toString();
     
             
-            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0"; //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.TABINDEX]="0";
             opt[menuNumber][docHTMLgenerateToolBar.ACCESSKEY]=null;
-            opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ; //$NON-NLS-1$ //$NON-NLS-2$
-            opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.821"); //$NON-NLS-1$
+            opt[menuNumber][docHTMLgenerateToolBar.IMG]="resources/"+bolist.getBoDef().getName()+"/ico16.gif" ;
+            opt[menuNumber][docHTMLgenerateToolBar.TITLE]=JSPMessages.getString("docHTML_builderMenus.821");
             //onclick.toString().replace('"',' ').replace('\'',' ');
             //"Adicionar objectos já criados do tipo "+bolist.getBoDef().getLabel() ;
         }    
@@ -2800,14 +2800,14 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
     private static String contructSourceSelect(String bridge, boObject parent, boObject sourceObj) throws boRuntimeException{
         String attribute = getAttribute(bridge);        
         StringBuffer sb = new StringBuffer();        
-        sb.append("select ");                 //$NON-NLS-1$
-        sb.append(sourceObj.getName()).append(".").append(attribute).append(" where boui = ").append(sourceObj.getBoui());         //$NON-NLS-1$ //$NON-NLS-2$
+        sb.append("select ");                
+        sb.append(sourceObj.getName()).append(".").append(attribute).append(" where boui = ").append(sourceObj.getBoui());        
         return sb.toString();
     }
 
     private static boObject getSourceObject(String bridge, boObject parent, int grau, int nAttrib) throws boRuntimeException{        
         if(grau == 0){
-            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Declaração inválida da bridge", null, "");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Declaração inválida da bridge", null, ""); 
         }
         boObject obj = parent;
         for(int i = grau; i > 1; i--){
@@ -2835,7 +2835,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             attName = getAttributeName(s, i + 1);
             tt = aux.getAttribute(attName);
             if(tt == null){
-                throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Atributo inválido: " + attName, null, ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Atributo inválido: " + attName, null, "");
             }
             aux = tt.getObject();
             if(aux == null) return null;
@@ -2848,16 +2848,16 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
         int pos = 0;
         String ret = null;
         for(int i = 0; i < nAt; i++){
-            ret = bridge.substring(pos == 0 ? pos:pos + 1,bridge.indexOf(".", pos + 1)); //$NON-NLS-1$
-            pos = bridge.indexOf("."); //$NON-NLS-1$
+            ret = bridge.substring(pos == 0 ? pos:pos + 1,bridge.indexOf(".", pos + 1));
+            pos = bridge.indexOf(".");
         }
         return ret;
     }
 
     private static String contructDestinationSelect(String bridge, boObject obj, boObjectList list) throws boRuntimeException{
         StringBuffer sb = new StringBuffer();
-        sb.append("select "); //$NON-NLS-1$
-        sb.append(obj.getName()).append(".").append(list.getName()).append(" where boui = ").append(obj.getBoui());         //$NON-NLS-1$ //$NON-NLS-2$
+        sb.append("select ");
+        sb.append(obj.getName()).append(".").append(list.getName()).append(" where boui = ").append(obj.getBoui());        
         return sb.toString();
     }
 
@@ -2867,9 +2867,9 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
         int finalParent = (numberOfParents * 6) + numberOfParents;
         String attributesString = bridge.substring(finalParent);
         if(attributesString == null ||  attributesString.length() == 0){
-            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, "");
         }
-        while((pos = attributesString.indexOf(".")) != -1){ //$NON-NLS-1$
+        while((pos = attributesString.indexOf(".")) != -1){
             attributesString = attributesString.substring(pos +1);
             ret++;
         }
@@ -2899,14 +2899,14 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
                 return removeObjectWord(bda.getType());
             }
         }
-        throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, "");
     }
     
     private static String getAttribute(String bridge){
         String ret = null;
         for(int i = (bridge.length() - 1); i >= 0; i--){
             if(bridge.charAt(i) != '.'){
-                ret = bridge.charAt(i) + (ret == null ? "":ret);  //$NON-NLS-1$
+                ret = bridge.charAt(i) + (ret == null ? "":ret); 
             }
             else
                 return ret;
@@ -2917,7 +2917,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
     private static String removeObjectWord(String s){
         if(s != null){
             int pos = 0;
-            if((pos = s.indexOf("object.")) != -1){ //$NON-NLS-1$
+            if((pos = s.indexOf("object.")) != -1){
                 return s.substring(pos + 7, s.length());
             }
         }
@@ -2926,22 +2926,22 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
     
     private static String getRemoveMessage(String label, String cardId)
     {
-        if((label == null || "".equals(label.trim())) && (cardId == null || "".equals(cardId.trim()))) //$NON-NLS-1$ //$NON-NLS-2$
+        if((label == null || "".equals(label.trim())) && (cardId == null || "".equals(cardId.trim())))
         {
-            return JSPMessages.getString("docHTML_builderMenus.822"); //$NON-NLS-1$
+            return JSPMessages.getString("docHTML_builderMenus.822");
         }
         
-        String s = JSPMessages.getString("docHTML_builderMenus.823"); //$NON-NLS-1$
-        if(label != null && !"".equals(label.trim())) //$NON-NLS-1$
+        String s = JSPMessages.getString("docHTML_builderMenus.823");
+        if(label != null && !"".equals(label.trim()))
         {
-            s += " " + label;  //$NON-NLS-1$
+            s += " " + label; 
         }
         
-        if(cardId != null && !"".equals(cardId.trim())) //$NON-NLS-1$
+        if(cardId != null && !"".equals(cardId.trim()))
         {
-            s += JSPMessages.getString("docHTML_builderMenus.814") + cardId.toString().trim().replaceAll("&#39;"," ").replaceAll("&#34;"," ") + "]";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+            s += JSPMessages.getString("docHTML_builderMenus.814") + cardId.toString().trim().replaceAll("&#39;"," ").replaceAll("&#34;"," ") + "]"; 
         }
-        s +=JSPMessages.getString("docHTML_builderMenus.824"); //$NON-NLS-1$
+        s +=JSPMessages.getString("docHTML_builderMenus.824");
         return s;
     }
     

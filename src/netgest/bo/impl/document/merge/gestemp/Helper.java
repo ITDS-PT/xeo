@@ -64,9 +64,9 @@ public class Helper
 {
     //logger
     private static Logger logger = Logger.getLogger(
-            "netgest.bo.impl.document.merge.gestemp.Helper"); //$NON-NLS-1$
-    private static final String SOFT_HYPEN = ""+(char)173; //$NON-NLS-1$
-    private static final String WORD_TAG = ""+(char)166; //$NON-NLS-1$
+            "netgest.bo.impl.document.merge.gestemp.Helper");
+    private static final String SOFT_HYPEN = ""+(char)173;
+    private static final String WORD_TAG = ""+(char)166;
     private static Random RANDOM = new Random();
 
     public Helper()
@@ -157,8 +157,8 @@ public class Helper
     {
         try
         {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //$NON-NLS-1$
-            SimpleDateFormat sdfTime = new SimpleDateFormat("dd/MM/yyyy HH:mm"); //$NON-NLS-1$
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfTime = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             if(value == null) return value;
             boolean tagsToapply = (tags != null && tags.size() > 0);
             switch(gesdocTipoCamposLOV)
@@ -181,7 +181,7 @@ public class Helper
                         return !tagsToapply ? sdf.format((Date)value):textApplyTags(boctx, (Date)value, tags);
                      return !tagsToapply ? value:textApplyTags(boctx, value, tags);
                 case 8:
-                     return ""; //$NON-NLS-1$
+                     return "";
                 default:
                      return !tagsToapply ? value:textApplyTags(boctx, value, tags);
             }
@@ -223,7 +223,7 @@ public class Helper
 
     private static String wordSpecialTreat(String word)
     {
-        word = word.replaceAll("-", SOFT_HYPEN); //$NON-NLS-1$
+        word = word.replaceAll("-", SOFT_HYPEN);
         return word;
     }
 
@@ -231,8 +231,8 @@ public class Helper
     {
         try
         {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //$NON-NLS-1$
-            SimpleDateFormat sdfTime = new SimpleDateFormat("dd/MM/yyyy HH:mm"); //$NON-NLS-1$
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfTime = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             if(value == null) return value;
             switch(gesdocTipoCamposLOV)
             {
@@ -259,7 +259,7 @@ public class Helper
                         catch( ParseException e )
                         {
                             // Tenta noutro formato
-                            SimpleDateFormat asdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"); //$NON-NLS-1$
+                            SimpleDateFormat asdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
                             return asdf.parse( (String)value );
                         }
                      }
@@ -342,27 +342,27 @@ public class Helper
                 boObject o = boObject.getBoManager().loadObject( ctx, b );
                 return o.getCARDID().toString();
             }
-            else return ""; //$NON-NLS-1$
+            else return "";
          }
-         else if("boolean".equalsIgnoreCase(att.getType())) //$NON-NLS-1$
+         else if("boolean".equalsIgnoreCase(att.getType()))
          {
-            String value = (valor == null ? "": (String)valor); //$NON-NLS-1$
-            if("0".equals(value)) //$NON-NLS-1$
+            String value = (valor == null ? "": (String)valor);
+            if("0".equals(value))
             {
                 //falta verificar a lingua
-                return Messages.getString("Helper.14"); //$NON-NLS-1$
+                return Messages.getString("Helper.14");
             }
-            else if("1".equals(value)) //$NON-NLS-1$
+            else if("1".equals(value))
             {
-                return Messages.getString("Helper.16"); //$NON-NLS-1$
+                return Messages.getString("Helper.16");
             }
             return value;
          }
          else if(att.getLOVName() != null &&
-            !"".equals(att.getLOVName())) //$NON-NLS-1$
+            !"".equals(att.getLOVName()))
          {
             String xlov = att.getLOVName();
-            String value = (valor == null ? "": (String)valor); //$NON-NLS-1$
+            String value = (valor == null ? "": (String)valor);
 //            if(value != null && !"".equals(value))
 //            {
 //                boObject lov;
@@ -384,29 +384,29 @@ public class Helper
 //            }
             return value;
          }
-         else if("dateTime".equalsIgnoreCase(att.getType())) //$NON-NLS-1$
+         else if("dateTime".equalsIgnoreCase(att.getType()))
          {
             Date d = (Date)valor;
             if(d != null)
             {
-                 SimpleDateFormat formatter = new SimpleDateFormat ("dd/MM/yyyy HH:mm:ss"); //$NON-NLS-1$
+                 SimpleDateFormat formatter = new SimpleDateFormat ("dd/MM/yyyy HH:mm:ss");
                  return formatter.format(d);
             }
-            return ""; //$NON-NLS-1$
+            return "";
          }
-         else if("date".equalsIgnoreCase(att.getType())) //$NON-NLS-1$
+         else if("date".equalsIgnoreCase(att.getType()))
          {
             Date d = (Date)valor;
             if(d != null)
             {
-                 SimpleDateFormat formatter = new SimpleDateFormat ("dd/MM/yyyy"); //$NON-NLS-1$
+                 SimpleDateFormat formatter = new SimpleDateFormat ("dd/MM/yyyy");
                  return formatter.format(d);
             }
-            return ""; //$NON-NLS-1$
+            return "";
          }
-         else if("IFILE".equalsIgnoreCase(att.getType())) //$NON-NLS-1$
+         else if("IFILE".equalsIgnoreCase(att.getType()))
          {
-            return ""; //$NON-NLS-1$
+            return "";
          }
          else
          {
@@ -421,7 +421,7 @@ public class Helper
                 Double value = (valor == null ? null: ((Double)valor));
                 //currency
                 currencyFormatter.setParseIntegerOnly(false);
-                if("Y".equalsIgnoreCase(att.getGrouping())) //$NON-NLS-1$
+                if("Y".equalsIgnoreCase(att.getGrouping()))
                 {
                     currencyFormatter.setGroupingUsed(true);
                 }
@@ -430,7 +430,7 @@ public class Helper
                 currencyFormatter.setMinimumIntegerDigits(1);
                 return currencyFormatter.format(value);
             }
-            else if("Y".equalsIgnoreCase(att.getGrouping())) //$NON-NLS-1$
+            else if("Y".equalsIgnoreCase(att.getGrouping()))
             {
                 Double value = (valor == null ? null: ((Double)valor));
                 currencyFormatter.setParseIntegerOnly(false);
@@ -447,39 +447,39 @@ public class Helper
     {
         String t = att.getType().toUpperCase();
 
-        if ((t.indexOf("CHAR") != -1) || //$NON-NLS-1$
+        if ((t.indexOf("CHAR") != -1) ||
                 ((att.getLOVName() != null) &&
-                !"".equals(att.getLOVName()))) //$NON-NLS-1$
+                !"".equals(att.getLOVName())))
         {
             return Types.VARCHAR;
         }
 
-        if (t.indexOf("NUMBER") != -1) //$NON-NLS-1$
+        if (t.indexOf("NUMBER") != -1)
         {
             return Types.NUMERIC;
         }
 
-        if (t.indexOf("BOOLEAN") != -1) //$NON-NLS-1$
+        if (t.indexOf("BOOLEAN") != -1)
         {
             return Types.VARCHAR;
         }
 
-        if (t.indexOf("OBJECT") != -1) //$NON-NLS-1$
+        if (t.indexOf("OBJECT") != -1)
         {
             return Types.VARCHAR;
         }
 
-        if (t.indexOf("CLOB") != -1) //$NON-NLS-1$
+        if (t.indexOf("CLOB") != -1)
         {
             return Types.VARCHAR;
         }
 
-        if (t.indexOf("DATE") != -1) //$NON-NLS-1$
+        if (t.indexOf("DATE") != -1)
         {
             return Types.DATE;
         }
 
-        if (t.indexOf("IFILE") != -1) //$NON-NLS-1$
+        if (t.indexOf("IFILE") != -1)
         {
             return Types.BLOB;
         }
@@ -501,58 +501,58 @@ public class Helper
         {
             if(template.getChannel() == template.TYPE_EMAIL)
             {
-                result = boObject.getBoManager().createObject(boctx, "GESTEMP_GeneratedMail"); //$NON-NLS-1$
+                result = boObject.getBoManager().createObject(boctx, "GESTEMP_GeneratedMail");
 
-                result.getAttribute("email").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("sms").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("carta").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("fax").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                result.getAttribute("email").setValueString("1");
+                result.getAttribute("sms").setValueString("0");
+                result.getAttribute("carta").setValueString("0");
+                result.getAttribute("fax").setValueString("0");
             }
             else if(template.getChannel() == template.TYPE_SMS)
             {
-                result = boObject.getBoManager().createObject(boctx, "GESTEMP_GeneratedSMS"); //$NON-NLS-1$
-                result.getAttribute("email").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("sms").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("carta").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("fax").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                result = boObject.getBoManager().createObject(boctx, "GESTEMP_GeneratedSMS");
+                result.getAttribute("email").setValueString("0");
+                result.getAttribute("sms").setValueString("1");
+                result.getAttribute("carta").setValueString("0");
+                result.getAttribute("fax").setValueString("0");
             }
             else if(template.getChannel() == template.TYPE_CARTA)
             {
-                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated"); //$NON-NLS-1$
-                result.getAttribute("email").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("sms").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("carta").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("fax").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated");
+                result.getAttribute("email").setValueString("0");
+                result.getAttribute("sms").setValueString("0");
+                result.getAttribute("carta").setValueString("1");
+                result.getAttribute("fax").setValueString("0");
             }
             else if(template.getChannel() == template.TYPE_FAX)
             {
-                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated"); //$NON-NLS-1$
-                result.getAttribute("email").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("sms").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("carta").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("fax").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated");
+                result.getAttribute("email").setValueString("0");
+                result.getAttribute("sms").setValueString("0");
+                result.getAttribute("carta").setValueString("0");
+                result.getAttribute("fax").setValueString("1");
             }
             else
             {
-                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated"); //$NON-NLS-1$
-                result.getAttribute("email").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("sms").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("carta").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                result.getAttribute("fax").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                result = boObject.getBoManager().createObject(boctx, "GESTEMP_Generated");
+                result.getAttribute("email").setValueString("0");
+                result.getAttribute("sms").setValueString("0");
+                result.getAttribute("carta").setValueString("0");
+                result.getAttribute("fax").setValueString("0");
             }
         }
-        result.getAttribute("usedTemplate").setValueLong(template.getBoui()); //$NON-NLS-1$
-        result.getAttribute("generateDate").setValueDate(new Date()); //$NON-NLS-1$
-        result.getAttribute("user").setValueLong(boctx.getBoSession().getPerformerBoui()); //$NON-NLS-1$
+        result.getAttribute("usedTemplate").setValueLong(template.getBoui());
+        result.getAttribute("generateDate").setValueDate(new Date());
+        result.getAttribute("user").setValueLong(boctx.getBoSession().getPerformerBoui());
 
         if(template.getChannel() == template.TYPE_EMAIL)
         {
-            result.getAttribute("textAssunto").setValueString(textAssunto); //$NON-NLS-1$
-            result.getAttribute("textMail").setValueString(text); //$NON-NLS-1$
+            result.getAttribute("textAssunto").setValueString(textAssunto);
+            result.getAttribute("textMail").setValueString(text);
         }
         else if(template.getChannel() == template.TYPE_SMS)
         {
-            result.getAttribute("textSms").setValueString(text); //$NON-NLS-1$
+            result.getAttribute("textSms").setValueString(text);
         }
 
         //docs
@@ -562,38 +562,38 @@ public class Helper
         if(rosto != null)
         {
             iFile ifile = new FSiFile(null,new File(rosto),null);
-            docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-            docRosto.getAttribute("description").setValueString(Messages.getString("Helper.90")); //$NON-NLS-1$ //$NON-NLS-2$
-            docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-            docRosto.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-            docRosto.getAttribute("dtDoc").setValueDate(result.getAttribute("dtImpressao").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-            docRosto.getAttribute("dtSaida").setValueDate(result.getAttribute("dtImpressao").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-            docRosto.getAttribute("segmento").setValueString(Modulo.getTestModulo()); //$NON-NLS-1$
-            docRosto.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-            docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-            docRosto.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-            result.getAttribute("rosto").setObject(docRosto); //$NON-NLS-1$
+            docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+            docRosto.getAttribute("description").setValueString(Messages.getString("Helper.90"));
+            docRosto.getAttribute("dtRegisto").setValueDate(new Date());
+            docRosto.getAttribute("tipoDoc").setValueString("139");
+            docRosto.getAttribute("dtDoc").setValueDate(result.getAttribute("dtImpressao").getValueDate());
+            docRosto.getAttribute("dtSaida").setValueDate(result.getAttribute("dtImpressao").getValueDate());
+            docRosto.getAttribute("segmento").setValueString(Modulo.getTestModulo());
+            docRosto.getAttribute("file").setValueiFile(ifile);
+            docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+            docRosto.getAttribute("fileName").setValueString(ifile.getName());
+            result.getAttribute("rosto").setObject(docRosto);
         }
         if(doc != null)
         {
             iFile ifile = new FSiFile(null,new File(doc),null);
-            docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-            docTemplate.getAttribute("description").setValueString("Documento"); //$NON-NLS-1$ //$NON-NLS-2$
-            docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-            docTemplate.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-            docTemplate.getAttribute("dtDoc").setValueDate(result.getAttribute("dtImpressao").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-            docTemplate.getAttribute("dtSaida").setValueDate(result.getAttribute("dtImpressao").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-            docTemplate.getAttribute("segmento").setValueString(Modulo.getTestModulo()); //$NON-NLS-1$
-            docTemplate.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-            docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-            docTemplate.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-            result.getAttribute("doc").setObject(docTemplate); //$NON-NLS-1$
+            docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+            docTemplate.getAttribute("description").setValueString("Documento");
+            docTemplate.getAttribute("dtRegisto").setValueDate(new Date());
+            docTemplate.getAttribute("tipoDoc").setValueString("139");
+            docTemplate.getAttribute("dtDoc").setValueDate(result.getAttribute("dtImpressao").getValueDate());
+            docTemplate.getAttribute("dtSaida").setValueDate(result.getAttribute("dtImpressao").getValueDate());
+            docTemplate.getAttribute("segmento").setValueString(Modulo.getTestModulo());
+            docTemplate.getAttribute("file").setValueiFile(ifile);
+            docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+            docTemplate.getAttribute("fileName").setValueString(ifile.getName());
+            result.getAttribute("doc").setObject(docTemplate);
         }
 
         boObject aux = null;
-        result.getBridge("respostas").truncate(); //$NON-NLS-1$
-        result.getBridge("objReferences").truncate(); //$NON-NLS-1$
-        template.setAnswerBridge(result.getBridge("respostas")); //$NON-NLS-1$
+        result.getBridge("respostas").truncate();
+        result.getBridge("objReferences").truncate();
+        template.setAnswerBridge(result.getBridge("respostas"));
 
         //resposta a Queries
 
@@ -603,7 +603,7 @@ public class Helper
             aux = queries[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                result.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                result.getBridge("respostas").add(aux.getBoui());
             }
             //
             ArrayList dependentsList = queries[i].getListDependents();
@@ -612,7 +612,7 @@ public class Helper
                 aux = ((GtCampoNObjecto)dependentsList.get(j)).getAnswerObject(boctx);
                 if(aux != null)
                 {
-                    result.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                    result.getBridge("respostas").add(aux.getBoui());
                 }
             }
 
@@ -627,7 +627,7 @@ public class Helper
             aux = manuais[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                result.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                result.getBridge("respostas").add(aux.getBoui());
             }
         }
 
@@ -638,7 +638,7 @@ public class Helper
             aux = manuaisLista[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                result.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                result.getBridge("respostas").add(aux.getBoui());
             }
         }
         return result;
@@ -773,13 +773,13 @@ public class Helper
             actvSend = boObject.getBoManager().loadObject(boctx, actvBoui);
             if(actvSend != null)
             {
-                boObject xwfVar = actvSend.getAttribute("message").getObject(); //$NON-NLS-1$
+                boObject xwfVar = actvSend.getAttribute("message").getObject();
                 if(xwfVar != null)
                 {
-                    boObject varValue = xwfVar.getAttribute("value").getObject(); //$NON-NLS-1$
+                    boObject varValue = xwfVar.getAttribute("value").getObject();
                     if(varValue != null)
                     {
-                        mailobject = varValue.getAttribute("valueObject").getObject(); //$NON-NLS-1$
+                        mailobject = varValue.getAttribute("valueObject").getObject();
                     }
                 }
             }
@@ -794,14 +794,14 @@ public class Helper
                 boObject message = boObject.getBoManager().loadObject(boctx, template.getMsgReplyFrom());
                 if(mailobject == null)
                 {
-                    if("forward".equals(template.getSendType())) //$NON-NLS-1$
+                    if("forward".equals(template.getSendType()))
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageMail", message); //$NON-NLS-1$
-                        mailobject.getAttribute("preferedMedia").setValueString("E-Mail"); //$NON-NLS-1$ //$NON-NLS-2$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageMail", message);
+                        mailobject.getAttribute("preferedMedia").setValueString("E-Mail");
                     }
                     else
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageMail"); //$NON-NLS-1$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageMail");
                     }
                 }
 
@@ -817,16 +817,16 @@ public class Helper
                 */
 //                String aux = mailobject.getAttribute("description").getValueString();
 //                mailobject.getAttribute("description").setValueString(text + aux);
-                mailobject.getAttribute("description").setValueString(text); //$NON-NLS-1$
+                mailobject.getAttribute("description").setValueString(text);
             }
             else
             {
                 if(mailobject == null)
                 {
-                    mailobject = boObject.getBoManager().createObject(boctx,"messageMail"); //$NON-NLS-1$
+                    mailobject = boObject.getBoManager().createObject(boctx,"messageMail");
                 }
-                mailobject.getAttribute("name").setValueString(textAssunto); //$NON-NLS-1$
-                mailobject.getAttribute("description").setValueString(text); //$NON-NLS-1$
+                mailobject.getAttribute("name").setValueString(textAssunto);
+                mailobject.getAttribute("description").setValueString(text);
             }
         }
         else if(template.getChannel() == template.TYPE_CARTA)
@@ -839,14 +839,14 @@ public class Helper
                 boObject message = boObject.getBoManager().loadObject(boctx, template.getMsgReplyFrom());
                 if(mailobject == null)
                 {
-                    if("forward".equals(template.getSendType())) //$NON-NLS-1$
+                    if("forward".equals(template.getSendType()))
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageLetter", message); //$NON-NLS-1$
-                        mailobject.getAttribute("preferedMedia").setValueString("Letter"); //$NON-NLS-1$ //$NON-NLS-2$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageLetter", message);
+                        mailobject.getAttribute("preferedMedia").setValueString("Letter");
                     }
                     else
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageLetter"); //$NON-NLS-1$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageLetter");
                     }
                 }
 
@@ -865,37 +865,37 @@ public class Helper
             {
                 if(mailobject == null)
                 {
-                    mailobject = boObject.getBoManager().createObject(boctx,"messageLetter"); //$NON-NLS-1$
+                    mailobject = boObject.getBoManager().createObject(boctx,"messageLetter");
                 }
-                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template)); //$NON-NLS-1$
+                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template));
             }
             //impressão local/central
             if(template.isOnlyCentralPrint())
             {
-                mailobject.getAttribute("impCentral").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("impCentral").setValueString("1");
             }
             else
             {
-                mailobject.getAttribute("impCentral").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("impCentral").setValueString("0");
             }
             //forma de envio
-            mailobject.getAttribute("codeBarClienteCTT").setValueString(template.getCodeBarCliente()); //$NON-NLS-1$
+            mailobject.getAttribute("codeBarClienteCTT").setValueString(template.getCodeBarCliente());
             if(template.isRegistada())
             {
-                mailobject.getAttribute("envioCarta").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getAttribute("registoCTT").setValueString(template.getRegistoNr()); //$NON-NLS-1$
-                mailobject.getAttribute("impCentral").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("envioCarta").setValueString("1");
+                mailobject.getAttribute("registoCTT").setValueString(template.getRegistoNr());
+                mailobject.getAttribute("impCentral").setValueString("1");
             }
             else if(template.isAviso())
             {
-                mailobject.getAttribute("envioCarta").setValueString("2"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getAttribute("registoCTT").setValueString(template.getRegistoNr()); //$NON-NLS-1$
-                mailobject.getAttribute("impCentral").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("envioCarta").setValueString("2");
+                mailobject.getAttribute("registoCTT").setValueString(template.getRegistoNr());
+                mailobject.getAttribute("impCentral").setValueString("1");
             }
             else
             {
-                mailobject.getAttribute("envioCarta").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getAttribute("registoCTT").setValueString(""); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("envioCarta").setValueString("0");
+                mailobject.getAttribute("registoCTT").setValueString("");
             }
         }
         else if(template.getChannel() == template.TYPE_FAX)
@@ -907,14 +907,14 @@ public class Helper
                 boObject message = boObject.getBoManager().loadObject(boctx, template.getMsgReplyFrom());
                 if(mailobject == null)
                 {
-                    if("forward".equals(template.getSendType())) //$NON-NLS-1$
+                    if("forward".equals(template.getSendType()))
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageFax", message); //$NON-NLS-1$
-                        mailobject.getAttribute("preferedMedia").setValueString("Fax"); //$NON-NLS-1$ //$NON-NLS-2$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageFax", message);
+                        mailobject.getAttribute("preferedMedia").setValueString("Fax");
                     }
                     else
                     {
-                        mailobject = boObject.getBoManager().createObject(boctx,"messageFax"); //$NON-NLS-1$
+                        mailobject = boObject.getBoManager().createObject(boctx,"messageFax");
                     }
                 }
 
@@ -922,9 +922,9 @@ public class Helper
                 /*
                 MessageServer.setForwardFields(mailobject,
                                                message,
-                                               "replyAll".equals(template.getSendType()) ? MessageServer.REPLAY_ALL //$NON-NLS-1$
+                                               "replyAll".equals(template.getSendType()) ? MessageServer.REPLAY_ALL
                                                :
-                                               "reply".equals(template.getSendType()) ? MessageServer.REPLAY //$NON-NLS-1$
+                                               "reply".equals(template.getSendType()) ? MessageServer.REPLAY
                                                :
                                                MessageServer.FORWARD);
                 */
@@ -933,18 +933,18 @@ public class Helper
             {
                 if(mailobject == null)
                 {
-                    mailobject = boObject.getBoManager().createObject(boctx,"messageFax"); //$NON-NLS-1$
+                    mailobject = boObject.getBoManager().createObject(boctx,"messageFax");
                 }
-                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template)); //$NON-NLS-1$
+                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template));
             }
             //impressão local/central
             if(template.isOnlyCentralPrint())
             {
-                mailobject.getAttribute("impCentral").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("impCentral").setValueString("1");
             }
             else
             {
-                mailobject.getAttribute("impCentral").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                mailobject.getAttribute("impCentral").setValueString("0");
             }
         }
         else if(template.getChannel() == template.TYPE_SMS)
@@ -952,89 +952,89 @@ public class Helper
             sms = true;
             if(mailobject == null)
             {
-                mailobject = boObject.getBoManager().createObject(boctx,"messageSMS"); //$NON-NLS-1$
+                mailobject = boObject.getBoManager().createObject(boctx,"messageSMS");
             }
 
             if(template.getSendType() != null)
             {
                 boObject message = boObject.getBoManager().loadObject(boctx, template.getMsgReplyFrom());
                 //assunto
-                String subject = message.getAttribute("name").getValueString(); //$NON-NLS-1$
-                String prefix = "RE:"; //$NON-NLS-1$
-                if("forward".equals(template.getSendType())) //$NON-NLS-1$
+                String subject = message.getAttribute("name").getValueString();
+                String prefix = "RE:";
+                if("forward".equals(template.getSendType()))
                 {
-                    prefix = "FW:"; //$NON-NLS-1$
-                    mailobject.getAttribute("forwardFrom").setValueLong(message.getBoui()); //$NON-NLS-1$
+                    prefix = "FW:";
+                    mailobject.getAttribute("forwardFrom").setValueLong(message.getBoui());
                 }
                 else
                 {
-                    mailobject.getAttribute("responseTo").setValueLong(message.getBoui()); //$NON-NLS-1$
+                    mailobject.getAttribute("responseTo").setValueLong(message.getBoui());
                 }
                 if(subject== null || !subject.toUpperCase().startsWith(prefix))
                 {
-                    subject = subject==null?prefix:prefix + " " + subject;             //$NON-NLS-1$
+                    subject = subject==null?prefix:prefix + " " + subject;            
                 }
-                mailobject.getAttribute("name").setValueString(subject); //$NON-NLS-1$
+                mailobject.getAttribute("name").setValueString(subject);
             }
             else
             {
-                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template)); //$NON-NLS-1$
+                mailobject.getAttribute("name").setValueString(getAssunto(boctx, template));
             }
-            mailobject.getAttribute("textSMS").setValueString(text); //$NON-NLS-1$
+            mailobject.getAttribute("textSMS").setValueString(text);
         }
 
         //attachedObjects
-        mailobject.getBridge("documents").truncate(); //$NON-NLS-1$
+        mailobject.getBridge("documents").truncate();
 
-        mailobject.getAttribute("docSeq").setValueString(template.getMsgID()); //$NON-NLS-1$
+        mailobject.getAttribute("docSeq").setValueString(template.getMsgID());
         destinatario = getDestinatario(boctx, template);
         if(destinatario == null)
         {
-            throw new boRuntimeException("", Messages.getString("Helper.194"), null); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("", Messages.getString("Helper.194"), null);
         }
         if(carta || fax)
         {
-            clearBridge(mailobject, "binaryDocuments");  //$NON-NLS-1$
+            clearBridge(mailobject, "binaryDocuments"); 
             //docs
             if(rosto != null)
             {
                 boObject docRosto = null;
                 iFile ifile = new FSiFile(null,new File(rosto),null);
-                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docRosto.getAttribute("description").setValueString("Folha de rosto do documento enviado para " + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docRosto.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docRosto.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docRosto.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docRosto.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docRosto.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("binaryDocuments").add(docRosto.getBoui()); //$NON-NLS-1$
+                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docRosto.getAttribute("description").setValueString("Folha de rosto do documento enviado para " + getToName(destinatario));
+                docRosto.getAttribute("dtRegisto").setValueDate(new Date());
+                docRosto.getAttribute("tipoDoc").setValueString("139");
+                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docRosto.getAttribute("file").setValueiFile(ifile);
+                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docRosto.getAttribute("fileName").setValueString(ifile.getName());
+                docRosto.getAttribute("msg").setObject(mailobject);
+                docRosto.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("binaryDocuments").add(docRosto.getBoui());
             }
             if(doc != null)
             {
                 boObject docTemplate = null;
                 iFile ifile = new FSiFile(null,new File(doc),null);
-                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.220") + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docTemplate.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docTemplate.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docTemplate.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docTemplate.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docTemplate.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("binaryDocuments").add(docTemplate.getBoui()); //$NON-NLS-1$
+                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.220") + getToName(destinatario));
+                docTemplate.getAttribute("dtRegisto").setValueDate(new Date());
+                docTemplate.getAttribute("tipoDoc").setValueString("139");
+                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docTemplate.getAttribute("file").setValueiFile(ifile);
+                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docTemplate.getAttribute("fileName").setValueString(ifile.getName());
+                docTemplate.getAttribute("msg").setObject(mailobject);
+                docTemplate.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("binaryDocuments").add(docTemplate.getBoui());
             }
         }
         if(email && (rosto != null || doc != null))
@@ -1044,90 +1044,90 @@ public class Helper
             {
                 boObject docRosto = null;
                 //vou transformar em PDF
-//                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
+//                File pdfFile = convertToPdf(rosto, "rosto");
 //                iFile ifile = new FSiFile(null,pdfFile,null);
                 iFile ifile = new FSiFile(null,new File(rosto),null);
-                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.243") + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docRosto.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docRosto.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docRosto.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docRosto.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docRosto.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("documents").add(docRosto.getBoui()); //$NON-NLS-1$
+                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.243") + getToName(destinatario));
+                docRosto.getAttribute("dtRegisto").setValueDate(new Date());
+                docRosto.getAttribute("tipoDoc").setValueString("139");
+                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docRosto.getAttribute("file").setValueiFile(ifile);
+                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docRosto.getAttribute("fileName").setValueString(ifile.getName());
+                docRosto.getAttribute("msg").setObject(mailobject);
+                docRosto.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("documents").add(docRosto.getBoui());
             }
             if(doc != null)
             {
                 boObject docTemplate = null;
                 //vou transformar em PDF
-//                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
+//                File pdfFile = convertToPdf(doc, "documento");
 //                iFile ifile = new FSiFile(null,pdfFile,null);
                 iFile ifile = new FSiFile(null,new File(doc),null);
-                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.262") + getToName(destinatario)); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docTemplate.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docTemplate.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docTemplate.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docTemplate.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docTemplate.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("documents").add(docTemplate.getBoui()); //$NON-NLS-1$
+                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.262") + getToName(destinatario));
+                docTemplate.getAttribute("dtRegisto").setValueDate(new Date());
+                docTemplate.getAttribute("tipoDoc").setValueString("139");
+                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docTemplate.getAttribute("file").setValueiFile(ifile);
+                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docTemplate.getAttribute("fileName").setValueString(ifile.getName());
+                docTemplate.getAttribute("msg").setObject(mailobject);
+                docTemplate.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("documents").add(docTemplate.getBoui());
             }
         }
         //usedTemplate
-        mailobject.getAttribute("usedTemplate").setValueLong(template.getBoui()); //$NON-NLS-1$
-        mailobject.getAttribute("modelo").setValueLong(getVersionParent(boctx, template.getBoui())); //$NON-NLS-1$
+        mailobject.getAttribute("usedTemplate").setValueLong(template.getBoui());
+        mailobject.getAttribute("modelo").setValueLong(getVersionParent(boctx, template.getBoui()));
         //datas
 //        mailobject.getAttribute("dtdoc").setValueDate(auxMsg.getSentDate());
         //prioridade
-         mailobject.getAttribute("priority").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
+         mailobject.getAttribute("priority").setValueString("1");
          //recibos de leitura
-         mailobject.getAttribute("send_read_receipt").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+         mailobject.getAttribute("send_read_receipt").setValueString("0");
          //from
-         mailobject.getAttribute("from").setValueLong(boctx.getBoSession().getPerformerBoui()); //$NON-NLS-1$
+         mailobject.getAttribute("from").setValueLong(boctx.getBoSession().getPerformerBoui());
          //to
          if(email || fax)
          {
-            if("replyAll".equals(template.getSendType())) //$NON-NLS-1$
+            if("replyAll".equals(template.getSendType()))
             {
                 if(!hasDestinatario(mailobject, destinatario))
                 {
-                    mailobject.getBridge("to").add(destinatario.getBoui()); //$NON-NLS-1$
+                    mailobject.getBridge("to").add(destinatario.getBoui());
                 }
             }
             else
             {
-                mailobject.getBridge("to").truncate(); //$NON-NLS-1$
-                mailobject.getBridge("to").add(destinatario.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("to").truncate();
+                mailobject.getBridge("to").add(destinatario.getBoui());
             }
          }
          else
          {
-            mailobject.getBridge("to").truncate(); //$NON-NLS-1$
-            mailobject.getBridge("to").add(destinatario.getBoui()); //$NON-NLS-1$
+            mailobject.getBridge("to").truncate();
+            mailobject.getBridge("to").add(destinatario.getBoui());
          }
-         mailobject.getBridge("to").truncate(); //$NON-NLS-1$
-         mailobject.getBridge("to").add(destinatario.getBoui()); //$NON-NLS-1$
+         mailobject.getBridge("to").truncate();
+         mailobject.getBridge("to").add(destinatario.getBoui());
          if(fax)
          {
             String faxNumber = template.getFaxNumber();
-            if(faxNumber != null && !"".equals(faxNumber)) //$NON-NLS-1$
+            if(faxNumber != null && !"".equals(faxNumber))
             {
-                faxNumber = faxNumber.replaceAll(" ", ""); //$NON-NLS-1$ //$NON-NLS-2$
-                boBridgeIterator bit = mailobject.getBridge("to").iterator(); //$NON-NLS-1$
+                faxNumber = faxNumber.replaceAll(" ", "");
+                boBridgeIterator bit = mailobject.getBridge("to").iterator();
                 bit.beforeFirst();
                 if(bit.next())
                 {
-                    bit.currentRow().getObject().getAttribute("fax").setValueString(faxNumber); //$NON-NLS-1$
+                    bit.currentRow().getObject().getAttribute("fax").setValueString(faxNumber);
                 }
             }
          }
@@ -1135,32 +1135,32 @@ public class Helper
          if(email)
          {
             String emailAddress = template.getEmailAddress();
-            if(emailAddress != null && !"".equals(emailAddress)) //$NON-NLS-1$
+            if(emailAddress != null && !"".equals(emailAddress))
             {
-                boBridgeIterator bit = mailobject.getBridge("to").iterator(); //$NON-NLS-1$
+                boBridgeIterator bit = mailobject.getBridge("to").iterator();
                 bit.beforeFirst();
                 if(bit.next())
                 {
-                    bit.currentRow().getObject().getAttribute("email").setValueString(emailAddress); //$NON-NLS-1$
+                    bit.currentRow().getObject().getAttribute("email").setValueString(emailAddress);
                 }
             }
          }
 
          if(template.getFaxAnexos() != null && template.getFaxAnexos().length() > 0)
          {
-            String []docsBouis = template.getFaxAnexos().split(";"); //$NON-NLS-1$
+            String []docsBouis = template.getFaxAnexos().split(";");
             for (int i = 0; i < docsBouis.length; i++)
             {
                 if(docsBouis[i] != null && docsBouis[i].length() > 0)
-                    mailobject.getBridge("documents").add(Long.parseLong(docsBouis[i])); //$NON-NLS-1$
+                    mailobject.getBridge("documents").add(Long.parseLong(docsBouis[i]));
             }
          }
 
 
         boObject aux = null;
-        mailobject.getBridge("respostas").truncate(); //$NON-NLS-1$
-        mailobject.getBridge("objReferences").truncate(); //$NON-NLS-1$
-        template.setAnswerBridge(mailobject.getBridge("respostas")); //$NON-NLS-1$
+        mailobject.getBridge("respostas").truncate();
+        mailobject.getBridge("objReferences").truncate();
+        template.setAnswerBridge(mailobject.getBridge("respostas"));
 
         //resposta a Queries
         GtQuery [] queries = template.getQueries();
@@ -1169,7 +1169,7 @@ public class Helper
             aux = queries[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                mailobject.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("respostas").add(aux.getBoui());
             }
             //
             ArrayList dependentsList = queries[i].getListDependents();
@@ -1178,7 +1178,7 @@ public class Helper
                 aux = ((GtCampoNObjecto)dependentsList.get(j)).getAnswerObject(boctx);
                 if(aux != null)
                 {
-                    mailobject.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                    mailobject.getBridge("respostas").add(aux.getBoui());
                 }
             }
             //classificação
@@ -1192,7 +1192,7 @@ public class Helper
             aux = manuais[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                mailobject.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("respostas").add(aux.getBoui());
             }
         }
 
@@ -1203,7 +1203,7 @@ public class Helper
             aux = manuaisLista[i].getAnswerObject(boctx);
             if(aux != null)
             {
-                mailobject.getBridge("respostas").add(aux.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("respostas").add(aux.getBoui());
             }
         }
 
@@ -1225,7 +1225,7 @@ public class Helper
             else
             {
                 boObject actv = boObject.getBoManager().loadObject(boctx, template.getActvReplyFrom());
-                actvSend = createMessageSendProgram(boctx, mailobject, actv.getAttribute("program").getValueLong()); //$NON-NLS-1$
+                actvSend = createMessageSendProgram(boctx, mailobject, actv.getAttribute("program").getValueLong());
             }
          }
 
@@ -1233,7 +1233,7 @@ public class Helper
 //         actvSend.getAttribute("assignedQueue").setValueLong();
 //         mailobject.getObjectBinary().setBinary(null);
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total Criação da Actividade (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest("Tempo Total Criação da Actividade (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
 //        logger.finest("--------------------------------FIM Geração da Actividade-----------------------------------------");
          return actvSend;
     }
@@ -1275,7 +1275,7 @@ public class Helper
         boolean ok = false;
         for (int i = 0; i < toDelete.size(); i++)
         {
-            try{mailobject.update();}catch(Exception e){logger.severe("",e);} //$NON-NLS-1$
+            try{mailobject.update();}catch(Exception e){logger.severe("",e);}
             ok = false;
             try{
                 //TODO: Lusitania??
@@ -1284,18 +1284,18 @@ public class Helper
             }catch(Exception e)
             {logger.severe("",e);ok = false;}
             if(!ok)
-                try{((boObject)toDelete.get(i)).destroy();}catch(Exception e){logger.severe("",e);ok = false;} //$NON-NLS-1$
+                try{((boObject)toDelete.get(i)).destroy();}catch(Exception e){logger.severe("",e);ok = false;}
             if(!ok)
-                try{((boObject)toDelete.get(i)).destroyForce();ok =true;}catch(Exception e){logger.severe("",e);ok = false;}             //$NON-NLS-1$
+                try{((boObject)toDelete.get(i)).destroyForce();ok =true;}catch(Exception e){logger.severe("",e);ok = false;}            
         }
     }
 
     private static boolean hasDestinatario(boObject mailObject, boObject destinatario) throws boRuntimeException
     {
-        boBridgeIterator bit = mailObject.getBridge("to").iterator(); //$NON-NLS-1$
+        boBridgeIterator bit = mailObject.getBridge("to").iterator();
         while(bit.next())
         {
-            if(bit.currentRow().getObject().getAttribute("refObj").getValueLong() == destinatario.getBoui()) //$NON-NLS-1$
+            if(bit.currentRow().getObject().getAttribute("refObj").getValueLong() == destinatario.getBoui())
             {
                 return true;
             }
@@ -1316,7 +1316,7 @@ public class Helper
                 answer = queries[i].getAnswerObject(boctx);
                 if( answer != null )
                 {
-                    return answer.getAttribute("objecto").getObject(); //$NON-NLS-1$
+                    return answer.getAttribute("objecto").getObject();
                 }
                 return null;
             }
@@ -1327,7 +1327,7 @@ public class Helper
     private static String getAssunto(EboContext boctx, GtTemplate template) throws boRuntimeException
     {
         boObject templateObj = boObject.getBoManager().loadObject(boctx, template.getBoui());
-        return templateObj.getAttribute("nome").getValueString(); //$NON-NLS-1$
+        return templateObj.getAttribute("nome").getValueString();
     }
 
     private  static boObject createMessageSendProgram(EboContext ctx, boObject message, long progBoui) throws boRuntimeException
@@ -1336,20 +1336,20 @@ public class Helper
         boolean showWorkflowArea = false;
         if(progBoui == -1)
         {
-            program = boObject.getBoManager().createObject(ctx, "xwfProgramRuntime");         //$NON-NLS-1$
-            String label = message.getAttribute("name").getValueString(); //$NON-NLS-1$
+            program = boObject.getBoManager().createObject(ctx, "xwfProgramRuntime");        
+            String label = message.getAttribute("name").getValueString();
             if(label != null && label.length() >= 200)
             {
-                label = label.substring(0, 190) + "(...)";  //$NON-NLS-1$
+                label = label.substring(0, 190) + "(...)"; 
             }
-            program.getAttribute("label").setValueString(label, AttributeHandler.INPUT_FROM_INTERNAL);         //$NON-NLS-1$
-            if(message.getAttribute("SYS_DTCREATE").getValueDate() != null) //$NON-NLS-1$
+            program.getAttribute("label").setValueString(label, AttributeHandler.INPUT_FROM_INTERNAL);        
+            if(message.getAttribute("SYS_DTCREATE").getValueDate() != null)
             {
-                program.getAttribute("beginDate").setValueDate(message.getAttribute("SYS_DTCREATE").getValueDate(), AttributeHandler.INPUT_FROM_INTERNAL); //$NON-NLS-1$ //$NON-NLS-2$
+                program.getAttribute("beginDate").setValueDate(message.getAttribute("SYS_DTCREATE").getValueDate(), AttributeHandler.INPUT_FROM_INTERNAL);
             }
             else
             {
-                program.getAttribute("beginDate").setValueDate(new Date(), AttributeHandler.INPUT_FROM_INTERNAL); //$NON-NLS-1$
+                program.getAttribute("beginDate").setValueDate(new Date(), AttributeHandler.INPUT_FROM_INTERNAL);
             }
         }
         else
@@ -1361,9 +1361,9 @@ public class Helper
         xwfManager man = new xwfManager(ctx, program);
 
         boObject performer = boObject.getBoManager().loadObject(ctx, ctx.getBoSession().getPerformerBoui());
-        if(performer.getAttribute("centrocusto") != null) //$NON-NLS-1$
+        if(performer.getAttribute("centrocusto") != null)
         {
-            boObject ccust = performer.getAttribute("centrocusto").getObject(); //$NON-NLS-1$
+            boObject ccust = performer.getAttribute("centrocusto").getObject();
             long assignedBoui = -1, executerBoui = -1;
             if(ccust == null)
             {
@@ -1387,13 +1387,13 @@ public class Helper
         }
         else
         {
-            throw new boRuntimeException("", "Centro Custo não definido para o utilizador.Contacte a Administração.", null); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("", "Centro Custo não definido para o utilizador.Contacte a Administração.", null);
         }
    }
 
    public static long getActSendBoui(boObject msg) throws boRuntimeException
    {
-        boObjectList list = boObjectList.list(msg.getEboContext(), "select xwfActivitySend where message.value.valueObject=" + msg.getBoui()); //$NON-NLS-1$
+        boObjectList list = boObjectList.list(msg.getEboContext(), "select xwfActivitySend where message.value.valueObject=" + msg.getBoui());
         list.beforeFirst();
         if(list.next())
         {
@@ -1404,24 +1404,24 @@ public class Helper
 
    public static long getTemplateBoui(boObject msg) throws boRuntimeException
    {
-        return msg.getAttribute("usedTemplate").getValueLong(); //$NON-NLS-1$
+        return msg.getAttribute("usedTemplate").getValueLong();
    }
    public static long getTemplateParentBoui(boObject msg) throws boRuntimeException
    {
-        return msg.getAttribute("modelo").getValueLong(); //$NON-NLS-1$
+        return msg.getAttribute("modelo").getValueLong();
    }
 
    public static void redirectToParamFill(boObject msg) throws boRuntimeException
    {
         if(!MessageUtils.alreadySend(msg))
         {
-            if("XwfController".equals(msg.getEboContext().getController().getName())) //$NON-NLS-1$
+            if("XwfController".equals(msg.getEboContext().getController().getName()))
             {
                 XwfController control = (XwfController)msg.getEboContext().getController();
-                StringBuffer sb = new StringBuffer("__gestTempFillParameters.jsp?actvSendBoui="); //$NON-NLS-1$
+                StringBuffer sb = new StringBuffer("__gestTempFillParameters.jsp?actvSendBoui=");
                 sb.append(control.getRuntimeActivity().getBoui())
-                .append("&inputObjectBoui=").append(getTemplateBoui(msg)) //$NON-NLS-1$
-                .append("&controllerName=XwfController").append("&method=edit"); //$NON-NLS-1$ //$NON-NLS-2$
+                .append("&inputObjectBoui=").append(getTemplateBoui(msg))
+                .append("&controllerName=XwfController").append("&method=edit");
                 if(control.getRuntimeActivity() != null)
                 {
                    control.getRuntimeActivity().setSendRedirect(sb.toString());
@@ -1445,13 +1445,13 @@ public class Helper
 
    public static boolean isMarkedForTemplate(GtQuery query, boObject obj, GtTemplate template) throws boRuntimeException
    {
-        if(!"1".equals(obj.getAttribute("automatico").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+        if(!"1".equals(obj.getAttribute("automatico").getValueString()))
         {
             return modeSetByUser(obj, template.getChannel());
         }
         else
         {
-            if(obj.getAttribute("tipoSeleccao") == null || "1".equals(obj.getAttribute("tipoSeleccao").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            if(obj.getAttribute("tipoSeleccao") == null || "1".equals(obj.getAttribute("tipoSeleccao").getValueString()))
             {
                 return modeAutomatic(query, obj, template.getTemplateFields(), false);
             }
@@ -1465,7 +1465,7 @@ public class Helper
    public static boolean isMarkedForTemplate(GtCampo campoBridge, boObject obj) throws boRuntimeException
    {
         GtTemplate template = campoBridge.getTemplate();
-        if(!"1".equals(obj.getAttribute("automatico").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+        if(!"1".equals(obj.getAttribute("automatico").getValueString()))
         {
             return modeSetByUser(obj, template.getChannel());
         }
@@ -1479,24 +1479,24 @@ public class Helper
 
    public static boolean modeSetByUser(boObject obj, byte selectedType) throws boRuntimeException
    {
-        String attName = ""; //$NON-NLS-1$
+        String attName = "";
         if(selectedType == GtTemplate.TYPE_CARTA)
         {
-            attName = "carta"; //$NON-NLS-1$
+            attName = "carta";
         }
         else if(selectedType == GtTemplate.TYPE_FAX)
         {
-            attName = "fax"; //$NON-NLS-1$
+            attName = "fax";
         }
         else if(selectedType == GtTemplate.TYPE_EMAIL)
         {
-            attName = "email"; //$NON-NLS-1$
+            attName = "email";
         }
         else if(selectedType == GtTemplate.TYPE_SMS)
         {
-            attName = "sms"; //$NON-NLS-1$
+            attName = "sms";
         }
-        if(obj.getAttribute(attName) != null && "1".equals(obj.getAttribute(attName).getValueString())) //$NON-NLS-1$
+        if(obj.getAttribute(attName) != null && "1".equals(obj.getAttribute(attName).getValueString()))
         {
             return true;
         }
@@ -1505,49 +1505,49 @@ public class Helper
 
    private static boolean isDestinario(boObject query, boObject obj) throws boRuntimeException
    {
-        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_Query".equals(obj.getBoDefinition().getBoSuperBo())) //$NON-NLS-1$ //$NON-NLS-2$
+        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_Query".equals(obj.getBoDefinition().getBoSuperBo()))
         {
-            boObject param = obj.getAttribute("parametro").getObject(); //$NON-NLS-1$
-            return "1".equals(param.getAttribute("destinatario").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            boObject param = obj.getAttribute("parametro").getObject();
+            return "1".equals(param.getAttribute("destinatario").getValueString());
         }
-        else if("GESTEMP_Parametro".equals(obj.getName())) //$NON-NLS-1$
+        else if("GESTEMP_Parametro".equals(obj.getName()))
         {
-            return "1".equals(obj.getAttribute("destinatario").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            return "1".equals(obj.getAttribute("destinatario").getValueString());
         }
         else if(query != null)
         {
-            boObject param = query.getAttribute("parametro").getObject(); //$NON-NLS-1$
-            return "1".equals(param.getAttribute("destinatario").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            boObject param = query.getAttribute("parametro").getObject();
+            return "1".equals(param.getAttribute("destinatario").getValueString());
         }
         return false;
    }
 
    private static String getNameToSearch(String queryName, boObject obj) throws boRuntimeException
    {
-        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_Query".equals(obj.getBoDefinition().getBoSuperBo())) //$NON-NLS-1$ //$NON-NLS-2$
+        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_Query".equals(obj.getBoDefinition().getBoSuperBo()))
         {
-            String _queryName = obj.getAttribute("nome").getValueString(); //$NON-NLS-1$
-            return _queryName + "__"; //$NON-NLS-1$
+            String _queryName = obj.getAttribute("nome").getValueString();
+            return _queryName + "__";
         }
-        else if("GESTEMP_Parametro".equals(obj.getName())) //$NON-NLS-1$
+        else if("GESTEMP_Parametro".equals(obj.getName()))
         {
-            return queryName + "__"; //$NON-NLS-1$
+            return queryName + "__";
         }
-        else if("GESTEMP_Campo".equals(obj.getName()) || "GESTEMP_Campo".equals(obj.getBoDefinition().getBoSuperBo())) //$NON-NLS-1$ //$NON-NLS-2$
+        else if("GESTEMP_Campo".equals(obj.getName()) || "GESTEMP_Campo".equals(obj.getBoDefinition().getBoSuperBo()))
         {
             if(queryName == null || queryName.length() == 0)
             {
-                return obj.getAttribute("nome").getValueString(); //$NON-NLS-1$
+                return obj.getAttribute("nome").getValueString();
             }
             else
             {
-                if("1".equals(obj.getAttribute("tipoSeleccao").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                if("1".equals(obj.getAttribute("tipoSeleccao").getValueString()))
                 {
-                    return queryName + "__" + obj.getAttribute("nome").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    return queryName + "__" + obj.getAttribute("nome").getValueString();
                 }
                 else
                 {
-                    return queryName + "__" + obj.getAttribute("nome").getValueString() + "__"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    return queryName + "__" + obj.getAttribute("nome").getValueString() + "__";
                 }
             }
         }
@@ -1563,25 +1563,25 @@ public class Helper
             return true;
         }
 
-        if("GESTEMP_Parametro".equals(obj.getName()) && "1".equals(obj.getAttribute("destinatario").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if("GESTEMP_Parametro".equals(obj.getName()) && "1".equals(obj.getAttribute("destinatario").getValueString()))
         {
             return true;
         }
 
-        if("GESTEMP_CampoJava".equals(obj.getName()) || "GESTEMP_CampoFormula".equals(obj.getName()) ) //$NON-NLS-1$ //$NON-NLS-2$
+        if("GESTEMP_CampoJava".equals(obj.getName()) || "GESTEMP_CampoFormula".equals(obj.getName()) )
         {
             return true;
         }
 
-        if("GESTEMP_NCampoJava".equals(obj.getName()) || "GESTEMP_NCampoFormula".equals(obj.getName()) ) //$NON-NLS-1$ //$NON-NLS-2$
+        if("GESTEMP_NCampoJava".equals(obj.getName()) || "GESTEMP_NCampoFormula".equals(obj.getName()) )
         {
             return true;
         }
 
-        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_JavaQuery".equals(obj.getName())) //$NON-NLS-1$ //$NON-NLS-2$
+        if("GESTEMP_Query".equals(obj.getName()) || "GESTEMP_JavaQuery".equals(obj.getName()))
         {
-            boObject param = obj.getAttribute("parametro").getObject(); //$NON-NLS-1$
-            if(param != null &&  "1".equals(param.getAttribute("destinatario").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+            boObject param = obj.getAttribute("parametro").getObject();
+            if(param != null &&  "1".equals(param.getAttribute("destinatario").getValueString()))
             {
                 return true;
             }
@@ -1595,7 +1595,7 @@ public class Helper
                     aux = (String)fields.get(i);
                 else
                     aux = ((Bookmark)fields.get(i)).getBookmarkName();
-                if(nameToSearch.endsWith("__")) //$NON-NLS-1$
+                if(nameToSearch.endsWith("__"))
                 {
                     if(aux.startsWith(nameToSearch)) return true;
                     if(aux.equals(nameToSearch.substring(0, nameToSearch.length() - 2))) return true;
@@ -1615,8 +1615,8 @@ public class Helper
         {
             String aux = null;
             GtQuery query = campoBridge.getQuery();
-            String bookmarkNameSearch = query.getNome() + "__" + campoBridge.getNome(); //$NON-NLS-1$
-            String bookmarkFieldNameSearch =  obj.getAttribute("nome").getValueString(); //$NON-NLS-1$
+            String bookmarkNameSearch = query.getNome() + "__" + campoBridge.getNome();
+            String bookmarkFieldNameSearch =  obj.getAttribute("nome").getValueString();
             Bookmark book;
             for (int i = 0; i < fields.size(); i++)
             {
@@ -1640,9 +1640,9 @@ public class Helper
    public static void afterLoadMessage(boObject msg) throws boRuntimeException
    {
         boObject t = null;
-        if((t = msg.getAttribute("usedTemplate").getObject()) != null) //$NON-NLS-1$
+        if((t = msg.getAttribute("usedTemplate").getObject()) != null)
         {
-              if(!"1".equals(t.getAttribute("editavel").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+              if(!"1".equals(t.getAttribute("editavel").getValueString()))
               {
                 msg.setDisabled();
               }
@@ -1656,16 +1656,16 @@ public class Helper
 
    public static boolean beforeSaveGESTEMP_Query(boObject query) throws boRuntimeException
    {
-        String aux = query.getAttribute("nome").getValueString(); //$NON-NLS-1$
-        boolean historico = "1".equals(query.getAttribute("historico").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-        if(aux != null && aux.split(" ").length != 1) //$NON-NLS-1$
+        String aux = query.getAttribute("nome").getValueString();
+        boolean historico = "1".equals(query.getAttribute("historico").getValueString());
+        if(aux != null && aux.split(" ").length != 1)
         {
-            query.addErrorMessage(Messages.getString("Helper.411")); //$NON-NLS-1$
+            query.addErrorMessage(Messages.getString("Helper.411"));
             return false;
         }
         if(SpecialField.isSpecialField(aux))
         {
-            query.addErrorMessage(Messages.getString("Helper.412")); //$NON-NLS-1$
+            query.addErrorMessage(Messages.getString("Helper.412"));
             return false;
         }
         else if(!historico)
@@ -1677,20 +1677,20 @@ public class Helper
             try
             {
                 con = query.getEboContext().getConnectionData();
-                StringBuffer sql = new StringBuffer("select 1 from GESTEMP_Query where NOME = ? and boui <> ? and historico <> '1'"); //$NON-NLS-1$
+                StringBuffer sql = new StringBuffer("select 1 from GESTEMP_Query where NOME = ? and boui <> ? and historico <> '1'");
                 pst = con.prepareStatement(sql.toString());
-                pst.setString(1, query.getAttribute("nome").getValueString()); //$NON-NLS-1$
+                pst.setString(1, query.getAttribute("nome").getValueString());
                 pst.setLong(2, query.getBoui());
                 rs = pst.executeQuery();
                 if(rs.next())
                 {
-                    query.addErrorMessage(Messages.getString("Helper.415")); //$NON-NLS-1$
+                    query.addErrorMessage(Messages.getString("Helper.415"));
                     return false;
                 }
             }
             catch (SQLException e)
             {
-                logger.severe("", e); //$NON-NLS-1$
+                logger.severe("", e);
             }
             finally
             {
@@ -1698,13 +1698,13 @@ public class Helper
                 try{if(pst != null) pst.close();}catch(Exception e){}
             }
         }
-        boObject param = query.getAttribute("parametro").getObject(); //$NON-NLS-1$
-        boolean dest = "1".equals(param.getAttribute("destinatario").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+        boObject param = query.getAttribute("parametro").getObject();
+        boolean dest = "1".equals(param.getAttribute("destinatario").getValueString());
         if(dest)
         {
-            boObject eboClr = param.getAttribute("objecto").getObject(); //$NON-NLS-1$
-            String name = eboClr.getAttribute("name").getValueString(); //$NON-NLS-1$
-            boDefInterface boDefI = boDefHandler.getInterfaceDefinition("iContact"); //$NON-NLS-1$
+            boObject eboClr = param.getAttribute("objecto").getObject();
+            String name = eboClr.getAttribute("name").getValueString();
+            boDefInterface boDefI = boDefHandler.getInterfaceDefinition("iContact");
             String objs[] = boDefI.getImplObjects();
             boolean isContact = false;
             if(objs != null)
@@ -1716,7 +1716,7 @@ public class Helper
             }
             if(!isContact)
             {
-                query.addErrorMessage(Messages.getString("Helper.423")); //$NON-NLS-1$
+                query.addErrorMessage(Messages.getString("Helper.423"));
                 return false;
             }
         }
@@ -1725,18 +1725,18 @@ public class Helper
 
    public static boolean beforeSaveGESTEMP_Campo(boObject field) throws boRuntimeException
    {
-        String aux = field.getAttribute("nome").getValueString(); //$NON-NLS-1$
-        boolean historico = "1".equals(field.getAttribute("historico").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-        if(aux != null && aux.split(" ").length != 1) //$NON-NLS-1$
+        String aux = field.getAttribute("nome").getValueString();
+        boolean historico = "1".equals(field.getAttribute("historico").getValueString());
+        if(aux != null && aux.split(" ").length != 1)
         {
-            field.addErrorMessage(Messages.getString("Helper.13")); //$NON-NLS-1$
+            field.addErrorMessage(Messages.getString("Helper.13"));
             return false;
         }
         else if(!historico)
         {
             if(SpecialField.isSpecialField(aux))
             {
-                field.addErrorMessage(Messages.getString("Helper.12")); //$NON-NLS-1$
+                field.addErrorMessage(Messages.getString("Helper.12"));
                 return false;
             }
             Connection con = null;
@@ -1746,31 +1746,31 @@ public class Helper
             try
             {
                 con = field.getEboContext().getConnectionData();
-                StringBuffer sql = new StringBuffer("select boui from GESTEMP_CAMPO where classname = ? and NOME = ? and boui <> ? and historico <> '1'"); //$NON-NLS-1$
+                StringBuffer sql = new StringBuffer("select boui from GESTEMP_CAMPO where classname = ? and NOME = ? and boui <> ? and historico <> '1'");
                 boolean notManual = false;
-                if(!"GESTEMP_CampoNManual".equals(field.getName()) && !"GESTEMP_CampoManual".equals(field.getName()) && !"GESTEMP_Parametro".equals(field.getName())) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                if(!"GESTEMP_CampoNManual".equals(field.getName()) && !"GESTEMP_CampoManual".equals(field.getName()) && !"GESTEMP_Parametro".equals(field.getName()))
                 {
-                    sql.append(" and parametro$ = ?"); //$NON-NLS-1$
+                    sql.append(" and parametro$ = ?");
                     notManual = true;
                 }
                 pst = con.prepareStatement(sql.toString());
                 pst.setString(1, field.getName());
-                pst.setString(2, field.getAttribute("nome").getValueString()); //$NON-NLS-1$
+                pst.setString(2, field.getAttribute("nome").getValueString());
                 pst.setLong(3, field.getBoui());
                 if(notManual)
                 {
-                    pst.setLong(4, field.getAttribute("parametro").getValueLong()); //$NON-NLS-1$
+                    pst.setLong(4, field.getAttribute("parametro").getValueLong());
                 }
                 rs = pst.executeQuery();
                 if(rs.next())
                 {
-                    field.addErrorMessage(Messages.getString("Helper.437")); //$NON-NLS-1$
+                    field.addErrorMessage(Messages.getString("Helper.437"));
                     return false;
                 }
             }
             catch (SQLException e)
             {
-                logger.severe("", e); //$NON-NLS-1$
+                logger.severe("", e);
             }
             finally
             {
@@ -1788,22 +1788,22 @@ public class Helper
         int idx = doc.getDocIdx();
         EboContext boctx = doc.getEboContext();
 
-        if(result != null && result.getName().startsWith("GESTEMP_Generated")) //$NON-NLS-1$
+        if(result != null && result.getName().startsWith("GESTEMP_Generated"))
         {
-            if("GESTEMP_GeneratedMail".equals(result.getName())) //$NON-NLS-1$
+            if("GESTEMP_GeneratedMail".equals(result.getName()))
             {
-                sb.append("gestemp_generatedmail_generaledit.jsp?method=edit&boui="); //$NON-NLS-1$
+                sb.append("gestemp_generatedmail_generaledit.jsp?method=edit&boui=");
             }
-            else if("GESTEMP_GeneratedSMS".equals(result.getName())) //$NON-NLS-1$
+            else if("GESTEMP_GeneratedSMS".equals(result.getName()))
             {
-                sb.append("gestemp_generatedsms_generaledit.jsp?method=edit&boui="); //$NON-NLS-1$
+                sb.append("gestemp_generatedsms_generaledit.jsp?method=edit&boui=");
             }
             else
             {
-                sb.append("gestemp_generated_generaledit.jsp?method=edit&boui="); //$NON-NLS-1$
+                sb.append("gestemp_generated_generaledit.jsp?method=edit&boui=");
             }
             sb.append(result.getBoui())
-            .append("&docid=").append(docID).append("&myIDX=").append(idx); //$NON-NLS-1$ //$NON-NLS-2$
+            .append("&docid=").append(docID).append("&myIDX=").append(idx);
             return sb.toString();
         }
 
@@ -1816,21 +1816,21 @@ public class Helper
 //        }
 //        else
 //        {
-              String programBouiStr = result.getAttribute("program").getValueString(); //$NON-NLS-1$
-              if(programBouiStr != null && !"".equals(programBouiStr)) //$NON-NLS-1$
+              String programBouiStr = result.getAttribute("program").getValueString();
+              if(programBouiStr != null && !"".equals(programBouiStr))
               {
-                  sb.append("__xwfWorkPlace.jsp?method=edit&docid=") //$NON-NLS-1$
+                  sb.append("__xwfWorkPlace.jsp?method=edit&docid=")
                     .append(idx);
                   Enumeration oEnum = request.getParameterNames();
                   while( oEnum.hasMoreElements() )
                   {
                       String pname = oEnum.nextElement().toString();
-                      if( !pname.equalsIgnoreCase("method") && !pname.equalsIgnoreCase("docid") ) //$NON-NLS-1$ //$NON-NLS-2$
+                      if( !pname.equalsIgnoreCase("method") && !pname.equalsIgnoreCase("docid") )
                       {
-                          sb.append("&").append( pname ).append( "=" ).append( java.net.URLEncoder.encode( request.getParameter( pname ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+                          sb.append("&").append( pname ).append( "=" ).append( java.net.URLEncoder.encode( request.getParameter( pname ) ) );
                       }
                   }
-                  sb.append("&closeWindowOnCloseDoc=false&masterdoc=true&runtimeActivityBoui="+result.getBoui()+"&runtimeProgramBoui="+programBouiStr); //$NON-NLS-1$ //$NON-NLS-2$
+                  sb.append("&closeWindowOnCloseDoc=false&masterdoc=true&runtimeActivityBoui="+result.getBoui()+"&runtimeProgramBoui="+programBouiStr);
               }
 //        }
         return sb.toString();
@@ -1840,10 +1840,10 @@ public class Helper
     {
         try
         {
-            if(msg.getAttribute("usedTemplate").getValueLong() > 0 && !MessageUtils.alreadySend(msg)) //$NON-NLS-1$
+            if(msg.getAttribute("usedTemplate").getValueLong() > 0 && !MessageUtils.alreadySend(msg))
             {
-                String aprov = msg.getAttribute("aprovState").getValueString(); //$NON-NLS-1$
-                if("1".equals(aprov) || "2".equals(aprov)) //$NON-NLS-1$ //$NON-NLS-2$
+                String aprov = msg.getAttribute("aprovState").getValueString();
+                if("1".equals(aprov) || "2".equals(aprov))
                 {
                     return true;
                 }
@@ -1859,15 +1859,15 @@ public class Helper
 
     public static boolean onBeforeDestroyMessage(boObject msg) throws boRuntimeException
     {
-        if(msg.getAttribute("usedTemplate").getValueLong() > 0) //$NON-NLS-1$
+        if(msg.getAttribute("usedTemplate").getValueLong() > 0)
         {
             if(MessageUtils.alreadySend(msg))
             {
-                if("messageLetter".equals(msg.getName())) //$NON-NLS-1$
+                if("messageLetter".equals(msg.getName()))
                 {
                     //se tiver registoCTT é necessário desregistar o número
-                    if(msg.getAttribute("registoCTT").getValueString() != null && //$NON-NLS-1$
-                        !"".equals(msg.getAttribute("registoCTT").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                    if(msg.getAttribute("registoCTT").getValueString() != null &&
+                        !"".equals(msg.getAttribute("registoCTT").getValueString()))
                     {
                         //chamar API para desregistar o este número
 
@@ -1877,8 +1877,8 @@ public class Helper
                     }
 
                     //se for carta tenho que ver se é de impressão Central e se ainda não foi impresso
-                    if("1".equals(msg.getAttribute("impCentral").getValueString()) && //$NON-NLS-1$ //$NON-NLS-2$
-                        msg.getAttribute("dtEfectiv").getValueDate() == null //$NON-NLS-1$
+                    if("1".equals(msg.getAttribute("impCentral").getValueString()) &&
+                        msg.getAttribute("dtEfectiv").getValueDate() == null
                     )
                     {
                         PrintJob.dropJob( msg.getEboContext(), String.valueOf( msg.getBoui() ) );
@@ -1886,7 +1886,7 @@ public class Helper
                     return true;
 
                 }
-                throw new boRuntimeException("", Messages.getString("Helper.472"), new Exception(Messages.getString("Helper.473"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                throw new boRuntimeException("", Messages.getString("Helper.472"), new Exception(Messages.getString("Helper.473")));
             }
         }
         return true;
@@ -1903,11 +1903,11 @@ public class Helper
             }
             else if(channel == GtTemplate.TYPE_CARTA)
             {
-                msgError = Messages.getString("Helper.474"); //$NON-NLS-1$
+                msgError = Messages.getString("Helper.474");
             }
             else if(channel == GtTemplate.TYPE_FAX)
             {
-                msgError = Messages.getString("Helper.475"); //$NON-NLS-1$
+                msgError = Messages.getString("Helper.475");
             }
             else if(channel == GtTemplate.TYPE_SMS)
             {
@@ -1915,7 +1915,7 @@ public class Helper
             }
             if(msgError != null)
             {
-                throw new boRuntimeException("", msgError, null); //$NON-NLS-1$
+                throw new boRuntimeException("", msgError, null);
             }
         }
         return true;
@@ -1923,7 +1923,7 @@ public class Helper
 
     public static long getTemplateBouiByCode(EboContext boctx, String code) throws boRuntimeException
     {
-        boObjectList list = boObjectList.list(boctx, "select GESTEMP_Template where code = ? and historico = '1' and activo = '1'", new Object[]{code}); //$NON-NLS-1$
+        boObjectList list = boObjectList.list(boctx, "select GESTEMP_Template where code = ? and historico = '1' and activo = '1'", new Object[]{code});
         list.beforeFirst();
         if(list.next())
         {
@@ -1937,55 +1937,55 @@ public class Helper
     {
         try
         {
-            String omisso = gtTemplate.getAttribute("canalOmisso").getValueString(); //$NON-NLS-1$
-            if("1".equals(omisso) &&  //$NON-NLS-1$
-                gtTemplate.getAttribute("tempCarta").getObject() == null && //$NON-NLS-1$
-                gtTemplate.getAttribute("rostoCarta").getObject() == null //$NON-NLS-1$
+            String omisso = gtTemplate.getAttribute("canalOmisso").getValueString();
+            if("1".equals(omisso) && 
+                gtTemplate.getAttribute("tempCarta").getObject() == null &&
+                gtTemplate.getAttribute("rostoCarta").getObject() == null
             )
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.482")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.482"));
                 return false;
             }
-            if("2".equals(omisso) &&  //$NON-NLS-1$
-                gtTemplate.getAttribute("tempFax").getObject() == null && //$NON-NLS-1$
-                gtTemplate.getAttribute("rostoFax").getObject() == null) //$NON-NLS-1$
+            if("2".equals(omisso) && 
+                gtTemplate.getAttribute("tempFax").getObject() == null &&
+                gtTemplate.getAttribute("rostoFax").getObject() == null)
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.482")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.482"));
                 return false;
             }
-            if("3".equals(omisso) &&  //$NON-NLS-1$
-                gtTemplate.getAttribute("tempEmail").getObject() == null) //$NON-NLS-1$
+            if("3".equals(omisso) && 
+                gtTemplate.getAttribute("tempEmail").getObject() == null)
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.482")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.482"));
                 return false;
             }
-            if("4".equals(omisso) &&  //$NON-NLS-1$
-                gtTemplate.getAttribute("tempSMS").getObject() == null) //$NON-NLS-1$
+            if("4".equals(omisso) && 
+                gtTemplate.getAttribute("tempSMS").getObject() == null)
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.482")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.482"));
                 return false;
             }
 
-            if(("1".equals(gtTemplate.getAttribute("envioCarta").getValueString())  || //$NON-NLS-1$ //$NON-NLS-2$
-                "2".equals(gtTemplate.getAttribute("envioCarta").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+            if(("1".equals(gtTemplate.getAttribute("envioCarta").getValueString())  ||
+                "2".equals(gtTemplate.getAttribute("envioCarta").getValueString()))
                 &&
-                !"2".equals(gtTemplate.getAttribute("impLocal").getValueString()) //$NON-NLS-1$ //$NON-NLS-2$
+                !"2".equals(gtTemplate.getAttribute("impLocal").getValueString())
             )
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.499")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.499"));
                 return false;
             }
 
             //vou verificar se tem um destinatário todos os modelos tem que têr um destinatário
-            if(!foundDestinatario(gtTemplate, Messages.getString("Helper.500"))) //$NON-NLS-1$
+            if(!foundDestinatario(gtTemplate, Messages.getString("Helper.500")))
             {
-                gtTemplate.addErrorMessage(Messages.getString("Helper.501")); //$NON-NLS-1$
+                gtTemplate.addErrorMessage(Messages.getString("Helper.501"));
                 return false;
             }
         }
         catch (boRuntimeException e)
         {
-            logger.severe("",e); //$NON-NLS-1$
+            logger.severe("",e);
             return false;
         }
         return true;
@@ -1998,10 +1998,10 @@ public class Helper
             int nActive = countActiveVersion(templateVersion.getEboContext(),
                                templateVersion.getParent().getBoui(),
                                templateVersion.getBoui());
-            boolean activo = "1".equals(templateVersion.getAttribute("activo").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            boolean activo = "1".equals(templateVersion.getAttribute("activo").getValueString());
             if(activo && nActive > 0)
             {
-                templateVersion.addErrorMessage(Messages.getString("Helper.505")); //$NON-NLS-1$
+                templateVersion.addErrorMessage(Messages.getString("Helper.505"));
                 return false;
             }
             //colocar na bridge do pai e filho os objectos
@@ -2010,29 +2010,29 @@ public class Helper
             {
                 parentTemplate = templateVersion.getParent();
             }
-            boObject template = templateVersion.getAttribute("modelo").getObject(); //$NON-NLS-1$
-            template.getAttribute("activo").setValueString(templateVersion.getAttribute("activo").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            template.getAttribute("ordem").setValueLong(templateVersion.getAttribute("ordem").getValueLong()); //$NON-NLS-1$ //$NON-NLS-2$
-            boBridgeIterator bit = templateVersion.getBridge("share").iterator(); //$NON-NLS-1$
+            boObject template = templateVersion.getAttribute("modelo").getObject();
+            template.getAttribute("activo").setValueString(templateVersion.getAttribute("activo").getValueString());
+            template.getAttribute("ordem").setValueLong(templateVersion.getAttribute("ordem").getValueLong());
+            boBridgeIterator bit = templateVersion.getBridge("share").iterator();
             bit.beforeFirst();
-            template.getBridge("share").truncate(); //$NON-NLS-1$
+            template.getBridge("share").truncate();
             if(parentTemplate != null)
             {
-                parentTemplate.getBridge("share").truncate(); //$NON-NLS-1$
+                parentTemplate.getBridge("share").truncate();
             }
             while(bit.next())
             {
                 long shareBoui = bit.currentRow().getValueLong();
-                template.getBridge("share").add(shareBoui); //$NON-NLS-1$
+                template.getBridge("share").add(shareBoui);
                 if(parentTemplate != null)
                 {
-                    parentTemplate.getBridge("share").add(shareBoui); //$NON-NLS-1$
+                    parentTemplate.getBridge("share").add(shareBoui);
                 }
             }
         }
         catch (boRuntimeException e)
         {
-            logger.severe("",e); //$NON-NLS-1$
+            logger.severe("",e);
             return false;
         }
         return true;
@@ -2048,8 +2048,8 @@ public class Helper
         while(bit.next() && !foundDest)
         {
             query = bit.currentRow().getObject();
-            parametro = query.getAttribute("parametro").getObject(); //$NON-NLS-1$
-            if("1".equals(parametro.getAttribute("destinatario").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+            parametro = query.getAttribute("parametro").getObject();
+            if("1".equals(parametro.getAttribute("destinatario").getValueString()))
             {
                 foundDest = true;
             }
@@ -2061,7 +2061,7 @@ public class Helper
    {
         try
         {
-            boObjectList list = boObjectList.list(msg.getEboContext(), "Select Ebo_Document where msg = " + msg.getBoui()); //$NON-NLS-1$
+            boObjectList list = boObjectList.list(msg.getEboContext(), "Select Ebo_Document where msg = " + msg.getBoui());
             list.beforeFirst();
             long docBoui = -1;
             if(list.next())
@@ -2070,19 +2070,19 @@ public class Helper
             }
             else
             {
-                boObject mailDoc = boObject.getBoManager().createObject(msg.getEboContext(),"Ebo_Document"); //$NON-NLS-1$
-                mailDoc.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                mailDoc.getAttribute("description").setValueString(msg.getAttribute("name").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                mailDoc.getAttribute("dtRegisto").setValueDate(msg.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                mailDoc.getAttribute("dtDoc").setValueDate(msg.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                mailDoc.getAttribute("dtEntrada").setValueDate(msg.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                mailDoc.getAttribute("msg").setObject(msg); //$NON-NLS-1$
-                mailDoc.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                boObject mailDoc = boObject.getBoManager().createObject(msg.getEboContext(),"Ebo_Document");
+                mailDoc.getAttribute("segmento").setValueString(Modulo.getModulo());
+                mailDoc.getAttribute("description").setValueString(msg.getAttribute("name").getValueString());
+                mailDoc.getAttribute("dtRegisto").setValueDate(msg.getAttribute("dtdoc").getValueDate());
+                mailDoc.getAttribute("dtDoc").setValueDate(msg.getAttribute("dtdoc").getValueDate());
+                mailDoc.getAttribute("dtEntrada").setValueDate(msg.getAttribute("dtEfectiv").getValueDate());
+                mailDoc.getAttribute("msg").setObject(msg);
+                mailDoc.getAttribute("estado").setValueString("0");
                 mailDoc.update();
                 docBoui = mailDoc.getBoui();
             }
             XwfController control = (XwfController)msg.getEboContext().getController();
-            StringBuffer sb = new StringBuffer("ebo_document_generaleditclassif.jsp?method=edit&boui="); //$NON-NLS-1$
+            StringBuffer sb = new StringBuffer("ebo_document_generaleditclassif.jsp?method=edit&boui=");
             sb.append(docBoui);
             if(control.getRuntimeActivity() != null)
             {
@@ -2101,7 +2101,7 @@ public class Helper
         try
         {
             boObject msg = boObject.getBoManager().loadObject(boctx, msgBoui);
-            boObjectList list = boObjectList.list(msg.getEboContext(), "Select Ebo_Document where msg = " + msgBoui); //$NON-NLS-1$
+            boObjectList list = boObjectList.list(msg.getEboContext(), "Select Ebo_Document where msg = " + msgBoui);
             list.beforeFirst();
             if(list.next())
             {
@@ -2111,10 +2111,10 @@ public class Helper
             {
                 boolean docFound = false;
 
-                boBridgeIterator it = msg.getBridge("binaryDocuments").iterator(); //$NON-NLS-1$
+                boBridgeIterator it = msg.getBridge("binaryDocuments").iterator();
                 while( it.next( ) )
                 {
-                    if ( it.currentRow().getObject().getAttribute("msg").getValueObject() != null ) //$NON-NLS-1$
+                    if ( it.currentRow().getObject().getAttribute("msg").getValueObject() != null )
                     {
                         docBoui = it.currentRow().getValueLong();
                         docFound = true;
@@ -2124,14 +2124,14 @@ public class Helper
 
                 if( !docFound )
                 {
-                    boObject mailDoc = boObject.getBoManager().createObject(msg.getEboContext(),"Ebo_Document"); //$NON-NLS-1$
-                    mailDoc.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                    mailDoc.getAttribute("description").setValueString(msg.getAttribute("name").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                    mailDoc.getAttribute("dtRegisto").setValueDate(msg.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                    mailDoc.getAttribute("dtDoc").setValueDate(msg.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                    mailDoc.getAttribute("dtEntrada").setValueDate(msg.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                    mailDoc.getAttribute("msg").setObject(msg); //$NON-NLS-1$
-                    mailDoc.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                    boObject mailDoc = boObject.getBoManager().createObject(msg.getEboContext(),"Ebo_Document");
+                    mailDoc.getAttribute("segmento").setValueString(Modulo.getModulo());
+                    mailDoc.getAttribute("description").setValueString(msg.getAttribute("name").getValueString());
+                    mailDoc.getAttribute("dtRegisto").setValueDate(msg.getAttribute("dtdoc").getValueDate());
+                    mailDoc.getAttribute("dtDoc").setValueDate(msg.getAttribute("dtdoc").getValueDate());
+                    mailDoc.getAttribute("dtEntrada").setValueDate(msg.getAttribute("dtEfectiv").getValueDate());
+                    mailDoc.getAttribute("msg").setObject(msg);
+                    mailDoc.getAttribute("estado").setValueString("0");
                     mailDoc.update();
                     docBoui = mailDoc.getBoui();
                 }
@@ -2139,7 +2139,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.severe("",e); //$NON-NLS-1$
+            logger.severe("",e);
         }
         return docBoui;
    }
@@ -2149,7 +2149,7 @@ public class Helper
         try
         {
             //if(!msg.exists() || msg.getAttribute("usedTemplate").getValueLong() > 0)
-            if( msg.getAttribute("usedTemplate").getValueLong() > 0 ) //$NON-NLS-1$
+            if( msg.getAttribute("usedTemplate").getValueLong() > 0 )
             {
                 return true;
             }
@@ -2163,46 +2163,46 @@ public class Helper
 
     public static boolean beforeSaveSMSEmailTemp(boObject smsEmail) throws boRuntimeException
    {
-        String aux = smsEmail.getAttribute("nome").getValueString(); //$NON-NLS-1$
+        String aux = smsEmail.getAttribute("nome").getValueString();
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         try
         {
-            boolean historico = "1".equals(smsEmail.getAttribute("historico").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            boolean historico = "1".equals(smsEmail.getAttribute("historico").getValueString());
             if(!historico)
             {
                 con = smsEmail.getEboContext().getConnectionData();
-                StringBuffer sql = new StringBuffer("select 1 from GESTEMP_SMSTexto where NOME = ? and boui <> ? and historico <> '1'"); //$NON-NLS-1$
+                StringBuffer sql = new StringBuffer("select 1 from GESTEMP_SMSTexto where NOME = ? and boui <> ? and historico <> '1'");
                 boolean isSMSLivre = false;
                 pst = con.prepareStatement(sql.toString());
                 String clsName = smsEmail.getName();
-                if("GESTEMP_SMSTemp".equals(clsName)) //$NON-NLS-1$
+                if("GESTEMP_SMSTemp".equals(clsName))
                 {
-                    clsName = "GESTEMP_SMSTexto"; //$NON-NLS-1$
+                    clsName = "GESTEMP_SMSTexto";
                     isSMSLivre = true;
                 }
-                String ss = smsEmail.getAttribute("nome").getValueString(); //$NON-NLS-1$
-                pst.setString(1, smsEmail.getAttribute("nome").getValueString()); //$NON-NLS-1$
+                String ss = smsEmail.getAttribute("nome").getValueString();
+                pst.setString(1, smsEmail.getAttribute("nome").getValueString());
                 pst.setLong(2, smsEmail.getBoui());
                 rs = pst.executeQuery();
                 if(rs.next())
                 {
                     if(isSMSLivre)
                     {
-                        if("1".equals(smsEmail.getAttribute("tipo").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                        if("1".equals(smsEmail.getAttribute("tipo").getValueString()))
                         {
-                            smsEmail.addErrorMessage(Messages.getString("Helper.563")); //$NON-NLS-1$
+                            smsEmail.addErrorMessage(Messages.getString("Helper.563"));
                         }
                         else
                         {
-                            smsEmail.addErrorMessage(Messages.getString("Helper.564")); //$NON-NLS-1$
+                            smsEmail.addErrorMessage(Messages.getString("Helper.564"));
                         }
                     }
                     else
                     {
-                        smsEmail.addErrorMessage(Messages.getString("Helper.565")); //$NON-NLS-1$
+                        smsEmail.addErrorMessage(Messages.getString("Helper.565"));
                     }
                     return false;
                 }
@@ -2210,7 +2210,7 @@ public class Helper
         }
         catch (SQLException e)
         {
-            logger.severe("", e); //$NON-NLS-1$
+            logger.severe("", e);
         }
         finally
         {
@@ -2225,11 +2225,11 @@ public class Helper
         String toRet = null;
         try
         {
-            boObjectList l = boObjectList.list(boctx, "select GESTEMP_SMSTemp where tipo = ?", new Object[]{new String("1")}, 1, 1, true); //$NON-NLS-1$ //$NON-NLS-2$
+            boObjectList l = boObjectList.list(boctx, "select GESTEMP_SMSTemp where tipo = ?", new Object[]{new String("1")}, 1, 1, true);
             l.beforeFirst();
             if(l.next())
             {
-                String tempText = l.getObject().getAttribute("texto").getValueString(); //$NON-NLS-1$
+                String tempText = l.getObject().getAttribute("texto").getValueString();
                 boObject perf = boObject.getBoManager().loadObject(boctx, boctx.getBoSession().getPerformerBoui());
                 MergeResultSetBoObject rsBo = new MergeResultSetBoObject(perf);
                 TextTemplate tt = new TextTemplate();
@@ -2252,11 +2252,11 @@ public class Helper
         String toRet = null;
         try
         {
-            boObjectList l = boObjectList.list(boctx, "select GESTEMP_SMSTemp where tipo = ?", new Object[]{new String("2")}, 1, 1, true); //$NON-NLS-1$ //$NON-NLS-2$
+            boObjectList l = boObjectList.list(boctx, "select GESTEMP_SMSTemp where tipo = ?", new Object[]{new String("2")}, 1, 1, true);
             l.beforeFirst();
             if(l.next())
             {
-                String tempText = l.getObject().getAttribute("texto").getValueString(); //$NON-NLS-1$
+                String tempText = l.getObject().getAttribute("texto").getValueString();
                 boObject perf = boObject.getBoManager().loadObject(boctx, boctx.getBoSession().getPerformerBoui());
                 MergeResultSetBoObject rsBo = new MergeResultSetBoObject(perf);
                 TextTemplate tt = new TextTemplate();
@@ -2276,7 +2276,7 @@ public class Helper
 
    public static String getFaxNumber(EboContext boctx, GtTemplate template) throws boRuntimeException
    {
-        String toRet = ""; //$NON-NLS-1$
+        String toRet = "";
         GtQuery []queries = template.getQueries();
         boolean foundDest = false;
         for (int i = 0; !foundDest && i < queries.length; i++)
@@ -2290,34 +2290,34 @@ public class Helper
                     if(value != null && value.longValue() > 0)
                     {
                         boObject o = boObject.getBoManager().loadObject(boctx, value.longValue());
-                        if("Pessoa".equals(o.getName())) //$NON-NLS-1$
+                        if("Pessoa".equals(o.getName()))
                         {
-                            if(o.getAttribute("moradaPrincipal").getObject() != null) //$NON-NLS-1$
+                            if(o.getAttribute("moradaPrincipal").getObject() != null)
                             {
-                                boObject morada = o.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-                                toRet = morada.getAttribute("telex_fax").getValueString(); //$NON-NLS-1$
+                                boObject morada = o.getAttribute("moradaPrincipal").getObject();
+                                toRet = morada.getAttribute("telex_fax").getValueString();
                             }
                         }
-                        else if("Ebo_Group_CC".equals(o.getName()) || "Ebo_Perf_Lus".equals(o.getName())) //$NON-NLS-1$ //$NON-NLS-2$
+                        else if("Ebo_Group_CC".equals(o.getName()) || "Ebo_Perf_Lus".equals(o.getName()))
                         {
-                            if(o.getAttribute("faxNumber").getValueString() != null && o.getAttribute("faxNumber").getValueString().trim().length() > 0) //$NON-NLS-1$ //$NON-NLS-2$
+                            if(o.getAttribute("faxNumber").getValueString() != null && o.getAttribute("faxNumber").getValueString().trim().length() > 0)
                             {
-                                toRet = o.getAttribute("faxNumber").getValueString(); //$NON-NLS-1$
+                                toRet = o.getAttribute("faxNumber").getValueString();
                             }
-                            else if(o.getAttribute("pessoa").getObject() != null) //$NON-NLS-1$
+                            else if(o.getAttribute("pessoa").getObject() != null)
                             {
-                                boObject groupPessoa = o.getAttribute("pessoa").getObject(); //$NON-NLS-1$
-                                if(groupPessoa.getAttribute("moradaPrincipal").getObject() != null) //$NON-NLS-1$
+                                boObject groupPessoa = o.getAttribute("pessoa").getObject();
+                                if(groupPessoa.getAttribute("moradaPrincipal").getObject() != null)
                                 {
-                                    boObject morada = groupPessoa.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-                                    toRet = morada.getAttribute("telex_fax").getValueString(); //$NON-NLS-1$
+                                    boObject morada = groupPessoa.getAttribute("moradaPrincipal").getObject();
+                                    toRet = morada.getAttribute("telex_fax").getValueString();
                                 }
                             }
                         }
                         else
                         {
-                            if(o.getAttribute("fax") != null) //$NON-NLS-1$
-                                toRet = o.getAttribute("fax").getValueString(); //$NON-NLS-1$
+                            if(o.getAttribute("fax") != null)
+                                toRet = o.getAttribute("fax").getValueString();
                         }
                     }
                 }
@@ -2327,7 +2327,7 @@ public class Helper
    }
    public static String getEmailAddress(EboContext boctx, GtTemplate template) throws boRuntimeException
    {
-        String toRet = ""; //$NON-NLS-1$
+        String toRet = "";
         GtQuery []queries = template.getQueries();
         boolean foundDest = false;
         for (int i = 0; !foundDest && i < queries.length; i++)
@@ -2341,34 +2341,34 @@ public class Helper
                     if(value != null && value.longValue() > 0)
                     {
                         boObject o = boObject.getBoManager().loadObject(boctx, value.longValue());
-                        if("Pessoa".equals(o.getName())) //$NON-NLS-1$
+                        if("Pessoa".equals(o.getName()))
                         {
-                            if(o.getAttribute("moradaPrincipal").getObject() != null) //$NON-NLS-1$
+                            if(o.getAttribute("moradaPrincipal").getObject() != null)
                             {
-                                boObject morada = o.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-                                toRet = morada.getAttribute("e_mail").getValueString(); //$NON-NLS-1$
+                                boObject morada = o.getAttribute("moradaPrincipal").getObject();
+                                toRet = morada.getAttribute("e_mail").getValueString();
                             }
                         }
-                        else if("Ebo_Group_CC".equals(o.getName()) || "Ebo_Perf_Lus".equals(o.getName())) //$NON-NLS-1$ //$NON-NLS-2$
+                        else if("Ebo_Group_CC".equals(o.getName()) || "Ebo_Perf_Lus".equals(o.getName()))
                         {
-                            if(o.getAttribute("email").getValueString() != null && o.getAttribute("email").getValueString().trim().length() > 0) //$NON-NLS-1$ //$NON-NLS-2$
+                            if(o.getAttribute("email").getValueString() != null && o.getAttribute("email").getValueString().trim().length() > 0)
                             {
-                                toRet = o.getAttribute("email").getValueString(); //$NON-NLS-1$
+                                toRet = o.getAttribute("email").getValueString();
                             }
-                            else if(o.getAttribute("pessoa").getObject() != null) //$NON-NLS-1$
+                            else if(o.getAttribute("pessoa").getObject() != null)
                             {
-                                boObject groupPessoa = o.getAttribute("pessoa").getObject(); //$NON-NLS-1$
-                                if(groupPessoa.getAttribute("moradaPrincipal").getObject() != null) //$NON-NLS-1$
+                                boObject groupPessoa = o.getAttribute("pessoa").getObject();
+                                if(groupPessoa.getAttribute("moradaPrincipal").getObject() != null)
                                 {
-                                    boObject morada = groupPessoa.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-                                    toRet = morada.getAttribute("e_mail").getValueString(); //$NON-NLS-1$
+                                    boObject morada = groupPessoa.getAttribute("moradaPrincipal").getObject();
+                                    toRet = morada.getAttribute("e_mail").getValueString();
                                 }
                             }
                         }
                         else
                         {
-                            if(o.getAttribute("email") != null) //$NON-NLS-1$
-                                toRet = o.getAttribute("email").getValueString(); //$NON-NLS-1$
+                            if(o.getAttribute("email") != null)
+                                toRet = o.getAttribute("email").getValueString();
                         }
                     }
                 }
@@ -2379,12 +2379,12 @@ public class Helper
 
    public static void orderById(boObject lov) throws boRuntimeException
     {
-        LovManager.orderBy(lov, "id"); //$NON-NLS-1$
+        LovManager.orderBy(lov, "id");
     }
 
     public static void orderByTexto(boObject lov) throws boRuntimeException
     {
-        LovManager.orderBy(lov, "texto"); //$NON-NLS-1$
+        LovManager.orderBy(lov, "texto");
     }
     public static boolean actSendCancelHiddenWhen(boObject actv)
     {
@@ -2393,33 +2393,33 @@ public class Helper
             //se a actv estiver fechada e a msg tiver sido gerada por um template
             //e estiver na fila impressão
             //então o método está disponível
-            if(actv != null && "close".equals(actv.getStateAttribute("runningState").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+            if(actv != null && "close".equals(actv.getStateAttribute("runningState").getValueString()))
             {
                 boObject msg = null;
-                if(actv.getAttribute("message") != null) //$NON-NLS-1$
+                if(actv.getAttribute("message") != null)
                 {
-                    boObject variable = actv.getAttribute("message").getObject(); //$NON-NLS-1$
+                    boObject variable = actv.getAttribute("message").getObject();
                     if(variable != null)
                     {
-                        boObject value = variable.getAttribute("value").getObject(); //$NON-NLS-1$
+                        boObject value = variable.getAttribute("value").getObject();
                         if(value != null)
                         {
-                            msg = value.getAttribute("valueObject").getObject(); //$NON-NLS-1$
+                            msg = value.getAttribute("valueObject").getObject();
                             if(msg != null)
                             {
-                                if("messageLetter".equals(msg.getName())) //$NON-NLS-1$
+                                if("messageLetter".equals(msg.getName()))
                                 {
                                     //Se não tiver dtEfectiv é pq ainda não foi enviado
                                     //senão fôr impressão central posso cancelar
                                     //caso em que imprimo localmente e a carta tem um erro
-                                    if(msg.getAttribute("dtEfectiv").getValueDate() == null || //$NON-NLS-1$
-                                       !"1".equals(msg.getAttribute("impCentral").getValueString()) //$NON-NLS-1$ //$NON-NLS-2$
+                                    if(msg.getAttribute("dtEfectiv").getValueDate() == null ||
+                                       !"1".equals(msg.getAttribute("impCentral").getValueString())
                                     )
                                     {
                                         return false;
                                     }
                                 }
-                                if("1".equals(msg.getAttribute("error").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                                if("1".equals(msg.getAttribute("error").getValueString()))
                                 {
                                     return false;
                                 }
@@ -2441,13 +2441,13 @@ public class Helper
         StringBuffer[] apresentationStr = null;
         ArrayList toRet = new ArrayList(2);
         StringBuffer[] valuesStr = null;
-        boObjectList list = boObjectList.list(boctx, "select Ebo_LOV where name = 'gesMotivoCancel'", 1, 999999999); //$NON-NLS-1$
+        boObjectList list = boObjectList.list(boctx, "select Ebo_LOV where name = 'gesMotivoCancel'", 1, 999999999);
         list.beforeFirst();
         int i = 0, rc = 0;
         if(list.next())
         {
             boObject motLov = list.getObject();
-            bridgeHandler bh = motLov.getBridge("details"); //$NON-NLS-1$
+            bridgeHandler bh = motLov.getBridge("details");
 
             toRet = new ArrayList(2);
             rc = (int)bh.getRecordCount();
@@ -2458,8 +2458,8 @@ public class Helper
 
             while(bit.next())
             {
-                apresentationStr[i] =  new StringBuffer(bit.currentRow().getObject().getAttribute("description").getValueString()); //$NON-NLS-1$
-                valuesStr[i] = new StringBuffer(bit.currentRow().getObject().getAttribute("value").getValueString()); //$NON-NLS-1$
+                apresentationStr[i] =  new StringBuffer(bit.currentRow().getObject().getAttribute("description").getValueString());
+                valuesStr[i] = new StringBuffer(bit.currentRow().getObject().getAttribute("value").getValueString());
                 i++;
             }
         }
@@ -2501,7 +2501,7 @@ public class Helper
             }
             catch (Exception e)
             {
-                logger.severe("", e); //$NON-NLS-1$
+                logger.severe("", e);
             }
             finally
             {
@@ -2547,13 +2547,13 @@ public class Helper
         actvSend = boObject.getBoManager().loadObject(boctx, actvBoui);
         if(actvSend != null)
         {
-            boObject xwfVar = actvSend.getAttribute("message").getObject(); //$NON-NLS-1$
+            boObject xwfVar = actvSend.getAttribute("message").getObject();
             if(xwfVar != null)
             {
-                boObject varValue = xwfVar.getAttribute("value").getObject(); //$NON-NLS-1$
+                boObject varValue = xwfVar.getAttribute("value").getObject();
                 if(varValue != null)
                 {
-                    mailobject = varValue.getAttribute("valueObject").getObject(); //$NON-NLS-1$
+                    mailobject = varValue.getAttribute("valueObject").getObject();
                 }
             }
         }
@@ -2561,7 +2561,7 @@ public class Helper
         if(template.getChannel() == template.TYPE_EMAIL)
         {
             email = true;
-            mailobject.getAttribute("description").setValueString(text); //$NON-NLS-1$
+            mailobject.getAttribute("description").setValueString(text);
         }
         else if(template.getChannel() == template.TYPE_CARTA)
         {
@@ -2574,68 +2574,68 @@ public class Helper
         else if(template.getChannel() == template.TYPE_SMS)
         {
             sms = true;
-            mailobject.getAttribute("textSMS").setValueString(text); //$NON-NLS-1$
+            mailobject.getAttribute("textSMS").setValueString(text);
         }
 
         if(carta || fax)
         {
-            clearBridge(mailobject, "binaryDocuments");  //$NON-NLS-1$
+            clearBridge(mailobject, "binaryDocuments"); 
             //docs
             if(rosto != null)
             {
                 boObject docRosto = null;
                 iFile ifile = new FSiFile(null,new File(rosto),null);
-                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.634") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docRosto.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docRosto.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docRosto.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docRosto.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docRosto.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("binaryDocuments").add(docRosto.getBoui()); //$NON-NLS-1$
+                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.634") + getToNameFromMsg(mailobject));
+                docRosto.getAttribute("dtRegisto").setValueDate(new Date());
+                docRosto.getAttribute("tipoDoc").setValueString("139");
+                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docRosto.getAttribute("file").setValueiFile(ifile);
+                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docRosto.getAttribute("fileName").setValueString(ifile.getName());
+                docRosto.getAttribute("msg").setObject(mailobject);
+                docRosto.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("binaryDocuments").add(docRosto.getBoui());
             }
             if(doc != null)
             {
                 boObject docTemplate = null;
                 iFile ifile = new FSiFile(null,new File(doc),null);
-                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.656") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docTemplate.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docTemplate.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docTemplate.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docTemplate.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docTemplate.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-                mailobject.getBridge("binaryDocuments").add(docTemplate.getBoui()); //$NON-NLS-1$
+                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.656") + getToNameFromMsg(mailobject));
+                docTemplate.getAttribute("dtRegisto").setValueDate(new Date());
+                docTemplate.getAttribute("tipoDoc").setValueString("139");
+                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docTemplate.getAttribute("file").setValueiFile(ifile);
+                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docTemplate.getAttribute("fileName").setValueString(ifile.getName());
+                docTemplate.getAttribute("msg").setObject(mailobject);
+                docTemplate.getAttribute("estado").setValueString("0");
+                mailobject.getBridge("binaryDocuments").add(docTemplate.getBoui());
             }
         }
         if(email && (rosto != null || doc != null))
         {
             truncatedDocs = true;
-            bridgeHandler bh = mailobject.getBridge("documents"); //$NON-NLS-1$
+            bridgeHandler bh = mailobject.getBridge("documents");
             boBridgeIterator bit = bh.iterator();
             boObject docObj = null;
             String auxS;
             while(bit.next())
             {
                 docObj = bit.currentRow().getObject();
-                auxS = docObj.getAttribute("description").getValueString();  //$NON-NLS-1$
+                auxS = docObj.getAttribute("description").getValueString(); 
                 if(auxS != null &&
-                   (auxS.startsWith(Messages.getString("Helper.678")) || //$NON-NLS-1$
-                    auxS.startsWith(Messages.getString("Helper.679")) //$NON-NLS-1$
+                   (auxS.startsWith(Messages.getString("Helper.678")) ||
+                    auxS.startsWith(Messages.getString("Helper.679"))
                    )
                 )
                 {
@@ -2649,49 +2649,49 @@ public class Helper
             {
                 boObject docRosto = null;
                 //vou transformar em PDF
-//                File pdfFile = convertToPdf(rosto, "rosto"); //$NON-NLS-1$
+//                File pdfFile = convertToPdf(rosto, "rosto");
 //                iFile ifile = new FSiFile(null,pdfFile,null);
                 iFile ifile = new FSiFile(null,new File(rosto),null);
-                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.683") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docRosto.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docRosto.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docRosto.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docRosto.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docRosto.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                docRosto = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docRosto.getAttribute("description").setValueString(Messages.getString("Helper.683") + getToNameFromMsg(mailobject));
+                docRosto.getAttribute("dtRegisto").setValueDate(new Date());
+                docRosto.getAttribute("tipoDoc").setValueString("139");
+                docRosto.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docRosto.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docRosto.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docRosto.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docRosto.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docRosto.getAttribute("file").setValueiFile(ifile);
+                docRosto.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docRosto.getAttribute("fileName").setValueString(ifile.getName());
+                docRosto.getAttribute("msg").setObject(mailobject);
+                docRosto.getAttribute("estado").setValueString("0");
 
-                mailobject.getBridge("documents").add(docRosto.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("documents").add(docRosto.getBoui());
             }
             if(doc != null)
             {
                 boObject docTemplate = null;
                 //vou transformar em PDF
-//                File pdfFile = convertToPdf(doc, "documento"); //$NON-NLS-1$
+//                File pdfFile = convertToPdf(doc, "documento");
 //                iFile ifile = new FSiFile(null,pdfFile,null);
                 iFile ifile = new FSiFile(null,new File(doc),null);
-                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document"); //$NON-NLS-1$
-                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.706") + getToNameFromMsg(mailobject)); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtRegisto").setValueDate(new Date()); //$NON-NLS-1$
-                docTemplate.getAttribute("tipoDoc").setValueString("139"); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo()); //$NON-NLS-1$
-                docTemplate.getAttribute("file").setValueiFile(ifile); //$NON-NLS-1$
-                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length())); //$NON-NLS-1$
-                docTemplate.getAttribute("fileName").setValueString(ifile.getName()); //$NON-NLS-1$
-                docTemplate.getAttribute("msg").setObject(mailobject); //$NON-NLS-1$
-                docTemplate.getAttribute("estado").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+                docTemplate = boObject.getBoManager().createObject(boctx, "Ebo_Document");
+                docTemplate.getAttribute("description").setValueString(Messages.getString("Helper.706") + getToNameFromMsg(mailobject));
+                docTemplate.getAttribute("dtRegisto").setValueDate(new Date());
+                docTemplate.getAttribute("tipoDoc").setValueString("139");
+                docTemplate.getAttribute("dtDoc").setValueDate(mailobject.getAttribute("dtdoc").getValueDate());
+                docTemplate.getAttribute("dtSaida").setValueDate(mailobject.getAttribute("dtEfectiv").getValueDate());
+                docTemplate.getAttribute("registoCTT").setValueString(mailobject.getAttribute("registoCTT").getValueString());
+                docTemplate.getAttribute("codeBarClienteCTT").setValueString(mailobject.getAttribute("docSeq").getValueString());
+                docTemplate.getAttribute("segmento").setValueString(Modulo.getModulo());
+                docTemplate.getAttribute("file").setValueiFile(ifile);
+                docTemplate.getAttribute("fileSize").setValueObject(BigDecimal.valueOf(ifile.length()));
+                docTemplate.getAttribute("fileName").setValueString(ifile.getName());
+                docTemplate.getAttribute("msg").setObject(mailobject);
+                docTemplate.getAttribute("estado").setValueString("0");
 
-                mailobject.getBridge("documents").add(docTemplate.getBoui()); //$NON-NLS-1$
+                mailobject.getBridge("documents").add(docTemplate.getBoui());
             }
         }
 
@@ -2702,63 +2702,63 @@ public class Helper
     {
         if(destinatario != null)
         {
-            String nome = destinatario.getAttribute("nome").getValueString(); //$NON-NLS-1$
-            return (nome == null || nome.length() == 0) ? Messages.getString("Helper.727"):ClassUtils.capitalize(nome); //$NON-NLS-1$
+            String nome = destinatario.getAttribute("nome").getValueString();
+            return (nome == null || nome.length() == 0) ? Messages.getString("Helper.727"):ClassUtils.capitalize(nome);
         }
-        return Messages.getString("Helper.727"); //$NON-NLS-1$
+        return Messages.getString("Helper.727");
     }
 
     public static String getToNameFromMsg(boObject msg) throws boRuntimeException
     {
-        boBridgeIterator bit = msg.getBridge("to").iterator(); //$NON-NLS-1$
+        boBridgeIterator bit = msg.getBridge("to").iterator();
         bit.beforeFirst();
         if(bit.next())
         {
             boObject destinatario = bit.currentRow().getObject();
-            String nome = destinatario.getAttribute("name").getValueString(); //$NON-NLS-1$
-            return (nome == null || nome.length() == 0) ? Messages.getString("Helper.727"):ClassUtils.capitalize(nome); //$NON-NLS-1$
+            String nome = destinatario.getAttribute("name").getValueString();
+            return (nome == null || nome.length() == 0) ? Messages.getString("Helper.727"):ClassUtils.capitalize(nome);
         }
-        return Messages.getString("Helper.727"); //$NON-NLS-1$
+        return Messages.getString("Helper.727");
     }
 
     public static String[] getCodPostal(EboContext boctx, GtTemplate template) throws boRuntimeException
     {
         boObject destinatario = getDestinatario(boctx, template);
-        String toRet[]={"0000", "000"}; //$NON-NLS-1$ //$NON-NLS-2$
+        String toRet[]={"0000", "000"};
         if(destinatario == null)
         {
-            throw new boRuntimeException("", Messages.getString("Helper.8"), null); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("", Messages.getString("Helper.8"), null);
         }
 
-        if("Pessoa".equals(destinatario.getName())) //$NON-NLS-1$
+        if("Pessoa".equals(destinatario.getName()))
         {
-            boObject morada = destinatario.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-            String aux = morada.getAttribute("codigo_postal").getValueString(); //$NON-NLS-1$
+            boObject morada = destinatario.getAttribute("moradaPrincipal").getObject();
+            String aux = morada.getAttribute("codigo_postal").getValueString();
             if(aux != null && aux.length() == 4 && isNumber(aux))
             {
                 toRet[0] = aux;
-                aux = morada.getAttribute("sufixo_postal").getValueString(); //$NON-NLS-1$
+                aux = morada.getAttribute("sufixo_postal").getValueString();
                 if(aux != null && aux.length() == 3 && isNumber(aux))
                 {
                     toRet[1] = aux;
                 }
             }
         }
-        else if("Ebo_Perf_Lus".equals(destinatario.getName()) ||  //$NON-NLS-1$
-                "dmUser".equals(destinatario.getName()))//é sempre gerado por template //$NON-NLS-1$
+        else if("Ebo_Perf_Lus".equals(destinatario.getName()) || 
+                "dmUser".equals(destinatario.getName()))//é sempre gerado por template
         {
-            boObject ccust = destinatario.getAttribute("centrocusto").getObject(); //$NON-NLS-1$
+            boObject ccust = destinatario.getAttribute("centrocusto").getObject();
             if(ccust != null)
             {
-                boObject pessoa = ccust.getAttribute("pessoa").getObject(); //$NON-NLS-1$
+                boObject pessoa = ccust.getAttribute("pessoa").getObject();
                 if(pessoa != null)
                 {
-                    boObject morada = pessoa.getAttribute("moradaPrincipal").getObject(); //$NON-NLS-1$
-                    String aux = morada.getAttribute("codigo_postal").getValueString(); //$NON-NLS-1$
+                    boObject morada = pessoa.getAttribute("moradaPrincipal").getObject();
+                    String aux = morada.getAttribute("codigo_postal").getValueString();
                     if(aux != null && aux.length() == 4 && isNumber(aux))
                     {
                         toRet[0] = aux;
-                        aux = morada.getAttribute("sufixo_postal").getValueString(); //$NON-NLS-1$
+                        aux = morada.getAttribute("sufixo_postal").getValueString();
                         if(aux != null && aux.length() == 3 && isNumber(aux))
                         {
                             toRet[1] = aux;
@@ -2769,37 +2769,37 @@ public class Helper
         }
         else
         {
-            if (destinatario.getAttribute("correspondencia_address") != null && destinatario.getAttribute("correspondencia_address").getObject() != null) //$NON-NLS-1$ //$NON-NLS-2$
+            if (destinatario.getAttribute("correspondencia_address") != null && destinatario.getAttribute("correspondencia_address").getObject() != null)
             {
-                boObject correspAdd = destinatario.getAttribute("correspondencia_address").getObject(); //$NON-NLS-1$
-                String cPostal = correspAdd.getAttribute("cpostal").getValueString(); //$NON-NLS-1$
-                String country = correspAdd.getAttribute("country").getValueString(); //$NON-NLS-1$
+                boObject correspAdd = destinatario.getAttribute("correspondencia_address").getObject();
+                String cPostal = correspAdd.getAttribute("cpostal").getValueString();
+                String country = correspAdd.getAttribute("country").getValueString();
                 String aux = null;
-                if(cPostal != null && !"".equals(cPostal)) //$NON-NLS-1$
+                if(cPostal != null && !"".equals(cPostal))
                 {
-                    if(cPostal.indexOf("-") > -1 && cPostal.length() == 8) //completo //$NON-NLS-1$
+                    if(cPostal.indexOf("-") > -1 && cPostal.length() == 8) //completo
                     {
-                        aux = cPostal.split("-")[0]; //$NON-NLS-1$
+                        aux = cPostal.split("-")[0];
                         if(aux != null && aux.length() == 4 && isNumber(aux))
                         {
                             toRet[0] = aux;
-                            aux = cPostal.split("-")[1]; //$NON-NLS-1$
+                            aux = cPostal.split("-")[1];
                             if(aux != null && aux.length() == 3 && isNumber(aux))
                             {
                                 toRet[1] = aux;
                             }
                         }
                     }
-                    else if(cPostal.indexOf("-") == -1 && cPostal.length() == 4) //só a primeira parte //$NON-NLS-1$
+                    else if(cPostal.indexOf("-") == -1 && cPostal.length() == 4) //só a primeira parte
                     {
                         if(cPostal != null && cPostal.length() == 4 && isNumber(cPostal))
                         {
                             toRet[0] = cPostal;
                         }
                     }
-                    else if(cPostal.indexOf("-") > -1 && cPostal.length() == 5) //$NON-NLS-1$
+                    else if(cPostal.indexOf("-") > -1 && cPostal.length() == 5)
                     {
-                        aux = cPostal.split("-")[0]; //$NON-NLS-1$
+                        aux = cPostal.split("-")[0];
                         if(aux != null && aux.length() == 4 && isNumber(aux))
                         {
                             toRet[0] = aux;
@@ -2827,7 +2827,7 @@ public class Helper
             String toRet = "";
             //TODO:Implement Interface LUSITANIA
             //String toRet = Codigo4Estados.getCodigo(cPostal[0], cPostal[1] );
-            if(toRet.startsWith("(") && toRet.endsWith(")")) //$NON-NLS-1$ //$NON-NLS-2$
+            if(toRet.startsWith("(") && toRet.endsWith(")"))
                 toRet = toRet.substring(1, toRet.length() - 1);
             return toRet;
         }
@@ -2837,36 +2837,36 @@ public class Helper
         }
         catch (Exception e)
         {
-            throw new boRuntimeException("", e.getMessage(), e); //$NON-NLS-1$
+            throw new boRuntimeException("", e.getMessage(), e);
         }
     }
 
    public static boolean beforeSaveTag(boObject tag) throws boRuntimeException
    {
-        String aux = tag.getAttribute("nome").getValueString(); //$NON-NLS-1$
+        String aux = tag.getAttribute("nome").getValueString();
 
-        if(aux != null && aux.split(" ").length != 1) //$NON-NLS-1$
+        if(aux != null && aux.split(" ").length != 1)
         {
-            tag.addErrorMessage(Messages.getString("Helper.9")); //$NON-NLS-1$
+            tag.addErrorMessage(Messages.getString("Helper.9"));
             return false;
         }
 
-        if(tag.getAttribute("javaCode").getValueString() != null &&  //$NON-NLS-1$
-            !"".equals(tag.getAttribute("javaCode").getValueString().trim()) && //$NON-NLS-1$ //$NON-NLS-2$
-            "0".equals(tag.getAttribute("applyWord").getValueString()) && //$NON-NLS-1$ //$NON-NLS-2$
-            "0".equals(tag.getAttribute("applyText").getValueString()) //$NON-NLS-1$ //$NON-NLS-2$
+        if(tag.getAttribute("javaCode").getValueString() != null && 
+            !"".equals(tag.getAttribute("javaCode").getValueString().trim()) &&
+            "0".equals(tag.getAttribute("applyWord").getValueString()) &&
+            "0".equals(tag.getAttribute("applyText").getValueString())
         )
         {
-            tag.addErrorMessage(Messages.getString("Helper.10")); //$NON-NLS-1$
+            tag.addErrorMessage(Messages.getString("Helper.10"));
             return false;
         }
 
-        if(tag.getAttribute("javaCode").getValueString() == null ||  //$NON-NLS-1$
-            "".equals(tag.getAttribute("javaCode").getValueString().trim()) //$NON-NLS-1$ //$NON-NLS-2$
+        if(tag.getAttribute("javaCode").getValueString() == null || 
+            "".equals(tag.getAttribute("javaCode").getValueString().trim())
         )
         {
-            tag.getAttribute("applyWord").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
-            tag.getAttribute("applyText").setValueString("0"); //$NON-NLS-1$ //$NON-NLS-2$
+            tag.getAttribute("applyWord").setValueString("0");
+            tag.getAttribute("applyText").setValueString("0");
         }
         Connection con = null;
         PreparedStatement pst = null;
@@ -2875,20 +2875,20 @@ public class Helper
         try
         {
             con = tag.getEboContext().getConnectionData();
-            StringBuffer sql = new StringBuffer("select 1 from GESTEMP_Tag where NOME = ? and boui <> ?"); //$NON-NLS-1$
+            StringBuffer sql = new StringBuffer("select 1 from GESTEMP_Tag where NOME = ? and boui <> ?");
             pst = con.prepareStatement(sql.toString());
             pst.setString(1, aux);
             pst.setLong(2, tag.getBoui());
             rs = pst.executeQuery();
             if(rs.next())
             {
-                tag.addErrorMessage(Messages.getString("Helper.782")); //$NON-NLS-1$
+                tag.addErrorMessage(Messages.getString("Helper.782"));
                 return false;
             }
         }
         catch (SQLException e)
         {
-            logger.severe("", e); //$NON-NLS-1$
+            logger.severe("", e);
         }
         finally
         {
@@ -2901,34 +2901,34 @@ public class Helper
 
    public static void setDocDates(boObject message) throws boRuntimeException
    {
-        if("messageLetter".equals(message.getName()) || "messageFax".equals(message.getName())) //$NON-NLS-1$ //$NON-NLS-2$
+        if("messageLetter".equals(message.getName()) || "messageFax".equals(message.getName()))
         {
-            boBridgeIterator bit = message.getBridge("binaryDocuments").iterator(); //$NON-NLS-1$
+            boBridgeIterator bit = message.getBridge("binaryDocuments").iterator();
             bit.beforeFirst();
             boObject eboDoc = null;
             while(bit.next())
             {
                 eboDoc = bit.currentRow().getObject();
-                if(Helper.isLetterGeneratedDoc(eboDoc.getAttribute("fileName").getValueString())) //$NON-NLS-1$
+                if(Helper.isLetterGeneratedDoc(eboDoc.getAttribute("fileName").getValueString()))
                 {
-                    eboDoc.getAttribute("dtDoc").setValueDate(message.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                    eboDoc.getAttribute("dtSaida").setValueDate(message.getAttribute("dtEfectiv").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
+                    eboDoc.getAttribute("dtDoc").setValueDate(message.getAttribute("dtdoc").getValueDate());
+                    eboDoc.getAttribute("dtSaida").setValueDate(message.getAttribute("dtEfectiv").getValueDate());
                     eboDoc.update();
                 }
             }
         }
-        else if("messageMail".equals(message.getName())) //$NON-NLS-1$
+        else if("messageMail".equals(message.getName()))
         {
-            boBridgeIterator bit = message.getBridge("documents").iterator(); //$NON-NLS-1$
+            boBridgeIterator bit = message.getBridge("documents").iterator();
             bit.beforeFirst();
             boObject eboDoc = null;
             while(bit.next())
             {
                 eboDoc = bit.currentRow().getObject();
-                if(isMailGeneratedDoc(eboDoc.getAttribute("fileName").getValueString())) //$NON-NLS-1$
+                if(isMailGeneratedDoc(eboDoc.getAttribute("fileName").getValueString()))
                 {
-                    eboDoc.getAttribute("dtDoc").setValueDate(message.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
-                    eboDoc.getAttribute("dtSaida").setValueDate(message.getAttribute("dtdoc").getValueDate()); //$NON-NLS-1$ //$NON-NLS-2$
+                    eboDoc.getAttribute("dtDoc").setValueDate(message.getAttribute("dtdoc").getValueDate());
+                    eboDoc.getAttribute("dtSaida").setValueDate(message.getAttribute("dtdoc").getValueDate());
                     eboDoc.update();
                 }
             }
@@ -2938,7 +2938,7 @@ public class Helper
    public static String getDescriptionTipo7(EboContext boctx, String bouis)
    {
         if(bouis == null || bouis.length() == 0) return null;
-        String[] toRet = getDescriptionTipo7(boctx, bouis.split(";")); //$NON-NLS-1$
+        String[] toRet = getDescriptionTipo7(boctx, bouis.split(";"));
         if(toRet == null) return bouis;
         if(toRet.length > 0) return toRet[0];
         return null;
@@ -2959,7 +2959,7 @@ public class Helper
                 {
                     b = Long.parseLong(bouis[i]);
                     o = boObject.getBoManager().loadObject(boctx, b);
-                    toRet[i] = o.getAttribute("texto").getValueString(); //$NON-NLS-1$
+                    toRet[i] = o.getAttribute("texto").getValueString();
                 }
                 catch(Exception e)
                 {
@@ -2974,11 +2974,11 @@ public class Helper
    {
         try
         {
-            if("GESTEMP_Query".equals(gestempCampoObj.getParent().getName()) || //$NON-NLS-1$
-                "GESTEMP_JavaQuery".equals(gestempCampoObj.getParent().getName()) //$NON-NLS-1$
+            if("GESTEMP_Query".equals(gestempCampoObj.getParent().getName()) ||
+                "GESTEMP_JavaQuery".equals(gestempCampoObj.getParent().getName())
             )
             {
-                return boConvertUtils.convertToString(gestempCampoObj.getParent().getAttribute("parametro").getValueObject(), gestempCampoObj.getAttribute("parametro")); //$NON-NLS-1$ //$NON-NLS-2$
+                return boConvertUtils.convertToString(gestempCampoObj.getParent().getAttribute("parametro").getValueObject(), gestempCampoObj.getAttribute("parametro"));
             }
             return null;
         }
@@ -2990,27 +2990,27 @@ public class Helper
    {
         try
         {
-            if(gestempCampoObj.getAttribute("parametro").getObject() != null) //$NON-NLS-1$
+            if(gestempCampoObj.getAttribute("parametro").getObject() != null)
             {
-                return boConvertUtils.convertToString(gestempCampoObj.getAttribute("parametro").getObject().getAttribute("objecto").getValueObject(), gestempCampoObj.getAttribute("objecto")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                return boConvertUtils.convertToString(gestempCampoObj.getAttribute("parametro").getObject().getAttribute("objecto").getValueObject(), gestempCampoObj.getAttribute("objecto"));
             }
-            else if("GESTEMP_CampoNObjecto".equals(gestempCampoObj.getParent().getName())) //$NON-NLS-1$
+            else if("GESTEMP_CampoNObjecto".equals(gestempCampoObj.getParent().getName()))
             {
                 boObject gestCampoListObj = gestempCampoObj.getParent();
-                String clsName = gestCampoListObj.getAttribute("objecto").getObject().getAttribute("name").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                String clsName = gestCampoListObj.getAttribute("objecto").getObject().getAttribute("name").getValueString();
                 boDefHandler bodef = boDefHandler.getBoDefinition(clsName);
-                String referenceObjName = bodef.getAttributeRef(gestCampoListObj.getAttribute("helper").getValueString()).getReferencedObjectName(); //$NON-NLS-1$
-                boObjectList clsList = boObjectList.list(gestempCampoObj.getEboContext(), "select Ebo_ClsReg where name = '"+referenceObjName+"'", 1, 1); //$NON-NLS-1$ //$NON-NLS-2$
+                String referenceObjName = bodef.getAttributeRef(gestCampoListObj.getAttribute("helper").getValueString()).getReferencedObjectName();
+                boObjectList clsList = boObjectList.list(gestempCampoObj.getEboContext(), "select Ebo_ClsReg where name = '"+referenceObjName+"'", 1, 1);
                 clsList.beforeFirst();
                 if(clsList.next())
                 {
-                    return boConvertUtils.convertToString(clsList.getObject().getBoui(), gestempCampoObj.getAttribute("objecto")); //$NON-NLS-1$
+                    return boConvertUtils.convertToString(clsList.getObject().getBoui(), gestempCampoObj.getAttribute("objecto"));
                 }
             }
-            else if("GESTEMP_CampoNFormula".equals(gestempCampoObj.getParent().getName())) //$NON-NLS-1$
+            else if("GESTEMP_CampoNFormula".equals(gestempCampoObj.getParent().getName()))
             {
                 boObject gestCampoListFormula = gestempCampoObj.getParent();
-                return boConvertUtils.convertToString(gestCampoListFormula.getAttribute("objecto").getObject().getBoui(), gestempCampoObj.getAttribute("objecto")); //$NON-NLS-1$ //$NON-NLS-2$
+                return boConvertUtils.convertToString(gestCampoListFormula.getAttribute("objecto").getObject().getBoui(), gestempCampoObj.getAttribute("objecto"));
             }
             return null;
         }
@@ -3021,21 +3021,21 @@ public class Helper
    public static void createVersion(boObject template) throws boRuntimeException
    {
         boObject tempVersion = cloneTemplate(template);
-        boObject version = boObject.getBoManager().createObject(template.getEboContext(), "GESTEMP_TempVersion"); //$NON-NLS-1$
+        boObject version = boObject.getBoManager().createObject(template.getEboContext(), "GESTEMP_TempVersion");
         long versionNumber = getVersionNumber(template.getEboContext(), template.getBoui());
-        tempVersion.getAttribute("versao").setValueLong(versionNumber); //$NON-NLS-1$
-        version.getAttribute("code").setValueString(template.getAttribute("code").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-        version.getAttribute("nome").setValueString(template.getAttribute("nome").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-        version.getAttribute("versao").setValueLong(versionNumber); //$NON-NLS-1$
-        version.getAttribute("ordem").setValueLong(template.getAttribute("ordem").getValueLong()); //$NON-NLS-1$ //$NON-NLS-2$
-        version.getAttribute("modelo").setObject(tempVersion); //$NON-NLS-1$
-        boBridgeIterator bit = template.getBridge("share").iterator(); //$NON-NLS-1$
+        tempVersion.getAttribute("versao").setValueLong(versionNumber);
+        version.getAttribute("code").setValueString(template.getAttribute("code").getValueString());
+        version.getAttribute("nome").setValueString(template.getAttribute("nome").getValueString());
+        version.getAttribute("versao").setValueLong(versionNumber);
+        version.getAttribute("ordem").setValueLong(template.getAttribute("ordem").getValueLong());
+        version.getAttribute("modelo").setObject(tempVersion);
+        boBridgeIterator bit = template.getBridge("share").iterator();
         bit.beforeFirst();
         while(bit.next())
         {
-            version.getBridge("share").add(bit.currentRow().getValueLong()); //$NON-NLS-1$
+            version.getBridge("share").add(bit.currentRow().getValueLong());
         }
-        template.getBridge("versoes").add(version.getBoui()); //$NON-NLS-1$
+        template.getBridge("versoes").add(version.getBoui());
    }
 
    private static long getVersionNumber(EboContext boctx,  long templateBoui)
@@ -3047,7 +3047,7 @@ public class Helper
         try
         {
             con = boctx.getConnectionData();
-            pst = con.prepareStatement("select max(v.versao) from GESTEMP_TempVersion v, GESTEMP_TEMPLATE$VERSOES tv where tv.parent$ = ? and tv.child$ = v.boui"); //$NON-NLS-1$
+            pst = con.prepareStatement("select max(v.versao) from GESTEMP_TempVersion v, GESTEMP_TEMPLATE$VERSOES tv where tv.parent$ = ? and tv.child$ = v.boui");
             pst.setLong(1, templateBoui);
             rs = pst.executeQuery();
             if(rs.next())
@@ -3069,50 +3069,50 @@ public class Helper
 
    private static long getNewAttributeBoui(boObject template, String helper) throws boRuntimeException
    {
-        if(helper != null && !"".equals(helper)) //$NON-NLS-1$
+        if(helper != null && !"".equals(helper))
         {
-            String path[] = helper.split("\\."); //$NON-NLS-1$
+            String path[] = helper.split("\\.");
             if(path.length > 0 || path.length <= 3)
             {
-                boBridgeIterator bit = template.getBridge("queries").iterator(); //$NON-NLS-1$
+                boBridgeIterator bit = template.getBridge("queries").iterator();
                 bit.beforeFirst();
                 boolean foundQ = false, foundC = false;
                 while(bit.next() && !foundQ)
                 {
                     boObject querie = bit.currentRow().getObject();
-                    if(path[0].equals(querie.getAttribute("nome").getValueString())) //$NON-NLS-1$
+                    if(path[0].equals(querie.getAttribute("nome").getValueString()))
                     {
                         foundQ = true;
                         if(path.length == 1)
                         {
-                            logger.finer(helper + "->" + querie.getBoui()); //$NON-NLS-1$
+                            logger.finer(helper + "->" + querie.getBoui());
                             return querie.getBoui();
                         }
                         //agora vou andar nos campos da querie
-                        boBridgeIterator bit2 = querie.getBridge("campos").iterator(); //$NON-NLS-1$
+                        boBridgeIterator bit2 = querie.getBridge("campos").iterator();
                         bit2.beforeFirst();
                         while(bit2.next() && !foundC)
                         {
                             boObject campo = bit2.currentRow().getObject();
-                            if(path[1].equals(campo.getAttribute("nome").getValueString())) //$NON-NLS-1$
+                            if(path[1].equals(campo.getAttribute("nome").getValueString()))
                             {
                                 if(path.length == 2)
                                 {
                                     foundC = true;
-                                    logger.finer(helper + "->" + campo.getBoui()); //$NON-NLS-1$
+                                    logger.finer(helper + "->" + campo.getBoui());
                                     return campo.getBoui();
                                 }
                                 else
                                 {
-                                    boBridgeIterator bit3 = campo.getBridge("campos").iterator(); //$NON-NLS-1$
+                                    boBridgeIterator bit3 = campo.getBridge("campos").iterator();
                                     bit3.beforeFirst();
                                     while(bit3.next() && !foundC)
                                     {
                                         campo = bit3.currentRow().getObject();
-                                        if(path[2].equals(campo.getAttribute("nome").getValueString())) //$NON-NLS-1$
+                                        if(path[2].equals(campo.getAttribute("nome").getValueString()))
                                         {
                                             foundC = true;
-                                            logger.finer(helper + "->" + campo.getBoui()); //$NON-NLS-1$
+                                            logger.finer(helper + "->" + campo.getBoui());
                                             return campo.getBoui();
                                         }
                                     }
@@ -3125,15 +3125,15 @@ public class Helper
                 }
                 if(!foundQ && path.length == 1)
                 {//pode ser campo manual
-                    bit = template.getBridge("camposManuais").iterator(); //$NON-NLS-1$
+                    bit = template.getBridge("camposManuais").iterator();
                     bit.beforeFirst();
                     boObject campoManual = null;
                     while(bit.next() && !foundQ)
                     {
                         campoManual = bit.currentRow().getObject();
-                        if(path[0].equals(campoManual.getAttribute("nome").getValueString())) //$NON-NLS-1$
+                        if(path[0].equals(campoManual.getAttribute("nome").getValueString()))
                         {
-                            logger.finer(helper + "->" + campoManual.getBoui()); //$NON-NLS-1$
+                            logger.finer(helper + "->" + campoManual.getBoui());
                             return campoManual.getBoui();
                         }
                     }
@@ -3146,79 +3146,79 @@ public class Helper
    public static boObject cloneTemplate(boObject template) throws boRuntimeException
    {
         boObject tempVersion = template.cloneObject();
-        tempVersion.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-        tempVersion.getBridge("versoes").truncate(); //$NON-NLS-1$
+        tempVersion.getAttribute("historico").setValueString("1");
+        tempVersion.getBridge("versoes").truncate();
 
         //estes campos têm que ser clonados
-        tempVersion.getBridge("queries").truncate(); //$NON-NLS-1$
-        tempVersion.getBridge("camposManuais").truncate(); //$NON-NLS-1$
+        tempVersion.getBridge("queries").truncate();
+        tempVersion.getBridge("camposManuais").truncate();
 
-        boBridgeIterator bit = template.getBridge("queries").iterator(); //$NON-NLS-1$
+        boBridgeIterator bit = template.getBridge("queries").iterator();
         bit.beforeFirst();
         boObject aux = null;
         while(bit.next())
         {
             aux = bit.currentRow().getObject();
-            tempVersion.getBridge("queries").add(cloneQuerie(aux).getBoui()); //$NON-NLS-1$
+            tempVersion.getBridge("queries").add(cloneQuerie(aux).getBoui());
         }
 
-        bit = template.getBridge("camposManuais").iterator(); //$NON-NLS-1$
+        bit = template.getBridge("camposManuais").iterator();
         bit.beforeFirst();
         while(bit.next())
         {
             aux = bit.currentRow().getObject();
-            tempVersion.getBridge("camposManuais").add(cloneCampo(aux).getBoui()); //$NON-NLS-1$
+            tempVersion.getBridge("camposManuais").add(cloneCampo(aux).getBoui());
         }
 
 
         //classificações tenho que alterar o boui dos atributos do template para os novos
-        boBridgeIterator bitClf = tempVersion.getBridge("mapeamentos").iterator(); //$NON-NLS-1$
+        boBridgeIterator bitClf = tempVersion.getBridge("mapeamentos").iterator();
         bitClf.beforeFirst();
         long newAtBoui = -1;
         aux = null;
         while(bitClf.next())
         {
             aux = bitClf.currentRow().getObject();
-            newAtBoui = getNewAttributeBoui(tempVersion, aux.getAttribute("helper").getValueString()); //$NON-NLS-1$
+            newAtBoui = getNewAttributeBoui(tempVersion, aux.getAttribute("helper").getValueString());
             if(newAtBoui > -1)
             {
-                aux.getAttribute("atributo").setValueLong(newAtBoui); //$NON-NLS-1$
+                aux.getAttribute("atributo").setValueLong(newAtBoui);
             }
         }
 
         //fax
-        if(template.getAttribute("tempFax").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("tempFax").getValueLong() > 0)
         {
-            tempVersion.getAttribute("tempFax").setObject(cloneDoc(template.getAttribute("tempFax").getObject())); //$NON-NLS-1$ //$NON-NLS-2$
+            tempVersion.getAttribute("tempFax").setObject(cloneDoc(template.getAttribute("tempFax").getObject()));
         }
-        if(template.getAttribute("rostoFax").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("rostoFax").getValueLong() > 0)
         {
-            tempVersion.getAttribute("rostoFax").setObject(cloneDoc(template.getAttribute("rostoFax").getObject())); //$NON-NLS-1$ //$NON-NLS-2$
+            tempVersion.getAttribute("rostoFax").setObject(cloneDoc(template.getAttribute("rostoFax").getObject()));
         }
         //Carta
-        if(template.getAttribute("tempCarta").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("tempCarta").getValueLong() > 0)
         {
-            tempVersion.getAttribute("tempCarta").setObject(cloneDoc(template.getAttribute("tempCarta").getObject())); //$NON-NLS-1$ //$NON-NLS-2$
+            tempVersion.getAttribute("tempCarta").setObject(cloneDoc(template.getAttribute("tempCarta").getObject()));
         }
-        if(template.getAttribute("rostoCarta").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("rostoCarta").getValueLong() > 0)
         {
-            tempVersion.getAttribute("rostoCarta").setObject(cloneDoc(template.getAttribute("rostoCarta").getObject())); //$NON-NLS-1$ //$NON-NLS-2$
+            tempVersion.getAttribute("rostoCarta").setObject(cloneDoc(template.getAttribute("rostoCarta").getObject()));
         }
         //e-mail
-        if(template.getAttribute("tempEmail").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("tempEmail").getValueLong() > 0)
         {
-            aux = template.getAttribute("tempEmail").getObject(); //$NON-NLS-1$
+            aux = template.getAttribute("tempEmail").getObject();
             boObject cAux = aux.cloneObject();
-            cAux.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-            tempVersion.getAttribute("tempEmail").setObject(cAux); //$NON-NLS-1$
+            cAux.getAttribute("historico").setValueString("1");
+            tempVersion.getAttribute("tempEmail").setObject(cAux);
         }
         //sms
-        if(template.getAttribute("tempSMS").getValueLong() > 0) //$NON-NLS-1$
+        if(template.getAttribute("tempSMS").getValueLong() > 0)
         {
-            aux = template.getAttribute("tempSMS").getObject(); //$NON-NLS-1$
+            aux = template.getAttribute("tempSMS").getObject();
             boObject cAux = aux.cloneObject();
-            cAux.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-            tempVersion.getAttribute("tempSMS").setObject(cAux); //$NON-NLS-1$
+            cAux.getAttribute("historico").setValueString("1");
+            tempVersion.getAttribute("tempSMS").setObject(cAux);
         }
         //filaNormal
 //        if(template.getAttribute("filaNormal").getValueLong() > 0)
@@ -3255,21 +3255,21 @@ public class Helper
    private static boObject cloneQuerie(boObject querie) throws boRuntimeException
    {
         boObject cloneQuerie = querie.cloneObject();
-        cloneQuerie.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-        if(cloneQuerie.getAttribute("parametro").getValueLong() > 0) //$NON-NLS-1$
+        cloneQuerie.getAttribute("historico").setValueString("1");
+        if(cloneQuerie.getAttribute("parametro").getValueLong() > 0)
         {
-           cloneQuerie.getAttribute("parametro").getObject().getAttribute("historico").setValueString("1");          //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+           cloneQuerie.getAttribute("parametro").getObject().getAttribute("historico").setValueString("1");         
         }
         //estes campos têm que ser clonados
-        cloneQuerie.getBridge("campos").truncate(); //$NON-NLS-1$
+        cloneQuerie.getBridge("campos").truncate();
 
-        boBridgeIterator bit = querie.getBridge("campos").iterator(); //$NON-NLS-1$
+        boBridgeIterator bit = querie.getBridge("campos").iterator();
         bit.beforeFirst();
         boObject aux;
         while(bit.next())
         {
             aux = bit.currentRow().getObject();
-            cloneQuerie.getBridge("campos").add(cloneCampo(aux).getBoui()); //$NON-NLS-1$
+            cloneQuerie.getBridge("campos").add(cloneCampo(aux).getBoui());
         }
         return cloneQuerie;
    }
@@ -3277,24 +3277,24 @@ public class Helper
    private static boObject cloneCampo(boObject campo) throws boRuntimeException
    {
         boObject cCampo = campo.cloneObject();
-        cCampo.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-        if(cCampo.getAttribute("parametro") != null && cCampo.getAttribute("parametro").getValueLong() > 0) //$NON-NLS-1$ //$NON-NLS-2$
+        cCampo.getAttribute("historico").setValueString("1");
+        if(cCampo.getAttribute("parametro") != null && cCampo.getAttribute("parametro").getValueLong() > 0)
         {
-           cCampo.getAttribute("parametro").getObject().getAttribute("historico").setValueString("1");          //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+           cCampo.getAttribute("parametro").getObject().getAttribute("historico").setValueString("1");         
         }
         boBridgeIterator bit = null;
         boObject aux;
-        if(campo.getBridge("campos") != null) //$NON-NLS-1$
+        if(campo.getBridge("campos") != null)
         {
             //estes campos têm que ser clonados
-            cCampo.getBridge("campos").truncate(); //$NON-NLS-1$
+            cCampo.getBridge("campos").truncate();
 
-            bit = campo.getBridge("campos").iterator(); //$NON-NLS-1$
+            bit = campo.getBridge("campos").iterator();
             bit.beforeFirst();
             while(bit.next())
             {
                 aux = bit.currentRow().getObject();
-                cCampo.getBridge("campos").add(cloneCampo(aux).getBoui()); //$NON-NLS-1$
+                cCampo.getBridge("campos").add(cloneCampo(aux).getBoui());
             }
         }
 
@@ -3304,8 +3304,8 @@ public class Helper
    private static boObject cloneDoc(boObject doc) throws boRuntimeException
    {
         boObject cDoc = doc.cloneObject();
-        cDoc.getAttribute("historico").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-        iFile ifile = doc.getAttribute("file").getValueiFile(); //$NON-NLS-1$
+        cDoc.getAttribute("historico").setValueString("1");
+        iFile ifile = doc.getAttribute("file").getValueiFile();
 
         if(ifile != null)
         {
@@ -3331,7 +3331,7 @@ public class Helper
                 try{out.close();}catch (Exception e){}
                 try{in.close();}catch (Exception e){}
             }
-            cDoc.getAttribute("file").setValueiFile(new FSiFile(null,tempFile,null)); //$NON-NLS-1$
+            cDoc.getAttribute("file").setValueiFile(new FSiFile(null,tempFile,null));
         }
 
         return cDoc;
@@ -3345,7 +3345,7 @@ public class Helper
         try
         {
             Connection con = boctx.getConnectionData();
-            pst = con.prepareStatement("select count(*) from GESTEMP_Template t, gestemp_template$versoes tv, gestemp_tempversion v where t.boui = ? and v.boui <> ? and tv.parent$ = t.boui and tv.child$ = v.boui and v.activo = '1'"); //$NON-NLS-1$
+            pst = con.prepareStatement("select count(*) from GESTEMP_Template t, gestemp_template$versoes tv, gestemp_tempversion v where t.boui = ? and v.boui <> ? and tv.parent$ = t.boui and tv.child$ = v.boui and v.activo = '1'");
             pst.setLong(1, templateBoui);
             pst.setLong(2, tempVersion);
             rs = pst.executeQuery();
@@ -3356,7 +3356,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.severe("", e); //$NON-NLS-1$
+            logger.severe("", e);
         }
         finally
         {
@@ -3374,7 +3374,7 @@ public class Helper
         try
         {
             Connection con = boctx.getConnectionData();
-            pst = con.prepareStatement("select t.boui from GESTEMP_Template t, gestemp_template$versoes tv, gestemp_tempversion v where v.modelo$ = ? and tv.parent$ = t.boui and tv.child$ = v.boui"); //$NON-NLS-1$
+            pst = con.prepareStatement("select t.boui from GESTEMP_Template t, gestemp_template$versoes tv, gestemp_tempversion v where v.modelo$ = ? and tv.parent$ = t.boui and tv.child$ = v.boui");
             pst.setLong(1, templateVersion);
             rs = pst.executeQuery();
             if(rs.next())
@@ -3384,7 +3384,7 @@ public class Helper
         }
         catch (Exception e)
         {
-            logger.severe("", e); //$NON-NLS-1$
+            logger.severe("", e);
         }
         finally
         {
@@ -3396,32 +3396,32 @@ public class Helper
 
    public static String getRostoDocumentName()
    {
-        return "rosto" + getNumber() + ".doc"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "rosto" + getNumber() + ".doc";
    }
 
    public static String getDocumentName()
    {
-        return "documento" + getNumber() + ".doc"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "documento" + getNumber() + ".doc";
    }
 
    public static String getMailRostoDocumentName(boolean ext)
    {
         return ext ?
-                "rosto" + getNumber() + ".pdf": //$NON-NLS-1$ //$NON-NLS-2$
-                "rosto" + getNumber(); //$NON-NLS-1$
+                "rosto" + getNumber() + ".pdf":
+                "rosto" + getNumber();
 
    }
 
    public static String getMailDocumentName(boolean ext)
    {
         return ext ?
-                "documento" + getNumber() + ".pdf": //$NON-NLS-1$ //$NON-NLS-2$
-                "documento" + getNumber(); //$NON-NLS-1$
+                "documento" + getNumber() + ".pdf":
+                "documento" + getNumber();
    }
 
    public static String getDocumentTextName()
    {
-        return "documento" + getNumber() + ".txt"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "documento" + getNumber() + ".txt";
    }
 
    private synchronized static long getNumber()
@@ -3437,13 +3437,13 @@ public class Helper
 
    public static boolean isLetterGeneratedDoc(String docName)
    {
-        if(docName != null && docName.lastIndexOf(".") > 0) //$NON-NLS-1$
+        if(docName != null && docName.lastIndexOf(".") > 0)
         {
-            if(docName.startsWith("documento") && docName.endsWith("doc"))  //$NON-NLS-1$ //$NON-NLS-2$
+            if(docName.startsWith("documento") && docName.endsWith("doc")) 
             {
                 return true;
             }
-            else if(docName.startsWith("rosto") && docName.endsWith("doc"))  //$NON-NLS-1$ //$NON-NLS-2$
+            else if(docName.startsWith("rosto") && docName.endsWith("doc")) 
             {
                 return true;
             }
@@ -3453,13 +3453,13 @@ public class Helper
 
    public static boolean isMailGeneratedDoc(String docName)
    {
-        if(docName != null && docName.lastIndexOf(".") > 0) //$NON-NLS-1$
+        if(docName != null && docName.lastIndexOf(".") > 0)
         {
-            if(docName.startsWith("documento") && docName.endsWith("pdf"))  //$NON-NLS-1$ //$NON-NLS-2$
+            if(docName.startsWith("documento") && docName.endsWith("pdf")) 
             {
                 return true;
             }
-            else if(docName.startsWith("rosto") && docName.endsWith("pdf"))  //$NON-NLS-1$ //$NON-NLS-2$
+            else if(docName.startsWith("rosto") && docName.endsWith("pdf")) 
             {
                 return true;
             }
@@ -3469,9 +3469,9 @@ public class Helper
 
    public static boolean isTXTGeneratedDoc(String docName)
    {
-        if(docName != null && docName.lastIndexOf(".") > 0) //$NON-NLS-1$
+        if(docName != null && docName.lastIndexOf(".") > 0)
         {
-            if(docName.startsWith("documento") && docName.endsWith("txt"))  //$NON-NLS-1$ //$NON-NLS-2$
+            if(docName.startsWith("documento") && docName.endsWith("txt")) 
             {
                 return true;
             }
@@ -3497,7 +3497,7 @@ public class Helper
                     aux = (String)fields.get(i);
                 else
                     aux = ((Bookmark)fields.get(i)).getBookmarkName();
-                if(nameToSearch.endsWith("__")) //$NON-NLS-1$
+                if(nameToSearch.endsWith("__"))
                 {
                     if(aux.startsWith(nameToSearch)) return true;
                     if(aux.equals(nameToSearch.substring(0, nameToSearch.length() - 2))) return true;
@@ -3518,7 +3518,7 @@ public class Helper
 
    private static void clearDocs(boObject mailobject, ArrayList fwdDocs) throws boRuntimeException
    {
-        bridgeHandler bh = mailobject.getBridge("documents"); //$NON-NLS-1$
+        bridgeHandler bh = mailobject.getBridge("documents");
         boBridgeIterator bit = bh.iterator();
         boObject docObj = null;
         String auxS;

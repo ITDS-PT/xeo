@@ -550,21 +550,6 @@ public final class MergeHelper
         return newDocumentBoui;
     }
 
-    private static void copyFile(File from, iFile to) throws Exception{
-        byte[] b = new byte[1024*10];
-
-        FileInputStream fis = null;
-        try{
-            fis = new FileInputStream(from);
-        	to.setBinaryStream( fis );
-        }
-        finally{
-            if(fis != null){
-                fis.close();
-            }
-        }
-    }
-
     // Passar primeiro pelo PrintHelper e este pode ser ou não static
     //    private final static void setDataSource(WordTemplate template, boObject object) throws boRuntimeException
     //    {

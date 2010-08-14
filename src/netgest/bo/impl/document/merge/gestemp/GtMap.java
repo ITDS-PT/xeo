@@ -71,7 +71,7 @@ public class GtMap
         return helper;
     }
     
-    public void setClassification(boObject document, Object value, String groupSeq)  throws boRuntimeException
+    public void setClassification(boObject document, Object value, String groupSeq, String segmento )  throws boRuntimeException
     {
         if(document != null && value != null)
         {//falta transformar para String qdo não é compatível e o atributo é texto

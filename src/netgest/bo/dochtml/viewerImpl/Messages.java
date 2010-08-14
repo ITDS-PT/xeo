@@ -3,7 +3,7 @@ package netgest.bo.dochtml.viewerImpl;
 import java.util.MissingResourceException;
 
 public class Messages {
-	private static final String BUNDLE_NAME = "netgest.bo.dochtml.viewerImpl.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "netgest.bo.dochtml.viewerImpl.messages";
 
 	public static String getString(String key) {
 		try {

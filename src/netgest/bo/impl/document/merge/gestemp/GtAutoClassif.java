@@ -99,11 +99,25 @@ public class GtAutoClassif
         gtTemp.setAnswer(msg);
         String segmento = modelo.getAttribute("segmento").getValueString();
 
-        ArrayList docs = getDocument(boctx, msg);
-        boObject doc;
-        for (int i = 0; i < docs.size(); i++) 
+        //ArrayList docs = getDocument(boctx, msg);
+        
+        boBridgeIterator bgBinnaryDocument = msg.getBridge("binaryDocuments").iterator();
+
+//        for (int i = 0; i < docs.size(); i++) 
+//        {
+
+        if ( bgBinnaryDocument.first() )
         {
-            doc = (boObject)docs.get(i);
+            
+            boObject doc = bgBinnaryDocument.currentRow().getObject();
+
+            // Nos emails a ultima página fica em primeiro            
+            if( "messageMail".equals( msg.getName() ) && bgBinnaryDocument.last() )
+        {
+                doc = bgBinnaryDocument.currentRow().getObject();    
+            }
+            
+            //doc = (boObject)docs.get(i);
             
             doc.getBridge("classification").truncate();
             
@@ -149,7 +163,7 @@ public class GtAutoClassif
                     bridgeHandler bh = doc.getBridge("classification");
 
                     bh.add( clfPessoaBoui );
-                    bh.getAttribute("segmento").setValueString(Segmento.getSegmento(doc.getEboContext(), clfBoui ));
+                    bh.getAttribute("segmento").setValueString( segmento );
                     bh.getAttribute("groupSeq").setValueString( groupSeq );
                     bh.getAttribute("valueClassification").setValueLong( clfBoui );   
                     bh.getAttribute("valueObject").setValueLong( destinatarioBoui );
@@ -167,6 +181,9 @@ public class GtAutoClassif
     
     private void setMapsClassif(boObject actv, boObject msg, boObject template, boObject doc, GtTemplate gtTemp ) throws boRuntimeException
     {
+
+        String segmento = template.getAttribute("segmento").getValueString();
+
         EboContext boctx = msg.getEboContext();
         GtMap maps[] = new GtMap[(int)template.getBridge("mapeamentos").getRecordCount()];
         
@@ -213,7 +230,7 @@ public class GtAutoClassif
                 Object valor = parametros.getValue(aux);
                 if(valor != null)
                 {
-                    maps[i].setClassification(doc, valor, groupSeq);
+                    maps[i].setClassification(doc, valor, groupSeq, segmento );
                 }
                 else
                 {
@@ -243,7 +260,7 @@ public class GtAutoClassif
                                 valor = tabela.getValue( fieldName );
                                 if(valor != null)
                                 {
-                                    maps[i].setClassification(doc, valor, groupSeq);
+                                    maps[i].setClassification(doc, valor, groupSeq, segmento );
                                 }
                             }
                             key = key;
@@ -282,7 +299,7 @@ public class GtAutoClassif
                             valor = auxTab.getValue(field);
                             if(valor != null)
                             {
-                                maps[i].setClassification(doc, valor, GesDocViewer.newGroupSequence(boctx));
+                                maps[i].setClassification(doc, valor, GesDocViewer.newGroupSequence(boctx),segmento );
                             }
                         }
                         auxTab.beforeFirst();

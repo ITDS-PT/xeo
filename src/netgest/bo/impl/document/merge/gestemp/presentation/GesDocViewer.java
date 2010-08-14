@@ -2,16 +2,12 @@
 package netgest.bo.impl.document.merge.gestemp.presentation;
 
 import java.io.IOException;
-
-import java.lang.StringBuffer;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -37,13 +33,10 @@ import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
-
 import netgest.bo.runtime.bridgeHandler;
 import netgest.utils.DataUtils;
-import netgest.bo.system.Logger;
 
-//TODO:Implement Interface LUSITANIA
-//import pt.lusitania.explorerFilters.documentExplorer.FilterViewer;
+import org.apache.log4j.Logger;
 
 /**
  * <p>Title: GtTemplateViewer </p>
@@ -55,10 +48,10 @@ import netgest.bo.system.Logger;
  */
 public class GesDocViewer
 {
-    private static final String GROUP_SEQ_KEY = "GES_DOC_CLF_GROUPSEQ"; //$NON-NLS-1$
+    private static final String GROUP_SEQ_KEY = "GES_DOC_CLF_GROUPSEQ";
     private static Hashtable gesDoc = null;
     //logger
-    private static Logger logger = Logger.getLogger("netgest.bo.impl.document.merge.gestemp.presentation.GesDocViewer"); //$NON-NLS-1$
+    private static Logger logger = Logger.getLogger("netgest.bo.impl.document.merge.gestemp.presentation.GesDocViewer");
     
     //docType
     private long classBoui = -1;
@@ -78,11 +71,11 @@ public class GesDocViewer
     private String validacao = null;
     
     //classification htmlID
-    private static final String HTMLID = "docType"; //$NON-NLS-1$
+    private static final String HTMLID = "docType";
     
     private boolean editing = false;
     
-    private static final String TEMPL_SQL = "select GESDocClf where activo=1 and tipoClf <> '1' and ( share in ( select iXEOUser.queues where boui=CTX_PERFORMER_BOUI) or  share in ( select iXEOUser.groups where boui=CTX_PERFORMER_BOUI) or share in ( select iXEOUser.roles where boui=CTX_PERFORMER_BOUI) or share =CTX_PERFORMER_BOUI ) order by name"; //$NON-NLS-1$
+    private static final String TEMPL_SQL = "select GESDocClf where activo=1 and tipoClf <> '1' and ( share in ( select iXEOUser.queues where boui=CTX_PERFORMER_BOUI) or  share in ( select iXEOUser.groups where boui=CTX_PERFORMER_BOUI) or share in ( select iXEOUser.roles where boui=CTX_PERFORMER_BOUI) or share =CTX_PERFORMER_BOUI ) order by name";
     
     //classification groupSeq
     private String groupSequence = null;
@@ -129,8 +122,8 @@ public class GesDocViewer
         clear();
         classBoui = docType;
         boObject clf = boObject.getBoManager().loadObject(boctx, docType);
-        nome = clf.getAttribute("internalName").getValueString(); //$NON-NLS-1$
-        validacao = clf.getAttribute("validacao").getValueString(); //$NON-NLS-1$
+        nome = clf.getAttribute("internalName").getValueString();
+        validacao = clf.getAttribute("validacao").getValueString();
         setGroup(boctx);
     }
     
@@ -141,19 +134,19 @@ public class GesDocViewer
     
     public void setClassBoui(EboContext boctx, String docType) throws boRuntimeException
     {
-        if(docType != null && !"".equals(docType.trim())) //$NON-NLS-1$
+        if(docType != null && !"".equals(docType.trim()))
         {
             try
             {
                 clear();
                 classBoui = Long.parseLong(docType);
                 boObject clf = boObject.getBoManager().loadObject(boctx, classBoui);
-                nome = clf.getAttribute("internalName").getValueString(); //$NON-NLS-1$
-                validacao = clf.getAttribute("validacao").getValueString(); //$NON-NLS-1$
+                nome = clf.getAttribute("internalName").getValueString();
+                validacao = clf.getAttribute("validacao").getValueString();
             }
             catch (Exception e)
             {
-                logger.severe(e);
+                logger.fatal(e);
             }
         }
         else
@@ -197,7 +190,7 @@ public class GesDocViewer
 
     public void setDocument(String docStrBoui)
     {
-        if(docStrBoui != null && !"".equals(docStrBoui.trim())) //$NON-NLS-1$
+        if(docStrBoui != null && !"".equals(docStrBoui.trim()))
         {
             try
             {
@@ -205,7 +198,7 @@ public class GesDocViewer
             }
             catch (Exception e)
             {
-                logger.severe(e);
+                logger.fatal(e);
             }
         }
         else
@@ -216,8 +209,8 @@ public class GesDocViewer
     public static String writeJS() throws boRuntimeException
     {
         StringBuffer result = new StringBuffer();
-        result.append("<script LANGUAGE=\"javascript\" SRC=\"xeo.js\"></script>") //$NON-NLS-1$
-        .append("<script LANGUAGE=\"javascript\" SRC=\"xeo.js\"></script>"); //$NON-NLS-1$
+        result.append("<script LANGUAGE=\"javascript\" SRC=\"xeo.js\"></script>")
+        .append("<script LANGUAGE=\"javascript\" SRC=\"xeo.js\"></script>");
         
         return result.toString();
     }
@@ -271,10 +264,10 @@ public class GesDocViewer
     
     public void setRuntimeRemove(EboContext boctx, long classif)  throws boRuntimeException
     {
-        boObject runClass = boObject.getBoManager().createObject(boctx, "GESDocRunClf"); //$NON-NLS-1$
-        runClass.getAttribute("tipo").setValueString("1"); //$NON-NLS-1$ //$NON-NLS-2$
-        runClass.getAttribute("docType").setValueLong(classif); //$NON-NLS-1$
-        runClass.getAttribute("doc").setValueLong(docBoui); //$NON-NLS-1$
+        boObject runClass = boObject.getBoManager().createObject(boctx, "GESDocRunClf");
+        runClass.getAttribute("tipo").setValueString("1");
+        runClass.getAttribute("docType").setValueLong(classif);
+        runClass.getAttribute("doc").setValueLong(docBoui);
         runClass.update();
     }
     
@@ -283,16 +276,16 @@ public class GesDocViewer
         if(runClass != null && classBoui > 0)
         {
             if(isEditing())
-                runClass.getAttribute("tipo").setValueString("3"); //$NON-NLS-1$ //$NON-NLS-2$
+                runClass.getAttribute("tipo").setValueString("3");
             else
-                runClass.getAttribute("tipo").setValueString("2"); //$NON-NLS-1$ //$NON-NLS-2$
+                runClass.getAttribute("tipo").setValueString("2");
             
 
             if(classBoui > 0)
             {
-                runClass.getAttribute("docType").setValueLong(classBoui); //$NON-NLS-1$
+                runClass.getAttribute("docType").setValueLong(classBoui);
             }
-            runClass.getAttribute("doc").setValueLong(docBoui); //$NON-NLS-1$
+            runClass.getAttribute("doc").setValueLong(docBoui);
             //respostas
             Object aux = null;
             for (int i = 0; i < groupClassifications.size(); i++) 
@@ -332,11 +325,11 @@ public class GesDocViewer
         else
         {
             boObject classObj = boObject.getBoManager().loadObject(boctx, classBoui);
-            boObject groupObj = classObj.getAttribute("grupo").getObject(); //$NON-NLS-1$
+            boObject groupObj = classObj.getAttribute("grupo").getObject();
             if(groupObj != null)
             {
                 group = groupObj.getBoui();
-                boBridgeIterator bit = groupObj.getBridge("classificacao").iterator(); //$NON-NLS-1$
+                boBridgeIterator bit = groupObj.getBridge("classificacao").iterator();
                 bit.beforeFirst();
                 GesDocObj o;
                 while(bit.next())
@@ -358,60 +351,60 @@ public class GesDocViewer
     {
         if(gesdocObj != null)
         {
-            if("GESDocClfObject".equals(gesdocObj.getName())) //$NON-NLS-1$
+            if("GESDocClfObject".equals(gesdocObj.getName()))
             {
                 return new GesDocObject(viewer,
                     gesdocObj.getBoui(),
-                    gesdocObj.getAttribute("internalName").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("name").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("objecto").getValueLong(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("validacao").getValueString() //$NON-NLS-1$
+                    gesdocObj.getAttribute("internalName").getValueString(),
+                    gesdocObj.getAttribute("name").getValueString(),
+                    gesdocObj.getAttribute("objecto").getValueLong(),
+                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()),
+                    gesdocObj.getAttribute("validacao").getValueString()
                 );
             }
-            else if("GESDocClfText".equals(gesdocObj.getName())) //$NON-NLS-1$
+            else if("GESDocClfText".equals(gesdocObj.getName()))
             {
                 return new GesDocText(viewer,
                     gesdocObj.getBoui(),
-                    gesdocObj.getAttribute("internalName").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("name").getValueString(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("longText").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("validacao").getValueString() //$NON-NLS-1$
+                    gesdocObj.getAttribute("internalName").getValueString(),
+                    gesdocObj.getAttribute("name").getValueString(),
+                    "1".equals(gesdocObj.getAttribute("longText").getValueString()),
+                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()),
+                    gesdocObj.getAttribute("validacao").getValueString()
                 );
             }
-            else if("GESDocClfDate".equals(gesdocObj.getName())) //$NON-NLS-1$
+            else if("GESDocClfDate".equals(gesdocObj.getName()))
             {
                 return new GesDocDate(viewer,
                     gesdocObj.getBoui(),
-                    gesdocObj.getAttribute("internalName").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("name").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("dtFormat").getValueString(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("validacao").getValueString() //$NON-NLS-1$
+                    gesdocObj.getAttribute("internalName").getValueString(),
+                    gesdocObj.getAttribute("name").getValueString(),
+                    gesdocObj.getAttribute("dtFormat").getValueString(),
+                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()),
+                    gesdocObj.getAttribute("validacao").getValueString()
                 );
             }
-            else if("GESDocClfLov".equals(gesdocObj.getName())) //$NON-NLS-1$
+            else if("GESDocClfLov".equals(gesdocObj.getName()))
             {
                 return new GesDocLov(viewer,
                     gesdocObj.getBoui(),
-                    gesdocObj.getAttribute("internalName").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("name").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("lov").getValueLong(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("validacao").getValueString() //$NON-NLS-1$
+                    gesdocObj.getAttribute("internalName").getValueString(),
+                    gesdocObj.getAttribute("name").getValueString(),
+                    gesdocObj.getAttribute("lov").getValueLong(),
+                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()),
+                    gesdocObj.getAttribute("validacao").getValueString()
                 );
             }
-            else if("GESDocClfNumber".equals(gesdocObj.getName())) //$NON-NLS-1$
+            else if("GESDocClfNumber".equals(gesdocObj.getName()))
             {
                 return new GesDocNumber(viewer,
                     gesdocObj.getBoui(),
-                    gesdocObj.getAttribute("internalName").getValueString(), //$NON-NLS-1$
-                    gesdocObj.getAttribute("name").getValueString(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("currency").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("decimals").getValueLong(), //$NON-NLS-1$
-                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()), //$NON-NLS-1$ //$NON-NLS-2$
-                    gesdocObj.getAttribute("validacao").getValueString() //$NON-NLS-1$
+                    gesdocObj.getAttribute("internalName").getValueString(),
+                    gesdocObj.getAttribute("name").getValueString(),
+                    "1".equals(gesdocObj.getAttribute("currency").getValueString()),
+                    gesdocObj.getAttribute("decimals").getValueLong(),
+                    "1".equals(gesdocObj.getAttribute("obrigatorio").getValueString()),
+                    gesdocObj.getAttribute("validacao").getValueString()
                 );
             }
         }
@@ -429,7 +422,7 @@ public class GesDocViewer
     
     public String bind(EboContext boctx, String operation)  throws boRuntimeException
     {
-        StringBuffer sb = new StringBuffer(""); //$NON-NLS-1$
+        StringBuffer sb = new StringBuffer("");
         for (int i = 0; i < groupClassifications.size(); i++) 
         {
             sb.append(
@@ -457,25 +450,25 @@ public class GesDocViewer
     
     private static void renderTableStart(StringBuffer toPrint)
     {
-        toPrint.append("<br>"); //$NON-NLS-1$
-        toPrint.append("<table valign=top "); //$NON-NLS-1$
-        toPrint.append(" cellSpacing='0' cellPadding='3' width='100%' "); //$NON-NLS-1$
+        toPrint.append("<br>");
+        toPrint.append("<table valign=top ");
+        toPrint.append(" cellSpacing='0' cellPadding='3' width='100%' ");
 //        if(renderMode == 1)
 //        {
 //            toPrint.append("height='100%'");
 //        }
-        toPrint.append("><COLGROUP/><COL width='10px' /> <COL width='120' /><COL /><COL style=\"PADDING-LEFT: 5px\" width='70' /><COL /><tbody>"); //$NON-NLS-1$
+        toPrint.append("><COLGROUP/><COL width='10px' /> <COL width='120' /><COL /><COL style=\"PADDING-LEFT: 5px\" width='70' /><COL /><tbody>");
         
     }
     
     private static void renderTableEnd(StringBuffer toPrint)
     {
-        toPrint.append("</tbdoy></table>"); //$NON-NLS-1$
+        toPrint.append("</tbdoy></table>");
     }
 
     private static String getonfocus(String fieldName)
     {
-        return " onfocus='setFieldWFocus(\"" + fieldName + "\")' "; //$NON-NLS-1$ //$NON-NLS-2$
+        return " onfocus='setFieldWFocus(\"" + fieldName + "\")' ";
     }
     
     public static void renderAdicionarButton(StringBuffer toPrint, String label)
@@ -486,23 +479,23 @@ public class GesDocViewer
         .append("<td>&nbsp;</td>") 
         .append("<td>&nbsp;</td>")
         .append("<td align=\"right\">")*/
-        toPrint.append("<button tabIndex='2' style='height:18px;width:150px;' value = \"Adicionar\" onMouseDown=\"mouseDown(event, 'adicionar');\" onkeypress=\"keyPressed(event, 'adicionar');\">") //$NON-NLS-1$
+        toPrint.append("<button tabIndex='2' style='height:18px;width:150px;' value = \"Adicionar\" onMouseDown=\"mouseDown(event, 'adicionar');\" onkeypress=\"keyPressed(event, 'adicionar');\">")
         .append(label)
-        .append("</button>"); //$NON-NLS-1$
+        .append("</button>");
         //.append("</p></td><td></td><td></td></tr>");
         
     }
     
     private static void renderQuestion(StringBuffer toPrint, String label, boolean isRequired)  throws boRuntimeException
     {
-        toPrint.append("<TD>&nbsp;</td><TD colspan=4 nowrap "); //$NON-NLS-1$
+        toPrint.append("<TD>&nbsp;</td><TD colspan=4 nowrap ");
         if(isRequired)
         {
-            toPrint.append("style='FONT-WEIGHT: bold; color:#990000'"); //$NON-NLS-1$
+            toPrint.append("style='FONT-WEIGHT: bold; color:#990000'");
         }
-        toPrint.append(">"); //$NON-NLS-1$
+        toPrint.append(">");
         toPrint.append(label);        
-        toPrint.append("</TD>");         //$NON-NLS-1$
+        toPrint.append("</TD>");        
     }
     
     private static void renderGroupParameters(Controller controller,PageContext pageContext,int idx, GesDocViewer viewer) throws IOException, boRuntimeException
@@ -540,14 +533,14 @@ public class GesDocViewer
         if(hasClass)
         {
             //primeiro a classificação
-            toPrint.append("<tr>"); //$NON-NLS-1$
-            renderQuestion(toPrint, Messages.getString("GesDocViewer.78"), true); //$NON-NLS-1$
-            toPrint.append("<td>");  //$NON-NLS-1$
-            toPrint.append("<table>"); //$NON-NLS-1$
+            toPrint.append("<tr>");
+            renderQuestion(toPrint, Messages.getString("GesDocViewer.78"), true);
+            toPrint.append("<td>"); 
+            toPrint.append("<table>");
             renderClassificationsAsCombo(doc, toPrint, classificacao, viewer, apresentationStr, valuesStr);
-            toPrint.append("</table>"); //$NON-NLS-1$
-            toPrint.append("</td>");  //$NON-NLS-1$
-            toPrint.append("</tr>"); //$NON-NLS-1$
+            toPrint.append("</table>");
+            toPrint.append("</td>"); 
+            toPrint.append("</tr>");
              
             ArrayList toRender = viewer.getGroupClassification();
             for (int i = 0; i < toRender.size(); i++) 
@@ -562,9 +555,9 @@ public class GesDocViewer
         else
         {
             //Não existem classificações
-            toPrint.append("<tr>"); //$NON-NLS-1$
-            renderQuestion(toPrint, Messages.getString("GesDocViewer.85"), true); //$NON-NLS-1$
-            toPrint.append("</tr>"); //$NON-NLS-1$
+            toPrint.append("<tr>");
+            renderQuestion(toPrint, Messages.getString("GesDocViewer.85"), true);
+            toPrint.append("</tr>");
         }
         
         
@@ -603,7 +596,7 @@ public class GesDocViewer
             }
             else if(gesdoc instanceof GesDocLov)
             {
-                if( "tipo_documento".equals( gesdoc.internalName ) ) //$NON-NLS-1$
+                if( "tipo_documento".equals( gesdoc.internalName ) )
                 {
                     renderGroupTipoDocumento( doc, toPrint, (GesDocLov)gesdoc, viewer );
                 }
@@ -624,17 +617,17 @@ public class GesDocViewer
         String name = gesdocObj.getName();
         String fieldName = gesdocObj.getHTMLFieldName();
         boObject eboCls = boObject.getBoManager().loadObject(doc.getEboContext(), gesdocObj.getObjBoui());
-        String objName = eboCls.getAttribute("name").getValueString(); //$NON-NLS-1$
+        String objName = eboCls.getAttribute("name").getValueString();
 
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,name, gesdocObj.getObrigatorio( doc.getEboContext() ));
-        toPrint.append("<td>");  //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        String valor = gesdocObj.getValue() == null ? "":gesdocObj.getValue(); //$NON-NLS-1$
+        toPrint.append("<td>"); 
+        toPrint.append("<table>");
+        String valor = gesdocObj.getValue() == null ? "":gesdocObj.getValue();
         GtTemplateViewer.renderCommon(toPrint,fieldName,0,objName,doc,valor,false, gesdocObj.getObrigatorio(doc.getEboContext()), -1, Long.MIN_VALUE, Long.MAX_VALUE);
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("</table>");
+        toPrint.append("</td>");
+        toPrint.append("</tr>");
     }
     
     private static void renderGroupText(docHTML doc, StringBuffer toPrint,GesDocText gesdocText) throws boRuntimeException
@@ -642,25 +635,33 @@ public class GesDocViewer
         boolean longText = gesdocText.isLong();
         String fieldName = gesdocText.getHTMLFieldName();
         boolean b = gesdocText.getObrigatorio(doc.getEboContext());
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,gesdocText.getName(),b );
-        toPrint.append("<td>"); //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        String valor = gesdocText.getValue() == null ? "":gesdocText.getValue(); //$NON-NLS-1$
-        GtTemplateViewer.renderCommon(toPrint,fieldName,longText ? 7:1,null,doc,valor,false, gesdocText.getObrigatorio(doc.getEboContext()), -1, Long.MIN_VALUE, Long.MAX_VALUE);
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("<td>");
+        toPrint.append("<table>");
+        String valor = gesdocText.getValue() == null ? "":gesdocText.getValue();
+        GtTemplateViewer.renderCommon(
+        		toPrint,
+        		fieldName,
+        		longText ? 7:1,
+        		null,
+        		doc,
+        		valor,
+        		false, 
+        		gesdocText.getObrigatorio(doc.getEboContext()), -1, Long.MIN_VALUE, Long.MAX_VALUE);
+        toPrint.append("</table>");
+        toPrint.append("</td>");
+        toPrint.append("</tr>");
     }
     
 
     private static void renderGroupTipoDocumento(docHTML doc, StringBuffer toPrint,GesDocLov gesdocText, GesDocViewer viewer ) throws boRuntimeException
     {
-        String fieldName = gesdocText.getHTMLFieldName()+"_lovValue"; //$NON-NLS-1$
+        String fieldName = gesdocText.getHTMLFieldName()+"_lovValue";
         boolean b = gesdocText.getObrigatorio(doc.getEboContext() );
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,gesdocText.getName(),b );
-        toPrint.append("<td>&nbsp;&nbsp;&nbsp;"); //$NON-NLS-1$
+        toPrint.append("<td>&nbsp;&nbsp;&nbsp;");
         
         String segmento = Segmento.getSegmento(doc.getEboContext(), viewer.getClassBoui());
         
@@ -670,42 +671,42 @@ public class GesDocViewer
             segmento,
             null,
             gesdocText.getValue(),
-            "width:267px;" //$NON-NLS-1$
+            "width:267px;"
             ) 
         );
         
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("</td>");
+        toPrint.append("</tr>");
     }
     
     private static void renderGroupDate(docHTML doc, StringBuffer toPrint, GesDocDate gesdocDate) throws boRuntimeException
     {
         String dtFormat = gesdocDate.getDateFormate();
         String fieldName = gesdocDate.getHTMLFieldName();
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,gesdocDate.getName(), gesdocDate.getObrigatorio(doc.getEboContext()));
-        toPrint.append("<td>"); //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        String valor = gesdocDate.getValue() == null ? "":gesdocDate.getValue(); //$NON-NLS-1$
-        GtTemplateViewer.renderCommon(toPrint,fieldName, "1".equals(dtFormat) ? 6:4,null,doc,valor,false, gesdocDate.getObrigatorio(doc.getEboContext()), -1, Long.MIN_VALUE, Long.MAX_VALUE); //$NON-NLS-1$
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("<td>");
+        toPrint.append("<table>");
+        String valor = gesdocDate.getValue() == null ? "":gesdocDate.getValue();
+        GtTemplateViewer.renderCommon(toPrint,fieldName, "1".equals(dtFormat) ? 6:4,null,doc,valor,false, gesdocDate.getObrigatorio(doc.getEboContext()), -1, Long.MIN_VALUE, Long.MAX_VALUE);
+        toPrint.append("</table>");
+        toPrint.append("</td>");
+        toPrint.append("</tr>");
     }
 
     private static void renderGroupLov(docHTML doc, StringBuffer toPrint,GesDocLov gesdocLov) throws boRuntimeException
     {
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,gesdocLov.getName(), gesdocLov.getObrigatorio(doc.getEboContext()));
-        toPrint.append("<td>"); //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>"); //$NON-NLS-1$
+        toPrint.append("<td>");
+        toPrint.append("<table>");
+        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>");
         long lovBoui = gesdocLov.getLovBoui();
         boObject lovBoobj = doc.getObject(lovBoui);
-        String lovName = lovBoobj.getAttribute("name").getValueString(); //$NON-NLS-1$
+        String lovName = lovBoobj.getAttribute("name").getValueString();
         lovObject lov_object = LovManager.getLovObject( doc.getEboContext() , lovName);
         String fieldName = gesdocLov.getHTMLFieldName();
-        String valor = gesdocLov.getValue() == null ? "":gesdocLov.getValue(); //$NON-NLS-1$
+        String valor = gesdocLov.getValue() == null ? "":gesdocLov.getValue();
         writeHTML_forCombo(
                         toPrint,
                         new StringBuffer(valor) ,
@@ -717,34 +718,34 @@ public class GesDocViewer
                         false,
                         true,
                         false,
-                        new StringBuffer("document.getElementById('"+fieldName+"_lovValue').value = document.getElementById('"+fieldName+"').returnValue;"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        new StringBuffer("document.getElementById('"+fieldName+"_lovValue').value = document.getElementById('"+fieldName+"').returnValue;"),
                         gesdocLov.getObrigatorio(doc.getEboContext()),
                         true,
                         new Hashtable()
                         );
-        toPrint.append("</TD>"); //$NON-NLS-1$
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("</TD>");
+        toPrint.append("</table>");
+        toPrint.append("</td>");
+        toPrint.append("<tr>");
     }
     
     public void renderTipoDocLov(docHTML doc, StringBuffer toPrint) throws boRuntimeException
     {
         boObject eboDoc = boObject.getBoManager().loadObject(doc.getEboContext(), getDocument());
-        AttributeHandler attr = eboDoc.getAttribute("tipoDoc"); //$NON-NLS-1$
+        AttributeHandler attr = eboDoc.getAttribute("tipoDoc");
         
         
-        toPrint.append("<tr>"); //$NON-NLS-1$
-        renderQuestion(toPrint, Messages.getString("GesDocViewer.132"), false); //$NON-NLS-1$
-        toPrint.append("<td>");  //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
+        renderQuestion(toPrint, Messages.getString("GesDocViewer.132"), false);
+        toPrint.append("<td>"); 
+        toPrint.append("<table>");
+        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>");
         
         boDefAttribute attrDef   =   attr.getDefAttribute();
         String xlov=attrDef.getLOVName();
         lovObject lov_object = LovManager.getLovObject( doc.getEboContext() , xlov , attr.condition() );
-        StringBuffer v = new StringBuffer( attr.getValueString() == null ? "":attr.getValueString() ); //$NON-NLS-1$
-        String fieldName = "ebodocTipoDocumento"; //$NON-NLS-1$
+        StringBuffer v = new StringBuffer( attr.getValueString() == null ? "":attr.getValueString() );
+        String fieldName = "ebodocTipoDocumento";
         StringBuffer nameH       =   new StringBuffer(fieldName);
         
         writeHTML_forCombo(
@@ -758,15 +759,15 @@ public class GesDocViewer
                         false,
                         true,
                         false,
-                        new StringBuffer("document.getElementById('"+fieldName+"_lovValue').value = document.getElementById('"+fieldName+"').returnValue;"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        new StringBuffer("document.getElementById('"+fieldName+"_lovValue').value = document.getElementById('"+fieldName+"').returnValue;"),
                         false,
                         false,
                         new Hashtable()
                         );
-        toPrint.append("</TD>"); //$NON-NLS-1$
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>");  //$NON-NLS-1$
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("</TD>");
+        toPrint.append("</table>");
+        toPrint.append("</td>"); 
+        toPrint.append("</tr>");
     }
     
     
@@ -774,6 +775,9 @@ public class GesDocViewer
     {
         boObjectList list = boObjectList.list(doc.getEboContext(), TEMPL_SQL, 1, 999999999);
         ArrayList toRet = new ArrayList(2);
+        
+        ArrayList temp  = new ArrayList();
+        
         StringBuffer[] apresentationStr = new StringBuffer[(int)list.getRecordCount()];
         StringBuffer[] valuesStr = new StringBuffer[(int)list.getRecordCount()];
         ArrayList docClassifications = getDocumentClassif(doc.getEboContext(), viewer.getDocument());
@@ -783,14 +787,18 @@ public class GesDocViewer
         while(list.next())
         {
             auxObj = list.getObject();
-            if(editing || "1".equals(auxObj.getAttribute("vclass").getValueString()) || //$NON-NLS-1$ //$NON-NLS-2$
+            if(editing || "1".equals(auxObj.getAttribute("vclass").getValueString()) ||
                 (docClassifications == null) || docClassifications.indexOf(String.valueOf(auxObj.getBoui())) < 0)
 //                !document.getBridge("classification").haveBoui(auxObj.getBoui()))
             {
+                if( temp.indexOf( String.valueOf(auxObj.getBoui()) ) == -1 )
+                {   
+                    temp.add( String.valueOf(auxObj.getBoui()) );
                 apresentationStr[i] = auxObj.getCARDIDwNoIMG();
                 valuesStr[i] = new StringBuffer(String.valueOf(auxObj.getBoui()));
                 i++;
             }
+        }
         }
         if(i == 0)
         {
@@ -816,11 +824,11 @@ public class GesDocViewer
     private static void renderClassificationsAsCombo(docHTML doc, StringBuffer toPrint, long value, GesDocViewer viewer, StringBuffer[] apresentationStr, StringBuffer[] valuesStr) throws boRuntimeException
     {
         StringBuffer id = new StringBuffer(viewer.HTMLID);
-        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>"); //$NON-NLS-1$
+        toPrint.append("<TD>&nbsp;</TD><TD colspan=2>");
         boolean disabled =  viewer.isEditing();
         docHTML_renderFields.writeHTML_forCombo(
             toPrint,
-            new StringBuffer(value <=0 ? "":String.valueOf(value)), //$NON-NLS-1$
+            new StringBuffer(value <=0 ? "":String.valueOf(value)),
             id ,
             id,
             1,
@@ -830,62 +838,62 @@ public class GesDocViewer
             disabled,
             true,
             false,
-            new StringBuffer("escolhaDocumento();"), //$NON-NLS-1$
+            new StringBuffer("escolhaDocumento();"),
             false,
             true,
             new Hashtable()
         );
-        toPrint.append("</TD>"); //$NON-NLS-1$
+        toPrint.append("</TD>");
     }
     
     private static void renderGroupNumber(docHTML doc, StringBuffer toPrint,GesDocNumber gesdocNumber) throws boRuntimeException
     {
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         renderQuestion(toPrint,gesdocNumber.getName(), gesdocNumber.getObrigatorio(doc.getEboContext()));
-        toPrint.append("<td>"); //$NON-NLS-1$
-        toPrint.append("<table>"); //$NON-NLS-1$
-        toPrint.append("<TD>&nbsp;</td><TD colspan=2>"); //$NON-NLS-1$
-        String decimals = "0"; //$NON-NLS-1$
-        String grouping = "0"; //$NON-NLS-1$
-        String minDecimals = "-99999999"; //$NON-NLS-1$
+        toPrint.append("<td>");
+        toPrint.append("<table>");
+        toPrint.append("<TD>&nbsp;</td><TD colspan=2>");
+        String decimals = "0";
+        String grouping = "0";
+        String minDecimals = "-99999999";
         
         if(gesdocNumber.isCurrency())
         {
-            decimals = "2"; //$NON-NLS-1$
-            minDecimals = "2"; //$NON-NLS-1$
-            grouping = "1"; //$NON-NLS-1$
+            decimals = "2";
+            minDecimals = "2";
+            grouping = "1";
         }
         else if(gesdocNumber.getDecimals() > 0)
         {
             decimals = String.valueOf(gesdocNumber.getDecimals());
             minDecimals = String.valueOf(gesdocNumber.getDecimals());
         }
-        String maxNumber = "99999999"; //$NON-NLS-1$
-        String minNumber = "-99999999"; //$NON-NLS-1$
-        String valor = gesdocNumber.getValue() == null ? "":gesdocNumber.getValue(); //$NON-NLS-1$
+        String maxNumber = "99999999";
+        String minNumber = "-99999999";
+        String valor = gesdocNumber.getValue() == null ? "":gesdocNumber.getValue();
         docHTML_renderFields.writeHTML_forNumber(toPrint,
                                     new StringBuffer(valor),
                                     new StringBuffer(gesdocNumber.getHTMLFieldName()),
                                     new StringBuffer(gesdocNumber.getHTMLFieldName()),
                                     1,
-                                    new StringBuffer(""), //$NON-NLS-1$
+                                    new StringBuffer(""),
                                     new StringBuffer(decimals),
                                     new StringBuffer(minDecimals),
-                                    ("0".equals(grouping)) ?  false :  true,     //$NON-NLS-1$
+                                    ("0".equals(grouping)) ?  false :  true,    
                                     new StringBuffer(maxNumber),
                                     new StringBuffer(minNumber),
                                     false,
                                     true,
                                     false,
-                                    new StringBuffer(""), //$NON-NLS-1$
+                                    new StringBuffer(""),
                                     gesdocNumber.getObrigatorio(doc.getEboContext()),
                                     true,
                                     null
                                     );
-        toPrint.append("</TD>"); //$NON-NLS-1$
-        toPrint.append("</table>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("</TR>"); //$NON-NLS-1$
+        toPrint.append("</TD>");
+        toPrint.append("</table>");
+        toPrint.append("</td>");
+        toPrint.append("</TR>");
         
     }
     
@@ -927,14 +935,14 @@ public class GesDocViewer
         StringBuffer sb = new StringBuffer();
         while(bit.next())
         {
-            if(groupSeq.equals(bit.currentRow().getAttribute("groupSeq").getValueString())) //$NON-NLS-1$
+            if(groupSeq.equals(bit.currentRow().getAttribute("groupSeq").getValueString()))
             {
                 auxDef = bit.currentRow().getObject();
                 sb.delete(0, sb.length());
-                sb.append("<b>").append(auxDef.getAttribute("name").getValueString()).append(": ").append("</b>");                 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                if("GESDocClfObject".equals(auxDef.getName())) //$NON-NLS-1$
+                sb.append("<b>").append(auxDef.getAttribute("name").getValueString()).append(": ").append("</b>");                
+                if("GESDocClfObject".equals(auxDef.getName()))
                 {
-                    aux = bit.currentRow().getAttribute("valueObject").getObject(); //$NON-NLS-1$
+                    aux = bit.currentRow().getAttribute("valueObject").getObject();
                     if(aux != null)
                     {
                         labels.add(sb.toString());
@@ -944,31 +952,31 @@ public class GesDocViewer
                         sb.delete(0, sb.length());
                     }
                 }
-                else if("GESDocClfText".equals(auxDef.getName())) //$NON-NLS-1$
+                else if("GESDocClfText".equals(auxDef.getName()))
                 {
-                    String value = bit.currentRow().getAttribute("valueText").getValueString(); //$NON-NLS-1$
+                    String value = bit.currentRow().getAttribute("valueText").getValueString();
                     if(value != null && value.length() > 0)
                     {
                         labels.add(sb.toString());
                         sb.delete(0, sb.length());
-                        sb.append(bit.currentRow().getAttribute("valueText").getValueString()); //$NON-NLS-1$
+                        sb.append(bit.currentRow().getAttribute("valueText").getValueString());
                         values.add(sb.toString());
                         sb.delete(0, sb.length());
                     }
                 }
-                else  if("GESDocClfDate".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfDate".equals(auxDef.getName()))
                 {
-                    Date d = bit.currentRow().getAttribute("valueDate").getValueDate(); //$NON-NLS-1$
+                    Date d = bit.currentRow().getAttribute("valueDate").getValueDate();
                     if(d != null)
                     {
                         SimpleDateFormat sdf = null;
-                        if("1".equals(auxDef.getAttribute("dtFormat").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                        if("1".equals(auxDef.getAttribute("dtFormat").getValueString()))
                         {
-                            sdf = new SimpleDateFormat("dd-MM-yyyy"); //$NON-NLS-1$
+                            sdf = new SimpleDateFormat("dd-MM-yyyy");
                         }
                         else
                         {
-                            sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm"); //$NON-NLS-1$
+                            sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                         }
                         labels.add(sb.toString());
                         sb.delete(0, sb.length());
@@ -977,16 +985,16 @@ public class GesDocViewer
                         sb.delete(0, sb.length());
                     }
                 }
-                else  if("GESDocClfNumber".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfNumber".equals(auxDef.getName()))
                 {
-                    String s = bit.currentRow().getAttribute("valueNumber").getValueString(); //$NON-NLS-1$
+                    String s = bit.currentRow().getAttribute("valueNumber").getValueString();
                     if(s != null && s.length() > 0)
                     {
                         labels.add(sb.toString());
                         sb.delete(0, sb.length());
                         NumberFormat nf = NumberFormat.getInstance();
-                        double d = bit.currentRow().getAttribute("valueNumber").getValueDouble(); //$NON-NLS-1$
-                        boolean currency = "1".equals(auxDef.getAttribute("currency").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+                        double d = bit.currentRow().getAttribute("valueNumber").getValueDouble();
+                        boolean currency = "1".equals(auxDef.getAttribute("currency").getValueString());
                         if(currency)
                         {
                             //currency
@@ -995,11 +1003,11 @@ public class GesDocViewer
                             nf.setMaximumFractionDigits(2);
                             nf.setMinimumFractionDigits(2);
                             nf.setMinimumIntegerDigits(1);
-                            sb.append(nf.format(d) + " €"); //$NON-NLS-1$
+                            sb.append(nf.format(d) + " €");
                         }
                         else
                         {
-                            int decimals = (int)auxDef.getAttribute("decimals").getValueLong(); //$NON-NLS-1$
+                            int decimals = (int)auxDef.getAttribute("decimals").getValueLong();
                             decimals = decimals < 0 ? 0:decimals;
                             nf.setParseIntegerOnly(false);
                             nf.setGroupingUsed(false);
@@ -1013,19 +1021,43 @@ public class GesDocViewer
                         sb.delete(0, sb.length());
                     }
                 }
-                else  if("GESDocClfLov".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfLov".equals(auxDef.getName()))
                 {
-                    String value = bit.currentRow().getAttribute("valueText").getValueString(); //$NON-NLS-1$
-                    if(value != null && !"".equals(value)) //$NON-NLS-1$
+                    String value = bit.currentRow().getAttribute("valueText").getValueString();
+                    String name  = auxDef.getAttribute("internalName").getValueString();
+                    
+                    if(value != null && !"".equals(value))
                     {
+                        if( "tipo_documento".equals( name ) )
+                        {
+                            boObjectList tdoc = boObjectList.list(
+                                classification.getEboContext(),
+                                "select GesDocClf_TDoc where value=?",
+                                new Object[] { value }
                         
-                        boObject lov = auxDef.getAttribute("lov").getObject(); //$NON-NLS-1$
+                            );
+                            if( tdoc.next() )
+                            {
+                                labels.add(sb.toString());
+                                sb.delete(0, sb.length());
+                                sb.append( tdoc.getObject().getAttribute("description").getValueString() );
+                                values.add(sb.toString());
+                                sb.delete(0, sb.length());
+                            }
+                            else
+                            {
+                                values.add(value);
+                            }
+                        }
+                        else
+                        {
+                        boObject lov = auxDef.getAttribute("lov").getObject();
                         if(lov.exists())
                         {
                             labels.add(sb.toString());
                             sb.delete(0, sb.length());
                             
-                            lovObject lovit= LovManager.getLovObject( auxDef.getEboContext(), lov.getAttribute("name").getValueString() ); //$NON-NLS-1$
+                            lovObject lovit= LovManager.getLovObject( auxDef.getEboContext(), lov.getAttribute("name").getValueString() );
                             
                             lovit.beforeFirst();
                             boObject det;
@@ -1050,6 +1082,7 @@ public class GesDocViewer
             }
         }
     }
+    }
     
     public static void getGroupClassificationObj(boBridgeIterator bit, boObject classification, String groupSeq, ArrayList classBouis, ArrayList values) throws boRuntimeException
     {
@@ -1058,67 +1091,73 @@ public class GesDocViewer
         StringBuffer sb = new StringBuffer();
         while(bit.next())
         {
-            if(groupSeq.equals(bit.currentRow().getAttribute("groupSeq").getValueString())) //$NON-NLS-1$
+            if(groupSeq.equals(bit.currentRow().getAttribute("groupSeq").getValueString()))
             {
                 auxDef = bit.currentRow().getObject();
-                classBouis.add(new Long(auxDef.getBoui()));
-                if("GESDocClfObject".equals(auxDef.getName())) //$NON-NLS-1$
+                if("GESDocClfObject".equals(auxDef.getName()))
                 {
-                    if(bit.currentRow().getAttribute("valueObject").getValueLong() > 0) //$NON-NLS-1$
+                    if(bit.currentRow().getAttribute("valueObject").getValueLong() > 0)
                     {
-                        values.add(bit.currentRow().getAttribute("valueObject").getObject()); //$NON-NLS-1$
+                        values.add(bit.currentRow().getAttribute("valueObject").getObject());
+                        classBouis.add(new Long(auxDef.getBoui()));
                     }
                 }
-                else if("GESDocClfText".equals(auxDef.getName())) //$NON-NLS-1$
+                else if("GESDocClfText".equals(auxDef.getName()))
                 {
-                    String value = bit.currentRow().getAttribute("valueText").getValueString(); //$NON-NLS-1$
+                    String value = bit.currentRow().getAttribute("valueText").getValueString();
                     if(value != null && value.length() > 0)
                     {
-                        values.add(bit.currentRow().getAttribute("valueText").getValueString()); //$NON-NLS-1$
+                        values.add(bit.currentRow().getAttribute("valueText").getValueString());
+                        classBouis.add(new Long(auxDef.getBoui()));
                     }
                 }
-                else  if("GESDocClfDate".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfDate".equals(auxDef.getName()))
                 {
-                    Date d = bit.currentRow().getAttribute("valueDate").getValueDate(); //$NON-NLS-1$
+                    Date d = bit.currentRow().getAttribute("valueDate").getValueDate();
                     if(d != null)
                     {
                         values.add(d);
+                        classBouis.add(new Long(auxDef.getBoui()));
                     }
                 }
-                else  if("GESDocClfNumber".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfNumber".equals(auxDef.getName()))
                 {
-                    String s = bit.currentRow().getAttribute("valueNumber").getValueString(); //$NON-NLS-1$
+                    String s = bit.currentRow().getAttribute("valueNumber").getValueString();
                     if(s != null && s.length() > 0)
                     {
                         NumberFormat nf = NumberFormat.getInstance();
-                        double d = bit.currentRow().getAttribute("valueNumber").getValueDouble(); //$NON-NLS-1$
-                        boolean currency = "1".equals(auxDef.getAttribute("currency").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+                        double d = bit.currentRow().getAttribute("valueNumber").getValueDouble();
+                        boolean currency = "1".equals(auxDef.getAttribute("currency").getValueString());
                         if(currency)
                         {
                             //currency
                             values.add(new Double(d));
+                            classBouis.add(new Long(auxDef.getBoui()));
                         }
                         else
                         {
-                            int decimals = (int)bit.currentRow().getAttribute("decimals").getValueLong(); //$NON-NLS-1$
+                            int decimals = (int)bit.currentRow().getAttribute("decimals").getValueLong();
                             decimals = decimals < 0 ? 0:decimals;
                             if(decimals <= 0)
                             {
                                 values.add(new Long(String.valueOf(d)));
+                                classBouis.add(new Long(auxDef.getBoui()));
                             }
                             else
                             {
                                 values.add(new Double(d));
+                                classBouis.add(new Long(auxDef.getBoui()));
                             }                            
                         }
                     }
                 }
-                else  if("GESDocClfLov".equals(auxDef.getName())) //$NON-NLS-1$
+                else  if("GESDocClfLov".equals(auxDef.getName()))
                 {
-                    String value = bit.currentRow().getAttribute("valueText").getValueString(); //$NON-NLS-1$
-                    if(value != null && !"".equals(value)) //$NON-NLS-1$
+                    String value = bit.currentRow().getAttribute("valueText").getValueString();
+                    if(value != null && !"".equals(value))
                     {
                         values.add(value);
+                        classBouis.add(new Long(auxDef.getBoui()));
                     }
                 }
             }
@@ -1131,9 +1170,9 @@ public class GesDocViewer
         boObject document = boObject.getBoManager().loadObject(boctx, docBoui);
         boolean removeu = false;
         
-        bridgeHandler bh = document.getBridge("classification"); //$NON-NLS-1$
+        bridgeHandler bh = document.getBridge("classification");
         boBridgeIterator bit = bh.iterator();
-        String[] groupS = groupSeqToRemove.split(";"); //$NON-NLS-1$
+        String[] groupS = groupSeqToRemove.split(";");
         String aux;
         long classRemoved = -1;
         for (int i = 0; i < groupS.length; i++) 
@@ -1142,12 +1181,12 @@ public class GesDocViewer
             bit.beforeFirst();
             while(bit.next())
             {
-                aux = bit.currentRow().getAttribute("groupSeq").getValueString(); //$NON-NLS-1$
+                aux = bit.currentRow().getAttribute("groupSeq").getValueString();
                 if(aux.equals(groupS[i]))
                 {
-                    if(bit.currentRow().getAttribute("valueClassification").getValueLong() > 0 && classRemoved <= 0) //$NON-NLS-1$
+                    if(bit.currentRow().getAttribute("valueClassification").getValueLong() > 0 && classRemoved <= 0)
                     {
-                        classRemoved = bit.currentRow().getAttribute("valueClassification").getValueLong(); //$NON-NLS-1$
+                        classRemoved = bit.currentRow().getAttribute("valueClassification").getValueLong();
                     }
                     bh.moveTo( bit.getRow() );
                     bh.remove();
@@ -1248,7 +1287,7 @@ public class GesDocViewer
     public void changeTipoDoc(EboContext boctx, String value) throws boRuntimeException
     {
         boObject doc = boObject.getBoManager().loadObject(boctx, getDocument());
-        doc.getAttribute("tipoDoc").setValueString(value); //$NON-NLS-1$
+        doc.getAttribute("tipoDoc").setValueString(value);
         doc.update();
     }
     public void alterar(docHTML doc, EboContext boctx, String classifToSet) throws boRuntimeException
@@ -1257,23 +1296,23 @@ public class GesDocViewer
         groupClassifications.clear();
 
         String groupSeq = classifToSet;
-        if(classifToSet.indexOf(";") > -1) //$NON-NLS-1$
+        if(classifToSet.indexOf(";") > -1)
         {
-            groupSeq = (classifToSet.split(";"))[0]; //$NON-NLS-1$
+            groupSeq = (classifToSet.split(";"))[0];
         }
         
         boObject document = doc.getObject(docBoui);
-        boBridgeIterator bit = document.getBridge("classification").iterator(); //$NON-NLS-1$
+        boBridgeIterator bit = document.getBridge("classification").iterator();
         bit.beforeFirst();
         String aux = null;
         boolean found = false;
         long clsBoui = -1;
         while(bit.next() && !found)
         {
-            aux = bit.currentRow().getAttribute("groupSeq").getValueString(); //$NON-NLS-1$
+            aux = bit.currentRow().getAttribute("groupSeq").getValueString();
             if(aux.equals(groupSeq))
             {
-                if((clsBoui = bit.currentRow().getAttribute("valueClassification").getValueLong()) > 0) //$NON-NLS-1$
+                if((clsBoui = bit.currentRow().getAttribute("valueClassification").getValueLong()) > 0)
                 {
                     setClassBoui(boctx, clsBoui);
                     setGroupSequence(aux);
@@ -1299,7 +1338,7 @@ public class GesDocViewer
     public void validate(EboContext boctx, ArrayList erros) throws boRuntimeException
     {
         long ti = System.currentTimeMillis();
-        logger.finest("--------------------------------Validação-----------------------------------------"); //$NON-NLS-1$
+        logger.info("--------------------------------Validação-----------------------------------------");
         for (int i = 0; i < groupClassifications.size(); i++) 
         {
             ((GesDocObj)groupClassifications.get(i)).validate(boctx, erros);
@@ -1309,8 +1348,8 @@ public class GesDocViewer
             javaValidation(boctx, erros);
         }
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
-        logger.finest("--------------------------------------------------------------------------------"); //$NON-NLS-1$
+        logger.info("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
+        logger.info("--------------------------------------------------------------------------------");
     }
     
     public void clear()
@@ -1336,15 +1375,15 @@ public class GesDocViewer
             cn = ctx.getDedicatedConnectionData();
             if (!ctx.isInTransaction()) ctx.beginContainerTransaction();
             int ano = Calendar.getInstance().get(Calendar.YEAR); 
-            key = ano + "_" + GROUP_SEQ_KEY; //$NON-NLS-1$
+            key = ano + "_" + GROUP_SEQ_KEY;
             long seq = DataUtils.GetSequenceNextVal(ctx.getApplication(), cn, key);
-            toRet = ano + "_" + padding(9, seq); //$NON-NLS-1$
+            toRet = ano + "_" + padding(9, seq);
             sucess = true;
         }
         catch (Exception e)
         {
             String[] args = { GROUP_SEQ_KEY };
-            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args);
         }
         finally
         {
@@ -1379,17 +1418,17 @@ public class GesDocViewer
           ) 
           throws boRuntimeException{
           
-          toPrint.append("<SPAN class=selectBox ");  //$NON-NLS-1$
-          toPrint.append(" name = '"); //$NON-NLS-1$
+          toPrint.append("<SPAN class=selectBox "); 
+          toPrint.append(" name = '");
           toPrint.append(Name);
-          toPrint.append("' id = '"); //$NON-NLS-1$
+          toPrint.append("' id = '");
           toPrint.append(id);
           toPrint.append('\'');
           
           StringBuffer onchangeHandler=new StringBuffer();
           
           if ( isDisabled ){
-                toPrint.append(" disabled  "); //$NON-NLS-1$
+                toPrint.append(" disabled  ");
           }
           
           //focus
@@ -1397,15 +1436,15 @@ public class GesDocViewer
             toPrint.append(getonfocus(Name.toString()));
           
           if ( onChange.length() >0 ) {
-                toPrint.append(" changeHandler='"); //$NON-NLS-1$
-                if ( onChange.toString().indexOf("(") > -1 ) //$NON-NLS-1$
+                toPrint.append(" changeHandler='");
+                if ( onChange.toString().indexOf("(") > -1 )
                 {
-                    onchangeHandler.append( "<script> function hlv" ); //$NON-NLS-1$
+                    onchangeHandler.append( "<script> function hlv" );
                     onchangeHandler.append( Name );
-                    onchangeHandler.append( "(){" ); //$NON-NLS-1$
+                    onchangeHandler.append( "(){" );
                     onchangeHandler.append( onChange );
-                    onchangeHandler.append( "}</script>"); //$NON-NLS-1$
-                    toPrint.append( "hlv" ); //$NON-NLS-1$
+                    onchangeHandler.append( "}</script>");
+                    toPrint.append( "hlv" );
                     toPrint.append( Name );
                 }
                 else
@@ -1416,30 +1455,30 @@ public class GesDocViewer
           }
           
           if ( !isVisible ) {
-             toPrint.append(" style='display:none' "); //$NON-NLS-1$
+             toPrint.append(" style='display:none' ");
           }
         
-          toPrint.append(" tabbingIndex='"); //$NON-NLS-1$
+          toPrint.append(" tabbingIndex='");
           toPrint.append(tabIndex);
-          if( allowValueEdit) toPrint.append("' allowValueEdit='true' "); //$NON-NLS-1$
-          else toPrint.append("'"); //$NON-NLS-1$
-          toPrint.append(" value='"); //$NON-NLS-1$
+          if( allowValueEdit) toPrint.append("' allowValueEdit='true' ");
+          else toPrint.append("'");
+          toPrint.append(" value='");
           toPrint.append(Value);
-          toPrint.append("'>"); //$NON-NLS-1$
+          toPrint.append("'>");
           
  
-          toPrint.append("<TABLE style='DISPLAY: none' cellSpacing=0 cellPadding=2><TBODY>"); //$NON-NLS-1$
+          toPrint.append("<TABLE style='DISPLAY: none' cellSpacing=0 cellPadding=2><TBODY>");
 
           
           
           boObject det;
           if(!isRequired)
           {
-            printLovValue(toPrint, "",  //$NON-NLS-1$
-                "&nbsp;"); //$NON-NLS-1$
+            printLovValue(toPrint, "", 
+                "&nbsp;");
           }
           boolean printed = false;
-          String firstValue = ""; //$NON-NLS-1$
+          String firstValue = "";
           boolean first = true;
           if( lov_obj.getSize() > 0){
                 String v = null;
@@ -1457,14 +1496,14 @@ public class GesDocViewer
           }
           if(!printed && isRequired)
           {
-             printLovValue(toPrint, "", "&nbsp;"); //$NON-NLS-1$ //$NON-NLS-2$
+             printLovValue(toPrint, "", "&nbsp;");
           }
     
-          toPrint.append("</TBODY></TABLE>"); //$NON-NLS-1$
-          toPrint.append("<INPUT type='hidden' id='") //$NON-NLS-1$
-          .append(Name).append("_lovValue' name='").append(Name).append("_lovValue' ") //$NON-NLS-1$ //$NON-NLS-2$
-          .append("value='").append((isRequired && (Value == null || Value.length()==0)) ? firstValue:Value.toString()).append("'/>"); //$NON-NLS-1$ //$NON-NLS-2$
-          toPrint.append("</SPAN>"); //$NON-NLS-1$
+          toPrint.append("</TBODY></TABLE>");
+          toPrint.append("<INPUT type='hidden' id='")
+          .append(Name).append("_lovValue' name='").append(Name).append("_lovValue' ")
+          .append("value='").append((isRequired && (Value == null || Value.length()==0)) ? firstValue:Value.toString()).append("'/>");
+          toPrint.append("</SPAN>");
           if ( onchangeHandler.length() > 0 )
           {
             toPrint.append(onchangeHandler );    
@@ -1479,19 +1518,19 @@ public class GesDocViewer
     
     private static void printLovValue(StringBuffer toPrint, String value, String desc)
     {
-        toPrint.append("<TR><TD val='"); //$NON-NLS-1$
+        toPrint.append("<TR><TD val='");
         toPrint.append(value);
-        if(desc!= null && desc.length() > 0 && !"&nbsp;".equals(desc)) //$NON-NLS-1$
+        if(desc!= null && desc.length() > 0 && !"&nbsp;".equals(desc))
         {
-            toPrint.append("' title = '"+ desc +"'>"); //$NON-NLS-1$ //$NON-NLS-2$
+            toPrint.append("' title = '"+ desc +"'>");
         }
         else
         {
-            toPrint.append("'>"); //$NON-NLS-1$
+            toPrint.append("'>");
         }
         
         toPrint.append(desc);
-        toPrint.append("</TD></TR>"); //$NON-NLS-1$
+        toPrint.append("</TD></TR>");
     }
     
     private static ArrayList getDocumentClassif(EboContext ctx, long documentBoui) throws boRuntimeException
@@ -1512,8 +1551,8 @@ public class GesDocViewer
         {
             ctx = doc.getEboContext();
             cn = ctx.getConnectionData();
-            String tablename = doc.getAttribute("classification").getDefAttribute().getBridge().getBoMasterTable(); //$NON-NLS-1$
-            String sql_toexec = "select distinct valueclassification$ from "+tablename+" where parent$ = ?"; //$NON-NLS-1$ //$NON-NLS-2$
+            String tablename = doc.getAttribute("classification").getDefAttribute().getBridge().getBoMasterTable();
+            String sql_toexec = "select distinct valueclassification$ from "+tablename+" where parent$ = ?";
             pst =  cn.prepareStatement(sql_toexec);
             pst.setLong(1, doc.getBoui());
             rs = pst.executeQuery();
@@ -1525,7 +1564,7 @@ public class GesDocViewer
         catch (Exception e)
         {
             String[] args = { GROUP_SEQ_KEY };
-            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args);
         }
         finally
         {
@@ -1546,8 +1585,8 @@ public class GesDocViewer
         {
             ctx = doc.getEboContext();
             cn = ctx.getConnectionData();
-            String tablename = doc.getAttribute("classification").getDefAttribute().getBridge().getBoMasterTable(); //$NON-NLS-1$
-            String sql_toexec = "select distinct valueclassification$, groupSeq from "+tablename+" where parent$ = ? order by groupSeq"; //$NON-NLS-1$ //$NON-NLS-2$
+            String tablename = doc.getAttribute("classification").getDefAttribute().getBridge().getBoMasterTable();
+            String sql_toexec = "select distinct valueclassification$, groupSeq from "+tablename+" where parent$ = ? order by groupSeq";
             pst =  cn.prepareStatement(sql_toexec);
             pst.setLong(1, doc.getBoui());
             rs = pst.executeQuery();
@@ -1560,7 +1599,7 @@ public class GesDocViewer
         catch (Exception e)
         {
             String[] args = { GROUP_SEQ_KEY };
-            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new boRuntimeException("pt.lusitania.events.boMessage.beforeSave","BO-3121",e,args);
         }
         finally
         {
@@ -1576,7 +1615,7 @@ public class GesDocViewer
         {
             for (int i = 0; i < (n - l); i++)
             {
-                s += "0"; //$NON-NLS-1$
+                s += "0";
             }
         }
         s += String.valueOf(data);
@@ -1585,7 +1624,7 @@ public class GesDocViewer
     
     public static ArrayList getLovCCustValues(EboContext boctx) throws boRuntimeException
     {
-        boObjectList list = boObjectList.list(boctx, "select Ebo_Group_CC where 1=1 order by name", 1, 999999999); //$NON-NLS-1$
+        boObjectList list = boObjectList.list(boctx, "select Ebo_Group_CC where 1=1 order by name", 1, 999999999);
         list.beforeFirst();
         ArrayList toRet = new ArrayList(2);
         StringBuffer[] apresentationStr = new StringBuffer[(int)list.getRecordCount()];
@@ -1619,14 +1658,14 @@ public class GesDocViewer
         StringBuffer[] apresentationStr = null;
         ArrayList toRet = new ArrayList(2);
         StringBuffer[] valuesStr = null;
-        if(ccust == null || "".equals(ccust)) //$NON-NLS-1$
+        if(ccust == null || "".equals(ccust))
         {
             apresentationStr = new StringBuffer[0];
             valuesStr = new StringBuffer[0];
         }
         else
         {
-            boObjectList list = boObjectList.list(boctx, "select Ebo_Perf_Lus where centrocusto = "+ccust+" or groups = "+ccust+" order by name", 1, 999999999); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            boObjectList list = boObjectList.list(boctx, "select Ebo_Perf_Lus where centrocusto = "+ccust+" or groups = "+ccust+" order by name", 1, 999999999);
             list.beforeFirst();
             toRet = new ArrayList(2);
             apresentationStr = new StringBuffer[(int)list.getRecordCount()];
@@ -1660,18 +1699,18 @@ public class GesDocViewer
     {
         JavaExecuter javaExec = new JavaExecuter(nome);
         //imports
-        javaExec.addImport("java.sql"); //$NON-NLS-1$
-        javaExec.addImport("java.lang"); //$NON-NLS-1$
-        javaExec.addImport("netgest.bo"); //$NON-NLS-1$
-        javaExec.addImport("netgest.bo.def"); //$NON-NLS-1$
-        javaExec.addImport("netgest.utils"); //$NON-NLS-1$
-        javaExec.addImport("netgest.bo.runtime"); //$NON-NLS-1$
-        javaExec.addImport("netgest.bo.utils"); //$NON-NLS-1$
-        javaExec.addImport("netgest.bo.impl.document.merge.gestemp"); //$NON-NLS-1$
+        javaExec.addImport("java.sql");
+        javaExec.addImport("java.lang");
+        javaExec.addImport("netgest.bo");
+        javaExec.addImport("netgest.bo.def");
+        javaExec.addImport("netgest.utils");
+        javaExec.addImport("netgest.bo.runtime");
+        javaExec.addImport("netgest.bo.utils");
+        javaExec.addImport("netgest.bo.impl.document.merge.gestemp");
     
         //variaveis
         Contexto contexto = new Contexto(boctx);
-        javaExec.addTypedVariable( "contexto", Contexto.class, contexto, null); //$NON-NLS-1$
+        javaExec.addTypedVariable( "contexto", Contexto.class, contexto, null);
         javaExec.addTypedVariable( nome, Classificacao.class, new Classificacao(boctx, this), null);
         
 
@@ -1695,10 +1734,10 @@ public class GesDocViewer
     
    public static boolean beforeSaveAttribute(boObject tag) throws boRuntimeException
    {
-        String aux = tag.getAttribute("internalName").getValueString(); //$NON-NLS-1$
-        if(aux != null && aux.split(" ").length != 1) //$NON-NLS-1$
+        String aux = tag.getAttribute("internalName").getValueString();
+        if(aux != null && aux.split(" ").length != 1)
         {
-            tag.addErrorMessage("O campo Nome Interno só pode conter uma única palavra."); //$NON-NLS-1$
+            tag.addErrorMessage("O campo Nome Interno só pode conter uma única palavra.");
             return false;
         }
         return true;
@@ -1706,17 +1745,16 @@ public class GesDocViewer
    
    public static boolean beforeSaveClf(boObject tag) throws boRuntimeException
    {
-        String aux = tag.getAttribute("internalName").getValueString(); //$NON-NLS-1$
-        if(aux != null && aux.split(" ").length != 1) //$NON-NLS-1$
+        String aux = tag.getAttribute("internalName").getValueString();
+        if(aux != null && aux.split(" ").length != 1)
         {
-            tag.addErrorMessage("O campo Nome Interno só pode conter uma única palavra."); //$NON-NLS-1$
+            tag.addErrorMessage("O campo Nome Interno só pode conter uma única palavra.");
             return false;
         }
         if(tag.isChanged())
         {
-        	//TODO:Implement Interface LUSITANIA
-            //FilterViewer.clearCache();
-            ExplorerServer.clearCacheExplorerWPrefix("explorerDoc");             //$NON-NLS-1$
+            //LUSITANIA:FilterViewer.clearCache();
+            ExplorerServer.clearCacheExplorerWPrefix("explorerDoc");            
         }
         return true;
    }
@@ -1724,12 +1762,12 @@ public class GesDocViewer
    public String getTipoDocValue(docHTML doc) throws boRuntimeException
    {
         boObject docObj = boObject.getBoManager().loadObject(doc.getEboContext(), getDocument());
-        return docObj.getAttribute("tipoDoc").getValueString(); //$NON-NLS-1$
+        return docObj.getAttribute("tipoDoc").getValueString();
    }
    
    public boolean tipoDocFilled(docHTML doc) throws boRuntimeException
    {
         boObject docObj = boObject.getBoManager().loadObject(doc.getEboContext(), getDocument());
-        return docObj.getAttribute("tipoDoc").getValueString() != null && !"".equals(docObj.getAttribute("tipoDoc").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return docObj.getAttribute("tipoDoc").getValueString() != null && !"".equals(docObj.getAttribute("tipoDoc").getValueString());
    }
 }

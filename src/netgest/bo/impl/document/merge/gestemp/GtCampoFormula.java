@@ -20,7 +20,7 @@ import netgest.bo.system.Logger;
 public class GtCampoFormula extends GtCampo {
     //logger
     private static Logger logger = Logger.getLogger(
-            "netgest.bo.impl.document.merge.gestemp.GtCampoObjecto"); //$NON-NLS-1$
+            "netgest.bo.impl.document.merge.gestemp.GtCampoObjecto");
 
     public GtCampoFormula(GtTemplate template, GtQuery query) {
         super(template, query);
@@ -36,7 +36,7 @@ public class GtCampoFormula extends GtCampo {
 
     public String getHeaderName() {
         if ((getQueryName() != null) && (getParentObj() == null)) {
-            return getQueryName() + "__" + getNome(); //$NON-NLS-1$
+            return getQueryName() + "__" + getNome();
         }
 
         return getNome();
@@ -44,7 +44,7 @@ public class GtCampoFormula extends GtCampo {
 
     public String getHTMLFieldName() {
         if (getQueryName() != null) {
-            return getQueryName() + "__" + getNome(); //$NON-NLS-1$
+            return getQueryName() + "__" + getNome();
         }
 
         return getNome();
@@ -52,10 +52,10 @@ public class GtCampoFormula extends GtCampo {
 
     public String getHTMLFieldID() {
         if (getQueryName() != null) {
-            return "tblLook" + getQueryName() + "__" + getNome(); //$NON-NLS-1$ //$NON-NLS-2$
+            return "tblLook" + getQueryName() + "__" + getNome();
         }
 
-        return "tblLook" + getNome(); //$NON-NLS-1$
+        return "tblLook" + getNome();
     }
 
     public static GtCampoFormula getCampo(GtCampoNFormula parentFormula,
@@ -97,16 +97,16 @@ public class GtCampoFormula extends GtCampo {
     private static void setCampoValues(GtCampoFormula newCampo, boObject campo)
         throws boRuntimeException {
         if (campo != null) {
-            newCampo.setNome(campo.getAttribute("nome").getValueString()); //$NON-NLS-1$
-            newCampo.setDescricao(campo.getAttribute("descricao") //$NON-NLS-1$
+            newCampo.setNome(campo.getAttribute("nome").getValueString());
+            newCampo.setDescricao(campo.getAttribute("descricao")
                                        .getValueString());
-            newCampo.setPergunta(campo.getAttribute("pergunta").getValueString()); //$NON-NLS-1$
-            newCampo.setTipo(campo.getAttribute("tipo").getValueString()); //$NON-NLS-1$
-            newCampo.setFormula(campo.getAttribute("formula").getValueString()); //$NON-NLS-1$
-            newCampo.setValidacao(campo.getAttribute("validacao") //$NON-NLS-1$
+            newCampo.setPergunta(campo.getAttribute("pergunta").getValueString());
+            newCampo.setTipo(campo.getAttribute("tipo").getValueString());
+            newCampo.setFormula(campo.getAttribute("formula").getValueString());
+            newCampo.setValidacao(campo.getAttribute("validacao")
                                        .getValueString());
-            newCampo.setParametro(campo.getAttribute("parametro").getValueLong()); //$NON-NLS-1$
-            newCampo.setTags(campo.getBridge("tags")); //$NON-NLS-1$
+            newCampo.setParametro(campo.getAttribute("parametro").getValueLong());
+            newCampo.setTags(campo.getBridge("tags"));
             //é usado no modelo
             if(newCampo.getParentObj() != null)
             {//esta numa bridge
@@ -151,24 +151,21 @@ public class GtCampoFormula extends GtCampo {
     public void calculateAutomicFields(EboContext boctx, GtTemplate template)
         throws boRuntimeException {
         GtQuery query = null;
-        GtCampo parentObj = null;
+        JavaExecuter javaExec = new JavaExecuter(getNome());
 
-            boolean paramIsNull = true;
-            boolean parentObjIsNull = true;
-            JavaExecuter javaExec = new JavaExecuter(getNome());
-
+        try {
             //imports
-            javaExec.addImport("netgest.bo"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.def"); //$NON-NLS-1$
-            javaExec.addImport("netgest.utils"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.runtime"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.utils"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.impl.document.merge.gestemp"); //$NON-NLS-1$
+            javaExec.addImport("netgest.bo");
+            javaExec.addImport("netgest.bo.def");
+            javaExec.addImport("netgest.utils");
+            javaExec.addImport("netgest.bo.runtime");
+            javaExec.addImport("netgest.bo.utils");
+            javaExec.addImport("netgest.bo.impl.document.merge.gestemp");
 
             //variaveis
-            javaExec.addTypedVariable("contexto", Contexto.class, //$NON-NLS-1$
+            javaExec.addTypedVariable("contexto", Contexto.class,
                 new Contexto(boctx), null);
-            javaExec.addTypedVariable("modelo", Modelo.class, //$NON-NLS-1$
+            javaExec.addTypedVariable("modelo", Modelo.class,
                 new Modelo(boctx, template), null);
             javaExec.addTypedVariable(getQuery().getNome(), Query.class,
                 new Query(boctx, getQuery()), null);
@@ -194,14 +191,8 @@ public class GtCampoFormula extends GtCampo {
             //javaCode
             javaExec.setJavaCode(getFormula());
             javaExec.execute();
-        if( !javaExec.sucess() )
-        {
-            String msg = "Não foi possível calcular o campox [" + getNome() + "]";
-            
-            if( getQuery() != null )
-            {
-                msg += " da Query ["+ getQuery().getNome() +"]";
-            }
+        } catch (Exception e) {
+            String msg = "Não foi possível calcular [" + getFormula() + "]";
 
             if ((query != null) && (query.getParametro() != null) &&
                     (query.getParametro().getValue() != null)) {
@@ -217,40 +208,36 @@ public class GtCampoFormula extends GtCampo {
             msg += "\n" + javaExec.getErrorMessage();
             logger.severe("Campo Formula[" + getNome() + "] : " + msg, javaExec.getException() );
             throw new boRuntimeException("",
-               msg , null);
-
+                "Não foi possível calcular [" + getPergunta() +
+                "]. Verifique se o valor introduzido está correcto.", null);
         }
     }
 
     public void calculateAutomicFields(EboContext boctx, GtTemplate template,
         int pos) throws boRuntimeException {
         GtQuery query = null;
-        GtCampo parentObj = null;
-
         try {
-            boolean paramIsNull = true;
-            boolean parentObjIsNull = true;
             JavaExecuter javaExec = new JavaExecuter(getNome());
 
             //imports
-            javaExec.addImport("netgest.bo"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.def"); //$NON-NLS-1$
-            javaExec.addImport("netgest.utils"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.runtime"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.utils"); //$NON-NLS-1$
-            javaExec.addImport("netgest.bo.impl.document.merge.gestemp"); //$NON-NLS-1$
+            javaExec.addImport("netgest.bo");
+            javaExec.addImport("netgest.bo.def");
+            javaExec.addImport("netgest.utils");
+            javaExec.addImport("netgest.bo.runtime");
+            javaExec.addImport("netgest.bo.utils");
+            javaExec.addImport("netgest.bo.impl.document.merge.gestemp");
 
             //variaveis
-            javaExec.addTypedVariable("contexto", Contexto.class, //$NON-NLS-1$
+            javaExec.addTypedVariable("contexto", Contexto.class,
                 new Contexto(boctx), null);
-            javaExec.addTypedVariable("modelo", Modelo.class, //$NON-NLS-1$
+            javaExec.addTypedVariable("modelo", Modelo.class,
                 new Modelo(boctx, template), null);
             javaExec.addTypedVariable(getQuery().getNome(), Query.class,
                 new Query(boctx, getQuery()), null);
 
             //
             if (getParentObj() instanceof GtCampoNFormula) {
-                javaExec.addTypedVariable(getParentObj().getNome() + Messages.getString("GtCampoFormula.19"), //$NON-NLS-1$
+                javaExec.addTypedVariable(getParentObj().getNome() + Messages.getString("GtCampoFormula.19"),
                     CampoLista.class,
                     new CampoLista(boctx, (GtCampoNFormula) getParentObj()),
                     null);
@@ -259,7 +246,7 @@ public class GtCampoFormula extends GtCampo {
                     new CampoListaObj(boctx, (GtCampoNFormula) getParentObj(),
                         pos), null);
             } else if (getParentObj() instanceof GtCampoNObjecto) {
-                javaExec.addTypedVariable(getParentObj().getNome() + Messages.getString("GtCampoFormula.41"), //$NON-NLS-1$
+                javaExec.addTypedVariable(getParentObj().getNome() + Messages.getString("GtCampoFormula.41"),
                     CampoLista.class,
                     new CampoLista(boctx, (GtCampoNObjecto) getParentObj()),
                     null);
@@ -276,7 +263,7 @@ public class GtCampoFormula extends GtCampo {
             javaExec.setJavaCode(getFormula());
             javaExec.execute();
         } catch (Exception e) {
-            String msg = Messages.getString("GtCampoFormula.42") + getFormula() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+            String msg = Messages.getString("GtCampoFormula.42") + getFormula() + "]";
 
             if ((query != null) && (query.getParametro() != null) &&
                     (query.getParametro().getValue() != null)) {
@@ -285,15 +272,15 @@ public class GtCampoFormula extends GtCampo {
                 if ((o != null) && o instanceof Long) {
                     boObject paramObj = boObject.getBoManager().loadObject(boctx,
                             ((Long) o).longValue());
-                    msg += (Messages.getString("GtCampoFormula.44") + paramObj.getBoui() + "/" + //$NON-NLS-1$ //$NON-NLS-2$
-                    paramObj.getName() + "]"); //$NON-NLS-1$
+                    msg += (Messages.getString("GtCampoFormula.44") + paramObj.getBoui() + "/" +
+                    paramObj.getName() + "]");
                 }
             }
 
-            logger.severe(Messages.getString("GtCampoFormula.47") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
-            throw new boRuntimeException("", //$NON-NLS-1$
-                Messages.getString("GtCampoFormula.50") + getPergunta() + //$NON-NLS-1$
-                Messages.getString("GtCampoFormula.51"), null); //$NON-NLS-1$
+            logger.severe(Messages.getString("GtCampoFormula.47") + getNome() + "] : " + msg, e);
+            throw new boRuntimeException("",
+                Messages.getString("GtCampoFormula.50") + getPergunta() +
+                Messages.getString("GtCampoFormula.51"), null);
         }
     }
 }

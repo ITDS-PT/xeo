@@ -29,7 +29,7 @@ public final class docHTML_groupGrid {
     public docHTML_groupGrid(docHTML doc) {
         p_cols=new Vector();
         p_groups=new Vector();
-        p_title=""; //$NON-NLS-1$
+        p_title="";
         p_canSelectRows=true;
         p_showIcon  =true;
         p_showState =true;
@@ -50,7 +50,7 @@ public final class docHTML_groupGrid {
 
     }
     public void setTitle(){
-        p_title=""; //$NON-NLS-1$
+        p_title="";
 
     }
 
@@ -102,14 +102,14 @@ public final class docHTML_groupGrid {
            }
            
         }
-        if ( columnsTitles[0] ==null) columnsTitles[0]="";  //$NON-NLS-1$
+        if ( columnsTitles[0] ==null) columnsTitles[0]=""; 
         
         
-     out.print("<!--BEGIN -->\n");    //$NON-NLS-1$
-        out.print("<table cellSpacing=\"0\" cellPadding=\"0\" style=\"height:100%;width:100%;table-layout:fixed;\">\n"); //$NON-NLS-1$
-        out.print("               <tr><td id='buildArea' class='toolAreaGrid'>"); //$NON-NLS-1$
+     out.print("<!--BEGIN -->\n");   
+        out.print("<table cellSpacing=\"0\" cellPadding=\"0\" style=\"height:100%;width:100%;table-layout:fixed;\">\n");
+        out.print("               <tr><td id='buildArea' class='toolAreaGrid'>");
         
-         docHTML_section sec = DOC.createSection("lookupGG","",false,5); //$NON-NLS-1$ //$NON-NLS-2$
+         docHTML_section sec = DOC.createSection("lookupGG","",false,5);
             //bodef=boDefHandler.getBoDefinition(look_object);
         docHTML_sectionRow row; 
         row=sec.addRow();
@@ -117,15 +117,15 @@ public final class docHTML_groupGrid {
         Hashtable xattributes=new Hashtable();
         docHTML_sectionCell xcell=row.addCellMultiField();
         xcell.addField( docHTML_sectionField.newText(
-                new StringBuffer("TEXTSEARCH"), //$NON-NLS-1$
-                new StringBuffer("TEXTSEARCH"), //$NON-NLS-1$
-                new StringBuffer(JSPMessages.getString("docHTML_groupGrid.10")), //$NON-NLS-1$
-                new StringBuffer(),null,null,null),"100%",xattributes) ; //$NON-NLS-1$
+                new StringBuffer("TEXTSEARCH"),
+                new StringBuffer("TEXTSEARCH"),
+                new StringBuffer(JSPMessages.getString("docHTML_groupGrid.10")),
+                new StringBuffer(),null,null,null),"100%",xattributes) ;
 
     xcell.addField( docHTML_sectionField.newButton(
-                new StringBuffer("find"), //$NON-NLS-1$
-                new StringBuffer(JSPMessages.getString("docHTML_groupGrid.13")), //$NON-NLS-1$
-                new StringBuffer("window.location.reload();")) //$NON-NLS-1$
+                new StringBuffer("find"),
+                new StringBuffer(JSPMessages.getString("docHTML_groupGrid.13")),
+                new StringBuffer("window.location.reload();"))
                 
                 ,null,null
                 ) ;
@@ -138,99 +138,99 @@ public final class docHTML_groupGrid {
                 new StringBuffer("findframe.location.href=SURL+\"&list_fulltext=\"+escape(TEXTSEARCH.value)"))
                 ,null  ) ;
           */      
-    sec.p_height="50px"; //$NON-NLS-1$
+    sec.p_height="50px";
       sec.render( page ,DOC, DOCLIST);
         
-        out.print("</td></tr>\n"); //$NON-NLS-1$
-        out.print("    <tr>\n"); //$NON-NLS-1$
-        out.print("	 <td style=\"height:100%;width:100%\">\n"); //$NON-NLS-1$
-		out.print("    <div style=\"width:100%;height:100%;overflow-x:auto\">\n"); //$NON-NLS-1$
-		out.print("		   <table style=\"height:100%;width:100%;\" class=\"g_std\" cellSpacing=\"0\" cellPadding=\"0\" width=\"100%\">\n"); //$NON-NLS-1$
-		out.print("			  <tbody>\n"); //$NON-NLS-1$
-        out.print("				  <tr height=\"25\">\n"); //$NON-NLS-1$
-		out.print("				    <td>\n"); //$NON-NLS-1$
-		out.print("					   <table id=\"g1000_body\"  cellpadding=\"2\" cellspacing=\"0\" style=\"height:25px\" class=\"gh_std\">\n"); //$NON-NLS-1$
-		out.print("							<colgroup>\n"); //$NON-NLS-1$
-		out.print("							<col style=\"PADDING-LEFT: 10px\" width=30 />\n"); //$NON-NLS-1$
-        out.print("							<col width=20 />\n"); //$NON-NLS-1$
-        out.print("							<col>\n"); //$NON-NLS-1$
+        out.print("</td></tr>\n");
+        out.print("    <tr>\n");
+        out.print("	 <td style=\"height:100%;width:100%\">\n");
+		out.print("    <div style=\"width:100%;height:100%;overflow-x:auto\">\n");
+		out.print("		   <table style=\"height:100%;width:100%;\" class=\"g_std\" cellSpacing=\"0\" cellPadding=\"0\" width=\"100%\">\n");
+		out.print("			  <tbody>\n");
+        out.print("				  <tr height=\"25\">\n");
+		out.print("				    <td>\n");
+		out.print("					   <table id=\"g1000_body\"  cellpadding=\"2\" cellspacing=\"0\" style=\"height:25px\" class=\"gh_std\">\n");
+		out.print("							<colgroup>\n");
+		out.print("							<col style=\"PADDING-LEFT: 10px\" width=30 />\n");
+        out.print("							<col width=20 />\n");
+        out.print("							<col>\n");
         boolean hasSep=false;
         for (int i = 0; i < columnsWidth.length; i++) 
         {
             if ( columnsTitles[i] != null )
             {
-        out.print("							<col width=");out.print( columnsWidth[i].intValue() -2 ); out.print(">\n"); //$NON-NLS-1$ //$NON-NLS-2$
-        out.print("							<col width=2>\n"); //$NON-NLS-1$
+        out.print("							<col width=");out.print( columnsWidth[i].intValue() -2 ); out.print(">\n");
+        out.print("							<col width=2>\n");
         hasSep=true;
             }
         }
         if ( ! hasSep ){
-		out.print("							<col width=2 />\n"); //$NON-NLS-1$
+		out.print("							<col width=2 />\n");
         }
-		out.print("							<col width=15 />\n"); //$NON-NLS-1$
- 		out.print("						    <tbody>\n"); //$NON-NLS-1$
-		out.print("								<tr>\n"); //$NON-NLS-1$
-        out.print("                               <td class=\"gh_std\"><img src='resources/buildgrid.gif'onclick='toggleBuildArea(buildArea)' height=16 with=16 /> </td>\n"); //$NON-NLS-1$
-        out.print("                               <td class=\"gh_std\">&nbsp</td>\n"); //$NON-NLS-1$
-		out.print("								  <td colspan=2 id=\"g$ExpanderParent\" class=\"gh_std\">");out.print( columnsTitles[0] ); out.print("</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-        out.print(" 							  <td class=\"ghSep_std\">&nbsp;</td>\n"); //$NON-NLS-1$
+		out.print("							<col width=15 />\n");
+ 		out.print("						    <tbody>\n");
+		out.print("								<tr>\n");
+        out.print("                               <td class=\"gh_std\"><img src='resources/buildgrid.gif'onclick='toggleBuildArea(buildArea)' height=16 with=16 /> </td>\n");
+        out.print("                               <td class=\"gh_std\">&nbsp</td>\n");
+		out.print("								  <td colspan=2 id=\"g$ExpanderParent\" class=\"gh_std\">");out.print( columnsTitles[0] ); out.print("</td>\n");
+        out.print(" 							  <td class=\"ghSep_std\">&nbsp;</td>\n");
         hasSep=false;
         
 		for (int i = 1; i < columnsWidth.length; i++) 
         {
             if ( columnsTitles[i] != null )
             {
-        out.print("								  <td class='gh_std' >");out.print( columnsTitles[i] ); out.print("</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-        out.print(" 							  <td class='ghSep_std'>&nbsp;</td>\n"); //$NON-NLS-1$
+        out.print("								  <td class='gh_std' >");out.print( columnsTitles[i] ); out.print("</td>\n");
+        out.print(" 							  <td class='ghSep_std'>&nbsp;</td>\n");
         hasSep=true;
             }
         }			
         if ( !hasSep )
         {
-        out.print(" 							  <td class=\"ghSep_std\">&nbsp;</td>\n");     //$NON-NLS-1$
+        out.print(" 							  <td class=\"ghSep_std\">&nbsp;</td>\n");    
         }
-        out.print("             				  <td class='gh_std' width='14'><img onclick='window.location.reload()' src='templates/grid/std/ghRefresh.gif' width='13' height='13' /> </td>\n"); //$NON-NLS-1$
-		out.print("								</tr>\n"); //$NON-NLS-1$
-		out.print("							</tbody>\n"); //$NON-NLS-1$
-		out.print("						</table>\n"); //$NON-NLS-1$
-		out.print("					</td>\n"); //$NON-NLS-1$
-		out.print("			    </tr>\n"); //$NON-NLS-1$
-		out.print("				<tr>\n"); //$NON-NLS-1$
-		out.print(" 				<td>\n"); //$NON-NLS-1$
-		out.print("					   <div id=\"grid\" class=\"gContainerLines_std\">\n"); //$NON-NLS-1$
+        out.print("             				  <td class='gh_std' width='14'><img onclick='window.location.reload()' src='templates/grid/std/ghRefresh.gif' width='13' height='13' /> </td>\n");
+		out.print("								</tr>\n");
+		out.print("							</tbody>\n");
+		out.print("						</table>\n");
+		out.print("					</td>\n");
+		out.print("			    </tr>\n");
+		out.print("				<tr>\n");
+		out.print(" 				<td>\n");
+		out.print("					   <div id=\"grid\" class=\"gContainerLines_std\">\n");
         
         for (int i = 0; i < bolist.length ; i++)
         {        
-             String xcor=(String) attributes[i].get("color"); //$NON-NLS-1$
+             String xcor=(String) attributes[i].get("color");
              if ( xcor != null )
              {
-       out.print("         <DIV class=headerGroup  style='COLOR:"+xcor+"; BORDER-BOTTOM:"+xcor+" 1px solid'>"+titles[i]+"</DIV>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+       out.print("         <DIV class=headerGroup  style='COLOR:"+xcor+"; BORDER-BOTTOM:"+xcor+" 1px solid'>"+titles[i]+"</DIV>\n");
              }
              else
              {
-       out.print("          <DIV class=headerGroup >"+titles[i]+"</DIV>\n");  //$NON-NLS-1$ //$NON-NLS-2$
+       out.print("          <DIV class=headerGroup >"+titles[i]+"</DIV>\n"); 
              }
 		     
              boObjectList list=bolist[i];
              list.beforeFirst();
              
-        out.print("      <table cellpadding='2' cellspacing='0' style='TABLE-LAYOUT: fixed; MARGIN-BOTTOM: 10px; WIDTH: 100%'>\n"); //$NON-NLS-1$
-	    out.print("		     <colgroup>\n"); //$NON-NLS-1$
-		out.print("			 <col style='PADDING-LEFT: 10px' width=30 />\n"); //$NON-NLS-1$
-        out.print("			 <col width=20 />\n"); //$NON-NLS-1$
-        out.print("			 <col />\n"); //$NON-NLS-1$
+        out.print("      <table cellpadding='2' cellspacing='0' style='TABLE-LAYOUT: fixed; MARGIN-BOTTOM: 10px; WIDTH: 100%'>\n");
+	    out.print("		     <colgroup>\n");
+		out.print("			 <col style='PADDING-LEFT: 10px' width=30 />\n");
+        out.print("			 <col width=20 />\n");
+        out.print("			 <col />\n");
         int nrcols=3;
 		for (int z = 1; z < columnsWidth.length; z++) 
         {
             if ( columnsTitles[z] != null )
             {
-        out.print("		 	 <col width=");out.print( columnsWidth[z] ); out.print(">\n"); //$NON-NLS-1$ //$NON-NLS-2$
+        out.print("		 	 <col width=");out.print( columnsWidth[z] ); out.print(">\n");
                 nrcols++;
             }
         }			
         
         boObject obj;
-        String xatrname=""; //$NON-NLS-1$
+        String xatrname="";
         boDefHandler def;
         while ( list.next() )
         {
@@ -238,21 +238,21 @@ public final class docHTML_groupGrid {
              def=obj.getBoDefinition();
              if ( obj.exists() )
              {
-                 out.print("<tr class=rowGroup boui="+obj.bo_boui+" obj='"+obj.getName()+"' >\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                 out.print("<td><img src='"); //$NON-NLS-1$
-                 out.print( "resources/"+def.getName()+"/ico16.gif'") ; //$NON-NLS-1$ //$NON-NLS-2$
-                 out.print(" width=16 height=16 /></td>\n"); //$NON-NLS-1$
+                 out.print("<tr class=rowGroup boui="+obj.bo_boui+" obj='"+obj.getName()+"' >\n");
+                 out.print("<td><img src='");
+                 out.print( "resources/"+def.getName()+"/ico16.gif'") ;
+                 out.print(" width=16 height=16 /></td>\n");
                  
                  
-                 out.print("<td><img src='"); //$NON-NLS-1$
-                 out.print( "resources/"+obj.getStringComposedState()) ; //$NON-NLS-1$
-                 out.print(".gif' width=16 height=16 /></td>\n"); //$NON-NLS-1$
+                 out.print("<td><img src='");
+                 out.print( "resources/"+obj.getStringComposedState()) ;
+                 out.print(".gif' width=16 height=16 /></td>\n");
                    
                     for (int z = 0; z < columnsWidth.length; z++) 
                         {
                             if ( columnsTitles[z] != null )
                             {
-                            out.print("<td>"); //$NON-NLS-1$
+                            out.print("<td>");
                                 xatrname=columnsAtr[z];    
                                 if ( def.hasAttribute( xatrname ) )
                                 {
@@ -265,74 +265,74 @@ public final class docHTML_groupGrid {
                                         if ( v  > 0) 
                                         {
                                         
-                                            out.print("<div style='white-space: nowrap;overflow-y:hidden;background-color:transparent;border:0' class='lu ro'><span class='lui' onclick=\""); //$NON-NLS-1$
-                                            out.print("winmain().openDoc('medium','"); //$NON-NLS-1$
+                                            out.print("<div style='white-space: nowrap;overflow-y:hidden;background-color:transparent;border:0' class='lu ro'><span class='lui' onclick=\"");
+                                            out.print("winmain().openDoc('medium','");
                                             
                                             boObject o = DOC.getObject( v );
                                             out.print( o.getName().toLowerCase() );
-                                            out.print("','edit','method=edit&boui="); //$NON-NLS-1$
+                                            out.print("','edit','method=edit&boui=");
                                             out.print( v);
-                                            out.print("')"); //$NON-NLS-1$
+                                            out.print("')");
                                           //  out.print(DOC.getDocIdx());
                                          //   out.print("','");
                                             //toPrint.append();
                                          //   out.print("','");
                                             //toPrint.append();
-                                            out.print(";event.cancelBubble=true\""); //$NON-NLS-1$
-                                            out.print(" boui='"); //$NON-NLS-1$
+                                            out.print(";event.cancelBubble=true\"");
+                                            out.print(" boui='");
                                             out.print(v);
-                                            out.print("' object='"); //$NON-NLS-1$
+                                            out.print("' object='");
                                             out.print( o.getName() );
-                                            out.print("'>"); //$NON-NLS-1$
+                                            out.print("'>");
 
                                         
                                             out.print(o.getCARDID());
-                                            out.print("</span></div>" ); //$NON-NLS-1$
+                                            out.print("</span></div>" );
                                         }
-                                         else out.print("&nbsp"); //$NON-NLS-1$
+                                         else out.print("&nbsp");
                                         
                                     }
                                     else
                                     {
                                         String v=attr.getValueString();
-                                        if( attr.getDefAttribute().getType().equalsIgnoreCase("DATETIME") && v.length()>0 ) //$NON-NLS-1$
+                                        if( attr.getDefAttribute().getType().equalsIgnoreCase("DATETIME") && v.length()>0 )
                                         {
                                             v=v.replace('T',' ');
                                             v=v.substring(0,v.length()-3);
                                         }
                                         
-                                        out.print("<nobr>"+v+"</nobr>"); //$NON-NLS-1$ //$NON-NLS-2$
+                                        out.print("<nobr>"+v+"</nobr>");
                                     }
                                     
                                     
                                 }
                                 else
                                 {
-                                    out.print("&nbsp;"); //$NON-NLS-1$
+                                    out.print("&nbsp;");
                                 }
-                            out.print("</td>"); //$NON-NLS-1$
+                            out.print("</td>");
                             }
                         }			
                                     
-                 out.print("</tr>\n"); //$NON-NLS-1$
+                 out.print("</tr>\n");
                  
              }
              else
              {
-                 out.print("<tr>"); //$NON-NLS-1$
-                 out.print("<td class='none' colspan="+nrcols+JSPMessages.getString("docHTML_groupGrid.9")); //$NON-NLS-1$ //$NON-NLS-2$
-                 out.print("</tr>\n");  //$NON-NLS-1$
+                 out.print("<tr>");
+                 out.print("<td class='none' colspan="+nrcols+JSPMessages.getString("docHTML_groupGrid.9"));
+                 out.print("</tr>\n"); 
              }
             
         }
              
-        out.print("      </table>\n"); //$NON-NLS-1$
+        out.print("      </table>\n");
           
              
         }
         
-        out.print("</div></td></tr></table></div></td></tr></table>\n"); //$NON-NLS-1$
-     out.print("<!--END -->\n"); //$NON-NLS-1$
+        out.print("</div></td></tr></table></div></td></tr></table>\n");
+     out.print("<!--END -->\n");
     }
 
   

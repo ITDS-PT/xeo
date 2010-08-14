@@ -40,14 +40,14 @@ public final class xwfFunctions
         {    
             if("create".equals(activity.getStateAttribute("runningState").getValueString()))
             {
-                beginDate = activity.getAttribute("beginDate").getValueDate(); //$NON-NLS-1$
+                beginDate = activity.getAttribute("beginDate").getValueDate();
                 if(beginDate == null)
                 {                    
-                    String duration = activity.getAttribute("duration").getValueString(); //$NON-NLS-1$
-                    if(duration != null && !"".equals(duration)) //$NON-NLS-1$
+                    String duration = activity.getAttribute("duration").getValueString();
+                    if(duration != null && !"".equals(duration))
                     {
                         Calendar c = Calendar.getInstance();
-                        String[] realDuration = duration.split("\\."); //$NON-NLS-1$
+                        String[] realDuration = duration.split("\\.");
                         if(realDuration.length == 1)
                         {
                             int m = Integer.parseInt(duration);                                                                    
@@ -63,30 +63,30 @@ public final class xwfFunctions
                             c.set(Calendar.SECOND,c.get(Calendar.SECOND) - s);                                                                                 
                             
                         }
-                        activity.getAttribute("beginDate").setValueDate(c.getTime()); //$NON-NLS-1$
+                        activity.getAttribute("beginDate").setValueDate(c.getTime());
                     }   
                     else
                     {
-                        activity.getAttribute("beginDate").setValueDate(date);   //$NON-NLS-1$
+                        activity.getAttribute("beginDate").setValueDate(date);  
                     }
                 }                
-                activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui());                 //$NON-NLS-1$
+                activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui());                
             }
             
             activity.getAttribute("percentComplete").setValueString("100");
             if("xwfWaitResponse".equals(activity.getName()))
             {
                 boObject object = null;
-                boObject receiveActivity = activity.getAttribute("receiveActivity").getObject();   //$NON-NLS-1$
+                boObject receiveActivity = activity.getAttribute("receiveActivity").getObject();  
                 if(receiveActivity != null)
                 {
-                    AttributeHandler attr = receiveActivity.getAttribute("message"); //$NON-NLS-1$
+                    AttributeHandler attr = receiveActivity.getAttribute("message");
                     if(attr != null)
                     {
                         object = attr.getObject();
                         if(object != null)
                         {
-                            attr = object.getAttribute("value"); //$NON-NLS-1$
+                            attr = object.getAttribute("value");
                             if(attr != null)
                             {
                                 object = attr.getObject();
@@ -98,7 +98,7 @@ public final class xwfFunctions
                                         object = attr.getObject();
                                         if(object != null)
                                         {
-                                            Date dtdoc = object.getAttribute("dtdoc").getValueDate();  //$NON-NLS-1$
+                                            Date dtdoc = object.getAttribute("dtdoc").getValueDate(); 
                                             if(dtdoc != null)
                                             {
                                                 date = dtdoc;
@@ -110,24 +110,24 @@ public final class xwfFunctions
                         }
                     }
                 }
-                activity.getAttribute("endDate").setValueDate(date); //$NON-NLS-1$
+                activity.getAttribute("endDate").setValueDate(date);
             }
             else
             {
-                activity.getAttribute("endDate").setValueDate(date);    //$NON-NLS-1$
+                activity.getAttribute("endDate").setValueDate(date);   
             }
 //            manager.finishedStep(activityBoui);   
         }
         else if(XwfKeys.ACTION_CANCEL_KEY.equals(state))
         {
-            if("create".equals(activity.getStateAttribute("runningState").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+            if("create".equals(activity.getStateAttribute("runningState").getValueString()))
             {
-                beginDate = activity.getAttribute("beginDate").getValueDate(); //$NON-NLS-1$
+                beginDate = activity.getAttribute("beginDate").getValueDate();
                 if(beginDate == null)
                 {
-                    activity.getAttribute("beginDate").setValueDate(date);    //$NON-NLS-1$
+                    activity.getAttribute("beginDate").setValueDate(date);   
                 }                             
-                activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui());                 //$NON-NLS-1$
+                activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui());                
             }
                     
             activity.getAttribute("endDate").setValueDate(date);
@@ -135,9 +135,9 @@ public final class xwfFunctions
         }        
         else if(XwfKeys.ACTION_OPEN_KEY.equals(state))
         {
-            activity.getAttribute("beginDate").setValueDate(date); //$NON-NLS-1$
-            activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui()); //$NON-NLS-1$
-            activity.getStateAttribute("runningState").setValueString(state); //$NON-NLS-1$
+            activity.getAttribute("beginDate").setValueDate(date);
+            activity.getAttribute("performer").setValueLong(activity.getEboContext().getBoSession().getPerformerBoui());
+            activity.getStateAttribute("runningState").setValueString(state);
 //            getManager().recalcFormulas();
 //            getBoManager().updateObject(activity);            
         }              
@@ -156,9 +156,9 @@ public final class xwfFunctions
     {
         if(label != null && label.length() > 0)
         {
-            if(label.toUpperCase().startsWith(Messages.getString("xwfFunctions.77")) ||  //$NON-NLS-1$
-               label.toUpperCase().startsWith(Messages.getString("xwfFunctions.78")) || //$NON-NLS-1$
-               label.toUpperCase().indexOf(Messages.getString("xwfFunctions.79")) > -1 //$NON-NLS-1$
+            if(label.toUpperCase().startsWith(Messages.getString("xwfFunctions.77")) || 
+               label.toUpperCase().startsWith(Messages.getString("xwfFunctions.78")) ||
+               label.toUpperCase().indexOf(Messages.getString("xwfFunctions.79")) > -1
             )
             {
                 return true;
@@ -181,7 +181,7 @@ public final class xwfFunctions
         if(activity != null)
         {
             StringBuffer label = new StringBuffer();
-            AttributeHandler attrLabel = activity.getAttribute("label"); //$NON-NLS-1$
+            AttributeHandler attrLabel = activity.getAttribute("label");
             String activityName = activity.getName();
             boObject message = null;
             boObject object = null;              
@@ -189,141 +189,141 @@ public final class xwfFunctions
             AttributeHandler attr = null;                                
             String close = null;            
                         
-            if("xwfActivityReceive".equals(activityName) || //$NON-NLS-1$
-               "xwfCreateReceivedMessage".equals(activityName) || //$NON-NLS-1$
-               "xwfActivityCreateMessage".equals(activityName) //$NON-NLS-1$
+            if("xwfActivityReceive".equals(activityName) ||
+               "xwfCreateReceivedMessage".equals(activityName) ||
+               "xwfActivityCreateMessage".equals(activityName)
                )
             {
-                if("xwfActivityReceive".equals(activityName) && !isCC) //$NON-NLS-1$
+                if("xwfActivityReceive".equals(activityName) && !isCC)
                 {
-                    isCC = isKnowledge(activity.getAttribute("label").getValueString()); //$NON-NLS-1$
+                    isCC = isKnowledge(activity.getAttribute("label").getValueString());
                 }
-                attr = activity.getAttribute("message");     //$NON-NLS-1$
+                attr = activity.getAttribute("message");    
                 if(attr != null)
                 {
                     object = attr.getObject();
-                    message = manager.getValueBoObject(object.getAttribute("value").getObject()); //$NON-NLS-1$
+                    message = manager.getValueBoObject(object.getAttribute("value").getObject());
                     setProgramLabel(program,message);
                     
                     if(attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER)
                     {
-                        close = activity.getStateAttribute("runningState").getValueString(); //$NON-NLS-1$
-                        if(!"close".equals(close)) //$NON-NLS-1$
+                        close = activity.getStateAttribute("runningState").getValueString();
+                        if(!"close".equals(close))
                         {
-                            if( "xwfCreateReceivedMessage".equals(activityName)|| //$NON-NLS-1$
-                                "xwfActivityCreateMessage".equals(activityName)) //$NON-NLS-1$
+                            if( "xwfCreateReceivedMessage".equals(activityName)||
+                                "xwfActivityCreateMessage".equals(activityName))
                             {
-                                label.append(Messages.getString("xwfFunctions.76")); //$NON-NLS-1$
+                                label.append(Messages.getString("xwfFunctions.76"));
                             }
                             else
                             {
-                                if("open".equals(close)) //$NON-NLS-1$
+                                if("open".equals(close))
                                 {
                                     if(isCC)
                                     {
-                                        label.append(Messages.getString("xwfFunctions.74")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.74"));
                                     }
                                     else
                                     {
-                                        label.append(Messages.getString("xwfFunctions.75")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.75"));
                                     }
                                 }
                                 else
                                 {
                                     if(isCC)
                                     {
-                                        label.append(Messages.getString("xwfFunctions.73")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.73"));
                                     }
                                     else
                                     {
-                                        label.append(Messages.getString("xwfFunctions.97")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.97"));
                                     }
                                 }
                             }
                         }
                         label.append(xwfMessage.getPreferedMediaLabel(message));
-                        if("close".equals(close)) //$NON-NLS-1$
+                        if("close".equals(close))
                         {
-                            String preferedMedia = message.getAttribute("preferedMedia").getValueString(); //$NON-NLS-1$
-                            if( "xwfCreateReceivedMessage".equals(activityName) || //$NON-NLS-1$
-                                "xwfActivityCreateMessage".equals(activityName)) //$NON-NLS-1$
+                            String preferedMedia = message.getAttribute("preferedMedia").getValueString();
+                            if( "xwfCreateReceivedMessage".equals(activityName) ||
+                                "xwfActivityCreateMessage".equals(activityName))
                             {
-                                if("Letter".equals(preferedMedia) || //$NON-NLS-1$
-                                   "Prefered".equals(preferedMedia)) //$NON-NLS-1$
+                                if("Letter".equals(preferedMedia) ||
+                                   "Prefered".equals(preferedMedia))
                                 {
-                                    label.append(" criada "); //$NON-NLS-1$
+                                    label.append(" criada ");
                                 }
                                 else
                                 {
-                                    label.append(" criado "); //$NON-NLS-1$
+                                    label.append(" criado ");
                                 }                        
                                 
                             }
                             else
                             {                            
-                                if("Letter".equals(preferedMedia) || //$NON-NLS-1$
-                                   "Prefered".equals(preferedMedia)) //$NON-NLS-1$
+                                if("Letter".equals(preferedMedia) ||
+                                   "Prefered".equals(preferedMedia))
                                 {
                                     if(isCC)
                                     {
-                                        label.append(Messages.getString("xwfFunctions.108")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.108"));
                                     }
                                     else
                                     {
-                                        label.append(Messages.getString("xwfFunctions.109")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.109"));
                                     }
                                 }
                                 else
                                 {
                                     if(isCC)
                                     {
-                                        label.append(Messages.getString("xwfFunctions.110")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.110"));
                                     }
                                     else
                                     {
-                                        label.append(Messages.getString("xwfFunctions.111")); //$NON-NLS-1$
+                                        label.append(Messages.getString("xwfFunctions.111"));
                                     }
                                 }
                             }                    
                         }                    
-                        label.append(" [ ").append(message.getAttribute("name").getValueString()).append(" ] "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        boObject from = message.getAttribute("from").getObject(); //$NON-NLS-1$
+                        label.append(" [ ").append(message.getAttribute("name").getValueString()).append(" ] ");
+                        boObject from = message.getAttribute("from").getObject();
                         if(from != null)
                         {
-                            label.append(Messages.getString("xwfFunctions.116")).append(from.getAttribute("name").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+                            label.append(Messages.getString("xwfFunctions.116")).append(from.getAttribute("name").getValueString());
                         }
-                        dtdoc = message.getAttribute("dtdoc").getValueDate(); //$NON-NLS-1$
+                        dtdoc = message.getAttribute("dtdoc").getValueDate();
                         if(dtdoc != null)
                         {
-                            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //$NON-NLS-1$
-                            label.append(" em "); //$NON-NLS-1$
+                            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                            label.append(" em ");
                             label.append(df.format(dtdoc));   
                         }
-                        activity.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL); //$NON-NLS-1$
+                        activity.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL);
                     }
                 }                
             }
-            else if("xwfActivitySend".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER) //$NON-NLS-1$
+            else if("xwfActivitySend".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER)
             {
-                attr = activity.getAttribute("message");     //$NON-NLS-1$
+                attr = activity.getAttribute("message");    
                 if(attr != null)
                 {
                     object = attr.getObject();
                     message = manager.getValueBoObject(object.getAttribute("value").getObject());
                     setProgramLabel(program,message);
                     label.append(xwfMessage.getPreferedMediaLabel(message));
-                    close = activity.getStateAttribute("runningState").getValueString(); //$NON-NLS-1$
-                    String preferedMedia = message.getAttribute("preferedMedia").getValueString(); //$NON-NLS-1$
-                    if("close".equals(close)) //$NON-NLS-1$
+                    close = activity.getStateAttribute("runningState").getValueString();
+                    String preferedMedia = message.getAttribute("preferedMedia").getValueString();
+                    if("close".equals(close))
                     {                        
-                        if("Letter".equals(preferedMedia) || //$NON-NLS-1$
-                           "Prefered".equals(preferedMedia)) //$NON-NLS-1$
+                        if("Letter".equals(preferedMedia) ||
+                           "Prefered".equals(preferedMedia))
                         {
-                            label.append(" enviada "); //$NON-NLS-1$
+                            label.append(" enviada ");
                         }
                         else
                         {
-                            label.append(" enviado "); //$NON-NLS-1$
+                            label.append(" enviado ");
                         }                        
                     }
                     else
@@ -333,26 +333,26 @@ public final class xwfFunctions
                     
                     label.append(" [ ").append(message.getAttribute("name").getValueString()).append(" ] ");                                        
                     
-                    bridgeHandler to = message.getBridge("to"); //$NON-NLS-1$
+                    bridgeHandler to = message.getBridge("to");
                     to.beforeFirst();
                     if(to.getRecordCount() > 0)
                     {
-                        label.append(Messages.getString("xwfFunctions.155")); //$NON-NLS-1$
+                        label.append(Messages.getString("xwfFunctions.155"));
                         boObject toObject = null;
                         int count = 0;
                         while(to.next() && count < 2)
                         {
                             if(count != 0)
                             {
-                                label.append(" , ");     //$NON-NLS-1$
+                                label.append(" , ");    
                             }
                             toObject = to.getObject();
-                            label.append(toObject.getAttribute("name").getValueString());                             //$NON-NLS-1$
+                            label.append(toObject.getAttribute("name").getValueString());                            
                             count++;
                         }     
                         if(to.next())
                         {
-                            label.append(" ..."); //$NON-NLS-1$
+                            label.append(" ...");
                         }
                     }                                                        
 
@@ -360,87 +360,87 @@ public final class xwfFunctions
                     dtdoc = message.getAttribute("dtdoc").getValueDate();
                     if(dtdoc != null)
                     {
-                        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //$NON-NLS-1$
-                        label.append(" , em "); //$NON-NLS-1$
+                        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                        label.append(" , em ");
                         label.append(df.format(dtdoc));   
                     }                            
                     activity.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL);
                 }                
             }     
-            else if("xwfWaitResponse".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER) //$NON-NLS-1$
+            else if("xwfWaitResponse".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER)
             {
-                boObject sendActivity = activity.getAttribute("sendActivity").getObject(); //$NON-NLS-1$
+                boObject sendActivity = activity.getAttribute("sendActivity").getObject();
                 if(sendActivity != null)
                 {
-                    attr = sendActivity.getAttribute("message");     //$NON-NLS-1$
+                    attr = sendActivity.getAttribute("message");    
                     if(attr != null)
                     {
                         object = attr.getObject();
-                        message = manager.getValueBoObject(object.getAttribute("value").getObject());                     //$NON-NLS-1$
-                        close = activity.getStateAttribute("runningState").getValueString(); //$NON-NLS-1$
-                        if(!"close".equals(close)) //$NON-NLS-1$
+                        message = manager.getValueBoObject(object.getAttribute("value").getObject());                    
+                        close = activity.getStateAttribute("runningState").getValueString();
+                        if(!"close".equals(close))
                         {
-                            label.append(Messages.getString("xwfFunctions.175"));     //$NON-NLS-1$
+                            label.append(Messages.getString("xwfFunctions.175"));    
                         }
                         else
                         {
-                            label.append(Messages.getString("xwfFunctions.176")); //$NON-NLS-1$
+                            label.append(Messages.getString("xwfFunctions.176"));
                         }                    
                         label.append(xwfMessage.getPreferedMediaLabel(message));                    
-                        label.append(" [ ").append(message.getAttribute("name").getValueString()).append(" ] ");                                         //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        label.append(" [ ").append(message.getAttribute("name").getValueString()).append(" ] ");                                        
                         
-                        bridgeHandler to = message.getBridge("to"); //$NON-NLS-1$
+                        bridgeHandler to = message.getBridge("to");
                         to.beforeFirst();
                         if(to.getRecordCount() > 0)
                         {
-                            label.append(Messages.getString("xwfFunctions.181")); //$NON-NLS-1$
+                            label.append(Messages.getString("xwfFunctions.181"));
                             boObject toObject = null;
                             int count = 0;
                             while(to.next() && count < 2)
                             {
                                 if(count != 0)
                                 {
-                                    label.append(" , ");     //$NON-NLS-1$
+                                    label.append(" , ");    
                                 }
                                 toObject = to.getObject();
-                                label.append(toObject.getAttribute("name").getValueString());                             //$NON-NLS-1$
+                                label.append(toObject.getAttribute("name").getValueString());                            
                                 count++;
                             }     
                             if(to.next())
                             {
-                                label.append(" ..."); //$NON-NLS-1$
+                                label.append(" ...");
                             }
                         }                                                        
     
                         
-                        dtdoc = message.getAttribute("dtdoc").getValueDate(); //$NON-NLS-1$
+                        dtdoc = message.getAttribute("dtdoc").getValueDate();
                         if(dtdoc != null)
                         {
-                            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //$NON-NLS-1$
-                            label.append(Messages.getString("xwfFunctions.72")); //$NON-NLS-1$
+                            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                            label.append(Messages.getString("xwfFunctions.72"));
                             label.append(df.format(dtdoc));   
                         }                                
-                        activity.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL); //$NON-NLS-1$
+                        activity.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL);
                     }
                 }
             }
-            else if("xwfActivityTransfer".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER) //$NON-NLS-1$
+            else if("xwfActivityTransfer".equals(activityName) && attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER)
             {
-                String programLabel = program.getAttribute("label").getValueString(); //$NON-NLS-1$
+                String programLabel = program.getAttribute("label").getValueString();
                 String de = null;
                 String para = null;
                 
-                if(activity.getAttribute("assignedQueue").getObject() != null) //$NON-NLS-1$
+                if(activity.getAttribute("assignedQueue").getObject() != null)
                 {
-                    de = activity.getAttribute("assignedQueue").getObject().getAttribute("name").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    de = activity.getAttribute("assignedQueue").getObject().getAttribute("name").getValueString();
                 }
-                if(activity.getAttribute("to").getObject() != null) //$NON-NLS-1$
+                if(activity.getAttribute("to").getObject() != null)
                 {
-                    para = activity.getAttribute("to").getObject().getAttribute("name").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    para = activity.getAttribute("to").getObject().getAttribute("name").getValueString();
                 }
 
-                activity.getAttribute("label") //$NON-NLS-1$
-                            .setValueString(Messages.getString("xwfFunctions.71") + programLabel +Messages.getString("xwfFunctions.199")+de+Messages.getString("xwfFunctions.200")+para, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                activity.getAttribute("label")
+                            .setValueString(Messages.getString("xwfFunctions.71") + programLabel +Messages.getString("xwfFunctions.199")+de+Messages.getString("xwfFunctions.200")+para,
                                             AttributeHandler.INPUT_FROM_INTERNAL);           
             }
             if(attrLabel.getInputType() != AttributeHandler.INPUT_FROM_USER)
@@ -456,11 +456,11 @@ public final class xwfFunctions
    */            
     private static void setProgramLabel(boObject program,boObject object)  throws boRuntimeException
     {
-        if(program != null && program.getAttribute("label").getInputType() != AttributeHandler.INPUT_FROM_USER) //$NON-NLS-1$
+        if(program != null && program.getAttribute("label").getInputType() != AttributeHandler.INPUT_FROM_USER)
         {
-            StringBuffer label = new StringBuffer(object.getAttribute("name").getValueString()); //$NON-NLS-1$
-            String flow = program.getAttribute("flow").getValueString(); //$NON-NLS-1$
-            if("".equals(flow)) //$NON-NLS-1$
+            StringBuffer label = new StringBuffer(object.getAttribute("name").getValueString());
+            String flow = program.getAttribute("flow").getValueString();
+            if("".equals(flow))
             {
 //                String progLabel = program.getAttribute("label").getValueString();
 //                label.append(object.getAttribute("name").getValueString());
@@ -468,9 +468,9 @@ public final class xwfFunctions
                 if(label.length() >= 200) 
                 {
                     label = new StringBuffer( label.toString().substring(0, 190) );
-                    label.append( "(...)"); //$NON-NLS-1$
+                    label.append( "(...)");
                 }                                                
-                program.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL);                 //$NON-NLS-1$
+                program.getAttribute("label").setValueString(label.toString(),AttributeHandler.INPUT_FROM_INTERNAL);                
             }                         
         }
     }     
@@ -484,93 +484,93 @@ public final class xwfFunctions
     public static String getIntelligentLabelEmbeddedProgram(EngineGate engine,String activityName,String objectType) throws boRuntimeException
     {   
         boObject activity = null;
-        String label = "";                 //$NON-NLS-1$
-        if(objectType.endsWith("Conversation")) //$NON-NLS-1$
+        String label = "";                
+        if(objectType.endsWith("Conversation"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.230"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.230");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.69"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.69");
             }        
         }
-        else if(objectType.endsWith("Fax")) //$NON-NLS-1$
+        else if(objectType.endsWith("Fax"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.235"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.235");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.67"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.67");
             }                
         }
-        else if(objectType.endsWith("Letter")) //$NON-NLS-1$
+        else if(objectType.endsWith("Letter"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.240"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.240");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.242"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.242");
             }                    
         }
-        else if(objectType.endsWith("Mail")) //$NON-NLS-1$
+        else if(objectType.endsWith("Mail"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.245"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.245");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.247"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.247");
             }        
         }
-        else if(objectType.endsWith("Phone")) //$NON-NLS-1$
+        else if(objectType.endsWith("Phone"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.250"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.250");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.252"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.252");
             }
         }
-        else if(objectType.endsWith("Sgis")) //$NON-NLS-1$
+        else if(objectType.endsWith("Sgis"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.255"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.255");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.257"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.257");
             }        
         }
-        else if(objectType.endsWith("SMS")) //$NON-NLS-1$
+        else if(objectType.endsWith("SMS"))
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.260"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.260");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.262"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.262");
             }        
         }
         else
         {
-            if("xwfActivitySend".equals(activityName)) //$NON-NLS-1$
+            if("xwfActivitySend".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.264"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.264");
             }
-            else if("xwfCreateReceivedMessage".equals(activityName)) //$NON-NLS-1$
+            else if("xwfCreateReceivedMessage".equals(activityName))
             {
-                label = Messages.getString("xwfFunctions.266"); //$NON-NLS-1$
+                label = Messages.getString("xwfFunctions.266");
             }
         }
         return label;
@@ -578,7 +578,7 @@ public final class xwfFunctions
     
     public static boObject getActivityByUsid(String activity_name, String usid, xwfBoManager xwfm) throws boRuntimeException
     {
-        String boql_usid = "select "+activity_name+" where unique_sid = '"+usid+"'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String boql_usid = "select "+activity_name+" where unique_sid = '"+usid+"'";
         boObject boMact = xwfm.loadObject(boql_usid);
         if(xwfm.isInTest())
         {
@@ -586,7 +586,7 @@ public final class xwfFunctions
             ll.beforeFirst();
             while(ll.next())
             {
-                if(usid.equals(ll.getObject().getAttribute("unique_sid").getValueString())) //$NON-NLS-1$
+                if(usid.equals(ll.getObject().getAttribute("unique_sid").getValueString()))
                 {
                     boMact = ll.getObject();
                     break;
@@ -613,32 +613,32 @@ public final class xwfFunctions
     public static Date extractActvDate(boObject actv) throws boRuntimeException
     {
         Date dt = null;
-        AttributeHandler msgAtt1 = actv.getAttribute("message"); //$NON-NLS-1$
+        AttributeHandler msgAtt1 = actv.getAttribute("message");
         XwfController ctrl = null; 
-        if("XwfController".equalsIgnoreCase(actv.getEboContext().getController().getName())) //$NON-NLS-1$
+        if("XwfController".equalsIgnoreCase(actv.getEboContext().getController().getName()))
             ctrl = (XwfController)actv.getEboContext().getController();
         if(msgAtt1 != null)
         {   
             boObject msg = null;
             if(ctrl != null)
-                msg = ctrl.getEngine().getBoManager().getValueBoObject(msgAtt1.getObject().getAttribute("value").getObject()); //$NON-NLS-1$
+                msg = ctrl.getEngine().getBoManager().getValueBoObject(msgAtt1.getObject().getAttribute("value").getObject());
             else
-                msg = msgAtt1.getObject().getAttribute("value").getObject().getAttribute("valueObject").getObject(); //$NON-NLS-1$ //$NON-NLS-2$
-            if(msg != null && msg.getAttribute("dtdoc") != null) //$NON-NLS-1$
+                msg = msgAtt1.getObject().getAttribute("value").getObject().getAttribute("valueObject").getObject();
+            if(msg != null && msg.getAttribute("dtdoc") != null)
             {
-                dt = msg.getAttribute("dtdoc").getValueDate(); //$NON-NLS-1$
+                dt = msg.getAttribute("dtdoc").getValueDate();
             }
             if(dt != null)
                 return dt;
         }
         else
         {
-            dt = actv.getAttribute("beginDate").getValueDate(); //$NON-NLS-1$
+            dt = actv.getAttribute("beginDate").getValueDate();
             if(dt != null)
                 return dt;
             else
             {
-                dt = actv.getAttribute("SYS_DTCREATE").getValueDate(); //$NON-NLS-1$
+                dt = actv.getAttribute("SYS_DTCREATE").getValueDate();
                 return dt;
             }
         }

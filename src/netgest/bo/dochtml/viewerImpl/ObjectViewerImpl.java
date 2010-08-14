@@ -105,7 +105,7 @@ public class ObjectViewerImpl implements ObjectViewer
     public StringBuffer getCARDID(boolean cut) throws boRuntimeException
     {
         StringBuffer toRet = new StringBuffer();
-        toRet.append("<img hspace='3' border='0' align='absmiddle' class='lui' title='");
+        toRet.append("<img style='cursor:hand' hspace='3' border='0' align='absmiddle' class='lui' title='");
 
         if (ctxObj.getName().equals("Ebo_Template"))
         {
@@ -113,14 +113,14 @@ public class ObjectViewerImpl implements ObjectViewer
 
             boObject o = ctxObj.getBoManager().loadObject(ctxObj.getEboContext(), "Ebo_ClsReg", ctxObj.getAttribute("masterObjectClass").getValueLong());
             toRet.append(" de " + o.getAttribute("description").getValueString());
-            toRet.append("' src='" + /*getBaseUrl() +*/ "resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
+            toRet.append("' src='" + getBaseUrl() + "resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
             toRet.append("' width='16' height='16'/>");
         }
         else if (ctxObj.getName().equals("Ebo_ClsReg"))
         {
             toRet.append("Classe do objecto ");
             toRet.append(ctxObj.getBoDefinition().getLabel());
-            toRet.append("' src='" + /*getBaseUrl() +*/ "resources/" + ctxObj.getAttribute("name").getValueString() + "/ico16.gif");
+            toRet.append("' src='" + getBaseUrl() + "resources/" + ctxObj.getAttribute("name").getValueString() + "/ico16.gif");
             toRet.append("' width='16' height='16'/>");
         }
         else if (ctxObj.getName().equals("runtimeAddress"))
@@ -130,18 +130,18 @@ public class ObjectViewerImpl implements ObjectViewer
             toRet.append(ctxObj.getBoDefinition().getLabel());
             if( oref!= null )
             {
-               toRet.append("' src='" + /*getBaseUrl() +*/ "resources/" + oref.getName() + "/ico16.gif");   
+               toRet.append("' src='" + getBaseUrl() + "resources/" + oref.getName() + "/ico16.gif");   
             }
             else
             {
-               toRet.append("' src='" + /*getBaseUrl() +*/ "resources/" + ctxObj.getName() + "/ico16.gif"); 
+               toRet.append("' src='" + getBaseUrl() + "resources/" + ctxObj.getName() + "/ico16.gif"); 
             }
             toRet.append("' width='16' height='16'/>");
         }
         else
         {
             toRet.append(ctxObj.getBoDefinition().getLabel());
-            toRet.append("' src='" + /*getBaseUrl() +*/ "resources/" + ctxObj.getName() + "/ico16.gif");
+            toRet.append("' src='" + getBaseUrl() + "resources/" + ctxObj.getName() + "/ico16.gif");
             toRet.append("' width='16' height='16'/>");
         }
 
@@ -181,6 +181,7 @@ public class ObjectViewerImpl implements ObjectViewer
     {
         StringBuffer toRet = new StringBuffer();
         Element img = xmlToPrint.getDocument().createElement("img");
+        img.setAttribute("style", "cursor:hand");
         img.setAttribute("hspace", "3");
         img.setAttribute("border", "0");
         img.setAttribute("align", "absmiddle");
@@ -198,7 +199,7 @@ public class ObjectViewerImpl implements ObjectViewer
             boObject o = ctxObj.getBoManager().loadObject(ctxObj.getEboContext(), "Ebo_ClsReg", ctxObj.getAttribute("masterObjectClass").getValueLong());
             toRet.append(" de " + o.getAttribute("description").getValueString());
             img.setAttribute("title", toRet.toString());
-            img.setAttribute("src", /*getBaseUrl() +*/ "resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
+            img.setAttribute("src", getBaseUrl() + "resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
 //            toRet.append("' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
             img.setAttribute("width", "16");
             img.setAttribute("height", "16");

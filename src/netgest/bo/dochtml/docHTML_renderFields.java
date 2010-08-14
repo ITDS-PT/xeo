@@ -1992,11 +1992,26 @@ public static void writeHTML_forCombo(
                     String strBouis = atrParent.getValueString();
                     StringBuffer sb = new StringBuffer();
                     sb.append(" onclick=\"javascript:"); 
+                    sb.append(
+                    "var bSelPrint = false;\n" +
+                    "var sPrinters = null;\n" +
+                    "var sPrinter=null;\n" +
+                    "try {sPrinters = window.top.XEOControl.documentManager.getPrinterNames();bSelPrint=true}catch(e){}" +
+                    "if( bSelPrint )sPrinter=window.showModalDialog('selPrinter.html',window.top.XEOControl.documentManager.getPrinterNames(),'center:yes;dialogHeight:100px;dialogWidth:400px;resizable:no')\n" +
+                    "if(sPrinter != null || !bSelPrint ) {"
+                    );
+                    
                     sb.append("try{ ");
                     
                     String[] aStrBouis = strBouis.split(";");
                     for (int i = 0; i < aStrBouis.length; i++) 
                     {
+                        sb.append( "if(bSelPrint)" );
+                        sb.append("window.top.XEOControl.documentManager.PrintWordDocumentsPrinter(");
+                        sb.append("'"+objParent.getEboContext().getBoSession().getId()+"','"+doc.getDochtmlController().poolUniqueId()+"|"+doc.getDocIdx()+"',sPrinter,"+objParent.getBoui()+",'" );
+                        sb.append(  aStrBouis[i] );
+                        sb.append("')\n"); 
+                        sb.append( "else " );
                         sb.append("window.top.XEOControl.documentManager.PrintWordDocumentsSelPrinter(");
                     sb.append("'"+objParent.getEboContext().getBoSession().getId()+"','"+doc.getDochtmlController().poolUniqueId()+"|"+doc.getDocIdx()+"',"+objParent.getBoui()+",'" );
                         sb.append(  aStrBouis[i] );
@@ -2007,7 +2022,10 @@ public static void writeHTML_forCombo(
                     sb.append( "0"  ).append( ");\n" );
  
                     sb.append("boForm.Save();");
-                    sb.append("}catch(exp){alert('Erro a imprimir.\\n'+exp.message);} \">");
+                    sb.append("}catch(exp){alert('Erro a imprimir.\\n'+exp.message);}");
+                    
+                    sb.append("}\">"); 
+                    
                     toPrint.append( sb );
                 /*} 
                 else

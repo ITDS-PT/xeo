@@ -57,7 +57,7 @@ import xeo.client.business.helper.RegistryHelper;
 public class xwfActivityViewer 
 {
     //logger
-    private static Logger logger = Logger.getLogger("netgest.xwf.presentation.xwfActivityViewer"); //$NON-NLS-1$
+    private static Logger logger = Logger.getLogger("netgest.xwf.presentation.xwfActivityViewer");
     
     public static void renderActivity(XwfController controller,PageContext pageContext,int idx) throws IOException, boRuntimeException
     {
@@ -68,21 +68,21 @@ public class xwfActivityViewer
 //        int renderMode = getRenderMode(activity.getBridge("variables"));
 //        renderTableStart(toPrint,renderMode);
         renderTableStart(toPrint);
-        if("xwfActivity".equals(activity.getName())) //$NON-NLS-1$
+        if("xwfActivity".equals(activity.getName()))
         {
             renderActivity(toPrint,controller,doc,idx);
         }
-        else if("xwfActivityFill".equals(activity.getName())) //$NON-NLS-1$
+        else if("xwfActivityFill".equals(activity.getName()))
         {
             renderActivityFill(toPrint,controller,doc,idx,false);
         }        
-        else if("xwfActivityChoice".equals(activity.getName())|| //$NON-NLS-1$
-                "xwfActivityPoll".equals(activity.getName())) //$NON-NLS-1$
+        else if("xwfActivityChoice".equals(activity.getName())||
+                "xwfActivityPoll".equals(activity.getName()))
         {
             renderActivity(toPrint,controller,doc,idx);            
             renderActivityChoice(toPrint,controller);
         }
-        else if("xwfActivityDecision".equals(activity.getName())) //$NON-NLS-1$
+        else if("xwfActivityDecision".equals(activity.getName()))
         {            
             renderActivity(toPrint,controller,doc,idx);       
             renderActivityDecision(toPrint,controller);
@@ -103,59 +103,59 @@ public class xwfActivityViewer
         renderTableStart(toPrint);
         
         // Tempos
-        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.6")); //$NON-NLS-1$
-        toPrint.append("<TR><TD colspan=4>"); //$NON-NLS-1$
-        toPrint.append(Messages.getString("xwfActivityViewer.8")); //$NON-NLS-1$
-        Date date = controller.getRuntimeProgram().getAttribute("beginDate").getValueDate(); //$NON-NLS-1$
+        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.6"));
+        toPrint.append("<TR><TD colspan=4>");
+        toPrint.append(Messages.getString("xwfActivityViewer.8"));
+        Date date = controller.getRuntimeProgram().getAttribute("beginDate").getValueDate();
         if(date != null)
         {
-            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");             //$NON-NLS-1$
+            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");            
             toPrint.append(df.format(date));
         }                                    
-        toPrint.append("</TD><TR>"); //$NON-NLS-1$
+        toPrint.append("</TD><TR>");
         
-        toPrint.append("<TR><TD colspan=4>"); //$NON-NLS-1$
-        toPrint.append(Messages.getString("xwfActivityViewer.5")); //$NON-NLS-1$
-        date = controller.getRuntimeProgram().getAttribute("endDate").getValueDate(); //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4>");
+        toPrint.append(Messages.getString("xwfActivityViewer.5"));
+        date = controller.getRuntimeProgram().getAttribute("endDate").getValueDate();
         if(date != null)
         {
-            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");             //$NON-NLS-1$
+            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");            
             toPrint.append(df.format(date));
         }                                    
-        toPrint.append("</TD><TR>");       //$NON-NLS-1$
+        toPrint.append("</TD><TR>");      
         
-        toPrint.append("<TR><TD colspan=4>"); //$NON-NLS-1$
-        toPrint.append(Messages.getString("xwfActivityViewer.18")); //$NON-NLS-1$
-        date = controller.getRuntimeProgram().getAttribute("deadLineDate").getValueDate(); //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4>");
+        toPrint.append(Messages.getString("xwfActivityViewer.18"));
+        date = controller.getRuntimeProgram().getAttribute("deadLineDate").getValueDate();
         if(date != null)
         {
-            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");             //$NON-NLS-1$
+            SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");            
             toPrint.append(df.format(date));
         }                                    
-        toPrint.append("</TD><TR>");          //$NON-NLS-1$
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+        toPrint.append("</TD><TR>");         
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
         
         // participants
         renderParticipants(controller,toPrint);
         
         // variables
-        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.4")); //$NON-NLS-1$
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.4"));
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
         boObject variable = null;
         boObject activity = null;
         String var_name = null; 
         boObject program = controller.getRuntimeProgram();    
-        bridgeHandler bridge = program.getBridge("variables"); //$NON-NLS-1$
+        bridgeHandler bridge = program.getBridge("variables");
         bridge.beforeFirst();
         while(bridge.next())
         {            
             variable = bridge.getObject();
-            var_name = variable.getAttribute("name").getValueString(); //$NON-NLS-1$
+            var_name = variable.getAttribute("name").getValueString();
             Object value = null;
-            if(variable.getAttribute("value").getObject() != null) //$NON-NLS-1$
+            if(variable.getAttribute("value").getObject() != null)
             {
                 value = controller.getEngine().getBoManager().getValueObject(
-                                        variable.getAttribute("value").getObject()); //$NON-NLS-1$
+                                        variable.getAttribute("value").getObject());
             }
             if(ht_variables.get(var_name) != null)  //ver se existe na tabela uma entrada com o nome da variável
             {   //se sim
@@ -195,23 +195,23 @@ public class xwfActivityViewer
     }      
     private static void renderParticipants(XwfController controller,StringBuffer toPrint)  throws boRuntimeException
     {
-        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.29")); //$NON-NLS-1$
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+        renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.29"));
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
         Hashtable ht_prticipants = new Hashtable();
         boObject participant = null;
         boObject value = null;
         boObject valueObject = null;
         boObject program = controller.getRuntimeProgram();    
-        bridgeHandler bridge = program.getBridge("participants"); //$NON-NLS-1$
+        bridgeHandler bridge = program.getBridge("participants");
         bridge.beforeFirst();
         boolean toRender = false;
         while(bridge.next())
         {   
             participant = bridge.getObject();
-            value = participant.getAttribute("value").getObject(); //$NON-NLS-1$
+            value = participant.getAttribute("value").getObject();
             valueObject = value.getAttribute(xwfHelper.VALUE_OBJECT).getObject();
 
-            String par_name = participant.getAttribute("name").getValueString(); //$NON-NLS-1$
+            String par_name = participant.getAttribute("name").getValueString();
             if(ht_prticipants.get(par_name) != null)  //ver se existe na tabela uma entrada com o nome da variável
             {   //se sim
                 String svalue = ht_prticipants.get(par_name) != null ? ht_prticipants.get(par_name).toString():null;
@@ -245,117 +245,117 @@ public class xwfActivityViewer
                 
                 if(valueObject != null)
                 {
-                    toPrint.append("<TR><TD colspan=4>"); //$NON-NLS-1$
-                    toPrint.append(participant.getAttribute("label").getValueString()).append(", "); //$NON-NLS-1$ //$NON-NLS-2$
+                    toPrint.append("<TR><TD colspan=4>");
+                    toPrint.append(participant.getAttribute("label").getValueString()).append(", ");
                     toPrint.append(valueObject.getCARDID());
-                    toPrint.append("</TD><TR>"); //$NON-NLS-1$
+                    toPrint.append("</TD><TR>");
                 }
                 toRender = false;
             }
         }                
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
     }
     private static void renderAllJustifications(XwfController controller,StringBuffer toPrint)  throws boRuntimeException
     {
         boObject activity = null;
-        StringBuffer boql = new StringBuffer("SELECT xwfActivityChoice WHERE program="); //$NON-NLS-1$
+        StringBuffer boql = new StringBuffer("SELECT xwfActivityChoice WHERE program=");
         boql.append(controller.getRuntimeProgramBoui());
        // boql.append(" AND ").append(xwfHelper.PERFORMER_CLAUSE);
-        boql.append(" ORDER BY SYS_DTCREATE"); //$NON-NLS-1$
+        boql.append(" ORDER BY SYS_DTCREATE");
         boObjectList list = controller.getEngine().getBoManager().listObject(boql.toString(), false);
         list.beforeFirst();
         while(list.next())
         {
-            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
             activity = list.getObject();
             renderChoiceJustification(activity,toPrint);
         }        
-        boql.replace(7,24,"xwfActivityDecision"); //$NON-NLS-1$
+        boql.replace(7,24,"xwfActivityDecision");
         list = controller.getEngine().getBoManager().listObject(boql.toString());
         list.beforeFirst();
         while(list.next())
         {
-            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
+            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
             activity = list.getObject();
             renderDecisionJustification(activity,toPrint);
         }        
     }
     private static void renderChoiceJustification(boObject activity,StringBuffer toPrint) throws boRuntimeException
     {
-        boObject performer = activity.getAttribute("performer").getObject(); //$NON-NLS-1$
+        boObject performer = activity.getAttribute("performer").getObject();
         if(performer != null)
         {
-            StringBuffer header = new StringBuffer(Messages.getString("xwfActivityViewer.45")); //$NON-NLS-1$
-            header.append("<a style=\"COLOR:#0000ff\">").append(activity.getAttribute("question").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            header.append(Messages.getString("xwfActivityViewer.3")); //$NON-NLS-1$
+            StringBuffer header = new StringBuffer(Messages.getString("xwfActivityViewer.45"));
+            header.append("<a style=\"COLOR:#0000ff\">").append(activity.getAttribute("question").getValueString());
+            header.append(Messages.getString("xwfActivityViewer.3"));
             header.append(performer.getCARDID());        
-            Date date = activity.getAttribute("endDate").getValueDate(); //$NON-NLS-1$
+            Date date = activity.getAttribute("endDate").getValueDate();
             if(date != null)
             {
-                header.append(Messages.getString("xwfActivityViewer.2")); //$NON-NLS-1$
-                SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");                 //$NON-NLS-1$
+                header.append(Messages.getString("xwfActivityViewer.2"));
+                SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");                
                 header.append(df.format(date));
-                header.append(". "); //$NON-NLS-1$
+                header.append(". ");
             }                         
-            header.append(Messages.getString("xwfActivityViewer.53")); //$NON-NLS-1$
+            header.append(Messages.getString("xwfActivityViewer.53"));
             boolean found = false;
             boObject objAux = null;
-            bridgeHandler bridge = activity.getBridge("options"); //$NON-NLS-1$
+            bridgeHandler bridge = activity.getBridge("options");
             bridge.beforeFirst();
             while(bridge.next() && !found)
             {
                 objAux = bridge.getObject();
-                String answer = activity.getAttribute("answer").getValueString(); //$NON-NLS-1$
-                if(answer.equals(objAux.getAttribute("codeOption").getValueString())) //$NON-NLS-1$
+                String answer = activity.getAttribute("answer").getValueString();
+                if(answer.equals(objAux.getAttribute("codeOption").getValueString()))
                 {
-                        header.append("<a style=\"COLOR:#0000ff\">").append(objAux.getAttribute("labelOption").getValueString()).append("</a>."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        header.append("<a style=\"COLOR:#0000ff\">").append(objAux.getAttribute("labelOption").getValueString()).append("</a>.");
                         found = true;
                 }  
             }                 
             renderSeparatorLabel(toPrint,header.toString());
-            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
-            toPrint.append("<TR><TD colspan=4 'padding-left:30px;padding-right:30px;'>"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("justification").getValueString()); //$NON-NLS-1$
-            toPrint.append("</TD><TR>"); //$NON-NLS-1$
+            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
+            toPrint.append("<TR><TD colspan=4 'padding-left:30px;padding-right:30px;'>");
+            toPrint.append(activity.getAttribute("justification").getValueString());
+            toPrint.append("</TD><TR>");
         }
     }
     private static void renderDecisionJustification(boObject activity,StringBuffer toPrint) throws boRuntimeException
     {
-       boObject performer = activity.getAttribute("performer").getObject(); //$NON-NLS-1$
+       boObject performer = activity.getAttribute("performer").getObject();
         if(performer != null)
         {
-            StringBuffer header = new StringBuffer(Messages.getString("xwfActivityViewer.65")); //$NON-NLS-1$
-            header.append("<a style=\"COLOR:#0000ff\">").append(activity.getAttribute("question").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            header.append(Messages.getString("xwfActivityViewer.68")); //$NON-NLS-1$
+            StringBuffer header = new StringBuffer(Messages.getString("xwfActivityViewer.65"));
+            header.append("<a style=\"COLOR:#0000ff\">").append(activity.getAttribute("question").getValueString());
+            header.append(Messages.getString("xwfActivityViewer.68"));
             header.append(performer.getCARDID());        
-            Date date = activity.getAttribute("endDate").getValueDate(); //$NON-NLS-1$
+            Date date = activity.getAttribute("endDate").getValueDate();
             if(date != null)
             {
-                header.append("  em "); //$NON-NLS-1$
-                SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");                 //$NON-NLS-1$
+                header.append("  em ");
+                SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");                
                 header.append(df.format(date));
-                header.append(". "); //$NON-NLS-1$
+                header.append(". ");
             }          
-            header.append(Messages.getString("xwfActivityViewer.73")); //$NON-NLS-1$
-            String answer = activity.getAttribute("answer").getValueString(); //$NON-NLS-1$
-            if(answer != null && !"".equals(answer)) //$NON-NLS-1$
+            header.append(Messages.getString("xwfActivityViewer.73"));
+            String answer = activity.getAttribute("answer").getValueString();
+            if(answer != null && !"".equals(answer))
             {
                 String label = null;
-                if(answer.equals(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                if(answer.equals(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString()))
                 {
-                    label = activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    label = activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString();
                 }
                 else
                 {
-                    label = activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    label = activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString();
                 }    
-                header.append("<a style=\"COLOR:#0000ff\">").append(label).append("</a>.");               //$NON-NLS-1$ //$NON-NLS-2$
+                header.append("<a style=\"COLOR:#0000ff\">").append(label).append("</a>.");              
             }             
             renderSeparatorLabel(toPrint,header.toString());
-            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
-            toPrint.append("<TR><TD colspan=4 'padding-left:30px;padding-right:30px;'>"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("justification").getValueString()); //$NON-NLS-1$
-            toPrint.append("</TD><TR>"); //$NON-NLS-1$
+            toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
+            toPrint.append("<TR><TD colspan=4 'padding-left:30px;padding-right:30px;'>");
+            toPrint.append(activity.getAttribute("justification").getValueString());
+            toPrint.append("</TD><TR>");
         }
     }
   /*  
@@ -398,8 +398,8 @@ public class xwfActivityViewer
         while ( bridge.next() && !result) 
         {                   
             variable = bridge.getObject();
-            varvalue = variable.getAttribute("value").getObject(); //$NON-NLS-1$
-            showMode = variable.getAttribute("showMode").getValueLong(); //$NON-NLS-1$
+            varvalue = variable.getAttribute("value").getObject();
+            showMode = variable.getAttribute("showMode").getValueLong();
             if (showMode != 0)
             {
                 result = true;                            
@@ -409,11 +409,11 @@ public class xwfActivityViewer
     }    
     private static void renderActivity(StringBuffer toPrint,XwfController controller, docHTML doc, int idx)  throws boRuntimeException,IOException
     {
-        bridgeHandler bridge = controller.getRuntimeActivity().getBridge("variables"); //$NON-NLS-1$
+        bridgeHandler bridge = controller.getRuntimeActivity().getBridge("variables");
 //        if(!bridge.isEmpty())
         if(isAnyAttributeToRender(bridge))
         {
-            renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.91")); //$NON-NLS-1$
+            renderSeparatorLabel(toPrint,Messages.getString("xwfActivityViewer.91"));
         }
         renderActivityFill(toPrint,controller,doc,idx,true);
         if(!bridge.isEmpty())
@@ -425,61 +425,61 @@ public class xwfActivityViewer
     {
         boObject activity = controller.getRuntimeActivity();                
                         
-        boObjectStateHandler pstate = activity.getStateAttribute( "runningState" ); //$NON-NLS-1$
+        boObjectStateHandler pstate = activity.getStateAttribute( "runningState" );
         boolean close = false;        
         renderJustification(controller.getDocHTML() ,toPrint,activity,close);
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>"); //$NON-NLS-1$
-        renderSeparatorLabel(toPrint,activity.getAttribute("question").getValueString()); //$NON-NLS-1$
-        toPrint.append("<tr>");  //$NON-NLS-1$
-        if (pstate != null && "close".equals(pstate.getValueString())) //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD><TR>");
+        renderSeparatorLabel(toPrint,activity.getAttribute("question").getValueString());
+        toPrint.append("<tr>"); 
+        if (pstate != null && "close".equals(pstate.getValueString()))
         {
             close = true;
-            String answer = activity.getAttribute("answer").getValueString(); //$NON-NLS-1$
-            if(answer != null && !"".equals(answer)) //$NON-NLS-1$
+            String answer = activity.getAttribute("answer").getValueString();
+            if(answer != null && !"".equals(answer))
             {
                 String label = null;
-                if(answer.equals(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$
+                if(answer.equals(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString()))
                 {
-                    label = activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    label = activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString();
                 }
                 else
                 {
-                    label = activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString(); //$NON-NLS-1$ //$NON-NLS-2$
+                    label = activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString();
                 }                
-                toPrint.append("<td colspan=4>A decisão foi, <b>" + label + "</b>.</td>");               //$NON-NLS-1$ //$NON-NLS-2$
+                toPrint.append("<td colspan=4>A decisão foi, <b>" + label + "</b>.</td>");              
             } 
             else
             {
-                toPrint.append("<td colspan=4>Foi cancelada.</td>");                 //$NON-NLS-1$
+                toPrint.append("<td colspan=4>Foi cancelada.</td>");                
             }
         }
         else
         {
-            toPrint.append("<td colspan='4'><button onclick=\"setActivityValue('"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            toPrint.append("');savePressed(true);wait();\">"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString());         //$NON-NLS-1$ //$NON-NLS-2$
-            toPrint.append("</button>&nbsp;&nbsp;"); //$NON-NLS-1$
+            toPrint.append("<td colspan='4'><button onclick=\"setActivityValue('");
+            toPrint.append(activity.getAttribute("yes").getObject().getAttribute("codeOption").getValueString());
+            toPrint.append("');savePressed(true);wait();\">");
+            toPrint.append(activity.getAttribute("yes").getObject().getAttribute("labelOption").getValueString());        
+            toPrint.append("</button>&nbsp;&nbsp;");
 
-            toPrint.append("<button onclick=\"setActivityValue('"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("no").getObject().getAttribute("codeOption").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            toPrint.append("');savePressed(true);wait();\">"); //$NON-NLS-1$
-            toPrint.append(activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString());         //$NON-NLS-1$ //$NON-NLS-2$
-            toPrint.append("</button></td>"); //$NON-NLS-1$
+            toPrint.append("<button onclick=\"setActivityValue('");
+            toPrint.append(activity.getAttribute("no").getObject().getAttribute("codeOption").getValueString());
+            toPrint.append("');savePressed(true);wait();\">");
+            toPrint.append(activity.getAttribute("no").getObject().getAttribute("labelOption").getValueString());        
+            toPrint.append("</button></td>");
         }        
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("</tr>");
 
     }
     private static void renderActivityChoice(StringBuffer toPrint,XwfController controller)  throws boRuntimeException,IOException
     {
         boObject activity = controller.getRuntimeActivity();
-        renderSeparatorLabel(toPrint,activity.getAttribute("question").getValueString());         //$NON-NLS-1$
-        boObjectStateHandler pstate = activity.getStateAttribute( "runningState" ); //$NON-NLS-1$
+        renderSeparatorLabel(toPrint,activity.getAttribute("question").getValueString());        
+        boObjectStateHandler pstate = activity.getStateAttribute( "runningState" );
         boObject objAux = null;
         boolean close = false;
-        bridgeHandler bridge = activity.getBridge("options"); //$NON-NLS-1$
+        bridgeHandler bridge = activity.getBridge("options");
         bridge.beforeFirst();                
-        toPrint.append("<tr><td colspan=4 style='padding-left:30px' >");                     //$NON-NLS-1$
+        toPrint.append("<tr><td colspan=4 style='padding-left:30px' >");                    
         
 //        if (pstate != null && "close".equals(pstate.getValueString()))
 //        {
@@ -507,13 +507,13 @@ public class xwfActivityViewer
 //        }
 //        else
 //        {
-            toPrint.append("<TABLE cellSpacing=0 cellPadding=0 width=\"300px\" align=left border=0>"); //$NON-NLS-1$
-            toPrint.append("<TR><TD colspan=2>&nbsp;</TD><TR>"); //$NON-NLS-1$
+            toPrint.append("<TABLE cellSpacing=0 cellPadding=0 width=\"300px\" align=left border=0>");
+            toPrint.append("<TR><TD colspan=2>&nbsp;</TD><TR>");
             while(bridge.next())
             {
                 objAux = bridge.getObject();
                 boolean toShow = true;
-                String avWhen = objAux.getAttribute("availableWhen").getValueString(); //$NON-NLS-1$
+                String avWhen = objAux.getAttribute("availableWhen").getValueString();
                 if(avWhen!=null && avWhen.length()>0){
                     xwfBoManager xm = controller.getEngine().getBoManager();
                     xwfECMAevaluator ev = new xwfECMAevaluator();
@@ -525,44 +525,44 @@ public class xwfActivityViewer
                 }
                 
                 if(toShow){
-                  toPrint.append("<TR >"); //$NON-NLS-1$
-                  toPrint.append("<TD style='border-bottom:1px solid #CCCCCC;'>"); //$NON-NLS-1$
-                  toPrint.append("&nbsp;");                 //$NON-NLS-1$
-                  toPrint.append(objAux.getAttribute("labelOption").getValueString()); //$NON-NLS-1$
-                  toPrint.append("</TD>"); //$NON-NLS-1$
-                  toPrint.append("<TD style='border-bottom:1px solid #CCCCCC' >"); //$NON-NLS-1$
-                  toPrint.append("<INPUT id=").append(objAux.getAttribute("codeOption").getValueString());        //$NON-NLS-1$ //$NON-NLS-2$
-                  if (pstate != null && "close".equals(pstate.getValueString())) //$NON-NLS-1$
+                  toPrint.append("<TR >");
+                  toPrint.append("<TD style='border-bottom:1px solid #CCCCCC;'>");
+                  toPrint.append("&nbsp;");                
+                  toPrint.append(objAux.getAttribute("labelOption").getValueString());
+                  toPrint.append("</TD>");
+                  toPrint.append("<TD style='border-bottom:1px solid #CCCCCC' >");
+                  toPrint.append("<INPUT id=").append(objAux.getAttribute("codeOption").getValueString());       
+                  if (pstate != null && "close".equals(pstate.getValueString()))
                   {
                       close = true;
-                      String answer = activity.getAttribute("answer").getValueString(); //$NON-NLS-1$
-                      if(answer.equals(objAux.getAttribute("codeOption").getValueString())) //$NON-NLS-1$
+                      String answer = activity.getAttribute("answer").getValueString();
+                      if(answer.equals(objAux.getAttribute("codeOption").getValueString()))
                       {
-                          toPrint.append(" checked "); //$NON-NLS-1$
+                          toPrint.append(" checked ");
                       }  
-                      toPrint.append(" disabled "); //$NON-NLS-1$
+                      toPrint.append(" disabled ");
                   }
-                  toPrint.append(" type=radio name=xwfChoice style='border:0;'>");                 //$NON-NLS-1$
-                  toPrint.append("</TD>"); //$NON-NLS-1$
-                  toPrint.append("</TR>"); //$NON-NLS-1$
+                  toPrint.append(" type=radio name=xwfChoice style='border:0;'>");                
+                  toPrint.append("</TD>");
+                  toPrint.append("</TR>");
                 }
             }     
-            toPrint.append("</TABLE>"); //$NON-NLS-1$
+            toPrint.append("</TABLE>");
 //        }                 
-        toPrint.append("</tr>"); //$NON-NLS-1$
+        toPrint.append("</tr>");
         
-        toPrint.append("<TR><TD>&nbsp;</TD><TR>"); //$NON-NLS-1$
+        toPrint.append("<TR><TD>&nbsp;</TD><TR>");
         
         renderJustification(controller.getDocHTML() ,toPrint,activity,close);
 
         if (!close)
         {            
-            toPrint.append("<TR><TD>&nbsp;</TD><TR>");                //$NON-NLS-1$
-            toPrint.append("<TR>"); //$NON-NLS-1$
-            toPrint.append("<TD align=left colspan=4 style='padding-left:30px;padding-right:30px;border-top:2 groove'> "); //$NON-NLS-1$
-            toPrint.append("<button onclick=\"setActivityChoiceValue();\">").append(Messages.getString("xwfActivityViewer.1")).append("</button>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            toPrint.append("</TD>");     //$NON-NLS-1$
-            toPrint.append("</TR>"); //$NON-NLS-1$
+            toPrint.append("<TR><TD>&nbsp;</TD><TR>");               
+            toPrint.append("<TR>");
+            toPrint.append("<TD align=left colspan=4 style='padding-left:30px;padding-right:30px;border-top:2 groove'> ");
+            toPrint.append("<button onclick=\"setActivityChoiceValue();\">").append(Messages.getString("xwfActivityViewer.1")).append("</button>");
+            toPrint.append("</TD>");    
+            toPrint.append("</TR>");
         }        
         
     } 
@@ -621,7 +621,7 @@ public class xwfActivityViewer
     {                    
         boObject variable = null;
         boObject activity = controller.getRuntimeActivity();
-        bridgeHandler bridge = activity.getBridge("variables");         //$NON-NLS-1$
+        bridgeHandler bridge = activity.getBridge("variables");        
         bridge.beforeFirst();                
         while ( bridge.next() ) 
         {               
@@ -633,22 +633,22 @@ public class xwfActivityViewer
     {
         XwfController controller =  (XwfController)doc.getController();
         boObject valueObject = null;
-        boObject varvalue = variable.getAttribute("value").getObject(); //$NON-NLS-1$
+        boObject varvalue = variable.getAttribute("value").getObject();
         if(varvalue != null)
         {
-            long variableType = varvalue.getAttribute("type").getValueLong();         //$NON-NLS-1$
+            long variableType = varvalue.getAttribute("type").getValueLong();        
             long maxoccurs =  -1;
             long showMode = -1;
             if(variableType == 0)
             {
-                showMode = variable.getAttribute("showMode").getValueLong(); //$NON-NLS-1$
-                maxoccurs =  varvalue.getAttribute("maxoccurs").getValueLong(); //$NON-NLS-1$
+                showMode = variable.getAttribute("showMode").getValueLong();
+                maxoccurs =  varvalue.getAttribute("maxoccurs").getValueLong();
                 if(maxoccurs == 1 && showMode == 1)
                 {                              
-                    valueObject = varvalue.getAttribute("valueObject").getObject();                 //$NON-NLS-1$
+                    valueObject = varvalue.getAttribute("valueObject").getObject();                
                     if(valueObject != null)
                     {
-                        if(!"xwfSerialObject".equals(valueObject.getName())) //$NON-NLS-1$
+                        if(!"xwfSerialObject".equals(valueObject.getName()))
                         {
 //                            toPrint.append("<tr>");     
                             renderCommon(toPrint,activity,variable,varvalue,doc,true,forceDisabled);                    
@@ -670,10 +670,10 @@ public class xwfActivityViewer
                 }
                 else if(maxoccurs > 1)
                 {   
-                    renderSeparatorLabel(toPrint,variable.getAttribute("label").getValueString()); //$NON-NLS-1$
-                    toPrint.append("<tr><td colspan=4 height=190px>"); //$NON-NLS-1$
+                    renderSeparatorLabel(toPrint,variable.getAttribute("label").getValueString());
+                    toPrint.append("<tr><td colspan=4 height=190px>");
                     toPrint.append(renderList(doc.getController(),activity,variable,idx,forceDisabled));                    
-                    toPrint.append("</td></tr>"); //$NON-NLS-1$
+                    toPrint.append("</td></tr>");
                 }                
             }
             else 
@@ -685,48 +685,48 @@ public class xwfActivityViewer
         }
         else 
         {
-            logger.severe("Variable["+variable.getBoui()+"] with VarValue NULL");          //$NON-NLS-1$ //$NON-NLS-2$
+            logger.severe("Variable["+variable.getBoui()+"] with VarValue NULL");         
         }            
     }
     private static String renderList(Controller controller,boObject activity,boObject variable, int idx, boolean forceDisabled)  throws boRuntimeException 
     {
-        boObject varValue = variable.getAttribute("value").getObject(); //$NON-NLS-1$
+        boObject varValue = variable.getAttribute("value").getObject();
         String attrName = xwfHelper.getTypeName(varValue);
-        boObject boDef =  varValue.getAttribute("object").getObject();                         //$NON-NLS-1$
-        String objName = boDef.getAttribute("name").getValueString(); //$NON-NLS-1$
+        boObject boDef =  varValue.getAttribute("object").getObject();                        
+        String objName = boDef.getAttribute("name").getValueString();
         
-        String linkVar = varValue.getAttribute("linkVar").getValueString(); //$NON-NLS-1$
-        String linkAtt = varValue.getAttribute("linkAttribute").getValueString(); //$NON-NLS-1$
+        String linkVar = varValue.getAttribute("linkVar").getValueString();
+        String linkAtt = varValue.getAttribute("linkAttribute").getValueString();
         if(linkVar != null && linkVar.length()>1)
         {
           xwfBoManager xbm = ((XwfController)controller).getEngine().getBoManager();
-          varValue = xbm.getVarObject(linkVar, varValue.getAttribute("unique_sid").getValueString()); //$NON-NLS-1$
+          varValue = xbm.getVarObject(linkVar, varValue.getAttribute("unique_sid").getValueString());
           attrName = linkAtt;
         }
 
         StringBuffer id = new StringBuffer();        
-        id.append("inc_").append( varValue.getName() ).append( "__" ).append( varValue.bo_boui ).append("__").append( attrName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        id.append("inc_").append( varValue.getName() ).append( "__" ).append( varValue.bo_boui ).append("__").append( attrName );
         
-        String jspName = objName + "_generallist.jsp"; //$NON-NLS-1$
+        String jspName = objName + "_generallist.jsp";
         StringBuffer src = new StringBuffer(jspName.toLowerCase());
-        src.append("?"); //$NON-NLS-1$
-        src.append("docid=").append(idx); //$NON-NLS-1$
-        src.append("&method=list"); //$NON-NLS-1$
-        src.append("&parent_attribute=").append(attrName); //$NON-NLS-1$
-        src.append("&parent_boui=").append(varValue.getBoui()); //$NON-NLS-1$
-        src.append("&object=").append(objName); //$NON-NLS-1$
-        src.append("&look_object=").append(objName); //$NON-NLS-1$
-        src.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());         //$NON-NLS-1$ //$NON-NLS-2$
+        src.append("?");
+        src.append("docid=").append(idx);
+        src.append("&method=list");
+        src.append("&parent_attribute=").append(attrName);
+        src.append("&parent_boui=").append(varValue.getBoui());
+        src.append("&object=").append(objName);
+        src.append("&look_object=").append(objName);
+        src.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());        
         
         if(isDisabled(activity,variable,forceDisabled))
         {
-            src.append("&menu=no");         //$NON-NLS-1$
+            src.append("&menu=no");        
         }
-        return "<div class=extendList><IFRAME id='" + id.toString() + "' src='"+ src.toString() +"' frameBorder='0' width='100%'  scrolling=no height='180px'  ></IFRAME></div>";                                                                                             //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return "<div class=extendList><IFRAME id='" + id.toString() + "' src='"+ src.toString() +"' frameBorder='0' width='100%'  scrolling=no height='180px'  ></IFRAME></div>";                                                                                            
     }
     private static void renderCommon(StringBuffer toPrint,boObject activity ,boObject variable,boObject varvalue, docHTML doc, boolean renderLabel,boolean forceDisabled)  throws boRuntimeException
     {              
-        toPrint.append("<tr>"); //$NON-NLS-1$
+        toPrint.append("<tr>");
         XwfController controller =  null;
         if(!XwfKeys.CONTROLLER_NAME_KEY.equals(doc.getController().getName()))
         {
@@ -745,44 +745,44 @@ public class xwfActivityViewer
         AttributeHandler attrHandler = varvalue.getAttribute(attrName);        
         Hashtable attributes = new Hashtable();            
         
-        boObject boDef = varvalue.getAttribute("object").getObject(); //$NON-NLS-1$
+        boObject boDef = varvalue.getAttribute("object").getObject();
         String valueObject = controller.getEngine().getBoManager().getValueString(varvalue);
         if(valueObject == null)
         {
-            valueObject = ""; //$NON-NLS-1$
+            valueObject = "";
         }
         StringBuffer nameH = new StringBuffer();
         StringBuffer id = new StringBuffer();
-        nameH.append( varvalue.getName() ).append( "__" ).append( varvalue.bo_boui ).append("__").append( attrName ); //$NON-NLS-1$ //$NON-NLS-2$
-        id.append("tblLook").append( varvalue.getName() ).append( "__" ).append( varvalue.bo_boui ).append("__").append( attrName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        nameH.append( varvalue.getName() ).append( "__" ).append( varvalue.bo_boui ).append("__").append( attrName );
+        id.append("tblLook").append( varvalue.getName() ).append( "__" ).append( varvalue.bo_boui ).append("__").append( attrName );
         
         boolean isDisabled = isDisabled(activity,variable,forceDisabled);
         boolean isVisible = true;        
         boolean isRequired = XwfValidator.isRequired(variable);
         boolean isRecommend = false;                   
         
-        long type = varvalue.getAttribute("type").getValueLong(); //$NON-NLS-1$
+        long type = varvalue.getAttribute("type").getValueLong();
         
         if ( renderLabel && type != boDefAttribute.VALUE_CLOB)
         {
-          toPrint.append("<TD>"); //$NON-NLS-1$
-          toPrint.append("<label ");                 //$NON-NLS-1$
+          toPrint.append("<TD>");
+          toPrint.append("<label ");                
           if(isDisabled)
           {
-              toPrint.append(" disabled "); //$NON-NLS-1$
+              toPrint.append(" disabled ");
           }
           if(isRequired)
           {
-              toPrint.append(" class=req "); //$NON-NLS-1$
+              toPrint.append(" class=req ");
           }
           /*else if( require == 2)
           {
               toPrint.append(" class=req STYLE ='color:green' ");    
           }*/
-          toPrint.append(" for='"+ nameH +"'>");        //$NON-NLS-1$ //$NON-NLS-2$
-          toPrint.append(variable.getAttribute("label").getValueString()); //$NON-NLS-1$
-          toPrint.append("</label></TD>");              //$NON-NLS-1$
-          toPrint.append("<td colspan='3'>");            //$NON-NLS-1$
+          toPrint.append(" for='"+ nameH +"'>");       
+          toPrint.append(variable.getAttribute("label").getValueString());
+          toPrint.append("</label></TD>");             
+          toPrint.append("<td colspan='3'>");           
           
         }
                 
@@ -790,7 +790,7 @@ public class xwfActivityViewer
         {
                                 
           writeHTML_lookup(
-            new StringBuffer( boDef.getAttribute("name").getValueString()), //$NON-NLS-1$
+            new StringBuffer( boDef.getAttribute("name").getValueString()),
             toPrint,
             varvalue,
             varvalue.getAttribute(attrName),
@@ -818,7 +818,7 @@ public class xwfActivityViewer
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
                                             attributes
@@ -830,27 +830,27 @@ public class xwfActivityViewer
 //         String decimals = variable.getAttribute("decimals").getValueString();         
 //         if(decimals == null || "".equals(decimals))
 //         {
-             String decimals = "0"; //$NON-NLS-1$
+             String decimals = "0";
 //         }
 //         String minDecimals =  variable.getAttribute("minDecimals").getValueString();
 //         if(minDecimals == null || "".equals(minDecimals))
 //         {
-             String minDecimals = "-99999999"; //$NON-NLS-1$
+             String minDecimals = "-99999999";
 //         }
 //         String  maxNumber = variable.getAttribute("maxNumber").getValueString();
 //         if(maxNumber == null || "".equals(maxNumber))
 //         {
-             String maxNumber = "99999999"; //$NON-NLS-1$
+             String maxNumber = "99999999";
 //         }         
 //         String  minNumber = variable.getAttribute("minNumber").getValueString();   
 //         if(minNumber == null || "".equals(minNumber))
 //         {
-             String minNumber = "-99999999"; //$NON-NLS-1$
+             String minNumber = "-99999999";
 //         }           
 //         String grouping = variable.getAttribute("grouping").getValueString();
 //         if(grouping == null || "".equals(grouping))
 //         {
-             String grouping = "0"; //$NON-NLS-1$
+             String grouping = "0";
 //         }         
          docHTML_renderFields.writeHTML_forNumber(toPrint,
                                             new StringBuffer(valueObject),
@@ -860,13 +860,13 @@ public class xwfActivityViewer
                                             new StringBuffer(attrHandler.getDefAttribute().getType().toString()),
                                             new StringBuffer(decimals),
                                             new StringBuffer(minDecimals),
-                                            ("0".equals(grouping)) ?  false :  true,     //$NON-NLS-1$
+                                            ("0".equals(grouping)) ?  false :  true,    
                                             new StringBuffer(maxNumber),
                                             new StringBuffer(minNumber),
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
                                             attributes
@@ -884,7 +884,7 @@ public class xwfActivityViewer
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
                                             attributes
@@ -900,7 +900,7 @@ public class xwfActivityViewer
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
                                             attributes
@@ -910,24 +910,24 @@ public class xwfActivityViewer
         {
             if (renderLabel)
             {
-                toPrint.append("<TD>"); //$NON-NLS-1$
-                toPrint.append("<label ");                 //$NON-NLS-1$
+                toPrint.append("<TD>");
+                toPrint.append("<label ");                
                 if(isDisabled)
                 {
-                    toPrint.append(" disabled "); //$NON-NLS-1$
+                    toPrint.append(" disabled ");
                 }
                 if(isRequired)
                 {
-                    toPrint.append(" class=req "); //$NON-NLS-1$
+                    toPrint.append(" class=req ");
                 }
-              toPrint.append(" for='"+ nameH +"'>");        //$NON-NLS-1$ //$NON-NLS-2$
-              toPrint.append(variable.getAttribute("label").getValueString()); //$NON-NLS-1$
-              toPrint.append("</label></TD>");  //$NON-NLS-1$
-              toPrint.append("</tr>"); //$NON-NLS-1$
-              toPrint.append("<tr>"); //$NON-NLS-1$
-              toPrint.append("<td colspan='4'>"); //$NON-NLS-1$
+              toPrint.append(" for='"+ nameH +"'>");       
+              toPrint.append(variable.getAttribute("label").getValueString());
+              toPrint.append("</label></TD>"); 
+              toPrint.append("</tr>");
+              toPrint.append("<tr>");
+              toPrint.append("<td colspan='4'>");
             }
-          attributes.put("height","250px"); //$NON-NLS-1$ //$NON-NLS-2$
+          attributes.put("height","250px");
           docHTML_renderFields.writeHTML_forHTMLEDITOR(toPrint,
                                                      varvalue,
                                                      varvalue.getAttribute(attrName),
@@ -939,15 +939,15 @@ public class xwfActivityViewer
                                                      isDisabled,
                                                      isVisible,
                                                      false,
-                                                     new StringBuffer(""), //$NON-NLS-1$
+                                                     new StringBuffer(""),
                                                      isRequired,
                                                      isRecommend,
                                                      attributes,
-                                                    "html" //$NON-NLS-1$
+                                                    "html"
                                                      );  
             if (renderLabel)
             {
-                toPrint.append("</td>"); //$NON-NLS-1$
+                toPrint.append("</td>");
             }
             
         } 
@@ -961,7 +961,7 @@ public class xwfActivityViewer
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
 //                                            attrHandler.getDefAttribute().getLen(),
@@ -972,7 +972,7 @@ public class xwfActivityViewer
         else if(type == 12)
         {
             String[] values = null;  
-            long lovBoui = varvalue.getAttribute("lov").getValueLong(); //$NON-NLS-1$
+            long lovBoui = varvalue.getAttribute("lov").getValueLong();
             boObject lov = null;
             if(lovBoui != 0)
             {
@@ -983,7 +983,7 @@ public class xwfActivityViewer
             lovObject lovHandler=null;
             if(lov != null)
             {
-                 lovHandler = LovManager.getLovObject( activity.getEboContext(), lov.getAttribute("name").getValueString() ); //$NON-NLS-1$
+                 lovHandler = LovManager.getLovObject( activity.getEboContext(), lov.getAttribute("name").getValueString() );
             }
             if ( lovHandler!=null)
             {
@@ -998,7 +998,7 @@ public class xwfActivityViewer
                                             isDisabled,
                                             isVisible,
                                             false,
-                                            new StringBuffer(""), //$NON-NLS-1$
+                                            new StringBuffer(""),
                                             isRequired,
                                             isRecommend,
                                             attributes
@@ -1008,9 +1008,9 @@ public class xwfActivityViewer
         }           
         if(renderLabel && type != boDefAttribute.VALUE_CLOB)
         {
-            toPrint.append("</td>\n");    //$NON-NLS-1$
+            toPrint.append("</td>\n");   
         }   
-        toPrint.append("</tr>");         //$NON-NLS-1$
+        toPrint.append("</tr>");        
     }
     public static void writeHTML_lookup(        
         StringBuffer toPrint,        
@@ -1058,22 +1058,22 @@ public class xwfActivityViewer
             clss.append(xref.getName());
         } 
                 
-        toPrint.append("<table id='"); //$NON-NLS-1$
-        toPrint.append("ext").append(id); //$NON-NLS-1$
-        toPrint.append("' style='TABLE-LAYOUT: fixed' cellSpacing='0' cellPadding='0' width='100%'><tbody><tr><td>"); //$NON-NLS-1$
+        toPrint.append("<table id='");
+        toPrint.append("ext").append(id);
+        toPrint.append("' style='TABLE-LAYOUT: fixed' cellSpacing='0' cellPadding='0' width='100%'><tbody><tr><td>");
                         
         if(xRefBoui!=-1 && xRefBoui!=0)
         {
-            toPrint.append("<div class='lu ro lui' "); //$NON-NLS-1$
+            toPrint.append("<div class='lu ro lui' ");
         }
         else
         {
-            toPrint.append("<div style='overflow:hidden' class='lu ro lui' "); //$NON-NLS-1$
+            toPrint.append("<div style='overflow:hidden' class='lu ro lui' ");
         }
         
-        toPrint.append("valido='");                  //$NON-NLS-1$
+        toPrint.append("valido='");                 
         toPrint.append( clss );                 
-        toPrint.append("' >"); //$NON-NLS-1$
+        toPrint.append("' >");
         
 
         String  XeoWin32Client_address = objParent.getEboContext().getXeoWin32Client_adress();
@@ -1112,85 +1112,85 @@ public class xwfActivityViewer
         }
 
         
-		toPrint.append("</div>"); //$NON-NLS-1$
-        toPrint.append("</td>"); //$NON-NLS-1$
-        toPrint.append("<td style='TEXT-ALIGN: right' width='25'><img class='lu' id style='CURSOR: default' tabIndex='"); //$NON-NLS-1$
+		toPrint.append("</div>");
+        toPrint.append("</td>");
+        toPrint.append("<td style='TEXT-ALIGN: right' width='25'><img class='lu' id style='CURSOR: default' tabIndex='");
         toPrint.append(tabIndex);
         
         if ( isDisabled ) {
-                toPrint.append("' disabled src='templates/form/std/btn_dis_lookup.gif' lookupstyle='single' "); //$NON-NLS-1$
+                toPrint.append("' disabled src='templates/form/std/btn_dis_lookup.gif' lookupstyle='single' ");
         }
         else {
             if(atrParent.getDefAttribute().getRelationType()==boDefAttribute.RELATION_1_TO_1){
-                toPrint.append("' src='templates/form/std/btn_off_lookup.gif' lookupstyle='single' "); //$NON-NLS-1$
+                toPrint.append("' src='templates/form/std/btn_off_lookup.gif' lookupstyle='single' ");
             }
             else{
-                toPrint.append("' src='templates/form/std/btn_off_lookup.gif' lookupstyle='multi' "); //$NON-NLS-1$
+                toPrint.append("' src='templates/form/std/btn_off_lookup.gif' lookupstyle='multi' ");
             }
             
             
             if ( !isVisible ) {
-                    toPrint.append(" style='display:none' "); //$NON-NLS-1$
+                    toPrint.append(" style='display:none' ");
             }
         }
         if ( variable != null && activity != null ) 
         {
-            toPrint.append(" options='forWorkFlowActivity.").append(variable.getBoui()); //$NON-NLS-1$
-            toPrint.append("."); //$NON-NLS-1$
-            toPrint.append(activity.getBoui()).append("'"); //$NON-NLS-1$
+            toPrint.append(" options='forWorkFlowActivity.").append(variable.getBoui());
+            toPrint.append(".");
+            toPrint.append(activity.getBoui()).append("'");
         }
-        toPrint.append(" shownew='"); //$NON-NLS-1$
-        toPrint.append("1'"); //$NON-NLS-1$
-        toPrint.append(" parentBoui='"); //$NON-NLS-1$
+        toPrint.append(" shownew='");
+        toPrint.append("1'");
+        toPrint.append(" parentBoui='");
         toPrint.append(objParent.bo_boui);
-        toPrint.append("' parentObj='"); //$NON-NLS-1$
+        toPrint.append("' parentObj='");
         toPrint.append(objParent.getName());
-        toPrint.append("' parentAttribute='"); //$NON-NLS-1$
+        toPrint.append("' parentAttribute='");
         toPrint.append(atrParent.getName() );
-        toPrint.append("' object='"); //$NON-NLS-1$
+        toPrint.append("' object='");
         toPrint.append(clss);
-        toPrint.append("'  docid='"); //$NON-NLS-1$
+        toPrint.append("'  docid='");
         toPrint.append(doc.getDocIdx());
-        toPrint.append("' width='21' height='19'><input type='hidden' value='"); //$NON-NLS-1$
+        toPrint.append("' width='21' height='19'><input type='hidden' value='");
         toPrint.append(value);
-        toPrint.append("' name='"); //$NON-NLS-1$
+        toPrint.append("' name='");
         toPrint.append(name);
-        toPrint.append("' object='"); //$NON-NLS-1$
+        toPrint.append("' object='");
         toPrint.append(atrParent.getDefAttribute().getReferencedObjectName());
-        toPrint.append("' req='"); //$NON-NLS-1$
+        toPrint.append("' req='");
         boolean req = atrParent.required();        
         if ( req ) toPrint.append(1);
         else  toPrint.append(0);
-        toPrint.append("' boType='lu'>"); //$NON-NLS-1$
+        toPrint.append("' boType='lu'>");
         
         
-        toPrint.append("</td></tr></tbody></table>"); //$NON-NLS-1$
+        toPrint.append("</td></tr></tbody></table>");
               
     }    
     private static void renderSeparatorLabel(StringBuffer toPrint, String label)  throws boRuntimeException
     {
-        toPrint.append("<TR><TD colspan=4 nowrap style=\"border-bottom:2 groove\" ><B>"); //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4 nowrap style=\"border-bottom:2 groove\" ><B>");
         toPrint.append(label);        
-        toPrint.append("</B></TD></TR>");         //$NON-NLS-1$
+        toPrint.append("</B></TD></TR>");        
     }
     private static void renderJustification(docHTML doc, StringBuffer toPrint,boObject activity, boolean disabled) throws boRuntimeException
     {
         Hashtable attributes = new Hashtable();
-        AttributeHandler attrHandler = activity.getAttribute("justification"); //$NON-NLS-1$
+        AttributeHandler attrHandler = activity.getAttribute("justification");
         StringBuffer nameH = new StringBuffer();
         StringBuffer id = new StringBuffer();
-        nameH.append( activity.getName() ).append( "__" ).append( activity.bo_boui ).append("__justification"); //$NON-NLS-1$ //$NON-NLS-2$
-        id.append("tblLook").append( activity.getName() ).append( "__" ).append( activity.bo_boui ).append("__justification"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        nameH.append( activity.getName() ).append( "__" ).append( activity.bo_boui ).append("__justification");
+        id.append("tblLook").append( activity.getName() ).append( "__" ).append( activity.bo_boui ).append("__justification");
         
         renderSeparatorLabel(toPrint,attrHandler.getDefAttribute().getLabel());
         
-        toPrint.append("<TR><TD colspan=4>&nbsp;</TD></TR>"); //$NON-NLS-1$
+        toPrint.append("<TR><TD colspan=4>&nbsp;</TD></TR>");
         
         
-        toPrint.append("<TR>"); //$NON-NLS-1$
-        toPrint.append("<td colspan='4' style='padding-left:30px;padding-right:30px'>");                    //$NON-NLS-1$
+        toPrint.append("<TR>");
+        toPrint.append("<td colspan='4' style='padding-left:30px;padding-right:30px'>");                   
 
-        attributes.put("height","250px"); //$NON-NLS-1$ //$NON-NLS-2$
+        attributes.put("height","250px");
         docHTML_renderFields.writeHTML_forHTMLEDITOR(toPrint,
                                                      activity,
                                                      attrHandler,
@@ -1202,14 +1202,14 @@ public class xwfActivityViewer
                                                      disabled,
                                                      true,
                                                      false,
-                                                     new StringBuffer(""), //$NON-NLS-1$
+                                                     new StringBuffer(""),
                                                      false,
                                                      true,
                                                      attributes,
-                                                    "html" //$NON-NLS-1$
+                                                    "html"
                                                      );  
-        toPrint.append("</td>");      //$NON-NLS-1$
-        toPrint.append("</TR>"); //$NON-NLS-1$
+        toPrint.append("</td>");     
+        toPrint.append("</TR>");
     }
     private static boolean isDisabled(boObject activity, boObject variable,boolean forceDisable) throws boRuntimeException
     {
@@ -1220,21 +1220,21 @@ public class xwfActivityViewer
         }
         else
         {
-            long mode = variable.getAttribute("mode").getValueLong();    //$NON-NLS-1$
+            long mode = variable.getAttribute("mode").getValueLong();   
             if(mode == 0)
             {
                 result = true;
             }
     
-            String input = variable.getAttribute("input").getValueString();    //$NON-NLS-1$
-            if("1".equals(input)) //$NON-NLS-1$
+            String input = variable.getAttribute("input").getValueString();   
+            if("1".equals(input))
             {
                 result = false;
             }
             if(activity != null)
             {
-                boObjectStateHandler pstate = activity.getStateAttribute( "runningState" ); //$NON-NLS-1$
-                if (pstate != null && pstate.getValueString().equals("close")) //$NON-NLS-1$
+                boObjectStateHandler pstate = activity.getStateAttribute( "runningState" );
+                if (pstate != null && pstate.getValueString().equals("close"))
                 {        
                     result = true;
                 }                    
@@ -1245,35 +1245,35 @@ public class xwfActivityViewer
 //    private static void renderTableStart(StringBuffer toPrint,int renderMode)
     private static void renderTableStart(StringBuffer toPrint)
     {
-        toPrint.append("<br>"); //$NON-NLS-1$
-        toPrint.append("<table valign=top class='section' "); //$NON-NLS-1$
-        toPrint.append(" cellSpacing='0' cellPadding='3' width='100%' "); //$NON-NLS-1$
+        toPrint.append("<br>");
+        toPrint.append("<table valign=top class='section' ");
+        toPrint.append(" cellSpacing='0' cellPadding='3' width='100%' ");
 //        if(renderMode == 1)
 //        {
 //            toPrint.append("height='100%'");
 //        }
-        toPrint.append("><COLGROUP/><COL width='120' /><COL /><COL style=\"PADDING-LEFT: 5px\" width='70' /><COL /><tbody>"); //$NON-NLS-1$
+        toPrint.append("><COLGROUP/><COL width='120' /><COL /><COL style=\"PADDING-LEFT: 5px\" width='70' /><COL /><tbody>");
         
     }
     private static void renderTableEnd(StringBuffer toPrint)
     {
-        toPrint.append("</tbdoy></table>"); //$NON-NLS-1$
+        toPrint.append("</tbdoy></table>");
     }
     private static void renderTableSpace(StringBuffer toPrint)
     {
-        toPrint.append("<tr><td colspan='4'><br></td></tr>"); //$NON-NLS-1$
+        toPrint.append("<tr><td colspan='4'><br></td></tr>");
     }
 
     public static Element getWaitElement(XwfController controller, int idx) throws boRuntimeException
     {        
         StringBuffer sb = new StringBuffer();
-        sb.append("<IFRAME id='waitViewer' src='__xwfViewerActivityWaitList.jsp?"); //$NON-NLS-1$
-        sb.append("docid=").append(idx); //$NON-NLS-1$
-        sb.append("&method=edit");          //$NON-NLS-1$
-        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui());                 //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());         //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        sb.append("<IFRAME id='waitViewer' src='__xwfViewerActivityWaitList.jsp?");
+        sb.append("docid=").append(idx);
+        sb.append("&method=edit");         
+        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());
+        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui());                
+        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());        
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element wait = new AdHocElement(sb.toString());
         return wait;
     }      
@@ -1281,29 +1281,29 @@ public class xwfActivityViewer
     public static Element getAssociateWaitElement(XwfController controller, String program,int idx) throws boRuntimeException
     {        
         StringBuffer sb = new StringBuffer();
-        boObject valueObject = controller.getRuntimeActivity().getAttribute("message").getObject().getAttribute("value").getObject().getAttribute("valueObject").getObject();         //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("<IFRAME ");         //$NON-NLS-1$
-        sb.append("id=").append("'inc_xwfActivityReceive__").append(controller.getRuntimeActivityBoui()).append("__waitingResponse' ");         //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("src='xwfwaitresponse_generalcardid_list.jsp?"); //$NON-NLS-1$
-        sb.append("docid=").append(idx); //$NON-NLS-1$
-        sb.append("&method=list");     //$NON-NLS-1$
-        sb.append("&").append("menu").append("=").append("no"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        sb.append("&").append("parent_attribute").append("=").append("waitingResponse"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        sb.append("&").append("parent_boui").append("=").append(controller.getRuntimeActivityBoui());                 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        boObject valueObject = controller.getRuntimeActivity().getAttribute("message").getObject().getAttribute("value").getObject().getAttribute("valueObject").getObject();        
+        sb.append("<IFRAME ");        
+        sb.append("id=").append("'inc_xwfActivityReceive__").append(controller.getRuntimeActivityBoui()).append("__waitingResponse' ");        
+        sb.append("src='xwfwaitresponse_generalcardid_list.jsp?");
+        sb.append("docid=").append(idx);
+        sb.append("&method=list");    
+        sb.append("&").append("menu").append("=").append("no");
+        sb.append("&").append("parent_attribute").append("=").append("waitingResponse");
+        sb.append("&").append("parent_boui").append("=").append(controller.getRuntimeActivityBoui());                
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element wait = new AdHocElement(sb.toString());
         return wait;
     }      
     public static Element getProgramElement(XwfController controller,int idx) throws boRuntimeException
     {        
         StringBuffer sb = new StringBuffer();
-        sb.append("<IFRAME src='__xwfViewerActivityProgramList.jsp?"); //$NON-NLS-1$
-        sb.append("docid=").append(idx);         //$NON-NLS-1$
-        sb.append("&method=edit");          //$NON-NLS-1$
-        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());         //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        sb.append("<IFRAME src='__xwfViewerActivityProgramList.jsp?");
+        sb.append("docid=").append(idx);        
+        sb.append("&method=edit");         
+        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());
+        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui());
+        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());        
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element program = new AdHocElement(sb.toString());
         return program;
     }    
@@ -1311,100 +1311,100 @@ public class xwfActivityViewer
     {        
         StringBuffer sb = new StringBuffer();        
         boObject activity = controller.getRuntimeActivity();
-        boObject variable = activity.getAttribute("message").getObject(); //$NON-NLS-1$
-        boObject value = variable.getAttribute("value").getObject(); //$NON-NLS-1$
-        boObject message = value.getAttribute("valueObject").getObject(); //$NON-NLS-1$
+        boObject variable = activity.getAttribute("message").getObject();
+        boObject value = variable.getAttribute("value").getObject();
+        boObject message = value.getAttribute("valueObject").getObject();
         
-        sb.append("<IFRAME ");         //$NON-NLS-1$
-        sb.append("id=").append("'inc_message__").append(message.getBoui()).append("__dynbrige_xwfProgramRuntime' ");         //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("src='xwfprogramruntime_generalcardid_list.jsp?");         //$NON-NLS-1$
-        sb.append("docid=").append(idx);             //$NON-NLS-1$
-        sb.append("&method=list"); //$NON-NLS-1$
-        sb.append("&").append("menu").append("=").append("no"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        sb.append("&").append("list_frommethod").append("=").append("referencedBy%28xwfProgramRuntime%2Cmessage%29"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        sb.append("&").append("parent_attribute").append("=").append("dynbrige_xwfProgramRuntime"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        sb.append("&").append("parent_boui").append("=").append(message.getBoui()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        sb.append("<IFRAME ");        
+        sb.append("id=").append("'inc_message__").append(message.getBoui()).append("__dynbrige_xwfProgramRuntime' ");        
+        sb.append("src='xwfprogramruntime_generalcardid_list.jsp?");        
+        sb.append("docid=").append(idx);            
+        sb.append("&method=list");
+        sb.append("&").append("menu").append("=").append("no");
+        sb.append("&").append("list_frommethod").append("=").append("referencedBy%28xwfProgramRuntime%2Cmessage%29");
+        sb.append("&").append("parent_attribute").append("=").append("dynbrige_xwfProgramRuntime");
+        sb.append("&").append("parent_boui").append("=").append(message.getBoui());
 //        String onclick = URLEncoder.encode(URLEncoder.encode("winmain().openDoc('medium','xwfprogramruntime','edit','method=edit&" + ControllerFactory.CONTROLLER_NAME_KEY + "=XwfController&masterdoc=true&boui=OBJECT_LIST_BOUI');"));
         StringBuffer onclick = new StringBuffer();        
-        onclick.append("winmain().openDocUrl('closeWindowOnCloseDoc=true,showCloseIcon=true,activeOnOpen=true','__xwfWorkPlace.jsp','");         //$NON-NLS-1$
-        onclick.append("?method=edit");         //$NON-NLS-1$
-        onclick.append("&masterdoc=true"); //$NON-NLS-1$
-        onclick.append("&runtimeProgramBoui=OBJECT_LIST_BOUI')"); //$NON-NLS-1$
+        onclick.append("winmain().openDocUrl('closeWindowOnCloseDoc=true,showCloseIcon=true,activeOnOpen=true','__xwfWorkPlace.jsp','");        
+        onclick.append("?method=edit");        
+        onclick.append("&masterdoc=true");
+        onclick.append("&runtimeProgramBoui=OBJECT_LIST_BOUI')");
         
-        sb.append("&").append("onclick").append("=").append(URLEncoder.encode(URLEncoder.encode(onclick.toString())));         //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        sb.append("&").append("onclick").append("=").append(URLEncoder.encode(URLEncoder.encode(onclick.toString())));        
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element program = new AdHocElement(sb.toString());
         return program;
     }        
     public static Element getPreviewReceiveElement(XwfController controller) throws boRuntimeException
     {
         boObject msg = null, xwfVar = null, valueObject = null;
-        if((msg = controller.getRuntimeActivity().getAttribute("message").getObject()) != null) //$NON-NLS-1$
+        if((msg = controller.getRuntimeActivity().getAttribute("message").getObject()) != null)
         {
-            if((xwfVar = msg.getAttribute("value").getObject()) != null) //$NON-NLS-1$
+            if((xwfVar = msg.getAttribute("value").getObject()) != null)
             {
-                if((valueObject = xwfVar.getAttribute("valueObject").getObject()) != null) //$NON-NLS-1$
+                if((valueObject = xwfVar.getAttribute("valueObject").getObject()) != null)
                 {
-                    Element preview = new Preview(valueObject,"preview",null); //$NON-NLS-1$
+                    Element preview = new Preview(valueObject,"preview",null);
                     return preview;
                 }
             }
         }
-        Element preview = new Preview(null,"preview",null); //$NON-NLS-1$
+        Element preview = new Preview(null,"preview",null);
         return preview;
     }
     public static Element getPreviewSendElement(XwfController controller) throws boRuntimeException
     {
         boObject actvSend = null, msg = null, xwfVar = null, valueObject = null; 
-        if((actvSend = controller.getRuntimeActivity().getAttribute("sendActivity").getObject()) != null) //$NON-NLS-1$
+        if((actvSend = controller.getRuntimeActivity().getAttribute("sendActivity").getObject()) != null)
         {
-            if((msg = actvSend.getAttribute("message").getObject()) != null) //$NON-NLS-1$
+            if((msg = actvSend.getAttribute("message").getObject()) != null)
             {
-                if((xwfVar = msg.getAttribute("value").getObject()) != null) //$NON-NLS-1$
+                if((xwfVar = msg.getAttribute("value").getObject()) != null)
                 {
-                    if((valueObject = xwfVar.getAttribute("valueObject").getObject()) != null) //$NON-NLS-1$
+                    if((valueObject = xwfVar.getAttribute("valueObject").getObject()) != null)
                     {
-                        Element preview = new Preview(valueObject,"previeSendActivity",null); //$NON-NLS-1$
+                        Element preview = new Preview(valueObject,"previeSendActivity",null);
                         return preview;
                     }
                 }
             }
         }
-        Element preview = new Preview(null,"previeSendActivity",null); //$NON-NLS-1$
+        Element preview = new Preview(null,"previeSendActivity",null);
         return preview;
     }  
     public static Element getProgramMessagesElement(XwfController controller,int idx) throws boRuntimeException
     {        
         StringBuffer sb = new StringBuffer();
-        sb.append("<IFRAME ");         //$NON-NLS-1$
-        sb.append("id=").append("'inc_saveOn__").append(controller.getRuntimeActivityBoui()).append("__xwfWaitResponse' ");                 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        sb.append("src='__xwfViewerProgramMessageList.jsp?"); //$NON-NLS-1$
-        sb.append("docid=").append(idx);         //$NON-NLS-1$
-        sb.append("&method=edit");          //$NON-NLS-1$
-        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        sb.append("<IFRAME ");        
+        sb.append("id=").append("'inc_saveOn__").append(controller.getRuntimeActivityBoui()).append("__xwfWaitResponse' ");                
+        sb.append("src='__xwfViewerProgramMessageList.jsp?");
+        sb.append("docid=").append(idx);        
+        sb.append("&method=edit");         
+        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());
+        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui());
+        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element program = new AdHocElement(sb.toString());
         return program;
     }  
     public static Element getEmptyPreview() throws boRuntimeException
     {
-        Element preview = new Preview(null,"preview",null); //$NON-NLS-1$
+        Element preview = new Preview(null,"preview",null);
         return preview;
     }
     public static Element getCallProgramElement(XwfController controller,int idx) throws boRuntimeException
     {        
         StringBuffer sb = new StringBuffer();
-        sb.append("<IFRAME ");         //$NON-NLS-1$
-        sb.append("id=").append("'callProgram'");                 //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("src='__xwfViewerActivityCallProgram.jsp?"); //$NON-NLS-1$
-        sb.append("docid=").append(idx);         //$NON-NLS-1$
-        sb.append("&method=edit");          //$NON-NLS-1$
-        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui()); //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());         //$NON-NLS-1$ //$NON-NLS-2$
-        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>"); //$NON-NLS-1$
+        sb.append("<IFRAME ");        
+        sb.append("id=").append("'callProgram'");                
+        sb.append("src='__xwfViewerActivityCallProgram.jsp?");
+        sb.append("docid=").append(idx);        
+        sb.append("&method=edit");         
+        sb.append("&").append(ControllerFactory.CONTROLLER_NAME_KEY).append("=").append(controller.getName());
+        sb.append("&").append(XwfKeys.PROGRAM_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeProgramBoui());
+        sb.append("&").append(XwfKeys.ACTIVITY_RUNTIME_BOUI_KEY).append("=").append(controller.getRuntimeActivityBoui());        
+        sb.append("' frameBorder='0' width='100%' height='100%' scrolling=no ></IFRAME>");
         Element program = new AdHocElement(sb.toString());
         return program;
     }         

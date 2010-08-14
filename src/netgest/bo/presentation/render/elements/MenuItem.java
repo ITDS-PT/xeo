@@ -45,6 +45,7 @@ public class MenuItem implements Element {
     private boolean vLine = false;
     private boolean hLine = false;
     private boolean searchComponent = false;
+    private boolean customRenderer = false;
     private String searchComponentKey = null;
     private boolean expertSearchComponent = false;
     private boolean filterComponent = false;
@@ -154,6 +155,20 @@ public class MenuItem implements Element {
         return boqlInit;
     }
 
+    public void setCustomRenderer( boolean customRenderer ) {
+        this.customRenderer = customRenderer;
+    }
+
+    public boolean isCustomRenderer() {
+        return this.customRenderer;
+    }
+    
+    public void renderComponent(Menu mnu, MenuItem item,
+        PrintWriter out, docHTML doc, docHTML_controler docList, PageController control, Hashtable param) {
+        
+    }
+    
+ 
     //Métodos set's
     public void setId(String value) {
         if (isLine()) {

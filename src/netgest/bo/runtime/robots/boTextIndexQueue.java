@@ -43,7 +43,8 @@ public class boTextIndexQueue
                  (object.getBoDefinition().isTextIndexActive() && object.getBoDefinition().getBoCanBeOrphan()) 
                  ||
                  (object.getBoDefinition().isTextIndexActive() )
-             ) && object.isChanged() )
+              )  
+             )
         {
 
             Long xboui = new Long( object.getBoui());
@@ -85,9 +86,9 @@ public class boTextIndexQueue
            if ( ( !isTextIndex(objects[i].getBoDefinition()) &&
                  ((objects[i].getBoDefinition().isTextIndexActive() && objects[i].getBoDefinition().getBoCanBeOrphan()) 
                  ||
-                 (objects[i].getBoDefinition().isTextIndexActive() ))
-                ) && objects[i].isChanged() 
-              )
+                     (objects[i].getBoDefinition().isTextIndexActive() )
+                    ) 
+              ))
            {
               
               Long xboui = new Long( objects[i].getBoui());

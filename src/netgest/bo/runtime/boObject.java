@@ -2153,6 +2153,9 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 }
             }
         }
+        else if( p_ischanged && !changed ) {
+        	p_ischanged = p_ischanged;
+        }
     }
 
     public boolean isChanged() throws boRuntimeException {

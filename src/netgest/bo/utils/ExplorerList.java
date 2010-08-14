@@ -930,6 +930,10 @@ public final class ExplorerList  implements Serializable {
                 sb.append("\n");
               }
           }
+          catch(Exception e)
+          {
+              e.printStackTrace();
+          }
           finally
           {
               if(rslt!=null)

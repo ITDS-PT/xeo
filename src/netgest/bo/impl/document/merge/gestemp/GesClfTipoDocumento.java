@@ -74,7 +74,7 @@ public class GesClfTipoDocumento extends Thread
         toPrint.append("<span OnReturnValueChange='document.getElementById(\""+fieldName+"\").value=this.returnValue' class='selectGroupBox' value='"+(value!=null?value.trim():"")+"'>");
         toPrint.append("<TABLE style='DISPLAY: none' cellSpacing=0 cellPadding=2>");
         toPrint.append("<TBODY>");
-        toPrint.append("<TR><TD val=''></TD></TR>");
+        toPrint.append("<TR><TD val=''>&nbsp;</TD></TR>");
         
         //toPrint.append( "<option value=''/>" );
         String sValue = null;

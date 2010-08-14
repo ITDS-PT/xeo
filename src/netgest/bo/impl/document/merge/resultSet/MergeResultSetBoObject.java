@@ -429,7 +429,7 @@ public class MergeResultSetBoObject implements ResultSet
         String o = (String) getObject(index);
 
         lastWasNull = false;
-        return o;
+        return ("".equals(o)?null:o);
     }
 
     public String getString(String columnName)

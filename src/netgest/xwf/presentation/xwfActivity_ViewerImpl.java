@@ -63,12 +63,12 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         if ((xC.toString().trim().length() < 1) && !ctxObj.exists())
         {
             xC.setLength(0);
-            xC.append(Messages.getString("xwfActivity_ViewerImpl.0") + ctxObj.getBoDefinition().getLabel()); //$NON-NLS-1$
+            xC.append(Messages.getString("xwfActivity_ViewerImpl.0") + ctxObj.getBoDefinition().getLabel());
         }
 
         if (xC.length() > 46 && cut)
         {
-            toRet.append(xC.substring(0, 45) + "..."); //$NON-NLS-1$
+            toRet.append(xC.substring(0, 45) + "...");
         }
         else
         {
@@ -82,9 +82,9 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
     public String getSrcForIcon16()
         throws boRuntimeException
     {
-        String toRet = ""; //$NON-NLS-1$
+        String toRet = "";
         //toRet ="ieThemes/0/tasks"+ctxObj.getName()+(ctxObj.userReadThis()?"":"_unread");
-        toRet ="resources/"+ctxObj.getName()+"/ico16.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+        toRet ="resources/"+ctxObj.getName()+"/ico16.gif";
         return toRet;
     }
 
@@ -98,65 +98,65 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         throws boRuntimeException
     {
         StringBuffer toRet = new StringBuffer();
-        toRet.append("<img style='cursor:hand' hspace='3' border='0' align='absmiddle' class='lui' title='"); //$NON-NLS-1$
+        toRet.append("<img style='cursor:hand' hspace='3' border='0' align='absmiddle' class='lui' title='");
 
-        if (ctxObj.getName().equals("Ebo_Template")) //$NON-NLS-1$
+        if (ctxObj.getName().equals("Ebo_Template"))
         {
             //toRet.append("Objecto ");
             toRet.append(ctxObj.getBoDefinition().getLabel());
 
             boObject o = ctxObj.getBoManager().loadObject(
-                    ctxObj.getEboContext(), "Ebo_ClsReg", //$NON-NLS-1$
-                    ctxObj.getAttribute("masterObjectClass").getValueLong() //$NON-NLS-1$
+                    ctxObj.getEboContext(), "Ebo_ClsReg",
+                    ctxObj.getAttribute("masterObjectClass").getValueLong()
                 );
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.9") + o.getAttribute("description").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.9") + o.getAttribute("description").getValueString());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                o.getAttribute("name").getValueString() + "/ico16tmpl.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                o.getAttribute("name").getValueString() + "/ico16tmpl.gif"
             );
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.15")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.15"));
         }
-        else if (ctxObj.getName().equals("Ebo_ClsReg")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("Ebo_ClsReg"))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.237")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.237"));
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                ctxObj.getAttribute("name").getValueString() + "/ico16.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                ctxObj.getAttribute("name").getValueString() + "/ico16.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
-        else if (ctxObj.getName().equals("runtimeAddress")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("runtimeAddress"))
         {
-            boObject oref = ctxObj.getAttribute("refObj").getObject(); //$NON-NLS-1$
+            boObject oref = ctxObj.getAttribute("refObj").getObject();
             toRet.append(ctxObj.getBoDefinition().getLabel());
 
             if (oref != null)
             {
                 toRet.append(
-                    "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + oref.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                    "/ico16.gif" //$NON-NLS-1$
+                    "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + oref.getName() +
+                    "/ico16.gif"
                 );
             }
             else
             {
                 toRet.append(
-                    "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                    ctxObj.getName() + "/ico16.gif" //$NON-NLS-1$
+                    "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                    ctxObj.getName() + "/ico16.gif"
                 );
             }
 
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
         else
         {
             // toRet.append("Objecto ");
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                "/ico16.gif" //$NON-NLS-1$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() +
+                "/ico16.gif"
             );
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.35")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.35"));
         }
 
         //        if ( !ctxObj.exists() )
@@ -173,23 +173,23 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         if ((xC.toString().trim().length() < 1) && !ctxObj.exists())
         {
             xC.setLength(0);
-            xC.append(Messages.getString("xwfActivity_ViewerImpl.36") + ctxObj.getBoDefinition().getLabel()); //$NON-NLS-1$
+            xC.append(Messages.getString("xwfActivity_ViewerImpl.36") + ctxObj.getBoDefinition().getLabel());
         }
 
-        toRet.append("<span title='"); //$NON-NLS-1$
+        toRet.append("<span title='");
         toRet.append(xC);
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
 
         if (cut && (xC.length() > 46))
         {
-            toRet.append(xC.substring(0, 45) + "..."); //$NON-NLS-1$
+            toRet.append(xC.substring(0, 45) + "...");
         }
         else
         {
             toRet.append(xC);
         }
 
-        toRet.append("</span>"); //$NON-NLS-1$
+        toRet.append("</span>");
 
         //        }
         return toRet;
@@ -198,62 +198,62 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
     public Element getCARDID(ngtXMLHandler xmlToPrint, Element root, boolean cut) throws boRuntimeException
     {
         StringBuffer toRet = new StringBuffer();
-        Element img = xmlToPrint.getDocument().createElement("img"); //$NON-NLS-1$
-        img.setAttribute("style", "cursor:hand"); //$NON-NLS-1$ //$NON-NLS-2$
-        img.setAttribute("hspace", "3"); //$NON-NLS-1$ //$NON-NLS-2$
-        img.setAttribute("border", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-        img.setAttribute("align", "absmiddle"); //$NON-NLS-1$ //$NON-NLS-2$
-        img.setAttribute("class", "lui"); //$NON-NLS-1$ //$NON-NLS-2$
+        Element img = xmlToPrint.getDocument().createElement("img");
+        img.setAttribute("style", "cursor:hand");
+        img.setAttribute("hspace", "3");
+        img.setAttribute("border", "0");
+        img.setAttribute("align", "absmiddle");
+        img.setAttribute("class", "lui");
         
 
-        if (ctxObj.getName().equals("Ebo_Template")) //$NON-NLS-1$
+        if (ctxObj.getName().equals("Ebo_Template"))
         {
 
             toRet.append(ctxObj.getBoDefinition().getLabel());
             
 
-            boObject o = ctxObj.getBoManager().loadObject(ctxObj.getEboContext(), "Ebo_ClsReg", ctxObj.getAttribute("masterObjectClass").getValueLong()); //$NON-NLS-1$ //$NON-NLS-2$
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.238") + o.getAttribute("description").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
-            img.setAttribute("title", toRet.toString()); //$NON-NLS-1$
-            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-            img.setAttribute("width", "16"); //$NON-NLS-1$ //$NON-NLS-2$
-            img.setAttribute("height", "16"); //$NON-NLS-1$ //$NON-NLS-2$
+            boObject o = ctxObj.getBoManager().loadObject(ctxObj.getEboContext(), "Ebo_ClsReg", ctxObj.getAttribute("masterObjectClass").getValueLong());
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.238") + o.getAttribute("description").getValueString());
+            img.setAttribute("title", toRet.toString());
+            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + o.getAttribute("name").getValueString() + "/ico16tmpl.gif");
+            img.setAttribute("width", "16");
+            img.setAttribute("height", "16");
         }
-        else if (ctxObj.getName().equals("Ebo_ClsReg")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("Ebo_ClsReg"))
         {
             
-            toRet.append("Classe do objecto "); //$NON-NLS-1$
+            toRet.append("Classe do objecto ");
             toRet.append(ctxObj.getBoDefinition().getLabel());
-            img.setAttribute("title", toRet.toString()); //$NON-NLS-1$
-            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getAttribute("name").getValueString() + "/ico16.gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-            img.setAttribute("width", "16"); //$NON-NLS-1$ //$NON-NLS-2$
-            img.setAttribute("height", "16"); //$NON-NLS-1$ //$NON-NLS-2$
+            img.setAttribute("title", toRet.toString());
+            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getAttribute("name").getValueString() + "/ico16.gif");
+            img.setAttribute("width", "16");
+            img.setAttribute("height", "16");
         }
-        else if (ctxObj.getName().equals("runtimeAddress")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("runtimeAddress"))
         {
             
-            boObject oref = ctxObj.getAttribute("refObj").getObject(); //$NON-NLS-1$
+            boObject oref = ctxObj.getAttribute("refObj").getObject();
             toRet.append(ctxObj.getBoDefinition().getLabel());
-            img.setAttribute("title", toRet.toString()); //$NON-NLS-1$
+            img.setAttribute("title", toRet.toString());
             if( oref!= null )
             {
-               img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + oref.getName() + "/ico16.gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+               img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + oref.getName() + "/ico16.gif");
             }
             else
             {
-               img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + "/ico16.gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+               img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + "/ico16.gif");
             }
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
-            img.setAttribute("width", "16"); //$NON-NLS-1$ //$NON-NLS-2$
-            img.setAttribute("height", "16"); //$NON-NLS-1$ //$NON-NLS-2$
+            toRet.append("' width='16' height='16'/>");
+            img.setAttribute("width", "16");
+            img.setAttribute("height", "16");
         }
         else
         {
             toRet.append(ctxObj.getBoDefinition().getLabel());
-            img.setAttribute("title", toRet.toString()); //$NON-NLS-1$
-            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + "/ico16.gif"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            img.setAttribute("width", "16"); //$NON-NLS-1$ //$NON-NLS-2$
-            img.setAttribute("height", "16"); //$NON-NLS-1$ //$NON-NLS-2$
+            img.setAttribute("title", toRet.toString());
+            img.setAttribute("src", ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + "/ico16.gif");
+            img.setAttribute("width", "16");
+            img.setAttribute("height", "16");
         }
 
         StringBuffer xC = new StringBuffer();
@@ -261,18 +261,18 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         if( xC.toString().trim().length() < 1 && !ctxObj.exists() )
         {
             xC.setLength(0);
-            xC.append(Messages.getString("xwfActivity_ViewerImpl.99")+ ctxObj.getBoDefinition().getLabel() ); //$NON-NLS-1$
+            xC.append(Messages.getString("xwfActivity_ViewerImpl.99")+ ctxObj.getBoDefinition().getLabel() );
         }
         root.appendChild(img);
         
-        Element span = xmlToPrint.getDocument().createElement("span"); //$NON-NLS-1$
-        span.setAttribute("title", xC.toString()); //$NON-NLS-1$
+        Element span = xmlToPrint.getDocument().createElement("span");
+        span.setAttribute("title", xC.toString());
         
         
         toRet.delete(0, toRet.length());
         if (cut && xC.length() > 46)
         {
-            toRet.append(xC.substring(0, 45) + "..."); //$NON-NLS-1$
+            toRet.append(xC.substring(0, 45) + "...");
         }
         else
         {
@@ -321,41 +321,41 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         {
             if (doubleEscape)
             {
-                toRet.append("<span class='lui' onclick=\\\""); //$NON-NLS-1$
+                toRet.append("<span class='lui' onclick=\\\"");
             }
             else
             {
-                toRet.append("<span class='lui' onclick=\""); //$NON-NLS-1$
+                toRet.append("<span class='lui' onclick=\"");
             }
             
-            toRet.append("winmain().openDoc('medium','"); //$NON-NLS-1$
+            toRet.append("winmain().openDoc('medium','");
             toRet.append(ctxObj.getName().toLowerCase());
             toRet.append(
-                "','edit','" + ((extraParameters == null) ? "" : (extraParameters + "&")) + "method=edit&boui=" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                "','edit','" + ((extraParameters == null) ? "" : (extraParameters + "&")) + "method=edit&boui="
             );
             toRet.append(ctxObj.bo_boui);
-            toRet.append("','"); //$NON-NLS-1$
-            toRet.append(""); //$NON-NLS-1$
-            toRet.append("','"); //$NON-NLS-1$
-            toRet.append(""); //$NON-NLS-1$
-            toRet.append("','"); //$NON-NLS-1$
+            toRet.append("','");
+            toRet.append("");
+            toRet.append("','");
+            toRet.append("");
+            toRet.append("','");
             toRet.append(ctxObj.getName());
     
             if (doubleEscape)
             {
-                toRet.append("',window.windowIDX)\\\">"); //$NON-NLS-1$
+                toRet.append("',window.windowIDX)\\\">");
             }
             else
             {
-                toRet.append("',window.windowIDX)\">"); //$NON-NLS-1$
+                toRet.append("',window.windowIDX)\">");
             }
         }
 
-        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='"); //$NON-NLS-1$
-        toRet.append(Messages.getString("xwfActivity_ViewerImpl.239")); //$NON-NLS-1$
+        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='");
+        toRet.append(Messages.getString("xwfActivity_ViewerImpl.239"));
         toRet.append(ctxObj.getBoDefinition().getLabel());
-        toRet.append("' src='resources/" + ctxObj.getName() + "/ico16.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-        toRet.append("' width='16' height='16'/><span "); //$NON-NLS-1$
+        toRet.append("' src='resources/" + ctxObj.getName() + "/ico16.gif");
+        toRet.append("' width='16' height='16'/><span ");
 
         //  if ( !ctxObj.exists() )
         //  {   
@@ -367,11 +367,11 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         //  {
         StringBuffer xC = new StringBuffer();
         xC.append(ctxObj.mergeAttributes(ctxObj.getBoDefinition().getCARDID(), ctxObj));
-        toRet.append("title='"); //$NON-NLS-1$
+        toRet.append("title='");
         toRet.append(xC);
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
         toRet.append(xC);
-        toRet.append("</span></span>"); //$NON-NLS-1$
+        toRet.append("</span></span>");
 
         //  }
         // toRet.append("</td></tr></tbody></table>");
@@ -382,24 +382,24 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         throws boRuntimeException
     {
         StringBuffer toRet = new StringBuffer();
-        toRet.append("<a  href='"); //$NON-NLS-1$
+        toRet.append("<a  href='");
         toRet.append(ctxObj.getEboContext().getApplicationUrl());
-        toRet.append("/"); //$NON-NLS-1$
-        toRet.append("__viewObject.jsp"); //$NON-NLS-1$
-        toRet.append("?method=edit&boui="); //$NON-NLS-1$
+        toRet.append("/");
+        toRet.append("__viewObject.jsp");
+        toRet.append("?method=edit&boui=");
         toRet.append(ctxObj.bo_boui);
-        toRet.append("&object="); //$NON-NLS-1$
+        toRet.append("&object=");
         toRet.append(ctxObj.getName());
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
 
-        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' border='0' title='"); //$NON-NLS-1$
-        toRet.append(Messages.getString("xwfActivity_ViewerImpl.132")); //$NON-NLS-1$
+        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' border='0' title='");
+        toRet.append(Messages.getString("xwfActivity_ViewerImpl.132"));
         toRet.append(ctxObj.getBoDefinition().getLabel());
         toRet.append(
-            "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-            "/ico16.gif" //$NON-NLS-1$
+            "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() +
+            "/ico16.gif"
         );
-        toRet.append("' width='16' height='16'/><span "); //$NON-NLS-1$
+        toRet.append("' width='16' height='16'/><span ");
 
         //  if ( !ctxObj.exists() )
         //  {   
@@ -411,11 +411,11 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         //  {
         StringBuffer xC = new StringBuffer();
         xC.append(ctxObj.mergeAttributes(ctxObj.getBoDefinition().getCARDID(), ctxObj));
-        toRet.append("title='"); //$NON-NLS-1$
+        toRet.append("title='");
         toRet.append(xC);
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
         toRet.append(xC);
-        toRet.append("</a>"); //$NON-NLS-1$
+        toRet.append("</a>");
 
         //  }
         // toRet.append("</td></tr></tbody></table>");
@@ -437,56 +437,56 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         //toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' src='");
         //toRet.append("resources/"+ctxObj.getName()+"/ico16.gif");
         //toRet.append("' width='16' height='16'/> ");
-        toRet.append("<span class='lui' onclick=\""); //$NON-NLS-1$
-        toRet.append("winmain().openDoc('medium','"); //$NON-NLS-1$
+        toRet.append("<span class='lui' onclick=\"");
+        toRet.append("winmain().openDoc('medium','");
         toRet.append(ctxObj.getName().toLowerCase());
-        toRet.append("','edit','"+"method=edit&boui="); //$NON-NLS-1$ //$NON-NLS-2$
+        toRet.append("','edit','"+"method=edit&boui=");
         toRet.append(ctxObj.bo_boui);
-        toRet.append("','"); //$NON-NLS-1$
-        toRet.append(""); //$NON-NLS-1$
-        toRet.append("','"); //$NON-NLS-1$
-        toRet.append(""); //$NON-NLS-1$
-        toRet.append("','"); //$NON-NLS-1$
+        toRet.append("','");
+        toRet.append("");
+        toRet.append("','");
+        toRet.append("");
+        toRet.append("','");
         toRet.append(ctxObj.getName());       
-        toRet.append("',window.windowIDX)\">"); //$NON-NLS-1$
-        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='"); //$NON-NLS-1$
+        toRet.append("',window.windowIDX)\">");
+        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='");
 
-        if (ctxObj.getName().equals("Ebo_Template")) //$NON-NLS-1$
+        if (ctxObj.getName().equals("Ebo_Template"))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.132")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.132"));
 
             toRet.append(ctxObj.getBoDefinition().getLabel());
 
             boObject o = ctxObj.getBoManager().loadObject(
-                    ctxObj.getEboContext(), "Ebo_ClsReg", //$NON-NLS-1$
-                    ctxObj.getAttribute("masterObjectClass").getValueLong() //$NON-NLS-1$
+                    ctxObj.getEboContext(), "Ebo_ClsReg",
+                    ctxObj.getAttribute("masterObjectClass").getValueLong()
                 );
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.155") + o.getAttribute("description").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.155") + o.getAttribute("description").getValueString());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                o.getAttribute("name").getValueString() + "/ico16tmpl.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                o.getAttribute("name").getValueString() + "/ico16tmpl.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
-        else if (ctxObj.getName().equals("Ebo_ClsReg")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("Ebo_ClsReg"))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.163")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.163"));
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                ctxObj.getAttribute("name").getValueString() + "/ico16.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                ctxObj.getAttribute("name").getValueString() + "/ico16.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
         else
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.169")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.169"));
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                "/ico16.gif" //$NON-NLS-1$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() +
+                "/ico16.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
 
         //        if ( !ctxObj.exists() )
@@ -504,13 +504,13 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         // toRet.append("<img align='absmiddle' hspace='1' src='resources/");
         // toRet.append(getStringComposedState());
         //  toRet.append(".gif' width=16 height=16 />");
-        toRet.append("<span "); //$NON-NLS-1$
-        toRet.append("title='"); //$NON-NLS-1$
+        toRet.append("<span ");
+        toRet.append("title='");
         toRet.append(xC);
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
         toRet.append(xC);
-        toRet.append("</span>"); //$NON-NLS-1$
-        toRet.append("</span>"); //$NON-NLS-1$
+        toRet.append("</span>");
+        toRet.append("</span>");
 
         //     }
         return toRet;
@@ -524,44 +524,44 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         //toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' src='");
         //toRet.append("resources/"+ctxObj.getName()+"/ico16.gif");
         //toRet.append("' width='16' height='16'/> ");
-        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='"); //$NON-NLS-1$
+        toRet.append("<img style='cursor:hand' hspace='3' align='absmiddle' class='lui' title='");
 
-        if (ctxObj.getName().equals("Ebo_Template")) //$NON-NLS-1$
+        if (ctxObj.getName().equals("Ebo_Template"))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.181")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.181"));
 
             toRet.append(ctxObj.getBoDefinition().getLabel());
 
             boObject o = ctxObj.getBoManager().loadObject(
-                    ctxObj.getEboContext(), "Ebo_ClsReg", //$NON-NLS-1$
-                    ctxObj.getAttribute("masterObjectClass").getValueLong() //$NON-NLS-1$
+                    ctxObj.getEboContext(), "Ebo_ClsReg",
+                    ctxObj.getAttribute("masterObjectClass").getValueLong()
                 );
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.184") + o.getAttribute("description").getValueString()); //$NON-NLS-1$ //$NON-NLS-2$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.184") + o.getAttribute("description").getValueString());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                o.getAttribute("name").getValueString() + "/ico16tmpl.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                o.getAttribute("name").getValueString() + "/ico16tmpl.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
-        else if (ctxObj.getName().equals("Ebo_ClsReg")) //$NON-NLS-1$
+        else if (ctxObj.getName().equals("Ebo_ClsReg"))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.192")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.192"));
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + //$NON-NLS-1$ //$NON-NLS-2$
-                ctxObj.getAttribute("name").getValueString() + "/ico16.gif" //$NON-NLS-1$ //$NON-NLS-2$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" +
+                ctxObj.getAttribute("name").getValueString() + "/ico16.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
         else
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.198")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.198"));
             toRet.append(ctxObj.getBoDefinition().getLabel());
             toRet.append(
-                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                "/ico16.gif" //$NON-NLS-1$
+                "' src='" + ctxObj.getEboContext().getApplicationUrl() + "/resources/" + ctxObj.getName() +
+                "/ico16.gif"
             );
-            toRet.append("' width='16' height='16'/>"); //$NON-NLS-1$
+            toRet.append("' width='16' height='16'/>");
         }
 
         //        if ( !ctxObj.exists() )
@@ -579,12 +579,12 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         // toRet.append("<img align='absmiddle' hspace='1' src='resources/");
         // toRet.append(getStringComposedState());
         //  toRet.append(".gif' width=16 height=16 />");
-        toRet.append("<span "); //$NON-NLS-1$
-        toRet.append("title='"); //$NON-NLS-1$
+        toRet.append("<span ");
+        toRet.append("title='");
         toRet.append(xC);
-        toRet.append("'>"); //$NON-NLS-1$
+        toRet.append("'>");
         toRet.append(xC);
-        toRet.append("</span>"); //$NON-NLS-1$
+        toRet.append("</span>");
 
         //     }
         return toRet;
@@ -597,61 +597,61 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
 
         if (!ctxObj.exists() && (ctxObj.getMode() != ctxObj.MODE_EDIT_TEMPLATE))
         {
-            toRet.append(Messages.getString("xwfActivity_ViewerImpl.240")); //$NON-NLS-1$
+            toRet.append(Messages.getString("xwfActivity_ViewerImpl.240"));
         }
         else if (ctxObj.getMode() == ctxObj.MODE_EDIT)
         {
-            long xboui = ctxObj.getAttribute("CREATOR").getValueLong(); //$NON-NLS-1$
+            long xboui = ctxObj.getAttribute("CREATOR").getValueLong();
 
             if (xboui > 0)
             {
                 boObject u1 = ctxObj.getObject(xboui);
                 toRet.append(
-                    Messages.getString("xwfActivity_ViewerImpl.209") + " ( " + ctxObj.getDataRow().getLong("SYS_ICN") + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    Messages.getString("xwfActivity_ViewerImpl.241") //$NON-NLS-1$
+                    Messages.getString("xwfActivity_ViewerImpl.209") + " ( " + ctxObj.getDataRow().getLong("SYS_ICN") +
+                    Messages.getString("xwfActivity_ViewerImpl.241")
                 );
                 toRet.append(u1.getCARDID());
-                toRet.append(Messages.getString("xwfActivity_ViewerImpl.213")); //$NON-NLS-1$
+                toRet.append(Messages.getString("xwfActivity_ViewerImpl.213"));
 
                 toRet.append(
                     DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(
-                        ctxObj.getDataRow().getDate("SYS_DTCREATE") //$NON-NLS-1$
+                        ctxObj.getDataRow().getDate("SYS_DTCREATE")
                     )
                 );
             }
             else
             {
                 toRet.append(
-                    Messages.getString("xwfActivity_ViewerImpl.215") + " ( " + ctxObj.getDataRow().getLong("SYS_ICN") + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    " )" //$NON-NLS-1$
+                    Messages.getString("xwfActivity_ViewerImpl.215") + " ( " + ctxObj.getDataRow().getLong("SYS_ICN") +
+                    " )"
                 );
             }
         }
         else if (ctxObj.getMode() == ctxObj.MODE_EDIT_TEMPLATE)
         {
-            boObject tmpl = ctxObj.getAttribute("TEMPLATE").getObject(); //$NON-NLS-1$
+            boObject tmpl = ctxObj.getAttribute("TEMPLATE").getObject();
 
             if (tmpl.exists())
             {
-                toRet.append(Messages.getString("xwfActivity_ViewerImpl.220")); //$NON-NLS-1$
-                toRet.append(" ( ").append(tmpl.getDataRow().getLong("SYS_ICN")).append(Messages.getString("xwfActivity_ViewerImpl.223")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                toRet.append(Messages.getString("xwfActivity_ViewerImpl.220"));
+                toRet.append(" ( ").append(tmpl.getDataRow().getLong("SYS_ICN")).append(Messages.getString("xwfActivity_ViewerImpl.223"));
 
-                long xboui = tmpl.getAttribute("CREATOR").getValueLong(); //$NON-NLS-1$
+                long xboui = tmpl.getAttribute("CREATOR").getValueLong();
 
                 if (xboui > 0)
                 {
                     boObject u1 = ctxObj.getObject(xboui);
                     toRet.append(u1.getCARDID());
-                    toRet.append(Messages.getString("xwfActivity_ViewerImpl.225")); //$NON-NLS-1$
+                    toRet.append(Messages.getString("xwfActivity_ViewerImpl.225"));
                     toRet.append(
                         DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(
-                            tmpl.getDataRow().getDate("SYS_DTCREATE") //$NON-NLS-1$
+                            tmpl.getDataRow().getDate("SYS_DTCREATE")
                         )
                     );
-                    toRet.append(Messages.getString("xwfActivity_ViewerImpl.227")); //$NON-NLS-1$
+                    toRet.append(Messages.getString("xwfActivity_ViewerImpl.227"));
                     toRet.append(
                         DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(
-                            tmpl.getDataRow().getDate("SYS_DTSAVE") //$NON-NLS-1$
+                            tmpl.getDataRow().getDate("SYS_DTSAVE")
                         )
                     );
                 }
@@ -660,7 +660,7 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
             }
             else
             {
-                toRet.append(Messages.getString("xwfActivity_ViewerImpl.229")); //$NON-NLS-1$
+                toRet.append(Messages.getString("xwfActivity_ViewerImpl.229"));
             }
         }
 
@@ -690,7 +690,7 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
     public String getICONComposedState()
         throws boRuntimeException
     {
-        String toRet = ""; //$NON-NLS-1$
+        String toRet = "";
 
         if (ctxObj.getStateManager() != null)
         {
@@ -699,7 +699,7 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         else
         {
             //toRet="none";
-            toRet = "<IMG src='resources/none.gif' height=16 width=16 />"; //$NON-NLS-1$
+            toRet = "<IMG src='resources/none.gif' height=16 width=16 />";
         }
 
         return toRet;
@@ -708,7 +708,7 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
     public String getStringComposedState()
         throws boRuntimeException
     {
-        String toRet = ""; //$NON-NLS-1$
+        String toRet = "";
 
         if (ctxObj.getStateManager() != null)
         {
@@ -716,7 +716,7 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         }
         else
         {
-            toRet = "none"; //$NON-NLS-1$
+            toRet = "none";
         }
 
         return toRet;
@@ -726,11 +726,11 @@ public class xwfActivity_ViewerImpl implements ObjectViewer
         throws boRuntimeException
     {
         StringBuffer sb = new StringBuffer();
-        sb.append("winmain().openDoc('medium','"); //$NON-NLS-1$
+        sb.append("winmain().openDoc('medium','");
         sb.append(ctxObj.getName().toLowerCase());
-        sb.append("','edit','method=edit&boui="); //$NON-NLS-1$
+        sb.append("','edit','method=edit&boui=");
         sb.append(ctxObj.getBoui());
-        sb.append("')"); //$NON-NLS-1$
+        sb.append("')");
 
         return sb;
     }

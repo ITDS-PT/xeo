@@ -35,7 +35,7 @@ public abstract class GtCampo {
     private String pergunta = null;
     private String descricao = null;
     private String tipo = null;
-
+    private Object decimals = null;
     //minimo maximo
     private long min = Long.MIN_VALUE;
     private long max = Long.MAX_VALUE;
@@ -83,6 +83,12 @@ public abstract class GtCampo {
 
     public void setTipo(String newValue) {
         this.tipo = newValue;
+    }
+
+    public void setDecimals(Object decimals)
+    {
+        
+        this.decimals = decimals;
     }
 
     public void setObjecto(long newValue) {
@@ -198,6 +204,10 @@ public abstract class GtCampo {
         }
 
         return this.tipo;
+    }
+
+     public Object getDecimals() {
+        return this.decimals;
     }
 
     public long getObjecto() {
@@ -408,8 +418,7 @@ public abstract class GtCampo {
         javaExec.setJavaCode(validacao);
 
         Object result = javaExec.execute();
-        if( javaExec.sucess() )
-        {
+
         if ((result != null) && result instanceof Boolean) {
             if (!((Boolean) result).booleanValue()) {
                 for (int i = 0; i < contexto.getErros().size(); i++) {
@@ -417,7 +426,6 @@ public abstract class GtCampo {
                 }
 
                 return false;
-            }
             }
         }
         else

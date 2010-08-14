@@ -121,7 +121,69 @@ public class DataUtils
             seqFullTableName = schemaName + ".";
           }
           seqFullTableName += "SYSNGT_SEQUENCES";
-          pstm = cn.prepareStatement("SELECT COUNTER FROM " + seqFullTableName + " WHERE SEQCHAVE=? FOR UPDATE");
+          
+          boolean createSeq = false;
+          boolean updateSeq = true;
+          
+          if(nextval > Long.MIN_VALUE) {
+              pstm = cn.prepareStatement("SELECT COUNTER FROM " + seqFullTableName + " WHERE SEQCHAVE=?");
+              pstm.setString(1,seqchave);
+              rslt = pstm.executeQuery();
+              if(rslt.next()) 
+                updateSeq = nextval == Long.MIN_VALUE || rslt.getLong(1) < nextval;
+              else
+                createSeq = true;
+
+              rslt.close();
+              pstm.close();                          
+          }
+          
+          if(updateSeq && !createSeq) {
+              if( nextval == Long.MIN_VALUE ) {
+                  pstm = cn.prepareStatement("UPDATE " + seqFullTableName + " SET COUNTER=COUNTER+1 WHERE SEQCHAVE=?");
+                  pstm.setString(1,seqchave);
+              }
+              else {
+                  pstm = cn.prepareStatement("UPDATE " + seqFullTableName + " SET COUNTER=? WHERE SEQCHAVE=?");
+                  pstm.setLong(1,nextval);
+                  pstm.setString(2,seqchave);
+              }
+              
+              int linesUpdated = pstm.executeUpdate();
+              pstm.close();
+              if(linesUpdated>0) {
+                  pstm = cn.prepareStatement("SELECT COUNTER FROM " + seqFullTableName + " WHERE SEQCHAVE=?");
+                  pstm.setString(1,seqchave);
+                  rslt = pstm.executeQuery();
+                  rslt.next();
+                  retval = rslt.getLong(1);
+                  rslt.close();
+                  pstm.close();
+              }
+              else
+                createSeq = true;            
+          }
+          
+          if(createSeq) {
+              if( nextval == Long.MIN_VALUE )
+              {
+                  retval = 1;
+              }
+              else
+              {
+                  retval = nextval;
+              }
+              rslt.close();
+              pstm.close();
+              pstm = cn.prepareStatement("INSERT INTO " + seqFullTableName+ " (SEQCHAVE,COUNTER) VALUES(?,?)");
+              pstm.setString(1,seqchave);
+              pstm.setLong(2,retval);
+              pstm.executeUpdate();
+              pstm.close();
+          }
+          
+          /*
+          pstm = cn.prepareStatement("SELECT COUNTER FROM " + seqFullTableName + " WHERE SEQCHAVE=? FOR UPDATE WAIT 60");
           pstm.setString(1,seqchave);
           rslt = pstm.executeQuery();
           if (rslt.next()) {
@@ -164,7 +226,7 @@ public class DataUtils
               pstm.setLong(2,retval);
               pstm.executeUpdate();
               pstm.close();
-          }
+          }*/
       } 
       catch (SQLException e) 
       {

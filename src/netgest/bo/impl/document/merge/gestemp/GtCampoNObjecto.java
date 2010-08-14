@@ -29,7 +29,7 @@ import netgest.bo.system.Logger;
 public class GtCampoNObjecto extends GtCampo {
     //logger
     private static Logger logger = Logger.getLogger(
-            "netgest.bo.impl.document.merge.gestemp.GtCampoNObjecto"); //$NON-NLS-1$
+            "netgest.bo.impl.document.merge.gestemp.GtCampoNObjecto");
 
     //Campos Formula ou Objecto
     ArrayList camposformulas;
@@ -56,15 +56,15 @@ public class GtCampoNObjecto extends GtCampo {
     }
 
     public String getHTMLFieldName() {
-        return getQueryName() + "__" + getNome(); //$NON-NLS-1$
+        return getQueryName() + "__" + getNome();
     }
 
     public String getHTMLFieldID() {
         if (getQueryName() != null) {
-            return "tblLook" + getQueryName() + "__" + getNome(); //$NON-NLS-1$ //$NON-NLS-2$
+            return "tblLook" + getQueryName() + "__" + getNome();
         }
 
-        return "tblLook" + getNome(); //$NON-NLS-1$
+        return "tblLook" + getNome();
     }
 
     public void addFormula(GtCampoFormula newValue) {
@@ -106,25 +106,25 @@ public class GtCampoNObjecto extends GtCampo {
     private static void setCampoValues(GtCampoNObjecto newCampo, boObject campo)
         throws boRuntimeException {
         if (campo != null) {
-            newCampo.setNome(campo.getAttribute("nome").getValueString()); //$NON-NLS-1$
-            newCampo.setPergunta(campo.getAttribute("pergunta").getValueString()); //$NON-NLS-1$
-            newCampo.setDescricao(campo.getAttribute("descricao") //$NON-NLS-1$
+            newCampo.setNome(campo.getAttribute("nome").getValueString());
+            newCampo.setPergunta(campo.getAttribute("pergunta").getValueString());
+            newCampo.setDescricao(campo.getAttribute("descricao")
                                        .getValueString());
-            newCampo.setObjecto(campo.getAttribute("objecto").getValueLong()); //$NON-NLS-1$
-            newCampo.setAtributo(campo.getAttribute("atributo").getValueLong()); //$NON-NLS-1$
-            newCampo.setHelper(campo.getAttribute("helper").getValueString()); //$NON-NLS-1$
-            newCampo.setValidacao(campo.getAttribute("validacao") //$NON-NLS-1$
+            newCampo.setObjecto(campo.getAttribute("objecto").getValueLong());
+            newCampo.setAtributo(campo.getAttribute("atributo").getValueLong());
+            newCampo.setHelper(campo.getAttribute("helper").getValueString());
+            newCampo.setValidacao(campo.getAttribute("validacao")
                                        .getValueString());
-            newCampo.setObrigatorio(campo.getAttribute("obrigatorio") //$NON-NLS-1$
+            newCampo.setObrigatorio(campo.getAttribute("obrigatorio")
                                          .getValueString());
-            newCampo.setParametro(campo.getAttribute("parametro").getValueLong()); //$NON-NLS-1$
-            newCampo.setTags(campo.getBridge("tags")); //$NON-NLS-1$
+            newCampo.setParametro(campo.getAttribute("parametro").getValueLong());
+            newCampo.setTags(campo.getBridge("tags"));
 
-            newCampo.setTipoSeleccao(campo.getAttribute("tipoSeleccao") //$NON-NLS-1$
+            newCampo.setTipoSeleccao(campo.getAttribute("tipoSeleccao")
                                           .getValueString());
 
             //Campos
-            boBridgeIterator bit = campo.getBridge("campos").iterator(); //$NON-NLS-1$
+            boBridgeIterator bit = campo.getBridge("campos").iterator();
             bit.beforeFirst();
 
             boObject aux = null;
@@ -138,11 +138,11 @@ public class GtCampoNObjecto extends GtCampo {
                 aux = bit.currentRow().getObject();
 
                 if (Helper.isMarkedForTemplate(newCampo, aux)) {
-                    if ("GESTEMP_CampoObjecto".equals(aux.getName())) { //$NON-NLS-1$
+                    if ("GESTEMP_CampoObjecto".equals(aux.getName())) {
                         co = GtCampoObjecto.getCampo(newCampo, aux);
                         newCampo.addObjecto(co);
                         newCampo.addCampo(co);
-                    } else if ("GESTEMP_CampoFormula".equals(aux.getName())) { //$NON-NLS-1$
+                    } else if ("GESTEMP_CampoFormula".equals(aux.getName())) {
                         cf = GtCampoFormula.getCampo(newCampo, aux);
                         newCampo.addFormula(cf);
                         newCampo.addCampo(cf);
@@ -170,16 +170,16 @@ public class GtCampoNObjecto extends GtCampo {
         boDefAttribute attDef = null;
 
         //verificar se o atributo é atributo do objecto
-        if (attObj.getAttribute("clsReg").getValueLong() == clsRegObj.getBoui()) { //$NON-NLS-1$
+        if (attObj.getAttribute("clsReg").getValueLong() == clsRegObj.getBoui()) {
             boDefHandler bodef = boDefHandler.getBoDefinition(clsRegObj.getAttribute(
-                        "name").getValueString()); //$NON-NLS-1$
-            attDef = bodef.getAttributeRef(attObj.getAttribute("name") //$NON-NLS-1$
+                        "name").getValueString());
+            attDef = bodef.getAttributeRef(attObj.getAttribute("name")
                                                  .getValueString());
             sqlType = Helper.getSqlType(attDef, templateType);
         } else {
             boDefHandler def = boDefHandler.getBoDefinition(clsRegObj.getAttribute(
-                        "name").getValueString()); //$NON-NLS-1$
-            String[] helpers = helper.split("\\."); //$NON-NLS-1$
+                        "name").getValueString());
+            String[] helpers = helper.split("\\.");
 
             for (int i = 0; i < helpers.length; i++) {
                 if ((i + 1) < helpers.length) {
@@ -194,9 +194,9 @@ public class GtCampoNObjecto extends GtCampo {
 
         if (sqlType == Types.BLOB) {
             if (GtTemplate.TEXT_TEMPLATE == templateType) {
-                tab.insert("", getHeaderName(), sqlType); //$NON-NLS-1$
+                tab.insert("", getHeaderName(), sqlType);
             } else if (GtTemplate.CLF_TEMPALTE == templateType) {
-                tab.insert("", getHeaderName(), sqlType); //$NON-NLS-1$
+                tab.insert("", getHeaderName(), sqlType);
             } else {
                 tab.insert(toBytes(value), getHeaderName(), sqlType);
             }
@@ -208,7 +208,7 @@ public class GtCampoNObjecto extends GtCampo {
                     for (int i = 0; i < valores.size(); i++) {
                         String t = attDef.getType().toUpperCase();
                         tab.startEditingLine();
-                        if (GtTemplate.CLF_TEMPALTE == templateType && t.indexOf("OBJECT") != -1) //$NON-NLS-1$
+                        if (GtTemplate.CLF_TEMPALTE == templateType && t.indexOf("OBJECT") != -1)
                         {
                             tab.insert(new BigDecimal(((Long)valores.get(i)).toString()), getHeaderName(),
                             Helper.getSqlTypeFromGesDocTipoCampoLov(
@@ -241,9 +241,9 @@ public class GtCampoNObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.finer(Messages.getString("GtCampoNObjecto.27") + //$NON-NLS-1$
+        logger.finer(Messages.getString("GtCampoNObjecto.27") +
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
-            Messages.getString("GtCampoNObjecto.28") + getNome()); //$NON-NLS-1$
+            Messages.getString("GtCampoNObjecto.28") + getNome());
     }
 
     public void calculateAutomicFields(EboContext boctx, GtTemplate template)
@@ -251,7 +251,7 @@ public class GtCampoNObjecto extends GtCampo {
         GtValue g = getQuery().getParametro().getValue();
 
         try {
-            if ("3".equals(getTipoSeleccao())) { //$NON-NLS-1$
+            if ("3".equals(getTipoSeleccao())) {
                 if (g != null) {
                     if ((g.getValue() != null) && g.getValue() instanceof Long) {
                         boObject paramObj = boObject.getBoManager().loadObject(boctx,
@@ -284,27 +284,27 @@ public class GtCampoNObjecto extends GtCampo {
                 }
             }
         } catch (Exception e) {
-            String msg = Messages.getString("GtCampoNObjecto.30") + getHelper() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+            String msg = Messages.getString("GtCampoNObjecto.30") + getHelper() + "]";
 
             if ((g != null) && (g.getValue() != null)) {
                 if (g.getValue() instanceof boObject) {
-                    msg += (Messages.getString("GtCampoNObjecto.32") + //$NON-NLS-1$
-                    ((boObject) g.getValue()).getBoui() + "/" + //$NON-NLS-1$
-                    ((boObject) g.getValue()).getName() + "]"); //$NON-NLS-1$
+                    msg += (Messages.getString("GtCampoNObjecto.32") +
+                    ((boObject) g.getValue()).getBoui() + "/" +
+                    ((boObject) g.getValue()).getName() + "]");
                 }
             }
 
-            logger.severe(Messages.getString("GtCampoNObjecto.35") + getNome() + "] : " + msg, e); //$NON-NLS-1$ //$NON-NLS-2$
-            throw new boRuntimeException("", //$NON-NLS-1$
-                Messages.getString("GtCampoNObjecto.38") + getPergunta() + //$NON-NLS-1$
-                Messages.getString("GtCampoNObjecto.39"), null); //$NON-NLS-1$
+            logger.severe(Messages.getString("GtCampoNObjecto.35") + getNome() + "] : " + msg, e);
+            throw new boRuntimeException("",
+                Messages.getString("GtCampoNObjecto.38") + getPergunta() +
+                Messages.getString("GtCampoNObjecto.39"), null);
         }
     }
 
     private static Object getValue(EboContext boctx, boObject obj,
         String helperValue) throws boRuntimeException {
         if (helperValue != null) {
-            String[] helpers = helperValue.split("\\."); //$NON-NLS-1$
+            String[] helpers = helperValue.split("\\.");
 
             if (helpers.length == 1) {
                 boBridgeIterator bit = obj.getBridge(helpers[0]).iterator();
@@ -325,13 +325,13 @@ public class GtCampoNObjecto extends GtCampo {
 
                 return values;
             } else {
-                String helperAux = ""; //$NON-NLS-1$
+                String helperAux = "";
 
                 for (int i = 1; i < helpers.length; i++) {
                     helperAux += helpers[i];
 
                     if ((i + 1) < helpers.length) {
-                        helperAux += "."; //$NON-NLS-1$
+                        helperAux += ".";
                     }
                 }
 
@@ -394,8 +394,8 @@ public class GtCampoNObjecto extends GtCampo {
         GtValue v = new GtValue();
         String s = request.getParameter(getHTMLFieldName());
 
-        if ((s != null) && !"".equals(s)) { //$NON-NLS-1$
-            String[] bouis = s.split(";"); //$NON-NLS-1$
+        if ((s != null) && !"".equals(s)) {
+            String[] bouis = s.split(";");
             ArrayList r = null;
 
             for (int i = 0; i < bouis.length; i++) {
@@ -426,11 +426,11 @@ public class GtCampoNObjecto extends GtCampo {
                         long clsreg = p.getObjecto();
                         boObject clsRegObj = boObject.getBoManager().loadObject(boctx,
                                 clsreg);
-                        String parentName = clsRegObj.getAttribute("name") //$NON-NLS-1$
+                        String parentName = clsRegObj.getAttribute("name")
                                                      .getValueString();
  
-                        return "select /*TEXINDEXONRETURNOBJECT*/ " + parentName + "." + getHelper() + //$NON-NLS-1$ //$NON-NLS-2$
-                        " where boui = " + boui; //$NON-NLS-1$
+                        return "select /*TEXINDEXONRETURNOBJECT*/ " + parentName + "." + getHelper() +
+                        " where boui = " + boui;
                     }
                 }
             }
@@ -438,9 +438,9 @@ public class GtCampoNObjecto extends GtCampo {
 
         long clsreg = getObjecto();
         boObject clsRegObj = boObject.getBoManager().loadObject(boctx, clsreg);
-        String parentName = clsRegObj.getAttribute("name").getValueString(); //$NON-NLS-1$
+        String parentName = clsRegObj.getAttribute("name").getValueString();
 
-        return "select " + clsRegObj + " where boui = 0"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "select " + clsRegObj + " where boui = 0";
     }
 
     public boObject getAnswerObject(EboContext boctx) throws boRuntimeException {
@@ -449,11 +449,11 @@ public class GtCampoNObjecto extends GtCampo {
 
         if ((v != null) && (v.getValues() != null)) {
             ArrayList r = v.getValues();
-            String vStr = ""; //$NON-NLS-1$
+            String vStr = "";
 
             for (int i = 0; i < r.size(); i++) {
                 if (i > 0) {
-                    vStr += ";"; //$NON-NLS-1$
+                    vStr += ";";
                 }
 
                 vStr += ((Long) r.get(i)).toString();
@@ -461,9 +461,9 @@ public class GtCampoNObjecto extends GtCampo {
 
             if (vStr.length() > 0) {
                 answer = boObject.getBoManager().createObject(boctx,
-                        "GESTEMP_Answer"); //$NON-NLS-1$
-                answer.getAttribute("pergunta").setValueString(getPergunta()); //$NON-NLS-1$
-                answer.getAttribute("resposta").setValueString(vStr); //$NON-NLS-1$
+                        "GESTEMP_Answer");
+                answer.getAttribute("pergunta").setValueString(getPergunta());
+                answer.getAttribute("resposta").setValueString(vStr);
             }
         }
 
@@ -504,15 +504,15 @@ public class GtCampoNObjecto extends GtCampo {
         String pergunta;
 
         while (bit.next()) {
-            pergunta = bit.currentRow().getObject().getAttribute("pergunta") //$NON-NLS-1$
+            pergunta = bit.currentRow().getObject().getAttribute("pergunta")
                           .getValueString();
 
             if (pergunta.equalsIgnoreCase(getPergunta())) {
-                String v = bit.currentRow().getObject().getAttribute("resposta") //$NON-NLS-1$
+                String v = bit.currentRow().getObject().getAttribute("resposta")
                               .getValueString();
 
-                if ((v != null) && !"".equals(v)) { //$NON-NLS-1$
-                    String[] valores = v.split(";"); //$NON-NLS-1$
+                if ((v != null) && !"".equals(v)) {
+                    String[] valores = v.split(";");
                     ArrayList r = null;
                     Long auxL = null;
 
@@ -557,17 +557,17 @@ public class GtCampoNObjecto extends GtCampo {
             {
                 auxL = (Long)valores.get(i);
                 boObject o = boObject.getBoManager().loadObject(generatedObj.getEboContext(), auxL.longValue());
-                if(!generatedObj.getBridge("objReferences").haveBoui(o.getBoui())) //$NON-NLS-1$
+                if(!generatedObj.getBridge("objReferences").haveBoui(o.getBoui()))
                 {
-                    generatedObj.getBridge("objReferences").add(o.getBoui()); //$NON-NLS-1$
+                    generatedObj.getBridge("objReferences").add(o.getBoui());
                 }
                 //Martelada
-                if("Peritagem".equals(o.getName())) //$NON-NLS-1$
+                if("Peritagem".equals(o.getName()))
                 {
-                    o = o.getAttribute("sinistro").getObject(); //$NON-NLS-1$
-                    if(o != null && !generatedObj.getBridge("objReferences").haveBoui(o.getBoui())) //$NON-NLS-1$
+                    o = o.getAttribute("sinistro").getObject();
+                    if(o != null && !generatedObj.getBridge("objReferences").haveBoui(o.getBoui()))
                     {
-                        generatedObj.getBridge("objReferences").add(o.getBoui()); //$NON-NLS-1$
+                        generatedObj.getBridge("objReferences").add(o.getBoui());
                     }
                 }
             }

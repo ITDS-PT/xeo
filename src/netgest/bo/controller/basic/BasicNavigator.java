@@ -323,8 +323,8 @@ public class BasicNavigator implements Navigator
                 if( object != null  )
                 {
                     object.getThread().add( 
-                            BigDecimal.valueOf(fromPathItem.getBoui()),
-                            BigDecimal.valueOf(pathItem.getBoui())
+                            new BigDecimal(fromPathItem.getBoui()),
+                            new BigDecimal(pathItem.getBoui())
                     );
                 }
                 

@@ -1612,12 +1612,21 @@ public class boObjectList extends boPoolable {
 					if( qArgs == null ) {
 						qArgs = new Object[0];
 					}
-					XEOQLModifier qm = new XEOQLModifier(p_boql, Arrays.asList( qArgs ) );
-					qm.setOrderByPart("");
-					parList.clear();
+					
+					String boql;
+					
+					if( !p_boql.startsWith("{") ) {
+						XEOQLModifier qm = new XEOQLModifier(p_boql, Arrays.asList( qArgs ) );
+						qm.setOrderByPart("");
+						parList.clear();
+						boql = qm.toBOQL( parList );
+					}
+					else {
+						boql = p_boql;
+					}
 					
 					p_nrrecords = boObjectListResultFactory.getRecordCount(
-							getEboContext(), qm.toBOQL( parList ), qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
+							getEboContext(), boql, qArgs, p_fulltext, p_letter_filter, p_userQuery, p_usesecurity);
 				}
 			}
 			return p_nrrecords;

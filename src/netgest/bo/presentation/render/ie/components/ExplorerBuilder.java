@@ -10,6 +10,7 @@ import netgest.bo.presentation.render.HTMLCommon;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.presentation.render.elements.Element;
 import netgest.bo.presentation.render.elements.Explorer;
+import netgest.bo.presentation.render.elements.Menu;
 import netgest.bo.presentation.render.elements.Splitter;
 import netgest.bo.presentation.render.ie.scripts.FunctionBuilder;
 import netgest.bo.presentation.render.ie.scripts.ScriptBuilder;
@@ -143,6 +144,12 @@ public class ExplorerBuilder
         out.write(EXP_STARTING_TABLE_BEGIN);
 
         writeTr(out, exp.getMenu(), true, doc, docList, control, EXP_WORD_MENU_BAR, EXP_24PX);
+        if( exp.getExtension() != null  )  {
+            Menu m = exp.getExtension().getMenu( exp );
+            if( m != null ) {
+                writeTr(out, m, true, doc, docList, control, EXP_WORD_MENU_BAR, EXP_24PX);
+            }
+        }
 
         // exp.getMenu().writeHTML(out, doc, docList, control);
         //exp.getMouseMenu().writeHTML(out, doc, docList, control);

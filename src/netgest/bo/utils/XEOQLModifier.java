@@ -188,7 +188,12 @@ public class XEOQLModifier {
 	}
 	
 	private void setParameter( List posParamList ) {
-		posParamList.add( this.originalQLParameters.get( this.paramIdx++ ) );
+		try {
+			posParamList.add( this.originalQLParameters.get( this.paramIdx++ ) );
+		}
+		catch( Exception e ) {
+			e.printStackTrace();
+		}
 	}
 	
 	private StringBuffer skipQuotedOrComment( StringBuffer original, Matcher m, String current ) {

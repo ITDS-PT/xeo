@@ -176,14 +176,15 @@ public class boBuildRepository
 
     public void loadDir( File dir, String packageId )
     {
+    	
         File[] dirFiles = dir.listFiles();
         
         Arrays.sort( dirFiles, 
-            new Comparator()
+            new Comparator<File>()
             {
-                public int compare(Object left, Object right )
+                public int compare(File left, File right )
                 {
-                    return ((File)left).getName().compareTo( ((File)right).getName() );
+                    return left.getName().compareTo( right.getName() );
                 }
             }
         );
@@ -192,6 +193,11 @@ public class boBuildRepository
         for (int i = 0;dirFiles != null && i < dirFiles.length; i++)
         {
             File dirFile = dirFiles[i];
+            
+        	if( ".svn".equals( dirFile.getName() ) ) {
+        		continue;
+        	}
+            
             if( dirFile.isDirectory() )
             {
                 String dirName = dirFile.getName();

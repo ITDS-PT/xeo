@@ -4,7 +4,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Messages {
-	private static final String BUNDLE_NAME = "netgest.xwf.common.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "netgest.xwf.common.messages";
 
 
 

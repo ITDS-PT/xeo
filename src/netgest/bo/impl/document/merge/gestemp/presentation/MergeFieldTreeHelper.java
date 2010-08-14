@@ -22,11 +22,11 @@ public class MergeFieldTreeHelper
     {
 
         boObject templateObject = boObject.getBoManager().loadObject( ctx, templateBoui );
-        StringBuffer attributesStr = new StringBuffer(""); //$NON-NLS-1$
+        StringBuffer attributesStr = new StringBuffer("");
 
-        attributesStr.append("attributes=[];\n"); //$NON-NLS-1$
-        attributesStr.append(Messages.getString("MergeFieldTreeHelper.12")); //$NON-NLS-1$
-        attributesStr.append("foldersTree.xID='rootNode';\n"); //$NON-NLS-1$
+        attributesStr.append("attributes=[];\n");
+        attributesStr.append(Messages.getString("MergeFieldTreeHelper.12"));
+        attributesStr.append("foldersTree.xID='rootNode';\n");
         
         Vector toAdd = new Vector();
         
@@ -39,14 +39,14 @@ public class MergeFieldTreeHelper
         
         attributesStr.append('\t');
         
-        attributesStr.append( "foldersTree.addChildren(["); //$NON-NLS-1$
+        attributesStr.append( "foldersTree.addChildren([");
         for (int i = 0; i < toAdd.size(); i++) 
         {
             if( i > 0 ) attributesStr.append( ',' );
             attributesStr.append( toAdd.get( i ) );
             
         }
-        attributesStr.append( "]);"); //$NON-NLS-1$
+        attributesStr.append( "]);");
 
         return attributesStr;
     }
@@ -104,29 +104,29 @@ public class MergeFieldTreeHelper
         PrintWriter pw = new PrintWriter( sbQueryFields );
         
         int ix = 0;
-        boBridgeIterator it = templateObj.getBridge("queries").iterator(); //$NON-NLS-1$
+        boBridgeIterator it = templateObj.getBridge("queries").iterator();
         it.beforeFirst();
         while( it.next() )
         {
             boObject objQuery = it.currentRow().getObject();
-            String id    = objQuery.getAttribute("nome").getValueString(); //$NON-NLS-1$
-            String label = objQuery.getAttribute("pergunta").getValueString(); //$NON-NLS-1$
+            String id    = objQuery.getAttribute("nome").getValueString();
+            String label = objQuery.getAttribute("pergunta").getValueString();
             if( label.trim().length() == 0 )
             {
-                label = objQuery.getAttribute("nome").getValueString(); //$NON-NLS-1$
+                label = objQuery.getAttribute("nome").getValueString();
             }
-            pw.println( "var "+ id + " = gFld('"+ label +"','javascript:void(0)');"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            pw.println( id + ".xID='xq"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$
-            getQueryFields( objQuery.getBridge("campos").iterator(), pw, id, id ); //$NON-NLS-1$
+            pw.println( "var "+ id + " = gFld('"+ label +"','javascript:void(0)');");
+            pw.println( id + ".xID='xq"+(++ix)+"'");
+            getQueryFields( objQuery.getBridge("campos").iterator(), pw, id, id );
             toAdd.add( id );
         }
 
         // Manual fieds
         {
-            String id = "manualFields"; //$NON-NLS-1$
-            pw.println( "var manualFields = gFld('Campos Manuais','javascript:void(0)');"); //$NON-NLS-1$
-            pw.println( id + ".xID='xm"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$
-            getQueryFields( templateObj.getBridge("camposManuais").iterator(), pw, id, null ); //$NON-NLS-1$
+            String id = "manualFields";
+            pw.println( "var manualFields = gFld('Campos Manuais','javascript:void(0)');");
+            pw.println( id + ".xID='xm"+(++ix)+"'");
+            getQueryFields( templateObj.getBridge("camposManuais").iterator(), pw, id, null );
     
             toAdd.add( id );
         }
@@ -140,46 +140,46 @@ public class MergeFieldTreeHelper
     {
         int ix = 0;
         //boBridgeIterator it = objQuery.getBridge("campos").iterator();
-        StringBuffer toAdd = new StringBuffer("["); //$NON-NLS-1$
+        StringBuffer toAdd = new StringBuffer("[");
         while( it.next() )
         {
             boObject fieldObj = it.currentRow().getObject();
             
-            String id = fieldObj.getAttribute("nome").getValueString(); //$NON-NLS-1$
-            String label = fieldObj.getAttribute("pergunta").getValueString(); //$NON-NLS-1$
-            String jsid = parentTree + "_" + id; //$NON-NLS-1$
+            String id = fieldObj.getAttribute("nome").getValueString();
+            String label = fieldObj.getAttribute("pergunta").getValueString();
+            String jsid = parentTree + "_" + id;
 
             if( label.trim().length() == 0 )
             {
-                label = fieldObj.getAttribute("nome").getValueString(); //$NON-NLS-1$
+                label = fieldObj.getAttribute("nome").getValueString();
             }
-            String chooseId = parentQuery!=null?(parentQuery+ "__" + id):id; //$NON-NLS-1$
-            String tipo = fieldObj.getAttribute("tipo").getValueString(); //$NON-NLS-1$
-            if( "8".equals( tipo ) ) // Campo de imagem //$NON-NLS-1$
+            String chooseId = parentQuery!=null?(parentQuery+ "__" + id):id;
+            String tipo = fieldObj.getAttribute("tipo").getValueString();
+            if( "8".equals( tipo ) ) // Campo de imagem
             {
-                chooseId += "(image)"; //$NON-NLS-1$
+                chooseId += "(image)";
             }
 
-            if( "GESTEMP_CampoNObjecto".equals( fieldObj.getName() ) ) //$NON-NLS-1$
+            if( "GESTEMP_CampoNObjecto".equals( fieldObj.getName() ) )
             {
-                pw.println( "var "+jsid+" = gFld('"+label+" (Bookmark)','javascript:_selBookmark(\"" + chooseId + "\")');"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                pw.println( jsid + ".xID='xb"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$
-                getBookmarkFields( pw, fieldObj, chooseId ,jsid, "", ix ); //$NON-NLS-1$
+                pw.println( "var "+jsid+" = gFld('"+label+" (Bookmark)','javascript:_selBookmark(\"" + chooseId + "\")');");
+                pw.println( jsid + ".xID='xb"+(++ix)+"'");
+                getBookmarkFields( pw, fieldObj, chooseId ,jsid, "", ix );
             } 
-            else if ( "GESTEMP_CampoNManual".equals( fieldObj.getName() ) ) //$NON-NLS-1$
+            else if ( "GESTEMP_CampoNManual".equals( fieldObj.getName() ) )
             { 
-                pw.println( "var "+jsid+" = gFld('"+label + " (Bookmark)" +"','javascript:_selBookmark(\"" + chooseId + "\")');"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                pw.println( jsid + ".xID='xb"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$
+                pw.println( "var "+jsid+" = gFld('"+label + " (Bookmark)" +"','javascript:_selBookmark(\"" + chooseId + "\")');");
+                pw.println( jsid + ".xID='xb"+(++ix)+"'");
 
-                pw.println( "var " + jsid + "_" + jsid + " = ['"+label+"',\"javascript:_selBookmarkField(\\\\'" + chooseId + "\\\\',\\\\'" + chooseId + "\\\\')\"];"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                pw.println( jsid + "_" + jsid + ".xID='xf"+ix+"_"+(0)+"'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                pw.println( "var " + jsid + "_" + jsid + " = ['"+label+"',\"javascript:_selBookmarkField(\\\\'" + chooseId + "\\\\',\\\\'" + chooseId + "\\\\')\"];");
+                pw.println( jsid + "_" + jsid + ".xID='xf"+ix+"_"+(0)+"'");
 
-                pw.println( jsid + ".addChildren(["+jsid + "_" + jsid+"]);"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                pw.println( jsid + ".addChildren(["+jsid + "_" + jsid+"]);");
             }
             else
             {
-                pw.println( "var " + jsid + " = ['"+label+"',\"javascript:_selAttribute(\\\\'" + chooseId + "\\\\')\"];"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-                pw.println( jsid + ".xID='xf"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$
+                pw.println( "var " + jsid + " = ['"+label+"',\"javascript:_selAttribute(\\\\'" + chooseId + "\\\\')\"];");
+                pw.println( jsid + ".xID='xf"+(++ix)+"'");
             }
             
 
@@ -189,43 +189,43 @@ public class MergeFieldTreeHelper
             }
             toAdd.append( jsid );
         }
-        toAdd.append("]"); //$NON-NLS-1$
-        pw.print( parentTree + ".addChildren("); //$NON-NLS-1$
+        toAdd.append("]");
+        pw.print( parentTree + ".addChildren(");
         pw.print( toAdd );
-        pw.println( ");"); //$NON-NLS-1$
+        pw.println( ");");
     }
     
     public static void getBookmarkFields( PrintWriter pw, boObject field, String bookmarkId, String parentTree, String parentQuery, int parentIx ) throws boRuntimeException
     {
         int ix = 0;
-        StringBuffer toAdd  = new StringBuffer("["); //$NON-NLS-1$
-        boBridgeIterator it = field.getBridge("campos").iterator();  //$NON-NLS-1$
+        StringBuffer toAdd  = new StringBuffer("[");
+        boBridgeIterator it = field.getBridge("campos").iterator(); 
         while( it.next() )
         {
             boObject fieldObj = it.currentRow().getObject();
             
-            String id = fieldObj.getAttribute("nome").getValueString(); //$NON-NLS-1$
-            String label = fieldObj.getAttribute("pergunta").getValueString(); //$NON-NLS-1$
-            String jsid = parentTree + "_" + id; //$NON-NLS-1$
+            String id = fieldObj.getAttribute("nome").getValueString();
+            String label = fieldObj.getAttribute("pergunta").getValueString();
+            String jsid = parentTree + "_" + id;
 
             if( label.trim().length() == 0 )
             {
-                label = fieldObj.getAttribute("nome").getValueString(); //$NON-NLS-1$
+                label = fieldObj.getAttribute("nome").getValueString();
             }
             String chooseId = parentQuery!=null?(id):id;
-            String tipo = fieldObj.getAttribute("tipo").getValueString(); //$NON-NLS-1$
-            if( "8".equals( tipo ) ) // Campo de imagem //$NON-NLS-1$
+            String tipo = fieldObj.getAttribute("tipo").getValueString();
+            if( "8".equals( tipo ) ) // Campo de imagem
             {
-                chooseId += "(image)"; //$NON-NLS-1$
+                chooseId += "(image)";
             }
             
-            if( "GESTEMP_CampoNObjecto".equals( fieldObj.getName() ) ) //$NON-NLS-1$
+            if( "GESTEMP_CampoNObjecto".equals( fieldObj.getName() ) )
             {
-                label += Messages.getString("MergeFieldTreeHelper.11");                 //$NON-NLS-1$
+                label += Messages.getString("MergeFieldTreeHelper.11");                
             }
             
-            pw.println( "var " + jsid + " = ['"+label+"',\"javascript:_selBookmarkField(\\\\'" + bookmarkId + "\\\\',\\\\'" + chooseId + "\\\\')\"];"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-            pw.println( jsid + ".xID='xf"+parentIx+"_"+(++ix)+"'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            pw.println( "var " + jsid + " = ['"+label+"',\"javascript:_selBookmarkField(\\\\'" + bookmarkId + "\\\\',\\\\'" + chooseId + "\\\\')\"];");
+            pw.println( jsid + ".xID='xf"+parentIx+"_"+(++ix)+"'");
             
             if( toAdd.length() > 1 ) 
             {
@@ -233,10 +233,10 @@ public class MergeFieldTreeHelper
             }
             toAdd.append( jsid );
         }
-        toAdd.append("]"); //$NON-NLS-1$
-        pw.print( parentTree + ".addChildren("); //$NON-NLS-1$
+        toAdd.append("]");
+        pw.print( parentTree + ".addChildren(");
         pw.print( toAdd );
-        pw.println( ");"); //$NON-NLS-1$
+        pw.println( ");");
         
     }
     
@@ -245,14 +245,14 @@ public class MergeFieldTreeHelper
         CharArrayWriter sbSystemFields = new CharArrayWriter();
         PrintWriter pw = new PrintWriter( sbSystemFields );
         
-        composeFolder( pw, "sys", "sys1", Messages.getString("MergeFieldTreeHelper.10") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        composeFolder( pw, "sys", "sys1", Messages.getString("MergeFieldTreeHelper.10") );
 
-        composeFolder( pw, "sys_message"            ,"sys11", Messages.getString("MergeFieldTreeHelper.95") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        composeField(  pw, "sys_message_id"         ,"sys111",Messages.getString("MergeFieldTreeHelper.98"),"mensagemID"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_message_idext"         ,"sys111",Messages.getString("MergeFieldTreeHelper.102"),"mensagemIDExt"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_message_Date"       ,"sys112",Messages.getString("MergeFieldTreeHelper.106"),"mensagemData"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_message_anexos"       ,"sys113",Messages.getString("MergeFieldTreeHelper.110"), SpecialField.MESSAGE_ANEXOS ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        pw.print("sys_message.addChildren([sys_message_id,sys_message_idext,sys_message_Date,sys_message_anexos]);"); //$NON-NLS-1$
+        composeFolder( pw, "sys_message"            ,"sys11", Messages.getString("MergeFieldTreeHelper.95") );
+        composeField(  pw, "sys_message_id"         ,"sys111",Messages.getString("MergeFieldTreeHelper.98"),"mensagemID");
+        composeField(  pw, "sys_message_idext"         ,"sys111",Messages.getString("MergeFieldTreeHelper.102"),"mensagemIDExt");
+        composeField(  pw, "sys_message_Date"       ,"sys112",Messages.getString("MergeFieldTreeHelper.106"),"mensagemData");
+        composeField(  pw, "sys_message_anexos"       ,"sys113",Messages.getString("MergeFieldTreeHelper.110"), SpecialField.MESSAGE_ANEXOS );
+        pw.print("sys_message.addChildren([sys_message_id,sys_message_idext,sys_message_Date,sys_message_anexos]);");
         
 /*
         composeFolder( pw, "sys_creator"            ,"sys12", "Criador" );
@@ -263,50 +263,50 @@ public class MergeFieldTreeHelper
         composeField(  pw, "sys_creator_email"      ,"sys125","Email","mensagemCriadorEmail");
         pw.println("sys_creator.addChildren([sys_creator_id,sys_creator_username,sys_creator_name,sys_creator_lastname,sys_creator_email]);");
 */
-        composeFolder( pw, "sys_ctt"                ,"sys13", Messages.getString("MergeFieldTreeHelper.114") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        composeField(  pw, "sys_ctt_sendtype"       ,"sys131",Messages.getString("MergeFieldTreeHelper.117"),"cartaTipoEnvio"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_remetente1"       ,"sys1311",Messages.getString("MergeFieldTreeHelper.121"),"cartaRemetenteCTT1"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_remetente2"       ,"sys1311",Messages.getString("MergeFieldTreeHelper.125"),"cartaRemetenteCTT2"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_mailregist"     ,"sys132",Messages.getString("MergeFieldTreeHelper.129"),"cartaRegistoCTT"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_mailregistext"     ,"sys1321",Messages.getString("MergeFieldTreeHelper.133"),"cartaRegistoCTTExt"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_srp"            ,"sys133",Messages.getString("MergeFieldTreeHelper.8"),"cartaSrpCTT"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_srpcustomer"    ,"sys1331",Messages.getString("MergeFieldTreeHelper.9"),"cartaSrpClienteCTT"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_customer"       ,"sys134",Messages.getString("MergeFieldTreeHelper.145"),"cartaClienteCTT"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_4estados"       ,"sys135",Messages.getString("MergeFieldTreeHelper.149"),"cartaEstadosCTT"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_ctt_4estadosext"    ,"sys136",Messages.getString("MergeFieldTreeHelper.153"),"cartaEstadosCTTExt"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        pw.println("sys_ctt.addChildren([sys_ctt_sendtype,sys_ctt_remetente1,sys_ctt_remetente2,sys_ctt_mailregist,sys_ctt_mailregistext,sys_ctt_srp,sys_ctt_customer,sys_ctt_srpcustomer,sys_ctt_4estados,sys_ctt_4estadosext]);"); //$NON-NLS-1$
+        composeFolder( pw, "sys_ctt"                ,"sys13", Messages.getString("MergeFieldTreeHelper.114") );
+        composeField(  pw, "sys_ctt_sendtype"       ,"sys131",Messages.getString("MergeFieldTreeHelper.117"),"cartaTipoEnvio");
+        composeField(  pw, "sys_ctt_remetente1"       ,"sys1311",Messages.getString("MergeFieldTreeHelper.121"),"cartaRemetenteCTT1");
+        composeField(  pw, "sys_ctt_remetente2"       ,"sys1311",Messages.getString("MergeFieldTreeHelper.125"),"cartaRemetenteCTT2");
+        composeField(  pw, "sys_ctt_mailregist"     ,"sys132",Messages.getString("MergeFieldTreeHelper.129"),"cartaRegistoCTT");
+        composeField(  pw, "sys_ctt_mailregistext"     ,"sys1321",Messages.getString("MergeFieldTreeHelper.133"),"cartaRegistoCTTExt");
+        composeField(  pw, "sys_ctt_srp"            ,"sys133",Messages.getString("MergeFieldTreeHelper.8"),"cartaSrpCTT");
+        composeField(  pw, "sys_ctt_srpcustomer"    ,"sys1331",Messages.getString("MergeFieldTreeHelper.9"),"cartaSrpClienteCTT");
+        composeField(  pw, "sys_ctt_customer"       ,"sys134",Messages.getString("MergeFieldTreeHelper.145"),"cartaClienteCTT");
+        composeField(  pw, "sys_ctt_4estados"       ,"sys135",Messages.getString("MergeFieldTreeHelper.149"),"cartaEstadosCTT");
+        composeField(  pw, "sys_ctt_4estadosext"    ,"sys136",Messages.getString("MergeFieldTreeHelper.153"),"cartaEstadosCTTExt");
+        pw.println("sys_ctt.addChildren([sys_ctt_sendtype,sys_ctt_remetente1,sys_ctt_remetente2,sys_ctt_mailregist,sys_ctt_mailregistext,sys_ctt_srp,sys_ctt_customer,sys_ctt_srpcustomer,sys_ctt_4estados,sys_ctt_4estadosext]);");
 
-        composeFolder( pw, "sys_approver"           ,"sys14",Messages.getString("MergeFieldTreeHelper.158") ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        composeField(  pw, "sys_approver_signature" ,"sys141",Messages.getString("MergeFieldTreeHelper.161"),"apovadorAssinatura(image)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_approver_name"      ,"sys142",Messages.getString("MergeFieldTreeHelper.165"),"aprovadorNome"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_approver_role"      ,"sys143",Messages.getString("MergeFieldTreeHelper.169"),"aprovadorFuncao"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        composeField(  pw, "sys_approver_date"      ,"sys144",Messages.getString("MergeFieldTreeHelper.173"),"aprovadorData"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        pw.println("sys_approver.addChildren([sys_approver_signature,sys_approver_name,sys_approver_role,sys_approver_date]);"); //$NON-NLS-1$
+        composeFolder( pw, "sys_approver"           ,"sys14",Messages.getString("MergeFieldTreeHelper.158") );
+        composeField(  pw, "sys_approver_signature" ,"sys141",Messages.getString("MergeFieldTreeHelper.161"),"apovadorAssinatura(image)");
+        composeField(  pw, "sys_approver_name"      ,"sys142",Messages.getString("MergeFieldTreeHelper.165"),"aprovadorNome");
+        composeField(  pw, "sys_approver_role"      ,"sys143",Messages.getString("MergeFieldTreeHelper.169"),"aprovadorFuncao");
+        composeField(  pw, "sys_approver_date"      ,"sys144",Messages.getString("MergeFieldTreeHelper.173"),"aprovadorData");
+        pw.println("sys_approver.addChildren([sys_approver_signature,sys_approver_name,sys_approver_role,sys_approver_date]);");
 
-        pw.println("sys.addChildren([sys_message,sys_ctt,sys_approver]);"); //$NON-NLS-1$
+        pw.println("sys.addChildren([sys_message,sys_ctt,sys_approver]);");
 
-        toAdd.add( "sys" );         //$NON-NLS-1$
+        toAdd.add( "sys" );        
 
         return sbSystemFields.toCharArray();
     }
     
     private static void composeField( PrintWriter pw, String jsvar, String jsId, String label, String id )
     {
-        pw.print("var "); //$NON-NLS-1$
+        pw.print("var ");
         pw.print( jsvar );
-        pw.print(" = ['"); //$NON-NLS-1$
+        pw.print(" = ['");
         pw.print( label );
-        pw.println("',\"javascript:_selAttribute(\\\\'"+id+"\\\\')\"];"); //$NON-NLS-1$ //$NON-NLS-2$
+        pw.println("',\"javascript:_selAttribute(\\\\'"+id+"\\\\')\"];");
 //        pw.print( id );
 //        pw.println("\\')\"];");
         pw.print( jsvar );
-        pw.println(".xID='"+jsId+"'"); //$NON-NLS-1$ //$NON-NLS-2$
+        pw.println(".xID='"+jsId+"'");
     }
 
     private static void composeFolder( PrintWriter pw, String jsvar, String jsId, String label )
     {
-        pw.println("var "+jsvar+" = gFld('"+label+"','javascript:void(0)');"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        pw.println(jsvar + ".xID='"+jsId+"'"); //$NON-NLS-1$ //$NON-NLS-2$
+        pw.println("var "+jsvar+" = gFld('"+label+"','javascript:void(0)');");
+        pw.println(jsvar + ".xID='"+jsId+"'");
     }
     
 
@@ -323,7 +323,7 @@ public class MergeFieldTreeHelper
             boDefHandler relBo = attr.getReferencedObjectDef();
             String xname = attr.getName();
 
-            if (!relBo.getName().equalsIgnoreCase("boObject")) //$NON-NLS-1$
+            if (!relBo.getName().equalsIgnoreCase("boObject"))
             {
                 attrs2 = relBo.getAttributesDef();
 
@@ -337,56 +337,56 @@ public class MergeFieldTreeHelper
             }
         }
 
-        String atrVar = parentItem + "_" + attr.getName(); //$NON-NLS-1$
+        String atrVar = parentItem + "_" + attr.getName();
 
         if (!haveChildren)
         {
-            String atrName = ""; //$NON-NLS-1$
+            String atrName = "";
 
             if (parentAttribute.length() > 0)
             {
-                atrName = parentAttribute + "." + attr.getName(); //$NON-NLS-1$
+                atrName = parentAttribute + "." + attr.getName();
             }
             else
             {
                 atrName = attr.getName();
             }
 
-            attributesStr.append("attributes[").append(index.getNumber()).append("]=\"").append(atrName).append("\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            attributesStr.append("attributes[").append(index.getNumber()).append("]=\"").append(atrName).append("\";\n");
 
             attributesStr.append(atrVar);
-            attributesStr.append("=[\""); //$NON-NLS-1$
+            attributesStr.append("=[\"");
             attributesStr.append(attr.getLabel());
-            attributesStr.append("\",\""); //$NON-NLS-1$
-            attributesStr.append("javascript:_selAttribute(").append(index.getNumber()).append(" )"); //$NON-NLS-1$ //$NON-NLS-2$
-            attributesStr.append("\"] ;\n"); //$NON-NLS-1$
+            attributesStr.append("\",\"");
+            attributesStr.append("javascript:_selAttribute(").append(index.getNumber()).append(" )");
+            attributesStr.append("\"] ;\n");
 
-            attributesStr.append(atrVar).append(".xID='x").append(index.getNumber()).append("';\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            attributesStr.append(atrVar).append(".xID='x").append(index.getNumber()).append("';\n");
 
             toRet.append(atrVar);
             index.increment();
         }
         else
         {
-            String atrName = ""; //$NON-NLS-1$
+            String atrName = "";
 
             if (parentAttribute.length() > 0)
             {
-                atrName = parentAttribute + "." + attr.getName(); //$NON-NLS-1$
+                atrName = parentAttribute + "." + attr.getName();
             }
             else
             {
                 atrName = attr.getName();
             }
 
-            attributesStr.append("attributes[").append(index.getNumber()).append("]=\"").append(atrName).append("\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            attributesStr.append("attributes[").append(index.getNumber()).append("]=\"").append(atrName).append("\";\n");
 
             StringBuffer[] strScript = new StringBuffer[attrs2.length];
 
-            attributesStr.append(atrVar).append(" = gFld(\"").append(attr.getLabel()).append("\",\"javascript:_selAttribute("); //$NON-NLS-1$ //$NON-NLS-2$
+            attributesStr.append(atrVar).append(" = gFld(\"").append(attr.getLabel()).append("\",\"javascript:_selAttribute(");
             attributesStr.append(index.getNumber());
-            attributesStr.append(")\");\n"); //$NON-NLS-1$
-            attributesStr.append(atrVar).append(".xID='x").append(index.getNumber()).append("';\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            attributesStr.append(")\");\n");
+            attributesStr.append(atrVar).append(".xID='x").append(index.getNumber()).append("';\n");
             index.increment();
 
             //       attributesStr.append("rootTree.xID=rootNode;\n");
@@ -394,13 +394,13 @@ public class MergeFieldTreeHelper
 
             for (int i = 0; i < attrs2.length; i++)
             {
-                strScript[z++] = getJAVASCRIPTAttribute(level + 1, attributesStr, attrs2[i], null, includeAttributeObjects, parentItem + "_" + attr.getName(), //$NON-NLS-1$
+                strScript[z++] = getJAVASCRIPTAttribute(level + 1, attributesStr, attrs2[i], null, includeAttributeObjects, parentItem + "_" + attr.getName(),
                         atrName, index);
             }
 
             toRet.append(atrVar);
 
-            attributesStr.append(atrVar).append(".addChildren(["); //$NON-NLS-1$
+            attributesStr.append(atrVar).append(".addChildren([");
 
             for (int i = 0; i < strScript.length; i++)
             {
@@ -412,7 +412,7 @@ public class MergeFieldTreeHelper
                 }
             }
 
-            attributesStr.append("]);"); //$NON-NLS-1$
+            attributesStr.append("]);");
         }
 
         return toRet;

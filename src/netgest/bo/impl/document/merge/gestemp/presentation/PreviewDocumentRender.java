@@ -23,68 +23,70 @@ public class PreviewDocumentRender implements ICustomField
     public int render(EboContext ctx, docHTML_controler doccont, docHTML doc, boObject object, PrintWriter out, AttributeHandler relatedAtt, boolean useCache) throws boRuntimeException
     {
     
-        String fileName = ""; //$NON-NLS-1$
+        String fileName = "";
         int ret = ICustomField.RENDER_CONTINUE;
-        if("GESTEMP_Generated".equals(object.getName())) //$NON-NLS-1$
+        if("GESTEMP_Generated".equals(object.getName()))
         {
-            if(object.getAttribute("rosto").getValueLong() > 0) //$NON-NLS-1$
+            if(object.getAttribute("rosto").getValueLong() > 0)
             {
-                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>"); //$NON-NLS-1$
-                out.println(Messages.getString("PreviewDocumentRender.4")); //$NON-NLS-1$
-                out.println("</td></tr><tr><td>"); //$NON-NLS-1$
+                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>");
+                out.println(Messages.getString("PreviewDocumentRender.4"));
+                out.println("</td></tr><tr><td>");
                 //out.println("<img width='100%' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ it.currentRow().getValueLong() +"' >");
-                out.println("<iframe width='100%' height='600' src='__gesTempPreviewDocument.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+object.getBoui()+"&docBoui="+ object.getAttribute("rosto").getValueLong()+"&useCache="+(useCache?"true":"false")+"' >"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-                out.println("</iframe>"); //$NON-NLS-1$
-                out.println("</td></tr></table>"); //$NON-NLS-1$
+                out.println("<iframe width='100%' height='600' src='__gesTempPreviewDocument.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+object.getBoui()+"&docBoui="+ object.getAttribute("rosto").getValueLong()+"&useCache="+(useCache?"true":"false")+"' >");
+                out.println("</iframe>");
+                out.println("</td></tr></table>");
             }
-            if(object.getAttribute("doc").getValueLong() > 0) //$NON-NLS-1$
+            if(object.getAttribute("doc").getValueLong() > 0)
             {
-                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>"); //$NON-NLS-1$
-                out.println(Messages.getString("PreviewDocumentRender.18")); //$NON-NLS-1$
-                out.println("</td></tr><tr><td>"); //$NON-NLS-1$
+                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>");
+                out.println(Messages.getString("PreviewDocumentRender.18"));
+                out.println("</td></tr><tr><td>");
                 //out.println("<img width='22%' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ object.getAttribute("doc").getValueLong() +"' >");
                 //out.println("<iframe frameborder='no' border='0' marginheight='0' marginwidth='0' width='100%' height='400' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+object.getBoui()+"&docBoui="+ object.getAttribute("doc").getValueLong()+"&useCache="+(useCache?"true":"false") +"' >");
                 
-                out.println(Messages.getString("PreviewDocumentRender.3")+doc.getDocIdx()+"&method=edit&menu=yes&docBoui="+ object.getAttribute("doc").getValueLong()+"&useCache="+(useCache?"true":"false") +"' >"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                out.println("<iframe frameborder='no' border='0' marginheight='0' marginwidth='0' width='100%' height='600' src='__gesdocclf_previewdoc.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&docBoui="+ object.getAttribute("doc").getValueLong()+"&useCache="+(useCache?"true":"false") +"' >");
                 
-                out.println("</iframe>"); //$NON-NLS-1$
-                out.println("</td></tr></table>"); //$NON-NLS-1$
+                out.println("</iframe>");
+                out.println("</td></tr></table>");
             } 
         }
         else if(!relatedAtt.isBridge())
         {
             if(object.getAttribute(relatedAtt.getName()).getValueLong() > 0)
             {
-                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>"); //$NON-NLS-1$
-                out.println(Messages.getString("PreviewDocumentRender.30")); //$NON-NLS-1$
-                out.println("</td></tr><tr><td>"); //$NON-NLS-1$
+                out.println("<table width='100%'><tr><td style='border-bottom:1px solid #DDDDDD;'>");
+                out.println(Messages.getString("PreviewDocumentRender.30"));
+                out.println("</td></tr><tr><td>");
                 //out.println("<img width='100%' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ it.currentRow().getValueLong() +"' >");
-                out.println("<iframe width='100%' height='600' src='__gesTempPreviewDocument.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ object.getAttribute(relatedAtt.getName()).getValueLong()+"&useCache="+(useCache?"true":"false") +"' >"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-                out.println("</iframe>"); //$NON-NLS-1$
-                out.println("</td></tr></table>"); //$NON-NLS-1$
+                out.println("<iframe width='100%' height='600' src='__gesTempPreviewDocument.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ object.getAttribute(relatedAtt.getName()).getValueLong()+"&useCache="+(useCache?"true":"false") +"' >");
+                out.println("</iframe>");
+                out.println("</td></tr></table>");
             }
         }
         else 
         {
             boBridgeIterator it =  object.getBridge( relatedAtt.getName() ).iterator(); 
+            int index_documentos = 0;
             while( it.next() ) 
             {
-                AttributeHandler atrFileName = it.currentRow().getObject().getAttribute("fileName"); //$NON-NLS-1$
+                AttributeHandler atrFileName = it.currentRow().getObject().getAttribute("fileName");
                 if( atrFileName != null )
                 {
-                    fileName = it.currentRow().getObject().getAttribute("fileName").getValueString(); //$NON-NLS-1$
-                    if(!( fileName.toLowerCase().endsWith(".eml") ) ) //$NON-NLS-1$
+                    fileName = it.currentRow().getObject().getAttribute("fileName").getValueString();
+                    if(!( fileName.toLowerCase().endsWith(".eml") ) )
                     {
-                        out.println("<table id='previewTable' collspan='0' cellspacing='0' width='100%'>"); //$NON-NLS-1$
+                        out.println("<table id='previewTable' collspan='0' cellspacing='0' width='100%'>");
                         //<tr><td style='border-bottom:1px solid #DDDDDD;'>
                         //out.println("<b>Pré-Visualização do documento:</b><br>");
                         //</td></tr>
-                        out.println("<tr><td>"); //$NON-NLS-1$
+                        out.println("<tr><td>");
                         //out.println("<img width='100%' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ it.currentRow().getValueLong() +"' >");
-                        out.println("<iframe id='previewFrame1' scrolling='no' frameborder='no' border='0' marginheight='0' marginwidth='0' width='100%' height='600' src='__gesdocclf_previewdoc.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&docBoui="+ it.currentRow().getValueLong()+"&useCache="+(useCache?"true":"false") +"' >"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        out.println("<iframe id='previewFrame1_"+index_documentos+"' scrolling='no' frameborder='no' border='0' marginheight='0' marginwidth='0' width='100%' height='600' src='__gesdocclf_previewdoc.jsp?autoConvert=true&docid="+doc.getDocIdx()+"&method=edit&menu=yes&docBoui="+ it.currentRow().getValueLong()+"&useCache="+(useCache?"true":"false") +"' >");
                         //out.println("<iframe width='100%' height='400' src='__gesTempPreviewDocument.jsp?docid="+doc.getDocIdx()+"&method=edit&menu=yes&boui="+relatedAtt.getParent().getBoui()+"&docBoui="+ it.currentRow().getValueLong()+"&useCache="+(useCache?"true":"false") +"' >");
-                        out.println("</iframe>"); //$NON-NLS-1$
-                        out.println("</td></tr></table>");  //$NON-NLS-1$
+                        out.println("</iframe>");
+                        out.println("</td></tr></table>"); 
+                        index_documentos++;
                     }
                 }
             }
@@ -118,20 +120,20 @@ public class PreviewDocumentRender implements ICustomField
     private boolean useCache(boObject obj) throws boRuntimeException
     {
         //pode usar cache em todas as mensagens que usam template não editável em todas as que já estão completas
-        if("message".equals(obj.getName()) || "message".equals(obj.getBoDefinition().getBoSuperBo())) //$NON-NLS-1$ //$NON-NLS-2$
+        if("message".equals(obj.getName()) || "message".equals(obj.getBoDefinition().getBoSuperBo()))
         {
-            if(obj.getAttribute("usedTemplate").getValueLong() > 0) //$NON-NLS-1$
+            if(obj.getAttribute("usedTemplate").getValueLong() > 0)
             {
-                if(obj.getAttribute("usedTemplate").getObject() != null) //$NON-NLS-1$
+                if(obj.getAttribute("usedTemplate").getObject() != null)
                 {
-                    if("0".equals(obj.getAttribute("usedTemplate").getObject().getAttribute("editavel").getValueString())) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    if("0".equals(obj.getAttribute("usedTemplate").getObject().getAttribute("editavel").getValueString()))
                     {
                         return true; 
                     }
                 } 
             }
             //todas as mensagens em que já foi feito o enviar completar
-            if(obj.getAttribute("dtdoc").getValueDate() != null) //$NON-NLS-1$
+            if(obj.getAttribute("dtdoc").getValueDate() != null)
             {
                 return true;
             }

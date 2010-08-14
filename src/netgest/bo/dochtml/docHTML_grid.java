@@ -44,7 +44,7 @@ public final class docHTML_grid  {
     
     public docHTML_grid(String template, docHTML doc, Hashtable p_values) {
         p_cols=new Vector();
-        p_title=""; //$NON-NLS-1$
+        p_title="";
         p_canSelectRows=true;
         p_showIcon  =true;
         p_showState =true;
@@ -64,7 +64,7 @@ public final class docHTML_grid  {
     }
     public docHTML_grid(String template, docHTML doc, boolean listBridgeAttributes, Hashtable p_values) {
         p_cols=new Vector();
-        p_title=""; //$NON-NLS-1$
+        p_title="";
         p_canSelectRows=true;
         p_showIcon  =true;
         p_showState =true;
@@ -86,7 +86,7 @@ public final class docHTML_grid  {
 
     }
     public void setTitle(){
-        p_title=""; //$NON-NLS-1$
+        p_title="";
 
     }
 
@@ -119,7 +119,7 @@ public final class docHTML_grid  {
     
         public static class GridProperties
     {
-        public String  title=""; //$NON-NLS-1$
+        public String  title="";
         public boolean templateApply=false;
         public String  helperUrl=null;
         public boolean canSelectRows=false;
@@ -138,9 +138,9 @@ public final class docHTML_grid  {
         public Vector columns;
         public boolean showPreview=true;
         public String  menu = null;
-        public String  mode = "normal"; //$NON-NLS-1$
-        public String  options = ""; //$NON-NLS-1$
-        public String  waitingDetachAttribute=""; //$NON-NLS-1$
+        public String  mode = "normal";
+        public String  options = "";
+        public String  waitingDetachAttribute="";
         public String  userClick = null;
         public String  userDblClick = null;
         public String  lineColorState = null;
@@ -149,7 +149,7 @@ public final class docHTML_grid  {
 
     public void render(PageContext page,boObjectList bolist,docHTML DOC, docHTML_controler DOCLIST ) throws boRuntimeException,java.io.IOException 
     {
-        if(bolist instanceof bridgeHandler && bolist.getOrderBy() != null && !"".equals(bolist.getOrderBy()) && !bolist.ordered()) //$NON-NLS-1$
+        if(bolist instanceof bridgeHandler && bolist.getOrderBy() != null && !"".equals(bolist.getOrderBy()) && !bolist.ordered())
         {
             boBridgeIterator it = new boBridgeIterator((bridgeHandler)bolist, bolist.getOrderBy());
             render(page,it,DOC,DOCLIST);
@@ -169,43 +169,43 @@ public final class docHTML_grid  {
         
         props.columns=p_cols;
         
-        if ( page.getRequest().getParameter("showLines") != null ) //$NON-NLS-1$
+        if ( page.getRequest().getParameter("showLines") != null )
         {
-            props.showLines=page.getRequest().getParameter("showLines").equalsIgnoreCase("Yes");     //$NON-NLS-1$ //$NON-NLS-2$
+            props.showLines=page.getRequest().getParameter("showLines").equalsIgnoreCase("Yes");    
         }
         
-        if ( page.getRequest().getParameter("helperURL") != null ) //$NON-NLS-1$
+        if ( page.getRequest().getParameter("helperURL") != null )
         {
-            props.helperUrl =page.getRequest().getParameter("helperURL");     //$NON-NLS-1$
+            props.helperUrl =page.getRequest().getParameter("helperURL");    
         }
         
-        props.userClick = page.getRequest().getParameter("userClick"); //$NON-NLS-1$
+        props.userClick = page.getRequest().getParameter("userClick");
         if(props.userClick == null)
         {
             // Antes era onclick, para manter a compatiblidade!
-            props.userClick = page.getRequest().getParameter("onclick"); //$NON-NLS-1$
+            props.userClick = page.getRequest().getParameter("onclick");
         }
-        props.userDblClick = page.getRequest().getParameter("userDblClick"); //$NON-NLS-1$
-        props.lineColorState = page.getRequest().getParameter("lineColorState"); //$NON-NLS-1$
+        props.userDblClick = page.getRequest().getParameter("userDblClick");
+        props.lineColorState = page.getRequest().getParameter("lineColorState");
         
-        props.mode=page.getRequest().getParameter("listmode"); //$NON-NLS-1$
-        props.options=page.getRequest().getParameter("options"); //$NON-NLS-1$
-        props.waitingDetachAttribute = page.getRequest().getParameter("waitingDetachAttribute"); //$NON-NLS-1$
+        props.mode=page.getRequest().getParameter("listmode");
+        props.options=page.getRequest().getParameter("options");
+        props.waitingDetachAttribute = page.getRequest().getParameter("waitingDetachAttribute");
         
-        if(props.options==null) props.options=""; //$NON-NLS-1$
-        if(props.waitingDetachAttribute==null) props.waitingDetachAttribute=""; //$NON-NLS-1$
-        if(props.mode==null) props.mode="normal"; //$NON-NLS-1$
+        if(props.options==null) props.options="";
+        if(props.waitingDetachAttribute==null) props.waitingDetachAttribute="";
+        if(props.mode==null) props.mode="normal";
 
-        if( "templateApply".equalsIgnoreCase(props.mode)){ //$NON-NLS-1$
+        if( "templateApply".equalsIgnoreCase(props.mode)){
             props.templateApply = true;
             props.canSelectRows=false;
             props.showSelectNone=false;
         }
-        if( props.mode.equalsIgnoreCase("SEARCHONE")){ //$NON-NLS-1$
+        if( props.mode.equalsIgnoreCase("SEARCHONE")){
             props.canSelectRows=false;
             props.showSelectNone=true;
         }
-        else if( props.mode.equalsIgnoreCase("RESULTBRIDGE")) //$NON-NLS-1$
+        else if( props.mode.equalsIgnoreCase("RESULTBRIDGE"))
         {
             props.canSelectRows=true;
             props.barStatus=false;
@@ -213,7 +213,7 @@ public final class docHTML_grid  {
             props.barFilter=false;
         }
         
-        props.menu = page.getRequest().getParameter("menu");       //$NON-NLS-1$
+        props.menu = page.getRequest().getParameter("menu");      
         if ( bolist.getParent()!=null ) 
         {
             if(bolist instanceof bridgeHandler )
@@ -221,7 +221,7 @@ public final class docHTML_grid  {
                 boDefAttribute atrdef=((bridgeHandler)bolist).getDefAttribute();
                 if ( !atrdef.supportManualOperation() )
                 {
-                    props.menu="no"; //$NON-NLS-1$
+                    props.menu="no";
                 }
             }
             props.canSelectRows=true;
@@ -229,13 +229,13 @@ public final class docHTML_grid  {
             props.colsFooter=false;
             props.barFilter=false;
         }
-        String show=page.getRequest().getParameter("showBarStatus"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String show=page.getRequest().getParameter("showBarStatus");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.barStatus = false;  
         }
-        show=page.getRequest().getParameter("showBarFilter"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showBarFilter");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.barFilter = false;  
         }
@@ -243,14 +243,14 @@ public final class docHTML_grid  {
         
         props.renderOnlyCardID=false;
         
-        String xRender=page.getRequest().getParameter("renderOnlyCardID"); //$NON-NLS-1$
-        if( xRender!=null && (xRender.equalsIgnoreCase("y") || xRender.equalsIgnoreCase("yes"))) //$NON-NLS-1$ //$NON-NLS-2$
+        String xRender=page.getRequest().getParameter("renderOnlyCardID");
+        if( xRender!=null && (xRender.equalsIgnoreCase("y") || xRender.equalsIgnoreCase("yes")))
         {
             props.renderOnlyCardID=true;
             props.columns=new Vector();
             props.showIcon  =false;
             Hashtable attributes= new Hashtable();
-            props.columns.add( new docHTML_gridCol("CARDID",100,attributes, p_values) ); //$NON-NLS-1$
+            props.columns.add( new docHTML_gridCol("CARDID",100,attributes, p_values) );
         }
 /*        
         if ( bolist.getParentAtributeName() != null &&
@@ -269,13 +269,13 @@ public final class docHTML_grid  {
             props.columns.add( new docHTML_gridCol("inout",true,150,attributes, p_values) );
         }
         */
-        String editAttributes=page.getRequest().getParameter("editAttributes"); //$NON-NLS-1$
-        if( editAttributes!=null && (editAttributes.equalsIgnoreCase("Yes") || editAttributes.equalsIgnoreCase("y")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String editAttributes=page.getRequest().getParameter("editAttributes");
+        if( editAttributes!=null && (editAttributes.equalsIgnoreCase("Yes") || editAttributes.equalsIgnoreCase("y")) )
         {
             props.editAttributes=true;    
         }
 
-        String bolist_Query=page.getRequest().getParameter("bolist_query"); //$NON-NLS-1$
+        String bolist_Query=page.getRequest().getParameter("bolist_query");
         if ( bolist_Query!=null)
         {
             props.bolistQuery=bolist_Query;
@@ -286,39 +286,39 @@ public final class docHTML_grid  {
         }
         
                                   
-        String showSelectNone=page.getRequest().getParameter("showSelectNone"); //$NON-NLS-1$
-        if( showSelectNone!=null && ( showSelectNone.equalsIgnoreCase("NO") || showSelectNone.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String showSelectNone=page.getRequest().getParameter("showSelectNone");
+        if( showSelectNone!=null && ( showSelectNone.equalsIgnoreCase("NO") || showSelectNone.equalsIgnoreCase("n")) )
         {
             props.showSelectNone=false;    
         }
         
-        showSelectNone=page.getRequest().getParameter("showSelectNoneByForce"); //$NON-NLS-1$
-        if( showSelectNone!=null && ( "YES".equalsIgnoreCase(showSelectNone) || "y".equalsIgnoreCase(showSelectNone)) ) //$NON-NLS-1$ //$NON-NLS-2$
+        showSelectNone=page.getRequest().getParameter("showSelectNoneByForce");
+        if( showSelectNone!=null && ( "YES".equalsIgnoreCase(showSelectNone) || "y".equalsIgnoreCase(showSelectNone)) )
         {
             props.showSelectNone=true;
         }
         
-        show=page.getRequest().getParameter("showIcon"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showIcon");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showIcon = false;  
         }
         
-        show=page.getRequest().getParameter("showStatus"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showStatus");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showState = false;  
         }
         
         
-        show=page.getRequest().getParameter("showPreview"); //$NON-NLS-1$
+        show=page.getRequest().getParameter("showPreview");
         
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showPreview = false;  
         }
         
-        show=page.getRequest().getParameter("canSelectRows"); //$NON-NLS-1$
+        show=page.getRequest().getParameter("canSelectRows");
 
         boObject objParent=bolist.getParent();        
         if (objParent!=null)
@@ -327,7 +327,7 @@ public final class docHTML_grid  {
           if (disabled) show="NO";
         }        
         
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.canSelectRows = false;  
         }
@@ -352,32 +352,32 @@ public final class docHTML_grid  {
         
         props.columns=p_cols;
         
-        if ( page.getRequest().getParameter("showLines") != null ) //$NON-NLS-1$
+        if ( page.getRequest().getParameter("showLines") != null )
         {
             props.showLines=false;    
         }
         
-        props.userClick = page.getRequest().getParameter("userClick"); //$NON-NLS-1$
+        props.userClick = page.getRequest().getParameter("userClick");
         if(props.userClick == null)
         {
             // Antes era onclick, para manter a compatiblidade!
-            props.userClick = page.getRequest().getParameter("onclick"); //$NON-NLS-1$
+            props.userClick = page.getRequest().getParameter("onclick");
         }
         
         
-        props.mode=page.getRequest().getParameter("listmode"); //$NON-NLS-1$
-        props.options=page.getRequest().getParameter("options"); //$NON-NLS-1$
-        props.waitingDetachAttribute = page.getRequest().getParameter("waitingDetachAttribute"); //$NON-NLS-1$
+        props.mode=page.getRequest().getParameter("listmode");
+        props.options=page.getRequest().getParameter("options");
+        props.waitingDetachAttribute = page.getRequest().getParameter("waitingDetachAttribute");
         
-        if(props.options==null) props.options=""; //$NON-NLS-1$
-        if(props.waitingDetachAttribute==null) props.waitingDetachAttribute=""; //$NON-NLS-1$
-        if(props.mode==null) props.mode="normal"; //$NON-NLS-1$
+        if(props.options==null) props.options="";
+        if(props.waitingDetachAttribute==null) props.waitingDetachAttribute="";
+        if(props.mode==null) props.mode="normal";
 
-        if( props.mode.equalsIgnoreCase("SEARCHONE")){ //$NON-NLS-1$
+        if( props.mode.equalsIgnoreCase("SEARCHONE")){
             props.canSelectRows=false;
             props.showSelectNone=true;
         }
-        else if( props.mode.equalsIgnoreCase("RESULTBRIDGE")) //$NON-NLS-1$
+        else if( props.mode.equalsIgnoreCase("RESULTBRIDGE"))
         {
             props.canSelectRows=true;
             props.barStatus=false;
@@ -385,7 +385,7 @@ public final class docHTML_grid  {
             props.barFilter=false;
         }
         
-        props.menu = page.getRequest().getParameter("menu");       //$NON-NLS-1$
+        props.menu = page.getRequest().getParameter("menu");      
         if ( boIterator.getBridgeHandler().getParent()!=null ) 
         {
             props.canSelectRows=true;
@@ -393,13 +393,13 @@ public final class docHTML_grid  {
             props.colsFooter=false;
             props.barFilter=false;
         }
-        String show=page.getRequest().getParameter("showBarStatus"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String show=page.getRequest().getParameter("showBarStatus");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.barStatus = false;  
         }
-        show=page.getRequest().getParameter("showBarFilter"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showBarFilter");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.barFilter = false;  
         }
@@ -407,14 +407,14 @@ public final class docHTML_grid  {
         
         props.renderOnlyCardID=false;
         
-        String xRender=page.getRequest().getParameter("renderOnlyCardID"); //$NON-NLS-1$
-        if( xRender!=null && (xRender.equalsIgnoreCase("y") || xRender.equalsIgnoreCase("yes"))) //$NON-NLS-1$ //$NON-NLS-2$
+        String xRender=page.getRequest().getParameter("renderOnlyCardID");
+        if( xRender!=null && (xRender.equalsIgnoreCase("y") || xRender.equalsIgnoreCase("yes")))
         {
             props.renderOnlyCardID=true;
             props.columns=new Vector();
             props.showIcon  =false;
             Hashtable attributes= new Hashtable();
-            props.columns.add( new docHTML_gridCol("CARDID",100,attributes, p_values) ); //$NON-NLS-1$
+            props.columns.add( new docHTML_gridCol("CARDID",100,attributes, p_values) );
         }
 /*        
         if ( bolist.getParentAtributeName() != null &&
@@ -433,13 +433,13 @@ public final class docHTML_grid  {
             props.columns.add( new docHTML_gridCol("inout",true,150,attributes, p_values) );
         }
         */
-        String editAttributes=page.getRequest().getParameter("editAttributes"); //$NON-NLS-1$
-        if( editAttributes!=null && (editAttributes.equalsIgnoreCase("Yes") || editAttributes.equalsIgnoreCase("y")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String editAttributes=page.getRequest().getParameter("editAttributes");
+        if( editAttributes!=null && (editAttributes.equalsIgnoreCase("Yes") || editAttributes.equalsIgnoreCase("y")) )
         {
             props.editAttributes=true;    
         }
 
-        String bolist_Query=page.getRequest().getParameter("bolist_query"); //$NON-NLS-1$
+        String bolist_Query=page.getRequest().getParameter("bolist_query");
         if ( bolist_Query!=null)
         {
             props.bolistQuery=bolist_Query;
@@ -450,34 +450,34 @@ public final class docHTML_grid  {
         }
         
                                   
-        String showSelectNone=page.getRequest().getParameter("showSelectNone"); //$NON-NLS-1$
-        if( showSelectNone!=null && ( showSelectNone.equalsIgnoreCase("NO") || showSelectNone.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        String showSelectNone=page.getRequest().getParameter("showSelectNone");
+        if( showSelectNone!=null && ( showSelectNone.equalsIgnoreCase("NO") || showSelectNone.equalsIgnoreCase("n")) )
         {
             props.showSelectNone=false;    
         }
         
-        showSelectNone=page.getRequest().getParameter("showSelectNoneByForce"); //$NON-NLS-1$
-        if( showSelectNone!=null && ( "YES".equalsIgnoreCase(showSelectNone) || "y".equalsIgnoreCase(showSelectNone)) ) //$NON-NLS-1$ //$NON-NLS-2$
+        showSelectNone=page.getRequest().getParameter("showSelectNoneByForce");
+        if( showSelectNone!=null && ( "YES".equalsIgnoreCase(showSelectNone) || "y".equalsIgnoreCase(showSelectNone)) )
         {
             props.showSelectNone=true;
         }
         
-        show=page.getRequest().getParameter("showIcon"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showIcon");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showIcon = false;  
         }
         
-        show=page.getRequest().getParameter("showStatus"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("showStatus");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showState = false;  
         }
         
         
-        show=page.getRequest().getParameter("showPreview"); //$NON-NLS-1$
+        show=page.getRequest().getParameter("showPreview");
         
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.showPreview = false;  
         }
@@ -491,8 +491,8 @@ public final class docHTML_grid  {
             if (disabled) show="NO";
           }
         }            
-        show=page.getRequest().getParameter("canSelectRows"); //$NON-NLS-1$
-        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) ) //$NON-NLS-1$ //$NON-NLS-2$
+        show=page.getRequest().getParameter("canSelectRows");
+        if( show!=null && ( show.equalsIgnoreCase("NO") || show.equalsIgnoreCase("n")) )
         {
             props.canSelectRows = false;  
         }
@@ -501,7 +501,7 @@ public final class docHTML_grid  {
     }
     
     public void render(PageContext page,boObjectList bolist,docHTML DOC, docHTML_controler DOCLIST , GridProperties props ) throws boRuntimeException,java.io.IOException {
-        if(bolist instanceof bridgeHandler && !bolist.ordered() && bolist.getOrderBy() != null && !"".equals(bolist.getOrderBy())) //$NON-NLS-1$
+        if(bolist instanceof bridgeHandler && !bolist.ordered() && bolist.getOrderBy() != null && !"".equals(bolist.getOrderBy()))
         {
             boBridgeIterator it = new boBridgeIterator((bridgeHandler)bolist, bolist.getOrderBy());
             render(page,it,DOC,DOCLIST, props);
@@ -557,7 +557,7 @@ public final class docHTML_grid  {
         boolean showPreview  =p_canExpandRows=props.showPreview;
         boolean canSelectRows=p_canSelectRows=props.canSelectRows;
         
-        String voui=page.getRequest().getParameter("voui"); //$NON-NLS-1$
+        String voui=page.getRequest().getParameter("voui");
         if ( voui != null )
         {
             hui= ClassUtils.convertToInt(voui);
@@ -567,7 +567,7 @@ public final class docHTML_grid  {
         out.write(Gtxt.text[Gtxt.OPEN_GRID]);
         
         //Ajuda
-        if(props.helperUrl != null && !"".equals(props.helperUrl)) //$NON-NLS-1$
+        if(props.helperUrl != null && !"".equals(props.helperUrl))
         {
             out.write(Gtxt.text[Gtxt.OPEN_GRID_HLP]);
             out.write(props.helperUrl.toCharArray());
@@ -575,7 +575,7 @@ public final class docHTML_grid  {
         }
         
         String menu=props.menu;
-        if ( menu == null || menu.equalsIgnoreCase("YES")  ){ //$NON-NLS-1$
+        if ( menu == null || menu.equalsIgnoreCase("YES")  ){
         
             out.write(Gtxt.text[Gtxt.OPEN_MENU]);
             out.print(p_doc.getHEIGHT_HTMLforToolbar(page,bolist)); //width;
@@ -588,11 +588,11 @@ public final class docHTML_grid  {
         
         
         out.write(Gtxt.text[Gtxt.OPEN_GRID+1]);
-        out.write("<table cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#FFFFFF;height:100%;width:100%;table-layout:fixed\">".toCharArray()); //$NON-NLS-1$
-        out.write("<tr>".toCharArray()); //$NON-NLS-1$
-        out.write("<td>".toCharArray()); //$NON-NLS-1$
-		out.write("<div id=\"head\" style=\"width:100%;overflow:hidden\">".toCharArray()); //$NON-NLS-1$
-        out.write("<table  cellSpacing=\"0\" cellPadding=\"0\"><tbody><tr><td valign=\"top\">".toCharArray()); //$NON-NLS-1$
+        out.write("<table cellspacing=\"0\" cellpadding=\"0\" style=\"background-color:#FFFFFF;height:100%;width:100%;table-layout:fixed\">".toCharArray());
+        out.write("<tr>".toCharArray());
+        out.write("<td>".toCharArray());
+		out.write("<div id=\"head\" style=\"width:100%;overflow:hidden\">".toCharArray());
+        out.write("<table  cellSpacing=\"0\" cellPadding=\"0\"><tbody><tr><td valign=\"top\">".toCharArray());
         
         out.write(Gtxt.text[Gtxt._GRID_HEADER  ]);
         out.print(hui2);
@@ -624,7 +624,7 @@ public final class docHTML_grid  {
             if (showPreview||showIcon||showState || canSelectRows){
                 
                 //out.write(Gtxt.text[Gtxt.COL_20]);
-                out.print( "<COL width='25'/>"); //$NON-NLS-1$
+                out.print( "<COL width='25'/>");
             }
             else {
                 out.write(Gtxt.text[Gtxt.COL_18 ]);
@@ -774,21 +774,21 @@ public final class docHTML_grid  {
                 {
                 // && xattributes.get("noRenderTemplate")==null){
                 StringBuffer toPrint = new StringBuffer();
-                toPrint.append("<img onclick=\"openAttributeMap('"); //$NON-NLS-1$
+                toPrint.append("<img onclick=\"openAttributeMap('");
                 String atrName = ((bridgeHandler)bolist).getName();
                 StringBuffer nameH = new StringBuffer();
-                nameH.append( objParent.getName() ).append( "__" ).append( objParent.bo_boui ).append("__").append( atrName ); //$NON-NLS-1$ //$NON-NLS-2$
+                nameH.append( objParent.getName() ).append( "__" ).append( objParent.bo_boui ).append("__").append( atrName );
                
                
                 toPrint.append( nameH );
-                toPrint.append( "','" ); //$NON-NLS-1$
+                toPrint.append( "','" );
                 toPrint.append( DOC.getDocIdx() );
-                toPrint.append( "','" ); //$NON-NLS-1$
-                toPrint.append( objParent.getAttribute("TEMPLATE").getValueString() ); //$NON-NLS-1$
-                toPrint.append("')\" src='templates/form/std/iconformula_on.gif' class='imgonoff' />"); //$NON-NLS-1$
-                out.write("<TD class='gh_std' >"); //$NON-NLS-1$
+                toPrint.append( "','" );
+                toPrint.append( objParent.getAttribute("TEMPLATE").getValueString() );
+                toPrint.append("')\" src='templates/form/std/iconformula_on.gif' class='imgonoff' />");
+                out.write("<TD class='gh_std' >");
                 out.write( toPrint.toString() );
-                out.write("</TD>"); //$NON-NLS-1$
+                out.write("</TD>");
               }
               else
               {
@@ -804,11 +804,11 @@ public final class docHTML_grid  {
         
         if ( canSelectRows ){
             int tab = 1;
-            if(page.getRequest().getParameter("myIDX") == null) //$NON-NLS-1$
+            if(page.getRequest().getParameter("myIDX") == null)
             {
                 //parent_attribute=detail&parent_boui=2129992
-                String att = page.getRequest().getParameter("parent_attribute"); //$NON-NLS-1$
-                String boui = page.getRequest().getParameter("parent_boui"); //$NON-NLS-1$
+                String att = page.getRequest().getParameter("parent_attribute");
+                String boui = page.getRequest().getParameter("parent_boui");
                 tab = DOC.getTabindex(DOC.GRID_CHECK_ALL, null, boui, att, DOCLIST) ;
             }
             else
@@ -817,7 +817,7 @@ public final class docHTML_grid  {
             }
             out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL  ] );
             out.print( hui);
-            out.write( "_check' class='rad' type='checkBox' tabindex='" + tab  + "'/></TD>" ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.write( "_check' class='rad' type='checkBox' tabindex='" + tab  + "'/></TD>" );
             //out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL+1] );
             //out.print(hui);
             //out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL+2] );
@@ -924,17 +924,17 @@ public final class docHTML_grid  {
         
 // ---------------------------------------- HEADER GRID END ------------------  //
 
-    out.write("</td></tr></tbody></table>".toCharArray()); //$NON-NLS-1$
-	out.write("	</div>".toCharArray()); //$NON-NLS-1$
-	out.write(" </td> <!--novo-->".toCharArray()); //$NON-NLS-1$
-	out.write(" </tr>".toCharArray()); //$NON-NLS-1$
-	out.write(" <tr style=\"height:100%\" >".toCharArray()); //$NON-NLS-1$
-	out.write("	 <td style=\"height:100%;width:100%\">".toCharArray());		  //$NON-NLS-1$
-	out.write("	 	     <div onscroll=\"document.getElementById('head').scrollLeft=this.scrollLeft\" style=\"width:100%;height:100%;overflow:scroll\">".toCharArray()); //$NON-NLS-1$
-	out.write("				<table style=\"height:100%;width:100%;\" cellspacing=\"0\" cellpadding=\"0\">".toCharArray()); //$NON-NLS-1$
-	out.write("					<tbody>".toCharArray()); //$NON-NLS-1$
-	out.write("						<tr style=\"height:100%\">".toCharArray()); //$NON-NLS-1$
-    out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray()); //$NON-NLS-1$
+    out.write("</td></tr></tbody></table>".toCharArray());
+	out.write("	</div>".toCharArray());
+	out.write(" </td> <!--novo-->".toCharArray());
+	out.write(" </tr>".toCharArray());
+	out.write(" <tr style=\"height:100%\" >".toCharArray());
+	out.write("	 <td style=\"height:100%;width:100%\">".toCharArray());		 
+	out.write("	 	     <div onscroll=\"document.getElementById('head').scrollLeft=this.scrollLeft\" style=\"width:100%;height:100%;overflow:scroll\">".toCharArray());
+	out.write("				<table style=\"height:100%;width:100%;\" cellspacing=\"0\" cellpadding=\"0\">".toCharArray());
+	out.write("					<tbody>".toCharArray());
+	out.write("						<tr style=\"height:100%\">".toCharArray());
+    out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray());
 
 /* ------------BEGIN BODY GRID ---------------------------
 <TR>
@@ -1085,14 +1085,14 @@ public final class docHTML_grid  {
                 out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 4 ] );
 //            }
             
-            out.print(" options='"+options+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            if ( !waitingDetachAttribute.equals("") ) //$NON-NLS-1$
+            out.print(" options='"+options+"' " );
+            if ( !waitingDetachAttribute.equals("") )
             { 
-                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );   //$NON-NLS-1$ //$NON-NLS-2$
+                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );  
             }
-            out.print(" mode='"+mode+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            out.print(" letter_field='"+firstColName+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            out.print(" ondblclick=\"so('g"+hui+"');onDoubleClick_GridBody(event)\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(" mode='"+mode+"' " );
+            out.print(" letter_field='"+firstColName+"' " );
+            out.print(" ondblclick=\"so('g"+hui+"');onDoubleClick_GridBody(event)\" " );
                            
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 5 ] );
         
@@ -1110,13 +1110,13 @@ public final class docHTML_grid  {
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 3 ] );
             out.print( hui );
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 4 ] );
-            out.print(" mode='' " ); //$NON-NLS-1$
-            out.print(" options='"+options+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            if ( !waitingDetachAttribute.equals("") ) //$NON-NLS-1$
+            out.print(" mode='' " );
+            out.print(" options='"+options+"' " );
+            if ( !waitingDetachAttribute.equals("") )
             { 
-                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );   //$NON-NLS-1$ //$NON-NLS-2$
+                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );  
             }
-            out.print(" letter_field='"+firstColName+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(" letter_field='"+firstColName+"' " );
             //out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 5 ] );
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT_NONE + 1   ] );  
         }
@@ -1127,7 +1127,7 @@ public final class docHTML_grid  {
 
         out.write( Gtxt.text[ Gtxt.COLGROUP ] );
         
-        if ( canShowLines  )  out.print( "<COL width='25'/>"); //$NON-NLS-1$
+        if ( canShowLines  )  out.print( "<COL width='25'/>");
         if ( canSelectRows  )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
         if ( showPreview  )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
         if ( showIcon       )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
@@ -1153,7 +1153,7 @@ public final class docHTML_grid  {
              out.write(Gtxt.text[ Gtxt.CLOSE_COL_WIDTH ]);
              if(i==0)
              {
-                out.write("<COL width=100%  />".toCharArray()); //$NON-NLS-1$
+                out.write("<COL width=100%  />".toCharArray());
              }
         }
 
@@ -1188,29 +1188,29 @@ public final class docHTML_grid  {
              out.write( Gtxt.text[ Gtxt.OPEN_TR_ID ] ); 
              
              out.print(hui);
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              //out.print( obj.getName() );
              out.print(bolist.getBoDef().getName());
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              out.print(0);
              out.print('\'');
 
-            if(props.userClick != null && !"".equals(props.userClick)) //$NON-NLS-1$
+            if(props.userClick != null && !"".equals(props.userClick))
             {       
                 String aux = URLDecoder.decode( props.userClick, boConfig.getEncoding() );
 //                out.print(" onclick=\"");
-                out.print(" userClick=\""); //$NON-NLS-1$
-                out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(""))); //$NON-NLS-1$ //$NON-NLS-2$
-                out.print(";\" "); //$NON-NLS-1$
+                out.print(" userClick=\"");
+                out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf("")));
+                out.print(";\" ");
             }
             
              
-             out.print(" selectRecordNone style='height:25'>"); //$NON-NLS-1$
+             out.print(" selectRecordNone style='height:25'>");
              out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_NORMAL ] );
-             out.print("<IMG selectRecordNone src='templates/grid/std/none.gif' height=16 width=16 />"); //$NON-NLS-1$
+             out.print("<IMG selectRecordNone src='templates/grid/std/none.gif' height=16 width=16 />");
              out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
-             out.print("<TD  style='color:#BC9C5E' selectRecordNone class='gCell_std' COLSPAN='"+(nrCols+(canShowLines?1:0)+(showIcon?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'>"); //$NON-NLS-1$ //$NON-NLS-2$
-             out.print(JSPMessages.getString("docHTML_grid.171")); //$NON-NLS-1$
+             out.print("<TD  style='color:#BC9C5E' selectRecordNone class='gCell_std' COLSPAN='"+(nrCols+(canShowLines?1:0)+(showIcon?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'>");
+             out.print(JSPMessages.getString("docHTML_grid.171"));
              out.write( Gtxt.text[ Gtxt.CLOSE_TD ]);
              out.write( Gtxt.text[ Gtxt.CLOSE_TR ]);
             
@@ -1228,8 +1228,8 @@ public final class docHTML_grid  {
                      obj=bolist.getObject();
                      objName=obj.getName();
                      isSelect=bolist.currentObjectIsSelected();
-                     xExp=bolist.getRowProperty("EXPANDED"); //$NON-NLS-1$
-                     if (xExp!=null)isExpanded=bolist.getRowProperty("EXPANDED").equals("Y"); //$NON-NLS-1$ //$NON-NLS-2$
+                     xExp=bolist.getRowProperty("EXPANDED");
+                     if (xExp!=null)isExpanded=bolist.getRowProperty("EXPANDED").equals("Y");
                      else isExpanded=false;
                      //obj.getName();
 
@@ -1239,42 +1239,42 @@ public final class docHTML_grid  {
                     
                      if(!DOC.useSecurity() || (securityRights.canRead(obj.getEboContext(), obj.getName() ) && securityOPL.canRead( obj )  )) {
                         out.print(hui);
-                        out.print("__"); //$NON-NLS-1$
+                        out.print("__");
                         out.print( obj.getName() );
-                        out.print("__"); //$NON-NLS-1$
+                        out.print("__");
                         out.print(obj.bo_boui);
                      }
                      out.print('\'');
 
-                    if(props.userClick != null && !"".equals(props.userClick)) //$NON-NLS-1$
+                    if(props.userClick != null && !"".equals(props.userClick))
                     {       
                         String aux = URLDecoder.decode( props.userClick, boConfig.getEncoding() );
 //                        out.print(" onclick=\"");
-                        out.print(" userClick=\""); //$NON-NLS-1$
-                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui()))); //$NON-NLS-1$
-                        out.print(";wait();\" "); //$NON-NLS-1$
+                        out.print(" userClick=\"");
+                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui())));
+                        out.print(";wait();\" ");
                     }
                     
-                    if(props.userDblClick != null && !"".equals(props.userDblClick)) //$NON-NLS-1$
+                    if(props.userDblClick != null && !"".equals(props.userDblClick))
                     {       
                         String aux = URLDecoder.decode( props.userDblClick, boConfig.getEncoding() );
-                        out.print(" userDblClick=\""); //$NON-NLS-1$
-                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui()))); //$NON-NLS-1$
-                        out.print(";wait();\" "); //$NON-NLS-1$
+                        out.print(" userDblClick=\"");
+                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui())));
+                        out.print(";wait();\" ");
                     }
                     else if(DOC.getController() != null && 
-                            "XwfController".equals(DOC.getController().getName()) && //$NON-NLS-1$
-                            ("xwfActivity".equals(bolist.getBoDef().getName()) || //$NON-NLS-1$
-                             "xwfProgramRuntime".equals(bolist.getBoDef().getName())) //$NON-NLS-1$
+                            "XwfController".equals(DOC.getController().getName()) &&
+                            ("xwfActivity".equals(bolist.getBoDef().getName()) ||
+                             "xwfProgramRuntime".equals(bolist.getBoDef().getName()))
                             )
                     {
-                        out.print(" userDblClick=\"parent.parent.setActionCode('"); //$NON-NLS-1$
-                        out.print(XwfKeys.ACTION_SHOW_KEY+"["+String.valueOf(obj.getBoui())+"]');parent.parent.boForm.BindValues()"); //$NON-NLS-1$ //$NON-NLS-2$
-                        out.print(";wait();\" ");                 //$NON-NLS-1$
+                        out.print(" userDblClick=\"parent.parent.setActionCode('");
+                        out.print(XwfKeys.ACTION_SHOW_KEY+"["+String.valueOf(obj.getBoui())+"]');parent.parent.boForm.BindValues()");
+                        out.print(";wait();\" ");                
                     }                    
 
              
-                     if ( !obj.exists() ) out.print(" exists=no "); //$NON-NLS-1$
+                     if ( !obj.exists() ) out.print(" exists=no ");
                      
                      if ( isOrphan==0 )
                      {
@@ -1286,7 +1286,7 @@ public final class docHTML_grid  {
                      }
                      if ( isOrphan==2 )
                      {
-                             out.print(" orphan=no "); //$NON-NLS-1$
+                             out.print(" orphan=no ");
                      }
                      if ( hasRigthsToSaveParent==-1  )
                      {
@@ -1307,17 +1307,17 @@ public final class docHTML_grid  {
                      
                      if ( hasRigthsToSaveParent==0 )
                      {
-                         out.print(" hasRightsToSaveParent=no "); //$NON-NLS-1$
+                         out.print(" hasRightsToSaveParent=no ");
                      }
 
                     if(props.lineColorState != null)
                     {                
-                        boObjectStateHandler state = obj.getStateAttribute("runningState"); //$NON-NLS-1$
+                        boObjectStateHandler state = obj.getStateAttribute("runningState");
                         if(state != null)
                         {
                             if(props.lineColorState.indexOf(state.getValueString()) != -1)
                             {
-                                out.write(" style='COLOR: #0000ff' "); //$NON-NLS-1$
+                                out.write(" style='COLOR: #0000ff' ");
                             }
                         }
                     }
@@ -1327,7 +1327,7 @@ public final class docHTML_grid  {
         //<TD class="gCell_std"><input class="rad" type="checkBox" id=checkBox2 name=checkBox2></TD>
                     
                     if( canShowLines ){
-                            out.print("<TD style='' class='gCellNumber_std'>"); //$NON-NLS-1$
+                            out.print("<TD style='' class='gCellNumber_std'>");
                             AttributeHandler xlinatt;
                             int xlin;
                             if (  (xlinatt=(( bridgeHandler) bolist).getAttribute("LIN") ) != null )
@@ -1339,7 +1339,7 @@ public final class docHTML_grid  {
                                 xlin = bolist.getRow();
                             }
                             
-                           out.print("<img width=18 title='"+JSPMessages.getString("docHTML_grid.199")+"'  class=\"numberLine\" ondragstart=\"grid_StartMoveLine()\"  height=16 lin="+xlin+" src=resources/numbers/"+xlin+".gif>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                           out.print("<img width=18 title='"+JSPMessages.getString("docHTML_grid.199")+"'  class=\"numberLine\" ondragstart=\"grid_StartMoveLine()\"  height=16 lin="+xlin+" src=resources/numbers/"+xlin+".gif>");
                            out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
                      }
                     
@@ -1349,7 +1349,7 @@ public final class docHTML_grid  {
                             if ( isSelect ) {
                                 out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL ] );
                                 out.print( objName );
-                                out.print("__"); //$NON-NLS-1$
+                                out.print("__");
                                 out.print(obj.bo_boui);
                                 
                                 out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL+1 ] );
@@ -1361,7 +1361,7 @@ public final class docHTML_grid  {
                             out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_SELECT ] );
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL ] );
                             out.print( objName );
-                            out.print("__"); //$NON-NLS-1$
+                            out.print("__");
                             out.print(obj.bo_boui);
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL+1 ] );
                         }
@@ -1369,7 +1369,7 @@ public final class docHTML_grid  {
                             out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_NORMAL ] );
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_NOTSEL ] );
                             out.print( objName );
-                            out.print("__"); //$NON-NLS-1$
+                            out.print("__");
                             out.print(obj.bo_boui);
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_NOTSEL+1 ] );
                         }
@@ -1409,32 +1409,32 @@ public final class docHTML_grid  {
                         
                         
                         boObject o=null;
-                        if ( obj.getName().equals("Ebo_Template") ) //$NON-NLS-1$
+                        if ( obj.getName().equals("Ebo_Template") )
                         {   
-                            o=obj.getBoManager().loadObject( obj.getEboContext(),"Ebo_ClsReg",obj.getAttribute("masterObjectClass").getValueLong());                 //$NON-NLS-1$ //$NON-NLS-2$
+                            o=obj.getBoManager().loadObject( obj.getEboContext(),"Ebo_ClsReg",obj.getAttribute("masterObjectClass").getValueLong());                
                         }
-                        else if ( obj.getName().equals("Ebo_ClsReg") ) //$NON-NLS-1$
+                        else if ( obj.getName().equals("Ebo_ClsReg") )
                         {
                             o=obj;   
                         }
                              
                         out.write( Gtxt.text[ Gtxt.IMG_SRC1 ] );
                         out.print( obj.getLabel() );
-                        if( o!= null ) out.print(JSPMessages.getString("docHTML_grid.120")+o.getAttribute("description").getValueString() ); //$NON-NLS-1$ //$NON-NLS-2$
+                        if( o!= null ) out.print(JSPMessages.getString("docHTML_grid.120")+o.getAttribute("description").getValueString() );
                         
                         out.write( Gtxt.text[ Gtxt.IMG_SRC2 ] );                        
                         if ( o==null)
                         {                            
                             out.print( obj.getSrcForIcon16() );
-                            out.print( "'" ); //$NON-NLS-1$
-                            out.write( " ondragstart=\"startDragObject(".toCharArray()); //$NON-NLS-1$
+                            out.print( "'" );
+                            out.write( " ondragstart=\"startDragObject(".toCharArray());
 //                            out.write( Gtxt.text[ Gtxt.ICON_16 ] );
                         }
                         else
                         {
                             out.write( Gtxt.text[ Gtxt.RESOURCES_DIR ] );
-                            out.print(o.getAttribute("name").getValueString()); //$NON-NLS-1$
-                            if ( o.getName().equals("Ebo_ClsReg") ) //$NON-NLS-1$
+                            out.print(o.getAttribute("name").getValueString());
+                            if ( o.getName().equals("Ebo_ClsReg") )
                             {
                                 out.write( Gtxt.text[ Gtxt.ICON_16 ] );
                             }
@@ -1444,7 +1444,7 @@ public final class docHTML_grid  {
                             }
                         }
                         
-                        out.print( "'"+obj.getName()+"',"+obj.getBoui()+","+obj.exists()+","+hui ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        out.print( "'"+obj.getName()+"',"+obj.getBoui()+","+obj.exists()+","+hui );
                         out.write( Gtxt.text[ Gtxt.ICON_16_REST ] );
                             
                         
@@ -1481,7 +1481,7 @@ public final class docHTML_grid  {
                         if  ( isExpanded ){
                             if(i == 0)
                             {
-                                out.write("<TD class='gCellExpanded_std'>".toCharArray()); //$NON-NLS-1$
+                                out.write("<TD class='gCellExpanded_std'>".toCharArray());
                             }
                             else
                             {
@@ -1491,7 +1491,7 @@ public final class docHTML_grid  {
                         else if ( isSelect ) {
                             if(i == 0)
                             {
-                                out.write("<TD class='gCellSel_std'>".toCharArray()); //$NON-NLS-1$
+                                out.write("<TD class='gCellSel_std'>".toCharArray());
                             }
                             else
                             {
@@ -1502,7 +1502,7 @@ public final class docHTML_grid  {
                         else{
                             if(i == 0)
                             {
-                                out.write( "<TD colspan=2 class='gCell_std'>".toCharArray() ); //$NON-NLS-1$
+                                out.write( "<TD colspan=2 class='gCell_std'>".toCharArray() );
                             }
                             else
                             {
@@ -1526,7 +1526,7 @@ public final class docHTML_grid  {
                         }
                         
                         
-                        if(xvalue.equals("")) out.write( Gtxt.text[ Gtxt.NBSP ] ); //$NON-NLS-1$
+                        if(xvalue.equals("")) out.write( Gtxt.text[ Gtxt.NBSP ] );
                         else out.print( xvalue );
         
                         out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
@@ -1552,7 +1552,7 @@ public final class docHTML_grid  {
                         out.write( Gtxt.text[ Gtxt.EXPANDED_ROW+1 ] );
         
                         //chamar quickViewForm do objecto
-                        out.print("not implemented yet"); //$NON-NLS-1$
+                        out.print("not implemented yet");
                         
                         out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
                         out.write( Gtxt.text[ Gtxt.CLOSE_TR ] );
@@ -1574,10 +1574,10 @@ public final class docHTML_grid  {
                      ecr.flush();
                      pr.close();
                      ecr.close();
-                     out.print("<TR><TD  COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"' >"+ //$NON-NLS-1$ //$NON-NLS-2$
-                     e.getClass().getName()+":"+e.getMessage() //$NON-NLS-1$
-                     +"<span style='display:none' >"+ecr.toString()+"</span>" //$NON-NLS-1$ //$NON-NLS-2$
-                     +"</TD></TR>" ); //$NON-NLS-1$
+                     out.print("<TR><TD  COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"' >"+
+                     e.getClass().getName()+":"+e.getMessage()
+                     +"<span style='display:none' >"+ecr.toString()+"</span>"
+                     +"</TD></TR>" );
                  }
                  
             }
@@ -1589,13 +1589,13 @@ public final class docHTML_grid  {
              out.write( Gtxt.text[ Gtxt.OPEN_TR_ID ] );
              
              out.print(hui);
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              out.print( bolist.getBoDef().getName() );
-             out.print("__"); //$NON-NLS-1$
-             out.print("null"); //$NON-NLS-1$
+             out.print("__");
+             out.print("null");
              //out.print(obj.bo_boui);
              out.print('\'');
-             out.print(" exists=no "); //$NON-NLS-1$
+             out.print(" exists=no ");
              
               if ( hasRigthsToSaveParent==-1  )
              {
@@ -1616,32 +1616,32 @@ public final class docHTML_grid  {
              
              if ( hasRigthsToSaveParent==0 )
              {
-                 out.print(" hasRightsToSaveParent=no "); //$NON-NLS-1$
+                 out.print(" hasRightsToSaveParent=no ");
              }
              out.print('>');
             
-            out.print("<TD select='none' COLSPAN='"+(nrCols+1+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'><TABLE id='g"); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print("<TD select='none' COLSPAN='"+(nrCols+1+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'><TABLE id='g");
             out.print(hui);
-            out.print("' select='none' style='height:100%;width:100%;border:0px' morerecords='0'><TBODY><TR><TD select='none' style='COLOR: #999999; BORDER:0px' align=middle width='100%'>"); //$NON-NLS-1$
+            out.print("' select='none' style='height:100%;width:100%;border:0px' morerecords='0'><TBODY><TR><TD select='none' style='COLOR: #999999; BORDER:0px' align=middle width='100%'>");
             if( bolist.getBoDef().getLabel() == null )
             {
-                out.print(JSPMessages.getString("docHTML_grid.238"));     //$NON-NLS-1$
+                out.print(JSPMessages.getString("docHTML_grid.238"));    
             }
             else
             {
-            out.print(JSPMessages.getString("docHTML_grid.239")+bolist.getBoDef().getLabel()+JSPMessages.getString("docHTML_grid.240")); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(JSPMessages.getString("docHTML_grid.239")+bolist.getBoDef().getLabel()+JSPMessages.getString("docHTML_grid.240"));
             }
-            out.print("</TD></TR></TBODY></TABLE></TD>"); //$NON-NLS-1$
+            out.print("</TD></TR></TBODY></TABLE></TD>");
             
         }
 
 //    out.write( Gtxt.text[ Gtxt.END_BODY_GRID ] );
-    out.write( " </TABLE></TD></TR></TBODY></TABLE></DIV></TD></TR>".toCharArray()); //$NON-NLS-1$
-    out.write("						        </td>".toCharArray()); //$NON-NLS-1$
-	out.write(" 					</tr>".toCharArray()); //$NON-NLS-1$
+    out.write( " </TABLE></TD></TR></TBODY></TABLE></DIV></TD></TR>".toCharArray());
+    out.write("						        </td>".toCharArray());
+	out.write(" 					</tr>".toCharArray());
     if ( p_colsFooter ){
-            out.write("						<tr style=\"height:100%\">".toCharArray()); //$NON-NLS-1$
-            out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray()); //$NON-NLS-1$
+            out.write("						<tr style=\"height:100%\">".toCharArray());
+            out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray());
 /*
 <!-- begin footer columns -->
 <TR  height=25>
@@ -1697,7 +1697,7 @@ public final class docHTML_grid  {
         out.print('\'');
         out.write(Gtxt.text[Gtxt.CLOSE_COL_WIDTH]);
 //        out.write(Gtxt.text[Gtxt.COL_EXPAND]);
-        out.write("<COL width=100%  />".toCharArray()); //$NON-NLS-1$
+        out.write("<COL width=100%  />".toCharArray());
 
         //------------
         
@@ -1840,13 +1840,13 @@ public final class docHTML_grid  {
         out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
         out.write( Gtxt.text[ Gtxt.CLOSE_TR ] );
         
-        out.write("						        </td>".toCharArray()); //$NON-NLS-1$
-        out.write(" 					</tr>".toCharArray()); //$NON-NLS-1$
+        out.write("						        </td>".toCharArray());
+        out.write(" 					</tr>".toCharArray());
     }
     
     if( p_barStatus){
-       out.write("						<tr style=\"height:100%\">".toCharArray()); //$NON-NLS-1$
-       out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray()); //$NON-NLS-1$
+       out.write("						<tr style=\"height:100%\">".toCharArray());
+       out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray());
 
        out.write( Gtxt.text[ Gtxt.GRID_STATUS_BAR   ] );
        out.print(hui);
@@ -1861,15 +1861,15 @@ public final class docHTML_grid  {
           {
             out.print(bolist.getRowCount());
             if (bolist.getRowCount()==30)
-                out.print(JSPMessages.getString("docHTML_grid.252"));             //$NON-NLS-1$
+                out.print(JSPMessages.getString("docHTML_grid.252"));            
             else
-                out.print(JSPMessages.getString("docHTML_grid.253"));           //$NON-NLS-1$
+                out.print(JSPMessages.getString("docHTML_grid.253"));          
           }
           // out.print("&nbsp;seleccionados&nbsp;");
       // }
-       if ( bolist.getUserQuery() != null && !bolist.getUserQuery().equals("<cleanFilter/>") ) //$NON-NLS-1$
+       if ( bolist.getUserQuery() != null && !bolist.getUserQuery().equals("<cleanFilter/>") )
        {
-           out.print("<span style='color:#990000'> C/Filtro</span>"); //$NON-NLS-1$
+           out.print("<span style='color:#990000'> C/Filtro</span>");
        }
               
        out.print(Gtxt.text[ Gtxt.GRID_STATUS_BAR +2]  );
@@ -1885,11 +1885,11 @@ public final class docHTML_grid  {
        out.write( Gtxt.text[ Gtxt.SETA_LEFT ] );
        if ( bolist.getPage() > 1)
        {
-           out.print("a.gif"); //$NON-NLS-1$
+           out.print("a.gif");
        }
        else
        {
-           out.print(".gif"); //$NON-NLS-1$
+           out.print(".gif");
        }
         
         
@@ -1909,20 +1909,20 @@ public final class docHTML_grid  {
        out.write( Gtxt.text[ Gtxt.SETA_RIGHT ] );
        if ( bolist.haveMorePages() )
        {
-           out.print("a.gif"); //$NON-NLS-1$
+           out.print("a.gif");
        }
        else
        {
-           out.print(".gif"); //$NON-NLS-1$
+           out.print(".gif");
        }
        out.write( Gtxt.text[ Gtxt.GRID_STATUS_BAR +10  ]  );
 
-        out.write("						        </td>".toCharArray()); //$NON-NLS-1$
-        out.write(" 					</tr>".toCharArray()); //$NON-NLS-1$
+        out.write("						        </td>".toCharArray());
+        out.write(" 					</tr>".toCharArray());
     }
     if( p_barFilter && firstColName!=null ){
-        out.write("						<tr style=\"height:100%\">".toCharArray()); //$NON-NLS-1$
-        out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray()); //$NON-NLS-1$
+        out.write("						<tr style=\"height:100%\">".toCharArray());
+        out.write(" 							<td valign=\"top\" style=\"background-Color:#ffffff;height:100%;width:100%;\">".toCharArray());
 
         out.write( Gtxt.text[ Gtxt.GRID_FILTER_BAR   ]  );
         out.print(hui);
@@ -1940,18 +1940,18 @@ public final class docHTML_grid  {
         String letter=bolist.getSearchLetter();
         if ( letter==null )
         {
-            letter=JSPMessages.getString("docHTML_grid.265"); //$NON-NLS-1$
+            letter=JSPMessages.getString("docHTML_grid.265");
         }
         
         out.write( Gtxt.text[ Gtxt.GRID_FILTER_BAR  +5 ]  );
         
-        String bar=JSPMessages.getString("docHTML_grid.119")+"</TD><TD>#</TD><TD>a</TD><TD>b</TD><TD>c</TD><TD>d</TD><TD>e</TD><TD>f</TD><TD>g</TD><TD>h</TD><TD>i</TD><TD>j</TD><TD>k</TD><TD>l</TD><TD>m</TD><TD>n</TD><TD>o</TD><TD>p</TD><TD>q</TD><TD>r</TD><TD>s</TD><TD>t</TD><TD>u</TD><TD>v</TD><TD>w</TD><TD>x</TD><TD>y</TD><TD>z</TD></TR></TBODY></TABLE></TD></TR>"; //$NON-NLS-1$
-        bar=bar.replaceAll(letter,"<font color='#990000'><b>"+letter+"</b></font>" ); //$NON-NLS-1$ //$NON-NLS-2$
+        String bar=JSPMessages.getString("docHTML_grid.119")+"</TD><TD>#</TD><TD>a</TD><TD>b</TD><TD>c</TD><TD>d</TD><TD>e</TD><TD>f</TD><TD>g</TD><TD>h</TD><TD>i</TD><TD>j</TD><TD>k</TD><TD>l</TD><TD>m</TD><TD>n</TD><TD>o</TD><TD>p</TD><TD>q</TD><TD>r</TD><TD>s</TD><TD>t</TD><TD>u</TD><TD>v</TD><TD>w</TD><TD>x</TD><TD>y</TD><TD>z</TD></TR></TBODY></TABLE></TD></TR>";
+        bar=bar.replaceAll(letter,"<font color='#990000'><b>"+letter+"</b></font>" );
         out.print( bar );
        //out.write( Gtxt.text[ Gtxt.GRID_FILTER_BAR  +6 ]  );
      
-        out.write("						        </td>".toCharArray()); //$NON-NLS-1$
-        out.write(" 					</tr>".toCharArray()); //$NON-NLS-1$
+        out.write("						        </td>".toCharArray());
+        out.write(" 					</tr>".toCharArray());
     }
     
     
@@ -1961,7 +1961,7 @@ public final class docHTML_grid  {
         out.write( Gtxt.text[ Gtxt.GRID_SPACER_TOSCROLL ] );
     }
  
-     out.print("<script>window.recs="+(bolist.getRowCount())+";window.onload=actNumberOfArea</script> "); //$NON-NLS-1$ //$NON-NLS-2$
+     out.print("<script>window.recs="+(bolist.getRowCount())+";window.onload=actNumberOfArea</script> ");
  
 /*
          
@@ -1979,12 +1979,12 @@ public final class docHTML_grid  {
     
         out.write( Gtxt.text[ Gtxt.CLOSE_TABLE ] );
         bolist.removeFilter();
-        out.write("                             </tbody>".toCharArray()); //$NON-NLS-1$
-        out.write("                        </table>".toCharArray()); //$NON-NLS-1$
-        out.write("                    </div>".toCharArray()); //$NON-NLS-1$
-        out.write("                </td>".toCharArray()); //$NON-NLS-1$
-        out.write("            </tr>".toCharArray()); //$NON-NLS-1$
-        out.write("        </table>".toCharArray()); //$NON-NLS-1$
+        out.write("                             </tbody>".toCharArray());
+        out.write("                        </table>".toCharArray());
+        out.write("                    </div>".toCharArray());
+        out.write("                </td>".toCharArray());
+        out.write("            </tr>".toCharArray());
+        out.write("        </table>".toCharArray());
     }
 
 
@@ -2022,7 +2022,7 @@ public final class docHTML_grid  {
         boolean showPreview  =p_canExpandRows=props.showPreview;
         boolean canSelectRows=p_canSelectRows=props.canSelectRows;
         
-        String voui=page.getRequest().getParameter("voui"); //$NON-NLS-1$
+        String voui=page.getRequest().getParameter("voui");
         if ( voui != null )
         {
             hui= ClassUtils.convertToInt(voui);
@@ -2032,7 +2032,7 @@ public final class docHTML_grid  {
         out.write(Gtxt.text[Gtxt.OPEN_GRID]);
 
         String menu=props.menu;
-        if ( menu == null || menu.equalsIgnoreCase("YES")  ){ //$NON-NLS-1$
+        if ( menu == null || menu.equalsIgnoreCase("YES")  ){
         
             out.write(Gtxt.text[Gtxt.OPEN_MENU]);
             out.print(p_doc.getHEIGHT_HTMLforToolbar(page,(boObjectList)boIterator.getBridgeHandler())); //width;
@@ -2253,11 +2253,11 @@ public final class docHTML_grid  {
         
         if ( canSelectRows ){
             int tab = 1;
-            if(page.getRequest().getParameter("myIDX") == null) //$NON-NLS-1$
+            if(page.getRequest().getParameter("myIDX") == null)
             {
                 //parent_attribute=detail&parent_boui=2129992
-                String att = page.getRequest().getParameter("parent_attribute"); //$NON-NLS-1$
-                String boui = page.getRequest().getParameter("parent_boui"); //$NON-NLS-1$
+                String att = page.getRequest().getParameter("parent_attribute");
+                String boui = page.getRequest().getParameter("parent_boui");
                 tab = DOC.getTabindex(DOC.GRID_CHECK_ALL, null, boui, att, DOCLIST) ;
             }
             else
@@ -2266,7 +2266,7 @@ public final class docHTML_grid  {
             }
             out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL  ] );
             out.print( hui);
-            out.write( "_check' class='rad' type='checkBox' tabindex='" + tab  + "'/></TD>" ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.write( "_check' class='rad' type='checkBox' tabindex='" + tab  + "'/></TD>" );
             //out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL+1] );
             //out.print(hui);
             //out.write( Gtxt.text[ Gtxt.GRIDTH_SELECTALL+2] );
@@ -2507,24 +2507,24 @@ public final class docHTML_grid  {
             out.print( hui );
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 3 ] );
             out.print( hui );
-            if(props.userClick != null && !"".equals(props.userClick)) //$NON-NLS-1$
+            if(props.userClick != null && !"".equals(props.userClick))
             {
-                out.print("');");         //$NON-NLS-1$
-                out.print("\"  cellpadding='2' cellspacing='0' "); //$NON-NLS-1$
+                out.print("');");        
+                out.print("\"  cellpadding='2' cellspacing='0' ");
             }
             else
             {
                 out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 4 ] );
             }
             
-            out.print(" options='"+options+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            if ( !waitingDetachAttribute.equals("") ) //$NON-NLS-1$
+            out.print(" options='"+options+"' " );
+            if ( !waitingDetachAttribute.equals("") )
             { 
-                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );   //$NON-NLS-1$ //$NON-NLS-2$
+                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );  
             }
-            out.print(" mode='"+mode+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            out.print(" letter_field='"+firstColName+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            out.print(" ondblclick=\"so('g"+hui+"');onDoubleClick_GridBody(event)\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(" mode='"+mode+"' " );
+            out.print(" letter_field='"+firstColName+"' " );
+            out.print(" ondblclick=\"so('g"+hui+"');onDoubleClick_GridBody(event)\" " );
                            
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 5 ] );
         
@@ -2542,13 +2542,13 @@ public final class docHTML_grid  {
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 3 ] );
             out.print( hui );
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 4 ] );
-            out.print(" mode='' " ); //$NON-NLS-1$
-            out.print(" options='"+options+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
-            if ( !waitingDetachAttribute.equals("") ) //$NON-NLS-1$
+            out.print(" mode='' " );
+            out.print(" options='"+options+"' " );
+            if ( !waitingDetachAttribute.equals("") )
             { 
-                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );   //$NON-NLS-1$ //$NON-NLS-2$
+                out.print("waitingDetachAttribute='"+waitingDetachAttribute+"' " );  
             }
-            out.print(" letter_field='"+firstColName+"' " ); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(" letter_field='"+firstColName+"' " );
             //out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT + 5 ] );
             out.write( Gtxt.text[ Gtxt.GRIDBODY_CONT_NONE + 1   ] );  
         }
@@ -2559,7 +2559,7 @@ public final class docHTML_grid  {
 
         out.write( Gtxt.text[ Gtxt.COLGROUP ] );
         
-        if ( canShowLines  )  out.print( "<COL width='25'/>"); //$NON-NLS-1$
+        if ( canShowLines  )  out.print( "<COL width='25'/>");
         if ( canSelectRows  )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
         if ( showPreview  )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
         if ( showIcon       )  out.write( Gtxt.text[ Gtxt.COL_20  ] );
@@ -2616,29 +2616,29 @@ public final class docHTML_grid  {
              out.write( Gtxt.text[ Gtxt.OPEN_TR_ID ] ); 
              
              out.print(hui);
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              //out.print( obj.getName() );
              out.print(boIterator.getBridgeHandler().getBoDef().getName());
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              out.print(0);
              out.print('\'');
 
-            if(props.userClick != null && !"".equals(props.userClick)) //$NON-NLS-1$
+            if(props.userClick != null && !"".equals(props.userClick))
             {       
                 String aux = URLDecoder.decode( props.userClick, boConfig.getEncoding() );
 //                out.print(" onclick=\"");
-                out.print(" userClick=\""); //$NON-NLS-1$
-                out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(""))); //$NON-NLS-1$ //$NON-NLS-2$
-                out.print(";\" "); //$NON-NLS-1$
+                out.print(" userClick=\"");
+                out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf("")));
+                out.print(";\" ");
             }
 
              
-             out.print(" selectRecordNone style='height:25'>"); //$NON-NLS-1$
+             out.print(" selectRecordNone style='height:25'>");
              out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_NORMAL ] );
-             out.print("<IMG selectRecordNone src='templates/grid/std/none.gif' height=16 width=16 />"); //$NON-NLS-1$
+             out.print("<IMG selectRecordNone src='templates/grid/std/none.gif' height=16 width=16 />");
              out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
-             out.print("<TD  style='color:#BC9C5E' selectRecordNone class='gCell_std' COLSPAN='"+(nrCols+(canShowLines?1:0)+(showIcon?1:0)+(showState?1:0)+(canSelectRows?1:0))+"'>"); //$NON-NLS-1$ //$NON-NLS-2$
-             out.print(JSPMessages.getString("docHTML_grid.118")); //$NON-NLS-1$
+             out.print("<TD  style='color:#BC9C5E' selectRecordNone class='gCell_std' COLSPAN='"+(nrCols+(canShowLines?1:0)+(showIcon?1:0)+(showState?1:0)+(canSelectRows?1:0))+"'>");
+             out.print(JSPMessages.getString("docHTML_grid.118"));
              out.write( Gtxt.text[ Gtxt.CLOSE_TD ]);
              out.write( Gtxt.text[ Gtxt.CLOSE_TR ]);
             
@@ -2658,10 +2658,10 @@ public final class docHTML_grid  {
 //                     isSelect=bolist.currentObjectIsSelected();
                      boIterator.getBridgeHandler().rows(boIterator.getRow());
                      isSelect=boIterator.getBridgeHandler().currentObjectIsSelected();
-                     xExp=boIterator.getBridgeHandler().getRowProperty("EXPANDED"); //$NON-NLS-1$
+                     xExp=boIterator.getBridgeHandler().getRowProperty("EXPANDED");
                      xExp=null;
                      isExpanded=false;
-                     if (xExp!=null)isExpanded=boIterator.getBridgeHandler().getRowProperty("EXPANDED").equals("Y"); //$NON-NLS-1$ //$NON-NLS-2$
+                     if (xExp!=null)isExpanded=boIterator.getBridgeHandler().getRowProperty("EXPANDED").equals("Y");
                      else isExpanded=false;
                      //obj.getName();
 
@@ -2670,22 +2670,22 @@ public final class docHTML_grid  {
                     
                      
                      out.print(hui);
-                     out.print("__"); //$NON-NLS-1$
+                     out.print("__");
                      out.print( obj.getName() );
-                     out.print("__"); //$NON-NLS-1$
+                     out.print("__");
                      out.print(obj.bo_boui);
                      out.print('\'');
 
-                    if(props.userClick != null && !"".equals(props.userClick)) //$NON-NLS-1$
+                    if(props.userClick != null && !"".equals(props.userClick))
                     {       
                         String aux = URLDecoder.decode( props.userClick, boConfig.getEncoding() );
 //                        out.print(" onclick=\"");
-                        out.print(" userClick=\""); //$NON-NLS-1$
-                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui()))); //$NON-NLS-1$
-                        out.print(";\" "); //$NON-NLS-1$
+                        out.print(" userClick=\"");
+                        out.print(aux.replaceAll("OBJECT_LIST_BOUI",String.valueOf(obj.getBoui())));
+                        out.print(";\" ");
                     }
              
-                     if ( !obj.exists() ) out.print(" exists=no "); //$NON-NLS-1$
+                     if ( !obj.exists() ) out.print(" exists=no ");
                      
                      if ( isOrphan==0 )
                      {
@@ -2697,7 +2697,7 @@ public final class docHTML_grid  {
                      }
                      if ( isOrphan==2 )
                      {
-                             out.print(" orphan=no "); //$NON-NLS-1$
+                             out.print(" orphan=no ");
                      }
                      if ( hasRigthsToSaveParent==-1  )
                      {
@@ -2718,7 +2718,7 @@ public final class docHTML_grid  {
                      
                      if ( hasRigthsToSaveParent==0 )
                      {
-                         out.print(" hasRightsToSaveParent=no "); //$NON-NLS-1$
+                         out.print(" hasRightsToSaveParent=no ");
                      }
                      out.print('>');
                      //out.print( Gtxt.text[ Gtxt.CLOSE_TR_ID ] );
@@ -2748,7 +2748,7 @@ public final class docHTML_grid  {
                             if ( isSelect ) {
                                 out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL ] );
                                 out.print( objName );
-                                out.print("__"); //$NON-NLS-1$
+                                out.print("__");
                                 out.print(obj.bo_boui);
                                 
                                 out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL+1 ] );
@@ -2760,7 +2760,7 @@ public final class docHTML_grid  {
                             out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_SELECT ] );
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL ] );
                             out.print( objName );
-                            out.print("__"); //$NON-NLS-1$
+                            out.print("__");
                             out.print(obj.bo_boui);
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_SEL+1 ] );
                         }
@@ -2768,7 +2768,7 @@ public final class docHTML_grid  {
                             out.write( Gtxt.text[ Gtxt.GRIDTD_CELL_NORMAL ] );
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_NOTSEL ] );
                             out.print( objName );
-                            out.print("__"); //$NON-NLS-1$
+                            out.print("__");
                             out.print(obj.bo_boui);
                             out.write( Gtxt.text[ Gtxt.GRID_INPUT_NOTSEL+1 ] );
                         }
@@ -2808,32 +2808,32 @@ public final class docHTML_grid  {
                         
                         
                         boObject o=null;
-                        if ( obj.getName().equals("Ebo_Template") ) //$NON-NLS-1$
+                        if ( obj.getName().equals("Ebo_Template") )
                         {   
-                            o=obj.getBoManager().loadObject( obj.getEboContext(),"Ebo_ClsReg",obj.getAttribute("masterObjectClass").getValueLong());                 //$NON-NLS-1$ //$NON-NLS-2$
+                            o=obj.getBoManager().loadObject( obj.getEboContext(),"Ebo_ClsReg",obj.getAttribute("masterObjectClass").getValueLong());                
                         }
-                        else if ( obj.getName().equals("Ebo_ClsReg") ) //$NON-NLS-1$
+                        else if ( obj.getName().equals("Ebo_ClsReg") )
                         {
                             o=obj;   
                         }
                              
                         out.write( Gtxt.text[ Gtxt.IMG_SRC1 ] );
                         out.print( obj.getLabel() );
-                        if( o!= null ) out.print(JSPMessages.getString("docHTML_grid.340")+o.getAttribute("description").getValueString() ); //$NON-NLS-1$ //$NON-NLS-2$
+                        if( o!= null ) out.print(JSPMessages.getString("docHTML_grid.340")+o.getAttribute("description").getValueString() );
                         
                         out.write( Gtxt.text[ Gtxt.IMG_SRC2 ] );                        
                         if ( o==null)
                         {                            
                             out.print( obj.getSrcForIcon16() );
-                            out.print( "'" ); //$NON-NLS-1$
-                            out.write( " ondragstart=\"startDragObject(".toCharArray()); //$NON-NLS-1$
+                            out.print( "'" );
+                            out.write( " ondragstart=\"startDragObject(".toCharArray());
 //                            out.write( Gtxt.text[ Gtxt.ICON_16 ] );
                         }
                         else
                         {
                             out.write( Gtxt.text[ Gtxt.RESOURCES_DIR ] );
-                            out.print(o.getAttribute("name").getValueString()); //$NON-NLS-1$
-                            if ( o.getName().equals("Ebo_ClsReg") ) //$NON-NLS-1$
+                            out.print(o.getAttribute("name").getValueString());
+                            if ( o.getName().equals("Ebo_ClsReg") )
                             {
                                 out.write( Gtxt.text[ Gtxt.ICON_16 ] );
                             }
@@ -2843,7 +2843,7 @@ public final class docHTML_grid  {
                             }
                         }
                         
-                        out.print( "'"+obj.getName()+"',"+obj.getBoui()+","+obj.exists()+","+hui ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        out.print( "'"+obj.getName()+"',"+obj.getBoui()+","+obj.exists()+","+hui );
                         out.write( Gtxt.text[ Gtxt.ICON_16_REST ] );
                             
                         
@@ -2889,7 +2889,7 @@ public final class docHTML_grid  {
                         }
                         
                         
-                        if(xvalue.equals("")) out.write( Gtxt.text[ Gtxt.NBSP ] ); //$NON-NLS-1$
+                        if(xvalue.equals("")) out.write( Gtxt.text[ Gtxt.NBSP ] );
                         else out.print( xvalue );
         
                         out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
@@ -2915,7 +2915,7 @@ public final class docHTML_grid  {
                         out.write( Gtxt.text[ Gtxt.EXPANDED_ROW+1 ] );
         
                         //chamar quickViewForm do objecto
-                        out.print("not implemented yet"); //$NON-NLS-1$
+                        out.print("not implemented yet");
                         
                         out.write( Gtxt.text[ Gtxt.CLOSE_TD ] );
                         out.write( Gtxt.text[ Gtxt.CLOSE_TR ] );
@@ -2937,10 +2937,10 @@ public final class docHTML_grid  {
                      ecr.flush();
                      pr.close();
                      ecr.close();
-                     out.print("<TR><TD  COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"' >"+ //$NON-NLS-1$ //$NON-NLS-2$
-                     e.getClass().getName()+":"+e.getMessage() //$NON-NLS-1$
-                     +"<span style='display:none' >"+ecr.toString()+"</span>" //$NON-NLS-1$ //$NON-NLS-2$
-                     +"</TD></TR>" ); //$NON-NLS-1$
+                     out.print("<TR><TD  COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"' >"+
+                     e.getClass().getName()+":"+e.getMessage()
+                     +"<span style='display:none' >"+ecr.toString()+"</span>"
+                     +"</TD></TR>" );
                  }
                  
             }
@@ -2952,13 +2952,13 @@ public final class docHTML_grid  {
              out.write( Gtxt.text[ Gtxt.OPEN_TR_ID ] );
              
              out.print(hui);
-             out.print("__"); //$NON-NLS-1$
+             out.print("__");
              out.print( boIterator.getBridgeHandler().getBoDef().getName() );
-             out.print("__"); //$NON-NLS-1$
-             out.print("null"); //$NON-NLS-1$
+             out.print("__");
+             out.print("null");
              //out.print(obj.bo_boui);
              out.print('\'');
-             out.print(" exists=no "); //$NON-NLS-1$
+             out.print(" exists=no ");
              
               if ( hasRigthsToSaveParent==-1  )
              {
@@ -2979,22 +2979,22 @@ public final class docHTML_grid  {
              
              if ( hasRigthsToSaveParent==0 )
              {
-                 out.print(" hasRightsToSaveParent=no "); //$NON-NLS-1$
+                 out.print(" hasRightsToSaveParent=no ");
              }
              out.print('>');
             
-            out.print("<TD select='none' COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'><TABLE id='g"); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print("<TD select='none' COLSPAN='"+(nrCols+(showIcon?1:0)+(canShowLines?1:0)+(showState?1:0)+(canSelectRows?1:0)+1)+"'><TABLE id='g");
             out.print(hui);
-            out.print("' select='none' style='height:100%;width:100%;border:0px' morerecords='0'><TBODY><TR><TD select='none' style='COLOR: #999999; BORDER:0px' align=middle width='100%'>"); //$NON-NLS-1$
+            out.print("' select='none' style='height:100%;width:100%;border:0px' morerecords='0'><TBODY><TR><TD select='none' style='COLOR: #999999; BORDER:0px' align=middle width='100%'>");
             if( boIterator.getBridgeHandler().getBoDef().getLabel() == null )
             {
-                out.print(JSPMessages.getString("docHTML_grid.366"));     //$NON-NLS-1$
+                out.print(JSPMessages.getString("docHTML_grid.366"));    
             }
             else
             {
-            out.print(JSPMessages.getString("docHTML_grid.367")+boIterator.getBridgeHandler().getBoDef().getLabel()+JSPMessages.getString("docHTML_grid.368")); //$NON-NLS-1$ //$NON-NLS-2$
+            out.print(JSPMessages.getString("docHTML_grid.367")+boIterator.getBridgeHandler().getBoDef().getLabel()+JSPMessages.getString("docHTML_grid.368"));
             }
-            out.print("</TD></TR></TBODY></TABLE></TD>"); //$NON-NLS-1$
+            out.print("</TD></TR></TBODY></TABLE></TD>");
             
         }
 
@@ -3434,70 +3434,70 @@ public final class docHTML_grid  {
       
       public static char TXTDEBUG = '\n';
       static {
-        text[ NBSP  ]               = "&nbsp;".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_TD  ]            = "<TD>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TD ]            = "</TD>".toCharArray(); //$NON-NLS-1$
+        text[ NBSP  ]               = "&nbsp;".toCharArray();
+        text[ OPEN_TD  ]            = "<TD>".toCharArray();
+        text[ CLOSE_TD ]            = "</TD>".toCharArray();
 
-        text[ OPEN_TABLE  ]         = "<TABLE>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TABLE ]         = "</TABLE>".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_TABLE  ]         = "<TABLE>".toCharArray();
+        text[ CLOSE_TABLE ]         = "</TABLE>".toCharArray();
 
-        text[ OPEN_TBODY  ]         = "<TBODY>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TBODY ]         = "</TBODY>".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_TBODY  ]         = "<TBODY>".toCharArray();
+        text[ CLOSE_TBODY ]         = "</TBODY>".toCharArray();
 
-        text[ OPEN_DIV ]            = "<DIV>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_DIV ]           = "</DIV>".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_DIV ]            = "<DIV>".toCharArray();
+        text[ CLOSE_DIV ]           = "</DIV>".toCharArray();
 
-        text[ OPEN_TR_ID ]          = "<TR ondragleave='grid_DragLeave()' ondrop='grid_Drop()' ondragover='grid_DragOver()' ondragenter='grid_DragEnter()' id='".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TR_ID ]         = "' >".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_TR_ID ]          = "<TR ondragleave='grid_DragLeave()' ondrop='grid_Drop()' ondragover='grid_DragOver()' ondragenter='grid_DragEnter()' id='".toCharArray();
+        text[ CLOSE_TR_ID ]         = "' >".toCharArray();
 
-        text[ OPEN_TR ]          = "<TR>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TR ]            = "</TR>".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_TR ]          = "<TR>".toCharArray();
+        text[ CLOSE_TR ]            = "</TR>".toCharArray();
         
-        text[ EMPTY_TD ]            = "<TD>&nbsp;</TD>".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_SIMPLE_TAG ]    =" />".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_TAG ]           =" >".toCharArray(); //$NON-NLS-1$
+        text[ EMPTY_TD ]            = "<TD>&nbsp;</TD>".toCharArray();
+        text[ CLOSE_SIMPLE_TAG ]    =" />".toCharArray();
+        text[ CLOSE_TAG ]           =" >".toCharArray();
 
-        text[ OPEN_COL_WIDTH ] ="<COL width=".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_COL ] ="<COL ".toCharArray(); //$NON-NLS-1$
-        text[ COLGROUP ] ="<COLGROUP/>".toCharArray(); //$NON-NLS-1$
-        text[ COL_20 ] = "<COL width='20'/>".toCharArray(); //$NON-NLS-1$
-        text[ COL_18 ] = "<COL width='18'/>".toCharArray(); //$NON-NLS-1$
-        text[ COL_2 ] = "<COL width='2'/>".toCharArray(); //$NON-NLS-1$
-        text[ COL_15 ] = "<COL width='15'/>".toCharArray(); //$NON-NLS-1$
-        text[ COL_EXPAND ] = "<COL />".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_COL_WIDTH ] ="<COL width=".toCharArray();
+        text[ OPEN_COL ] ="<COL ".toCharArray();
+        text[ COLGROUP ] ="<COLGROUP/>".toCharArray();
+        text[ COL_20 ] = "<COL width='20'/>".toCharArray();
+        text[ COL_18 ] = "<COL width='18'/>".toCharArray();
+        text[ COL_2 ] = "<COL width='2'/>".toCharArray();
+        text[ COL_15 ] = "<COL width='15'/>".toCharArray();
+        text[ COL_EXPAND ] = "<COL />".toCharArray();
         
         text[ OPEN_GRID ] =(
-        "<TABLE cellSpacing='0' cellPadding='0' style='height:100%;width:100%;table-layout:fixed'>").toCharArray(); //$NON-NLS-1$
+        "<TABLE cellSpacing='0' cellPadding='0' style='height:100%;width:100%;table-layout:fixed'>").toCharArray();
 
-        text[ OPEN_MENU   ]="<!-- BEGIN MENU -->\n<TR height='".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_MENU+1 ]="'><TD>\n".toCharArray(); //$NON-NLS-1$
-        text[ CLOSE_MENU ]="</TD></TR> <!--END MENU -->\n".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_MENU   ]="<!-- BEGIN MENU -->\n<TR height='".toCharArray();
+        text[ OPEN_MENU+1 ]="'><TD>\n".toCharArray();
+        text[ CLOSE_MENU ]="</TD></TR> <!--END MENU -->\n".toCharArray();
         
         text[ OPEN_GRID+1] =(
-          "<TR>"+TXTDEBUG+ //abrir uma TR ANTES pra colocar menu //$NON-NLS-1$
-            "<TD style='height:100%;width:100%' >"+TXTDEBUG+ //$NON-NLS-1$
-              "<DIV style='width:100%;height:100%;overflow-x:auto'>"+TXTDEBUG+ //$NON-NLS-1$
-               "<TABLE style='height:100%;width:100%;' class='g_std' cellSpacing='0' cellPadding='0' width='100%'>"+TXTDEBUG+ //$NON-NLS-1$
-                 "<TBODY>"+TXTDEBUG+ //$NON-NLS-1$
-                  "<TR height='20'>"+TXTDEBUG+ //$NON-NLS-1$
-                     "<TD >").toCharArray(); //$NON-NLS-1$
+          "<TR>"+TXTDEBUG+ //abrir uma TR ANTES pra colocar menu
+            "<TD style='height:100%;width:100%' >"+TXTDEBUG+
+              "<DIV style='width:100%;height:100%;overflow-x:auto'>"+TXTDEBUG+
+               "<TABLE style='height:100%;width:100%;' class='g_std' cellSpacing='0' cellPadding='0' width='100%'>"+TXTDEBUG+
+                 "<TBODY>"+TXTDEBUG+
+                  "<TR height='20'>"+TXTDEBUG+
+                     "<TD >").toCharArray();
         
         text[ OPEN_GRID_HLP] =(
-          "<TR>"+TXTDEBUG+ //$NON-NLS-1$
-            "<TD align='right' style='height:30px;width:100%'><DIV onclick='window.open(\"" ).toCharArray(); //$NON-NLS-1$
+          "<TR>"+TXTDEBUG+
+            "<TD align='right' style='height:30px;width:100%'><DIV onclick='window.open(\"" ).toCharArray();
             
         text[ OPEN_GRID_HLP+1] =(
-            "\");' style='WIDTH:185px;HEIGHT:30px;COLOR:#4A869C;FONT:normal normal x-small verdana;' >"+ //$NON-NLS-1$
-            JSPMessages.getString("docHTML_grid.408")+ //$NON-NLS-1$
-            JSPMessages.getString("docHTML_grid.409")+ //$NON-NLS-1$
-            JSPMessages.getString("docHTML_grid.117") //$NON-NLS-1$
+            "\");' style='WIDTH:185px;HEIGHT:30px;COLOR:#4A869C;FONT:normal normal x-small verdana;' >"+
+            JSPMessages.getString("docHTML_grid.408")+
+            JSPMessages.getString("docHTML_grid.409")+
+            JSPMessages.getString("docHTML_grid.117")
         ).toCharArray();
             
-        text[ _GRID_HEADER   ]="<TABLE id='g".toCharArray(); //$NON-NLS-1$
-        text[ _GRID_HEADER+1 ]="_body' onmouseover=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ _GRID_HEADER+2 ]= "');onOver_GridHeader_std(event);\" onmouseout=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ _GRID_HEADER+3 ]= "');onOut_GridHeader_std(event);\" onclick=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ _GRID_HEADER+4 ]= "');onClick_GridHeader_std(event);\" cellpadding='2' cellspacing='0' style=\"height:25px\" class='gh_std'>".toCharArray(); //$NON-NLS-1$
+        text[ _GRID_HEADER   ]="<TABLE id='g".toCharArray();
+        text[ _GRID_HEADER+1 ]="_body' onmouseover=\"so('g".toCharArray();
+        text[ _GRID_HEADER+2 ]= "');onOver_GridHeader_std(event);\" onmouseout=\"so('g".toCharArray();
+        text[ _GRID_HEADER+3 ]= "');onOut_GridHeader_std(event);\" onclick=\"so('g".toCharArray();
+        text[ _GRID_HEADER+4 ]= "');onClick_GridHeader_std(event);\" cellpadding='2' cellspacing='0' style=\"height:25px\" class='gh_std'>".toCharArray();
 
         /*
                 out.print("<table id='g"+hui+"_body' onmouseover=\"so('g"+hui+
@@ -3507,83 +3507,83 @@ public final class docHTML_grid  {
         */
 
 /*   <TD class="gh_std"><input id='g1643_check' class='rad' type='checkBox' </TD>*/
-        text[ GRIDTH_SELECTALL  ]="<TD class='gh_std'><INPUT id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTH_SELECTALL+1]="_check' class='rad' type='checkBox'/></TD>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTH_SELECTALL  ]="<TD class='gh_std'><INPUT id='g".toCharArray();
+        text[ GRIDTH_SELECTALL+1]="_check' class='rad' type='checkBox'/></TD>".toCharArray();
 
-        text[ GRIDTH_SEP   ] =" <TD class='ghSep_std' >&nbsp;</TD>".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTH_EMPTY ] =" <TD class='gh_std' >&nbsp;</TD>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTH_SEP   ] =" <TD class='ghSep_std' >&nbsp;</TD>".toCharArray();
+        text[ GRIDTH_EMPTY ] =" <TD class='gh_std' >&nbsp;</TD>".toCharArray();
 
-        text[ GRIDTDFCOL_EMPTY ] ="<TD class='gfc_std'>&nbsp;</TD>".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTDFCOL_SEP   ] ="<TD class='gfcSep_std' >&nbsp;</TD>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTDFCOL_EMPTY ] ="<TD class='gfc_std'>&nbsp;</TD>".toCharArray();
+        text[ GRIDTDFCOL_SEP   ] ="<TD class='gfcSep_std' >&nbsp;</TD>".toCharArray();
 
-        text[ GRIDTDFCOL_EXPANDER   ] ="<TD id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTDFCOL_EXPANDER+1 ] ="_ExpanderParent' class='gfcSort_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTDFCOL_EXPANDER   ] ="<TD id='g".toCharArray();
+        text[ GRIDTDFCOL_EXPANDER+1 ] ="_ExpanderParent' class='gfcSort_std'>".toCharArray();
 
-        text[ GRIDTDFCOL_AUTOEXPANDER   ] = "<TD id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTDFCOL_AUTOEXPANDER+1 ] = "_AutoExpander' class='gfcSort_std'>&nbsp;&nbsp;".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_GRIDTDFCOL ]          = "<TD class='gfc_std'>".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_GRIDTDFCOLSORTED ]    = "<TD class='gfcSort_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTDFCOL_AUTOEXPANDER   ] = "<TD id='g".toCharArray();
+        text[ GRIDTDFCOL_AUTOEXPANDER+1 ] = "_AutoExpander' class='gfcSort_std'>&nbsp;&nbsp;".toCharArray();
+        text[ OPEN_GRIDTDFCOL ]          = "<TD class='gfc_std'>".toCharArray();
+        text[ OPEN_GRIDTDFCOLSORTED ]    = "<TD class='gfcSort_std'>".toCharArray();
         
         
-        text[ GRIDTH_EXPANDER   ] ="<TD id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTH_EXPANDER+1 ] ="_ExpanderParent' colspan=2 class='ghSort_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTH_EXPANDER   ] ="<TD id='g".toCharArray();
+        text[ GRIDTH_EXPANDER+1 ] ="_ExpanderParent' colspan=2 class='ghSort_std'>".toCharArray();
 
         
-        text[ GRIDTH_AUTOEXPANDER   ] = "<TD id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTH_AUTOEXPANDER+1 ] = "_AutoExpander' class='ghSort_std'>&nbsp;&nbsp;".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTH_AUTOEXPANDER   ] = "<TD id='g".toCharArray();
+        text[ GRIDTH_AUTOEXPANDER+1 ] = "_AutoExpander' class='ghSort_std'>&nbsp;&nbsp;".toCharArray();
 
-        text[ OPEN_GRIDTH ]          = "<TD class='gh_std'>".toCharArray(); //$NON-NLS-1$
-        text[ OPEN_GRIDTHSORTED ]    = "<TD class='ghSort_std'>".toCharArray(); //$NON-NLS-1$
+        text[ OPEN_GRIDTH ]          = "<TD class='gh_std'>".toCharArray();
+        text[ OPEN_GRIDTHSORTED ]    = "<TD class='ghSort_std'>".toCharArray();
         
-        text[ IMG_TH_SORTED_DESC ]   = "<IMG class='ghSort_std' src='templates/grid/std/ghDown.gif' WIDTH='13' HEIGHT='5' />".toCharArray(); //$NON-NLS-1$
-        text[ IMG_TH_SORTED_ASC  ]   = "<IMG class='ghSort_std' src='templates/grid/std/ghUp.gif' WIDTH='13' HEIGHT='5' />".toCharArray(); //$NON-NLS-1$
-        text[ IMG_REFRESH        ]   = "<TD class='gh_std' width='14'><img onclick='submitGrid();' title='Clique aqui para actualizar a lista' src='templates/grid/std/ghRefresh.gif' width='13' height='13' /></TD>".toCharArray(); //$NON-NLS-1$
+        text[ IMG_TH_SORTED_DESC ]   = "<IMG class='ghSort_std' src='templates/grid/std/ghDown.gif' WIDTH='13' HEIGHT='5' />".toCharArray();
+        text[ IMG_TH_SORTED_ASC  ]   = "<IMG class='ghSort_std' src='templates/grid/std/ghUp.gif' WIDTH='13' HEIGHT='5' />".toCharArray();
+        text[ IMG_REFRESH        ]   = "<TD class='gh_std' width='14'><img onclick='submitGrid();' title='Clique aqui para actualizar a lista' src='templates/grid/std/ghRefresh.gif' width='13' height='13' /></TD>".toCharArray();
 
-        text[ GRIDDIV_CONT       ]   = "<DIV id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDDIV_CONT + 1   ]   = "_divc' class='gContainerLines_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDDIV_CONT       ]   = "<DIV id='g".toCharArray();
+        text[ GRIDDIV_CONT + 1   ]   = "_divc' class='gContainerLines_std'>".toCharArray();
         
        //  "<table id='g1643_body' onmouseover=\"so('g1643');onOver_GridBody_std(event)\" onmouseout=\"so('g1643');onOut_GridBody_std(event)\" onclick=\"so('g1643');onClick_GridBody_std(event)\" cellpading='2' cellspacing='0' class='gBodyLines_std'>"
-        text[ GRIDBODY_CONT     ] = "<TABLE id='g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT + 1 ] = "_body' container='1' onmouseover=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT + 2 ] = "');onOver_GridBody_std(event)\" onmouseout=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT + 3 ] = "');onOut_GridBody_std(event)\" onclick=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT + 4 ] = "');onClick_GridBody_std(event)\" cellpadding='2' cellspacing='0' ".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT + 5 ] = " class='gBodyLines_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDBODY_CONT     ] = "<TABLE id='g".toCharArray();
+        text[ GRIDBODY_CONT + 1 ] = "_body' container='1' onmouseover=\"so('g".toCharArray();
+        text[ GRIDBODY_CONT + 2 ] = "');onOver_GridBody_std(event)\" onmouseout=\"so('g".toCharArray();
+        text[ GRIDBODY_CONT + 3 ] = "');onOut_GridBody_std(event)\" onclick=\"so('g".toCharArray();
+        text[ GRIDBODY_CONT + 4 ] = "');onClick_GridBody_std(event)\" cellpadding='2' cellspacing='0' ".toCharArray();
+        text[ GRIDBODY_CONT + 5 ] = " class='gBodyLines_std'>".toCharArray();
 
         //text[ GRIDBODY_CONT_NONE     ] = "<TABLE id='g".toCharArray();
         //text[ GRIDBODY_CONT_NONE  ] = "_body' container='1' style='height:100%' >".toCharArray();
-        text[ GRIDBODY_CONT_NONE   ] = "_body' container='1' style='height:100%' onmouseover=\"so('g".toCharArray(); //$NON-NLS-1$
-        text[ GRIDBODY_CONT_NONE+1 ] = " class='gBodyLines_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDBODY_CONT_NONE   ] = "_body' container='1' style='height:100%' onmouseover=\"so('g".toCharArray();
+        text[ GRIDBODY_CONT_NONE+1 ] = " class='gBodyLines_std'>".toCharArray();
         
-        text[ GRIDTD_CELL_NORMAL ] = "<TD class='gCell_std'>".toCharArray();         //$NON-NLS-1$
-        text[ GRIDTD_CELL_SELECT ] = "<TD class='gCellSel_std'>".toCharArray(); //$NON-NLS-1$
-        text[ GRIDTD_CELL_EXPAND ] = "<TD class='gCellExpanded_std'>".toCharArray(); //$NON-NLS-1$
+        text[ GRIDTD_CELL_NORMAL ] = "<TD class='gCell_std'>".toCharArray();        
+        text[ GRIDTD_CELL_SELECT ] = "<TD class='gCellSel_std'>".toCharArray();
+        text[ GRIDTD_CELL_EXPAND ] = "<TD class='gCellExpanded_std'>".toCharArray();
 
-        text[ GRID_INPUT_NOTSEL  ] = "<INPUT class='rad' type='checkBox' name='".toCharArray();  //$NON-NLS-1$
-        text[ GRID_INPUT_NOTSEL+1] = "'/></TD>".toCharArray(); //$NON-NLS-1$
+        text[ GRID_INPUT_NOTSEL  ] = "<INPUT class='rad' type='checkBox' name='".toCharArray(); 
+        text[ GRID_INPUT_NOTSEL+1] = "'/></TD>".toCharArray();
 
-        text[ GRID_INPUT_SEL  ]   = "<INPUT class='rad' checked type='checkBox' name='".toCharArray(); //$NON-NLS-1$
-        text[ GRID_INPUT_SEL+1]    = "'/></TD>".toCharArray(); //$NON-NLS-1$
+        text[ GRID_INPUT_SEL  ]   = "<INPUT class='rad' checked type='checkBox' name='".toCharArray();
+        text[ GRID_INPUT_SEL+1]    = "'/></TD>".toCharArray();
         
-        text[ CLASS_SEL ] = " class='sel' ".toCharArray(); //$NON-NLS-1$
+        text[ CLASS_SEL ] = " class='sel' ".toCharArray();
         
 //<img src="templates/grid/std/quickview.gif" WIDTH="13" HEIGHT="13"></TD>
 
-        text[ IMG_QUICK_VIEW_OFF ]  = "quickview.gif' width='13' height='13'/>".toCharArray() ; //$NON-NLS-1$
-        text[ IMG_QUICK_VIEW_ON ]   = "quickview_on.gif width='13' height='13'/>".toCharArray() ; //$NON-NLS-1$
-        text[ ICON_16 ]             = "/ico16.gif' ondragstart=\"startDragObject( ".toCharArray(); //$NON-NLS-1$
-        text[ ICON_16_TMPL ]        = "/ico16tmpl.gif' ondragstart=\"startDragObject( ".toCharArray(); //$NON-NLS-1$
-        text[ ICON_16_REST ]        = " )\"  height='16' width='16'/>".toCharArray(); //$NON-NLS-1$
-        text[ IMG_16_REST ]         = ".gif' height='16' width='16'/>".toCharArray(); //$NON-NLS-1$
+        text[ IMG_QUICK_VIEW_OFF ]  = "quickview.gif' width='13' height='13'/>".toCharArray() ;
+        text[ IMG_QUICK_VIEW_ON ]   = "quickview_on.gif width='13' height='13'/>".toCharArray() ;
+        text[ ICON_16 ]             = "/ico16.gif' ondragstart=\"startDragObject( ".toCharArray();
+        text[ ICON_16_TMPL ]        = "/ico16tmpl.gif' ondragstart=\"startDragObject( ".toCharArray();
+        text[ ICON_16_REST ]        = " )\"  height='16' width='16'/>".toCharArray();
+        text[ IMG_16_REST ]         = ".gif' height='16' width='16'/>".toCharArray();
         
-        text[ TEMPLATE_DIR ]        = "templates/grid/std/".toCharArray(); //$NON-NLS-1$
-        text[ RESOURCES_DIR ]       = "resources/".toCharArray();  //$NON-NLS-1$
+        text[ TEMPLATE_DIR ]        = "templates/grid/std/".toCharArray();
+        text[ RESOURCES_DIR ]       = "resources/".toCharArray(); 
 
-    text[ IMG_SRC ] = "<IMG src='".toCharArray(); //$NON-NLS-1$
-    text[ IMG_SRC1 ] = ("<IMG title='"+JSPMessages.getString("docHTML_grid.464")).toCharArray(); //$NON-NLS-1$
-    text[ IMG_SRC2 ] = "' src='".toCharArray(); //$NON-NLS-1$
-        text[ EXPANDED_ROW  ] = "<TR id='expandedRow' ><TD class='gCell_std'></TD><TD colspan='".toCharArray(); //$NON-NLS-1$
-        text[ EXPANDED_ROW+1] = "' class='gCellQuickView_std'>".toCharArray(); //$NON-NLS-1$
+    text[ IMG_SRC ] = "<IMG src='".toCharArray();
+    text[ IMG_SRC1 ] = ("<IMG title='"+JSPMessages.getString("docHTML_grid.464")).toCharArray();
+    text[ IMG_SRC2 ] = "' src='".toCharArray();
+        text[ EXPANDED_ROW  ] = "<TR id='expandedRow' ><TD class='gCell_std'></TD><TD colspan='".toCharArray();
+        text[ EXPANDED_ROW+1] = "' class='gCellQuickView_std'>".toCharArray();
         
         
            /*        ROW EXPANDED
@@ -3600,54 +3600,54 @@ public final class docHTML_grid  {
    <TD valign=top >
    <table id="g1642_body" cellpadding="2" cellspacing="0" style="height:25px" class="gfc_std">
    */
-        text [ GRID_COLS_FOOTERH  ] = "<TR  height=25><TD valign=top ><table id='g".toCharArray(); //$NON-NLS-1$
-        text [ GRID_COLS_FOOTERH+1] = "_body' cellpadding='2' cellspacing='0' style='height:25px' class='gfc_std'>".toCharArray(); //$NON-NLS-1$
+        text [ GRID_COLS_FOOTERH  ] = "<TR  height=25><TD valign=top ><table id='g".toCharArray();
+        text [ GRID_COLS_FOOTERH+1] = "_body' cellpadding='2' cellspacing='0' style='height:25px' class='gfc_std'>".toCharArray();
 
       // text [ END_BODY_GRID ] = "</TABLE></DIV></TD></TR></DIV></TD></TR>".toCharArray();
 
-        text [ END_BODY_GRID ] = " </TABLE></DIV></TD></TR></TBODY></TABLE></DIV></TD></TR>".toCharArray(); //$NON-NLS-1$
+        text [ END_BODY_GRID ] = " </TABLE></DIV></TD></TR></TBODY></TABLE></DIV></TD></TR>".toCharArray();
         
 //STATUS BAR
         
-       text[ GRID_STATUS_BAR   ] ="<TR height='22'><TD><TABLE class='gfBar_status gfBar_std' id='g".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR   ] ="<TR height='22'><TD><TABLE class='gfBar_status gfBar_std' id='g".toCharArray();
        //1642
-       text[ GRID_STATUS_BAR+1 ] ="_status' cellSpacing='0' cellPadding='0'><TBODY><TR><TD style='PADDING-LEFT: 8px'>&nbsp;".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+1 ] ="_status' cellSpacing='0' cellPadding='0'><TBODY><TR><TD style='PADDING-LEFT: 8px'>&nbsp;".toCharArray();
       // 0 of 4 selected
-       text[ GRID_STATUS_BAR+2 ] ="</TD><TD id='g".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+2 ] ="</TD><TD id='g".toCharArray();
       // 1682
-       text[ GRID_STATUS_BAR+3 ] =" _PageInfo' class='statusTextPage' align='right'><IMG id='g".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+3 ] =" _PageInfo' class='statusTextPage' align='right'><IMG id='g".toCharArray();
        //1682
-       text[ GRID_STATUS_BAR+4 ] ="_prevPageImg' style='cursor:hand' onclick='previousPage();' hspace='6'  src='".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+4 ] ="_prevPageImg' style='cursor:hand' onclick='previousPage();' hspace='6'  src='".toCharArray();
        //templates/grid/std/page_l0.gif
-       text [ SETA_LEFT ] ="page_l0".toCharArray(); //$NON-NLS-1$
-       text[ GRID_STATUS_BAR+5 ] ="'  align='absMiddle' />".toCharArray(); //$NON-NLS-1$
+       text [ SETA_LEFT ] ="page_l0".toCharArray();
+       text[ GRID_STATUS_BAR+5 ] ="'  align='absMiddle' />".toCharArray();
        //Page
-       text[ GRID_STATUS_BAR+6 ] ="&nbsp;<SPAN id='g".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+6 ] ="&nbsp;<SPAN id='g".toCharArray();
       // 1682
-       text[ GRID_STATUS_BAR+7 ] ="_PageNum'>".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+7 ] ="_PageNum'>".toCharArray();
       // 1
-       text[ GRID_STATUS_BAR+8 ] ="</SPAN><IMG id='g".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+8 ] ="</SPAN><IMG id='g".toCharArray();
      //  1682
-       text[ GRID_STATUS_BAR+9 ] ="_nextPageImg' style='cursor:hand' onclick='nextPage();'   hspace='6' src='".toCharArray(); //$NON-NLS-1$
+       text[ GRID_STATUS_BAR+9 ] ="_nextPageImg' style='cursor:hand' onclick='nextPage();'   hspace='6' src='".toCharArray();
        //templates/grid/std/page_r0.gif
-       text [ SETA_RIGHT ] ="page_r0".toCharArray(); //$NON-NLS-1$
-       text[ GRID_STATUS_BAR+10 ] ="'   align='absMiddle' />&nbsp;</TD></TR></TBODY></TABLE></TD></TR>".toCharArray(); //$NON-NLS-1$
+       text [ SETA_RIGHT ] ="page_r0".toCharArray();
+       text[ GRID_STATUS_BAR+10 ] ="'   align='absMiddle' />&nbsp;</TD></TR></TBODY></TABLE></TD></TR>".toCharArray();
 
 
 //FILTER BAR
 
        
-     text[ GRID_FILTER_BAR ] ="<TR height='22'><TD><TABLE id='g".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR ] ="<TR height='22'><TD><TABLE id='g".toCharArray();
     // 1642
-     text[ GRID_FILTER_BAR +1 ] ="_filter' onmouseover=\"so('g".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR +1 ] ="_filter' onmouseover=\"so('g".toCharArray();
     // 1642
-     text[ GRID_FILTER_BAR +2 ] ="');setBarFilterStyle(true,event);\" onmouseout=\"so('g".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR +2 ] ="');setBarFilterStyle(true,event);\" onmouseout=\"so('g".toCharArray();
     // 1642
-     text[ GRID_FILTER_BAR +3 ] ="');setBarFilterStyle(false,event);\" onclick=\"so('g".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR +3 ] ="');setBarFilterStyle(false,event);\" onclick=\"so('g".toCharArray();
      //1642
-     text[ GRID_FILTER_BAR +4 ] ="');onClick_BarFilter(event,false);\" class='gfFilterBar_std gfBar_std' cellSpacing='0' cellPadding='1'>".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR +4 ] ="');onClick_BarFilter(event,false);\" class='gfFilterBar_std gfBar_std' cellSpacing='0' cellPadding='1'>".toCharArray();
     
-     text[ GRID_FILTER_BAR +5 ] ="<TBODY><TR ><TD class='statusALL' noWrap='1' width='5%'>".toCharArray(); //$NON-NLS-1$
+     text[ GRID_FILTER_BAR +5 ] ="<TBODY><TR ><TD class='statusALL' noWrap='1' width='5%'>".toCharArray();
      
      //text[ GRID_FILTER_BAR +6 ] ="Todos</TD><TD>#</TD><TD>a</TD><TD>b</TD><TD>c</TD><TD>d</TD><TD>e</TD><TD>f</TD><TD>g</TD><TD>h</TD><TD>i</TD><TD>j</TD><TD>k</TD><TD>l</TD><TD>m</TD><TD>n</TD><TD>o</TD><TD>p</TD><TD>q</TD><TD>r</TD><TD>s</TD><TD>t</TD><TD>u</TD><TD>v</TD><TD>w</TD><TD>x</TD><TD>y</TD><TD>z</TD></TR></TBODY></TABLE></TD></TR>".toCharArray();
 
@@ -3655,7 +3655,7 @@ public final class docHTML_grid  {
 /*        <!-- space para ascrrolll quando tem footer -->
 <TR class="gfSpacer_std">      <TD></TD> </TR>
 */
-        text [ GRID_SPACER_TOSCROLL ] ="<TR class='gfSpacer_std'>      <TD></TD> </TR>".toCharArray(); //$NON-NLS-1$
+        text [ GRID_SPACER_TOSCROLL ] ="<TR class='gfSpacer_std'>      <TD></TD> </TR>".toCharArray();
       }
     }
 

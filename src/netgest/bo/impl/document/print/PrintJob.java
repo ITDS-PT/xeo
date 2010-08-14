@@ -11,6 +11,7 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.boApplication;
 import netgest.io.iFile;
 import netgest.io.iFilePermissionDenied;
 import netgest.utils.IOUtils;
@@ -97,7 +98,7 @@ public class PrintJob
             
             this.printJob = printJobQueue.getBoui();
             
-            queueFolder = getQueueFolder( queueId, printJobQueue.getBoui() );
+            queueFolder = getQueueFolder( ctx, queueId, printJobQueue.getBoui() );
             File queueFolderFile = new File( queueFolder );
             if( !queueFolderFile.exists() )
             {
@@ -187,18 +188,17 @@ public class PrintJob
         
     }
     
-    public static String getQueueFolder( String queueId, long objectBoui )
+    public static String getQueueFolder( EboContext ctx, String queueId, long objectBoui )
     {
-        return getTempDir() + "XEO_QUEUE_" + queueId.toUpperCase() + File.separator + objectBoui + File.separator;        
+        return getTempDir( ctx ) + "XEO_QUEUE_" + queueId.toUpperCase() + File.separator + objectBoui + File.separator;        
     }
     
-    public static String getTempDir()
+    public static String getTempDir( EboContext ctx )
     {
-        String path = null;
         
-        //TODO:Implement Interface LUSITANIA
-        //boConfig.getFolderPath(boConfig.PRINTER_TEMP_FOLDER);
-        
+    	String path = ctx.getPreferencesManager().getSystemPreference( 
+    			PrintJob.class.getName()  
+    	).getString( "SpoolFolder" );
         if(path == null)
             path = System.getProperty("java.io.tmpdir");
         

@@ -452,6 +452,10 @@ public class ExplorerServer
                 }
                 
             }
+            
+            if( tree.getExtension() != null ) {
+                tree.getExtension().readParameters( tree, DOC.getEboContext().getRequest() );
+            }
         }
         
     }

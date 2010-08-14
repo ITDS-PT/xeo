@@ -67,6 +67,8 @@ public class GtCampoManual extends GtCampo {
                                          .getValueString());
             newCampo.setTextos(campo.getAttribute("textLov").getValueLong());
 
+            newCampo.setDecimals(campo.getAttribute("numeroCasasDecimais").getValueObject());
+            
             if (campo.getAttribute("min").getValueObject() != null) {
                 newCampo.setMin(campo.getAttribute("min").getValueLong());
             }
@@ -154,6 +156,9 @@ public class GtCampoManual extends GtCampo {
         }
         else if(Integer.parseInt(getTipo()) == 2)
         {
+            if(getDecimals()!=null)
+              s = formatCurrency(s, ((BigDecimal)getDecimals()).intValue());
+            else
             s = formatCurrency(s);
         }
 
@@ -161,7 +166,7 @@ public class GtCampoManual extends GtCampo {
         super.setValueString(s);
     }
 
-    public static String formatCurrency(String value)
+    public static String formatCurrency(String value, int fractionDigits)
     {
         if(value == null || value.length() == 0) return value;
         String valor = value.replaceAll("\\.", "").replaceAll(",", ".");
@@ -169,11 +174,17 @@ public class GtCampoManual extends GtCampo {
         NumberFormat currencyFormatter = NumberFormat.getInstance();
         currencyFormatter.setParseIntegerOnly(false);
         currencyFormatter.setGroupingUsed(true);
-        currencyFormatter.setMaximumFractionDigits(2);
-        currencyFormatter.setMinimumFractionDigits(2);
+        currencyFormatter.setMaximumFractionDigits(fractionDigits);
+        currencyFormatter.setMinimumFractionDigits(fractionDigits);
         currencyFormatter.setMinimumIntegerDigits(1);
         return currencyFormatter.format(bg);
     }
+
+    public static String formatCurrency(String value)
+    {
+        return formatCurrency(value, 2);
+    }
+    
 
     private static void show(HttpServletRequest req) {
         Enumeration oEnum = req.getParameterNames();

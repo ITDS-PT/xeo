@@ -488,5 +488,4 @@ public class boConnectionManager
         }
 
     }
-
 }

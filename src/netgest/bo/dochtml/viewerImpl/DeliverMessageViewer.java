@@ -768,7 +768,7 @@ public class DeliverMessageViewer implements ObjectViewer
             sb.append(mediaLabel);
             */
             String channelId = getChannelId(ctxObj);
-            if(!"".equals(channelId))
+            if(!".".equals(channelId) && !"".equals(channelId))
             {
                 sb.append(channelId);
             }

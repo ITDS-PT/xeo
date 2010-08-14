@@ -131,6 +131,7 @@ public class QLParser  {
     private static final String PERF_FLAT_GROUSPS_TAG="CTX_PERFORMERGROUPS"; // Só grupos que o utilizador pertence directamente
     private static final String PERF_MEMBER_OF_FLAT="CTX_MEMBEROF_FLAT"; // Todas as chaves excepto grupos hierarquicos.
     private static final String PERF_SAME_GROUP_USERS="CTX_USERS_OF_SAME_GROUP"; // Todas as chaves dos utilizadores do mesmo grupo.
+    private static final String PERF_GROUPS_SET="CTX_SET_OF_GRUPS_USER_SEE"; // Conjunto de grupos de onde um user pode ver as actividades 
     private static final String XWFMYWORK="CTX_XWFMYORWK";
 
     
@@ -736,6 +737,29 @@ public class QLParser  {
                     strQuery = strQuery.replaceAll("\\§","\\$");
                 } 
                 
+            }
+            catch (Exception e)
+            {
+                e=e;
+            }
+        }
+        //Alteração que vai fazer o sql que verifica se o grupo de uma determinada actividade se encontra num conjunto de bouis de 
+        //grupos possiveis. 
+        if ( strQuery.indexOf( PERF_GROUPS_SET ) > -1 )
+        {
+            try
+            {   
+                long[] groups = securityRights.getPerformerGroupsKeys( ctx, xeboctx.getBoSession().getPerformerBoui() );                  
+                StringBuffer sb = new StringBuffer();
+                
+                    for (int i = 0; i < groups.length; i++) 
+                    {
+                        if( i > 0 ) sb.append(',');
+                        sb.append( groups[i] );
+                    }
+                    if( groups.length == 0 ) sb.append('0'); 
+                    strQuery = strQuery.replaceAll( PERF_GROUPS_SET, "("+sb.toString()+")" );
+             
             }
             catch (Exception e)
             {

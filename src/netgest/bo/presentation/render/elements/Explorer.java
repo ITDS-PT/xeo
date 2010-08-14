@@ -70,6 +70,8 @@ public class Explorer implements Element {
         private static Logger logger = Logger.getLogger(
             "netgest.bo.presentation.render.elements.Explorer");
     private Menu p_menu = null;
+    private IExplorerExtension  p_extension = null;
+    
     private Menu p_mouseMenu = null;
     private Group p_group = null;
     private Parameters p_param = null;
@@ -277,6 +279,11 @@ public class Explorer implements Element {
     public Menu getMenu() {
         return this.p_menu;
     }
+    
+    public IExplorerExtension getExtension() {
+        return this.p_extension;
+    }
+    
     public Menu getMouseMenu() {
         return this.p_mouseMenu;
     }
@@ -467,6 +474,29 @@ public class Explorer implements Element {
                 p_menu.setOnClickParameters("idx", String.valueOf(doc.getDocIdx()));
                 p_menu.setOnClickParameters("treeName", p_key);     
             }
+            
+            
+            String tagName = p_treeDef.getNodeName();
+            System.out.println( tagName );
+            
+            String p_extensionClass = p_treeDef.getAttribute("extension",null);
+            if( p_extensionClass != null ) {
+                try {
+                    p_extension = (IExplorerExtension)Class.forName( p_extensionClass ).newInstance();
+                    if( p_extension != null ) {
+                        p_extension.setExplorer( this );
+                        Menu extmenu = p_extension.getMenu( this );
+                        if(extmenu != null)
+                        {
+                            extmenu.setOnClickParameters("idx", String.valueOf(doc.getDocIdx()));
+                            extmenu.setOnClickParameters("treeName", p_key);     
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    logger.severe("Erro loading extension class.", e );
+                }
+            }
         }
         catch (boRuntimeException e)
         {
@@ -489,7 +519,28 @@ public class Explorer implements Element {
 			
 		aux = treeUserdef.getChildNode("filter");
 		if(aux != null)
+        {
+            if( String.valueOf( aux.getAttribute("filterName", "" ) ).trim().length() > 0 )
+            {
+                try
+                {
+                    boObject uQuery = boObject.getBoManager().loadObject( 
+                        doc.getEboContext(),
+                        "select Ebo_Filter where name = ?",
+                        new Object[] { aux.getAttribute("filterName") }
+                    );
+                    this.setBouiUserQuery( doc.getEboContext(), uQuery.getBoui() );
+                }
+                catch (boRuntimeException e)
+                {
+                    logger.warn("Error loading explorer filter ");
+                }
+            }
+            else
+            {
 			this.setTextUserQuery(null,aux.getText());
+            }
+        }
 			
         //inicializações
         if(this.p_explorerOptions.isGroupsZoneVisible() && groupProvider.groupSize() > 0)
@@ -1251,47 +1302,6 @@ public class Explorer implements Element {
         return toRet;
     }
 
-
-    public String[] getMethods()  {
-       String methods[] =null;
-       if (this.p_treeDef.getChildNode("methods")!=null)
-       {
-           ngtXMLHandler[] attributes = this.p_treeDef.getChildNode("methods").getChildNodes();
-           if (attributes!=null)
-           {
-                methods=new String[attributes.length];
-                for (int i = 0; i < attributes.length; i++) 
-                {
-                    if( attributes[i].getText() != null)
-                    {
-                        methods[i]=attributes[i].getText();
-                    }
-                }
-           }
-       }
-       return methods;
-    }
-    
-    public String getMethodOverrideJSP(String method) {
-        String overrideJSP =null;
-        if (this.p_treeDef.getChildNode("methods")!=null)
-        {
-            ngtXMLHandler[] attributes = this.p_treeDef.getChildNode("methods").getChildNodes();
-            if (attributes!=null)
-            {                
-                 for (int i = 0; i < attributes.length; i++) 
-                 {
-                     if( attributes[i].getText().equals(method))
-                     {
-                         overrideJSP=attributes[i].getAttribute("overrideDefaultJSP");
-                         break;
-                     }
-                 }
-            }
-        }
-        return overrideJSP; 
-    }
-    
     public Hashtable getAllAttributes() {
         return columnsProvider.getAllAttributes();
     }
@@ -1717,12 +1727,19 @@ public class Explorer implements Element {
                 s.append(" ) ");
             }
         }
+        if( p_extension != null ) {
+            
+            String extensionQuery = p_extension.getExtensionSql();
+            if( extensionQuery != null )  {
+                s.append( " and ( " ).append( extensionQuery ).append( ")" );
+            }
+        }
 
         if (!p_textFullSearch.equals("")) {
             s.append(" and  contains '");
 
             //s.append( p_textFullSearch );
-            s.append(getFullTextExpression(p_textFullSearch));
+            s.append(getFullTextExpression(ctx,p_textFullSearch));
             s.append("'");
         }
         
@@ -1805,7 +1822,7 @@ public class Explorer implements Element {
                 innerSql = remakeInnerSQL(ctx, innerSql);
             }
             
-            outSql.append( " from ( " ).append( innerSql ).append( ") sql_count " );
+            outSql.append( " from ( " ).append( innerSql ).append( ")" );
             outSql.append(" group by ");
             for (int i = 0; i < groupProvider.groupSize(); i++) {
                 outSql.append(" \"grp");
@@ -1940,7 +1957,7 @@ public class Explorer implements Element {
             s.append(" and  contains '");
 
             //s.append( p_textFullSearch );
-            s.append(getFullTextExpression(p_textFullSearch));
+            s.append(getFullTextExpression(ctx, p_textFullSearch));
             s.append("'");
         }
         
@@ -2290,11 +2307,19 @@ public class Explorer implements Element {
             }
         }
 
+        if( p_extension != null ) {
+            
+            String extensionQuery = p_extension.getExtensionSql();
+            if( extensionQuery != null &&  extensionQuery.length() > 0 )  {
+                s.append( " and ( " ).append( extensionQuery ).append( ")" );
+            }
+        }
+
         if (!p_textFullSearch.equals("")) {
             String fullText = "";
              try
              {
-                 fullText = getFullTextExpression(p_textFullSearch);
+                 fullText = getFullTextExpression(ctx, p_textFullSearch);
              }
              catch (Exception e)
              {
@@ -2884,7 +2909,7 @@ public class Explorer implements Element {
         }
 
         if (!p_textFullSearch.equals("")) {
-            p_parameters.add(getFullTextExpression(p_textFullSearch));
+            p_parameters.add(getFullTextExpression(ctx, p_textFullSearch));
 
             s2.append(" and  contains ? ");
         }
@@ -3058,7 +3083,7 @@ public class Explorer implements Element {
              String fullText = "";
              try
              {
-                 fullText = getFullTextExpression(p_textFullSearch);
+                 fullText = getFullTextExpression(ctx, p_textFullSearch);
              }
              catch (Exception e)
              {
@@ -3121,7 +3146,7 @@ public class Explorer implements Element {
               s.append(", "+columnsProvider.getColumn(i).getName() );
         }
         
-        s.append(" from ").append(p_bodef.getName());
+        s.append(" from ").append(p_bodef.getName()).append(" ext");
         if(p_originalBOQL != null && !"".equals(p_originalBOQL))
         {
             s.append(" where (").append(p_originalBOQL).append(")");
@@ -3174,7 +3199,7 @@ public class Explorer implements Element {
         }
 
         if (!p_textFullSearch.equals("")) {
-            p_parameters.add(getFullTextExpression(p_textFullSearch));
+            p_parameters.add(getFullTextExpression(ctx, p_textFullSearch));
 
             s.append(" and  contains ? ");
         }
@@ -3738,9 +3763,9 @@ public class Explorer implements Element {
         return p_explorerOptions;
     }
     
-    public String getFullTextExpression( String text ) 
+    public String getFullTextExpression( EboContext ctx, String text ) 
     {
-        return text; 
+        return boObjectList.arrangeFulltext( ctx , text ); 
     }
     
     public ColumnsProvider getColumnsProvider()
@@ -3924,4 +3949,45 @@ public class Explorer implements Element {
         }
         return false;
     }
+    
+    public String[] getMethods()  {
+        String methods[] =null;
+        if (this.p_treeDef.getChildNode("methods")!=null)
+        {
+            ngtXMLHandler[] attributes = this.p_treeDef.getChildNode("methods").getChildNodes();
+            if (attributes!=null)
+            {
+                 methods=new String[attributes.length];
+                 for (int i = 0; i < attributes.length; i++) 
+                 {
+                     if( attributes[i].getText() != null)
+                     {
+                         methods[i]=attributes[i].getText();
+                     }
+                 }
+            }
+        }
+        return methods;
+     }
+     
+     public String getMethodOverrideJSP(String method) {
+         String overrideJSP =null;
+         if (this.p_treeDef.getChildNode("methods")!=null)
+         {
+             ngtXMLHandler[] attributes = this.p_treeDef.getChildNode("methods").getChildNodes();
+             if (attributes!=null)
+             {                
+                  for (int i = 0; i < attributes.length; i++) 
+                  {
+                      if( attributes[i].getText().equals(method))
+                      {
+                          overrideJSP=attributes[i].getAttribute("overrideDefaultJSP");
+                          break;
+                      }
+                  }
+             }
+         }
+         return overrideJSP; 
+     }
+    
 }

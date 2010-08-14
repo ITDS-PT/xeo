@@ -100,6 +100,11 @@ public class boPoolManager
     
     private final void _putObject(String owner, boPoolable object,Object[] keys, boolean release )
     {
+    	
+    	if( object.getEboContext() != null && 
+    			object.getEboContext() != boApplication.currentContext().getEboContext() ) {
+    	}
+    	
         Hashtable htkeys = (Hashtable)ContextKeys.get( owner );
         if( htkeys == null )
         {

@@ -1018,7 +1018,11 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
          if(p_masterBoList!=null) {
             if(p_masterBoList.getObjectContainer()==null)
             {
+                if ( p_masterBoList.getBQL() != null && 
+                        p_masterBoList.getBQL().indexOf("/*NO_SECURITY*/") == -1 )
+                {
                 p_masterBoList.setObjectContainer(this);
+            }
             }
             p_masterBodef = p_masterBoList.getBoDef();
             if(p_masterBodef != null)
