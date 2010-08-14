@@ -124,7 +124,7 @@ public class runtimePolicyPerformer
         i=0;
         
         int groupIndex=0;
-        long[] xgroups = new long[ 50 ];
+        long[] xgroups = new long[ 500 ];
         
          
         
