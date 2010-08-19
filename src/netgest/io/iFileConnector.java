@@ -3,8 +3,20 @@
  */
 package netgest.io;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.jcr.Session;
+
+import netgest.bo.boConfig;
+import netgest.bo.configUtils.FileNodeConfig;
+import netgest.bo.configUtils.FolderNodeConfig;
+import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.system.boApplication;
+import netgest.io.metadata.MetadataConnector;
 import netgest.io.metadata.iMetadataConnector;
 import netgest.io.metadata.iSearchParameter;
 
@@ -20,6 +32,8 @@ import netgest.io.metadata.iSearchParameter;
 public interface iFileConnector 
 {
 
+	public void initializeFileConnector(Session session, FileNodeConfig fileConf,
+			FolderNodeConfig folderConf, Map<String,MetadataNodeConfig> metaConf);
 	/**
 	 * 
 	 * Retrieves a reference to a {@link iFile}

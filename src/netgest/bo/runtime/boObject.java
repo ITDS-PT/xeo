@@ -4000,11 +4000,12 @@ public abstract class boObject extends boObjectContainer implements Serializable
         				connectorClass = "netgest.io.jcr.FileConnector";
         			iFile currentFile = currHandler.getValueiFile();
         			
-        			if (currentFile != null){
-        				currentFile.save(currHandler.getEboContext());
-        				if (!currentFile.exists())
+        			if (currentFile != null && 
+        				currentFile.save(currHandler.getEboContext()) &&
+        				currentFile.exists()){
+        					currHandler.setValueString(currentFile.getURI());
         					iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
-        			}
+        				}
         				
         			
 				}catch (iFileException e) {

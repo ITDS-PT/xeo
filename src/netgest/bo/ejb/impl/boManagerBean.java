@@ -2065,7 +2065,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     			
                     			iFile currentFile = currHandler.getValueiFile();
                     			try {
-                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), connClass, null);
+                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), connClass, bobj.getEboContext().getConnectionData());
 								} catch (iFileException e) {
 									throw new boRuntimeException2(e);
 								} catch (InstantiationException e) {

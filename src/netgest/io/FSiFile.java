@@ -270,4 +270,7 @@ public class FSiFile implements iFile {
 	public boolean inTransaction() {
 		return false;
 	}
+	@Override
+	public void updateFile(iFile newVal) {
+	}
 }

@@ -11,14 +11,18 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import netgest.bo.boConfig;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefClsEvents;
+import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localized.JSPMessages;
 import netgest.bo.security.securityRights;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
+import netgest.io.iFileConnector;
+import netgest.io.iFileException;
 
 /**
  *
@@ -122,10 +126,51 @@ public abstract class AttributeHandler implements boIEvents
         setValuesiFile( files, AttributeHandler.INPUT_FROM_USER );
     }
 
+    public iFile changeECMIFile(iFile newVal) throws boRuntimeException {
+
+		boDefDocument ecmDef = getDefAttribute().getECMDocumentDefinitions();
+			
+		//Get the default repository name
+		String repName = boConfig.getApplicationConfig().
+			getDefaultFileRepositoryConfiguration().getName();
+		
+		//Check if this attribute uses a different repository
+		if (ecmDef.getRepositoryName()!= null)
+			repName = ecmDef.getRepositoryName();
+		
+		//Retrieve the FileConnector
+		iFileConnector con = boConfig.getApplicationConfig().
+				getFileRepositoryConfiguration(repName).getConnector(this);
+	
+		if("".equals(this.getValueString()) || this.getValueString()==null) {
+    		try {
+				//create the new file
+				this.p_valueIFileECM = con.getIFile(newVal.getURI());
+			} catch (iFileException e) {
+				e.printStackTrace();
+			}			
+		}
+		else if(this.getValueString()!=null && this.p_valueIFileECM==null) {
+    		try {
+				//get the old file
+				this.p_valueIFileECM = con.getIFile(this.getValueString());
+				//update it
+				p_valueIFileECM.updateFile(newVal);   
+			} catch (iFileException e) {
+				e.printStackTrace();
+			}			
+		}
+    	else {
+    		//update file
+    		p_valueIFileECM.updateFile(newVal);    		
+    	}
+    	return newVal;    	
+    }
+    
     public void setValueiFile(iFile file, byte type)  throws boRuntimeException
     {
     	if (getDefAttribute().getECMDocumentDefinitions() != null){
-    		this.p_valueIFileECM = file;
+    		changeECMIFile(file);
     	}
     	else
     		setValueObject( file, type );

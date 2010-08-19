@@ -1797,5 +1797,11 @@ public class FileJCR implements iFile {
 	public boolean inTransaction() {
 		return p_inTransaction;
 	}
+
+	@Override
+	public void updateFile(iFile newVal) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

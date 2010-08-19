@@ -1272,13 +1272,13 @@ public #BO.MODIFIERS# class _boTemplate_ extends #BO.SUPERCLASS# implements  #BO
             }
             public void setValue(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
             {
-                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
                 #IFILE.SET#
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
             }
             public void setValue#ATT.JAVADATATYPE#(#ATT.JAVADATATYPE# value)  throws boRuntimeException 
             {
-                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
                 #IFILE.SET#
+                this.setValue(boConvertUtils.convertTo#ATT.PRIMITIVEDATATYPE#(value,this));
             }
             //@ENDIF ARRAY
         //@ENDIF SIMPLEDATATYPE

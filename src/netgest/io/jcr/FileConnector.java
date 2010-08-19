@@ -72,7 +72,7 @@ public class FileConnector implements iFileConnector {
 		p_metadataConnector = new MetadataConnector(p_metaConfig, p_sessionJCR);
 	}
 	
-	public FileConnector(Session session, FileNodeConfig fileConf,
+	public void initializeFileConnector(Session session, FileNodeConfig fileConf,
 			FolderNodeConfig folderConf, Map<String,MetadataNodeConfig> metaConf) 
 	{
 		p_sessionJCR = 	session;

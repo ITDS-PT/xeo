@@ -634,5 +634,8 @@ public class BasiciFile implements iFile  {
 	@Override
 	public boolean inTransaction() {
 		return false;
+	}
+	@Override
+	public void updateFile(iFile newVal) {
 	} 
 }

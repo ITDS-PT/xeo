@@ -251,8 +251,20 @@ public class RepositoryConfig
 				metaConf.put(p.getName(), p);
 			}
 			//Create the standard connector and return it
-			FileConnector conn = new FileConnector(session, fileConf, folderConf, metaConf);
-			return conn;
+			
+			iFileConnector fileConn = null;
+			try {
+				fileConn = (iFileConnector)Class.forName(config.getFileConnectorClass()).newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			fileConn.initializeFileConnector(session, fileConf, folderConf, metaConf);
+			fileConn.open();
+			return fileConn;
 		}
 	}
 	
@@ -274,17 +286,21 @@ public class RepositoryConfig
 			if (nameRep == null)
 				nameRep = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration().getName();
 			
+			//Retrieve the repository configurations
+			RepositoryConfig config = boConfig.getApplicationConfig().
+				getFileRepositoryConfiguration(nameRep);
+			
 			FileNodeConfig fileConfig = null;
 			FolderNodeConfig folderConfig = null;
 			Map<String,MetadataNodeConfig> metaConfig = null;
 			if (ecmDef.getFileNodeConfig() != null)
 				fileConfig = ecmDef.getFileNodeConfig();
 			else
-				fileConfig = boConfig.getApplicationConfig().getFileRepositoryConfiguration(nameRep).getFileConfig();
+				fileConfig = config.getFileConfig();
 			if (ecmDef.getFileNodeConfig() != null)
 				folderConfig = ecmDef.getFolderNodeConfig();
 			else
-				folderConfig = boConfig.getApplicationConfig().getFileRepositoryConfiguration(nameRep).getFolderConfig();
+				folderConfig = config.getFolderConfig();
 			if (ecmDef.getMetadataConfigs() != null)
 				metaConfig = ecmDef.getMetadataConfigs();
 			else
@@ -299,8 +315,20 @@ public class RepositoryConfig
 			}
 				
 			Session session = handler.getEboContext().getBoSession().getECMRepositorySession(nameRep);
-			iFileConnector conn = new FileConnector(session, fileConfig, folderConfig, metaConfig);
-			return conn;		
+			
+			iFileConnector fileConn = null;
+			try {
+				fileConn = (iFileConnector)Class.forName(config.getFileConnectorClass()).newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			fileConn.initializeFileConnector(session, fileConfig, folderConfig, metaConfig);
+			fileConn.open();
+			return fileConn;		
 		}
 		else{
 			return getConnector(handler.getEboContext());

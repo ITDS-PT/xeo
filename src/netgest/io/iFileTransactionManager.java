@@ -270,7 +270,7 @@ public class iFileTransactionManager extends Thread {
 			String sqlInsert = "SELECT * FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
 			PreparedStatement ps = conn.prepareStatement(sqlInsert);
 			ps.setString(1, fileID);
-			ps.executeUpdate();
+			ps.executeQuery();
 			
 			boolean isRegistered = false;
 			ResultSet data = ps.getResultSet();

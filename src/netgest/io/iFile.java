@@ -394,4 +394,5 @@ public interface iFile {
 	 * @return True if the iFile is in a Transaction and false otherwise
 	 */
 	public boolean inTransaction();
+	public void updateFile(iFile newVal);
 }

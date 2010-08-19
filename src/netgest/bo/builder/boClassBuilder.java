@@ -441,7 +441,7 @@ public class boClassBuilder
          * 
         */
         if (parseJavaDataType(att.getType(),TYPE_OBJECT).equalsIgnoreCase("iFile"))
-        	ht.put("#IFILE.SET#","this.p_valueIFileECM = value;");
+        	ht.put("#IFILE.SET#","if(getDefAttribute().getECMDocumentDefinitions() != null){ changeECMIFile(value);  }");
         else
         	ht.put("#IFILE.SET#","");
         
