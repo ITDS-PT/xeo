@@ -58,9 +58,10 @@ public class ScriptBuilder {
             if(objName != null && objName.length() > 0 && label != null && label.length() > 0)
             {
                 StringBuffer sb = new StringBuffer();
-                sb.append("var objLabel=\"<img style='cursor:hand' hspace='3' border='0' align='absmiddle' class='lui' title='")
-                  .append(label)
-                  .append("' src='");
+                sb.append("var objLabel=\"<SPAN title='")
+                .append(label)
+                 .append("'><img style='cursor:hand' hspace='3' border='0' align='absmiddle' class='lui'")
+                  .append(" src='");
                 if(imagem != null && imagem.length() > 0)
                 {
                     sb.append(imagem);
@@ -69,9 +70,7 @@ public class ScriptBuilder {
                 {
                     sb.append("resources/" + objName + "/ico16.gif");
                 }
-                sb.append("' width='16' height='16'/><span title='")
-                  .append(label)
-                  .append("'>")
+                sb.append("' width='16' height='16'/>")
                   .append(label)
                   .append("</span>\"");
                 return sb.toString();
