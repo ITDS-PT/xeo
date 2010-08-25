@@ -1186,5 +1186,16 @@ public class DBiFile implements iFile  {
 	}
 	@Override
 	public void updateFile(iFile newVal) {
+	}
+	@Override
+	public String[] getFileToDeleteOnCommit() {
+		return null;
+	}
+	@Override
+	public String[] getFileToDeleteOnRollback() {
+		return null;
+	}
+	@Override
+	public void rollback(EboContext ctx) {
 	}    
 }

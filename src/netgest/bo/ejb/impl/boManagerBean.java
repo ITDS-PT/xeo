@@ -1703,7 +1703,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
                 if ( canUpdate )
                 {
-
                     ArrayList[] refs = boReferencesManager.getReferencesList( bobj );
 
                     boolean waschanged = bobj.isChanged() ||
@@ -2034,6 +2033,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             {
                 if (dook)
                 {
+                    commitTransaction(ctx);
                 	//Retrieve all iFiles from the attributes and "commit" them
                 	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
                     for (int i = 0; i < iFilesAttributes.size(); i++)
@@ -2044,14 +2044,14 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     	{
                     			iFile currentFile = currHandler.getValueiFile();
                     			try {	iFileTransactionManager.commitIFile(currentFile, 
-                    					bobj.getEboContext().getConnectionData());
+                    					bobj.getEboContext());
 								} catch (iFileException e) { throw new boRuntimeException2(e);	}
                     	}
                     }
-                    commitTransaction(ctx);
                 }
                 else
                 {
+                    rollBackTransaction(ctx);
                 	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
                     for (int i = 0; i < iFilesAttributes.size(); i++)
                     {
@@ -2059,27 +2059,14 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
                     	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
                     	{
-                    			boDefDocument defDoc = currHandler.getDefAttribute().getECMDocumentDefinitions();
-                    			String connClass = boConfig.getApplicationConfig().
-                    				getFileRepositoryConfiguration(defDoc.getRepositoryName()).getFileConnectorClass();
-                    			
                     			iFile currentFile = currHandler.getValueiFile();
                     			try {
-                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), connClass, bobj.getEboContext().getConnectionData());
+                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), currentFile, bobj.getEboContext());
 								} catch (iFileException e) {
 									throw new boRuntimeException2(e);
-								} catch (InstantiationException e) {
-									e.printStackTrace();
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								} catch (iFilePermissionDenied e) {
-									e.printStackTrace();
 								}
                     	}
                     }
-                    rollBackTransaction(ctx);
 
                 }
             }

@@ -81,7 +81,7 @@ public class iFileTransactionManager extends Thread {
 			  			ResultSet rs = null;
 			  			try {
 			  				
-			  	            String sqlQuery = "select FILEID, IFILECONNCLASS where STATE='0' and INSERT_DATE<?";
+			  	            String sqlQuery = "select FILEID where STATE='0' and INSERT_DATE<?";
 			  				
 			  				ps = ctx.getConnectionData().prepareStatement(sqlQuery);
 			  				Calendar c = Calendar.getInstance();
@@ -92,22 +92,13 @@ public class iFileTransactionManager extends Thread {
 			  				rs = ps.executeQuery();
 			  				while(rs.next()) {
 			  					String fileId = rs.getString(1);
-			  					String fileClass = rs.getString(2);
 			  					
-			  					rollbackIFile(fileId, fileClass, ctx.getConnectionData());
+			  					rollbackIFile(fileId, null, ctx);
 			  				}
 			  				
 			  			} catch (SQLException e) {
 			                logger.severe(e.getMessage());
-			  			} catch (InstantiationException e) {
-			                logger.severe(e.getMessage());
-						} catch (IllegalAccessException e) {
-			                logger.severe(e.getMessage());
-						} catch (ClassNotFoundException e) {
-			                logger.severe(e.getMessage());
-						} catch (iFilePermissionDenied e) {
-			                logger.severe(e.getMessage());
-						} catch (iFileException e) {
+			  			} catch (iFileException e) {
 			                logger.severe(e.getMessage());
 						}
 			  			finally {
@@ -186,15 +177,33 @@ public class iFileTransactionManager extends Thread {
 		
 		try {
 			
-			String sqlInsert = "INSERT INTO "+IFILE_TRANSACTION_MANAGER_TBL+" (FILEID, INSERT_DATE, AUTHOR, IFILECONNCLASS, STATE) values (?," +
+			String sqlInsert = "INSERT INTO "+IFILE_TRANSACTION_MANAGER_TBL+" (FILEID, INSERT_DATE, AUTHOR, IFILECONNCLASS, STATE, ONCOMMIT, ONROLLBACK) values (?," +
 								driver.getDatabaseTimeConstant() +
-								",?,?,?)";
+								",?,?,?,?,?)";
 			
 			ps = conn.prepareStatement(sqlInsert);
 			ps.setString(1, fileId);
 			ps.setLong(2, user);
 			ps.setString(3, connectorClass);
 			ps.setString(4, "0");
+			String[] files2Delete = file.getFileToDeleteOnCommit();
+			if(files2Delete!=null && files2Delete.length>0) {
+				String oncommit = "";
+				for (int i = 0; i < files2Delete.length; i++) 
+					oncommit += files2Delete[i] + ";";
+				ps.setString(5, oncommit);
+			}
+			else
+				ps.setString(5, null);
+			files2Delete = file.getFileToDeleteOnRollback();
+			if(files2Delete!=null && files2Delete.length>0) {
+				String onrollback = "";
+				for (int i = 0; i < files2Delete.length; i++) 
+					onrollback += files2Delete[i] + ";";
+				ps.setString(6, onrollback);
+			}
+			else
+				ps.setString(6, null);
 			
 			ps.executeUpdate();
 
@@ -222,26 +231,64 @@ public class iFileTransactionManager extends Thread {
 	 * 
 	 * @throws iFileException If something goes wrong with the SQL delete operation
 	 */
-	public static void commitIFile(iFile file, Connection conn) throws iFileException {
-		String fileId = file.getId();
+	public static void commitIFile(iFile file, EboContext ctx) throws iFileException {
+		
 		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs = null;
 		try {
+			String sqlSelect = "SELECT IFILECONNCLASS, ONCOMMIT FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
+			ps = ctx.getConnectionData().prepareStatement(sqlSelect);
+			ps.setString(1, file.getId());
+			ps.executeQuery();
 			
-			String sqlInsert = "DELETE FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
-			
-			ps = conn.prepareStatement(sqlInsert);
-			ps.setString(1, fileId);
-			
-			ps.executeUpdate();
+			rs = ps.getResultSet();
+			if (rs.next()){
 
+				String connectorClass = rs.getString(1);
+				String oncommit = rs.getString(2);
+				if(oncommit!=null) {
+					iFileConnector fileConn = (iFileConnector)Class.forName(connectorClass).newInstance();
+					String[] idToRemove = oncommit.split(";");
+					for (int i = 0; i < idToRemove.length; i++)
+						fileConn.deleteIFile(idToRemove[i]);					
+				}				
+				
+				
+				String sqlDelete = "DELETE "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
+				
+				ps2 = ctx.getConnectionData().prepareStatement(sqlDelete);
+				ps2.setString(1, file.getId());				
+				ps2.executeUpdate();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new iFileException(e);
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (iFilePermissionDenied e) {
+			e.printStackTrace();
 		}
 		finally {
+			if(rs!=null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			if(ps!=null)
 				try {
 					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if(ps2!=null)
+				try {
+					ps2.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -258,34 +305,74 @@ public class iFileTransactionManager extends Thread {
 	 * @param conn a connection to the database
 	 * 
 	 * 
-	 * @throws InstantiationException If a new instance of {@link iFileConnector} cannot be created
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException If the class implementing the {@link iFileConnector} does not exist
-	 * @throws iFilePermissionDenied If the user does not permissions to delete the {@link iFile}
 	 * @throws iFileException If any other thing goes wrong
 	 */
-	public static void rollbackIFile(String fileID, String fileClass, Connection conn) throws InstantiationException, IllegalAccessException, ClassNotFoundException, iFilePermissionDenied, iFileException {
+	public static void rollbackIFile(String fileID, iFile ifile, EboContext ctx) throws iFileException {
 		
+		if(ifile!=null)
+			ifile.rollback(ctx);
+		if(fileID==null && ifile!=null)
+			fileID = ifile.getId();
+		
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+		ResultSet rs = null;
 		try {
-			String sqlInsert = "SELECT * FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
-			PreparedStatement ps = conn.prepareStatement(sqlInsert);
+			String sqlSelect = "SELECT IFILECONNCLASS, ONROLLBACK FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where STATE='0' AND FILEID = ?";
+			ps = ctx.getConnectionData().prepareStatement(sqlSelect);
 			ps.setString(1, fileID);
 			ps.executeQuery();
 			
-			boolean isRegistered = false;
-			ResultSet data = ps.getResultSet();
-			while (data.next()){
-				isRegistered = true;
+			rs = ps.getResultSet();
+			if (rs.next()){
+
+				String connectorClass = rs.getString(1);
+				String onrollback = rs.getString(2);
+				if(onrollback!=null) {
+					iFileConnector fileConn = (iFileConnector)Class.forName(connectorClass).newInstance();
+					String[] idToRemove = onrollback.split(";");
+					for (int i = 0; i < idToRemove.length; i++)
+						fileConn.deleteIFile(idToRemove[i]);					
+				}				
+				
+				
+				String sqlUpdate = "UPDATE "+ IFILE_TRANSACTION_MANAGER_TBL+" set STATE='9' where FILEID = ?";
+				
+				ps2 = ctx.getConnectionData().prepareStatement(sqlUpdate);
+				ps2.setString(1, fileID);				
+				ps2.executeUpdate();
 			}
-			
-			if (isRegistered){
-				iFileConnector fileConn = (iFileConnector)Class.forName(fileClass).newInstance();
-				fileConn.deleteIFile(fileID);
-			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (iFilePermissionDenied e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(rs!=null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if(ps!=null)
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if(ps2!=null)
+				try {
+					ps2.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 }

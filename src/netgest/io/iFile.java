@@ -394,5 +394,34 @@ public interface iFile {
 	 * @return True if the iFile is in a Transaction and false otherwise
 	 */
 	public boolean inTransaction();
+	
+	/**
+	 * 
+	 * Retrieves the files that need to be removed on an successful commit
+	 * 
+	 * @return The list of files ID or null if none need to be removed
+	 */
+	public String[] getFileToDeleteOnCommit();
+	
+	/**
+	 * 
+	 * Retrieves the files that need to be removed on an rollback
+	 * 
+	 * @return The list of files ID or null if none need to be removed
+	 */
+	public String[] getFileToDeleteOnRollback();
+
+	/**
+	 * 
+	 * Updates the file with the contents and name of an FSIfile
+	 * 
+	 */
 	public void updateFile(iFile newVal);
+	
+	/**
+	 * 
+	 * Rollsback the ifile
+	 * 
+	 */	
+	public void rollback(EboContext ctx);
 }

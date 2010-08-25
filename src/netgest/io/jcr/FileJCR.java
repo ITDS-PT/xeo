@@ -1803,5 +1803,23 @@ public class FileJCR implements iFile {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String[] getFileToDeleteOnCommit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getFileToDeleteOnRollback() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void rollback(EboContext ctx) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
