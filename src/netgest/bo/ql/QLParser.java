@@ -1,21 +1,33 @@
 /*Enconding=UTF-8*/
 package netgest.bo.ql;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
-import netgest.bo.runtime.*;
-import netgest.bo.security.*;
-import netgest.utils.*;
-import netgest.bo.def.*;
-import netgest.bo.*;
-import netgest.bo.system.*;
+
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefBridge;
+import netgest.bo.def.boDefClsState;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefInterface;
+import netgest.bo.def.boDefViewer;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.security.securityRights;
+import netgest.bo.system.boSession;
 import netgest.bo.xep.Xep;
-import java.util.regex.*;
+import netgest.utils.ClassUtils;
+import netgest.utils.ngtXMLHandler;
+import netgest.utils.tools;
 
 /**
  *
@@ -924,6 +936,10 @@ public class QLParser  {
             
             strQuery= strQuery.replaceAll("MYSENDMESSAGES",xgroups );
         }
+        
+        strQuery=parseCardId(strQuery," ORDER BY ");
+       
+        
         this.textQuery = strQuery;
         this.ctx = xeboctx;
         this.tokenizeStr();
@@ -934,6 +950,96 @@ public class QLParser  {
           return null;
     }
     
+    private String parseCardId(String strQuery,String orby)
+    {
+        //Parse Object Attributes Card id's
+        //Assumes order by to be the last clause in xeoql
+    	 int lastindexofoby=strQuery.toUpperCase().lastIndexOf(orby);
+         if (lastindexofoby>-1)
+         {
+         	String oby=strQuery.substring(strQuery.toUpperCase().lastIndexOf(orby)+orby.length(),strQuery.length());
+         	String direction="";
+         	if (oby.trim().toUpperCase().endsWith("DESC"))
+         	{
+         		direction="DESC";
+         	}
+         	else if (oby.trim().toUpperCase().endsWith("ASC"))
+         	{
+         		direction="ASC";
+         	}
+         	if (!direction.equals(""))
+         	{
+         		oby=oby.substring(0,oby.toUpperCase().lastIndexOf(direction));
+         	}
+         	Vector obyclauses=tools.Split(oby, ",");
+         	String neworderby=orby;
+         	for (int i=0;i<obyclauses.size();i++)
+         	{
+         		String currClause=(String)obyclauses.get(i);
+         		currClause=currClause.replaceAll("^\\s+", "");
+         		currClause=currClause.replaceAll("\\s+$", "");
+         		//Only first level
+         		//May change in the future
+         		if (currClause.indexOf(".")==-1)
+         		{
+                 	//Trying to get objdef
+         			String selstm="SELECT ";
+         			String objname=null;
+         			if (strQuery.toUpperCase().startsWith(selstm)) 
+         			{
+         				objname=strQuery.substring(strQuery.toUpperCase().indexOf(selstm)+selstm.length(),strQuery.length());
+         				objname= objname.replaceAll("^\\s+", "");
+         				objname=objname.replaceAll("\\s+$", "");
+         				objname=objname.substring(0, objname.indexOf(" "));        				
+         			}
+         			if (objname!=null)
+         			{
+         				boDefHandler thisobjdef=boDefHandler.getBoDefinition(objname);
+         				if (thisobjdef!=null)
+         				{
+ 			        		boDefAttribute attdef=thisobjdef.getAttributeRef(currClause);
+ 			        		//Only for ObjectAttribute and excluding attributes with more than one type
+ 			        		if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
+ 			        				&& attdef.getObjectsName()==null)
+ 			        		{
+ 			        			String type=attdef.getType();			        			
+ 			        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
+ 			        			if (currdef!=null)
+ 			        			{
+ 				        			String cardid=currdef.getCARDID();        			
+ 				        			byte[] cardidbytes=cardid.getBytes();
+ 				        			String cardidatt="";
+ 				        			boolean append=false;
+ 				        			//only orders first attribute of cardid, ignores others may change in the future
+ 				        			for (int j=0;j<cardidbytes.length;j++)
+ 				        			{
+ 				        				byte currb=cardidbytes[j];
+ 				        				if (currb=='[')
+ 				        					append=true;
+ 				        				if (currb==']')
+ 				        					break;
+ 				        				if (append && !(currb=='['))
+ 				        					cardidatt+=(char)currb;       					
+ 				        			}
+ 				        			cardidatt=currClause+"."+cardidatt;
+ 				        			neworderby+=cardidatt+",";
+ 			        			}
+ 			        		}
+ 			        		else neworderby+=currClause+",";			        			
+         				}
+         			}
+         		}
+         		else neworderby+=currClause+",";
+         	}
+         	if (!neworderby.equals(orby))
+         	{
+         		//remove last ,
+         		neworderby=neworderby.substring(0,neworderby.length()-1);
+         		strQuery=strQuery.substring(0,lastindexofoby)+neworderby+" "+direction;
+         	}         	
+         }
+         return strQuery;
+    }
     //divide a query em elementos lógicos e reconhecivies armazenando-os num vector decorando ainda as posições 
     //em que elas aparecem para posterior identificação dos erros
     private void tokenizeStr(){
