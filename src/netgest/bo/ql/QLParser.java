@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
 import javax.servlet.http.*;
 import javax.servlet.jsp.PageContext;
 import netgest.bo.runtime.*;
@@ -994,28 +995,33 @@ public class QLParser  {
  			        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
  			        			if (currdef!=null)
  			        			{
- 				        			String cardid=currdef.getCARDID(); 				        			
- 				        			byte[] cardidbytes=cardid.getBytes();
- 				        			String cardidatt="";
- 				        			boolean append=false;
- 				        			//only orders first attribute of cardid, ignores others may change in the future
- 				        			for (int j=0;j<cardidbytes.length;j++)
- 				        			{ 				        				
- 				        				byte currb=cardidbytes[j];
- 				        				if (currb=='.')
- 				        				{
- 				        					neworderby+=currClause+",";
- 				        					break;
- 				        				}
- 				        				if (currb=='[')
- 				        					append=true;
- 				        				if (currb==']')
- 				        					break;
- 				        				if (append && !(currb=='['))
- 				        					cardidatt+=(char)currb;       					
- 				        			}
- 				        			cardidatt=currClause+"."+cardidatt;
- 				        			neworderby+=cardidatt+",";
+ 			        				byte[] cardidbytes=cardid.getBytes();
+ 			        				String cardidatt="";
+ 			        				Vector cardids= new Vector();
+ 			        				boolean append=false;
+ 			        				for (int j=0;j<cardidbytes.length;j++)
+ 			        				{ 				        				
+ 			        					byte currb=cardidbytes[j];
+ 			        					if (currb=='[')
+ 			        						append=true;
+ 			        					if (currb==']')
+ 			        					{	
+ 			        						if (cardidatt.indexOf(".")==-1)
+ 			        							cardids.add(cardidatt);
+ 			        						append=false;
+ 			        						cardidatt="";
+ 			        					}
+ 			        					if (append && !(currb=='['))
+ 			        						cardidatt+=(char)currb;       					
+ 			        				}
+ 			        				if (cardids.size()>0)
+ 			        				{
+ 			        					for (int j=0;j<cardids.size();j++)
+ 			        					{
+ 			        						neworderby+=currClause+"."+cardids.get(j)+",";
+ 			        					}
+ 			        				}
+ 			        				else neworderby+=currClause+",";
  			        			}
  			        		}
  			        		else neworderby+=currClause+",";			        			
