@@ -995,6 +995,7 @@ public class QLParser  {
  			        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
  			        			if (currdef!=null)
  			        			{
+ 			        				String cardid=currdef.getCARDID(); 		
  			        				byte[] cardidbytes=cardid.getBytes();
  			        				String cardidatt="";
  			        				Vector cardids= new Vector();
