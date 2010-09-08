@@ -155,20 +155,16 @@ public final class Parser
     {
         ArrayList listUseToken = new ArrayList();
         String useToken = null;
-        int i = -1;
+        boolean exists = false;
         for (Iterator objects = tokens.iterator(); objects.hasNext();)
         {
             useToken = ( String ) objects.next();
             
             // PSenos - publication = publicationContents
-            i = useToken.indexOf(token);
-            if (i!=-1)
+            exists = useToken.equals(token);
+            if (exists)
             {
-                //acrescentei o if de modo a incluir apenas ser fôr primeiro da cadeia a.b.c
-                if(useToken.indexOf(".") == -1 || useToken.indexOf(".") > i)
-                {
-                    listUseToken.add(useToken);
-                }
+                listUseToken.add(useToken);
             }
             /*
             i = useToken.indexOf(token);
@@ -560,7 +556,7 @@ public final class Parser
         {
             AttributeHandler atr = ( AttributeHandler ) oEnum.nextElement();
             String name = atr.getName();
-
+            
             toSplit = getTokenUsed(tokens, name);
 
             if (toSplit != null)
@@ -572,7 +568,8 @@ public final class Parser
                     //bridgeHandler bridge = object.getBridge( name );
                     //boObject objattr = atr.getObject();
                     int type = 0; // texto
-                    if(atr.getDefAttribute().getLOVName() != null) 
+                    String lovname=atr.getDefAttribute().getLOVName();
+                    if(lovname != null && !lovname.equals("")) 
                     {
                       type = 3;                              
                     }
