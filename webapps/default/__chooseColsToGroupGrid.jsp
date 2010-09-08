@@ -5,7 +5,6 @@
 <%@ page import="netgest.bo.runtime.*"%>
 <%@ page import="netgest.bo.def.*"%>
 <%@ page import="netgest.utils.*,netgest.bo.system.boSession"%>
-<%@ page import="oracle.jsp.runtime.*"%>
 
 <jsp:useBean id="DOCLIST" scope="session" class="netgest.bo.dochtml.docHTML_controler"></jsp:useBean>
 <%
@@ -78,8 +77,8 @@ try {
     
     if ( tree == null ) 
     {
-        String __url=OracleJspRuntime.toStr("error.jsp");
-        __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"__chooseColsToGroupGrid","objectName" } ,new String[] {OracleJspRuntime.toStr("treeKey"),OracleJspRuntime.toStr( treeKey ) } );
+    	String __url="error.jsp";
+        __url+="?__chooseColsToGroupGrid=treeKey&objectName="+treeKey;        
         out.clear();
         pageContext.forward( __url);
         return;

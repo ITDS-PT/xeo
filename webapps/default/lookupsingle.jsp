@@ -7,7 +7,6 @@
 <%@ page import="netgest.bo.controller.ControllerFactory,netgest.bo.plugins.data.*"%>
 <%@ page import="netgest.utils.*,netgest.bo.localized.JSPMessages, netgest.bo.system.boSession"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="oracle.jsp.runtime.*"%>
 
 <jsp:useBean id="DOCLIST" scope="session" class="netgest.bo.dochtml.docHTML_controler"></jsp:useBean>
 <%
@@ -123,18 +122,16 @@ AttributeHandler attH=null;
               {
                   if((look_parentBoui == null || "".equals(look_parentBoui)) && look_action != null && !"".equals(look_action))
                   {
-                        String __url=OracleJspRuntime.toStr(look_action);
-                        __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose", "setBoui"} ,
-                        new String[] { myIDX, String.valueOf(lookObj.getBoui()) } );
+                      String __url=look_action;
+                      __url+="?clientIDXtoClose="+myIDX+"&setBoui="+String.valueOf(lookObj.getBoui());
                         out.clear();
                         pageContext.forward( __url);
                         return;
                   }
                   boObject targetObj = boObject.getBoManager().loadObject( boctx, Long.parseLong( look_parentBoui ) );
                   targetObj.getAttribute( look_parentAttribute ).setObject( lookObj );
-                  String __url=OracleJspRuntime.toStr("lookupsingleupdate.jsp");
-                  __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose"} ,
-                  new String[] { myIDX } );
+                  String __url="lookupsingleupdate.jsp";
+                  __url+="?clientIDXtoClose="+myIDX;
                   out.clear();
                   pageContext.forward( __url);
                   return;
@@ -262,18 +259,16 @@ AttributeHandler attH=null;
             }
             else if(look_action != null && !"".equals(look_action))
             {
-                String __url=OracleJspRuntime.toStr(look_action);
-                __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose", "setBoui"} ,
-                new String[] { myIDX, String.valueOf(valueToPut) } );
+            	String __url=look_action;
+                __url+="?clientIDXtoClose="+myIDX+"&setBoui="+String.valueOf(valueToPut);               
                 out.clear();
                 pageContext.forward( __url);
                 return;
             }
         
-        
-            String __url=OracleJspRuntime.toStr("lookupsingleupdate.jsp");
-            __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose"} ,
-            new String[] { myIDX } );
+            String __url="lookupsingleupdate.jsp";
+            __url+="?clientIDXtoClose="+myIDX;
+            
             out.clear();
             pageContext.forward( __url);
             return;

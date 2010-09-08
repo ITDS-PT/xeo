@@ -5,7 +5,6 @@
 <%@ page import="netgest.bo.runtime.*"%>
 <%@ page import="netgest.bo.def.*"%>
 <%@ page import="netgest.utils.*,netgest.bo.system.boSession"%>
-<%@ page import="oracle.jsp.runtime.*"%>
 
 <jsp:useBean id="DOCLIST" scope="session" class="netgest.bo.dochtml.docHTML_controler"></jsp:useBean>
 <%
@@ -45,8 +44,9 @@ try {
     
     }
     else{
-        String __url=OracleJspRuntime.toStr("error.jsp");
-        __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"__newFromTemplate","objectName" } ,new String[] {OracleJspRuntime.toStr("objectName"),OracleJspRuntime.toStr( objectName ) } );
+    	String __url="error.jsp";
+        __url+="?__newFromTemplate=objectName&objectName="+objectName;
+              
         out.clear();
         pageContext.forward( __url);
         return;

@@ -157,10 +157,9 @@ String[] ctrl;
             {
             DOC.getObject( netgest.utils.ClassUtils.convertToLong(look_parentBoui) ).getAttribute( look_parentAttribute ).setValueLong( bouitoput  );
             }
-        
-            String __url=OracleJspRuntime.toStr("lookupsingleupdate.jsp");
-            __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose"} ,
-            new String[] { myIDX } );
+        	String __url="lookupsingleupdate.jsp";
+            __url+="?clientIDXtoClose="+myIDX;
+            
             out.clear();
             pageContext.forward( __url);
             return;
@@ -197,7 +196,6 @@ String[] ctrl;
     %>
 
 
-<%@page import="oracle.jsp.runtime.OracleJspRuntime"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>LOOKUP OBJECTS</title>

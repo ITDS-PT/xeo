@@ -7,7 +7,6 @@
 <%@ page import="netgest.utils.*,netgest.bo.system.*"%>
 <%@ page import="netgest.bo.controller.ControllerFactory"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="oracle.jsp.runtime.*"%>
 <jsp:useBean id="DOCLIST" scope="session" class="netgest.bo.dochtml.docHTML_controler"></jsp:useBean>
 <%
 
@@ -257,11 +256,9 @@ else {
             {
                 DOC.getObject( netgest.utils.ClassUtils.convertToLong(look_parentBoui) ).getAttribute( look_parentAttribute ).setValueString( valueToPut );
             }
-        
-            String __url=OracleJspRuntime.toStr("lookupmultiupdate_section.jsp");
+            String __url="lookupmultiupdate_section.jsp";
+            __url+="?clientIDXtoClose="+myIDX;
             String boqlToResultFrame = null;
-            __url=OracleJspRuntime.genPageUrl(__url,request,response,new String[] {"clientIDXtoClose"} ,
-            new String[] { myIDX } );
             out.clear();
             pageContext.forward( __url);
             return;
