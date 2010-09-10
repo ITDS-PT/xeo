@@ -173,8 +173,12 @@ public class DataUtils
               {
                   retval = nextval;
               }
-              rslt.close();
-              pstm.close();
+              
+              if( rslt != null ) 
+            	  rslt.close();
+              if( pstm != null )
+            	  pstm.close();
+              
               pstm = cn.prepareStatement("INSERT INTO " + seqFullTableName+ " (SEQCHAVE,COUNTER) VALUES(?,?)");
               pstm.setString(1,seqchave);
               pstm.setLong(2,retval);
