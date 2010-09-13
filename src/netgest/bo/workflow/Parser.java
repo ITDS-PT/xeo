@@ -630,11 +630,11 @@ public final class Parser
                             String xtext = atr.getValueString();
                             if ( atr.getDefAttribute().getValueType() == boDefAttribute.VALUE_DATE || atr.getDefAttribute().getValueType()==boDefAttribute.VALUE_DATETIME )
                             {
-                                if(atr.getValueDate() != null)
-                                {
-                                    SimpleDateFormat x= new SimpleDateFormat( "EEEEE, d MMMMM yyyy");
-                                    xtext = x.format( atr.getValueDate() );
-                                }
+//                                if(atr.getValueDate() != null)
+//                                {
+//                                    SimpleDateFormat x= new SimpleDateFormat( "EEEEE, d MMMMM yyyy");
+//                                    xtext = x.format( atr.getValueDate() );
+//                                }
                             }
 							text = replaceText(xtext, text, tokenUse, ch_obj, leaveTokens);
                             changes = true;
