@@ -1,10 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.report;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Vector;
-import netgest.bo.runtime.EboContext;
 
 /**
  * 
@@ -44,14 +41,22 @@ public class BDHTMLBuilder
     private static final String RELATIONN_N = "<table border=\"1\" width=\"100%\"><tr><td width=\"100%\" bgcolor=\"" +TABLE_HEADER_COLOR + "\"><p align=\"center\"><a name=\"a1\"><b><font size=\"2\">Relações de N para N</font></b></a></td></tr>";
     public int numeracao = 0;
     public ArrayList objList;
+    public String anchorBasePath;
     /**
      * 
      * @Company Enlace3
      * @since 
      */
-    public BDHTMLBuilder(ArrayList objList)
+    public BDHTMLBuilder(ArrayList objList, String anchorBasePath)
     {
         this.objList = objList;
+        this.anchorBasePath = anchorBasePath;
+    }
+    
+    public BDHTMLBuilder(ArrayList objList)
+    {
+    	this(objList,null);
+        
     }
     
     public String generate()
@@ -818,7 +823,7 @@ html.append("\n");html.append("\n");
         }
         else
         {
-            index.append("<p> <a href=#").append(anchor).append(">").append(String.valueOf(numeracao)).append(". ")
+            index.append("<p> <a href="+(anchorBasePath!=null?anchorBasePath:"?")+"#").append(anchor).append(">").append(String.valueOf(numeracao)).append(". ")
                 .append(tableName).append("&nbsp;</a></p>\n");
         }
     }
