@@ -68,26 +68,36 @@ public class BDHTMLBuilder
         .append("<title>Relatório Base de Dados</title>\n")
         .append("</head>\n")
         .append("<body>\n");
-        for(int i = 0; i < objList.size(); i++)
-        {
-            if(lastTable == null)
-            {
-                lastTable = ((XMLObject)objList.get(i)).getTableName();
-                rSameTable.clear();
-            }
-            if(((XMLObject)objList.get(i)).getTableName().equals(lastTable))
-            {
-                rSameTable.add(objList.get(i));
-            }
-            else
-            {
-                generateTableHtml(rSameTable, objList, html, index);
-                lastTable = ((XMLObject)objList.get(i)).getTableName();
-                rSameTable.clear();
-                rSameTable.add(objList.get(i));
-            }
-            
+       
+        if (objList.size() == 1) {
+        	rSameTable.clear();
+        	rSameTable.add(objList.get(0));
+        	generateTableHtml(rSameTable, objList, html, index);
+        } else {
+        	for(int i = 0; i < objList.size(); i++)
+        	{
+        		if(lastTable == null)
+        		{
+        			lastTable = ((XMLObject)objList.get(i)).getTableName();
+        			rSameTable.clear();
+        		}
+        		if(((XMLObject)objList.get(i)).getTableName().equals(lastTable))
+        		{
+        			rSameTable.add(objList.get(i));
+        		}
+        		else
+        		{
+        			generateTableHtml(rSameTable, objList, html, index);
+        			lastTable = ((XMLObject)objList.get(i)).getTableName();
+        			rSameTable.clear();
+        			rSameTable.add(objList.get(i));
+        		}
+
+        	}
         }
+       
+        if (objList.size() == 0)
+        	toReturn.append("Não foram encontrados objectos");
         toReturn.append(index)
         .append(html)
         .append("</body>\n")
