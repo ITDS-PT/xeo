@@ -1362,7 +1362,26 @@ public class boBuildDB
             addField(reltable, cfield, boBuildDB.DBTYPE_BOUI,
                 "BOUI of " + xchild.getBoName(), true, "", "", "");
 
-            if(xfather.getBoMarkInputType())
+            //Decisão para criar SYS_FLDINPUTTYPE
+            //Caso alguma classe que extenda a actual tenha markInputType e esteja a utilizar a mesma 
+            //tabela então deverá ser criado
+            //Possivel problema quando estivermos a niveis mais baixos da hierarquia
+            boDefHandler[] subclasses=xfather.getBoSubClasses();            
+            boolean markInputType=false;
+            
+
+            for (int i=0;i<subclasses.length;i++)
+            {
+            	if (subclasses[i].getBoMarkInputType() && 
+            			subclasses[i].getBoPhisicalMasterTable().equals(xfather.getBoPhisicalMasterTable()))
+            	{
+            		markInputType=true;
+            		break;
+            	}
+
+            }
+            
+            if(xfather.getBoMarkInputType() || markInputType)
             {
                 addField(reltable, "SYS_FLDINPUTTYPE", "RAW(2000)",
                     "User or auto input of field", false, "", "", "");
