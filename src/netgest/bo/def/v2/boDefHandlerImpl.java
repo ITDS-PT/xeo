@@ -1355,7 +1355,7 @@ public class boDefHandlerImpl extends boDefHandler
             //boDefHandler[] alldefs = boDefHandler.listBoDefinitions();
             if (netgest.bo.def.v2.boDefHandlerImpl.p_definitions == null)
             {
-                netgest.bo.def.v2.boDefHandlerImpl.p_definitions = (boDefHandlerImpl[])boDefHandler.listBoDefinitions();
+                netgest.bo.def.v2.boDefHandlerImpl.p_definitions = (boDefHandler[])boDefHandler.listBoDefinitions();
             }
 
             for (short i = 0; i < netgest.bo.def.v2.boDefHandlerImpl.p_definitions.length; i++)
