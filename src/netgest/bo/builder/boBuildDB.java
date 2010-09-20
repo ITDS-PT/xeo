@@ -1365,8 +1365,7 @@ public class boBuildDB
             //Decisão para criar SYS_FLDINPUTTYPE
             //Caso alguma classe que extenda a actual tenha markInputType e esteja a utilizar a mesma 
             //tabela então deverá ser criado
-            //Possivel problema quando estivermos a niveis mais baixos da hierarquia
-            boDefHandler[] subclasses=xfather.getBoSubClasses();            
+            boDefHandler[] subclasses=xfather.getTreeSubClasses();          
             boolean markInputType=false;
             
 
