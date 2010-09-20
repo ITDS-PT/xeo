@@ -1239,7 +1239,7 @@ public class boBuilder {
 			}
 
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Registring packgages...");
+			p_builderProgress.setOverallTaskName("Registring packages...");
 
 			p_builderProgress.setCurrentTasks(repository.getPackages().size());
 			for (short i = 0; i < repository.getPackages().size(); i++) {

@@ -2043,9 +2043,11 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
                     	{
                     			iFile currentFile = currHandler.getValueiFile();
-                    			try {	iFileTransactionManager.commitIFile(currentFile, 
-                    					bobj.getEboContext());
-								} catch (iFileException e) { throw new boRuntimeException2(e);	}
+                    			if (currentFile != null){
+	                    			try {	iFileTransactionManager.commitIFile(currentFile, 
+	                    					bobj.getEboContext());
+									} catch (iFileException e) { throw new boRuntimeException2(e);	}
+                    			}
                     	}
                     }
                 }
