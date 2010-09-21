@@ -18,8 +18,11 @@ public class boClassCompiler  {
     public Process proc;
     
     private static Logger logger = Logger.getLogger("netgest.bo.builder.boBuilder");
-    
     public void compile(String srcdir,File[] srccode,String outputdir) throws RuntimeException {
+    	this.compile(srcdir, srccode, outputdir,null);
+    }
+    
+    public void compile(String srcdir,File[] srccode,String outputdir,String additionalClassPath) throws RuntimeException {
       try {
           String xjavac = null;
           File clsdir = new File(outputdir);
@@ -69,20 +72,20 @@ public class boClassCompiler  {
           // JBOSS/WebLogic(and possibly others): Construct the classpath based on the xeoHome/lib folder          
           if ((System.getProperty("jboss.server.home.dir")!=null && 
             !"".equals(System.getProperty("jboss.server.home.dir"))) ||
-            (System.getProperty("weblogic.home")!=null && !"".equals(System.getProperty("weblogic.home")))) {
-
-            if( isWindows )
-                classpath = "\"" + this.getClassPath(boConfig.getApplicationConfig().getLibDir(),classpath) + "\"";
-            else
-                classpath = this.getClassPath(boConfig.getApplicationConfig().getLibDir(),classpath);
+            (System.getProperty("weblogic.home")!=null && !"".equals(System.getProperty("weblogic.home")))) {        	  
+        	  
+        	  classpath = this.getClassPath(boConfig.getApplicationConfig().getLibDir(),classpath);                
           } 
           else 
           {
-            if( isWindows )
-                classpath = "\"" + System.getProperty("java.class.path") +"\"";    
-            else
                 classpath = System.getProperty("java.class.path");    
           }
+          
+          if (additionalClassPath!=null && !additionalClassPath.equals(""))
+        	  classpath+=File.pathSeparator+additionalClassPath;
+          
+          if (isWindows)
+        	  classpath="\""+classpath+"\"";
           
           String srcs = "";
           for (int i = 0; i < srccode.length; i++)  {
