@@ -248,7 +248,7 @@ public class boObjectListResultFactory  {
             		}
             	}
             	else {
-            		if( defAtt.getBridge() != null ) {
+            		if( defAtt != null && defAtt.getBridge() != null ) {
             			String fp = qm.getFieldsPart();
             			if( fp.length() == 0 ) {
                 			qm.setFieldsPart( "[distinct BOUI]," + objAtt );

@@ -120,10 +120,20 @@ public class EboContext extends boPoolable implements Cloneable
 
         if (request != null)
         {
-            p_url = request.getRequestURL().substring(0,
-                    request.getRequestURL().lastIndexOf("/"));
-                                p_url = request.getRequestURL().substring(0,
-                    request.getRequestURL().lastIndexOf("/"));
+        	p_url = request.isSecure()?"https://":"http://";
+        	p_url += request.getServerName();
+        	if( request.isSecure() )
+        		p_url += request.getLocalPort()==443?"":":" + request.getLocalPort();
+        	else
+        		p_url += request.getLocalPort()==80?"":":" + request.getLocalPort();
+        	
+        	p_url += request.getContextPath();
+        	p_url += "/";
+        	
+//            p_url = request.getRequestURL().substring(0,
+//                    request.getRequestURL().lastIndexOf("/"));
+//                                p_url = request.getRequestURL().substring(0,
+//                    request.getRequestURL().lastIndexOf("/"));
 
                     Cookie[] mycookies = request.getCookies();
         String XeoWin32Client_address = null;

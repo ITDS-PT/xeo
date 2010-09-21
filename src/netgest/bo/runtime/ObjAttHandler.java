@@ -503,6 +503,7 @@ public abstract class ObjAttHandler extends AttributeHandler {
             {
                 objNew = getParent().getObject( newvalue.longValue() );
             }
+            if( objNew != null ) {
             
                 if ( 
             		!getDefAttribute().getChildIsOrphan() || ( getDefAttribute().getSetParent()==boDefAttribute.SET_PARENT_YES ) 
@@ -545,7 +546,8 @@ public abstract class ObjAttHandler extends AttributeHandler {
                             }
                         }
                     }                    
-                } 
+                }
+            }
 
             } 
             

@@ -129,7 +129,7 @@ public final class boBuildJSP {
             boDefHandler runtimeBodef = p_bodef;
             boDefAttribute atrdef = null;
 
-            if (bridgeName != null) {
+            if (bridgeName != null && p_bodef.getAttributeRef(bridgeName) != null ) {
                 //jspName.append(p_bodef.getName()).append('_').append(atr.getName()).append('_').append(xvName).append( (String)xExpr.get(1) ).append(".jsp");
                 String typef = (p_typeForm == this.TYPE_EDIT) ? "edit" : "list";
                 bridgeAtr = p_bodef.getAttributeRef(bridgeName);

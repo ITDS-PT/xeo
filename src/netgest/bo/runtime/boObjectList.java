@@ -1813,6 +1813,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void setOrderBy(String column) throws boRuntimeException {
+		checkLazyResult();
 		p_orderby = column;
 		if (p_resultset != null && p_resultset.getRowCount() > 0) {
 			try {
