@@ -255,8 +255,7 @@ public class iFileTransactionManager extends Thread {
 				}				
 				
 				
-				String sqlDelete = "DELETE "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
-				
+				String sqlDelete = "DELETE FROM "+ IFILE_TRANSACTION_MANAGER_TBL+" where FILEID = ?";
 				ps2 = ctx.getConnectionData().prepareStatement(sqlDelete);
 				ps2.setString(1, file.getId());				
 				ps2.executeUpdate();
