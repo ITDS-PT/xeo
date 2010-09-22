@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import netgest.bo.data.DataException;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.def.boDefAttribute;
@@ -176,61 +177,69 @@ public class boFlashBackHandler
     	DataRow flashBackRow = current.getDataRow().getFlashBackRow();
     	
     	//Find the type of attribute and set the value
-    	if (attributeType.equals(boDefAttribute.ATTRIBUTE_TEXT))
+    	try
     	{
-    		String val = flashBackRow.getString(attName);
-    		changed.setValueString(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATE))
-    	{
-    		Date val = flashBackRow.getDate(attName);
-    		changed.setValueDate(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATETIME))
-    	{
-    		Date val = flashBackRow.getDate(attName);
-    		changed.setValueDate(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_BOOLEAN))
-    	{
-    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-    		if (val != null)
-    		{
-	    		if (val.intValue() == 1)
-	    			changed.setValueBoolean(new Boolean(true));
-	    		else
-	    			changed.setValueBoolean(new Boolean(false));
-    		}
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECT))
-    	{
-    		String columName = changed.getDefAttribute().getDbName();
-    		Object val = flashBackRow.getObject(columName);
-    		changed.setValueObject(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_LONGTEXT))
-    	{
-    		String val = flashBackRow.getString(attName);
-    		if (val != null)
-    			changed.setValueString(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DURATION))
-    	{
-    		Date val = flashBackRow.getDate(attName);
-    		if (val != null)
-    			changed.setValueDate(val);
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_SEQUENCE))
-    	{
-    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-    		if (val != null)
-    			changed.setValueLong(val.longValue());
-    	}
-    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_CURRENCY))
-    	{
-    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-    		if (val != null)
-    			changed.setValueLong(val.longValue());
+	    	if (attributeType.equals(boDefAttribute.ATTRIBUTE_TEXT))
+	    	{
+	    		String val = flashBackRow.getString(attName);
+	    		changed.setValueString(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATE))
+	    	{
+	    		Date val = flashBackRow.getDate(attName);
+	    		changed.setValueDate(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATETIME))
+	    	{
+	    		Date val = flashBackRow.getDate(attName);
+	    		changed.setValueDate(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_BOOLEAN))
+	    	{
+	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
+	    		if (val != null)
+	    		{
+		    		if (val.intValue() == 1)
+		    			changed.setValueBoolean(new Boolean(true));
+		    		else
+		    			changed.setValueBoolean(new Boolean(false));
+	    		}
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECT))
+	    	{
+	    		String columName = changed.getDefAttribute().getDbName();
+	    		Object val = flashBackRow.getObject(columName);
+	    		changed.setValueObject(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_LONGTEXT))
+	    	{
+	    		String val = flashBackRow.getString(attName);
+	    		if (val != null)
+	    			changed.setValueString(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DURATION))
+	    	{
+	    		Date val = flashBackRow.getDate(attName);
+	    		if (val != null)
+	    			changed.setValueDate(val);
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_SEQUENCE))
+	    	{
+	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
+	    		if (val != null)
+	    			changed.setValueLong(val.longValue());
+	    	}
+	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_CURRENCY))
+	    	{
+	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
+	    		if (val != null)
+	    			changed.setValueLong(val.longValue());
+	    	}
+    	} catch (DataException e){
+    		//This means that a given column could not be found in FlashBack
+    		//probably someone changed the boObject and is trying to render differences with something that
+    		//did not exist, we should continue to show the differences, still
+    		
     	}
     	
     }
