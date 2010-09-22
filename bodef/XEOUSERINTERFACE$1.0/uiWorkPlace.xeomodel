@@ -25,6 +25,11 @@
          <tooltip></tooltip>
          <defaultValue language="BOL"><depends/>false</defaultValue>
       </attributeText>
+      <attributeText name="defaultViewer">
+         <len>50</len>
+         <label>Default Viewer</label>
+         <tooltip></tooltip>
+      </attributeText>      
       <attributeObjectCollection name="profiles">
          <type>object.uiProfile</type>
          <label>Perfis</label>
