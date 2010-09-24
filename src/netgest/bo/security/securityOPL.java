@@ -379,20 +379,24 @@ public class securityOPL
         long[][] keys = null;
 
         ISecurityClassKeys securityClassKeys = null;
-        for (int i = 0; i < className.length; i++)
-        {
-            securityClassKeys = getSecurityClass(o,className[i]);
-            
-            long[] keysr = securityClassKeys.getReadKeys(o);
-            long[] keysw = securityClassKeys.getWriteKeys(o);
-            long[] keysd = securityClassKeys.getDeleteKeys(o);
-            long[] keysf = securityClassKeys.getFullControlKeys(o);
-            
-            returnKeys[0] = keysr;
-            returnKeys[1] = keysw;
-            returnKeys[2] = keysd;
-            returnKeys[3] = keysf;
-        }          
+        
+        if (className != null){
+        	
+            for (int i = 0; i < className.length; i++)
+	        {
+	            securityClassKeys = getSecurityClass(o,className[i]);
+	            
+	            long[] keysr = securityClassKeys.getReadKeys(o);
+	            long[] keysw = securityClassKeys.getWriteKeys(o);
+	            long[] keysd = securityClassKeys.getDeleteKeys(o);
+	            long[] keysf = securityClassKeys.getFullControlKeys(o);
+	            
+	            returnKeys[0] = keysr;
+	            returnKeys[1] = keysw;
+	            returnKeys[2] = keysd;
+	            returnKeys[3] = keysf;
+	        }
+        }
         return returnKeys;
     }      
     

@@ -656,12 +656,12 @@ public class boVersioning
     public boolean rollbackVersion(EboContext ctx, long boui, long version, boolean rollBackChilds)
         throws boRuntimeException
     {
-        //seleciona o ùltimo objecto alteração referente ao boui
+        //Select the latest object form the list
         boObjectList boList = boObjectList.list(ctx,
                 "SELECT Ebo_Versioning WHERE Ebo_Versioning.changedObject=" + boui +
                 " AND Ebo_Versioning.version=" + version + "");
 
-        //retirar o primeiro objecto da lista pois este é a versão mais actual
+        //Retrieve the lastest from the list (current version)
         boList.beforeFirst();
 
         if (boList.next())

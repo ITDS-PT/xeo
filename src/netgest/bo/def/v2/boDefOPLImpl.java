@@ -246,6 +246,8 @@ public final class boDefOPLImpl extends ngtXMLHandler implements boDefOPL
     
     public String[] getClassKeys()
     {
+    	if (p_classKeys == null)
+    		return new String[0];
         return p_classKeys;
     }
 }
