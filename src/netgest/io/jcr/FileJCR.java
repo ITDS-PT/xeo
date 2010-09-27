@@ -26,6 +26,9 @@ import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.ValueFormatException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NodeType;
+
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.ChildNodeConfig;
@@ -34,7 +37,6 @@ import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.bo.configUtils.NodePropertyDefinition;
 import netgest.bo.configUtils.RepositoryConfig;
-import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
@@ -183,8 +185,8 @@ public class FileJCR implements iFile {
 		try {
 			Map<String, NodePropertyDefinition> fileProps = p_fileNodeConfig
 					.getProperties();
-			iMetadataItem defaultItem = new MetadataItem(null,
-					DEFAULT_METADATA, p_session, null,null);
+			iMetadataItem defaultItem = new MetadataItem(
+					DEFAULT_METADATA, p_session, null);
 			
 			if (fileProps != null) {
 				if (p_node != null) {
@@ -252,7 +254,7 @@ public class FileJCR implements iFile {
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}
-		return new MetadataItem(null, DEFAULT_METADATA, p_session, null,null);
+		return new MetadataItem(DEFAULT_METADATA, p_session, getDefaultMetadataNodeConfig());
 	}
 
 	/**
@@ -272,8 +274,25 @@ public class FileJCR implements iFile {
 		return result;
 
 	}
-
-	@SuppressWarnings("deprecation")
+	
+	/**
+	 * 
+	 * Returns the default metadata node configuration
+	 * 
+	 * @return
+	 */
+	private MetadataNodeConfig getDefaultMetadataNodeConfig(){
+		Iterator<String> it = p_metadataDefinition.keySet().iterator();
+		while (it.hasNext()) {
+			String nameConfig = (String) it.next();
+			MetadataNodeConfig curr = p_metadataDefinition.get(nameConfig);
+			if (curr.isDefault())
+				return curr;
+		}
+		throw new RuntimeException("No Default MetadataNode Configuration");
+	}
+	
+		@SuppressWarnings("deprecation")
 	private void createMetadataItemPropertyFromJCRProperty(iMetadataItem item,
 			Property prop) throws RepositoryException {
 
@@ -288,15 +307,21 @@ public class FileJCR implements iFile {
 			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getBoolean()));
 		} else if (prop.getType() == PropertyType.STRING) {
-			item.setMetadataProperty(new MetadataProperty(name, prop
-					.getString()));
+			try{
+				item.setMetadataProperty(new MetadataProperty(name, prop.getString()));
+			}catch(ValueFormatException e){
+				//In this case it may be an Array
+				String[] values = MetadataProperty.convertValueToString(prop.getValues());
+				item.setMetadataProperty(new MetadataProperty(name, values));
+			}
 		} else if (prop.getType() == PropertyType.LONG) {
 			item.setMetadataProperty(new MetadataProperty(name, prop
 					.getLong()));
 		} else if (prop.getType() == PropertyType.REFERENCE) {
-			iMetadataItem itemNew = new MetadataItem(prop.getNode(), null,null);
+			iMetadataItem itemNew = new MetadataItem(prop.getNode(), getDefaultMetadataNodeConfig());
 			item.setMetadataProperty(new MetadataProperty(name, itemNew));
 		}
+		
 
 	}
 
@@ -309,9 +334,16 @@ public class FileJCR implements iFile {
 	@Override
 	public void addMetadata(iMetadataItem item) 
 	{
-		String id = getFullPathFromMetadataItem(item);
-		if (id != null)
+		//Try to get the path from the metadata item
+		MetadataItem newItem = (MetadataItem) item;
+		String id = getFullPathFromMetadataItem(newItem);
+		if (id != null){
 			this.p_metadata.put(id, item);
+			return;
+		}
+		
+		if (item.getID() != null)
+			this.p_metadata.put(item.getID(), item);
 	}
 
 	/*
@@ -430,9 +462,12 @@ public class FileJCR implements iFile {
 	 */
 	@Override
 	public List<iMetadataItem> getAllMetadata() {
+		//FIXME: Find the appropriate metadata node config for each node type
+		//See, where getDefaultMetadataNodeConfig() is used
 		Vector<iMetadataItem> result = new Vector<iMetadataItem>();
 		if (p_node != null) {
 			try {
+				//Retrieve all Properties that are reference nodes
 				PropertyIterator itProps = p_node.getProperties();
 				while (itProps.hasNext()) {
 					Property currProp = (Property) itProps.next();
@@ -440,18 +475,43 @@ public class FileJCR implements iFile {
 						// Properties that link
 						if (currProp.getType() == PropertyType.REFERENCE) {
 							MetadataItem current = new MetadataItem(currProp
-									.getNode(), null,null);
+									.getNode(), getDefaultMetadataNodeConfig());
 							result.add(current);
 						}
 					}
 				}
-
+				//Finally include all child Nodes that may be metadata nodes
+				if (isDirectory()){
+					//If we have a folder, we can safely select all child nodes that aren't 
+					//file nodes
+					String fileNodeType = p_folderNodeConfig.getFileNodeTypes();
+					NodeIterator itChildNodes = p_node.getNodes();
+					while (itChildNodes.hasNext()) {
+						Node currentNode = (Node) itChildNodes.next();
+						if (!currentNode.getPrimaryNodeType().getName().equalsIgnoreCase(fileNodeType))
+							result.add(new MetadataItem(currentNode, getDefaultMetadataNodeConfig()));
+					}
+				}else{
+					//If we have a file, we may select all child nodes that aren't "childrenNodes"
+					//as defined in the FileNodeConfiguration
+					NodeIterator itChildNodes = p_node.getNodes();
+					while (itChildNodes.hasNext()) {
+						Node currentNode = (Node) itChildNodes.next();
+						String nodeType = currentNode.getPrimaryNodeType().getName(); 
+						if (!p_fileNodeConfig.nodeBelongsToChildConfig(nodeType))
+							result.add(new MetadataItem(currentNode, getDefaultMetadataNodeConfig()));
+					}
+				}
+				//Finally include the Metadata items that were added and were not saved, or we're retrieved
+				//and possibly changed
+				//NOTE: Order is important, because the values retrieved from nodes are unsaved
 				Iterator<String> it = p_metadata.keySet().iterator();
 				while (it.hasNext()) {
 					String metaName = (String) it.next();
 					iMetadataItem currMeta = p_metadata.get(metaName);
 					result.add(currMeta);
 				}
+				
 
 			} catch (RepositoryException e) {
 				e.printStackTrace();
@@ -638,20 +698,35 @@ public class FileJCR implements iFile {
 	@Override
 	public iMetadataItem getMetadata(String name) {
 		try {
-			if (name.equalsIgnoreCase(DEFAULT_METADATA))
+			if (p_metadata.containsKey(name))
 				return p_metadata.get(name);
-				
+			
 			if (p_node != null) 
 			{
 				try 
 				{
 					if (p_node.getProperty(name).getType() == PropertyType.REFERENCE)
 					{
-						MetadataNodeConfig conf = p_metadataDefinition.get(name);
-						return new MetadataItem(p_node.getProperty(name).getNode(), conf , p_metadataDefinition);
+						String nodeType = p_node.getProperty(name).getNode().getPrimaryNodeType().getName();
+						MetadataNodeConfig conf = getConfigFromNodeType(nodeType);
+						MetadataItem p = new MetadataItem(p_node.getProperty(name).getNode(), conf );
+						p_metadata.put(p.getID(), p);
+						return p;
 					}
 				} catch (PathNotFoundException e) {
-					return p_metadata.get(name);
+					
+					try
+					{
+						Node metadataNode = p_node.getNode(name);
+						String nodeType = metadataNode.getPrimaryNodeType().getName();
+						MetadataNodeConfig metaConfig = getConfigFromNodeType(nodeType);
+						MetadataItem p = new MetadataItem(metadataNode, metaConfig);
+						p_metadata.put(p.getID(), p);
+						return p;
+					}
+					catch (PathNotFoundException e1){
+						return p_metadata.get(name);
+					}
 				}
 
 			} else {
@@ -1229,7 +1304,25 @@ public class FileJCR implements iFile {
 		String dateProp = p_fileNodeConfig.getDateUpdatePropertyName();
 		metadataItem.setMetadataProperty(new MetadataProperty(
 				dateProp, new Date(System.currentTimeMillis())));
-
+	}
+	
+	/**
+	 * 
+	 * Retrieves the Metadata Node configuration associated to a given node type
+	 * 
+	 * @param nodeType The type of the node
+	 * 
+	 * @return A {@link MetadataNodeConfig} instance for the given node type
+	 */
+	private MetadataNodeConfig getConfigFromNodeType(String nodeType){
+		Iterator<String> it = p_metadataDefinition.keySet().iterator();
+		while (it.hasNext()) {
+			String currName = (String) it.next();
+			MetadataNodeConfig currentConf = p_metadataDefinition.get(currName);
+			if (currentConf.getNodeType().equalsIgnoreCase(nodeType))
+				return currentConf;
+		}
+		return null;
 	}
 
 	/*
@@ -1302,23 +1395,15 @@ public class FileJCR implements iFile {
 					iFile[] files = this.listFiles();
 					for (iFile f : files)
 						f.save(ctx);
-
-					createAndSetPropertiesOfNode(p_node, 
-							p_folderNodeConfig.getProperties(), 
-							p_folderNodeConfig.getChildNodes());
-				} else {
-					createAndSetPropertiesOfNode(p_node, 
-							p_fileNodeConfig.getProperties(), 
-							p_fileNodeConfig.getChildNodes());
 					
-				}
+				} createAndSetPropertiesOfNode(p_node, 
+						p_folderNodeConfig.getProperties(), 
+						p_folderNodeConfig.getChildNodes());
 
 				// Save any metadata items
 				saveMetadataItems();
 
 				p_node.save();
-				
-				p_node.getNode("jcr:content").save();
 				
 				// Save the Node (by saving the parent)
 				/*if (p_node.getParent() != null) {
@@ -1370,7 +1455,7 @@ public class FileJCR implements iFile {
 						// Save any metadata items
 						saveMetadataItems();
 
-						printNode(p_node);
+						//printNode(p_node);
 						
 						parent.save();
 
@@ -1434,6 +1519,14 @@ public class FileJCR implements iFile {
 	@SuppressWarnings("deprecation")
 	private void setPropertyValueFromMetadata(iMetadataProperty prop, Node node) {
 		try {
+			
+			/*if (node.getProperty(prop.getPropertyIdentifier()).getType() == PropertyType.NAME)
+			{
+				System.out.println("----- "+prop.getPropertyIdentifier());
+				return;
+			}*/
+				
+			
 			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BOOLEAN.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBoolean());
 			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.LONG
@@ -1444,11 +1537,9 @@ public class FileJCR implements iFile {
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueString());
 			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BINARY
 					.name()){
-				System.out.println("BINARY *********" + prop.getPropertyIdentifier());
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBinary());
 			}
-			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.DATE
-					.name()) {
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.DATE.name()) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(prop.getValueDate());
 				node.setProperty(prop.getPropertyIdentifier(), cal);
@@ -1459,8 +1550,17 @@ public class FileJCR implements iFile {
 						identifier);
 				node.setProperty(prop.getPropertyIdentifier(), target);
 			}
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.STRING_ARRAY.name()){
+				node.setProperty(prop.getPropertyIdentifier(), prop.getValuesString());
+			}
+						
 			System.out.println("Added Property  " + prop.getPropertyIdentifier() + " to " + node.getName());
-		} catch (RepositoryException e) {
+			
+		} 
+		catch (ConstraintViolationException e){
+			//In this case, we're trying to save a system property, which can't be
+		}
+		catch (RepositoryException e) {
 			e.printStackTrace();
 		} catch (netgest.io.metadata.ValueFormatException e) {
 			e.printStackTrace();
@@ -1497,7 +1597,21 @@ public class FileJCR implements iFile {
 	}
 
 	/**
-	 * Saves all metadata items associated to this  
+	 * Saves all metadata items associated to this File
+	 * 
+	 *   The Process involves several different things.
+	 *   
+	 *   First There can be 3 Types of Metadata:
+	 *   Default Metadata - Properties that are save in the File node
+	 *   Internal Metadata - JCR Nodes with metadata properties that are children of the File node
+	 *   External Metadata - JCR Nodes with Metadata properties that exist on their own
+	 *   
+	 *   Saving default metadata must handled differently from others, so it's not done here
+	 *   If a MetadataItem exists, it must be updated, if not, it must be created. Metadata Items that do not
+	 *   exist at this point are saved as children of the parent file node
+	 *   
+	 *   
+	 *   
 	 */
 	private void saveMetadataItems() {
 		List<iMetadataItem> listMeta = this.getAllMetadata();
@@ -1506,16 +1620,55 @@ public class FileJCR implements iFile {
 			iMetadataItem currItem = (iMetadataItem) it.next();
 			// Only save regular metadata items, the regular save will deal with
 			// the default metadata items
-			if (!currItem.getName().equalsIgnoreCase(DEFAULT_METADATA)) {
-				// Save the metadata item in case it does not exist or update
-				// its properties
+			if (!currItem.getID().equalsIgnoreCase(DEFAULT_METADATA)) {
+				//If we have an item that exist
+				if (currItem.exists()){
+					try{
+						if (!p_node.hasNode(currItem.getID())){
+							//In this situation, whoever created the node is responsible
+							//for saving the node
+							MetadataItem metaItem = (MetadataItem) currItem;
+							String id = cleanJCRId(getFullPathFromMetadataItem(metaItem));
+							Node metaItemNode = p_session.getRootNode().getNode(id);
+							
+							System.out.println(p_node.getPrimaryNodeType().getName());
+							
+							if (p_node.canAddMixin("mix:referenceable"))
+							{
+								p_node.addMixin("mix:referenceable");
+								p_session.save();
+							}
+							
+							NodeType[] ns = p_node.getMixinNodeTypes();
+							for (NodeType c : ns){
+								System.out.println(c.getName());
+							}
+							
+							p_node.setProperty(currItem.getID(), metaItemNode);
+						}
+						else
+							currItem.save();
+					} catch (RepositoryException e) {
+						e.printStackTrace();
+						currItem.save();
+					}
+				}
+				else{
 					try {
-						Node metaItemNode = p_session.getRootNode().getNode(currItem.getID());
-						p_node.setProperty(currItem.getID(), metaItemNode);
-						
+						MetadataItem metaItem = (MetadataItem) currItem;
+						if (metaItem.getNode() == null){
+							String name = getDefaultMetadataNodeConfig().getNodeType();
+							if (!p_node.hasNode(metaItem.getID())){
+								Node node = p_node.addNode(metaItem.getID(),name); 
+								metaItem.setIdentifier(p_node.getPath() + "/" + name);
+								metaItem.setJCRNode(node);
+							}
+						}
+						metaItem.save();
 					} catch (RepositoryException e) {
 						e.printStackTrace();
 					}
+				}
 			}
 		}
 	}
@@ -1582,7 +1735,7 @@ public class FileJCR implements iFile {
 			}
 		}
 		
-		//Deal with the remaining properties (only if they are main node properties)
+		//Deal with the remaining properties
 		List<iMetadataProperty> propsDefault = getDefaultMetadata().getProperties();
 		if (propsUsed.size() < propsDefault.size()){
 			Iterator<iMetadataProperty> it = propsDefault.iterator();
@@ -1592,9 +1745,12 @@ public class FileJCR implements iFile {
 				if (!propsUsed.contains(currProp.getPropertyIdentifier())){
 					NodePropertyDefinition prop = nodeProps.get(currProp.getPropertyIdentifier());
 					if (prop != null){
+						//Set the properties even if they are not main node
 						if (prop.isMainNode())
 							setPropertyValueFromMetadata(currProp, reference);
 					}
+					else
+						setPropertyValueFromMetadata(currProp, reference);
 				}
 			}
 		}
@@ -1742,11 +1898,12 @@ public class FileJCR implements iFile {
 	 * 
 	 * @return A string builder with
 	 */
-	private String getFullPathFromMetadataItem(iMetadataItem item){
+	public static String getFullPathFromMetadataItem(MetadataItem item){
 		
 		if (item != null){
 			StringBuilder b = new StringBuilder();
 			recursiveGetFullPathFromMetadataItem(item, b);
+			return b.toString();
 		}
 		return null;
 	}
@@ -1760,37 +1917,26 @@ public class FileJCR implements iFile {
 	 * 
 	 * @return A {@link StringBuilder} with the full path
 	 */
-	private StringBuilder recursiveGetFullPathFromMetadataItem(iMetadataItem item, StringBuilder b){
+	private static StringBuilder recursiveGetFullPathFromMetadataItem(MetadataItem item, StringBuilder b){
 		
 		if (item != null){
-			iMetadataItem p = item.getParent();
-			b.insert(0, item.getID());
-			if (p != null){
-				recursiveGetFullPathFromMetadataItem(p, b);
-			}
-			else
-			{
-				if (item instanceof MetadataItem)
-				{
-					MetadataItem itemMeta = (MetadataItem) item;
-					Node itemNode = itemMeta.getNode();
-					if (itemNode != null);
-						try {
-							Node parent = itemNode.getParent();
-							if (parent != null)
-								b.insert(0, itemNode.getPath());
-						} catch (RepositoryException e) {
-							e.printStackTrace();
-						}
+			if (item.getNode() != null){
+				try {
+					b.insert(0,item.getNode().getPath());
+				} catch (RepositoryException e) {
+					e.printStackTrace();
 				}
-				return b;	
+				return b;
 			}
-				
+			else{
+				MetadataItem p = (MetadataItem) item.getParent();
+				b.insert(0, item.getID() + "/");
+				if (p != null){
+					recursiveGetFullPathFromMetadataItem(p, b);
+				}
+			}
 		}
-		else
-			return b;
-		
-		return null;
+		return b;
 	}
 
 	@Override
@@ -1820,6 +1966,16 @@ public class FileJCR implements iFile {
 	public void rollback(EboContext ctx) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	public static String cleanJCRId(String id){
+		if (id.startsWith("/"))
+			id = id.substring(1);
+		if (id.endsWith("/"))
+			id = id.substring(0, id.length() -1 );
+	
+		return id;
 	}
 	
 }

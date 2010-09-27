@@ -1,0 +1,21 @@
+<xeo='http://www.netgest.net/xeo/xeo'>
+
+[xeo:hierarchyNode] > mix:referenceable
+- xeo:lastModified (date) ignore
+- xeo:created (date) ignore
+
+[xeo:file] > xeo:hierarchyNode
+- xeo:encoding (string)
+- xeo:mimeType (string)
+- xeo:data (binary) mandatory primary
+- *
++ *
+
+[xeo:folder] > xeo:hierarchyNode
++ * (xeo:hierarchyNode)
+
+[xeo:metadata] > mix:referenceable
+- xeo:name (string)
+- xeo:type (string)
+- *
++ * (xeo:metadata)

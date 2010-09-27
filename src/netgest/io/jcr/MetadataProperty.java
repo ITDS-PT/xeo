@@ -1,7 +1,11 @@
 package netgest.io.jcr;
 
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
+
+import javax.jcr.RepositoryException;
+import javax.jcr.Value;
 
 import netgest.io.metadata.ValueFormatException;
 import netgest.io.metadata.iMetadataItem;
@@ -9,15 +13,12 @@ import netgest.io.metadata.iMetadataProperty;
 
 /**
  * 
- * 
  * Implementation of a metadata property
  * 
  * @author Pedro
  *
  */
 public class MetadataProperty implements iMetadataProperty {
-
-	
 	
 	/**
 	 * The data type of the property
@@ -64,7 +65,7 @@ public class MetadataProperty implements iMetadataProperty {
 	public MetadataProperty(String name, String[] value){
 		this.p_value = value;
 		this.p_name = name; 
-		this.p_dataType = METADATA_TYPE.STRING;
+		this.p_dataType = METADATA_TYPE.STRING_ARRAY;
 		this.p_hasMultipleValues = true;
 	}
 	
@@ -83,18 +84,25 @@ public class MetadataProperty implements iMetadataProperty {
 	}
 	
 	/**
-	 * 
-	 * Public constructor for a new Date[] property
+	 * Public constructor from an array property directly from a node
 	 * 
 	 * @param name The name of the property
-	 * @param value The Date[] value of the property
+	 * @param values The array with the properties
+	 * @param type The data type of the property ( {@link iMetadataProperty.METADATA_TYPE#STRING} etc..
 	 */
-	public MetadataProperty(String name, Date[] value){
-		this.p_value = value;
+	public MetadataProperty(String name, Value[] values, iMetadataProperty.METADATA_TYPE type){
 		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.DATE;
 		this.p_hasMultipleValues = true;
-	}
+		this.p_dataType = type;
+		
+		if (type == METADATA_TYPE.STRING || type == METADATA_TYPE.STRING_ARRAY)
+			this.p_value = convertValueToString(values);
+		
+		
+		
+	}	
+	
+	
 	
 	
 	
@@ -112,19 +120,7 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_hasMultipleValues = false;
 	}
 	
-	/**
-	 * 
-	 * Public constructor for a new Long[] property
-	 * 
-	 * @param name The name of the property
-	 * @param value The Long[] value of the property
-	 */
-	public MetadataProperty(String name, Long[] value){
-		this.p_value = value;
-		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.LONG;
-		this.p_hasMultipleValues = true;
-	}
+	
 	
 	
 	/**
@@ -141,19 +137,7 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_hasMultipleValues = false;
 	}
 	
-	/**
-	 * 
-	 * Public constructor for a new Boolean[] property
-	 * 
-	 * @param name The name of the property
-	 * @param value The Boolean[] value of the property
-	 */
-	public MetadataProperty(String name, Boolean[] value){
-		this.p_value = value;
-		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.BOOLEAN;
-		this.p_hasMultipleValues = true;
-	}
+	
 	
 	/**
 	 * 
@@ -169,19 +153,6 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_hasMultipleValues = false;
 	}
 	
-	/**
-	 * 
-	 * Public constructor for a new Binary[] property
-	 * 
-	 * @param name The name of the property
-	 * @param value The Binary[] value of the property
-	 */
-	public MetadataProperty(String name, InputStream[] value){
-		this.p_value = value;
-		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.BINARY;
-		this.p_hasMultipleValues = true;
-	}
 	
 	
 	
@@ -199,19 +170,6 @@ public class MetadataProperty implements iMetadataProperty {
 		this.p_hasMultipleValues = false;
 	}
 	
-	/**
-	 * 
-	 * Public constructor for a new reference[] property
-	 * 
-	 * @param name The name of the property
-	 * @param value The reference[] value of the property
-	 */
-	public MetadataProperty(String name, iMetadataItem[] value){
-		this.p_value = value;
-		this.p_name = name;
-		this.p_dataType = METADATA_TYPE.REFERENCE;
-		this.p_hasMultipleValues = true;
-	}
 	
 	
 	@Override
@@ -382,4 +340,138 @@ public class MetadataProperty implements iMetadataProperty {
 				p_dataType.name() + ") is not of type " + convertionAttempt);
 	}
 
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link String} array
+	 * 
+	 * @param values The array to convert
+	 * @return The string array as a result of the conversion
+	 */
+	public static String[] convertValueToString(Value[] values){
+		try {
+			String[] result = new String[values.length];
+			int i = 0;
+			for (Value p: values){
+				result[i] = p.getString();
+				i++;
+			}
+			return result;
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link Long} array
+	 * 
+	 * @param values The array to convert
+	 * @return The long array as a result of the conversion
+	 */
+	private Long[] convertValueToLong(Value[] values){
+		try {
+			Long[] result = new Long[values.length];
+			int i = 0;
+			for (Value p: values){
+				result[i] = p.getLong();
+				i++;
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link Boolean} array
+	 * 
+	 * @param values The array to convert
+	 * @return The Boolean array as a result of the conversion
+	 */
+	private Long[] convertValueToBoolean(Value[] values){
+		try {
+			Boolean[] result = new Boolean[values.length];
+			int i = 0;
+			for (Value p: values){
+				result[i] = p.getBoolean();
+				i++;
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link Date} array
+	 * 
+	 * @param values The array to convert
+	 * @return The Date array as a result of the conversion
+	 */
+	private Date[] convertValueToDate(Value[] values){
+		try {
+			Date[] result = new Date[values.length];
+			int i = 0;
+			for (Value p: values){
+				Calendar t = p.getDate();
+				result[i] = t.getTime();
+				i++;
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link InputStream} array
+	 * 
+	 * @param values The array to convert
+	 * @return The Inputstream array as a result of the conversion
+	 */
+	@SuppressWarnings("deprecation")
+	private InputStream[] convertValueToStream(Value[] values){
+		try {
+			InputStream[] result = new InputStream[values.length];
+			int i = 0;
+			for (Value p: values){
+				result[i] = p.getStream();
+				i++;
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Convert an array of {@link Value} in a {@link Double} array
+	 * 
+	 * @param values The array to convert
+	 * @return The Double array as a result of the conversion
+	 */
+	private InputStream[] convertValueToDouble(Value[] values){
+		try {
+			Double[] result = new Double[values.length];
+			int i = 0;
+			for (Value p: values){
+				result[i] = p.getDouble();
+				i++;
+			}
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 }

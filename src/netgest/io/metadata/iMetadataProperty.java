@@ -39,7 +39,8 @@ public interface iMetadataProperty
         BOOLEAN,
         BINARY, //Binary content
         REFERENCE, //Reference to another item
-        ARRAY
+        STRING_ARRAY,
+        OTHER
     }
 	
 	/**

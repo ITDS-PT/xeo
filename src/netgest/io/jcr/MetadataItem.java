@@ -1,8 +1,6 @@
 package netgest.io.jcr;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Property;
@@ -18,17 +17,25 @@ import javax.jcr.PropertyIterator;
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.ValueFormatException;
+import javax.jcr.nodetype.ConstraintViolationException;
 
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.io.metadata.MetadataException;
 import netgest.io.metadata.iMetadataItem;
 import netgest.io.metadata.iMetadataProperty;
+import netgest.io.metadata.iMetadataProperty.METADATA_TYPE;
 
 /**
  * 
  * Implementation of a Metadata item for a JCR repository
  * 
  * @author Pedro
+ *
+ */
+/**
+ * @author PedroRio
  *
  */
 public class MetadataItem implements iMetadataItem {
@@ -39,11 +46,6 @@ public class MetadataItem implements iMetadataItem {
 	 * The JCR node representing this item
 	 */
 	private Node p_itemNode;
-	
-	/**
-	 * The name of this item
-	 */
-	private String p_name;
 	
 	/**
 	 * The identifier of this item
@@ -92,27 +94,23 @@ public class MetadataItem implements iMetadataItem {
 	 */
 	private Map<String,MetadataNodeConfig> p_allMetadataConfigurations;
 	
-	public MetadataItem(Node repNode, MetadataNodeConfig config, Map<String,MetadataNodeConfig> metaSetConf){
+	public MetadataItem(Node repNode, MetadataNodeConfig config){
 		this.p_itemNode = repNode;
 		this.p_configuration = config;
-		this.p_allMetadataConfigurations = metaSetConf;
 		initEmpty();
 	}
 	
-	public MetadataItem(MetadataNodeConfig config, Map<String,MetadataNodeConfig> metaSetConf){
+	public MetadataItem(MetadataNodeConfig config){
 		this.p_itemNode = null;
 		this.p_configuration = config;
-		this.p_allMetadataConfigurations = metaSetConf;
 		initEmpty();
 	}
 	
-	public MetadataItem(String identifier, String name, Session session, MetadataNodeConfig config, Map<String,MetadataNodeConfig> metaSetConf){
+	public MetadataItem(String identifier, Session session, MetadataNodeConfig config){
 		this.p_itemNode = null;
 		this.p_identifier = identifier;
-		this.p_name = name;
 		this.p_session = session;
 		this.p_configuration = config;
-		this.p_allMetadataConfigurations = metaSetConf;
 		initEmpty();
 	}
 	
@@ -123,12 +121,16 @@ public class MetadataItem implements iMetadataItem {
 		this.p_props = new LinkedList<iMetadataProperty>();
 		this.p_children = new LinkedList<iMetadataItem>();
 		this.p_childrenRemove = new HashSet<String>();
+		if (p_configuration != null)
+			this.p_allMetadataConfigurations = p_configuration.getAllRepositoryConfigurations();
+		
 	}
 	
 	
 	@Override
 	public void addChild(iMetadataItem newChild) {
 		this.p_children.add(newChild);
+		((MetadataItem) newChild).setParent(this);
 	}
 
 	@Override
@@ -139,11 +141,20 @@ public class MetadataItem implements iMetadataItem {
 				NodeIterator itNodes = p_itemNode.getNodes();
 				while (itNodes.hasNext()) {
 					Node currentNode = (Node) itNodes.next();
-					result.add(new MetadataItem(currentNode,p_configuration,p_allMetadataConfigurations));
+					result.add(new MetadataItem(currentNode,p_configuration));
 				}
 			} 
 			catch (RepositoryException e) {
 				e.printStackTrace();
+			}
+			//Check if other children were added to the metadata item
+			if (!p_children.isEmpty())
+			{
+				Iterator<iMetadataItem> lstItems = p_children.iterator();
+				while (lstItems.hasNext()) {
+					iMetadataItem curreItem = (iMetadataItem) lstItems.next();
+					result.add(curreItem);
+				}
 			}
 			return result;
 		}
@@ -152,38 +163,33 @@ public class MetadataItem implements iMetadataItem {
 	}
 
 	@Override
-	public String getID() {
-		if (p_itemNode == null)
-			return p_identifier;
-		else
-			try {
-				return p_itemNode.getPath();
-			} catch (RepositoryException e) {
-				e.printStackTrace();
-				return null;
-			}
-	}
-
-	@Override
-	public String getName() {
-		if (p_itemNode == null)
-			return p_name;
-		else
+	public String getID() 
+	{
+		if (p_itemNode != null)
 			try {
 				return p_itemNode.getName();
 			} catch (RepositoryException e) {
-				e.printStackTrace();
-				return null;
+				//Return null;
 			}
+		return p_identifier;
 	}
 
 	@Override
 	public iMetadataItem getParent() {
 		if (p_itemNode != null){
 			try {
-				MetadataNodeConfig parent = p_allMetadataConfigurations.get(this.getParent().getType());
-				return new MetadataItem(p_itemNode.getParent(),parent,p_allMetadataConfigurations);
-			}  catch (RepositoryException e) { e.printStackTrace();	}
+				//Checks if we are in a valid node (JCR-wise) but not a valid Metadata location
+				if (p_configuration != null){
+					MetadataNodeConfig parent = p_allMetadataConfigurations.get(getType());
+					return new MetadataItem(p_itemNode.getParent(),parent);
+				}
+				else
+					return null; 
+			}  catch (ItemNotFoundException e ){
+				return null;
+			}  catch (RepositoryException e) { 
+				e.printStackTrace();
+			}
 		}
 		return p_parent;
 	}
@@ -198,6 +204,15 @@ public class MetadataItem implements iMetadataItem {
 					Property prop = (Property) itProps.nextProperty();
 					iMetadataProperty metaProp = createMetadataProperty(prop);
 					result.add(metaProp);
+				}
+				//Check if other properties have been set
+				if (!p_props.isEmpty()){
+					Iterator<iMetadataProperty> it = p_props.iterator();
+					while (it.hasNext()) {
+						iMetadataProperty currProperty = (iMetadataProperty) it
+								.next();
+						result.add(currProperty);
+					}
 				}
 				return result;
 			}
@@ -229,6 +244,16 @@ public class MetadataItem implements iMetadataItem {
 		return null;
 	}
 
+	/**
+	 * 
+	 * Sets the parent item of this {@link MetadataItem}
+	 * 
+	 * @param parent The parent item
+	 */
+	public void setParent(iMetadataItem parent){
+		p_parent = parent;
+	}
+	
 	@Override
 	public String getType() {
 		return p_type;
@@ -265,20 +290,50 @@ public class MetadataItem implements iMetadataItem {
 			}
 			else{ 
 				//Node does not exist in the repository
-				Node metadataNode = p_session.getRootNode().addNode(this.p_identifier);
+				
+				Node metadataNode = null;
+				if (getParent() == null){
+				
+					//Build the appropriate ID (may the the "queryToReach" from the XML definition)
+					String id = "";
+					if (p_configuration.getQueryToReach() != null)
+						id = p_configuration.getQueryToReach() + "/" + p_identifier;
+					else
+						id = p_identifier;
+					
+					id = FileJCR.cleanJCRId(id);
+					
+					metadataNode = p_session.getRootNode().addNode(id);
+					p_itemNode = metadataNode;
+				}
+				else
+				{
+					MetadataItem item = (MetadataItem) getParent();
+					metadataNode = item.getNode().addNode(getID());
+					p_itemNode = metadataNode;
+				}
+					 
+				
 				for (int i = 0; i < p_props.size(); i++) {
 					iMetadataProperty prop = p_props.get(i);
 					setNodeProperty(metadataNode,(MetadataProperty) prop);
 				}
 				
+				
+				
+				//Save the node, so that children can be created
+				if (metadataNode.getParent() != null)
+					metadataNode.getParent().save();
+				
 				Iterator<iMetadataItem> itChildMeta = this.p_children.iterator();
 				while (itChildMeta.hasNext()) {
 					iMetadataItem currMeta = (iMetadataItem) itChildMeta
 							.next();
-					
 					MetadataItem currentItem = (MetadataItem) currMeta;
 					this.recursiveSave(currentItem);
 				}
+				
+				//Save the node so that the child nodes are persisted
 				metadataNode.save();
 				
 			}
@@ -305,33 +360,60 @@ public class MetadataItem implements iMetadataItem {
 		try {
 			Node currentNode = item.getNode();
 			if (currentNode != null){
-				for (int i = 0; i < p_props.size(); i++){
-					MetadataProperty prop = (MetadataProperty) p_props.get(i);
-					setNodeProperty(p_itemNode, prop);
-				}
-				Iterator<iMetadataItem> itChildMeta = this.p_children.iterator();
-				while (itChildMeta.hasNext()) {
-					iMetadataItem currMeta = (iMetadataItem) itChildMeta
+				
+				List<iMetadataProperty> lstProps = item.getProperties();
+				Iterator<iMetadataProperty> itProps = lstProps.iterator();
+				while (itProps.hasNext()) {
+					iMetadataProperty currProp = (iMetadataProperty) itProps
 							.next();
-					
-					MetadataItem currentItem = (MetadataItem) currMeta;
-					currentItem.recursiveSave(currentItem);
+					setNodeProperty(currentNode,(MetadataProperty)currProp);
+				}
+				
+				List<iMetadataItem> childMeta = item.getChildren();
+				if (childMeta != null){
+					Iterator<iMetadataItem> itChildMeta = childMeta.iterator();
+					while (itChildMeta.hasNext()) {
+						iMetadataItem currMeta = (iMetadataItem) itChildMeta
+								.next();
+						
+						MetadataItem currentItem = (MetadataItem) currMeta;
+						currentItem.recursiveSave(currentItem);
+					}
 				}
 			}
 			else{ //Create in the repository
-				Node metadataNode = p_session.getRootNode().addNode(this.p_identifier);
-				//Set the value
-				for (int i = 0; i < p_props.size(); i++){
-					iMetadataProperty prop = p_props.get(i);
-					setNodeProperty(metadataNode,(MetadataProperty) prop);
-				}
-				Iterator<iMetadataItem> itChildMeta = this.p_children.iterator();
-				while (itChildMeta.hasNext()) {
-					iMetadataItem currMeta = (iMetadataItem) itChildMeta
+				
+				//Get the Path to the Item
+				/*String id = FileJCR.getFullPathFromMetadataItem(item);
+				id = FileJCR.cleanJCRId(id);*/
+				
+				MetadataItem parent = (MetadataItem) item.getParent();
+				Node parentNode = parent.getNode();
+				
+				Node metadataNode = parentNode.addNode(item.getID());
+				item.setJCRNode(metadataNode);
+				//Set the value for the properties
+				
+				List<iMetadataProperty> lstProps = item.getProperties();
+				Iterator<iMetadataProperty> itProps = lstProps.iterator();
+				while (itProps.hasNext()) {
+					iMetadataProperty currProp = (iMetadataProperty) itProps
 							.next();
-					
-					MetadataItem currentItem = (MetadataItem) currMeta;
-					this.recursiveSave(currentItem);
+					setNodeProperty(metadataNode,(MetadataProperty)currProp);
+				}
+				
+				//Process the child elements of this 
+				List<iMetadataItem> childMetaNoExist = item.getChildren();
+				if (childMetaNoExist != null)
+				{
+					Iterator<iMetadataItem> itChildMeta = childMetaNoExist.iterator();
+					while (itChildMeta.hasNext()) {
+						iMetadataItem currMeta = (iMetadataItem) itChildMeta
+								.next();
+						
+						MetadataItem currentItem = (MetadataItem) currMeta;
+						this.recursiveSave(currentItem);
+					}
 				}
 			}
 		}  catch (RepositoryException e) {
@@ -342,6 +424,13 @@ public class MetadataItem implements iMetadataItem {
 	@Override
 	public void setMetadataProperty(iMetadataProperty prop) {
 		//Only set valid properties
+		
+		for (int i = 0; i < p_props.size(); i++)
+			if(p_props.get(i).getPropertyIdentifier().equals(prop.getPropertyIdentifier()))
+			{
+				p_props.set(i, prop);
+				return;
+			}
 		this.p_props.add((MetadataProperty)prop);
 		
 	}
@@ -369,26 +458,45 @@ public class MetadataItem implements iMetadataItem {
 	private iMetadataProperty createMetadataProperty(Property prop) throws MetadataException
 	{
 		try {
-			if (prop.getType() == PropertyType.STRING)
-				return new MetadataProperty(prop.getName(), prop.getString());
-			if (prop.getType() == PropertyType.BOOLEAN)
-				return new MetadataProperty(prop.getName(), prop.getBoolean());
-			if (prop.getType() == PropertyType.LONG)
-				return new MetadataProperty(prop.getName(), prop.getLong());
-			if (prop.getType() == PropertyType.DATE)
-				return new MetadataProperty(prop.getName(), prop.getDate().getTime());
-			if (prop.getType() == PropertyType.BINARY)
-				return new MetadataProperty(prop.getName(), prop.getStream());
-			if (prop.getType() == PropertyType.REFERENCE)
-				return new MetadataProperty(prop.getName(), new MetadataItem(prop.getNode(),null,p_allMetadataConfigurations));
 			
-			//FIXME: Aqui tenho de ver como descobrir qual o tipo de nó que quero
+			try{
+				prop.getValue();
+				if (prop.getType() == PropertyType.STRING)
+					return new MetadataProperty(prop.getName(), prop.getString());
+				else if (prop.getType() == PropertyType.BOOLEAN)
+					return new MetadataProperty(prop.getName(), prop.getBoolean());
+				else if (prop.getType() == PropertyType.LONG)
+					return new MetadataProperty(prop.getName(), prop.getLong());
+				else if (prop.getType() == PropertyType.DATE)
+					return new MetadataProperty(prop.getName(), prop.getDate().getTime());
+				else if (prop.getType() == PropertyType.BINARY)
+					return new MetadataProperty(prop.getName(), prop.getStream());
+				else if (prop.getType() == PropertyType.REFERENCE)
+					return new MetadataProperty(prop.getName(), new MetadataItem(prop.getNode(),p_configuration));
+				else if (prop.getType() == PropertyType.NAME)
+					return new MetadataProperty(prop.getName(), prop.getString());
+				else if (prop.getType() == PropertyType.PATH)
+					return new MetadataProperty(prop.getName(), prop.getString());
+				
+			}
+			catch (ValueFormatException e){
+				
+				Value[] vals = prop.getValues();
+				if (prop.getType() == PropertyType.STRING)
+					return new MetadataProperty(prop.getName(), vals, METADATA_TYPE.STRING_ARRAY);
+					else if (prop.getType() == PropertyType.NAME)
+					return new MetadataProperty(prop.getName(), vals, METADATA_TYPE.STRING_ARRAY);
+				else if (prop.getType() == PropertyType.PATH)
+					return new MetadataProperty(prop.getName(), vals, METADATA_TYPE.STRING_ARRAY);
+			}
 			
 		} catch (RepositoryException e) {
 			throw new MetadataException(e);
 		}
 		return null;
 	}
+	
+	
 	
 	/**
 	 * 
@@ -406,29 +514,60 @@ public class MetadataItem implements iMetadataItem {
 		try {
 			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BINARY.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBinary());
-			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BOOLEAN.name())
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BOOLEAN.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBoolean());
-			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.STRING.name())
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.STRING.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueString());
-			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.LONG.name())
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.LONG.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueLong());
-			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.DATE.name()){
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.DATE.name()){
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(prop.getValueDate());
 				node.setProperty(prop.getPropertyIdentifier(), cal);
 			}
-			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.REFERENCE.name()){
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.REFERENCE.name()){
 				iMetadataItem currentItem = prop.getReference();
 				Node value = p_session.getRootNode().getNode(currentItem.getID());
 				node.setProperty(prop.getPropertyIdentifier(), value);
 			}
+			else if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.STRING_ARRAY.name()){
+				node.setProperty(prop.getPropertyIdentifier(), prop.getValuesString());
+			}
 				
-			
-				
-		} catch (Exception e) {
+		} catch (ConstraintViolationException e) {
+			//This situation means that a particular 
+			//implementation specific property was being updated
+			//which can't happen, but since it already exists in the node
+			//we let it continue,
+			e.printStackTrace();
+		}
+		catch (RepositoryException e){
+			throw new MetadataException(e);
+		} catch (netgest.io.metadata.ValueFormatException e) {
 			throw new MetadataException(e);
 		}
-		
+	}
+	
+	
+	/**
+	 * 
+	 * Sets the node of the {@link MetadataItem}
+	 * 
+	 * @param node The JCR node
+	 */
+	public void setJCRNode(Node node){
+		p_itemNode = node;
+	}
+	
+	
+	/**
+	 * 
+	 * Sets the identifier of the node
+	 * 
+	 * @param identifier
+	 */
+	public void setIdentifier(String identifier){
+		p_identifier = identifier;
 	}
 	
 
@@ -442,7 +581,8 @@ public class MetadataItem implements iMetadataItem {
 	
 	@Override
 	public String toString(){
-		return this.getName() + " - " + this.getID();
+		return this.getID();
 	}
+	
 	
 }

@@ -17,6 +17,9 @@ import netgest.utils.ngtXMLHandler;
  */
 public class MetadataNodeConfig {
 
+	/**
+	 * The XML Handler 
+	 */
 	private ngtXMLHandler xmlHandler;
 	/**
 	 * The node type of this metadata node
@@ -58,11 +61,19 @@ public class MetadataNodeConfig {
 	private boolean p_hasChildren;
 	
 	/**
-	 * The query from the root node to reach this thpe of metadata node
+	 * The query from the root node to reach this type of metadata node
 	 */
 	private String p_queryToReach;
 	
+	/**
+	 * If the metadata node is the default metadata type
+	 */
+	private boolean p_isDefault;
 	
+	/**
+	 * A reference to all metadata node definitions for the repository
+	 */
+	private Map<String,MetadataNodeConfig> p_allMetadataDefinitions;
 	
 	/**
 	 * @return the nodeType
@@ -98,6 +109,10 @@ public class MetadataNodeConfig {
 		this.p_nodeType = xmlHandler.getAttribute("type");
 		this.p_name = xmlHandler.getAttribute("name");
 		this.p_queryToReach = xmlHandler.getChildNode("queryToReach").getText();
+		this.p_isDefault = false;
+		if (xmlHandler.getAttribute("default") != null)
+			this.p_isDefault = Boolean.parseBoolean(xmlHandler.getAttribute("default"));
+		
 		
 		//Load properties
 		ngtXMLHandler property = xmlHandler.getChildNode("properties");
@@ -173,6 +188,16 @@ public class MetadataNodeConfig {
 	
 	
 	/**
+	 * 
+	 * Retrieves whether this Metadata Node 
+	 * 
+	 * @return True if it's the default metadata node type and false otherwise
+	 */
+	public boolean isDefault(){
+		return p_isDefault;
+	}
+	
+	/**
 	 * Retrieves whether or nor this configuration has child nodes
 	 * 
 	 * @return True if the configuration has Metadata child nodes
@@ -192,6 +217,25 @@ public class MetadataNodeConfig {
 	 */
 	public String getQueryToReach(){
 		return p_queryToReach;
+	}
+	
+	/**
+	 * Retrieves a reference to all Metadata Node configurations in the repository
+	 * 
+	 * @return A reference to all {@link MetadataNodeConfig} elements in the repository
+	 */
+	public Map<String,MetadataNodeConfig> getAllRepositoryConfigurations(){
+		return p_allMetadataDefinitions;
+	}
+	
+	/**
+	 * 
+	 * Sets a reference to all metadata node configurations in the repository
+	 * 
+	 * @param configs A reference to all metadata node configurations
+	 */
+	public void setAllRepositoryConfigurations(Map<String,MetadataNodeConfig> configs){
+		p_allMetadataDefinitions = configs;
 	}
 	
 }

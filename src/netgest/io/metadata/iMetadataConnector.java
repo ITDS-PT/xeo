@@ -102,25 +102,24 @@ public interface iMetadataConnector {
 	 * 
 	 * @param name A name for the metadata item
 	 * 
-	 * @param identifier An identifier for the metadata item
+	 * @param type The type of the metadata item
 	 * 
 	 * @return A reference to an empty identifier 
 	 */
-	public iMetadataItem createMetadataItem(String name, String identifier) throws MetadataException;
+	public iMetadataItem createMetadataItem(String name, String type) throws MetadataException;
 	
 	
 	/**
 	 * 
-	 * Creates a new empty metadata item with a name
+	 * Creates a new empty metadata item with an identifier
 	 *  and returns a reference to it
 	 * 
 	 * 
-	 * @param name A name for the metadata item (can be null, in that case
-	 * the implementation is responsible for generating an identifier)
+	 * @param id An idenfifier for the metadata item
 	 * 
 	 * @return A reference to an empty identifier 
 	 */
-	public iMetadataItem createMetadataItem(String name) throws MetadataException;
+	public iMetadataItem createMetadataItem(String id) throws MetadataException;
 	
 	
 	

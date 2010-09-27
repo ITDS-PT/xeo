@@ -12,14 +12,6 @@ import java.util.List;
 public interface iMetadataItem 
 {
 		/**
-		 * 
-		 * Retrieves the name of this metadata item
-		 * 
-		 * @return The name of the metadata item
-		 */
-		public String getName();
-		
-		/**
 		 * Retrieves an identifier for this metadata item
 		 * which is used to create relations with other metadata
 		 * items

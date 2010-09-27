@@ -13,7 +13,6 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.boRuntimeException2;
 import netgest.io.iFileConnector;
-import netgest.io.jcr.FileConnector;
 import netgest.utils.ngtXMLHandler;
 
 /**
@@ -32,57 +31,55 @@ public class RepositoryConfig
 	/**
 	 * The repository name
 	 */
-	private String name;
+	private String p_name;
 	
 	/**
 	 * The name of the class to be invoked
 	 * and create a Repository instance
 	 */
-	private String classConnections;
+	private String p_classConnections;
 	
 	/**
 	 * The name of the class the implements the {@link iFileConnector}
 	 * interface
 	 */
-	private String connectorClass;
+	private String p_connectorClass;
 	
-	/**
-	 * @return the connectorClass
-	 */
-	public String getFileConnectorClass() {
-		return connectorClass;
-	}
-
 	/**
 	 * If this repository is the default repository
 	 */
-	private boolean isDefault;
+	private boolean p_isDefault;
 	
 	/**
 	 * The XML handler
 	 */
-	private ngtXMLHandler handler;
+	private ngtXMLHandler p_handler;
 	
 	
 	/**
 	 * The File Node configurations
 	 */
-	private FileNodeConfig fileConfig;
+	private FileNodeConfig p_fileConfig;
 	
 	/**
 	 * The folder node configurations
 	 */
-	private FolderNodeConfig folderConfig;
+	private FolderNodeConfig p_folderConfig;
 	
 	/**
 	 * Configurations for metadata nodes
 	 */
-	private Map<String,MetadataNodeConfig> metadataConfig;
+	private Map<String,MetadataNodeConfig> p_metadataConfig;
 	
 	/**
 	 * A map of parameters for a connection to a repository
 	 */
-	private Map<String,String> parameters;
+	private Map<String,String> p_parameters;
+	
+	/**
+	 * The default metadata node config type
+	 */
+	private MetadataNodeConfig p_defaultMetadata;
 	
 	
 	/**
@@ -93,9 +90,9 @@ public class RepositoryConfig
 	 * @param handler The XML handler
 	 */
 	public RepositoryConfig(ngtXMLHandler handler){
-		this.handler = handler;
-		this.parameters = new HashMap<String, String>();
-		this.metadataConfig = new HashMap<String, MetadataNodeConfig>();
+		this.p_handler = handler;
+		this.p_parameters = new HashMap<String, String>();
+		this.p_metadataConfig = new HashMap<String, MetadataNodeConfig>();
 		load();
 	}
 	
@@ -103,21 +100,28 @@ public class RepositoryConfig
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return p_name;
 	}
 
 	/**
 	 * @return the classConnections
 	 */
 	public String getClassConnections() {
-		return classConnections;
+		return p_classConnections;
+	}
+	
+	/**
+	 * @return the connectorClass
+	 */
+	public String getFileConnectorClass() {
+		return p_connectorClass;
 	}
 	
 	/**
 	 * @return The parameters
 	 */
 	public Map<String,String> connectionParameters(){
-		return parameters;
+		return p_parameters;
 	}
 	
 
@@ -125,21 +129,21 @@ public class RepositoryConfig
 	 * @return the isDefault
 	 */
 	public boolean isDefault() {
-		return isDefault;
+		return p_isDefault;
 	}
 
 	/**
 	 * @return the fileConfig
 	 */
 	public FileNodeConfig getFileConfig() {
-		return fileConfig;
+		return p_fileConfig;
 	}
 
 	/**
 	 * @return the folderConfig
 	 */
 	public FolderNodeConfig getFolderConfig() {
-		return folderConfig;
+		return p_folderConfig;
 	}
 
 	/**
@@ -150,13 +154,13 @@ public class RepositoryConfig
 	 */
 	public MetadataNodeConfig[] getAllMetadataConfig() {
 		
-		Iterator<String> it = metadataConfig.keySet().iterator();
-		MetadataNodeConfig[] result = new MetadataNodeConfig[metadataConfig.keySet().size()];
+		Iterator<String> it = p_metadataConfig.keySet().iterator();
+		MetadataNodeConfig[] result = new MetadataNodeConfig[p_metadataConfig.keySet().size()];
 		int k = 0;
 		while (it.hasNext()) 
 		{
 			String configName = (String) it.next();
-			MetadataNodeConfig metaConf = metadataConfig.get(configName);
+			MetadataNodeConfig metaConf = p_metadataConfig.get(configName);
 			result[k] = metaConf;
 			k++;
 		}
@@ -170,7 +174,7 @@ public class RepositoryConfig
 	 * @return
 	 */
 	public Map<String,MetadataNodeConfig> getAllMetadataConfigMap(){
-		return metadataConfig;
+		return p_metadataConfig;
 	}
 	
 	
@@ -183,7 +187,7 @@ public class RepositoryConfig
 	 */
 	public MetadataNodeConfig getMetadataConfigByName(String name)
 	{
-		return this.metadataConfig.get(name);
+		return this.p_metadataConfig.get(name);
 	}
 	
 	/**
@@ -215,11 +219,11 @@ public class RepositoryConfig
 	 */
 	public iFileConnector getConnector(EboContext ctx) throws boRuntimeException{
 		iFileConnector connector;
-		if (connectorClass != null && checkNotDefaultValue(connectorClass))
+		if (p_connectorClass != null && checkNotDefaultValue(p_connectorClass))
 		{
 			try {
 				//Create a new Connector from the 
-				connector = (iFileConnector) Class.forName(this.connectorClass).newInstance();
+				connector = (iFileConnector) Class.forName(this.p_connectorClass).newInstance();
 				return connector;
 			} catch (ClassNotFoundException e) {
 				throw new boRuntimeException2(e);
@@ -340,54 +344,80 @@ public class RepositoryConfig
 	 */
 	private void load()
 	{
-		this.name = handler.getAttribute("name");
+		this.p_name = p_handler.getAttribute("name");
 		
-		ngtXMLHandler classNode = handler.getChildNode("repositoryConnection");
+		ngtXMLHandler classNode = p_handler.getChildNode("repositoryConnection");
 		
 		if (classNode != null){
 			ngtXMLHandler[] params = classNode.getChildNode("parameters").getChildNodes();
 			for (ngtXMLHandler p : params){
 				String key = p.getAttribute("name");
 				String value = p.getAttribute("value");
-				this.parameters.put(key, value);
+				this.p_parameters.put(key, value);
 			}
 		}
 		
 		//Load the class that connects to the repository
-		this.classConnections = handler.getAttribute("classConnection");
+		this.p_classConnections = p_handler.getAttribute("classConnection");
 		//Whether this configuration is the default repository
-		String value = handler.getAttribute("default");
+		String value = p_handler.getAttribute("default");
 		if (value != null)
-			this.isDefault = Boolean.parseBoolean(value);
+			this.p_isDefault = Boolean.parseBoolean(value);
 		else
-			this.isDefault = false;
+			this.p_isDefault = false;
 		//Load the file connector class for this
-		this.connectorClass = handler.getAttribute("fileConnector");
+		this.p_connectorClass = p_handler.getAttribute("fileConnector");
 		
 		//Load the file nodes configuration
-		ngtXMLHandler fileNode  = handler.getChildNode("fileNode");
+		ngtXMLHandler fileNode  = p_handler.getChildNode("fileNode");
 		if (fileNode != null)
-			this.fileConfig = new FileNodeConfig(fileNode);
+			this.p_fileConfig = new FileNodeConfig(fileNode);
 		
 		//Load the folder node configurations
-        ngtXMLHandler folderNode = handler.getChildNode("folderNode");
+        ngtXMLHandler folderNode = p_handler.getChildNode("folderNode");
         if (folderNode != null)
-        	this.folderConfig = new FolderNodeConfig(folderNode);
+        	this.p_folderConfig = new FolderNodeConfig(folderNode);
         
         //Load the metadata nodes configuration
-        ngtXMLHandler metadataNodes = handler.getChildNode("metadataNodes");
+        ngtXMLHandler metadataNodes = p_handler.getChildNode("metadataNodes");
+        p_defaultMetadata = null;
         if (metadataNodes != null){
         	int length = metadataNodes.getChildNodes().length;
-            this.metadataConfig = new HashMap<String, MetadataNodeConfig>();
+            this.p_metadataConfig = new HashMap<String, MetadataNodeConfig>();
             ngtXMLHandler[] children = metadataNodes.getChildNodes();
             
             for (int k = 0; k < length; k++)
             {
             	MetadataNodeConfig c = new MetadataNodeConfig(children[k]);
-            	this.metadataConfig.put(c.getName(), c);
+            	if (c.isDefault())
+            		p_defaultMetadata = c;
+            	this.p_metadataConfig.put(c.getName(), c);
             }
+            
+            
+        }
+        //Make that all Metadata Node Configurations have access to all of the configurations
+        Iterator<String> itMetaConfigNames = p_metadataConfig.keySet().iterator();
+        while (itMetaConfigNames.hasNext()){
+        	String currentName = itMetaConfigNames.next();
+        	MetadataNodeConfig currentMetaConfig = p_metadataConfig.get(currentName);
+        	currentMetaConfig.setAllRepositoryConfigurations(p_metadataConfig);
         }
         
+	}
+	
+	/**
+	 * 
+	 * Retrieves the default metadata node config
+	 * 
+	 * @return The default metadata node config, or null if one does not exist (it must exist in the configuration)
+	 * 
+	 */
+	public MetadataNodeConfig getDefaultMetadataConfig(){
+		if (p_defaultMetadata == null)
+			throw new RuntimeException("The repository configuration " + getName() 
+					+ " does not have a default metadata node configuration");
+		return p_defaultMetadata;
 	}
 	
 }

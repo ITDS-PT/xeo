@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Vector;
 
 import javax.jcr.Node;
@@ -13,8 +12,6 @@ import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-
-import com.sun.org.apache.xpath.internal.operations.Gte;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
@@ -73,46 +70,39 @@ public class MetadataConnector implements iMetadataConnector {
 
 	
 	@Override
-	public iMetadataItem createMetadataItem(String name) throws MetadataException {
-		//Find the repository with the definition for this MetadataItem
-		RepositoryConfig repoConfig = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
-		//Get the definition for the meta data node configuration
-		MetadataNodeConfig metaConfig = repoConfig.getMetadataConfigByName(name);
+	public iMetadataItem createMetadataItem(String id) throws MetadataException {
 		
+		MetadataNodeConfig metaConfig = getDefaultMetadataConfig();
 		try {
-			
-			//Retrieve the parent node of the metadata node
-			Node parentNode = p_session.getRootNode().getNode(metaConfig.getQueryToReach());
-			//Add the new node to that parent (assuming it exists)
-			Node metaNode = parentNode.addNode(generateId(), metaConfig.getNodeType());
-			MetadataItem itemToReturn = new MetadataItem(metaNode, metaConfig, p_configs);
+			MetadataItem itemToReturn = new MetadataItem(id,p_session, metaConfig);
 			return itemToReturn;
 		}  
-		catch (RepositoryException e) {
-			throw new MetadataException(e);
-		}
+		catch (Exception e) { throw new MetadataException(e); }
 	}
 	
 	@Override
-	public iMetadataItem createMetadataItem(String name, String identifier) throws MetadataException{
+	public iMetadataItem createMetadataItem(String name, String type) throws MetadataException{
 		
-		//Find the repository with the definition for this MetadataItem
-		RepositoryConfig repoConfig = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
-		//Get the definition for the meta data node configuration
-		MetadataNodeConfig metaConfig = repoConfig.getMetadataConfigByName(name);
+		MetadataNodeConfig metaConfig = getDefaultMetadataConfig();
 		
 		try {
 			//Retrieve the parent node of the metadata node
-			Node parentNode = p_session.getRootNode().getNode(metaConfig.getQueryToReach());
+			String query = metaConfig.getQueryToReach();
+			Node parentNode;
+			if (query != null)
+				parentNode = p_session.getRootNode().getNode(query);
+			else
+				parentNode = p_session.getRootNode();
+			
 			//Add the new node to that parent (assuming it exists)
-			Node metaNode = parentNode.addNode(identifier, metaConfig.getNodeType());
-			MetadataItem itemToReturn = new MetadataItem(metaNode, metaConfig, p_configs);
+			Node metaNode = parentNode.addNode(name, metaConfig.getNodeType());
+			MetadataItem itemToReturn = new MetadataItem(metaNode, metaConfig);
 			return itemToReturn;
 		}  
 		catch (PathNotFoundException e) 
 		{
 			throw new MetadataException("Could not create metadata item with id '" 
-					+ identifier + "' no path to the item");
+					+ name + "' no path to the item");
 		}  catch (RepositoryException e) {
 			e.printStackTrace();
 		}
@@ -155,13 +145,29 @@ public class MetadataConnector implements iMetadataConnector {
 			//Given the node type, retrieve the Metadata Node configuration
 			MetadataNodeConfig current = p_configs.get(metaItemType);
 			//Return an item with the given type
-			return new MetadataItem(metaItemNode, current, p_configs);
+			return new MetadataItem(metaItemNode, current);
 			
-		} catch (PathNotFoundException e) {
-			e.printStackTrace();
-		} catch (RepositoryException e) {
-			e.printStackTrace();
+		} catch (PathNotFoundException e1){
+			try
+			{
+				MetadataNodeConfig meta = getDefaultMetadataConfig();
+				if (meta.getQueryToReach() != null){
+					String id = meta.getQueryToReach() + "/" + identifier;
+					Node metaItemNode = p_session.getRootNode().getNode(id);
+					//Get the node type, to find which configuration should be passed
+					String metaItemType = metaItemNode.getPrimaryNodeType().getName();
+					//Given the node type, retrieve the Metadata Node configuration
+					MetadataNodeConfig current = p_configs.get(metaItemType);
+					//Return an item with the given type
+					return new MetadataItem(metaItemNode, current);
+				}
+				
+				
+			}catch (PathNotFoundException e2){ /*Do nothing*/ }
+			
+			 catch (RepositoryException e) { e.printStackTrace(); }
 		}
+		catch (RepositoryException e) {	e.printStackTrace(); }
 		return null;
 	}
 
@@ -192,8 +198,29 @@ public class MetadataConnector implements iMetadataConnector {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void removeMetadataItem(String itemId) throws MetadataException{
+		Node current = null;
 		try {
-			Node current = p_session.getRootNode().getNode(itemId);
+			current = p_session.getRootNode().getNode(itemId);
+		}
+		catch (PathNotFoundException e){
+			
+			MetadataNodeConfig metaConfig = getDefaultMetadataConfig();
+			
+			if (metaConfig.getQueryToReach() != null){
+				try {
+					current = p_session.getRootNode().getNode(metaConfig.getQueryToReach() +
+							"/" + itemId);
+				} catch (PathNotFoundException e1) {
+					throw new MetadataException("Item " + itemId + " does not exist");
+				} catch (RepositoryException e1) {
+					throw new MetadataException(e1);
+				}
+			}
+			
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
+		try	{
 			if (current != null){
 				Node parent = current.getParent();
 				current.remove();
@@ -236,27 +263,24 @@ public class MetadataConnector implements iMetadataConnector {
 	public iMetadataProperty createProperty(String propName,
 			Object[] propValues, METADATA_TYPE propType) {
 		switch (propType){
-		case BOOLEAN: return new MetadataProperty(propName, (Boolean[]) propValues);
-		case BINARY: return new MetadataProperty(propName, (InputStream[]) propValues);
-		case TIME: return new MetadataProperty(propName, (Date[]) propValues);
-		case DATE: return new MetadataProperty(propName, (Date[]) propValues);
-		case DATETIME: return new MetadataProperty(propName, (Date[]) propValues);
 		case STRING: return new MetadataProperty(propName, (String[]) propValues);
-		case LONG: return new MetadataProperty(propName, (Long[]) propValues);
-		case REFERENCE : return new MetadataProperty(propName, (iMetadataItem[]) propValues);
 	}
 	return null;
 	}
-
 	
 	/**
 	 * 
-	 * Generates a random unique UUID
+	 * Retrieves the configuration for the default metadata node config
 	 * 
-	 * @return A string with the UUID
+	 * @return
 	 */
-	private String generateId(){
-		return UUID.randomUUID().toString();
+	private MetadataNodeConfig getDefaultMetadataConfig(){
+		//Find the repository with the definition for this MetadataItem
+		RepositoryConfig repoConfig = boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration();
+		//Get the definition for the meta data node configuration
+		MetadataNodeConfig metaConfig = repoConfig.getDefaultMetadataConfig();
+		
+		return metaConfig;
 	}
 	
 }
