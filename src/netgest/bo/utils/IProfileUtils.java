@@ -64,7 +64,7 @@ public class IProfileUtils
 
             if (boui == 0)
             {
-                return allIProfiles(session);
+                return getAllIProfiles(session);
             }
 
             boolean existDefault = false;
@@ -108,7 +108,7 @@ public class IProfileUtils
         return toRet;
     }
 
-    private static final String[] allIProfiles(boSession session)
+    public static final String[] getAllIProfiles(boSession session)
     {
         String[] toRet = null;
         ArrayList r = new ArrayList();
@@ -121,7 +121,7 @@ public class IProfileUtils
             listIProfiles.beforeFirst();
             while(listIProfiles.next())
             {
-                r.add(listIProfiles.getObject().getAttribute("name").getValueString());
+                r.add(listIProfiles.getObject().getBoui()+ ";" +listIProfiles.getObject().getAttribute("name").getValueString());
             }
             toRet = (String[])r.toArray(new String[r.size()]);
         }
