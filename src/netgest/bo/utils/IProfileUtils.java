@@ -128,6 +128,9 @@ public class IProfileUtils
         catch (boRuntimeException e)
         {
             
+        } finally {
+        	if (eboctx!=null)
+        		eboctx.close();
         }
         if(toRet == null || toRet.length == 0)
         {
