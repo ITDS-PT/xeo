@@ -270,10 +270,13 @@ public class boTextIndexQueue
         PreparedStatement pstm = null;
         try 
         {
-            pstm = ctx.getConnectionData().prepareStatement( SQL_INSERT );
-            pstm.setTimestamp( 1, new java.sql.Timestamp( System.currentTimeMillis() ) );
-            pstm.setLong( 2, boui );
-            pstm.executeUpdate();
+        	if (boui!=0)
+        	{
+	            pstm = ctx.getConnectionData().prepareStatement( SQL_INSERT );
+	            pstm.setTimestamp( 1, new java.sql.Timestamp( System.currentTimeMillis() ) );
+	            pstm.setLong( 2, boui );
+	            pstm.executeUpdate();
+        	}
         } 
         catch (Exception ex) 
         {
@@ -300,9 +303,12 @@ public class boTextIndexQueue
             pstm = ctx.getConnectionData().prepareStatement( SQL_INSERT );
             for (int i = 0; i < bouis.size(); i++) 
             {
-                pstm.setTimestamp( 1, new java.sql.Timestamp( System.currentTimeMillis() ) );
-                pstm.setLong( 2, ((Long)bouis.get( i )).longValue() );
-                pstm.addBatch();
+            	if (((Long)bouis.get( i )).longValue()!=0) //Safety apenas
+            	{
+	                pstm.setTimestamp( 1, new java.sql.Timestamp( System.currentTimeMillis() ) );
+	                pstm.setLong( 2, ((Long)bouis.get( i )).longValue() );
+	                pstm.addBatch();
+            	}
             }
             pstm.executeBatch();
             
