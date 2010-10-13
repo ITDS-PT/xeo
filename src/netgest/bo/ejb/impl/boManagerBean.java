@@ -1971,13 +1971,13 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         ".updateObject(EboContext, boObject)", "BO-3022", e,
                         bobj.bo_name + "(" + bobj.bo_boui + ")");
                 }
-                else if (e.getErrorCode() == 2292 || e.getErrorCode() == 1217) //mysql 
+                else if (e.getErrorCode() == 2292 || e.getErrorCode() == 1451) //mysql 
                 {
                     throw new boRuntimeException(boManagerBean.class.getName() +
                         ".updateObject(EboContext, boObject)", "BO-3023", e,
                         bobj.bo_name + "(" + bobj.bo_boui + ")");
                 }
-                else if (e.getErrorCode() == 1 || e.getErrorCode() == 1169) //mysql 
+                else if (e.getErrorCode() == 1 || e.getErrorCode() == 1062) //mysql 
                 {
                     throw new boRuntimeException(boManagerBean.class.getName() +
                         ".updateObject(EboContext, boObject)", "BO-3054", e,
