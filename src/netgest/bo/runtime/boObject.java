@@ -2049,6 +2049,27 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
         return m;
     }
+    
+    public String[] getToolbarMethodsNames(){
+    	boDefMethod[] m = this.getBoDefinition().getBoMethods();
+        ArrayList<String> r = new ArrayList<String>(m.length);
+        
+        
+        for (int i = 0; i < m.length; i++) {
+            if (m[i].getIsToolbar()) {
+                r.add(m[i].getName());
+            }
+        }
+
+        m = new boDefMethod[r.size()];
+        String[] names = new String[m.length];
+        
+        for (int i = 0; i < r.size(); i++) {
+            names[i] = r.get(i);
+        }
+
+        return names;
+    }
 
     public ParametersHandler getParametersHandler() {
         return p_parameters;
