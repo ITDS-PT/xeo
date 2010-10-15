@@ -35,7 +35,7 @@ public class OracleUtils  implements DriverUtils
         try
         {
             orclreader = new OracleReaderAdapter( p_ds );
-            orclreader.executeQuery( ctx, query, arguments,1,Integer.MAX_VALUE );
+            orclreader.executeQuery( ctx, query, arguments,1,Integer.MAX_VALUE-1 );
             ret = orclreader.getMetaData();
         }
         finally

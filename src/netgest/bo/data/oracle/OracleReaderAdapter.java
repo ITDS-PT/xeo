@@ -85,7 +85,7 @@ public class OracleReaderAdapter implements ReaderAdapter
             }
 
             activePstm = activeCn.prepareStatement(query);
-            activePstm.setMaxRows(pagesize*pagesize+1);
+            activePstm.setMaxRows(page*pagesize+1);
             if ((arguments != null) && (arguments.size() > 0))
             {
                 for (short i = 0; i < arguments.size(); i++)

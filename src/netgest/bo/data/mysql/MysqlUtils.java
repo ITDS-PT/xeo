@@ -27,7 +27,7 @@ public class MysqlUtils implements DriverUtils {
         try
         {
             mysqlreader = new MysqlReaderAdapter( p_ds );
-            mysqlreader.executeQuery( ctx, query, arguments,1,Integer.MAX_VALUE );
+            mysqlreader.executeQuery( ctx, query, arguments,1,Integer.MAX_VALUE-1 );
             ret = mysqlreader.getMetaData();
         }
         finally
