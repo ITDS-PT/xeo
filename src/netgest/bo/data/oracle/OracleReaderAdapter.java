@@ -54,9 +54,9 @@ public class OracleReaderAdapter implements ReaderAdapter
     }
 
     public final ReaderAdapter executeQuery(EboContext ctx, String query,
-        List arguments)
+        List arguments,int page, int pagesize)
     {
-        _executeQuery(ctx, query, arguments);
+        _executeQuery(ctx, query, arguments,page,pagesize);
 
         return this;
     }
@@ -71,7 +71,7 @@ public class OracleReaderAdapter implements ReaderAdapter
         return createDataSetMetaData(activeRsltMetaData);
     }
 
-    private void _executeQuery(EboContext ctx, String query, List arguments)
+    private void _executeQuery(EboContext ctx, String query, List arguments,int page,int pagesize)
     {
         try
         {
@@ -85,7 +85,7 @@ public class OracleReaderAdapter implements ReaderAdapter
             }
 
             activePstm = activeCn.prepareStatement(query);
-
+            activePstm.setMaxRows(pagesize*pagesize+1);
             if ((arguments != null) && (arguments.size() > 0))
             {
                 for (short i = 0; i < arguments.size(); i++)

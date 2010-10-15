@@ -15,7 +15,7 @@ import netgest.bo.runtime.EboContext;
 public interface ReaderAdapter 
 {
      
-     public ReaderAdapter executeQuery(EboContext ctx, String query , List arguments );
+     public ReaderAdapter executeQuery(EboContext ctx, String query , List arguments,int page,int pagesize );
      public DataSetMetaData getMetaData();
      public boolean fetchRow( DataRow row , int rows );
      public boolean fetchRow( DataRow dataRow );

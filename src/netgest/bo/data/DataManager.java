@@ -54,7 +54,7 @@ public class DataManager
         String dataSource, String query, int page, int pageSize,
         ArrayList arguments)
     {
-        ReaderAdapter rd = prepareForQuery(ctx, dataSource, query, arguments);
+        ReaderAdapter rd = prepareForQuery(ctx, dataSource, query, arguments,page,pageSize);
 
         if (dataSet == null)
         {
@@ -85,7 +85,7 @@ public class DataManager
         for (byte i = 0; i < dataSource.length; i++)
         {
             rd[i] = prepareForQuery(ctx, dataSource[i], query[i],
-                    (arguments == null) ? null : arguments[i]);
+                    (arguments == null) ? null : arguments[i],page,pageSize);
         }
 
         DataSet dataSet;
@@ -114,11 +114,11 @@ public class DataManager
     }
 
     private static final ReaderAdapter prepareForQuery(EboContext ctx,
-        String dataSource, String query, List arguments)
+        String dataSource, String query, List arguments,int page,int pageSize)
     {
         ReaderAdapter dm = ctx.getApplication().getDriverManager()
                               .createReaderAdapter(ctx, dataSource);
-        dm.executeQuery(ctx, query, arguments);
+        dm.executeQuery(ctx, query, arguments,page,pageSize);
 
         return dm;
     }
