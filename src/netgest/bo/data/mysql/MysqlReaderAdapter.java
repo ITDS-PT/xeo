@@ -71,7 +71,12 @@ public class MysqlReaderAdapter implements ReaderAdapter {
            int toadd=1;
            if (pagesize==Integer.MAX_VALUE)
            	toadd=0;
-           activePstm.setMaxRows(page*pagesize+toadd);
+           
+           int maxRows = (page*pagesize)+toadd;
+           if (maxRows > 50000000)
+                   maxRows = 50000000;
+           activePstm.setMaxRows(maxRows);
+
            if ((arguments != null) && (arguments.size() > 0))
            {
                for (short i = 0; i < arguments.size(); i++)
