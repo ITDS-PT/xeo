@@ -80,11 +80,15 @@ public class IProfileUtils
 
                 while (bh.next())
                 {
-                    aux = bh.getObject().getBoui() + ";" + bh.getObject().getAttribute("name").getValueString();
-                    if (!r.contains(aux))
-                    {
-                        r.add(aux);
-                    }
+                	if (bh.getObject().getAttribute("name").getValueString()!=null && 
+                			!bh.getObject().getAttribute("name").getValueString().equals(""))
+                	{
+	                    aux = bh.getObject().getBoui() + ";" + bh.getObject().getAttribute("name").getValueString();
+	                    if (!r.contains(aux))
+	                    {
+	                        r.add(aux);
+	                    }
+                	}
                 }
                 toRet = (String[])r.toArray(new String[r.size()]);
 
