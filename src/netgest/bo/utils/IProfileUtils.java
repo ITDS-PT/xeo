@@ -121,6 +121,8 @@ public class IProfileUtils
             listIProfiles.beforeFirst();
             while(listIProfiles.next())
             {
+            	if (listIProfiles.getObject().getAttribute("name").getValueString()!=null
+            			&& !listIProfiles.getObject().getAttribute("name").getValueString().equals(""))
                 r.add(listIProfiles.getObject().getBoui()+ ";" +listIProfiles.getObject().getAttribute("name").getValueString());
             }
             toRet = (String[])r.toArray(new String[r.size()]);
