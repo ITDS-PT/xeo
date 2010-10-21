@@ -430,132 +430,132 @@ public class BasiciFile implements iFile  {
     }    
     public boolean  canRead()
     {
-        throw new RuntimeException("canRead:Not Impelemented");
+        return true;
     }
     public boolean  canWrite()
     {
-        throw new RuntimeException("canWrite:Not Impelemented");
+        return true;
     }
     public String getParent()
     {
-        throw new RuntimeException("getParent:Not Impelemented");
+        throw new RuntimeException("getParent:Not Implemented");
     }
     public iFile getParentFile()
     {
-        throw new RuntimeException("getParentFile:Not Impelemented");
+        throw new RuntimeException("getParentFile:Not Implemented");
     }
     public boolean  isDirectory()
     {
-        throw new RuntimeException("isDirectory:Not Impelemented");
+        return false;
     }
     public long lastModified()
     {
-        throw new RuntimeException("lastModified:Not Impelemented");
+        throw new RuntimeException("lastModified:Not Implemented");
     }
     public String[] list() throws iFilePermissionDenied
     {
-        throw new RuntimeException("list:Not Impelemented");
+        return new String[0];
     }
     public String[] list(iFilenameFilter filter) throws iFilePermissionDenied
     {
-        throw new RuntimeException("list:Not Impelemented");
+        return new String[0];
     }
     public iFile[]  listFiles() throws iFilePermissionDenied
     {
-        throw new RuntimeException("listFiles:Not Impelemented");
+    	return new iFile[0];
     }
     public iFile[]  listFiles(iFileFilter filter) throws iFilePermissionDenied
     {
-        throw new RuntimeException("listFiles:Not Impelemented");
+    	return new iFile[0];
     }
     public boolean  mkdir() throws iFilePermissionDenied
     {
-        throw new RuntimeException("mkdir:Not Impelemented");
+        return false;
     }
     public boolean  mkdirs() throws iFilePermissionDenied
     {
-        throw new RuntimeException("mkdirs:Not Impelemented");
+        return false;
     }
     public boolean  renameTo(iFile newfile) throws iFilePermissionDenied
     {
-        throw new RuntimeException("renameTo:Not Impelemented");
+        return false;
     }
     public boolean  setReadOnly() throws iFilePermissionDenied
     {
-        throw new RuntimeException("setReadOnly:Not Impelemented");
+        throw new RuntimeException("setReadOnly:Not Implemented");
     }
     public boolean checkIn() throws iFilePermissionDenied
     {
-        throw new RuntimeException("checkIn:Not Impelemented");
+        return false;
     }
     public boolean checkOut() throws iFilePermissionDenied
     {
-        throw new RuntimeException("checkOut:Not Impelemented");
+        return false;
     }
     public boolean isCheckedIn()
     {
-        throw new RuntimeException("isCheckedIn:Not Impelemented");
+        return false;
     }
     public boolean isCheckedOut()
     {
-        throw new RuntimeException("isCheckedOut:Not Impelemented");
+        return false;
     }
     public boolean isVersioned()
     {
-        throw new RuntimeException("isVersioned:Not Impelemented");
+        return false;
     }
     public boolean makeVersioned() throws iFilePermissionDenied
     {
-        throw new RuntimeException("makeVersioned:Not Impelemented");
+        return false;
     }
     public void setDescription(String description)
     {
-        throw new RuntimeException("setDescription:Not Impelemented");
+        throw new RuntimeException("setDescription:Not Implemented");
     }
     public String getDescription()
     {
-        throw new RuntimeException("getDescription:Not Impelemented");
+        return "";
     }
     public void setAuthor(String author)
     {
-        throw new RuntimeException("setAuthor:Not Impelemented");
+        throw new RuntimeException("setAuthor:Not Implemented");
     }
     public String getAuthor()
     {
-        throw new RuntimeException("getAuthor:Not Impelemented");
+        return "";
     }
     public void setCategory(String author)
     {
-        throw new RuntimeException("setCategory:Not Impelemented");
+        throw new RuntimeException("setCategory:Not Implemented");
     }
     public String getCategory()
     {
-        throw new RuntimeException("getCategory:Not Impelemented");
+        throw new RuntimeException("getCategory:Not Implemented");
     }
     public void setVersionUser(String user)
     {
-        throw new RuntimeException("setVersionUser:Not Impelemented");
+        throw new RuntimeException("setVersionUser:Not Implemented");
     }
     public String getVersionUser()
     {
-        throw new RuntimeException("getVersionUser:Not Impelemented");
+        return null;
     }
     public void setCheckOutUser(String user)
     {
-        throw new RuntimeException("setCheckOutUser:Not Impelemented");
+        throw new RuntimeException("setCheckOutUser:Not Implemented");
     }
     public String getCheckOutUser()
     {
-        throw new RuntimeException("getCheckOutUser:Not Impelemented");
+        return null;
     }
     public long getVersion()
     {
-        throw new RuntimeException("getVersion:Not Impelemented");
+        return -1;
     }
     
     public long getKey()
     {
-        throw new RuntimeException("getKey:Not Impelemented");
+        throw new RuntimeException("getKey:Not Implemented");
     }
     public iFile getCopy()
     {    
