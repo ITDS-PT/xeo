@@ -1,5 +1,0 @@
-span.scrollContainer
-{
-	BEHAVIOR: url(ieLibrary/scrollContainer/scrollContainer.htc);
-	overflow:hidden;
-}

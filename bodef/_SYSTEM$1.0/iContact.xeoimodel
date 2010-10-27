@@ -122,20 +122,6 @@
          <lov name="mediaMessage" retainValues="false"/>
          <defaultValue language="BOL"><depends/>false</defaultValue>
       </attributeText>
-      <attributeObject name="workplace">
-         <type>object.Sch_workplace</type>
-         <label>Local de Trabalho</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <objectFilter/>
-      </attributeObject>
-      <attributeObject name="workSchedule">
-         <type>object.workweek</type>
-         <label>Horário de Trabalho</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <objectFilter/>
-      </attributeObject>
    </attributes>
    <viewers>
       <viewer name="general">
