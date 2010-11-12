@@ -458,11 +458,31 @@ public class lovObject
         boolean toRet=false;
         beforeFirst();        
         while (next()) {
-            if (getCode().equals(code))toRet=true;
+            if (getCode().equals(code)) toRet=true;
         }
         return toRet;
     }
 
+    /**
+     * Pedro Rio
+     * 
+     * Retrieves an item description, given its code
+     * 
+     * @param code The code of the  
+     * 
+     * @return A string with the description of the given code
+     */
+    public String getDescriptionByCode(String code){
+    	beforeFirst();
+    	while (next())
+    	{
+    		if (getCode().equals(code))
+    			return getCode();
+    	}
+    	return null;
+    }
+    
+    
     public boolean findLovItemByDescription(String description) {
         boolean toRet=false;
         beforeFirst();        
