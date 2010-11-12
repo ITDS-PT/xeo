@@ -4,10 +4,13 @@
 package netgest.bo.def;
 
 import java.util.HashMap;
+import java.util.List;
 
+import netgest.bo.configUtils.FileMetadataProperty;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.NodePropertyDefinition;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.io.iFileConnector;
 
@@ -98,7 +101,6 @@ public interface boDefDocument
 	 */
 	public HashMap<String,MetadataNodeConfig> getMetadataConfigs();
 	
-	
 	/**
 	 * 
 	 * Retrieves the file connector associated to this attributeBinaryData
@@ -108,4 +110,15 @@ public interface boDefDocument
 	 * @throws boRuntimeException
 	 */
 	public iFileConnector getFileConnector() throws boRuntimeException;
+	
+	
+	/**
+	 * 
+	 * Retrieves the List of Metadata Properties that the file should/must have
+	 * 
+	 * 
+	 * @return A list of {@link FileMetadataProperty} instances
+	 * with the properties this File must have
+	 */
+	public List<NodePropertyDefinition> getMetadataPropertiesFile(); 
 }

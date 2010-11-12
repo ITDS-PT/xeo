@@ -4,11 +4,14 @@
 package netgest.bo.def.v2;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
+import netgest.bo.configUtils.NodePropertyDefinition;
 import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.def.boDefDocument;
 import netgest.bo.runtime.EboContext;
@@ -30,41 +33,46 @@ public class boDefDocumentImpl implements boDefDocument {
 	/**
 	 * The reference to the XML handler
 	 */
-	private ngtXMLHandler handler;
+	private ngtXMLHandler p_handler;
 	/**
 	 * If the attribute can be used to add new files to the repository
 	 */
-	private boolean canAddFile = false;
+	private boolean p_canAddFile = false;
 	/**
 	 * If the attribute can be used to add new metadata to the repository
 	 */
-	private boolean canAddMetadata = false;
+	private boolean p_canAddMetadata = false;
 	/**
 	 * If metadata is required for this attribute 
 	 */
-	private boolean metadataRequired = false;
+	private boolean p_metadataRequired = false;
 	/**
 	 * The name of the repository in which to store the data, 
 	 * if null the default is used
 	 */
-	private String repositoryName = null;
+	private String p_repositoryName = null;
 	/**
 	 * FileNode configurations in case the default should be overridden
 	 */
-	private FileNodeConfig fileNodeConfig = null;
+	private FileNodeConfig p_fileNodeConfig = null;
 	/**
 	 * FolderNode configurations in case the default should be overridden
 	 */
-	private FolderNodeConfig folderNodeConfig = null;
+	private FolderNodeConfig p_folderNodeConfig = null;
 	/**
 	 * If this attribute represents a collection of files
 	 * or a single file
 	 */
-	private boolean isFolder = false;
+	private boolean p_isFolder = false;
 	/**
 	 * MetadataNode configuration in case the default should be overridden
 	 */
-	private HashMap<String, MetadataNodeConfig> metadataConfig = null;
+	private HashMap<String, MetadataNodeConfig> p_metadataConfig = null;
+	
+	/**
+	 * The list of metadata properties for this file
+	 */
+	private List<NodePropertyDefinition> p_fileMetadataProperties = null; 
 	
 	/**
 	 * Public constructor from a XML handler
@@ -73,7 +81,9 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	public boDefDocumentImpl(ngtXMLHandler xmlHandler)
 	{
-		this.handler = xmlHandler;
+		this.p_handler = xmlHandler;
+		p_fileMetadataProperties = new LinkedList<NodePropertyDefinition>();
+		p_metadataConfig = new HashMap<String, MetadataNodeConfig>();
 		load();
 	}
 	
@@ -83,37 +93,46 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	private void load()
 	{
-		if (handler.getChildNode("canAddFiles")!= null)
-			this.canAddFile = Boolean.parseBoolean(handler.getChildNode("canAddFiles").getText());
-		if (handler.getChildNode("canAddMetadata")!= null)
-			this.canAddMetadata = Boolean.parseBoolean(handler.getChildNode("canAddMetadata").getText());
-		if (handler.getChildNode("metadataRequired")!= null)
-			this.metadataRequired = Boolean.parseBoolean(handler.getChildNode("metadataRequired").getText());
-		if (handler.getChildNode("repositoryName")!= null)
+		if (p_handler.getChildNode("canAddFiles")!= null)
+			this.p_canAddFile = Boolean.parseBoolean(p_handler.getChildNode("canAddFiles").getText());
+		if (p_handler.getChildNode("canAddMetadata")!= null)
+			this.p_canAddMetadata = Boolean.parseBoolean(p_handler.getChildNode("canAddMetadata").getText());
+		if (p_handler.getChildNode("metadataRequired")!= null)
+			this.p_metadataRequired = Boolean.parseBoolean(p_handler.getChildNode("metadataRequired").getText());
+		if (p_handler.getChildNode("repositoryName")!= null)
 		{
-			String name = handler.getChildNode("repositoryName").getText();
+			String name = p_handler.getChildNode("repositoryName").getText();
 			if (name != null)
 			{
 				if (name.length() > 0)
-					this.repositoryName = name;
+					this.p_repositoryName = name;
 				else
-					this.repositoryName = null;
+					this.p_repositoryName = null;
 			}
 			
 		}
-		if (handler.getChildNode("isFolder")!= null)
-			this.isFolder = Boolean.parseBoolean(handler.getChildNode("isFolder").getText());
-		if (handler.getChildNode("fileNodes")!= null)
-			this.fileNodeConfig = new FileNodeConfig(handler.getChildNode("fileNodes"));
-		if (handler.getChildNode("folderNodes")!= null)
-			this.folderNodeConfig = new FolderNodeConfig(handler.getChildNode("folderNodes"));
-		if (handler.getChildNode("metadataNodes")!= null)
+		if (p_handler.getChildNode("isFolder")!= null)
+			this.p_isFolder = Boolean.parseBoolean(p_handler.getChildNode("isFolder").getText());
+		if (p_handler.getChildNode("fileNodes")!= null)
+			this.p_fileNodeConfig = new FileNodeConfig(p_handler.getChildNode("fileNodes"),null);
+		//FIXME: Aquele null no construtor do FileNodeConfig, n deve trazer chatices já que não é usado, mas.....
+		if (p_handler.getChildNode("folderNodes")!= null)
+			this.p_folderNodeConfig = new FolderNodeConfig(p_handler.getChildNode("folderNodes"));
+		if (p_handler.getChildNode("metadataNodes")!= null)
 		{
-			ngtXMLHandler[] children = handler.getChildNode("metadataNodes").getChildNodes();
+			ngtXMLHandler[] children = p_handler.getChildNode("metadataNodes").getChildNodes();
 	        for (int k = 0; k < children.length; k++)
 	        {
 	        	MetadataNodeConfig c = new MetadataNodeConfig(children[k]);
-	        	this.metadataConfig.put(c.getName(), c);
+	        	this.p_metadataConfig.put(c.getName(), c);
+	        }
+		}
+		if (p_handler.getChildNode("metadataProperties") != null){
+			ngtXMLHandler[] children = p_handler.getChildNode("metadataProperties").getChildNodes();
+	        for (int k = 0; k < children.length; k++)
+	        {
+	        	NodePropertyDefinition p = new NodePropertyDefinition(children[k]);
+	        	this.p_fileMetadataProperties.add(p);
 	        }
 		}
 			
@@ -124,7 +143,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public boolean canAddFiles() {
-		return canAddFile;
+		return p_canAddFile;
 	}
 
 	/* (non-Javadoc)
@@ -132,7 +151,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public boolean canAddMetadata() {
-		return canAddMetadata;
+		return p_canAddMetadata;
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +159,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public FileNodeConfig getFileNodeConfig() {
-		return fileNodeConfig;
+		return p_fileNodeConfig;
 	}
 
 	/* (non-Javadoc)
@@ -148,7 +167,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public FolderNodeConfig getFolderNodeConfig() {
-		return folderNodeConfig;
+		return p_folderNodeConfig;
 	}
 
 	/* (non-Javadoc)
@@ -156,7 +175,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public HashMap<String, MetadataNodeConfig> getMetadataConfigs() {
-		return metadataConfig;
+		return p_metadataConfig;
 	}
 
 	/* (non-Javadoc)
@@ -164,8 +183,8 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public String getRepositoryName() {
-		if (repositoryName != null)
-			return repositoryName;
+		if (p_repositoryName != null)
+			return p_repositoryName;
 		else
 		{
 			return boConfig.getApplicationConfig().getDefaultFileRepositoryConfiguration().getName();
@@ -177,7 +196,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public boolean isFolder() {
-		return isFolder;
+		return p_isFolder;
 	}
 
 	/* (non-Javadoc)
@@ -185,7 +204,7 @@ public class boDefDocumentImpl implements boDefDocument {
 	 */
 	@Override
 	public boolean isMetadataRequired() {
-		return metadataRequired;
+		return p_metadataRequired;
 	}
 
 
@@ -195,6 +214,11 @@ public class boDefDocumentImpl implements boDefDocument {
 		RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
 		return config.getConnector((EboContext)null);
 		
+	}
+
+	@Override
+	public List<NodePropertyDefinition> getMetadataPropertiesFile() {
+		return p_fileMetadataProperties;
 	}
 
 }
