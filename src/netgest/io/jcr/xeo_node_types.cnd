@@ -8,7 +8,8 @@
 - xeo:encoding (string)
 - xeo:mimeType (string)
 - xeo:data (binary) mandatory primary
-- *
+- * (UNDEFINED)
+- * (UNDEFINED) multiple
 + *
 
 [xeo:folder] > xeo:hierarchyNode
@@ -17,5 +18,6 @@
 [xeo:metadata] > mix:referenceable
 - xeo:name (string)
 - xeo:type (string)
-- *
+- * (UNDEFINED)
+- * (UNDEFINED) multiple
 + * (xeo:metadata)

@@ -46,6 +46,10 @@ public class FileList implements iFileList {
 	 */
 	private long p_numPages;
 	
+	/**
+	 * If the list is supposed to pass to the next page
+	 */
+	private boolean p_passToNextPage;
 	
 	/**
 	 * The name of the repository used with this FileList
@@ -65,7 +69,9 @@ public class FileList implements iFileList {
 		p_nodesIterator = nodeIterator;
 		p_pageSize = PAGE_SIZE;
 		p_numPages = p_nodesIterator.getSize() / p_pageSize;
-		p_repositoryName = getRepositoryName(repositoryName);  
+		p_repositoryName = getRepositoryName(repositoryName);
+		p_passToNextPage = false;
+		p_currentPage = 1;
 	}
 	
 	/**
@@ -82,6 +88,8 @@ public class FileList implements iFileList {
 		p_pageSize = pageSize;
 		p_numPages = p_nodesIterator.getSize() / p_pageSize;
 		p_repositoryName = getRepositoryName(repositoryName);
+		p_passToNextPage = false;
+		p_currentPage = 1;
 	}
 	
 	/**
@@ -108,8 +116,7 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public void beforeFirst() 
-	{ 
-		//Cannot be implemented
+	{ //Cannot be implemented
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +124,7 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public iFile getFile(int pos) {
-		if (p_nodesIterator.getPosition() > 0)
+		if (p_nodesIterator.getPosition() == 0)
 			p_nodesIterator.skip(pos);
 		else
 			p_nodesIterator.skip(pos - p_nodesIterator.getPosition());
@@ -130,7 +137,7 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public boolean hasMorePages() {
-		return p_currentPage < p_numPages;
+		return p_currentPage <= p_numPages;
 	}
 
 	/* (non-Javadoc)
@@ -139,10 +146,14 @@ public class FileList implements iFileList {
 	@Override
 	public boolean hasNext() {
 		//If we're at the end of a page, no more results
-		if (p_nodesIterator.getPosition() % p_pageSize == 1)
-			return false;
-		else //In the middle of a page, return the next result
-			return p_nodesIterator.hasNext();
+		long pos = p_nodesIterator.getPosition();
+		long pagePosition = pos % p_pageSize;
+		if ((pagePosition == 0 && pos != 0))
+		{
+			if (!p_passToNextPage)
+				return false;
+		}
+		return p_nodesIterator.hasNext();
 	}
 
 	/* (non-Javadoc)
@@ -167,8 +178,17 @@ public class FileList implements iFileList {
 	@Override
 	public iFile next() {
 		boolean canMoveToNext = false;
-		if ((p_nodesIterator.getPosition() % p_pageSize) != 1)
+		long pos = p_nodesIterator.getPosition();
+		long pagePosition = pos % p_pageSize;
+		if (((pagePosition) != 0 && pos > 0) || //If positioned anywhere
+				(pagePosition == 0 && pos == 0) || //If first position 
+				p_passToNextPage) //If we changed the page
+		{
 			canMoveToNext = true;
+			//If we got here through a page move, reset the flag
+			if (p_passToNextPage)
+				p_passToNextPage = false;
+		}
 			
 		if (canMoveToNext){
 			Node toReturn = (Node) p_nodesIterator.next();
@@ -191,8 +211,14 @@ public class FileList implements iFileList {
 			//Advance the cursor accordingly
 			long positionsToNextPage = p_nodesIterator.getPosition() % p_pageSize;
 			if (positionsToNextPage > 0)
+			{
 				p_nodesIterator.skip(positionsToNextPage);
+				p_passToNextPage = true;
+			}
+			p_passToNextPage = true;
 		}
+		else 
+			p_currentPage++;
 	}
 
 }

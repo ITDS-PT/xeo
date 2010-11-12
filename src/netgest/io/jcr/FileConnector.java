@@ -4,13 +4,18 @@
 package netgest.io.jcr;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.query.InvalidQueryException;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryResult;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
@@ -26,6 +31,7 @@ import netgest.io.iFilePermissionDenied;
 import netgest.io.metadata.MetadataConnector;
 import netgest.io.metadata.iMetadataConnector;
 import netgest.io.metadata.iSearchParameter;
+import netgest.io.metadata.iSearchParameter.LOGICAL_OPERATOR;
 
 /**
  * @author PedroRio
@@ -112,6 +118,19 @@ public class FileConnector implements iFileConnector {
 			if (fileID == null)
 				return null;
 			
+			if (fileID.equalsIgnoreCase("/")){
+				Node node = this.p_sessionJCR.getRootNode();
+				boolean isFolder = true;
+				return new FileJCR(
+						node, //The node to wrap the file
+						p_fileConfig, //The fileNode config
+						p_folderConfig, //The folderNode config
+						p_sessionJCR, //The session with the repository
+						p_metaConfig, 
+						isFolder, 
+						fileID);
+			}
+			
 			if (fileID.startsWith("/"))
 				fileID = fileID.substring(1, fileID.length());
 			
@@ -155,10 +174,60 @@ public class FileConnector implements iFileConnector {
 	@Override
 	public iFileList searchIFiles(String query,
 			List<iSearchParameter> properties) {
-		// TODO Auto-generated method stub
+		
+		StringBuilder jcrXpathQuery = new StringBuilder(query);
+		Iterator<iSearchParameter> it = properties.iterator();
+		while (it.hasNext()){
+			iSearchParameter searchParam = it.next();
+			
+			jcrXpathQuery.append(searchParam.getPropertyName());
+			jcrXpathQuery.append(" " );
+			jcrXpathQuery.append(getOperatorFromType(searchParam.getLogicalOperator()));
+			jcrXpathQuery.append ( searchParam.getPropertyValue() ); //FIXME: Aqui são provavelmente necessárias conversões
+			//por exemplo as datas para xs:datatime e afins :/
+			if (it.hasNext())
+				jcrXpathQuery.append(" and ");
+			
+		}
+		
+		try {
+			@SuppressWarnings("deprecation")
+			Query q = p_sessionJCR.getWorkspace().getQueryManager().createQuery(jcrXpathQuery.toString(), Query.XPATH);
+			QueryResult qr = q.execute();
+			NodeIterator itValues = qr.getNodes();
+			
+			//NodeIterator it = session.getRootNode().getNodes();
+			FileList fl = new FileList(itValues,p_fileConfig.getRepositoryConfiguration().getName(),20);
+			return fl;
+		} catch (InvalidQueryException e) {
+			e.printStackTrace();
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
+	/**
+	 * 
+	 * Given a {@link LOGICAL_OPERATOR} retrieves its String 
+	 * representation
+	 * 
+	 * @param op The logical operator to convert
+	 * @return The string representation of the logical operator
+	 */
+	private String getOperatorFromType(LOGICAL_OPERATOR op){
+		
+		switch (op){
+		case BIGGER: return ">";
+		case BIGGER_OR_EQUAL : return ">=";
+		case EQUAL : return "=";
+		case LESS : return "<";
+		case LESS_OR_EQUAL : return "<=";
+		default : return null;
+		}
+		
+	}
+	
 	/* (non-Javadoc)
 	 * @see netgest.io.iFileConnector#supportsMetadata()
 	 */

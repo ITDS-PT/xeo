@@ -303,13 +303,13 @@ public class MetadataItem implements iMetadataItem {
 					
 					id = FileJCR.cleanJCRId(id);
 					
-					metadataNode = p_session.getRootNode().addNode(id);
+					metadataNode = p_session.getRootNode().addNode(id,p_configuration.getNodeType());
 					p_itemNode = metadataNode;
 				}
 				else
 				{
 					MetadataItem item = (MetadataItem) getParent();
-					metadataNode = item.getNode().addNode(getID());
+					metadataNode = item.getNode().addNode(getID(),p_configuration.getNodeType());
 					p_itemNode = metadataNode;
 				}
 					 

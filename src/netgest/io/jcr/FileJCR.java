@@ -27,8 +27,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.ValueFormatException;
 import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NodeType;
-
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.ChildNodeConfig;
@@ -156,17 +154,18 @@ public class FileJCR implements iFile {
 		try {
 			RepositoryConfig config = boConfig.getApplicationConfig().getFileRepositoryConfiguration(repositoryName);
 			p_node = node;
+			p_filename = node.getName();
 			p_session = node.getSession();
 			p_path = p_node.getPath();
+			p_fileNodeConfig = config.getFileConfig();
+			p_folderNodeConfig = config.getFolderConfig();
+			p_metadataDefinition = config.getAllMetadataConfigMap();
 			if (p_node.getPrimaryNodeType().getName().equals(
 					p_folderNodeConfig.getNodeType()))
 				p_isFolder = true;
 			else
 				p_isFolder = false;
-					
-			p_fileNodeConfig = config.getFileConfig();
-			p_folderNodeConfig = config.getFolderConfig();
-			p_metadataDefinition = config.getAllMetadataConfigMap();
+			this.p_metadata = new HashMap<String, iMetadataItem>();	
 			p_metadata.put(DEFAULT_METADATA, createDefaultItem());
 			p_childrenFiles = null;
 		} catch (RepositoryException e) {
@@ -1554,7 +1553,7 @@ public class FileJCR implements iFile {
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValuesString());
 			}
 						
-			System.out.println("Added Property  " + prop.getPropertyIdentifier() + " to " + node.getName());
+			//System.out.println("Added Property  " + prop.getPropertyIdentifier() + " to " + node.getName());
 			
 		} 
 		catch (ConstraintViolationException e){
@@ -1630,20 +1629,6 @@ public class FileJCR implements iFile {
 							MetadataItem metaItem = (MetadataItem) currItem;
 							String id = cleanJCRId(getFullPathFromMetadataItem(metaItem));
 							Node metaItemNode = p_session.getRootNode().getNode(id);
-							
-							System.out.println(p_node.getPrimaryNodeType().getName());
-							
-							if (p_node.canAddMixin("mix:referenceable"))
-							{
-								p_node.addMixin("mix:referenceable");
-								p_session.save();
-							}
-							
-							NodeType[] ns = p_node.getMixinNodeTypes();
-							for (NodeType c : ns){
-								System.out.println(c.getName());
-							}
-							
 							p_node.setProperty(currItem.getID(), metaItemNode);
 						}
 						else
