@@ -38,10 +38,10 @@ public class boBuilderProfiles {
             	boObject workplace=getUIWorkPlace(ctx, defaultViewer);
             	
             	boObject profile=getProfile(ctx,id);
-            	profile.getAttribute("id").setValueString(id);
+            	profile.getAttribute("name").setValueString(id);
             	profile.getAttribute("description").setValueString(description);
             	
-            	if (workplace.getBridge("profiles").getObject(profile.getBoui())==null && 
+            	if (workplace.getBridge("profiles").getObject(profile.getBoui())==null || 
             			!workplace.getBridge("profiles").getObject(profile.getBoui()).exists())
             		workplace.getBridge("profiles").add(profile.getBoui());
             	

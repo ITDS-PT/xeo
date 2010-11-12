@@ -2,6 +2,7 @@
 package netgest.bo.system;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -953,7 +954,7 @@ public class boApplicationConfig
 
         for (int i = 0; i < files.length; i++)
         {
-            if (files[i].getName().toUpperCase().endsWith(".xeoprofiles"))
+            if (files[i].getName().endsWith(".xeoprofiles"))
             {
                 ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils.loadXMLFile( files[i].getAbsolutePath()));
                 String xml = ngtXMLUtils.getXML( wkpXML.getDocument() );
