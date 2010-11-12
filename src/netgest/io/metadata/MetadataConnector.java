@@ -254,6 +254,7 @@ public class MetadataConnector implements iMetadataConnector {
 			case STRING: return new MetadataProperty(propName, (String) propValue);
 			case LONG: return new MetadataProperty(propName, (Long) propValue);
 			case REFERENCE : return new MetadataProperty(propName, (iMetadataItem) propValue);
+			case STRING_ARRAY : return new MetadataProperty(propName, (String[]) propValue);
 		}
 		return null;
 	}

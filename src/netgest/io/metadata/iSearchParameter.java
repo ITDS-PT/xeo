@@ -29,6 +29,22 @@ public interface iSearchParameter
 		DIFFERENT
 	}
 	
+	
+	/**
+	 * 
+	 * Enumeration with the data types
+	 * available 
+	 * 
+	 * @author PedroRio
+	 *
+	 */
+	public enum DATA_TYPE{
+		STRING,
+		BOOLEAN,
+		DATE,
+		NUMBER
+	}
+	
 	/**
 	 * 
 	 * Retrieves the name of the property
@@ -43,7 +59,7 @@ public interface iSearchParameter
 	 * 
 	 * @return A string with the data type (String, Boolean, Long)
 	 */
-	public String getPropertyDataType();
+	public DATA_TYPE getPropertyDataType();
 	
 	/**
 	 * Retrieve the value of the property as a string
@@ -60,5 +76,5 @@ public interface iSearchParameter
 	 * 
 	 * @return A string with the 
 	 */
-	public String getLogicalOperator();
+	public LOGICAL_OPERATOR getLogicalOperator();
 }
