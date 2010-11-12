@@ -178,6 +178,11 @@ public class boConfig
         return getApplicationConfig().getWorkPlaces();
     }
     
+    public static final ngtXMLHandler[] getProfiles()
+    {
+        return getApplicationConfig().getProfiles();
+    }
+    
     public static String getCScriptPath()
     {
         return getApplicationConfig().getCScriptPath();

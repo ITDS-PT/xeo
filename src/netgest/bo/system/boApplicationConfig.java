@@ -65,6 +65,7 @@ public class boApplicationConfig
     private int p_browserCode                   = -1;
     private String p_browserTheme               = "0";
     private ngtXMLHandler[] p_defaultWorkplaces = null;
+    private ngtXMLHandler[] p_XEOProfiles = null;
     
     private Properties  p_wordTemplateProp;
     private Properties  p_win32ClientProp;
@@ -942,6 +943,25 @@ public class boApplicationConfig
         }
         p_defaultWorkplaces = (ngtXMLHandler[] ) wkplcs.toArray( new ngtXMLHandler[ wkplcs.size() ] );
         return p_defaultWorkplaces;
+    }
+    
+    public ngtXMLHandler[] getProfiles()
+    {
+        ArrayList wkplcs = new ArrayList(); 
+        File f       = new File(p_uiDefinitiondir);
+        File[] files = f.listFiles();
+
+        for (int i = 0; i < files.length; i++)
+        {
+            if (files[i].getName().toUpperCase().endsWith(".xeoprofiles"))
+            {
+                ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils.loadXMLFile( files[i].getAbsolutePath()));
+                String xml = ngtXMLUtils.getXML( wkpXML.getDocument() );
+                wkplcs.add( wkpXML );
+            }
+        }
+        p_XEOProfiles = (ngtXMLHandler[] ) wkplcs.toArray( new ngtXMLHandler[ wkplcs.size() ] );
+        return p_XEOProfiles;
     }
     
     public XMLElement getDataSourcesNode()

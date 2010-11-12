@@ -2865,6 +2865,7 @@ public class boBuilder {
 	public void buildWorkPlaceDefault(EboContext ctx) {
 		try {
 			uiObjectBuilder.buildWorkPlaceDefault(ctx);
+			boBuilderProfiles.buildProfiles(ctx);
 		} catch (Exception e) {
 			logger.severe(e);
 		} finally {
