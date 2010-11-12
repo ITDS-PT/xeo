@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoprofiles>
+	<profile viewer="Main_admin.xvw" id="admin" description="XEO Administration" />
+</xeoprofiles>
