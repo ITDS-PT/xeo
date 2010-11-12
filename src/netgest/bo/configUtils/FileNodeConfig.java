@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import oracle.soap.providers.sp.Hashset;
-
 import netgest.utils.ngtXMLHandler;
 
 /**
@@ -65,17 +63,25 @@ public class FileNodeConfig {
 	 * Keeps a set of the node types used in child node definition
 	 */
 	private Set<String> p_childNodesNodeType; 
+	
+	/**
+	 * A reference to the RepositoryConfig
+	 * 
+	 */
+	private RepositoryConfig p_repoConfig;
+	
 	/**
 	 * 
 	 * Public constructor from a XML handler
 	 * 
 	 * @param handler The XML handler
 	 */
-	public FileNodeConfig(ngtXMLHandler handler)
+	public FileNodeConfig(ngtXMLHandler handler, RepositoryConfig conf)
 	{
 		this.p_xmlHandler = handler;
 		this.p_properties = new HashMap<String, NodePropertyDefinition>();
 		this.p_childNodes = new HashMap<String, ChildNodeConfig>();
+		this.p_repoConfig = conf;
 		load();
 	}
 	
@@ -108,8 +114,6 @@ public class FileNodeConfig {
 			p_childNodesNodeType.add(currentChildNode.getNodeType());
 			this.p_childNodes.put(currentChildNode.getName(), currentChildNode);
 		}
-		
-		
 	}
 
 	/**
@@ -172,5 +176,15 @@ public class FileNodeConfig {
 	public boolean nodeBelongsToChildConfig(String nodeType){
 		return p_childNodesNodeType.contains(nodeType);
 	}
+
 	
+	/**
+	 * 
+	 * Retrieves the repository configuration associated to this {@link FileNodeConfig}
+	 * 
+	 * @return
+	 */
+	public RepositoryConfig getRepositoryConfiguration(){
+		return p_repoConfig;
+	}
 }

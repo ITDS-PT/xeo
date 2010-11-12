@@ -1,8 +1,10 @@
 package netgest.bo.configUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jcr.Session;
 
@@ -51,6 +53,12 @@ public class RepositoryConfig
 	private boolean p_isDefault;
 	
 	/**
+	 * Whether or not when displaying files/folders all properties should be shown 
+	 * or just the properties defined in the {@link FileNodeConfig}/ {@link FolderNodeConfig}
+	 */
+	private boolean p_showAllProperties;
+	
+	/**
 	 * The XML handler
 	 */
 	private ngtXMLHandler p_handler;
@@ -81,7 +89,10 @@ public class RepositoryConfig
 	 */
 	private MetadataNodeConfig p_defaultMetadata;
 	
-	
+	/**
+	 * The set of system properties (Properties that shoul'd not appear 
+	 */
+	private HashSet<String> p_sysProps;
 	/**
 	 * 
 	 * Public constructor that loads the information
@@ -93,6 +104,7 @@ public class RepositoryConfig
 		this.p_handler = handler;
 		this.p_parameters = new HashMap<String, String>();
 		this.p_metadataConfig = new HashMap<String, MetadataNodeConfig>();
+		this.p_sysProps = new HashSet<String>();
 		load();
 	}
 	
@@ -368,10 +380,16 @@ public class RepositoryConfig
 		//Load the file connector class for this
 		this.p_connectorClass = p_handler.getAttribute("fileConnector");
 		
+		String valueProps = p_handler.getAttribute("showAllProperties");
+		if (valueProps != null)
+			this.p_showAllProperties = Boolean.parseBoolean(valueProps);
+		else
+			this.p_showAllProperties = false;
+		
 		//Load the file nodes configuration
 		ngtXMLHandler fileNode  = p_handler.getChildNode("fileNode");
 		if (fileNode != null)
-			this.p_fileConfig = new FileNodeConfig(fileNode);
+			this.p_fileConfig = new FileNodeConfig(fileNode,this);
 		
 		//Load the folder node configurations
         ngtXMLHandler folderNode = p_handler.getChildNode("folderNode");
@@ -404,6 +422,19 @@ public class RepositoryConfig
         	currentMetaConfig.setAllRepositoryConfigurations(p_metadataConfig);
         }
         
+        //Retrieve all system properties
+        ngtXMLHandler sysProps = p_handler.getChildNode("system");
+        if (sysProps != null){
+        	ngtXMLHandler props = sysProps.getChildNode("properties");
+        	ngtXMLHandler[] children = props.getChildNodes();
+        	for (ngtXMLHandler t: children){
+        		String name = t.getAttribute("name").trim();
+        		p_sysProps.add(name);
+        	}
+        }
+        
+        
+        
 	}
 	
 	/**
@@ -420,4 +451,25 @@ public class RepositoryConfig
 		return p_defaultMetadata;
 	}
 	
+	
+	/**
+	 * 
+	 * Retrieves a set of system property names. These are the names of properties
+	 * that shouldn't appear
+	 * 
+	 * @return A set of strings with the names of the properties
+	 */
+	public Set<String> getSystemProperties(){
+		return p_sysProps;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Whether or not all properties
+	 * @return
+	 */
+	public boolean showAllProperties(){
+		return p_showAllProperties;
+	}
 }
