@@ -80,10 +80,10 @@ public class IProfileUtils
 
                 while (bh.next())
                 {
-                	if (bh.getObject().getAttribute("name").getValueString()!=null && 
-                			!bh.getObject().getAttribute("name").getValueString().equals(""))
+                	if (bh.getObject().getAttribute("description").getValueString()!=null && 
+                			!bh.getObject().getAttribute("description").getValueString().equals(""))
                 	{
-	                    aux = bh.getObject().getBoui() + ";" + bh.getObject().getAttribute("name").getValueString();
+	                    aux = bh.getObject().getBoui() + ";" + bh.getObject().getAttribute("description").getValueString();
 	                    if (!r.contains(aux))
 	                    {
 	                        r.add(aux);
@@ -125,9 +125,9 @@ public class IProfileUtils
             listIProfiles.beforeFirst();
             while(listIProfiles.next())
             {
-            	if (listIProfiles.getObject().getAttribute("name").getValueString()!=null
-            			&& !listIProfiles.getObject().getAttribute("name").getValueString().equals(""))
-                r.add(listIProfiles.getObject().getBoui()+ ";" +listIProfiles.getObject().getAttribute("name").getValueString());
+            	if (listIProfiles.getObject().getAttribute("description").getValueString()!=null
+            			&& !listIProfiles.getObject().getAttribute("description").getValueString().equals(""))
+                r.add(listIProfiles.getObject().getBoui()+ ";" +listIProfiles.getObject().getAttribute("description").getValueString());
             }
             toRet = (String[])r.toArray(new String[r.size()]);
         }
