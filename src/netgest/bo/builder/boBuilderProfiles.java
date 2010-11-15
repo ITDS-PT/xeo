@@ -35,16 +35,17 @@ public class boBuilderProfiles {
             	String description=profiles[i].getAttribute("description");
             	String defaultViewer=profiles[i].getAttribute("viewer");
             	
-            	boObject workplace=getUIWorkPlace(ctx, defaultViewer);
+            	boObject workplace=getUIWorkPlace(ctx, id);
             	
             	boObject profile=getProfile(ctx,id);
-            	profile.getAttribute("name").setValueString(id);
+            	profile.getAttribute("id").setValueString(id);
             	profile.getAttribute("description").setValueString(description);
             	
-            	if (workplace.getBridge("profiles").getObject(profile.getBoui())==null || 
-            			!workplace.getBridge("profiles").getObject(profile.getBoui()).exists())
-            		workplace.getBridge("profiles").add(profile.getBoui());
             	
+            	
+            	if (workplace.getAttribute("profile").getObject()==null )
+            		workplace.getAttribute("profile").setValueLong(profile.getBoui());
+            	workplace.getAttribute("defaultViewer").setValueString(defaultViewer);
             	profile.update();
             	workplace.update();
             }
@@ -74,11 +75,11 @@ public class boBuilderProfiles {
 	    return profileToret;
 	}
     
-    private  static boObject getUIWorkPlace(EboContext ctx, String defaultViewer)
+    private  static boObject getUIWorkPlace(EboContext ctx, String name)
     throws boRuntimeException
 	{
 	    boObjectList listWorkplaces = boObjectList.list(
-	            ctx, "select uiWorkPlace where defaultViewer='" + defaultViewer + "'"
+	            ctx, "select uiWorkPlace where profile.name='" + name + "'"
 	        );
 	    listWorkplaces.beforeFirst();
 	
