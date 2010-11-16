@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import netgest.bo.data.sqlserver.SqlServerDriver;
 import java.util.ArrayList;
 
 import java.util.Arrays;
@@ -277,6 +277,40 @@ public class boObjectListResultFactory  {
             	qm.setWherePart( wherePart );
             	sb = new StringBuffer( qm.toBOQL( new ArrayList(1) ) );  
             	
+            	
+            	//Especifico MSSQL Server, este codigo deve sair daqui
+            	//No SQLServer o limite de numero de registos (oracle ROWNUM) é feito com /*TOP rows*/
+            	//que fica logo após o select. O Parser de XEOQL não se porta correctamente com isto
+            	//Isto é um workaround para retirar isto da query antes de correr o XEOQL e voltar a meter
+            	//depois do XEOQL devolver o resultado
+            	//Poderá ser feito com um novo parser XEOQL especifico para SQLServer
+            	//ou alterar o existente para suportar esta situacao.
+            	final boolean isSqlSrvrDb = (ctx.getDataBaseDriver() instanceof SqlServerDriver);
+            	
+				sql_to_execute = sb.toString();
+	
+				String sqlSvTopReplacer = "";
+	
+					if (sql_to_execute.toUpperCase().trim().startsWith("SELECT /*TOP")) {
+		
+						int firstStartDelimtPos = sql_to_execute.indexOf("/*");
+						int firstEndDelimtPos = sql_to_execute.indexOf("*/");
+		
+						sqlSvTopReplacer = sql_to_execute.substring(
+								firstStartDelimtPos, firstEndDelimtPos + 2);
+		
+						sql_to_execute = sql_to_execute.replace(sqlSvTopReplacer, "");
+		            }
+
+				sql_to_execute = qp.toSql(sql_to_execute, ctx, useSecurity) + " " + onEnd;
+	
+				if (isSqlSrvrDb && !"".equals(sqlSvTopReplacer)) {
+					sqlSvTopReplacer = sqlSvTopReplacer.replace("/*", "");
+					sqlSvTopReplacer = sqlSvTopReplacer.replace("*/", "");
+					sql_to_execute = sql_to_execute.replaceAll("SELECT ", "SELECT "
+							+ sqlSvTopReplacer);
+				}
+				//Fim MSSQL Server
             }
             sql_to_execute = qp.toSql(sb.toString(),ctx,useSecurity) + " " + onEnd;
         }

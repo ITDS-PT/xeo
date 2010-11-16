@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import netgest.bo.data.sqlserver.SqlServerDriver;
 import netgest.bo.data.Driver;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
@@ -141,8 +142,24 @@ public class BasiciFile implements iFile  {
     private void loadFileInformation(Connection cn)
     {
         PreparedStatement pstm = null;
-        ResultSet rslt = null;
-        StringBuffer sql = new StringBuffer("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
+        ResultSet rslt = null;      
+        
+        StringBuffer sql = new StringBuffer();
+		EboContext ctx = boApplication.currentContext().getEboContext();
+
+		if (ctx!=null)
+		{
+			Driver driverBd = ctx.getDataBaseDriver();
+			if (driverBd instanceof SqlServerDriver) {
+				sql.append("SELECT ID,FILENAME,DATALENGTH(BINDATA) FROM ");
+			}
+			else 
+				sql.append("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
+		}
+		else
+			sql.append("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
+
+        
         sql.append(this.provider.p_dbfs_table_file).append(" WHERE ID = ?");
         boolean mycn = false;
         try
@@ -236,7 +253,16 @@ public class BasiciFile implements iFile  {
                 //cn.setAutoCommit(false);                                
                 pstm = cn.prepareStatement("UPDATE " + this.provider.p_dbfs_table_file+"" +
                 		" SET BINDATA=? WHERE ID=?");
-                pstm.setBinaryStream( 1, is, Integer.MAX_VALUE );
+                
+				int fLen = Integer.MAX_VALUE;
+				EboContext ctx = boApplication.currentContext().getEboContext();
+				if (ctx!=null)
+				{
+					if (ctx.getDataBaseDriver() instanceof SqlServerDriver) {
+						fLen = is.available();
+					}
+				}
+				pstm.setBinaryStream(1, is, fLen);                              
                 pstm.setLong(2,this.fileId );
                 pstm.executeUpdate();
             } 
