@@ -1494,16 +1494,19 @@ public class QLParser  {
     if(endOfQuery())
         return new ResultQL(0);
     String s = lookCurrentWord();
-    if(s.equalsIgnoreCase("/") && lookahead(1) != null && lookahead(1).equalsIgnoreCase("*") && lookahead(2) != null && lookahead(2).equalsIgnoreCase("+"))
+    String hinttype=lookahead(2);
+    if(s.equalsIgnoreCase("/") && lookahead(1) != null && lookahead(1).equalsIgnoreCase("*") && lookahead(2) != null && (lookahead(2).equalsIgnoreCase("+")
+    		|| lookahead(2).equalsIgnoreCase("TOP"))) //SQLServer
     {
       incConsumer();incConsumer();
       if(!incConsumer())
       {
         String sh = lookCurrentWord();
-        String hint = "/*+ ";
+        String hint = "/*";
+        hint+=hinttype;
         while(!sh.equalsIgnoreCase("*") && !endOfQuery())
         {
-          hint += sh + " ";
+          hint += " " +sh + " ";
           incConsumer();
           sh = lookCurrentWord();
         }
@@ -2134,7 +2137,8 @@ public class QLParser  {
     {
         if(sb.length() == 0) sb.append("(");
         else sb.append(" OR ");
-        sb.append("OEbo_TextIndex.uiclass = '").append(cNames.get(i)).append("'");
+        //sb.append("OEbo_TextIndex.uiclass = '").append(cNames.get(i)).append("'");
+        sb.append("Ebo_TextIndex.uiclass = '").append(cNames.get(i)).append("'"); //SQLServer
     }
     if(sb.length() > 0) sb.append(")");
     return sb.toString(); 

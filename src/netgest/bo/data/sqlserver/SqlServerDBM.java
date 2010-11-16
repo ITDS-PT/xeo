@@ -721,6 +721,7 @@ public class SqlServerDBM extends OracleDBM {
 	private void createTableIndex(String newSchemaName) throws SQLException {
 		StringBuffer dml = new StringBuffer();
 		String name = p_ctx.getBoSession().getRepository().getName();
+		dml.append("create FULLTEXT catalog xeo as default;");
 		dml.append("create table ").append(newSchemaName).append(
 				".EBO_TEXTINDEX (BOUI bigint, text TEXT,").append(
 				"SYS_ICN        NUMERIC(7),").append(
@@ -735,16 +736,6 @@ public class SqlServerDBM extends OracleDBM {
 		executeDDL(dml.toString(), name);
 	}
 
-	private void createIndexForTableIndex(String newSchemaName)
-			throws SQLException {
-		StringBuffer dml = new StringBuffer();
-		String name = p_ctx.getBoSession().getRepository().getName();
-		// dml.append("create index ").append(newSchemaName)
-		// .append(".sys_im_ebo_textindex on ").append(newSchemaName).append(".ebo_textindex(text) indextype is ctxsys.context parameters ('lexer xeo_lexer')");
-		dml.append("create index ").append("sys_im_ebo_textindex on ").append(
-				newSchemaName).append(".ebo_textindex(text)");
-		executeDDL(dml.toString(), name);
-	}
 
 	private boolean existsIndex(EboContext ctx, String schemaName,
 			String indexName) throws SQLException {
