@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by mfernandes (EMBRACE) -->
+<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:22 BST 2006-->
+<xeoModel>
+	<general name="xwfPerformerConfig" type="object" version="1.0" extends="" orphan="true" multiparent="true" extendsJavaClass="">
+		<locale language="pt" country="PT" variant=""/>
+		<implements/>
+		<database/>
+		<versioning active="false"/>
+		<textIndex active="true" appendChilds="false" deep="1">
+			<process/>
+		</textIndex>
+		<description>xwfPerformerConfig</description>
+		<cardID>[performer]</cardID>
+		<label>Configuração de Utilizadores dos Fluxos de Trabalho</label>
+	</general>
+	<opl active="false"/>
+	<states/>
+	<methods/>
+	<events/>
+	<fwdObjects/>
+	<attributes>
+		<attributeObject name="performer">
+			<type>object.iXEOUser</type>
+			<label>Utilizador</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<objectFilter/>
+			<database>
+				<fieldname>PERFORMER$</fieldname>
+				<unique>true</unique>
+				<indexfull>true</indexfull>
+				<indexed>false</indexed>
+				<tabled>false</tabled>
+				<constraint>true</constraint>
+				<binding>true</binding>
+			</database>
+			<required language="BOL">true</required>
+		</attributeObject>
+		<attributeObjectCollection name="wfQueues">
+			<type>object.iContact</type>
+			<label>Permissões de Execução</label>
+			<renderAsLov>false</renderAsLov>
+			<tooltip/>
+			<maxOccurs>N</maxOccurs>
+			<minOccurs>0</minOccurs>
+			<objectFilter/>
+			<bridge>
+				<attributes/>
+			</bridge>
+		</attributeObjectCollection>
+	</attributes>
+	<viewers>
+		<viewer name="general">
+			<forms>
+				<form name="edit" template="std">
+					<panel>
+						<tab bo_node="identification" label="Definições">
+							<table>
+								<tr height="1%">
+									<td>
+										<section showlabel="no">
+											<rows>
+												<row>
+													<cell>
+														<attribute showlabel="yes">performer</attribute>
+													</cell>
+												</row>
+											</rows>
+										</section>
+									</td>
+								</tr>
+								<tr height="99%">
+									<td>
+										<div height="100%" width="100%">wfQueues.list</div>
+									</td>
+								</tr>
+							</table>
+						</tab>
+					</panel>
+				</form>
+				<form name="list" formtype="List">
+					<grid bo_node="identification" name="listNormal" template="std">
+						<cols>
+							<col width="100">
+								<attribute>performer</attribute>
+							</col>
+						</cols>
+					</grid>
+				</form>
+			</forms>
+			<categories>
+				<category name="settings" label="Geral" description="">
+					<attributes/>
+					<categories/>
+				</category>
+			</categories>
+		</viewer>
+	</viewers>
+</xeoModel>
