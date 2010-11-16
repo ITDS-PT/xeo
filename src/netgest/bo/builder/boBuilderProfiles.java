@@ -38,7 +38,7 @@ public class boBuilderProfiles {
             	boObject workplace=getUIWorkPlace(ctx, id);
             	
             	boObject profile=getProfile(ctx,id);
-            	profile.getAttribute("id").setValueString(id);
+            	profile.getAttribute("name").setValueString(id);
             	profile.getAttribute("description").setValueString(description);
             	
             	
