@@ -46,7 +46,7 @@
       </attributeText>
       <attributeText name="description">
          <len>4000</len>
-         <label>Nome</label>
+         <label>Descrição</label>
          <editor>HTML</editor>
          <tooltip></tooltip>
       </attributeText>
