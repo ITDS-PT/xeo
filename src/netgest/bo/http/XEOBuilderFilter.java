@@ -80,6 +80,7 @@ public class XEOBuilderFilter implements Filter {
 	
 	private void partialBuild()
 	{
+		 running=true;
 		 boBuilderOptions	buildOptions = new boBuilderOptions();
 		 boBuilderProgress builderProgress = new boBuilderProgress();
 		 boApplication bapp = boApplication
@@ -103,10 +104,12 @@ public class XEOBuilderFilter implements Filter {
 			System.out.println("XEO Studio Partial Build Started...");
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
 			System.out.println("OK");
+			running=false;
 		} catch (Exception e) {	
 			e.printStackTrace();
 			System.out.println(builderProgress.getLog());
 			buildSucess=false;
+			running=false;
 		} 
 	}
 	
