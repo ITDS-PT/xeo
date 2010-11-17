@@ -721,7 +721,7 @@ public class SqlServerDBM extends OracleDBM {
 	private void createTableIndex(String newSchemaName) throws SQLException {
 		StringBuffer dml = new StringBuffer();
 		String name = p_ctx.getBoSession().getRepository().getName();
-		dml.append("create FULLTEXT catalog xeo as default;");
+		if (!existsCatalog())dml.append("create FULLTEXT catalog xeo as default;");
 		dml.append("create table ").append(newSchemaName).append(
 				".EBO_TEXTINDEX (BOUI bigint, text TEXT,").append(
 				"SYS_ICN        NUMERIC(7),").append(
@@ -731,11 +731,66 @@ public class SqlServerDBM extends OracleDBM {
 						"PRIMARY KEY (\"BOUI\")").append(");");
 		dml.append("create unique index unique_boui_ebo_textindex on ").append(
 				newSchemaName).append(".EBO_TEXTINDEX (BOUI);");
+		
+		executeDDL(dml.toString(), name);
+		dml = new StringBuffer();
 		dml.append("create fulltext index on ").append(newSchemaName).append(
-				".EBO_TEXTINDEX (text) key index unique_boui_ebo_textindex;");
+		".EBO_TEXTINDEX (text) key index unique_boui_ebo_textindex;");
 		executeDDL(dml.toString(), name);
 	}
 
+	private boolean existsCatalog() throws SQLException
+	{		
+		
+		Connection cn = null;
+		ResultSet rslt = null;
+		PreparedStatement pstm = null;
+
+		try {
+			cn = p_ctx.getDedicatedConnectionData();
+			pstm = cn
+					.prepareStatement("select count(*) from sys.fulltext_catalogs where is_default=1 ");
+			
+
+			rslt = pstm.executeQuery();
+
+			if (rslt.next()) {
+				if (rslt.getInt(1) > 0) {
+					return true;
+				}
+			}
+
+			// rslt.close();
+			// pstm.close();
+
+			return false;
+		} catch (SQLException e) {
+			throw (e);
+		} finally {
+			try {
+				if (rslt != null) {
+					rslt.close();
+				}
+			} catch (Exception e) {
+				// ignore
+			}
+
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (Exception e) {
+				// ignore
+			}
+			try {
+				if (cn != null) {
+					cn.close();
+				}
+			} catch (Exception e) {
+				// ignore
+			}
+		}
+	}
 
 	private boolean existsIndex(EboContext ctx, String schemaName,
 			String indexName) throws SQLException {
