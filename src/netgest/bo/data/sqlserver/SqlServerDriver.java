@@ -220,16 +220,6 @@ public class SqlServerDriver implements Driver {
 					if (cs != null) {
 						cs.close();
 					}
-					if (cn != null) {
-
-						//if (!ctx.isInTransaction()) {
-							if (!error) {
-								cn.commit();
-							} else {
-								cn.rollback();
-							}
-						//}
-					}
 				}
 			} else {
 				sql = "SELECT sequence_cur_value from sys_sequences where upper(sequence_name) = "
@@ -299,14 +289,6 @@ public class SqlServerDriver implements Driver {
 						pstm.close();
 						throw (new SQLException("Erro a obter sequencia ["
 								+ seqname + "]"));
-					}
-				} finally {
-					if (cn != null) {
-						if (!erro) {
-							cn.commit();
-						} else {
-							cn.rollback();
-						}
 					}
 				}
 			} else {
