@@ -210,7 +210,7 @@ public class QLProducer9i extends QLProducer {
             node = (DefaultMutableTreeNode)fromTree.get(i);
             midtable = (String)node.getUserObject();   
             //fromC += ", " +  midtable;
-            if(midtable.equalsIgnoreCase("OEBO_TEXTINDEX"))
+            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX"))
               fromC += " INNER JOIN "+midtable+" ON("+midtable+".UI$="+base_tab+".BOUI)";
             else
               fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"BOUI="+base_tab+".BOUI)";

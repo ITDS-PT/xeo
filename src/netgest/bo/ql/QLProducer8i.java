@@ -248,7 +248,7 @@ public class QLProducer8i extends QLProducer{
             midtable = (String)node.getUserObject();   
             fromC += ", " +  midtable;
             
-            if(midtable.equalsIgnoreCase("OEBO_TEXTINDEX"))
+            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX"))
             {
                 String left_table;
                 if( selObj != null && parser.textIndexOnReturnObject )
