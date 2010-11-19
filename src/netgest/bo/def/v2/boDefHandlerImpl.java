@@ -1102,6 +1102,9 @@ public class boDefHandlerImpl extends boDefHandler
     public String getBoExtendedTable()
     {
     	String ret;
+    	if (this.getName().equals("Ebo_TextIndex")) //SQLSERVER
+    		return "EBO_TEXTINDEX";
+    	
     	if( getDataBaseManagerXeoCompatible() ) {
 	        if(getClassType()==TYPE_INTERFACE)
 	          ret = "O"+this.getName();
@@ -1124,6 +1127,8 @@ public class boDefHandlerImpl extends boDefHandler
     public String getBoMasterTable()
     {
     	String ret;
+    	if (this.getName().equals("Ebo_TextIndex")) //SQLSERVER
+    		return "EBO_TEXTINDEX";
     	
     	if( getDataBaseManagerXeoCompatible() ) {
     		ret = "O" + this.getName();

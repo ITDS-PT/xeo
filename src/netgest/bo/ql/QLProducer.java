@@ -228,9 +228,7 @@ public abstract class QLProducer  {
         else
           selObj = boDefHandler.getBoDefinition((String)selectRules.get(selobjPos)); //guarda referencia para o objecto
         
-        if (selObj.getName().equalsIgnoreCase("EBO_TEXTINDEX")) //SQLServer
-        	objTable="EBO_TEXTINDEX";
-        else if(ext)
+        if(ext)
             objTable = selObj.getBoExtendedTable();           //guarda o nome da tabela do objecto seleccionado
         else
             objTable = selObj.getBoMasterTable();           //guarda o nome da tabela do objecto seleccionado
