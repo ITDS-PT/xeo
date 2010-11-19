@@ -408,7 +408,10 @@ public class boScheduleThreadBussinessLogic
             }            
             if(sched.getAttribute("interval").getValueString()!=null)
             {
-                schedprops.interval = String.valueOf(sched.getAttribute("interval").getValueLong());
+            	if (sched.getAttribute("interval").getValueString().equals(""))
+            		schedprops.interval ="";	
+            	else
+	                schedprops.interval = String.valueOf(sched.getAttribute("interval").getValueLong());
             }
             if(schedprops.every == null || schedprops.every.length()==0 || schedprops.every.equalsIgnoreCase("ALLDAYS")) {
                 schedprops.every = ALLDAYS;
