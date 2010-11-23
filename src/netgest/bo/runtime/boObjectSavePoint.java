@@ -50,14 +50,14 @@ public class boObjectSavePoint
     private boObjectSavePoint(  ) throws boRuntimeException
     {
     }
-    public static boObjectSavePoint createSavePoint( String name, boObject object ) throws boRuntimeException
+    public static boObjectSavePoint createSavePoint( String name, boObject object,boolean force ) throws boRuntimeException
     {
         boObjectSavePoint savePoint = new boObjectSavePoint();
         savePoint.p_object        = object;
 
         try
         {
-            if( object.isChanged() || !object.exists() )
+            if( object.isChanged() || !object.exists() || force )
             {
                 savePoint.p_hassavepoint = true;
                 savePoint.p_mode              = object.p_mode;             // Mode of the Object

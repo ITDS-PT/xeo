@@ -225,7 +225,13 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
     public void transactionBegins() throws boRuntimeException {
         if (p_savepoint == null) {
-            p_savepoint = boObjectSavePoint.createSavePoint("transaction", this);
+            p_savepoint = boObjectSavePoint.createSavePoint("transaction", this,false);
+        }
+    }
+    
+    public void transactionBeginsForceSavePoint() throws boRuntimeException {
+        if (p_savepoint == null) {
+            p_savepoint = boObjectSavePoint.createSavePoint("transaction", this,true);
         }
     }
 
