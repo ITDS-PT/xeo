@@ -11,4 +11,7 @@
 	<package name="XEOUSERINTERFACE$1.0">
 		<description>Interface</description>
 	</package>
+	<package name="XWC$1.0">
+		<description>XEO Web Components</description>
+	</package>
 </Packages>
