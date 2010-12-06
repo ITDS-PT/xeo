@@ -10,7 +10,26 @@ public class XEOSpyStatement implements Statement {
     private static Logger logger = Logger.getLogger("netgest.system.spy.XEOSpyStatement");
     
     protected Statement passthru;
-    protected Connection connection;
+    public boolean isPoolable() throws SQLException {
+		return passthru.isPoolable();
+	}
+
+
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+		return passthru.isWrapperFor(iface);
+	}
+
+
+	public void setPoolable(boolean poolable) throws SQLException {
+		passthru.setPoolable(poolable);
+	}
+
+
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+		return passthru.unwrap(iface);
+	}
+
+	protected Connection connection;
     protected String statementQuery;
     private ArrayList rsList = new ArrayList();
     private boolean close = false;
@@ -233,11 +252,11 @@ public class XEOSpyStatement implements Statement {
     }
 
     public Statement getJDBC() {
-	Statement wrapped = (passthru instanceof XEOSpyStatement) ?
-	    ((XEOSpyStatement) passthru).getJDBC() :
-	    passthru;
-
-	return wrapped;
+		Statement wrapped = (passthru instanceof XEOSpyStatement) ?
+		    ((XEOSpyStatement) passthru).getJDBC() :
+		    passthru;
+	
+		return wrapped;
     }
 
     private static void writeToLog(long time, String query){
@@ -249,23 +268,4 @@ public class XEOSpyStatement implements Statement {
         t.printStackTrace();        
     }
 
-    // Since JDK 1.6
-    public boolean isPoolable() {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void setPoolable(boolean poolable)  {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");        
-    }
-
-    // Since JDK 1.6
-    public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
-    }
 }

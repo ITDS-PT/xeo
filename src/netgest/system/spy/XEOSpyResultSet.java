@@ -10,7 +10,234 @@ public class XEOSpyResultSet implements ResultSet {
 
 
     protected ResultSet passthru;
-    protected XEOSpyStatement statement;
+    public int getHoldability() throws SQLException {
+		return passthru.getHoldability();
+	}
+
+	public Reader getNCharacterStream(int columnIndex) throws SQLException {
+		return passthru.getNCharacterStream(columnIndex);
+	}
+
+	public Reader getNCharacterStream(String columnLabel) throws SQLException {
+		return passthru.getNCharacterStream(columnLabel);
+	}
+
+	public NClob getNClob(int columnIndex) throws SQLException {
+		return passthru.getNClob(columnIndex);
+	}
+
+	public NClob getNClob(String columnLabel) throws SQLException {
+		return passthru.getNClob(columnLabel);
+	}
+
+	public String getNString(int columnIndex) throws SQLException {
+		return passthru.getNString(columnIndex);
+	}
+
+	public String getNString(String columnLabel) throws SQLException {
+		return passthru.getNString(columnLabel);
+	}
+
+	public RowId getRowId(int columnIndex) throws SQLException {
+		return passthru.getRowId(columnIndex);
+	}
+
+	public RowId getRowId(String columnLabel) throws SQLException {
+		return passthru.getRowId(columnLabel);
+	}
+
+	public SQLXML getSQLXML(int columnIndex) throws SQLException {
+		return passthru.getSQLXML(columnIndex);
+	}
+
+	public SQLXML getSQLXML(String columnLabel) throws SQLException {
+		return passthru.getSQLXML(columnLabel);
+	}
+
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+		return passthru.isWrapperFor(iface);
+	}
+
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+		return passthru.unwrap(iface);
+	}
+
+	public void updateAsciiStream(int columnIndex, InputStream x, long length)
+			throws SQLException {
+		passthru.updateAsciiStream(columnIndex, x, length);
+	}
+
+	public void updateAsciiStream(int columnIndex, InputStream x)
+			throws SQLException {
+		passthru.updateAsciiStream(columnIndex, x);
+	}
+
+	public void updateAsciiStream(String columnLabel, InputStream x, long length)
+			throws SQLException {
+		passthru.updateAsciiStream(columnLabel, x, length);
+	}
+
+	public void updateAsciiStream(String columnLabel, InputStream x)
+			throws SQLException {
+		passthru.updateAsciiStream(columnLabel, x);
+	}
+
+	public void updateBinaryStream(int columnIndex, InputStream x, long length)
+			throws SQLException {
+		passthru.updateBinaryStream(columnIndex, x, length);
+	}
+
+	public void updateBinaryStream(int columnIndex, InputStream x)
+			throws SQLException {
+		passthru.updateBinaryStream(columnIndex, x);
+	}
+
+	public void updateBinaryStream(String columnLabel, InputStream x,
+			long length) throws SQLException {
+		passthru.updateBinaryStream(columnLabel, x, length);
+	}
+
+	public void updateBinaryStream(String columnLabel, InputStream x)
+			throws SQLException {
+		passthru.updateBinaryStream(columnLabel, x);
+	}
+
+	public void updateBlob(int columnIndex, InputStream inputStream, long length)
+			throws SQLException {
+		passthru.updateBlob(columnIndex, inputStream, length);
+	}
+
+	public void updateBlob(int columnIndex, InputStream inputStream)
+			throws SQLException {
+		passthru.updateBlob(columnIndex, inputStream);
+	}
+
+	public void updateBlob(String columnLabel, InputStream inputStream,
+			long length) throws SQLException {
+		passthru.updateBlob(columnLabel, inputStream, length);
+	}
+
+	public void updateBlob(String columnLabel, InputStream inputStream)
+			throws SQLException {
+		passthru.updateBlob(columnLabel, inputStream);
+	}
+
+	public void updateCharacterStream(int columnIndex, Reader x, long length)
+			throws SQLException {
+		passthru.updateCharacterStream(columnIndex, x, length);
+	}
+
+	public void updateCharacterStream(int columnIndex, Reader x)
+			throws SQLException {
+		passthru.updateCharacterStream(columnIndex, x);
+	}
+
+	public void updateCharacterStream(String columnLabel, Reader reader,
+			long length) throws SQLException {
+		passthru.updateCharacterStream(columnLabel, reader, length);
+	}
+
+	public void updateCharacterStream(String columnLabel, Reader reader)
+			throws SQLException {
+		passthru.updateCharacterStream(columnLabel, reader);
+	}
+
+	public void updateClob(int columnIndex, Reader reader, long length)
+			throws SQLException {
+		passthru.updateClob(columnIndex, reader, length);
+	}
+
+	public void updateClob(int columnIndex, Reader reader) throws SQLException {
+		passthru.updateClob(columnIndex, reader);
+	}
+
+	public void updateClob(String columnLabel, Reader reader, long length)
+			throws SQLException {
+		passthru.updateClob(columnLabel, reader, length);
+	}
+
+	public void updateClob(String columnLabel, Reader reader)
+			throws SQLException {
+		passthru.updateClob(columnLabel, reader);
+	}
+
+	public void updateNCharacterStream(int columnIndex, Reader x, long length)
+			throws SQLException {
+		passthru.updateNCharacterStream(columnIndex, x, length);
+	}
+
+	public void updateNCharacterStream(int columnIndex, Reader x)
+			throws SQLException {
+		passthru.updateNCharacterStream(columnIndex, x);
+	}
+
+	public void updateNCharacterStream(String columnLabel, Reader reader,
+			long length) throws SQLException {
+		passthru.updateNCharacterStream(columnLabel, reader, length);
+	}
+
+	public void updateNCharacterStream(String columnLabel, Reader reader)
+			throws SQLException {
+		passthru.updateNCharacterStream(columnLabel, reader);
+	}
+
+	public void updateNClob(int columnIndex, NClob nClob) throws SQLException {
+		passthru.updateNClob(columnIndex, nClob);
+	}
+
+	public void updateNClob(int columnIndex, Reader reader, long length)
+			throws SQLException {
+		passthru.updateNClob(columnIndex, reader, length);
+	}
+
+	public void updateNClob(int columnIndex, Reader reader) throws SQLException {
+		passthru.updateNClob(columnIndex, reader);
+	}
+
+	public void updateNClob(String columnLabel, NClob nClob)
+			throws SQLException {
+		passthru.updateNClob(columnLabel, nClob);
+	}
+
+	public void updateNClob(String columnLabel, Reader reader, long length)
+			throws SQLException {
+		passthru.updateNClob(columnLabel, reader, length);
+	}
+
+	public void updateNClob(String columnLabel, Reader reader)
+			throws SQLException {
+		passthru.updateNClob(columnLabel, reader);
+	}
+
+	public void updateNString(int columnIndex, String nString)
+			throws SQLException {
+		passthru.updateNString(columnIndex, nString);
+	}
+
+	public void updateNString(String columnLabel, String nString)
+			throws SQLException {
+		passthru.updateNString(columnLabel, nString);
+	}
+
+	public void updateRowId(int columnIndex, RowId x) throws SQLException {
+		passthru.updateRowId(columnIndex, x);
+	}
+
+	public void updateRowId(String columnLabel, RowId x) throws SQLException {
+		passthru.updateRowId(columnLabel, x);
+	}
+
+	public void updateSQLXML(int columnIndex, SQLXML xmlObject)
+			throws SQLException {
+		passthru.updateSQLXML(columnIndex, xmlObject);
+	}
+
+	public void updateSQLXML(String columnLabel, SQLXML xmlObject)
+			throws SQLException {
+		passthru.updateSQLXML(columnLabel, xmlObject);
+	}
+
+	protected XEOSpyStatement statement;
     protected String query;
     protected String preparedQuery;
     private Map resultMap = new TreeMap();
@@ -627,254 +854,5 @@ public class XEOSpyResultSet implements ResultSet {
         t.printStackTrace();        
     }
 
-    // Since JDK 1.6
-    public void updateNClob(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateNClob(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    } 
-    
-    // Since JDK 1.6
-    public void updateNClob(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    } 
-
-    // Since JDK 1.6
-    public void updateNClob(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public void updateClob(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateClob(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }   
-
-    // Since JDK 1.6
-    public void updateClob(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    } 
-
-    // Since JDK 1.6
-    public void updateClob(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }  
-    
-    // Since JDK 1.6
-    public void updateBlob(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateBlob(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }  
-
-    // Since JDK 1.6
-    public void updateBlob(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateBlob(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public void updateCharacterStream(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }    
-
-    // Since JDK 1.6
-    public void updateCharacterStream(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }  
-
-    // Since JDK 1.6
-    public void updateCharacterStream(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public void updateCharacterStream(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }   
-    
-    // Since JDK 1.6
-    public void updateBinaryStream(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateBinaryStream(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateBinaryStream(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateBinaryStream(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateAsciiStream(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateAsciiStream(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
-    }  
-
-    // Since JDK 1.6
-    public void updateAsciiStream(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateAsciiStream(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }  
-    
-    // Since JDK 1.6
-    public void updateNCharacterStream(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public void updateNCharacterStream(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
-    }     
-    
-    // Since JDK 1.6
-    public void updateNCharacterStream(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public void updateNCharacterStream(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
-    }     
-
-    // Since JDK 1.6
-    public Reader getNCharacterStream(String p0) {
-        throw new RuntimeException("Not Implemented");
-    }       
-
-    // Since JDK 1.6
-    public Reader getNCharacterStream(int p0) {
-        throw new RuntimeException("Not Implemented");
-    }    
-    
-    // Since JDK 1.6
-    public String getNString(String p0) {
-        throw new RuntimeException("Not Implemented");
-    }     
-    
-    // Since JDK 1.6
-    public String getNString(int p0) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public int getHoldability() {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public NClob getNClob(int columnIndex) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public NClob getNClob(String columnLabel)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public RowId getRowId(int columnIndex)  {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public RowId getRowId(String columnLabel) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public SQLXML getSQLXML(int columnIndex) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public SQLXML getSQLXML(String columnLabel)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateNClob(int columnIndex, NClob nClob)  {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateNClob(String columnLabel,
-                            NClob nClob) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateNString(int columnIndex,
-                              String nString) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateNString(String columnLabel,
-                              String nString) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateRowId(int columnIndex, RowId x) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void updateRowId(String columnLabel, RowId x) {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateSQLXML(int columnIndex,
-                             SQLXML xmlObject)  {
-        throw new RuntimeException("Not Implemented");
-    }
-
-    // Since JDK 1.6
-    public void updateSQLXML(String columnLabel,
-                             SQLXML xmlObject) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
-    }    
 }
 

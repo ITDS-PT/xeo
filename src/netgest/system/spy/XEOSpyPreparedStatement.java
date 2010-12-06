@@ -32,7 +32,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     }
 
     
-    public boolean isClosed(){
+    public boolean isClosed() {
         return close;
     }
 

@@ -16,7 +16,63 @@ public class XEOSpyConnection implements java.sql.Connection {
     protected static int counter=0;
     protected int id = counter++;
     protected Connection passthru;
-    private ArrayList psList = new ArrayList();
+    public Array createArrayOf(String typeName, Object[] elements)
+			throws SQLException {
+		return passthru.createArrayOf(typeName, elements);
+	}
+
+	public Blob createBlob() throws SQLException {
+		return passthru.createBlob();
+	}
+
+	public Clob createClob() throws SQLException {
+		return passthru.createClob();
+	}
+
+	public NClob createNClob() throws SQLException {
+		return passthru.createNClob();
+	}
+
+	public SQLXML createSQLXML() throws SQLException {
+		return passthru.createSQLXML();
+	}
+
+	public Struct createStruct(String typeName, Object[] attributes)
+			throws SQLException {
+		return passthru.createStruct(typeName, attributes);
+	}
+
+	public Properties getClientInfo() throws SQLException {
+		return passthru.getClientInfo();
+	}
+
+	public String getClientInfo(String name) throws SQLException {
+		return passthru.getClientInfo(name);
+	}
+
+	public boolean isValid(int timeout) throws SQLException {
+		return passthru.isValid(timeout);
+	}
+
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+		return passthru.isWrapperFor(iface);
+	}
+
+	public void setClientInfo(Properties properties)
+			throws SQLClientInfoException {
+		passthru.setClientInfo(properties);
+	}
+
+	public void setClientInfo(String name, String value)
+			throws SQLClientInfoException {
+		passthru.setClientInfo(name, value);
+	}
+
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+		return passthru.unwrap(iface);
+	}
+
+	private ArrayList psList = new ArrayList();
     private ArrayList stList = new ArrayList();
     private ArrayList callabList = new ArrayList();
     private boolean close = false;
@@ -267,72 +323,4 @@ public class XEOSpyConnection implements java.sql.Connection {
 	return wrapped;
     }
     
-    // Since JDK 1.6
-    public Array createArrayOf(String typeName,
-                               Object[] elements)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Blob createBlob()  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Clob createClob()  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public NClob createNClob() {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public SQLXML createSQLXML()  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Struct createStruct(String typeName,
-                               Object[] attributes)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Properties getClientInfo() {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public String getClientInfo(String name)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public boolean isValid(int timeout)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    
-    // Since JDK 1.6
-    public void setClientInfo(Properties properties)  {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public void setClientInfo(String name,
-                              String value) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
-    // Since JDK 1.6
-    public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
-    }
 }
