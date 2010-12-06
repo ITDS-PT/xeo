@@ -1,85 +1,48 @@
 /*Enconding=UTF-8*/
 package netgest.system.spy;
 
+import java.io.CharArrayWriter;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.Vector;
 
 import netgest.bo.system.Logger;
 
 public class XEOSpyConnection implements java.sql.Connection {
 
+	public static Vector<XEOSpyConnection> connections = new Vector<XEOSpyConnection>();
+	
     //logger
     private static Logger logger = Logger.getLogger("netgest.system.spy.XEOSpyConnection");
 
     protected static int counter=0;
     protected int id = counter++;
     protected Connection passthru;
-    public Array createArrayOf(String typeName, Object[] elements)
-			throws SQLException {
-		return passthru.createArrayOf(typeName, elements);
-	}
-
-	public Blob createBlob() throws SQLException {
-		return passthru.createBlob();
-	}
-
-	public Clob createClob() throws SQLException {
-		return passthru.createClob();
-	}
-
-	public NClob createNClob() throws SQLException {
-		return passthru.createNClob();
-	}
-
-	public SQLXML createSQLXML() throws SQLException {
-		return passthru.createSQLXML();
-	}
-
-	public Struct createStruct(String typeName, Object[] attributes)
-			throws SQLException {
-		return passthru.createStruct(typeName, attributes);
-	}
-
-	public Properties getClientInfo() throws SQLException {
-		return passthru.getClientInfo();
-	}
-
-	public String getClientInfo(String name) throws SQLException {
-		return passthru.getClientInfo(name);
-	}
-
-	public boolean isValid(int timeout) throws SQLException {
-		return passthru.isValid(timeout);
-	}
-
-	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		return passthru.isWrapperFor(iface);
-	}
-
-	public void setClientInfo(Properties properties)
-			throws SQLClientInfoException {
-		passthru.setClientInfo(properties);
-	}
-
-	public void setClientInfo(String name, String value)
-			throws SQLClientInfoException {
-		passthru.setClientInfo(name, value);
-	}
-
-	public <T> T unwrap(Class<T> iface) throws SQLException {
-		return passthru.unwrap(iface);
-	}
 
 	private ArrayList psList = new ArrayList();
     private ArrayList stList = new ArrayList();
     private ArrayList callabList = new ArrayList();
     private boolean close = false;
+    private String createStack; 
 
     public XEOSpyConnection(Connection conn) throws SQLException 
     {
+    	connections.add( this );
+    	Throwable e = new Throwable();
+    	CharArrayWriter cw = new CharArrayWriter();
+    	PrintWriter pw = new PrintWriter(cw);
+    	e.printStackTrace( pw );
+    	pw.close();
+    	cw.close();
+    	this.createStack = cw.toString();
         this.passthru = conn;
+    }
+    
+    public String getStackStrace() {
+    	return this.createStack;
     }
 
     public void setReadOnly(boolean p0) throws SQLException 
@@ -97,10 +60,10 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoPs=(XEOSpyPreparedStatement)it.next();
             if( !xeoPs.isClosed() ){
                 xeoPs.close();                
-                logger.finest("------------------------------------------------");
-                logger.finest("O PreparedStatement não foi fechado: " + xeoPs.getQuery() );
+                logger.warn("------------------------------------------------");
+                logger.warn("O PreparedStatement não foi fechado: " + xeoPs.getQuery() );
                 xeoPs.printStackTrace();
-                logger.finest("------------------------------------------------");
+                logger.warn("------------------------------------------------");
             }
         }
         
@@ -110,10 +73,10 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoSt=(XEOSpyStatement)it.next();
             if( !xeoSt.isClosed() ){
                 xeoSt.close();                
-                logger.finest("------------------------------------------------");
-                logger.finest("O Statement não foi fechado: " + xeoSt.getQuery() );
+                logger.warn("------------------------------------------------");
+                logger.warn("O Statement não foi fechado: " + xeoSt.getQuery() );
                 xeoSt.printStackTrace();
-                logger.finest("------------------------------------------------");
+                logger.warn("------------------------------------------------");
             }
         }
         
@@ -123,15 +86,15 @@ public class XEOSpyConnection implements java.sql.Connection {
             xeoCa=(XEOSpyCallableStatement)it.next();
             if( !xeoCa.isClosed() ){
                 xeoCa.close();                
-                logger.finest("------------------------------------------------");
-                logger.finest("O CallableStatement não foi fechado: " + xeoCa.getQuery() );
+                logger.warn("------------------------------------------------");
+                logger.warn("O CallableStatement não foi fechado: " + xeoCa.getQuery() );
                 xeoCa.printStackTrace();
-                logger.finest("------------------------------------------------");
+                logger.warn("------------------------------------------------");
             }
         }
-        
         close = true;
-        passthru.close();    
+        connections.remove( this );
+        passthru = null;
     }
 
     public int getId() {
@@ -139,7 +102,8 @@ public class XEOSpyConnection implements java.sql.Connection {
     }
 
     public boolean isClosed() throws SQLException {
-        return(passthru.isClosed());
+    	return close;
+//        return(passthru.isClosed());
     }
 
     public boolean isReadOnly() throws SQLException {
@@ -322,5 +286,61 @@ public class XEOSpyConnection implements java.sql.Connection {
 
 	return wrapped;
     }
-    
+
+    public Array createArrayOf(String typeName, Object[] elements)
+	throws SQLException {
+return passthru.createArrayOf(typeName, elements);
+}
+
+public Blob createBlob() throws SQLException {
+return passthru.createBlob();
+}
+
+public Clob createClob() throws SQLException {
+return passthru.createClob();
+}
+
+public NClob createNClob() throws SQLException {
+return passthru.createNClob();
+}
+
+public SQLXML createSQLXML() throws SQLException {
+return passthru.createSQLXML();
+}
+
+public Struct createStruct(String typeName, Object[] attributes)
+	throws SQLException {
+return passthru.createStruct(typeName, attributes);
+}
+
+public Properties getClientInfo() throws SQLException {
+return passthru.getClientInfo();
+}
+
+public String getClientInfo(String name) throws SQLException {
+return passthru.getClientInfo(name);
+}
+
+public boolean isValid(int timeout) throws SQLException {
+return passthru.isValid(timeout);
+}
+
+public boolean isWrapperFor(Class<?> iface) throws SQLException {
+return passthru.isWrapperFor(iface);
+}
+
+public void setClientInfo(Properties properties)
+	throws SQLClientInfoException {
+passthru.setClientInfo(properties);
+}
+
+public void setClientInfo(String name, String value)
+	throws SQLClientInfoException {
+passthru.setClientInfo(name, value);
+}
+
+public <T> T unwrap(Class<T> iface) throws SQLException {
+return passthru.unwrap(iface);
+}
+
 }

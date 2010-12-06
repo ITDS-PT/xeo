@@ -46,10 +46,10 @@ public class XEOSpyStatement implements Statement {
         for(int i = 0; i < rsList.size(); i++){
             if(!((XEOSpyResultSet)rsList.get(i)).isClosed()){
                 ((XEOSpyResultSet)rsList.get(i)).close();
-                logger.finest("------------------------------------------------");
-                logger.finest("O ResultSet não foi fechado: " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
+                logger.warn("------------------------------------------------");
+                logger.warn("O ResultSet não foi fechado: " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
                 ((XEOSpyResultSet)rsList.get(i)).printStackTrace();
-                logger.finest("------------------------------------------------");
+                logger.warn("------------------------------------------------");
             }
         }
         rsList.clear();
@@ -260,7 +260,7 @@ public class XEOSpyStatement implements Statement {
     }
 
     private static void writeToLog(long time, String query){
-        logger.finest("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.warn("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
     
     public void printStackTrace()

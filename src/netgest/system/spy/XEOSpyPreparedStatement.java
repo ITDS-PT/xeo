@@ -43,10 +43,10 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
             xeoRs=(XEOSpyResultSet)it.next();
             if( !xeoRs.isClosed() ){
                 xeoRs.close();
-                logger.finest("------------------------------------------------");
-                logger.finest("O ResultSet não foi fechado: " + xeoRs.getQuery() );
+                logger.warn("------------------------------------------------");
+                logger.warn("O ResultSet não foi fechado: " + xeoRs.getQuery() );
                 xeoRs.printStackTrace();
-                logger.finest("------------------------------------------------");
+                logger.warn("------------------------------------------------");
             }
         }
         rsList.clear();
@@ -250,7 +250,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     /* we override this because the p6statement version will not be able to return
      * the accurate prepared statement or query information */
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        logger.finest("Metodo não preparado ! : " + getQueryFromPreparedStatement() );
+        logger.warn("Metodo não preparado ! : " + getQueryFromPreparedStatement() );
         return new XEOSpyResultSet(passthru.getResultSet(), this, preparedQuery, getQueryFromPreparedStatement());
     }
 
@@ -358,7 +358,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     }
 
     private static void writeToLog(long time, String query){
-        logger.finest("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.warn("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
 
     public void printStackTrace()
