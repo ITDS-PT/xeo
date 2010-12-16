@@ -2,10 +2,11 @@
 package netgest.bo.def.v2;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import netgest.bo.boConfig;
 import netgest.bo.builder.boBuilder;
@@ -13,18 +14,15 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefClsEvents;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefInterface;
-
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefUtils;
+import netgest.bo.system.Logger;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
-
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
-
-import netgest.bo.system.Logger;
 
 import org.w3c.dom.Node;
 
@@ -136,6 +134,56 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
             logger.severe(e);
         }
     }
+    
+    /**
+     * 
+     * Returns a list of all XEO Models implementing this interface
+     * (both the ones in the XML of the interface as well as the ones
+     * in the XML of the XEO MOdels)
+     * 
+     * @return A list of XEO Model names
+     */
+    public String[] getAllObjectNamesImplementingInterface(){
+    	
+    	HashSet<boDefHandler> objectDefinition = getAllObjectDefHandlersImplementingInterface();
+    	String[] objectNames = new String[objectDefinition.size()];
+    	Iterator<boDefHandler> it = objectDefinition.iterator();
+    	int k = 0;
+    	while (it.hasNext()){
+    		boDefHandler curr = it.next();
+    		objectNames[k] = curr.getName();
+    		k++;
+    	}
+    	return objectNames;
+    }
+    
+    
+    /**
+     * 
+     * Returns a list of all {@link boDefHandler} of XEO Models implementing this interface
+     * (both the ones in the XML of the interface as well as the ones in the XML of the XEO MOdels)
+     * 
+     * @return A list of XEO Model names
+     */
+    public HashSet<boDefHandler> getAllObjectDefHandlersImplementingInterface(){
+    	
+    	HashSet<boDefHandler> result = new HashSet<boDefHandler>();
+    	boDefHandler[] allObjects = boDefHandler.getAllBoDefinition();
+    	for (boDefHandler b : allObjects)
+    	{
+    		String[] interfaceImpls = b.getImplements();
+    		for (String interfaceName : interfaceImpls){
+    			if (interfaceName.equalsIgnoreCase(p_implName))
+    				result.add(b);
+    		}
+    	}
+    	String[] implementedInMe = getImplObjects();
+    	for (String objectName: implementedInMe)
+    		result.add(boDefHandler.getBoDefinition(objectName));
+    	return result;
+    }
+    
+    
 
     private static final void fillSystemAttributes(XMLDocument xml)
     {

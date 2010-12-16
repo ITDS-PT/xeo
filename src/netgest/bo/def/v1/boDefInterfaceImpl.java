@@ -5,6 +5,7 @@ import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 import netgest.bo.boConfig;
@@ -603,4 +604,16 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
     {
         return super.getNode();
     }
+
+	@Override
+	public String[] getAllObjectNamesImplementingInterface() {
+		return new String[0];
+		//NOT IMPLEMETED
+	}
+
+	@Override
+	public HashSet<boDefHandler> getAllObjectDefHandlersImplementingInterface() {
+		return new HashSet<boDefHandler>(0);
+		//NOT IMPLEMENTED
+	}
 }

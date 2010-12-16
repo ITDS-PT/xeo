@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.def;
 
+import java.util.HashSet;
+
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.transformers.CastInterface;
 
@@ -114,5 +116,24 @@ public interface boDefInterface
     public  String[] getReferences();
     
     public  boDefAttribute[] getReferencesAttributes();
+    
+    /**
+     * 
+     * Returns a list of all XEO Models implementing this interface
+     * (both the ones in the XML of the interface as well as the ones
+     * in the XML of the XEO MOdels)
+     * 
+     * @return A list of XEO Model names
+     */
+    public String[] getAllObjectNamesImplementingInterface();
+    
+    /**
+     * 
+     * Returns a list of all {@link boDefHandler} of XEO Models implementing this interface
+     * (both the ones in the XML of the interface as well as the ones in the XML of the XEO MOdels)
+     * 
+     * @return A list of XEO Model names
+     */
+    public HashSet<boDefHandler> getAllObjectDefHandlersImplementingInterface();
 
 }
