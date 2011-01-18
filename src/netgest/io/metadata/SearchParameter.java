@@ -23,14 +23,14 @@ public class SearchParameter implements iSearchParameter {
 	/**
 	 * The value of the parameter as a string
 	 */
-	private String p_paramValue;
+	private Object p_paramValue;
 	
 	/**
 	 * The logical operator associated with this parameter
 	 */
 	private LOGICAL_OPERATOR p_paramOperator;
 	
-	public SearchParameter(String name, DATA_TYPE type, String value, LOGICAL_OPERATOR op){
+	public SearchParameter(String name, DATA_TYPE type, Object value, LOGICAL_OPERATOR op){
 		
 		p_paramName = name;
 		p_paramDataType = type;
@@ -50,7 +50,7 @@ public class SearchParameter implements iSearchParameter {
 	}
 
 	@Override
-	public String getPropertyValue() {
+	public Object getPropertyValue() {
 		return p_paramValue;
 	}
 

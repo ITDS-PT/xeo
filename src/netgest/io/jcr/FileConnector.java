@@ -9,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.InvalidQueryException;
 import javax.jcr.query.Query;
-import javax.jcr.query.QueryResult;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
@@ -39,6 +37,10 @@ import netgest.io.metadata.iSearchParameter.LOGICAL_OPERATOR;
  */
 public class FileConnector implements iFileConnector {
 
+	/**
+	 * A string representing the order by 
+	 */
+	private static final String ORDERBY = " order by jcr:score descending";
 	
 	/**
 	 * Represents a connector a given JCR Repository
@@ -179,25 +181,22 @@ public class FileConnector implements iFileConnector {
 		Iterator<iSearchParameter> it = properties.iterator();
 		while (it.hasNext()){
 			iSearchParameter searchParam = it.next();
-			
 			jcrXpathQuery.append(searchParam.getPropertyName());
 			jcrXpathQuery.append(" " );
 			jcrXpathQuery.append(getOperatorFromType(searchParam.getLogicalOperator()));
-			jcrXpathQuery.append ( searchParam.getPropertyValue() ); //FIXME: Aqui são provavelmente necessárias conversões
-			//por exemplo as datas para xs:datatime e afins :/
+			jcrXpathQuery.append ( searchParam.getPropertyValue() );
 			if (it.hasNext())
 				jcrXpathQuery.append(" and ");
-			
 		}
 		
 		try {
+			String queryExecute = jcrXpathQuery.toString();
+			if (!query.contains("order by"))
+				query += ORDERBY;
 			@SuppressWarnings("deprecation")
-			Query q = p_sessionJCR.getWorkspace().getQueryManager().createQuery(jcrXpathQuery.toString(), Query.XPATH);
-			QueryResult qr = q.execute();
-			NodeIterator itValues = qr.getNodes();
+			Query q = p_sessionJCR.getWorkspace().getQueryManager().createQuery(queryExecute, Query.XPATH);
 			
-			//NodeIterator it = session.getRootNode().getNodes();
-			FileList fl = new FileList(itValues,p_fileConfig.getRepositoryConfiguration().getName(),20);
+			FileList fl = new FileList(q,p_fileConfig.getRepositoryConfiguration().getName(),3);
 			return fl;
 		} catch (InvalidQueryException e) {
 			e.printStackTrace();

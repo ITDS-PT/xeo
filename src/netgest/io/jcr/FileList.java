@@ -5,6 +5,9 @@ package netgest.io.jcr;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryResult;
 
 import netgest.bo.boConfig;
 import netgest.io.iFile;
@@ -20,6 +23,15 @@ import netgest.io.iFileList;
  */
 public class FileList implements iFileList {
 
+	/**
+	 * The query to execute
+	 */
+	private Query p_query;
+	
+	/**
+	 * The number of records
+	 */
+	private int p_recordCount;
 	
 	/**
 	 *  The node iterator 
@@ -72,7 +84,28 @@ public class FileList implements iFileList {
 		p_repositoryName = getRepositoryName(repositoryName);
 		p_passToNextPage = false;
 		p_currentPage = 1;
+		p_query = null;
 	}
+	
+	/**
+	 * 
+	 * Constructor from a query
+	 * 
+	 * @param q The query to execute
+	 * @param repositoryName The name of the repository 
+	 * @param pageSize The size of the pages
+	 * 
+	 */
+	public FileList(Query q, String repositoryName, int pageSize){
+		p_query = q;
+		p_pageSize = pageSize;
+		p_repositoryName = getRepositoryName(repositoryName);
+		p_passToNextPage = false;
+		p_currentPage = 1;
+		p_nodesIterator = null;
+	}
+	
+	
 	
 	/**
 	 * 
@@ -116,7 +149,8 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public void beforeFirst() 
-	{ //Cannot be implemented
+	{ 
+		reset();
 	}
 
 	/* (non-Javadoc)
@@ -124,6 +158,9 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public iFile getFile(int pos) {
+		if (p_nodesIterator == null)
+			reset();
+			
 		if (p_nodesIterator.getPosition() == 0)
 			p_nodesIterator.skip(pos);
 		else
@@ -137,6 +174,9 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public boolean hasMorePages() {
+		if (p_nodesIterator == null)
+			reset();
+		
 		return p_currentPage <= p_numPages;
 	}
 
@@ -145,6 +185,8 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public boolean hasNext() {
+		if (p_nodesIterator == null)
+			reset();
 		//If we're at the end of a page, no more results
 		long pos = p_nodesIterator.getPosition();
 		long pagePosition = pos % p_pageSize;
@@ -177,6 +219,9 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public iFile next() {
+		if (p_nodesIterator == null)
+			reset();
+		
 		boolean canMoveToNext = false;
 		long pos = p_nodesIterator.getPosition();
 		long pagePosition = pos % p_pageSize;
@@ -202,6 +247,8 @@ public class FileList implements iFileList {
 	 */
 	@Override
 	public void nextPage() {
+		if (p_nodesIterator == null)
+			reset();
 		//If we're not on the last page, advance the cursor
 		//to the beginning of the next page
 		if (!isLastPage())
@@ -221,4 +268,59 @@ public class FileList implements iFileList {
 			p_currentPage++;
 	}
 
+	@Override
+	public void setPage(int pageNumber) {
+		if (p_nodesIterator == null)
+			reset();
+		if (p_currentPage <= p_numPages){
+			this.p_currentPage = pageNumber;
+			p_passToNextPage = true;
+		}
+		else
+			this.p_currentPage = p_numPages;
+		
+		
+	}
+
+	@Override
+	public long getRecordCount() {
+		return p_recordCount;
+	}
+
+	@Override
+	public long getCurrentPageNumber() {
+		return p_currentPage;
+	}
+
+	@Override
+	public int getPageSize() {
+		return p_pageSize;
+	}
+
+	@Override
+	public void refresh() {
+		reset();
+		long skip = p_pageSize * (p_currentPage - 1);
+		this.p_nodesIterator.skip(skip);
+	}
+
+	
+	@Override
+	public void reset() {
+		try {
+			QueryResult r = p_query.execute();
+			p_nodesIterator = r.getNodes();
+			int count = 0;
+			while (p_nodesIterator.hasNext()){
+				p_nodesIterator.next();
+				count++;
+			}
+			p_recordCount = count;
+			double val =  (double)count / (double) p_pageSize;
+			p_numPages =  (long) (Math.ceil(val));
+			p_nodesIterator = p_query.execute().getNodes();
+		} catch (RepositoryException e) {
+			p_nodesIterator = null;
+		}
+	}
 }

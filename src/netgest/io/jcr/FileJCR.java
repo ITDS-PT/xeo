@@ -60,7 +60,6 @@ public class FileJCR implements iFile {
 	 * The logger for this class
 	 */
 	private static Logger logger = Logger.getLogger("netgest.io.jcr.FileJCR");
-
 	/**
 	 * The JCR node representing this iFile
 	 */
@@ -78,42 +77,44 @@ public class FileJCR implements iFile {
 	 * repository
 	 */
 	private Session p_session;
-
 	/**
 	 * A map with metadata of the file
 	 */
 	private HashMap<String, iMetadataItem> p_metadata;
-
 	/**
 	 * A map with the metadata definitions for this file
 	 */
 	private Map<String, MetadataNodeConfig> p_metadataDefinition;
-
 	/**
 	 * If the current {@link iFile} is a folder
 	 */
 	private boolean p_isFolder;
-
 	/**
 	 * The path for the current File
 	 */
 	private String p_path;
-
 	/**
 	 * The filename of the current File
 	 */
 	private String p_filename;
-
 	/**
 	 * Children files of this folder
 	 */
 	private List<iFile> p_childrenFiles;
-	
 	/**
 	 * If the iFile is in transaction or not
 	 */
 	private boolean p_inTransaction = false;
-
+	/**
+	 * The List of files to delete in case of a rollback 
+	 */
+	private Vector<String> p_filesToDeleteOnRollBack;
+	
+	/**
+	 * The list of files to commit when the file is saved
+	 */
+	private Vector<String> p_filesToCommit;
+	
 	/**
 	 * 
 	 * Protected constructor for a {@link FileJCR} because only an instance of
@@ -147,6 +148,9 @@ public class FileJCR implements iFile {
 		this.p_metadata.put(DEFAULT_METADATA, createDefaultItem());
 		this.p_childrenFiles = null;
 		p_inTransaction = false;
+		this.p_filesToCommit = new Vector<String>();
+		this.p_filesToDeleteOnRollBack = new Vector<String>();
+		
 	}
 	
 	protected FileJCR(Node node, String repositoryName){
@@ -1301,8 +1305,10 @@ public class FileJCR implements iFile {
 	private void updateLastModifiedDate() {
 		iMetadataItem metadataItem = getDefaultMetadata();
 		String dateProp = p_fileNodeConfig.getDateUpdatePropertyName();
-		metadataItem.setMetadataProperty(new MetadataProperty(
+		if (dateProp != null && dateProp.length() > 0){
+			metadataItem.setMetadataProperty(new MetadataProperty(
 				dateProp, new Date(System.currentTimeMillis())));
+		}
 	}
 	
 	/**
@@ -1473,7 +1479,13 @@ public class FileJCR implements iFile {
 		return result;
 	}
 
-		private void printNode(Node nodeToPrint){
+		/**
+		 * 
+		 * Outputs to the console the properties of a node
+		 * 
+		 * @param nodeToPrint The node to print
+		 */
+		public static void printNode(Node nodeToPrint){
 		
 			try {
 				System.out.println("*** First Level Properties ****");
@@ -1498,9 +1510,6 @@ public class FileJCR implements iFile {
 			} catch (RepositoryException e) {
 				e.printStackTrace();
 			}
-		
-		
-		
 		
 	}
 	
@@ -1668,6 +1677,8 @@ public class FileJCR implements iFile {
 		if (p_childrenFiles == null)
 			p_childrenFiles = new LinkedList<iFile>();
 		p_childrenFiles.add(file);
+		p_filesToCommit.add(file.getPath());
+		p_filesToDeleteOnRollBack.add(file.getPath());
 		return true;
 	}
 
@@ -1870,8 +1881,12 @@ public class FileJCR implements iFile {
 	@Override
 	public List<iMetadataItem> getMetadataByName(String name)
 			throws iFileException {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<iMetadataItem> listFiles = new LinkedList<iMetadataItem>();
+		iMetadataItem item = getMetadata(name);
+		if (item != null){
+			listFiles.add(item);
+		}
+		return listFiles;
 	}
 
 	
@@ -1930,21 +1945,18 @@ public class FileJCR implements iFile {
 	}
 
 	@Override
-	public void updateFile(iFile newVal) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void updateFile(iFile newVal) { }
 
 	@Override
 	public String[] getFileToDeleteOnCommit() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] filesToCommit = new String[p_filesToCommit.size()];
+		return p_filesToCommit.toArray(filesToCommit);
 	}
 
 	@Override
 	public String[] getFileToDeleteOnRollback() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] filesToDelete = new String[p_filesToDeleteOnRollBack.size()];
+		return p_filesToDeleteOnRollBack.toArray(filesToDelete);
 	}
 
 	@Override
@@ -1961,6 +1973,18 @@ public class FileJCR implements iFile {
 			id = id.substring(0, id.length() -1 );
 	
 		return id;
+	}
+	
+	/* (non-Javadoc)
+	 * 
+	 * Override so that it shows the path of the iFile
+	 * 
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString(){
+		return this.getPath();
 	}
 	
 }

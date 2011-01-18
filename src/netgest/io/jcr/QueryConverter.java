@@ -1,9 +1,7 @@
 package netgest.io.jcr;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +10,7 @@ import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.NodePropertyDefinition;
 import netgest.bo.configUtils.RepositoryConfig;
 import netgest.io.metadata.iSearchParameter;
+import netgest.io.metadata.iSearchParameter.DATA_TYPE;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class QueryConverter {
 
 	public String getQuery(String repositoryName, String path,
 			boolean searchContent, String contentToSearch,
-			List<iSearchParameter> properties) {
+			List<iSearchParameter> properties, String filename) {
 
 		StringBuilder b = new StringBuilder();
 
@@ -50,31 +49,65 @@ public class QueryConverter {
 			b.append("[");
 			b.append("jcr:contains(" + propName + ",'" + contentToSearch + "')");
 		}
-
+		
 		Iterator<iSearchParameter> it = properties.iterator();
 		if (!hasConditions) {
-			if (properties.size() > 0)
+			if (properties.size() > 0){
 				b.append("[");
+				hasConditions = true;
+			}
 		} else if (properties.size() > 0)
 			b.append(" and ");
 
 		while (it.hasNext()) {
 			iSearchParameter currentParam = it.next();
-			b.append(currentParam.getPropertyName());
-			b.append(" ");
-			String operator = getCorrectLogicalOperatorRepresentation(currentParam);
-			if (operator == null)
-				return null;
-			b.append(operator);
-			b.append(" ");
-			String dataValue = getCorrectValueRepresentation(currentParam);
-			if (dataValue == null)
-				return null;
-			b.append(dataValue);
-			if (it.hasNext())
-				b.append(" and ");
+			if (currentParam.getPropertyDataType() == DATA_TYPE.ARRAY){
+				
+				String[] values = ((String)currentParam.getPropertyValue()).split(";");
+				int k = 0;
+				int size = values.length;
+				for (String current : values){
+					b.append("@"+currentParam.getPropertyName());
+					b.append(" ");
+					b.append("=");
+					b.append(" ");
+					b.append("'"+current+"'");
+					if (k < size-1){
+						b.append(" and ");
+						k++;
+					}
+				}
+				
+			}
+			else{
+				//FIXME: E se forem aquelas cenas de propriedade dentro de propriedade
+				//tipo meta/@propriedade ?
+				b.append("@"+currentParam.getPropertyName());
+				b.append(" ");
+				String operator = getCorrectLogicalOperatorRepresentation(currentParam);
+				if (operator == null)
+					return null;
+				b.append(operator);
+				b.append(" ");
+				String dataValue = getCorrectValueRepresentation(currentParam);
+				if (dataValue == null)
+					return null;
+				b.append(dataValue);
+				if (it.hasNext())
+					b.append(" and ");
+			}
+			
 		}
 
+		if (filename != null && filename.length() > 0 ){
+			if (!hasConditions)
+				b.append("[");
+			else
+				b.append(" and ");
+			b.append( "fn:name() = '" + filename + "'");
+			hasConditions = true;
+		}
+		
 		if (hasConditions)
 			b.append("]");
 
@@ -108,15 +141,23 @@ public class QueryConverter {
 		if (param.getPropertyDataType().equals(iSearchParameter.DATA_TYPE.STRING))
 			return "'"+param.getPropertyValue()+"'";
 		else if (param.getPropertyDataType().equals(iSearchParameter.DATA_TYPE.NUMBER))
-			return param.getPropertyValue();
+			return param.getPropertyValue().toString();
 		else if (param.getPropertyDataType().equals(iSearchParameter.DATA_TYPE.BOOLEAN))
-			return param.getPropertyValue();
+		{
+			if (param.getPropertyValue().toString().equalsIgnoreCase("1"))
+				return "'true'";
+			else if (param.getPropertyValue().toString().equalsIgnoreCase("0"))
+				return "'false'";
+			else 
+				return param.getPropertyValue().toString();
+		}
 		else if (param.getPropertyDataType().equals(iSearchParameter.DATA_TYPE.DATE)){
 			
-			String correctDate = param.getPropertyValue();
-			correctDate = getDateTimeRepresentation(correctDate);
-			return "xs:dateTime('"+correctDate+"');";
+			Timestamp correctDate = (Timestamp) param.getPropertyValue();
+			String sCorrectDate = getDateTimeRepresentation(correctDate);
+			return "xs:dateTime('"+sCorrectDate+"')";
 		}
+		
 		return null;
 		
 	}
@@ -172,38 +213,65 @@ public class QueryConverter {
 	}
 
 	
-	private String getDateTimeRepresentation(String dateToConvert){
+	/**
+	 * 
+	 * Converts a timestamp to the xs:dateTime representation
+	 * 
+	 * @param dateToConvert
+	 * @return
+	 */
+	private String getDateTimeRepresentation(Timestamp dateToConvert){
 		
-		try {
-			//String format = "2002-05-30T09:00:00.0";
-			//String format = "YYYY-MO-DDTHH:MM:SS.;MILI";
-			DateFormat df = DateFormat.getDateInstance();
-			Date curr = df.parse(dateToConvert);
+				
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(curr);
+			cal.setTime(dateToConvert);
 			
 			StringBuilder b = new StringBuilder();
 			
 			b.append(cal.get(Calendar.YEAR));
 			b.append("-");
-			b.append(cal.get(Calendar.MONTH));
+			
+			if (cal.get(Calendar.MONTH) < 10)
+				b.append("0"+cal.get(Calendar.MONTH));
+			else
+				b.append(cal.get(Calendar.MONTH));
+			
 			b.append("-");
-			b.append(cal.get(Calendar.DAY_OF_MONTH));
+			
+			if (cal.get(Calendar.DAY_OF_MONTH) < 10)
+				b.append("0"+cal.get(Calendar.DAY_OF_MONTH));
+			else
+				b.append(cal.get(Calendar.DAY_OF_MONTH));
+			
 			b.append("T");
-			b.append(cal.get(Calendar.HOUR_OF_DAY));
+			
+			if (cal.get(Calendar.HOUR_OF_DAY) < 10)
+				b.append("0"+cal.get(Calendar.HOUR_OF_DAY));
+			else
+				b.append(cal.get(Calendar.HOUR_OF_DAY));
+			
 			b.append(":");
-			b.append(cal.get(Calendar.MINUTE));
+			
+			if (cal.get(Calendar.MINUTE) < 10)
+				b.append("0"+cal.get(Calendar.MINUTE));
+			else
+				b.append(cal.get(Calendar.MINUTE));
+			
 			b.append(":");
-			b.append(cal.get(Calendar.SECOND));
+			
+			if (cal.get(Calendar.SECOND) < 10)
+				b.append("0"+cal.get(Calendar.SECOND));
+			else
+				b.append(cal.get(Calendar.SECOND));
+			
 			b.append(".");
-			b.append(cal.get(Calendar.MILLISECOND));
+			
+			b.append("000Z");
+			//b.append(cal.get(Calendar.MILLISECOND));
 			
 			return b.toString();
-		} 
-		catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return "";
+		
+		
 	}
 	
 }

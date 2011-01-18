@@ -81,5 +81,51 @@ public interface iFileList {
 	 */
 	public iFile getFile(int pos);
 	
+	/**
+	 * 
+	 * Retrieves the number of records
+	 * 
+	 * @return The number of elements
+	 */
+	public long getRecordCount();
+	
+	/**
+	 * Resets the file list
+	 */
+	public void reset();
+	
+	/**
+	 * 
+	 * Change the page number
+	 * 
+	 * @param pageNumber The page number where the file list should
+	 * be
+	 */
+	public void setPage(int pageNumber);
+	
+	/**
+	 * 
+	 * Retrieves the current page number
+	 * 
+	 * @return The current page number
+	 */
+	public long getCurrentPageNumber();
+	
+	
+	/**
+	 * Refreshes the current data, should be used when the
+	 * page number is changed) 
+	 * 
+	 */
+	public void refresh();
+	
+	/**
+	 * 
+	 * Retrieves the page size (the number of
+	 * items per page)
+	 * 
+	 * @return The number of items per page
+	 */
+	public int getPageSize();
 	
 }

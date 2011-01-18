@@ -42,7 +42,8 @@ public interface iSearchParameter
 		STRING,
 		BOOLEAN,
 		DATE,
-		NUMBER
+		NUMBER,
+		ARRAY
 	}
 	
 	/**
@@ -67,7 +68,7 @@ public interface iSearchParameter
 	 * @return A string representation of the value
 	 * of the property
 	 */
-	public String getPropertyValue();
+	public Object getPropertyValue();
 	
 	/**
 	 * 
