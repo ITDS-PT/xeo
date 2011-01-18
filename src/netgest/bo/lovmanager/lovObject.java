@@ -464,13 +464,12 @@ public class lovObject
     }
 
     /**
-     * Pedro Rio
      * 
-     * Retrieves an item description, given its code
+     * Retrieves an item description, given its code (value)
      * 
-     * @param code The code of the  
+     * @param code The code of the item to retrieve the description 
      * 
-     * @return A string with the description of the given code
+     * @return A string with the description of the item
      */
     public String getDescriptionByCode(String code){
     	beforeFirst();

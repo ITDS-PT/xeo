@@ -21,6 +21,16 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.security.securityRights;
 
+    /**
+     * 
+     * Represents the handler for an ordered collection attribute (1:N relation) also
+     * known as a "bridge"
+     * 
+     * Allows to iterate through all elements (instances of {@link boObject}) in the
+     * collection, add a new element to the collection, re-order elements in the collection
+     * and remove elements from the collection
+     * 
+     */
     public abstract class bridgeHandler extends boObjectList {
     
         private String          p_name;
@@ -117,6 +127,12 @@ import netgest.bo.security.securityRights;
             return ret;
         }
 
+        /**
+         * 
+         * Retrieves the name of the attribute which represents the collection (bridge)
+         * 
+         * @return
+         */
         public String getAttributeName(){
             return p_name;
         }
@@ -162,6 +178,16 @@ import netgest.bo.security.securityRights;
 
         public abstract void add(BigDecimal boui, byte type) throws boRuntimeException;
         public abstract void add(BigDecimal boui,int row, byte type) throws boRuntimeException;
+        /**
+         * 
+         * 
+         * Removes the currently selected {@link boObject} from the collection
+         * 
+         * @return True if the element was removed and false otherwise
+         * 
+         * 
+         * @throws boRuntimeException If an error occurs while removing
+         */
         public abstract boolean remove() throws boRuntimeException;
         
 //        public boolean remove() throws boRuntimeException 
