@@ -950,7 +950,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     }
 	public boolean haveErrors()
     {
-        return haveObjectErrors() && haveAttributeErrors();
+        return haveObjectErrors() || haveAttributeErrors();
     }
     public boolean haveObjectErrors()
     {
@@ -3308,6 +3308,15 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
         this.isEnabled = false;
         this.isEnabledforRequest = false;
+    }
+    
+    /**
+     * Whether or not the Object is disabled
+     * 
+     * @return True if the object is disabled and false otherwise
+     */
+    public boolean isDisabled(){
+    	return !isEnabled;
     }
 
     public void setEnabledforRequest() throws boRuntimeException {
