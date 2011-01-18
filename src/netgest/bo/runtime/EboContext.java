@@ -123,9 +123,9 @@ public class EboContext extends boPoolable implements Cloneable
         	p_url = request.isSecure()?"https://":"http://";
         	p_url += request.getServerName();
         	if( request.isSecure() )
-        		p_url += request.getLocalPort()==443?"":":" + request.getLocalPort();
+        		p_url += request.getServerPort()==443?"":":" + request.getServerPort();
         	else
-        		p_url += request.getLocalPort()==80?"":":" + request.getLocalPort();
+        		p_url += request.getServerPort()==80?"":":" + request.getServerPort();
         	
         	p_url += request.getContextPath();
         	p_url += "/";
