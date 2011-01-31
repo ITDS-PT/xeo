@@ -219,7 +219,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
             p_renderAsLov       = GenericParseUtils.parseBoolean( getChildNodeText("renderAsLov","false") );
             p_renderAsCheck     = GenericParseUtils.parseBoolean( getChildNodeText("renderAsCheck","false") );
     
-            p_editorType     = getChildNodeText("editor","html").toLowerCase();
+            p_editorType     = getChildNodeText("editor","text").toLowerCase();
             
             p_showLookup     = GenericParseUtils.parseBoolean( getChildNodeText("showLookup","false") );
             
