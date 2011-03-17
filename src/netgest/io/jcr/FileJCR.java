@@ -35,6 +35,8 @@ import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.bo.configUtils.NodePropertyDefinition;
 import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
@@ -292,7 +294,7 @@ public class FileJCR implements iFile {
 			if (curr.isDefault())
 				return curr;
 		}
-		throw new RuntimeException("No Default MetadataNode Configuration");
+		throw new RuntimeException(MessageLocalizer.getMessage("NO_DEFAULT_METADATANODE_CONFIGURATION"));
 	}
 	
 		@SuppressWarnings("deprecation")
@@ -1488,14 +1490,14 @@ public class FileJCR implements iFile {
 		public static void printNode(Node nodeToPrint){
 		
 			try {
-				System.out.println("*** First Level Properties ****");
+				System.out.println("*** "+MessageLocalizer.getMessage("FIRST_LEVEL_PROPERTIES")+" ****");
 				PropertyIterator itProps = nodeToPrint.getProperties();
 				while (itProps.hasNext()) {
 					Property currProp = itProps.nextProperty();
 					System.out.print(currProp.getName()+"|");
 				}
 				System.out.println("");
-				System.out.println("*** Second Level Properties ****");
+				System.out.println("*** "+MessageLocalizer.getMessage("SECOND_LEVEL_PROPERTIES")+" ****");
 				
 				NodeIterator itNodes = nodeToPrint.getNodes();
 				while (itNodes.hasNext()) {
@@ -1598,7 +1600,7 @@ public class FileJCR implements iFile {
 			}
 			return root;
 		} catch (RepositoryException e) {
-			logger.severe("Could not return node identified by " + path, e);
+			logger.severe(LoggerMessageLocalizer.getMessage("COULD_NOT_RETURN_NODE_IDENTIFIED_BY")+" " + path, e);
 			e.printStackTrace();
 			return null;
 		}
@@ -1783,7 +1785,7 @@ public class FileJCR implements iFile {
 						}
 					} else {
 						Node toSet = reference.addNode(childName,currentChild.getNodeType());
-						System.out.println("Added child " + childName);
+						System.out.println(MessageLocalizer.getMessage("ADDED_CHILD")+ childName);
 						iMetadataProperty property = getDefaultMetadata().getPropertyById(propName);
 						if (property != null) //If it's a default metadata property, set it
 							setPropertyValueFromMetadata(property, toSet);
@@ -1796,7 +1798,7 @@ public class FileJCR implements iFile {
 								p_node.setProperty(propName, referenceMetadata);
 							}
 							else
-								System.out.println(propName + " does not exist anywhere");
+								System.out.println(propName + " "+MessageLocalizer.getMessage("DOES_NOT_EXIST_ANYWHERE"));
 						}
 					}
 					
