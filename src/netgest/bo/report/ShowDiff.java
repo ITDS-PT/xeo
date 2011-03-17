@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import netgest.bo.boConfig;
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -47,7 +48,7 @@ public final class ShowDiff
 
                 
                 xml=xml.replaceAll("#USERNAME#", performer.getAttribute("name").getValueString()  );
-                xml=xml.replaceAll("#REPORTNAME#", "Diferenças entre objectos do tipo " + srcObj.getBoDefinition().getLabel());                                            
+                xml=xml.replaceAll("#REPORTNAME#", MessageLocalizer.getMessage("DIFFERENCES_BETWEEN_OBJECTS_OF_TYPE")+" " + srcObj.getBoDefinition().getLabel());                                            
                 xml=xml.replaceAll("#URL#", doc.getEboContext().getApplicationUrl() );                
                 xml=xml.replaceAll("#CARDID#", srcObj.getCARDID().toString() );
                 xml=xml.replaceAll("#CARDIDDST#", dstObj.getCARDID().toString() );
@@ -64,7 +65,7 @@ public final class ShowDiff
 
                         Element ex = xmlToPrint.getDocument().createElement("div");
                         ex.setAttribute("class","resumeTitle");
-                        ex.appendChild( xmlToPrint.getDocument().createTextNode("Resumo das Diferenças") );
+                        ex.appendChild( xmlToPrint.getDocument().createTextNode(MessageLocalizer.getMessage("DIFFERENCES_RESUME")) );
                         body.appendChild(ex);
                         body.appendChild(xmlToPrint.getDocument().createElement("br")); 
                         
@@ -72,7 +73,7 @@ public final class ShowDiff
                         
                         Element ex2 = xmlToPrint.getDocument().createElement("div");
                         ex2.setAttribute("class","resumeTitleBottom");
-                        ex2.appendChild( xmlToPrint.getDocument().createTextNode("Fim do Resumo") );
+                        ex2.appendChild( xmlToPrint.getDocument().createTextNode(MessageLocalizer.getMessage("END_OF_RESUME")) );
                         body.appendChild(ex2);
                     }
                   
@@ -80,7 +81,7 @@ public final class ShowDiff
                     {
                          Element e = xmlToPrint.getDocument().createElement("div");
                          e.setAttribute("class","note");
-                         e.appendChild( xmlToPrint.getDocument().createTextNode("NOTA : Alguns destes dados ainda não estão gravados") );
+                         e.appendChild( xmlToPrint.getDocument().createTextNode(MessageLocalizer.getMessage("NOTE_SOME_OF_THIS_DATA_IS_STILL_NOT_SAVED")) );
                          body.appendChild(e);
                         
                     }
@@ -91,14 +92,14 @@ public final class ShowDiff
                     {
                          Element e = xmlToPrint.getDocument().createElement("div");
                          e.setAttribute("class","note");
-                         e.appendChild( xmlToPrint.getDocument().createTextNode("NOTA : Alguns destes dados ainda não estão gravados") );
+                         e.appendChild( xmlToPrint.getDocument().createTextNode(MessageLocalizer.getMessage("NOTE_SOME_OF_THIS_DATA_IS_STILL_NOT_SAVED")) );
                          body.appendChild(e);
                         
                     }
                 }
                 else
                 {
-                    Node reportName = xmlToPrint.getDocument().createTextNode( " Definições não encontradas?!!");
+                    Node reportName = xmlToPrint.getDocument().createTextNode( MessageLocalizer.getMessage("DEFINITIONS_NOT_FOUND"));
                     body.appendChild( reportName );
                 }
                 

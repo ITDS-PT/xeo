@@ -7,6 +7,7 @@ import javax.naming.NamingException;
 
 import javax.rmi.PortableRemoteObject;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.robots.blogic.boScheduleAgentBussinessLogic;
 import netgest.bo.runtime.boObject;
@@ -91,11 +92,11 @@ public class boScheduleAgentBean extends XEOTimedObjectWrapper
                     timedObject.setIsRunning(false);
                 }
             }
-            else logger.warn("XEOTimedObject not Found!!!");
+            else logger.warn(LoggerMessageLocalizer.getMessage("XEOTIMEDOBJECT_NOT_FOUND"));
         }
         catch(Exception e)
         {
-            logger.warn("Unexpected Error executing EJBTimer - "+(String)timer.getInfo());
+            logger.warn(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR_EXECUTING_EJBTIMER")+" - "+(String)timer.getInfo());
             scheduleNextRun(timer);
             if (timedObject!=null)timedObject.setIsRunning(false);
         }

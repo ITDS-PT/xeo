@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -70,12 +72,12 @@ public class DataBlob implements Blob, Serializable
     
     // Since JDK 1.6
     public void free() {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public InputStream getBinaryStream(long pos,
                                        long length)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 }

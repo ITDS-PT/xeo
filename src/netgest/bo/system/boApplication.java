@@ -3,6 +3,8 @@ package netgest.bo.system;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Properties;
 import java.util.WeakHashMap;
 
 import javax.ejb.CreateException;
@@ -14,11 +16,13 @@ import org.apache.log4j.spi.LoggerFactory;
 import netgest.bo.data.DriverManager;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.utils.XeoApplicationLanguage;
 
 /**
  *
@@ -52,7 +56,7 @@ public class boApplication
     public static final String XEO_ROBOT     	= "XEO_ROBOT";
     public static final String XEO_SYSTEM    	= "XEO_SYSTEM";
     private static final String XEO_WORKPLACE   = "SYSTEM";
-
+    
     /**
      *
      * @Company Enlace3
@@ -79,6 +83,12 @@ public class boApplication
     
     private long p_workplace_boui=0;
 
+    public HashSet<XeoApplicationLanguage> getAllApplicationLanguages(){
+    	HashSet<XeoApplicationLanguage> conf = p_config.getAllLanguages();
+    	return conf;
+	}
+
+    
     public boApplication( String name, boApplicationConfig config )
     {
         p_config = config;
@@ -137,7 +147,7 @@ public class boApplication
 		                	try {
 				                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 				                XEO_APPLICATION.initializeApplication();
-				                logger.config( "XEO Initialized from config file [%s]", appConfigPath );
+				                logger.config( "XEO Initialized from config file" +" [%s]", appConfigPath );
 		                	}
 		                	catch( Throwable e ) {
 			                	System.err.println("-----------------------------------------------------------------------------------");
@@ -148,7 +158,7 @@ public class boApplication
 		                }
 		                else {
 		                	System.err.println("-----------------------------------------------------------------------------------");
-		                	System.err.println("Failed to Initialize XEO. boconfig.xml not found at: [" + appConfigPath + "]!");
+		                	System.err.println("Failed to Initialize XEO. boconfig.xml not found at"+" [" + appConfigPath + "]!");
 		                	System.err.println("-----------------------------------------------------------------------------------");
 		                }
 	                }
@@ -164,7 +174,35 @@ public class boApplication
     	}
         return null;
     }
-
+/**
+ * 
+ * @return(String) 
+ * used language from the boconfig.xml
+ */
+     public String getApplicationLanguage(){
+    	 String language;  	
+    		 language=p_config.getLanguage();   	 
+    	return language;   	
+    }
+     /**
+      * 
+      * @return(HashSet)all Languages
+      */
+     
+    public HashSet<String> getAllLanguages(){
+    	HashSet<String> p_languages= p_config.getAvailableLanguages(); 
+    	return p_languages;
+    }
+    
+    
+    
+    
+    
+    public static boApplication getDefaultApplication(){
+    	return getApplicationFromStaticContext("XEO");
+    }
+    
+    
     public void initializeApplication()
     {
     	configureLoggers();

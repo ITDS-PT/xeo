@@ -3,6 +3,8 @@ package netgest.bo.runtime.sorter;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException;
 
 /**
@@ -103,6 +105,6 @@ public class ObjectComparator implements Comparator
         {
             return compare((Date)o1, (Date)o2) == 0; 
         }
-        throw new boRuntimeException("","Not implemented for class type:" + o1.getClass().getName(),null );
+        throw new boRuntimeException("",MessageLocalizer.getMessage("NOT_IMPLEMENTED_FOR_CLASS_TYPE")+":" + o1.getClass().getName(),null );
     }
 }

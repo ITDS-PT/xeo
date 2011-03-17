@@ -6,6 +6,7 @@ import netgest.bo.controller.Controller;
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.dochtml.*;
 import netgest.bo.impl.document.print.PrintHelper;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.server.EmailServer;
 import netgest.bo.message.server.FaxServer;
 import netgest.bo.message.server.LetterServer;
@@ -14,10 +15,6 @@ import netgest.bo.message.server.SMSServer;
 import netgest.bo.message.server.SgisServer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boBridgeIterator;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.boObject;
 import netgest.bo.workflow.*;
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.core.*;
@@ -74,7 +71,7 @@ public class SMSAdhocSender
         }
         else
         {
-            errors.add("Deverá preencher o número do telefone ou telemóvel e o texto a enviar.");
+            errors.add(MessageLocalizer.getMessage("YOU_MUST_FILL_THE_PHONENUMBER_AND_THE_TETX_TO_SEND"));
         }
         return false;
     }

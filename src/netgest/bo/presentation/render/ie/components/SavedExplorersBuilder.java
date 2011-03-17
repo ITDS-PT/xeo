@@ -9,6 +9,7 @@ import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_controler;
 import netgest.bo.dochtml.docHTML_section;
 import netgest.bo.dochtml.docHTML_sectionField;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.presentation.render.Browser;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.presentation.render.elements.Explorer;
@@ -74,7 +75,7 @@ public class SavedExplorersBuilder {
         catch (Exception e)
         {
             try{
-                logger.finer("Erro ao desenhar o user filter queries para a definição("+
+                logger.finer(LoggerMessageLocalizer.getMessage("ERROR_DRAWING_USER_FILTER_QUERIES_FOR_DEFINITION")+"("+
                     tree.p_bodef.getName()+") do utilizador("+
                         doc.getEboContext().getBoSession().getPerformerBoui()+"): ", e);
             }catch(Exception _e){/*IGNORE*/}

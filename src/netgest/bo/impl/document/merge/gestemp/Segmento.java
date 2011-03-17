@@ -1,5 +1,6 @@
 package netgest.bo.impl.document.merge.gestemp;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 
 public class Segmento 
@@ -14,7 +15,7 @@ public class Segmento
         {
             return obj.getAttribute("segmento").getValueString();
         }
-        throw new boRuntimeException("", "Objecto inválido para obtenção do segmento.", null);
+        throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_OBJECT_FOR_OBTAINING_SEGMENT"), null);
     }
     
     public static String getSegmento(EboContext boctx, long boui) throws boRuntimeException

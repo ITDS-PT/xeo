@@ -9,6 +9,7 @@ import oracle.xml.parser.v2.XMLElement;
 import org.w3c.dom.Node;
 import netgest.bo.boConfig;
 import netgest.bo.impl.document.print.remote.ConvertImagesStub;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 import java.nio.channels.FileLock;
 
@@ -46,7 +47,7 @@ public class PDFConvert
         
         if (xnode == null) 
         {
-            throw new RuntimeException("NÃ£o foi indicado no ficheiro boconfig.xml a localizaÃ§Ã£o do conversor para PDF.");
+            throw new RuntimeException(MessageLocalizer.getMessage("THE_PDF_CONVERTER_WAS_NOT_DEFINED_IN_THE_BOCONFIG_FILE"));
         }
                
         return xnode.getText();
@@ -165,7 +166,7 @@ public class PDFConvert
         }
         else
         {
-            throw new RuntimeException("ConversÃ£o para PDF nÃ£o suportada para ficheiros " + mimeType);     
+            throw new RuntimeException(MessageLocalizer.getMessage("CONVERSION_TO_PDF_IS_NOT_SUPPORTED_FOR_FILES")+" " + mimeType);     
         }  
     }
     
@@ -197,7 +198,7 @@ public class PDFConvert
         }  
         catch (IOException e)
         {
-            throw new RuntimeException("Problemas na conversÃ£o para pdf. ", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("PROBLEMS_CONVERTING_TO_PDF"), e);
         }
     }
 

@@ -25,6 +25,8 @@ import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefOPL;
 import netgest.bo.def.boDefViewer;
 import netgest.bo.def.v1.boDefAttributeImpl;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.transformers.CastInterface;
@@ -155,7 +157,7 @@ public class boDefHandlerImpl extends boDefHandler
                 ret.refresh();
                 if( !ret.getName().equalsIgnoreCase( boname ) )
                 {
-                    throw new RuntimeException("Erro in object definition:Object filename does not match with node name in the XML. ["+boname+"!="+ret.getName()+"].");
+                    throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_OBJ_DEF_OBJ_FILENAME_DOES_NOT_MATCH_W_")+" ["+boname+"!="+ret.getName()+"].");
                 }
             }
             else
@@ -915,7 +917,7 @@ public class boDefHandlerImpl extends boDefHandler
         }
         else
         {
-            logger.warn("cardID for: " + this.getName() + " not defined");
+            logger.warn(LoggerMessageLocalizer.getMessage("CARDID_FOR")+": " + this.getName() + " "+LoggerMessageLocalizer.getMessage("NOT_DEFINED"));
         }
 
         return ret;
@@ -981,18 +983,18 @@ public class boDefHandlerImpl extends boDefHandler
         }
         catch (InstantiationException e)
         {
-            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
-            throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
+            throw new boRuntimeException2(MessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
         }
         catch (IllegalAccessException e)
         {
-            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
-            throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
+            throw new boRuntimeException2(MessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
         }
         catch (ClassNotFoundException e)
         {
-            logger.severe("Transformer não identificado (" + getCastToClassName() + ")");
-            throw new boRuntimeException2("Transformer não identificado (" + getCastToClassName() + ")");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
+            throw new boRuntimeException2(MessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getCastToClassName() + ")");
         }
     }
 

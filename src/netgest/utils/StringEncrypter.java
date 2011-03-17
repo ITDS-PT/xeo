@@ -13,6 +13,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.DESedeKeySpec;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 public class StringEncrypter
 {
 	
@@ -36,10 +38,10 @@ public class StringEncrypter
 	{
 
 		if ( encryptionKey == null )
-				throw new IllegalArgumentException( "encryption key was null" );
+				throw new IllegalArgumentException( MessageLocalizer.getMessage("ENCHYPTION_KEY_WAS_NULL") );
 		if ( encryptionKey.trim().length() < 24 )
 				throw new IllegalArgumentException(
-						"encryption key was less than 24 characters" );
+						MessageLocalizer.getMessage("ENCHYPTION_KEY_WAS_LESS_THAN_24_CHARACTERS"));
 
 		try
 		{
@@ -55,7 +57,7 @@ public class StringEncrypter
 			}
 			else
 			{
-				throw new IllegalArgumentException( "Encryption scheme not supported: "
+				throw new IllegalArgumentException( MessageLocalizer.getMessage("ENCHYPTION_SCHEME_NOT_SUPPORTED")+": "
 													+ encryptionScheme );
 			}
 
@@ -85,8 +87,7 @@ public class StringEncrypter
 	public String encrypt( String unencryptedString ) throws EncryptionException
 	{
 		if ( unencryptedString == null || unencryptedString.trim().length() == 0 )
-				throw new IllegalArgumentException(
-						"unencrypted string was null or empty" );
+				throw new IllegalArgumentException(MessageLocalizer.getMessage("UNENCRYPTED_STRING_WAS_NULL_OR_EMPTY"));
 
 		try
 		{
@@ -105,7 +106,7 @@ public class StringEncrypter
 	public String decrypt( String encryptedString ) throws EncryptionException
 	{
 		if ( encryptedString == null || encryptedString.trim().length() <= 0 )
-				throw new IllegalArgumentException( "encrypted string was null or empty" );
+				throw new IllegalArgumentException(MessageLocalizer.getMessage("ENCRYPTED_STRING_WAS_NULL_OR_EMPTY") );
 
 		try
 		{

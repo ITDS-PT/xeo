@@ -4,6 +4,8 @@ package netgest.bo.message.server.mail;
 import java.io.*;
 import javax.activation.*;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -54,12 +56,12 @@ public class ByteArrayDataSource implements DataSource {
      */
     public InputStream getInputStream() throws IOException {
 	if (data == null)
-	    throw new IOException("no data");
+	    throw new IOException(MessageLocalizer.getMessage("NO_DATA"));
 	return new ByteArrayInputStream(data);
     }
 
     public OutputStream getOutputStream() throws IOException {
-	throw new IOException("cannot do this");
+	throw new IOException(MessageLocalizer.getMessage("CANNOT_DO_THIS"));
     }
 
     public String getContentType() {

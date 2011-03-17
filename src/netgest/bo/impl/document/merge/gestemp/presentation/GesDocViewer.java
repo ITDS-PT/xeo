@@ -24,6 +24,7 @@ import netgest.bo.impl.document.merge.gestemp.Segmento;
 import netgest.bo.impl.document.merge.gestemp.validation.Classificacao;
 import netgest.bo.impl.document.merge.gestemp.validation.Contexto;
 import netgest.bo.impl.document.merge.gestemp.validation.JavaExecuter;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.presentation.render.elements.ExplorerServer;
@@ -1338,7 +1339,7 @@ public class GesDocViewer
     public void validate(EboContext boctx, ArrayList erros) throws boRuntimeException
     {
         long ti = System.currentTimeMillis();
-        logger.info("--------------------------------Validação-----------------------------------------");
+        logger.info("--------------------------------"+LoggerMessageLocalizer.getMessage("VALIDATION")+"-----------------------------------------");
         for (int i = 0; i < groupClassifications.size(); i++) 
         {
             ((GesDocObj)groupClassifications.get(i)).validate(boctx, erros);
@@ -1348,7 +1349,7 @@ public class GesDocViewer
             javaValidation(boctx, erros);
         }
         long tf = System.currentTimeMillis();
-        logger.info("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
+        logger.info(LoggerMessageLocalizer.getMessage("TOTAL_VALIDATION_TIME")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
         logger.info("--------------------------------------------------------------------------------");
     }
     

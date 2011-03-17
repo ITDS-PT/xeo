@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.utils;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.*;
 import netgest.utils.StringUtils;
@@ -30,7 +31,7 @@ public class boEncrypter
     }
     catch (Exception e)
     {
-      throw new boRuntimeException("Erro a encriptar a String", "", e);      
+      throw new boRuntimeException(MessageLocalizer.getMessage("ERROR_ENCRYPTING_THE_STRING"), "", e);      
     }
   }
 
@@ -49,7 +50,7 @@ public class boEncrypter
     }
     catch (Exception e)
     {
-      throw new boRuntimeException("Erro a desencriptar a String", "", e);
+      throw new boRuntimeException(MessageLocalizer.getMessage("ERROR_DECRYPTING_THE_STRING"), "", e);
     }      
   }
   
@@ -73,7 +74,7 @@ public class boEncrypter
     }
     catch (Exception e)
     {
-      throw new boRuntimeException("Erro a encriptar a String", "", e);      
+      throw new boRuntimeException(MessageLocalizer.getMessage("ERROR_ENCRYPTING_THE_STRING"), "", e);      
     }
   }
 
@@ -95,7 +96,7 @@ public class boEncrypter
     }
     catch (Exception e)
     {
-      throw new boRuntimeException("Erro a desencriptar a String", "", e);
+      throw new boRuntimeException(MessageLocalizer.getMessage("ERROR_DECRYPTING_THE_STRING"), "", e);
     }      
   }
   

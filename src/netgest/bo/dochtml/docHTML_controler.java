@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
@@ -184,7 +185,7 @@ public final class docHTML_controler extends boPoolable {
             if( closeddoc.lastRequestDate == closeddoc.dateToClose )
             {
                 logger.warn(
-                    "DOC WASCLOSED ["+idx+"] AT " + new Date( closeddoc.dateToClose ) + "  RECOVERED DOC"
+                    LoggerMessageLocalizer.getMessage("DOC_WAS_CLOSED")+" ["+idx+"] "+LoggerMessageLocalizer.getMessage("AT")+" " + new Date( closeddoc.dateToClose ) + " "+LoggerMessageLocalizer.getMessage("RECOVERED_DOC")
                 );
             }
             closeddoc.lastRequestDate = System.currentTimeMillis();
@@ -231,20 +232,20 @@ public final class docHTML_controler extends boPoolable {
                         {
                             logger.finest
                             (
-                                "DOCID DO REQUEST ESTÁ NA POOL DE OBJECTOS FECHADOS: DOCID[" + DOCID + "]: " +
-                                "O Fecho do documento já foi solicitado pelo cliente \n" + 
-                                "\nNumero de pedido de Fecho: " + oClosedDoc.closeRequestsReceived +
-                                "\nData em que foi Fechado  :" + DATE_FORMATER.format(new Date(oClosedDoc.dateToClose)) +
-                                "\nIdx do documento         :" + oClosedDoc.docIdx +
-                                "\nUltimo pedido foi        :" + DATE_FORMATER.format(new Date(oClosedDoc.lastRequestDate))
+                                LoggerMessageLocalizer.getMessage("THE_REQUEST_DOCID_IS_IN_THE_CLOSED_OBJECT_POOL_DOCID")+"[" + DOCID + "]: " +
+                                LoggerMessageLocalizer.getMessage("THE_DOCUMENT_CLOSING_WAS_ALREADY_REQUESTED_BY_THE_CLIENT")+" \n" + 
+                                "\n"+LoggerMessageLocalizer.getMessage("NUMBER_OF_CLOSING_REQUESTS")+": " + oClosedDoc.closeRequestsReceived +
+                                "\n"+LoggerMessageLocalizer.getMessage("CLOSING_DATE")+"  :" + DATE_FORMATER.format(new Date(oClosedDoc.dateToClose)) +
+                                "\n"+LoggerMessageLocalizer.getMessage("DOCUMENT_IDX")+"         :" + oClosedDoc.docIdx +
+                                "\n"+LoggerMessageLocalizer.getMessage("LAST_REQUEST_WAS")+"      :" + DATE_FORMATER.format(new Date(oClosedDoc.lastRequestDate))
                             );
                         }
                         else
                         {
                             logger.finest
                             (
-                                "DOCID DO REQUEST NÃO EXISTE NA POOL DE OBJECTOS FECHADOS: DOCID["+DOCID+"]: " +
-                                "Não foi encontrada informação de quando o documento foi fechado."
+                                LoggerMessageLocalizer.getMessage("THE_REQUEST_DOCID_DOES_NOT_EXIST_IN_THE_CLOSED_OBJECT_POOL_DOCID")+"["+DOCID+"]: " +
+                                LoggerMessageLocalizer.getMessage("NO_INFORMATION_WAS_FOUND_ABOUT_WHEN_THE_DOCUMENT_WAS_CLOSED")
                             );
                         }
                         
@@ -284,7 +285,7 @@ public final class docHTML_controler extends boPoolable {
         boPoolManager   boPoolMgr    = boMemArchive.getPoolManager();
         
         if(this.poolUniqueId() == null)
-            logger.severe("docHTML_controler.releseObjects -> call to this.poolUniqueId() returned null.");
+            logger.severe("docHTML_controler.releseObjects -> "+LoggerMessageLocalizer.getMessage("CALL_TO_THISPOOLUNIQEID_RETURNED_NULL"));
         
         boPoolMgr.realeaseObjects(this.poolUniqueId(), boctx);
         boctx.setController(null);

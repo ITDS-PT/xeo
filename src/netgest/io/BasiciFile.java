@@ -13,6 +13,7 @@ import java.util.List;
 
 import netgest.bo.data.sqlserver.SqlServerDriver;
 import netgest.bo.data.Driver;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
@@ -268,7 +269,7 @@ public class BasiciFile implements iFile  {
             } 
             else 
             {
-                throw new RuntimeException("Cannot create file " + this.fileName);    
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_CREATE_FILE")+" " + this.fileName);    
             }
         }
         catch (IOException e)
@@ -289,7 +290,7 @@ public class BasiciFile implements iFile  {
     
     public OutputStream getOutputStream() throws iFilePermissionDenied
     {
-    	throw new RuntimeException( "This method was deprecated and is not available anymore!" );
+    	throw new RuntimeException(MessageLocalizer.getMessage("THIS_METHOD_WAS_DEPRECATED_AND_IS_NOT_AVAILABLE_ANYMORE") );
     }
 
     public InputStream getInputStream() throws iFilePermissionDenied
@@ -322,7 +323,7 @@ public class BasiciFile implements iFile  {
             } 
             else 
             {
-                throw new RuntimeException("Cannot create file " + this.fileName);    
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_CREATE_FILE")+" " + this.fileName);    
             }
         }
         catch (SQLException e)
@@ -452,7 +453,7 @@ public class BasiciFile implements iFile  {
     }    
     private RuntimeException createRuntimeException(String method,Exception e) 
     {
-        return new RuntimeException("Error executing "+method+".\n"+e.getClass().getName()+"\n"+e.getMessage());
+        return new RuntimeException(MessageLocalizer.getMessage("ERROR_EXECUTING")+" "+method+".\n"+e.getClass().getName()+"\n"+e.getMessage());
     }    
     public boolean  canRead()
     {
@@ -464,11 +465,11 @@ public class BasiciFile implements iFile  {
     }
     public String getParent()
     {
-        throw new RuntimeException("getParent:Not Implemented");
+        throw new RuntimeException("getParent:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public iFile getParentFile()
     {
-        throw new RuntimeException("getParentFile:Not Implemented");
+        throw new RuntimeException("getParentFile:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public boolean  isDirectory()
     {
@@ -476,7 +477,7 @@ public class BasiciFile implements iFile  {
     }
     public long lastModified()
     {
-        throw new RuntimeException("lastModified:Not Implemented");
+        throw new RuntimeException("lastModified:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String[] list() throws iFilePermissionDenied
     {
@@ -508,7 +509,7 @@ public class BasiciFile implements iFile  {
     }
     public boolean  setReadOnly() throws iFilePermissionDenied
     {
-        throw new RuntimeException("setReadOnly:Not Implemented");
+        throw new RuntimeException("setReadOnly:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public boolean checkIn() throws iFilePermissionDenied
     {
@@ -536,7 +537,7 @@ public class BasiciFile implements iFile  {
     }
     public void setDescription(String description)
     {
-        throw new RuntimeException("setDescription:Not Implemented");
+        throw new RuntimeException("setDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String getDescription()
     {
@@ -544,7 +545,7 @@ public class BasiciFile implements iFile  {
     }
     public void setAuthor(String author)
     {
-        throw new RuntimeException("setAuthor:Not Implemented");
+        throw new RuntimeException("setAuthor:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String getAuthor()
     {
@@ -552,15 +553,15 @@ public class BasiciFile implements iFile  {
     }
     public void setCategory(String author)
     {
-        throw new RuntimeException("setCategory:Not Implemented");
+        throw new RuntimeException("setCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String getCategory()
     {
-        throw new RuntimeException("getCategory:Not Implemented");
+        throw new RuntimeException("getCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public void setVersionUser(String user)
     {
-        throw new RuntimeException("setVersionUser:Not Implemented");
+        throw new RuntimeException("setVersionUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String getVersionUser()
     {
@@ -568,7 +569,7 @@ public class BasiciFile implements iFile  {
     }
     public void setCheckOutUser(String user)
     {
-        throw new RuntimeException("setCheckOutUser:Not Implemented");
+        throw new RuntimeException("setCheckOutUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public String getCheckOutUser()
     {
@@ -581,7 +582,7 @@ public class BasiciFile implements iFile  {
     
     public long getKey()
     {
-        throw new RuntimeException("getKey:Not Implemented");
+        throw new RuntimeException("getKey:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public iFile getCopy()
     {    
@@ -638,7 +639,7 @@ public class BasiciFile implements iFile  {
 	}
 	@Override
 	public boolean addChild(iFile file) throws iFileException {
-		throw new iFileException("Not implemented in BasiciFile");
+		throw new iFileException(MessageLocalizer.getMessage("NOT_IMPLEMENTED_IN_BASICIFILE"));
 	}
 	@Override
 	public boolean save(EboContext ctx) throws iFileException {

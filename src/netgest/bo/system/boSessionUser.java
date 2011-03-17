@@ -11,6 +11,8 @@ package netgest.bo.system;
 public class boSessionUser 
 {
 
+	String language;
+	
     String userName;
     String name;
     String srName;
@@ -35,6 +37,10 @@ public class boSessionUser
     {
     }
 
+    public String getLanguage(){
+    	return language;
+    }
+    
     public String getUserName()
     {
         return userName;
@@ -109,6 +115,9 @@ public class boSessionUser
     public boolean isAdministrator()
     {
         return isAdministrator;
+    }
+    public void setLanguage(String lang){
+    	language=lang;
     }
 
 

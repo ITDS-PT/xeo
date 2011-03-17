@@ -6,6 +6,8 @@ import netgest.bo.impl.document.merge.gestemp.GtCampoNJava;
 import netgest.bo.impl.document.merge.gestemp.GtCampoNObjecto;
 import netgest.bo.impl.document.merge.gestemp.GtQuery;
 import netgest.bo.impl.document.merge.gestemp.GtValue;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -79,8 +81,8 @@ public class Query {
             }
         }
 
-        throw new boRuntimeException("Query.getCampo",
-            "Campo [" + nome + "] desconhecido", null);
+        throw new boRuntimeException("Query.getCampo",MessageLocalizer.getMessage("THE_FIELD")+
+            " [" + nome + "] "+MessageLocalizer.getMessage("IS_UNKNOWN"), null);
     }
 
     public CampoLista getCampoLista(String nome) {
@@ -137,7 +139,7 @@ public class Query {
                 return boObject.getBoManager().loadObject(boctx,
                     valor.longValue());
             }
-            logger.severe("Value a NULL a obter valor XEO. Verificar esta situação.");
+            logger.severe(LoggerMessageLocalizer.getMessage("VALUE_NULL_OBTAINING_XEO_VALUE_CHECK_THIS_SITUATION"));
         }
 
         return null;

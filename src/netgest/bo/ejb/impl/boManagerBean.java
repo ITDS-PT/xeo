@@ -41,6 +41,8 @@ import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.ejb.boManagerLocal;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.DataPluginManager;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.plugins.data.MapType1Def;
@@ -468,7 +470,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         }
         else
         {
-            throw new boRuntimeException("netgest.bo.ejb.impl.boManagerBean.createObject", "Valor devolvido pelo CloneListener incorrecto", null);
+            throw new boRuntimeException("netgest.bo.ejb.impl.boManagerBean.createObject", MessageLocalizer.getMessage("INCORRECT_VALUE_RETURNED_BY_THE_CLONELISTENER"), null);
         }
     }
 
@@ -724,7 +726,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.finest("BOBJ Create [" + name + "]:" +
+                logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_CREATE")+" [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -780,7 +782,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.finest("BOBJ Create [" + name + "]:" +
+                logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_CREATE")+" [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -811,7 +813,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.finest("BOBJ Create [" + name + "]:" +
+                logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_CREATE")+" [" + name + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -875,7 +877,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         ctx.getApplication().getMemoryArchive().getPoolManager().putObject(ret, "BOOBJECT:BOUI[" + ret.getBoui() + "]:");
         if (DEBUG > 0)
         {
-            logger.finest("BOBJ Create [" + name + "]:" +
+            logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_CREATE")+" [" + name + "]:" +
                 (System.currentTimeMillis() - mili));
         }
 
@@ -926,7 +928,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.finest("BOBJ Load name / long [" + name + "/" + boui +
+            logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOD_NAME_LONG")+" [" + name + "/" + boui +
                 "]:" + (System.currentTimeMillis() - mili));
         }
         if( ctx.isInTransaction() )
@@ -948,7 +950,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.finest("BOBJ Load BOQL [" + qp.getObjectDef().getBoName() +
+            logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOQL")+" [" + qp.getObjectDef().getBoName() +
                 "/" + sql + "]:" + (System.currentTimeMillis() - mili));
         }
         return ret;
@@ -994,7 +996,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         {
             if (DEBUG > 0)
             {
-                logger.finest("BOBJ Load BOQL [" + boql + "]:" +
+                logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOQL")+" [" + boql + "]:" +
                     (System.currentTimeMillis() - mili));
             }
         }
@@ -1094,7 +1096,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         if (DEBUG > 0)
         {
-            logger.finest("BOBJ Load BOQL [" + sql + "+" + sqlargs + "]:" +
+            logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOQL")+" [" + sql + "+" + sqlargs + "]:" +
                 (System.currentTimeMillis() - mili));
         }
         if( ctx.isInTransaction() )
@@ -1106,7 +1108,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
         if( !"".equals( objClassName ) && !ret.getName().equals( objClassName ) )
         {
             ctx.getApplication().getMemoryArchive().getPoolManager().destroyObject(ret);
-            throw new RuntimeException("O nome do objecto não corresponde à query [ "+ret.getName()+" ] ["+ret.getAttribute("CLASSNAME").getValueString()+"]");
+            throw new RuntimeException(MessageLocalizer.getMessage("THE_OBJECT_NAME_DOES_NOT_CORRESPOND_TO_THE_QUERY")+" [ "+ret.getName()+" ] ["+ret.getAttribute("CLASSNAME").getValueString()+"]");
         }
 
         return ret;
@@ -1333,7 +1335,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
             if (DEBUG > 0)
             {
-                logger.finest("BOBJ Load BOUI [" + className + "/" + boui +
+                logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOUI")+" [" + className + "/" + boui +
                     "]:" + (System.currentTimeMillis() - mili));
             }
         }
@@ -1393,7 +1395,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 	
 	                if (DEBUG > 0)
 	                {
-	                    logger.finest("BOBJ Load BOUI [" + getClassNameFromBOUI(ctx, boui) + "/" + boui +
+	                    logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOUI")+" [" + getClassNameFromBOUI(ctx, boui) + "/" + boui +
 	                        "]:" + (System.currentTimeMillis() - mili));
 	                }
             	}
@@ -1484,7 +1486,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
 	                    }
 	                    catch (Exception e)
 	                    {
-	                      logger.severe( "Exception in boManagerBean.getClassFromBoui; trying to close resultset and preparestatment  "+e.getMessage() );
+	                      logger.severe( LoggerMessageLocalizer.getMessage("EXCEPTION_IN_BOMANAGERBEAN_GETCLASSFROMBOUI_TRYING_TO_")+"  "+e.getMessage() );
 	                    }
 	
 	
@@ -1687,7 +1689,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         if( !canUpdate )
                         {
                         	bobj.set_IsInOnSave( boObject.UPDATESTATUS_IDLE );
-                            logger.warn( "Object "+bobj.getName()+":"+currentboui+" not deleted,still have references"  );
+                            logger.warn( LoggerMessageLocalizer.getMessage("OBJECT")+" "+bobj.getName()+":"+currentboui+" "+LoggerMessageLocalizer.getMessage("NOT_DELETED_STILL_HAVE_REFERENCES")  );
                             //bobj.setUpdateMode(boObject.MODE_EDIT);
                             //canUpdate = true;
 
@@ -1873,7 +1875,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                           catch (SQLException e)
                           {
                                 int errorCode = e.getErrorCode( );
-                                logger.finer("Error deleting Ebo_textIndex "+e.getMessage());
+                                logger.finer(LoggerMessageLocalizer.getMessage("ERROR_DELETING_EBO_TEXTINDEX")+" "+e.getMessage());
                                 //ignore if error occur in delete Ebo_TextIndex
                           }
                           finally
@@ -1900,7 +1902,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                                 ResultSet rslt = pst.executeQuery();
                                 while(rslt.next())
                                 {
-                                    logger.finer("Bouis não eliminados:" + rslt.getLong(1));
+                                    logger.finer(LoggerMessageLocalizer.getMessage("BOUI_NOT_DELETED")+": " + rslt.getLong(1));
                                 }
                                 rslt.close();
                                 pstm.close();
@@ -2873,7 +2875,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 {
                     ctx.endTransaction();
                     rollBackTransaction(ctx);
-                    throw new RuntimeException("Cannot commit a trasaction marked for rollback. Transaction was RolledBack");
+                    throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_COMMIT_A_TRANSACTION_MARKED_FOR_ROLLBACK_"));
                 }
                 else if (ut.getStatus() == Status.STATUS_ACTIVE)
                 {
@@ -2983,7 +2985,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 }
                 catch(Exception e)
                 {
-                    logger.finer("rollBackTransaction(EboContext ctx)", e);
+                    logger.finer(LoggerMessageLocalizer.getMessage("ROLLBACK_TRANSACTIN_EBO_CONTEXT_CTX"), e);
                 }
             }
             else
@@ -3011,7 +3013,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 }
                 catch(Exception e)
                 {
-                    logger.finer("rollBackTransaction(EboContext ctx)", e);
+                    logger.finer(LoggerMessageLocalizer.getMessage("ROLLBACK_TRANSACTIN_EBO_CONTEXT_CTX"), e);
                 }
                 
 
@@ -3206,7 +3208,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                   catch (SQLException e)
                   {
                         int errorCode = e.getErrorCode( );
-                        logger.finer("Error deleting Ebo_textIndex "+e.getMessage());
+                        logger.finer(LoggerMessageLocalizer.getMessage("ERROR_DELETING_EBO_TEXTINDEX")+" "+e.getMessage());
                         //ignore if error occur in delete Ebo_TextIndex
                   }
                   finally
@@ -3332,7 +3334,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             {
                 logger.severe(e);
                 if ((e.getMessage() != null) &&
-                        e.getMessage().startsWith("Registo já foi alterado por outro utilizador"))
+                        e.getMessage().startsWith(MessageLocalizer.getMessage("REGISTRY_HAS_BEEN_CHANGED_BY_ANOTHER_USER")))
                 {
                     throw new boRuntimeException(boManagerBean.class.getName() +
                         ".destroyForced(EboContext, boObject)", "BO-3022", e,

@@ -2,22 +2,13 @@
 package netgest.bo.runtime.robots;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import netgest.bo.data.*;
-import netgest.bo.data.DataManager;
-import netgest.bo.data.DataRow;
-import netgest.bo.data.DataSet;
-import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.plugins.data.MapType1DataManager;
 import netgest.bo.plugins.data.MapType1Def;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boRuntimeException;
 
 import netgest.bo.system.*;
 import netgest.utils.DataUtils;
@@ -241,7 +232,7 @@ public class SyncronizeExternalTables implements boSchedule
                         newrow.updateString( "CLASSNAME", p_parameter );
                         objDataSet.insertRow( newrow );
                     }
-                    logger.finest("Registing objects ["+ handler.getBoName() +"]");
+                    logger.finest(LoggerMessageLocalizer.getMessage("REGISTERING_OBJECTS")+" ["+ handler.getBoName() +"]");
                     long ini = System.currentTimeMillis();
                     
                     if( boui != null )
@@ -253,7 +244,7 @@ public class SyncronizeExternalTables implements boSchedule
                         MapType1DataManager.registerObjects( ctx, objDataSet, handler.getBoName() );
                     }
                     
-                    logger.finest("Importing ["+p_parameter+"], ["+objDataSet.getRowCount()+"] imported in ["+(System.currentTimeMillis() - ini )+" secs], average for each object is ["+((System.currentTimeMillis() - ini)/objDataSet.getRowCount() )+" ms]");
+                    logger.finest(LoggerMessageLocalizer.getMessage("IMPORTING")+" ["+p_parameter+"], ["+objDataSet.getRowCount()+"] "+LoggerMessageLocalizer.getMessage("IMPORTED_IN")+" ["+(System.currentTimeMillis() - ini )+" secs], "+LoggerMessageLocalizer.getMessage("AVERAGE_FOR_EACH_OBJECT_IS")+" ["+((System.currentTimeMillis() - ini)/objDataSet.getRowCount() )+" ms]");
                     
                     if( extraquery == null )
                     {
@@ -283,7 +274,7 @@ public class SyncronizeExternalTables implements boSchedule
         }
         else
         {
-            logger.finest( "Object [" + handler.getName() + "] not synchronized because is not mapped." );
+            logger.finest( LoggerMessageLocalizer.getMessage("OBJECT")+" [" + handler.getName() + "] "+LoggerMessageLocalizer.getMessage("NOT_SYNCHRONIZED_BECAUSE_IS_NOT_MAPPED") );
         }
         
         return true; 

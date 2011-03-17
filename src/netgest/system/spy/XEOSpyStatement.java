@@ -3,6 +3,8 @@ package netgest.system.spy;
 
 import java.sql.*;
 import java.util.*;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class XEOSpyStatement implements Statement {
@@ -47,7 +49,7 @@ public class XEOSpyStatement implements Statement {
             if(!((XEOSpyResultSet)rsList.get(i)).isClosed()){
                 ((XEOSpyResultSet)rsList.get(i)).close();
                 logger.warn("------------------------------------------------");
-                logger.warn("O ResultSet não foi fechado: " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
+                logger.warn(LoggerMessageLocalizer.getMessage("THE_RESULTSET_WAS_NOT_CLOSED")+": " + ((XEOSpyResultSet)rsList.get(i)).getQuery() );
                 ((XEOSpyResultSet)rsList.get(i)).printStackTrace();
                 logger.warn("------------------------------------------------");
             }
@@ -260,7 +262,7 @@ public class XEOSpyStatement implements Statement {
     }
 
     private static void writeToLog(long time, String query){
-        logger.warn("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.warn(LoggerMessageLocalizer.getMessage("DELAYED_QUERY")+" (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
     
     public void printStackTrace()

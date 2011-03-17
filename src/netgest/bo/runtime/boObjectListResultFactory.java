@@ -17,6 +17,7 @@ import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefInterface;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.userquery.userquery;
 import netgest.bo.utils.XEOQLModifier;
@@ -412,7 +413,7 @@ public class boObjectListResultFactory  {
             
             if( System.currentTimeMillis() - init > 5000 )
             {
-                logger.severe("Query demorada TextIndex["+sqlTextIndex+"]Text:["+textQuery+"] Tempo:["+(System.currentTimeMillis() - init)+"]");
+                logger.severe(LoggerMessageLocalizer.getMessage("DELAYED_QUERY")+" TextIndex["+sqlTextIndex+"]"+LoggerMessageLocalizer.getMessage("TEXT")+":["+textQuery+"] "+LoggerMessageLocalizer.getMessage("TIME")+":["+(System.currentTimeMillis() - init)+"]");
             }
             
             return bouis;

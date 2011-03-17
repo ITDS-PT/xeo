@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 import netgest.bo.boConfig;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boSession;
 import netgest.system.ngtconfig;
 
@@ -37,7 +38,7 @@ public class iFileServer  {
     public iFileService getFileService(String path) {
         path = path.trim();
         if(!path.startsWith("//") || path.length()<=2) {
-            throw(new RuntimeException("Caminho inválido"));
+            throw(new RuntimeException(MessageLocalizer.getMessage("INVALID_PATH")));
         }
         String service = "";
         if(path.indexOf("/",2)==-1) {
@@ -49,7 +50,7 @@ public class iFileServer  {
     }
     public iFile getFile(String path) {
         if(!path.startsWith("//") || path.length()<=2) {
-            throw(new RuntimeException("Caminho inválido"));
+            throw(new RuntimeException(MessageLocalizer.getMessage("INVALID_PATH")));
         }
         String xpath = "";
         if(path.indexOf("/",2)==-1) {
@@ -62,7 +63,7 @@ public class iFileServer  {
     public iFileService getService(String name) {
         iFileService ret = (iFileService)p_ifs.get(name);
         if(ret==null) {
-            throw(new RuntimeException("Serviço ["+name+"] não existe."));
+            throw(new RuntimeException(MessageLocalizer.getMessage("SERVICE")+" ["+name+"] "+MessageLocalizer.getMessage("DOESNT_EXIST")+"."));
         }
         return ret;
     }
@@ -155,7 +156,7 @@ public class iFileServer  {
         } 
         catch ( RuntimeException e) 
         {
-            throw(new RuntimeException("Erro no ficheiro de configuração.\n"+e.getMessage()));
+            throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_CONFIGURATION_FILE")+".\n"+e.getMessage()));
         }
         try {
             XMLNode ifsnode = (XMLNode)services.selectSingleNode("NGTIFS");
@@ -165,7 +166,7 @@ public class iFileServer  {
 	        		servicesDef.put(  servDef.name, servDef );
             }
         } catch (XSLException e) {
-            throw(new RuntimeException("Erro no ficheiro de configuração.\n"+e.getMessage()));
+            throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_CONFIGURATION_FILE")+".\n"+e.getMessage()));
         }
     }    
     }

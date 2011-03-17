@@ -2,9 +2,6 @@
 package netgest.bo.message.server.mail;
 
 import java.io.*;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
 
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -35,6 +32,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.utils.Attach;
 
 import netgest.bo.system.Logger;
@@ -558,7 +556,7 @@ public class Mail
         {            
             bao = new ByteArrayOutputStream();
             msg.writeTo(bao);
-            logger.severe("Error reading email2:");
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_EMAIL2")+":");
             logger.severe(e);
         }
         catch(Exception _e)

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import netgest.bo.boConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boBridgeIterator;
@@ -108,7 +110,7 @@ public class SgisServer implements MediaServer
             xwfMessage.receiveMessage(((xwfEngineGate)this.engine).getManager(), message, engine.getBoManager().getProgram());
             if(MessageUtils.isToWaitResponse(message) && receivers.size() > 0)
             {
-                logger.finer("Vou criar o wait para msg!");
+                logger.finer(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_WAIT_FOR_MSG"));
                 message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                 try
                 {
@@ -345,18 +347,18 @@ public class SgisServer implements MediaServer
          catch (boRuntimeException e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar a sua mensagem" +
+                MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return null;
         }
          catch (Exception e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar a sua mensagem" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return null;
         }

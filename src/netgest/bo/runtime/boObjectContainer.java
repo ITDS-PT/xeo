@@ -3,6 +3,8 @@ package netgest.bo.runtime;
 
 import java.util.Iterator;
 import java.util.Map;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.boPoolOwner;
 import netgest.bo.system.boPoolable;
 import netgest.bo.system.Logger;
@@ -76,7 +78,7 @@ public abstract class boObjectContainer extends boPoolable
                         catch (Exception e)
                         {
                         } 
-                        logger.warn("User:["+getEboContext().getSysUser().getUserName()+"]:["+host+"]:O poolowner deste objecto já não foi encontrado ["+owner+"] Url:["+url+"] Params:["+params.toString()+"]");
+                        logger.warn(LoggerMessageLocalizer.getMessage("USER")+":["+getEboContext().getSysUser().getUserName()+"]:["+host+"]:"+LoggerMessageLocalizer.getMessage("THE_POOLOWNER_OF_THIS_OBJECT_WAS_NOT_FOUND_ANYMORE")+" ["+owner+"] Url:["+url+"] Params:["+params.toString()+"]");
                         logged = true;
                     }
                 }

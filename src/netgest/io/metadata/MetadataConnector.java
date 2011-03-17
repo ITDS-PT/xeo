@@ -16,6 +16,7 @@ import javax.jcr.Session;
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.io.jcr.MetadataItem;
 import netgest.io.jcr.MetadataProperty;
 import netgest.io.metadata.iMetadataProperty.METADATA_TYPE;
@@ -101,8 +102,8 @@ public class MetadataConnector implements iMetadataConnector {
 		}  
 		catch (PathNotFoundException e) 
 		{
-			throw new MetadataException("Could not create metadata item with id '" 
-					+ name + "' no path to the item");
+			throw new MetadataException(MessageLocalizer.getMessage("COULD_NOT_CREATE_METADATA_ITEM_WITH_ID")+" '" 
+					+ name + "' "+MessageLocalizer.getMessage("NO_PATH_TO_THE_ITEM"));
 		}  catch (RepositoryException e) {
 			e.printStackTrace();
 		}
@@ -211,7 +212,7 @@ public class MetadataConnector implements iMetadataConnector {
 					current = p_session.getRootNode().getNode(metaConfig.getQueryToReach() +
 							"/" + itemId);
 				} catch (PathNotFoundException e1) {
-					throw new MetadataException("Item " + itemId + " does not exist");
+					throw new MetadataException("Item " + itemId + " "+MessageLocalizer.getMessage("DOESNT_EXIST"));
 				} catch (RepositoryException e1) {
 					throw new MetadataException(e1);
 				}
@@ -227,7 +228,7 @@ public class MetadataConnector implements iMetadataConnector {
 				parent.save();
 			}
 			else
-				throw new MetadataException("Item " + itemId + " does not exist");
+				throw new MetadataException("Item " + itemId + " "+MessageLocalizer.getMessage("DOESNT_EXIST"));
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 			throw new MetadataException(e);

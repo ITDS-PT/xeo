@@ -33,6 +33,7 @@ import javax.servlet.jsp.PageContext;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boBridgeIterator;
@@ -384,7 +385,7 @@ public class DocumentHelper extends Ebo_DocumentImpl{
         InputStream bufferedIn = new BufferedInputStream( input );
         docContainer.setInputStream(bufferedIn);
         tFinal = System.currentTimeMillis();
-        logger.finer("Tempo Total CheckOut: " + (tFinal-tInicial)/1000 +"s" );
+        logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_CHECKOUT_TIME")+": " + (tFinal-tInicial)/1000 +"s" );
     }
     private static void setUpLoadFiles(boObject object,String userBoui,File upLoadFile, String bridge) throws boRuntimeException,IOException,iFilePermissionDenied
     {
@@ -429,7 +430,7 @@ public class DocumentHelper extends Ebo_DocumentImpl{
            setUpLoadFile(object,userBoui,upLoadFile,bridge);
         }
         tFinal = System.currentTimeMillis();
-        logger.finer("Tempo Total CheckIn: " + (tFinal-tInicial)/1000 +"s" );
+        logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_CHECKIN_TIME")+": " + (tFinal-tInicial)/1000 +"s" );
 
     }
     private static void setUpLoadFile(boObject object,String userBoui,File upLoadFile, String bridge) throws boRuntimeException,IOException,iFilePermissionDenied

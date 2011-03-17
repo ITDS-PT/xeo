@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import netgest.bo.def.*;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.parser.modifiers.*;
 import netgest.bo.parser.symbol.*;
 import netgest.bo.parser.types.*;
@@ -198,9 +199,9 @@ public class CodeJavaConstructor
         }
         catch (Exception e)
         {
-            throw new boRuntimeException("XEORecognizer",
-                "Erro ao verificar o attributo: " + att.getName() +
-                " do objecto: " + bodef.getBoName(), e);
+            throw new boRuntimeException("XEORecognizer",MessageLocalizer.getMessage("ERROR_VERIFYING_THE_ATTRIBUTE")+
+                ": " + att.getName() +
+                " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " + bodef.getBoName(), e);
         }
 
         return s;
@@ -1507,8 +1508,8 @@ public class CodeJavaConstructor
         }
         catch (Exception e)
         {
-            throw new boRuntimeException("XEORecognizer",
-                "Erro ao verificar o attributo: " + attName + " do objecto: " +
+            throw new boRuntimeException("XEORecognizer",MessageLocalizer.getMessage("ERROR_VERIFYING_THE_ATTRIBUTE")+
+                ": " + attName + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                 boName, e);
         }
 

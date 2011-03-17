@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.naming.InitialContext;
 
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
@@ -59,7 +60,7 @@ public class RebuildTextIndex extends OperationStatus
     }
     public void run()
     {
-        super.logln( "Starting rebuild of Ebo_TextIndex..." ); 
+        super.logln( MessageLocalizer.getMessage("STARTING_REBUILD_OF_EBO_TEXTINDEX") ); 
         super.logln( "----" );
         
         boDefHandler[] def = this.objectList;
@@ -97,11 +98,11 @@ public class RebuildTextIndex extends OperationStatus
 //                                                         .getConnectionString() +
 //                            "_nojta")).getConnection();
                     cn = ctx.getDedicatedConnectionData();                    
-                    super.log( "Truncating table [ EBO_TEXTINDEX ] " );
+                    super.log( MessageLocalizer.getMessage("TRUNCATING_TABLE")+" [ EBO_TEXTINDEX ] " );
                     pstm = cn.prepareStatement( "TRUNCATE TABLE " + ebo_textindexFullTableName );
                     pstm.execute();
                     
-                    super.loggreenln( "[ Done    ]" );
+                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" );
     
                     super.logln(  "----");
                 }
@@ -109,10 +110,10 @@ public class RebuildTextIndex extends OperationStatus
                 {
                     ex.printStackTrace();
                     super.logerrln(  "----" );
-                    super.logerrln( " Error truncation table [ EBO_TEXTINDEX ] " );
+                    super.logerrln( MessageLocalizer.getMessage("ERROR_TRUNCATING_TABLE")+" [ EBO_TEXTINDEX ] " );
                     super.logerrln( ex.getMessage() );
                     super.logerrln(  "----" );
-                    super.logerrln( "Operation Aborted ..." );
+                    super.logerrln( MessageLocalizer.getMessage("OPERATION_ABORTED"));
                     abort = true;
                 }
                 finally
@@ -149,7 +150,7 @@ public class RebuildTextIndex extends OperationStatus
                             ctx.beginContainerTransaction();
                             cn = ctx.getConnectionData();
                             
-                            super.log( "Rebuilding [ "+def[j].getName() + "]" );
+                            super.log( MessageLocalizer.getMessage("REBUILDING")+" [ "+def[j].getName() + "]" );
                             
                             if( !this.allObjects )
                             {
@@ -157,7 +158,7 @@ public class RebuildTextIndex extends OperationStatus
                                 pstm.setString( 1 , def[j].getName() );
                                 int nrows = pstm.executeUpdate();
                                 pstm.close();
-                                super.log( "[ "+nrows+" ] Deleted " );
+                                super.log( "[ "+nrows+" ] "+MessageLocalizer.getMessage("DELETED") );
                             }
                             ctx.commitContainerTransaction();
                             if(cn.isClosed())
@@ -207,16 +208,16 @@ public class RebuildTextIndex extends OperationStatus
                             }
                             rslt.close();
                             pstm.close();
-                            super.loggreenln( " [ Done    ] ");
+                            super.loggreenln( " [ "+MessageLocalizer.getMessage("DONE")+"    ] ");
                         } 
                         catch (Exception ex) 
                         {
                             ex.printStackTrace();
                             super.logerrln(  "----" );
-                            super.logerrln( " Error rebuilding Object ["+ def[j].getName() +"] " );
+                            super.logerrln( MessageLocalizer.getMessage("ERROR_REBUILDING_OBJECT")+" ["+ def[j].getName() +"] " );
                             super.logerrln( ex.getMessage() );
                             super.logerrln( "----" );
-                            super.logerrln( " Continuing.... ");
+                            super.logerrln( MessageLocalizer.getMessage("CONTINUING"));
                         } 
                         finally 
                         {
@@ -265,7 +266,7 @@ public class RebuildTextIndex extends OperationStatus
               //  pstm = cn.prepareStatement( "ALTER INDEX " + sys_im_ebo_textindexFullTableName + " REBUILD" );
               //  pstm.execute();
                 
-                super.loggreenln( "[ Done    ]" ); 
+                super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" ); 
 
                 super.logln( "----" );
             }
@@ -273,7 +274,7 @@ public class RebuildTextIndex extends OperationStatus
             {
                 ex.printStackTrace();
                 super.logerrln( "----" );
-                super.logerrln( " Error rebuilding index  [ SYS_IM_EBO_TEXTINDEX ] " );
+                super.logerrln( MessageLocalizer.getMessage("ERROR_REBUILDING_INDEX")+" [ SYS_IM_EBO_TEXTINDEX ] " );
                 super.logerrln( ex.getMessage() );
                 super.logerrln(  "----"  );
                 abort = true;
@@ -303,6 +304,6 @@ public class RebuildTextIndex extends OperationStatus
             ctx.getApplication().startAgents();
         }
         super.logln(  "----" );
-        super.logln("Finished rebuild ...");
+        super.logln(MessageLocalizer.getMessage("FINISHED_REBUILD"));
     }
 }

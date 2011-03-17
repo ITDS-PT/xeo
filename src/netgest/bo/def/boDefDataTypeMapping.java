@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.def;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boAttributesArray;
 
 /**
@@ -48,7 +49,7 @@ public class boDefDataTypeMapping extends boAttributesArray
         }
         if(i>=nbotype.length) 
         {
-            throw new RuntimeException("Tipo de dados não reconhecido ["+atttype+"]");
+            throw new RuntimeException(MessageLocalizer.getMessage("DATA_TYPE_NOT_RECOGNIZED")+" ["+atttype+"]");
         }
         return i;
     }

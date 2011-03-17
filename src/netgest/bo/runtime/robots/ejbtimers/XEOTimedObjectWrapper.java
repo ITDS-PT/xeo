@@ -7,6 +7,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public abstract class XEOTimedObjectWrapper {
@@ -22,9 +23,9 @@ public abstract class XEOTimedObjectWrapper {
         {
             TimerService timerService = context.getTimerService();
             timer = timerService.createTimer(timedObject.getInterval(), timedObject.getName());
-            logger.finer("["+timedObject.getName()+"]  Schedule next run at ["+timer.getNextTimeout()+"] with timeout ["+timedObject.getInterval()+"]");
+            logger.finer("["+timedObject.getName()+"]  "+LoggerMessageLocalizer.getMessage("SCHEDULE_NEXT_RUN_AT")+" ["+timer.getNextTimeout()+"] "+LoggerMessageLocalizer.getMessage("WITH_TIMEOUT")+" ["+timedObject.getInterval()+"]");
         }
-        else logger.warn("XEOTimedObject Not Found!!");
+        else logger.warn(LoggerMessageLocalizer.getMessage("XEOTIMEDOBJECT_NOT_FOUND"));
     }
 
     
@@ -54,7 +55,7 @@ public abstract class XEOTimedObjectWrapper {
             }
             addXEOTimedObject(timedObject);
         }
-        else logger.warn("XEOTimedObject Not Found!!");
+        else logger.warn(LoggerMessageLocalizer.getMessage("XEOTIMEDOBJECT_NOT_FOUND"));
           
     }
 
@@ -76,7 +77,7 @@ public abstract class XEOTimedObjectWrapper {
                 timedObject.setIsActive(false);
             }
         }
-        else logger.warn("XEOTimedObject Not Found!!");
+        else logger.warn(LoggerMessageLocalizer.getMessage("XEOTIMEDOBJECT_NOT_FOUND"));
         this.suspendForce(name,context);
     }
 

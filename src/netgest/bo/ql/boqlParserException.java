@@ -5,6 +5,7 @@ import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import netgest.bo.*;
+import netgest.bo.localizations.MessageLocalizer;
 
 public class boqlParserException extends boException {
     
@@ -24,32 +25,32 @@ public class boqlParserException extends boException {
 
             // Erros Mais genéricos
             p_errors.put("BOQL",":: ");
-            p_errors.put("BOQL-1000","Erro a fazer o parser da Query :1 \n :baserror");
-            p_errors.put("BOQL-1001","Erro a fazer o parser da Query :1 \n Erro na expressão :2 \n :baserror  ");
-            p_errors.put("BOQL-1002","Erro a fazer o parser da Query :1 \n Numero máximo de Ligações (profundidade) entre objectos execedida \n :baserror  ");
+            p_errors.put("BOQL-1000",MessageLocalizer.getMessage("ERROR_PARSING_THE_QUERY"));
+            p_errors.put("BOQL-1001",MessageLocalizer.getMessage("ERROR_PARSING_THE_QUERY_ERROR_IN_EXPRESSION"));
+            p_errors.put("BOQL-1002",MessageLocalizer.getMessage("ERROR_PARSING_THE_QUERY_MAX_NR_OF_CONNECTIONS"));
 
             // Erros boBuildDB
-            p_errors.put("BO-1301","Erro a adicionar no NGTDIC a tabéla [:1] \n :baserror");
-            p_errors.put("BO-1302","Erro a adicionar no NGTDIC o campo [:1] \n :baserror");
-            p_errors.put("BO-1303","Erro a adicionar no NGTDIC o ForeignKey [:1] \n :baserror");
-            p_errors.put("BO-1304","Erro a gerar Scripts para a o object [:1] \n :baserror");
-            p_errors.put("BO-1305","Tipo de dados não suportado [:1] \n :baserror");
-            p_errors.put("BO-1306","Erro de sintaxe no [:1] \n :baserror");
+            p_errors.put("BO-1301",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_TABLE_BASEERROR"));
+            p_errors.put("BO-1302",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_FIELD_BASEERROR"));
+            p_errors.put("BO-1303",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_FOREIGNKEY_BASEERROR"));
+            p_errors.put("BO-1304",MessageLocalizer.getMessage("ERROR_GENERATING_SCRIPTS_FOR_THE_OBJECT_BASEERROR"));
+            p_errors.put("BO-1305",MessageLocalizer.getMessage("UNSUPPORTED_DATA_TYPE_BASEERROR"));
+            p_errors.put("BO-1306",MessageLocalizer.getMessage("SYNTAX_ERROR_IN_BASEERROR"));
 
             // 
-            p_errors.put("BO-1401","Current Attribute is not a object [:1]");
-            p_errors.put("BO-1402","Only Orphan Objects are supported in bridge attributes [:1]");
-            p_errors.put("BO-1403","Attribute without type defined [:1]");
+            p_errors.put("BO-1401",MessageLocalizer.getMessage("CURRENT_ATTRIBUTE_IS_NOT_A_OBJECT"));
+            p_errors.put("BO-1402",MessageLocalizer.getMessage("ONLY_ORPHAN_OBJECTS_ARE_SUPPORTED_IN_BRIDGE_ATTRIBUTES"));
+            p_errors.put("BO-1403",MessageLocalizer.getMessage("ATTRIBUTE_WITHOUT_TYPE_DEFINED"));
 
 
             // Errors Class Generator and compiler
-            p_errors.put("BO-1501","Error copying xml to deployment dir og business object [:1]");
+            p_errors.put("BO-1501",MessageLocalizer.getMessage("ERROR_COPYING_XML_TO_DEPLOYMENT_DIR_OF_BUSINESS_OBJECT"));
 
             // Error of class compiler
-            p_errors.put("BO-1601","Error compiling class generated for [:1]");
+            p_errors.put("BO-1601",MessageLocalizer.getMessage("ERROR_COMPILING_CLASS_GENERATED_FOR"));
 
             // Error Runtime Class Errors
-            p_errors.put("BO-2101","Error Loading class for object [:1]");
+            p_errors.put("BO-2101",MessageLocalizer.getMessage("ERROR_LOADING_CLASS_FOR_OBJECT"));
 
         }    
     }

@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 import netgest.bo.boConfig;
@@ -16,7 +18,7 @@ public class boClassCompiler  {
     public String execcode="";
     public String aftercode="";
     public Process proc;
-    
+  
     private static Logger logger = Logger.getLogger("netgest.bo.builder.boBuilder");
     public void compile(String srcdir,File[] srccode,String outputdir) throws RuntimeException {
     	this.compile(srcdir, srccode, outputdir,null);
@@ -52,17 +54,17 @@ public class boClassCompiler  {
         	  javaFile = new File( javaHome + File.separator + javacName );
         	  if( javaFile.exists() ) {
         		  if( !(xjavac == null || xjavac.trim().length()==0 || xjavacFile.isDirectory()) )
-        			  logger.warn("javac in boconfig.xml not found, using the default. [" + javaFile.getAbsolutePath() + "] ");
+        			  logger.warn(LoggerMessageLocalizer.getMessage("JAVAC_IN_BOCONFIG_NOT_FOUND_USING_THE_DEFAULT")+" [" + javaFile.getAbsolutePath() + "] ");
         		  xjavac = javaFile.getAbsolutePath();
         		  xjavacFile = javaFile; 
         	  }
           }
-          
+         
           if (xjavac == null || xjavac.trim().length()==0 )  {
-              throw(new RuntimeException("Node (pathjavac) A Path para o compilador de java não foi especificada no boconfig.xml"));
+              throw(new RuntimeException(MessageLocalizer.getMessage("NODE_THE_PATH_FOR_THE_JAVA_COMPILER")));
           }
           else if ( !xjavacFile.exists() )   {
-              throw(new RuntimeException("Node (pathjavac) Não foi encontrado o javac [" + xjavacFile.getAbsolutePath() + "] especificado no boconfig.xml"));
+              throw(new RuntimeException(MessageLocalizer.getMessage("NODE_JAVAC_NOT_FOUND")+" [" + xjavacFile.getAbsolutePath() + "] "));
           }
           
           
@@ -131,13 +133,13 @@ public class boClassCompiler  {
           }
           if(time >= MAXTIMEEXIT) {
                 proc.destroy();
-                throw(new Exception("Error a compilar class"));
+                throw(new Exception(MessageLocalizer.getMessage("ERROR_COMPILING_CLASS")));
           }
 
           String error = rd2.dataReaded;
 
           if (error.length() > 0) {
-               throw(new RuntimeException("Erro a compilar class:\n"+error));
+               throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_COMPILING_CLASS")+":\n"+error));
           }
 
           return;

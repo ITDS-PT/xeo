@@ -32,6 +32,8 @@ import netgest.bo.dochtml.docHTML;
 import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.impl.document.merge.resultSet.MergeResultSetBoObject;
 import netgest.bo.impl.document.print.PrintJob;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.message.MessageServer;
 import netgest.bo.message.server.mail.MailUtil;
@@ -1233,7 +1235,7 @@ public class Helper
 //         actvSend.getAttribute("assignedQueue").setValueLong();
 //         mailobject.getObjectBinary().setBinary(null);
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total Criação da Actividade (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
+        logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_ACTIVITY_CREATION_TIME")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)");
 //        logger.finest("--------------------------------FIM Geração da Actividade-----------------------------------------");
          return actvSend;
     }
@@ -1387,7 +1389,7 @@ public class Helper
         }
         else
         {
-            throw new boRuntimeException("", "Centro Custo não definido para o utilizador.Contacte a Administração.", null);
+            throw new boRuntimeException("", MessageLocalizer.getMessage("CENTROCUSTO_UNDEFINED_FOR_USER_CONTACT_ADMINISTRATION"), null);
         }
    }
 
@@ -1873,7 +1875,7 @@ public class Helper
 
                         //TODO:Implement Interface LUSITANIA
                         //NumeroRegistado.rollBack(msg.getAttribute("registoCTT").getValueString());
-                        logger.finer("Desregistar este número:" + msg.getAttribute("registoCTT").getValueString());
+                        logger.finer(LoggerMessageLocalizer.getMessage("UNREGISTER_THIS_NUMBER")+": " + msg.getAttribute("registoCTT").getValueString());
                     }
 
                     //se for carta tenho que ver se é de impressão Central e se ainda não foi impresso

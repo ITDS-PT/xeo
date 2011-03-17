@@ -3,6 +3,7 @@ package netgest.bo.runtime.robots;
 
 import netgest.bo.system.boApplication;
 import netgest.bo.system.Logger;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 
 /**
@@ -84,7 +85,7 @@ public class boTextIndexAgent extends Thread
         }
         catch (Throwable e)
         {
-            logger.severe( "Error building TextIndex \n"+e.getMessage(), e );
+            logger.severe( LoggerMessageLocalizer.getMessage("ERROR_BUILDING_TEXTINDEX")+e.getMessage(), e );
         }
         finally
         {                  

@@ -5,6 +5,7 @@ import bsh.BshClassManager;
 import bsh.NameSpace;
 import bsh.UtilEvalError;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boEvent;
 import netgest.bo.runtime.boObject;
@@ -135,7 +136,7 @@ public abstract class Ebo_QueueImpl extends boObject
         }
         else
         {
-            throw new RuntimeException("Already Executed");
+            throw new RuntimeException(MessageLocalizer.getMessage("ALREADY_EXECUTED"));
         }
     }
 
@@ -172,7 +173,7 @@ public abstract class Ebo_QueueImpl extends boObject
         }
         else
         {
-            throw new RuntimeException("Already Executed");
+            throw new RuntimeException(MessageLocalizer.getMessage("ALREADY_EXECUTED"));
         }
     }
 
@@ -189,7 +190,7 @@ public abstract class Ebo_QueueImpl extends boObject
         }
         else
         {
-            throw new RuntimeException("Already Executed");
+            throw new RuntimeException(MessageLocalizer.getMessage("ALREADY_EXECUTED"));
         }
     }
 

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.WeakHashMap;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -282,7 +283,7 @@ public class boPoolManager
                 try { 
                     Thread.sleep(10);
                     if(cntr==1 && xtimeout > 0 ) {
-                        logger.warn("Waiting for "+ key+" USER: "+boctx.getBoSession().getUser().getName() +"  in Thread = "+ret.ownerContext +" current Thread = "+ boctx.poolUniqueId()+" OWNER:"+ owner);
+                        logger.warn(LoggerMessageLocalizer.getMessage("WAITING_FOR")+" "+ key+" "+LoggerMessageLocalizer.getMessage("USER")+": "+boctx.getBoSession().getUser().getName() +"  "+LoggerMessageLocalizer.getMessage("IN_THREAD")+" = "+ret.ownerContext +" "+LoggerMessageLocalizer.getMessage("CURRENT_THREAD")+" = "+ boctx.poolUniqueId()+" "+LoggerMessageLocalizer.getMessage("OWNER")+":"+ owner);
                     }
                     
                     ret = __getObject( boctx, owner, key );
@@ -298,7 +299,7 @@ public class boPoolManager
                 
                 if( !ret.ownerContext.equals( boctx.poolUniqueId() ) &&  TimeoutContext.containsKey( boctx.poolUniqueId() ) )
                 {    
-                    logger.warn("EboContext marked as Timeout, no Wait - "+ key+" USER: "+boctx.getBoSession().getUser().getName() +"  in Thread = "+ret.ownerContext +" current Thread = "+ boctx.poolUniqueId()+" OWNER:"+ owner);
+                    logger.warn(LoggerMessageLocalizer.getMessage("EBOCONTEXT_MARKED_AS_TIMEOUT_NO_WAIT")+" - "+ key+" "+LoggerMessageLocalizer.getMessage("USER")+": "+boctx.getBoSession().getUser().getName() +"  "+LoggerMessageLocalizer.getMessage("IN_THREAD")+" = "+ret.ownerContext +" "+LoggerMessageLocalizer.getMessage("CURRENT_THREAD")+" = "+ boctx.poolUniqueId()+" "+LoggerMessageLocalizer.getMessage("OWNER")+":"+ owner);
                     ret.ownerContext = null;
                     ret = __getObject( boctx, owner, key );
                     continue;
@@ -311,7 +312,7 @@ public class boPoolManager
                     {
                         TimeoutContext.put( boctx.poolUniqueId(), new Boolean(true) );
                         ret.ownerContext=null;
-                        logger.warn("ERROR IN EBO_CONTEXT : "+ key +" "+boctx.getBoSession().getUser().getName()+" to be release by another context in another Thread " );
+                        logger.warn(LoggerMessageLocalizer.getMessage("ERROR_IN_EBOCONTEXT")+" : "+ key +" "+boctx.getBoSession().getUser().getName()+"  "+LoggerMessageLocalizer.getMessage("TO_BE_RELEASED_BY_NOTHER_CONTEXT_IN_ANOTHER_THREAD"));
                         ret = __getObject( boctx, owner, key );
                     }
                 }

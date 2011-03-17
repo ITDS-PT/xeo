@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class XEOSpyConnection implements java.sql.Connection {
@@ -61,7 +62,7 @@ public class XEOSpyConnection implements java.sql.Connection {
             if( !xeoPs.isClosed() ){
                 xeoPs.close();                
                 logger.warn("------------------------------------------------");
-                logger.warn("O PreparedStatement não foi fechado: " + xeoPs.getQuery() );
+                logger.warn(LoggerMessageLocalizer.getMessage("THE_PREPAREDSTATEMENT_WAS_NOT_CLOSED")+": " + xeoPs.getQuery() );
                 xeoPs.printStackTrace();
                 logger.warn("------------------------------------------------");
             }
@@ -74,7 +75,7 @@ public class XEOSpyConnection implements java.sql.Connection {
             if( !xeoSt.isClosed() ){
                 xeoSt.close();                
                 logger.warn("------------------------------------------------");
-                logger.warn("O Statement não foi fechado: " + xeoSt.getQuery() );
+                logger.warn(LoggerMessageLocalizer.getMessage("THE_STATEMENT_WAS_NOT_CLOSED")+": " + xeoSt.getQuery() );
                 xeoSt.printStackTrace();
                 logger.warn("------------------------------------------------");
             }
@@ -87,7 +88,7 @@ public class XEOSpyConnection implements java.sql.Connection {
             if( !xeoCa.isClosed() ){
                 xeoCa.close();                
                 logger.warn("------------------------------------------------");
-                logger.warn("O CallableStatement não foi fechado: " + xeoCa.getQuery() );
+                logger.warn(LoggerMessageLocalizer.getMessage("THE_CALLABLESTATEMENT_WAS_NOT_CLOSED")+": " + xeoCa.getQuery() );
                 xeoCa.printStackTrace();
                 logger.warn("------------------------------------------------");
             }

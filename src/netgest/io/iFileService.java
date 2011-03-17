@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.io;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 public class iFileService {
     public static final String PREFIX = "//";
     public String CLASSNAME,
@@ -35,11 +37,11 @@ public class iFileService {
              //   throw(new RuntimeException("Classe não extende iFileProvider. ["+classname+"]."));
             //}
         } catch (ClassNotFoundException e) {
-            throw(new RuntimeException("Não foi possível localizar a Class ["+classname+"]."));
+            throw(new RuntimeException(MessageLocalizer.getMessage("UNABLE_TO_FIND_THE_CLASS")+" ["+classname+"]."));
         } catch (IllegalAccessException e) {
-            throw(new RuntimeException("Não foi aceder a Class ["+classname+"] (IllegalAccessException)."));
+            throw(new RuntimeException(MessageLocalizer.getMessage("UNABLE_TO_ACCESS_THE_CLASS")+" ["+classname+"] (IllegalAccessException)."));
         } catch (InstantiationException e) {
-            throw(new RuntimeException("Não foi instaciar a Class ["+classname+"] (InstantiationException)."));
+            throw(new RuntimeException(MessageLocalizer.getMessage("UNABLE_TO_INSTANTIATE_THE_CLASS")+" ["+classname+"] (InstantiationException)."));
         }
         p_ifile = (iFileProvider)_object;
     }

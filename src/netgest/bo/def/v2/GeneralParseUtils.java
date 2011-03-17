@@ -1,6 +1,7 @@
 package netgest.bo.def.v2;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefDataTypeMapping;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.ngtXMLHandler;
 
 public class GeneralParseUtils 
@@ -23,7 +24,7 @@ public class GeneralParseUtils
         }
         else
         {
-            throw new RuntimeException("Type ["+ type +"] is unknown");
+            throw new RuntimeException(MessageLocalizer.getMessage("TYPE")+" ["+ type +"] "+MessageLocalizer.getMessage("IS_UNKNOWN"));
         }
         return ret;
     }
@@ -122,6 +123,6 @@ public class GeneralParseUtils
         {
             return "char("+len+")";
         }
-        throw new RuntimeException("Type :" + nodeName + " " );
+        throw new RuntimeException(MessageLocalizer.getMessage("TYPE")+" :" + nodeName + " " );
     }
 }

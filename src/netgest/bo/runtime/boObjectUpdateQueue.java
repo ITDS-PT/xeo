@@ -2,6 +2,7 @@
 package netgest.bo.runtime;
 import java.util.*;
 import netgest.utils.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 /**
@@ -42,7 +43,7 @@ public class boObjectUpdateQueue
     private void error()
     {
         Throwable x = new Throwable();
-        logger.finest("Erro adding to save queue a object with BOUI 0\nCheck the Stack Trace to view where it come from:\n", x);
+        logger.finest(LoggerMessageLocalizer.getMessage("ERROR_ADDING_TO_SAVE_QUEUE_A_OBJECT_WITH_BOUI_CHECK_"), x);
     }
     public void add(long boui, byte mode)
     {

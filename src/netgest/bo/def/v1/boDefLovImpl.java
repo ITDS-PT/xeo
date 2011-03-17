@@ -6,6 +6,7 @@ import netgest.bo.boConfig;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefLov;
+import netgest.bo.localizations.MessageLocalizer;
 
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
@@ -51,7 +52,7 @@ public class boDefLovImpl extends ngtXMLHandler implements boDefLov
         } 
         catch (Exception e) 
         {
-            throw new RuntimeException("Error reading XML of ["+lovname+"]\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_READING_XML_OF")+" ["+lovname+"]\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import netgest.bo.impl.Ebo_TextIndexImpl;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -150,7 +151,7 @@ public class boTextIndexAgentBussinessLogic
                           ctx.beginContainerTransaction();
                           CharArrayWriter cw = new CharArrayWriter(  );
                           PrintWriter     pw = new PrintWriter( cw );
-                          logger.severe("Error indexing object:["+itens[counter]+"]",e);
+                          logger.severe(LoggerMessageLocalizer.getMessage("ERROR_INDEXING_OBJECT")+":["+itens[counter]+"]",e);
                           e.printStackTrace( pw );
                           try
                           {
@@ -170,7 +171,7 @@ public class boTextIndexAgentBussinessLogic
                     {
                         if( itens != null && itens.length > 0 ) 
                         {
-                            logger.finer(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
+                            logger.finer(  LoggerMessageLocalizer.getMessage("TEXTINDEXER_TOOK")+" ["+ (System.currentTimeMillis()-init) +" ms] "+LoggerMessageLocalizer.getMessage("INDEXING")+" [" + itens.length + "] itens...");
                         }
                         ctx.releaseAllObjects();
                         if ( ctx.getThread() != null ) 
@@ -190,7 +191,7 @@ public class boTextIndexAgentBussinessLogic
               }
               if( itens != null && itens.length > 0 ) 
               {
-                  logger.finer(  "TextIndex Demorou ["+ (System.currentTimeMillis()-init) +" ms] a indexar [" + itens.length + "] itens...");
+                  logger.finer(  LoggerMessageLocalizer.getMessage("TEXTINDEXER_TOOK")+" ["+ (System.currentTimeMillis()-init) +" ms] "+LoggerMessageLocalizer.getMessage("INDEXING")+" [" + itens.length + "] itens...");
               }
               // Clean objects in queue
               // queue.p_objects.clear();
@@ -214,7 +215,7 @@ public class boTextIndexAgentBussinessLogic
         }
         catch (Throwable e)
         {
-            logger.severe( "Error building TextIndex \n"+e.getMessage(), e );
+            logger.severe( LoggerMessageLocalizer.getMessage("ERROR_BUILDING_TEXTINDEX")+e.getMessage(), e );
             e.printStackTrace();
         }
         finally

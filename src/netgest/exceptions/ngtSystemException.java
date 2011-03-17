@@ -3,6 +3,8 @@ package netgest.exceptions;
 import java.util.*;
 import java.io.*;
 import netgest.utils.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class ngtSystemException extends RuntimeException {
@@ -22,7 +24,7 @@ public class ngtSystemException extends RuntimeException {
         if(p_errors == null ) initErrorCodes();
         p_baseexception = base;
         String xmsg = (String)p_errors.get(code);
-        p_message = src+":"+code+":"+xmsg+"\nBase Error:"+base.getMessage();
+        p_message = src+":"+code+":"+xmsg+"\n"+MessageLocalizer.getMessage("BASE_ERROR")+":"+base.getMessage();
         int i=0;
         if(args!=null) {
             for(i=0;i<args.length;i++) {
@@ -35,28 +37,28 @@ public class ngtSystemException extends RuntimeException {
        if(p_errors==null) {
             p_errors = new Hashtable();
             // Workspace Erros
-            p_errors.put("NGT-3001","Workspace not found [:1]");
+            p_errors.put("NGT-3001",MessageLocalizer.getMessage("WORKSPACE_NOT_FOUND"));
        }    
     }
 
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.severe("Nexted expcetion is:", this);
+        logger.severe(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS")+":", this);
         super.printStackTrace();
     }
 
     public void printStackTrace(PrintStream s) {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
-        s.println("Nexted expcetion is:");
+        s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS")+":");
         super.printStackTrace(s);
     }
 
     public void printStackTrace(PrintWriter s) {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
-        s.println("Nexted expcetion is:");
+        s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS")+":");
         super.printStackTrace(s);
     }
 

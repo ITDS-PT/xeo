@@ -2,6 +2,8 @@
 package netgest.bo.message.utils;
 
 import java.util.Calendar;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.Address;
 import netgest.bo.message.Message;
 
@@ -93,7 +95,7 @@ public class XEOIDUtil
         }
         catch (Exception e)
         {
-            logger.severe("Error treating: " + value, e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_TREATING")+": " + value, e);
         }
         
         return (value == null) ? "" : value;

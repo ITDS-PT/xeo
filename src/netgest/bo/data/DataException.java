@@ -2,6 +2,8 @@
 package netgest.bo.data;
 import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -32,7 +34,7 @@ public class DataException extends RuntimeException
     static 
     {
         Hashtable ht = new Hashtable();
-        ht.put("5001","Cannot convert value from [:1] to [:2].");
+        ht.put("5001",MessageLocalizer.getMessage("CANNOT_CONVERT_VALUE_FROM_TO"));
     }
 
     public String getLocalizedMessage()

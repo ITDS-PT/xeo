@@ -43,6 +43,8 @@ import netgest.bo.ejb.impl.boSecurityManagerBean;
 import netgest.bo.impl.Ebo_TemplateImpl;
 import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.impl.templates.boTemplateManager;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.plugins.DataPluginManager;
@@ -728,9 +730,9 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
             throw new boRuntimeException(this,
                 boObject.class.getName() + ".update()", "BO-3021", null,
-                "The errors found are in object [" + this.getName() + ":" +
+                MessageLocalizer.getMessage("THE_ERRORS_FOUND_ARE_IN_OBJECT")+" [" + this.getName() + ":" +
                 this.getBoui() + "] " +
-                this.getBoDefinition().getDescription() + " are:\n" + errors);
+                this.getBoDefinition().getDescription() + " "+MessageLocalizer.getMessage("ARE")+":\n" + errors);
         }
 
         return cont;
@@ -1741,7 +1743,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
     public void saveAsTemplate() throws boRuntimeException {
         throw new RuntimeException(
-            "Cannot invoke saveAsTemplate without template name.");
+            MessageLocalizer.getMessage("CANNOT_INVOKE_SAVEASTEMPLATE_WITHOUT_TEMPLATE_NAME"));
     }
 
     public void saveAsTemplate(String templatename) throws boRuntimeException {
@@ -1914,7 +1916,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 	        }
 	        catch (iFilePermissionDenied e)
 	        {
-	            logger.severe("Não foi possível remover do repositório, o ficheiro " + file.getName(),e);
+	            logger.severe(LoggerMessageLocalizer.getMessage("COULD_NOT_REMOVE_FROM_REPOSITORY_FILE")+" " + file.getName(),e);
 	        }
     	}
     	finally {
@@ -2342,7 +2344,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
             }
         } catch (boRuntimeException e) {
             throw new boRuntimeException2(this.getClass().getName() +
-                "Error activiting Object.\n" + "\n" + e.getMessage());
+                MessageLocalizer.getMessage("ERROR_ACTIVATING_OBJECT")+"\n" + "\n" + e.getMessage());
         }
     }
 
@@ -3309,7 +3311,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
         this.isEnabled = false;
         this.isEnabledforRequest = false;
     }
-    
+
+        
     /**
      * Whether or not the Object is disabled
      * 
@@ -3318,6 +3321,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     public boolean isDisabled(){
     	return !isEnabled;
     }
+    
 
     public void setEnabledforRequest() throws boRuntimeException {
         _setEnabled(true,true);
@@ -4110,11 +4114,11 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 }
                 catch (IOException e)
                 {
-                    throw new RuntimeException("Erro updating file.\n"+e.getClass().getName()+"\n"+e.getMessage());
+                    throw new RuntimeException(MessageLocalizer.getMessage("ERROR_UPDATING_FILE")+"\n"+e.getClass().getName()+"\n"+e.getMessage());
                 }
                 catch (iFilePermissionDenied e)
                 {
-                    throw new RuntimeException("Erro updating file.\n"+e.getClass().getName()+"\n"+e.getMessage());
+                    throw new RuntimeException(MessageLocalizer.getMessage("ERROR_UPDATING_FILE")+"\n"+e.getClass().getName()+"\n"+e.getMessage());
                 }
             }
         }

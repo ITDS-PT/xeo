@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 
@@ -56,7 +57,7 @@ public class RebuildSecurityKeys extends OperationStatus
     }
     public void run()
     {
-        super.logln( "Starting the rebuild Security Keys.." );
+        super.logln( MessageLocalizer.getMessage("STARTING_THE_REBUILD_SECURITY_KEYS") );
         super.logln( "------");
         
         boDefHandler[] def = this.objectList;
@@ -76,7 +77,7 @@ public class RebuildSecurityKeys extends OperationStatus
                     {
                         cn = ctx.getConnectionData();
                         
-                        super.log( "Rebuilding [ "+ def[j].getName() + "]" );
+                        super.log( MessageLocalizer.getMessage("REBUILDING")+" [ "+ def[j].getName() + "]" );
                         
                         if( this.allInSameTable )
                         {
@@ -117,7 +118,7 @@ public class RebuildSecurityKeys extends OperationStatus
                                 catch (Exception e)
                                 {
                                     //ignore
-                                    errorsList.add("Error rebuilding security keys of object [" + bouis[z] + "]");
+                                    errorsList.add(MessageLocalizer.getMessage("ERROR_REBUILD_SECURITY_KEYS_OF_OBJECT")+" [" + bouis[z] + "]");
                                 }
                                 
                             }
@@ -133,13 +134,13 @@ public class RebuildSecurityKeys extends OperationStatus
                         rslt.close();
                         pstm.close();                        
                         ctx.getThread().clear();
-                        super.loggreenln( " [ Done    ] ");
+                        super.loggreenln( " [ "+MessageLocalizer.getMessage("DONE")+"    ] ");
                     } 
                     catch (Exception ex) 
                     {
                         ex.printStackTrace();
                         super.logerrln( "____" );
-                        super.logerrln( " Error rebuilding Object ["+ def[j].getName() +"] " );
+                        super.logerrln( MessageLocalizer.getMessage("ERROR_REBUILDING_OBJECT")+"  ["+ def[j].getName() +"] " );
                         super.logerrln( ex.getMessage() );
                         super.logerrln( "____" );
                         try
@@ -150,12 +151,12 @@ public class RebuildSecurityKeys extends OperationStatus
                         {
                             super.log("");
                             super.logerrln( "____" );
-                            super.logerrln( " Error rollingback transaction " );
+                            super.logerrln( MessageLocalizer.getMessage("ERROR_ROLLINGBACK_TRANSACTION") );
                             super.logerrln( e.getMessage() );
                             super.logerrln( "____" );
                         }
                         
-                        super.logerrln( " Continuing.... ");
+                        super.logerrln( MessageLocalizer.getMessage("CONTINUING"));
                     } 
                     finally 
                     {
@@ -193,6 +194,6 @@ public class RebuildSecurityKeys extends OperationStatus
         {
             super.logerrln((String)errorsList.get(i));    
         }
-        super.logln("Finished rebuild ...");
+        super.logln(MessageLocalizer.getMessage("FINISHED_REBUILD"));
     }
 }

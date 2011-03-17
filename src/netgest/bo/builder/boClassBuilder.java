@@ -25,6 +25,8 @@ import netgest.bo.def.boDefForwardObject;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefXeoCode;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
@@ -87,7 +89,7 @@ public class boClassBuilder
             
             
             p_buildProgress.addOverallProgress();
-            p_buildProgress.setOverallTaskName( "Generating XEO Model java source files..." );            
+            p_buildProgress.setOverallTaskName(MessageLocalizer.getMessage("GENERATING_XEO_MODEL_JAVA_SOURCE_FILES") );            
             p_buildProgress.setCurrentTasks( bodefs.length );
             
             for(int i=0;i < bodefs.length;i++) {
@@ -151,13 +153,13 @@ public class boClassBuilder
             ArrayList auxL = new ArrayList(COMPILE_MAX);
             File[] aux = new File[COMPILE_MAX];
             int pos = 0;
-            logger.finer("Started Compiling " + a_srcfiles.length + " classes...");
+            logger.finer(LoggerMessageLocalizer.getMessage("STARTED_COMPILING")+" " + a_srcfiles.length + " classes..."+LoggerMessageLocalizer.getMessage("CASSES"));
 
             p_buildProgress.addOverallProgress();
-            p_buildProgress.setOverallTaskName( "Compiling XEO Model java source files..." );            
+            p_buildProgress.setOverallTaskName(MessageLocalizer.getMessage("COMPILING_XEO_MODEL_JAVA_SOURCE_FILES") );            
             
             p_buildProgress.setCurrentTasks( a_srcfiles.length );
-            p_buildProgress.setCurrentTaskName( "Compiling..." );
+            p_buildProgress.setCurrentTaskName(MessageLocalizer.getMessage("COMPILING"));
             while(pos < a_srcfiles.length)
             {
                 pos = compileMax(a_srcfiles, auxL, pos, COMPILE_MAX);
@@ -171,7 +173,7 @@ public class boClassBuilder
                 	p_buildProgress.addCurrentTaskProgress();
                 
             }
-            logger.finer("Ended Compiling...");
+            logger.finer(LoggerMessageLocalizer.getMessage("ENDED_COMPILING"));
 
 
         } catch (IOException e) {
@@ -690,7 +692,7 @@ public class boClassBuilder
 //        }
         if( sb.toString().trim().startsWith("null") )
         {
-            logger.severe("ERRO.. codigo gerado a null");
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_GENERATED_CODE_IS_NULL"));
         }
         return sb.toString();
 

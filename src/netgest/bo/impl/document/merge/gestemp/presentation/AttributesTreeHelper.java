@@ -5,6 +5,7 @@ import netgest.bo.def.*;
 
 import netgest.bo.dochtml.*;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.ql.*;
 
 import netgest.bo.runtime.*;
@@ -252,7 +253,7 @@ public class AttributesTreeHelper
                 }
                 catch (Exception e)
                 {
-                    logger.warn("Loading Lov ERROR : lovname= " + lovName);
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_LOADING_LOV_LOVNAME")+"= " + lovName);
                 }
             //}
         }

@@ -1,6 +1,8 @@
 package netgest.bo.message.server.sms;
 import java.util.Date;
 import netgest.bo.boConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 
 import netgest.utils.StringUtils;
@@ -66,7 +68,7 @@ public class SMSExpressApi
 
             if (xnode == null) 
             {
-                throw new RuntimeException("Não foi indicado no ficheiro boconfig.xml a configuração SMSExpress.");
+                throw new RuntimeException(MessageLocalizer.getMessage("SMSEXPRESS_CONFIGURATION_HAS_NOT_BEEN_DEFINED_IN_THE_BOCONFIG"));
             }
 
             p_smsLogin      = xnode.getChildNodeText( "login" , null );
@@ -135,7 +137,7 @@ public class SMSExpressApi
                 catch (Exception e)
                 {
                     p_generatedException = e;
-                    logger.warn("Erro na tentativa "+i+" de envoio de SMS:" +  e.getMessage() );
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON_TRY")+" "+i+" "+LoggerMessageLocalizer.getMessage("OF_SENDING_SMS")+":" +  e.getMessage() );
                 }
             }
         }
@@ -147,7 +149,7 @@ public class SMSExpressApi
         }
         finally
         {
-            logger.finest("Envio de SMS para o número:"+number +" tempo(ms): " + (tf - ti));
+            logger.finest(LoggerMessageLocalizer.getMessage("SENDING_SMS_TO_NUMBER")+": "+number +"  "+LoggerMessageLocalizer.getMessage("TIME")+"(ms): " + (tf - ti));
         }
         
         return ret;

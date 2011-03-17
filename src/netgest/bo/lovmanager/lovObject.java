@@ -1,10 +1,20 @@
 /*Enconding=UTF-8*/
 package netgest.bo.lovmanager;
 
+import netgest.bo.builder.boBuildLov;
+import netgest.bo.def.boDefLov;
+import netgest.bo.def.v2.boDefHandlerImpl;
+import netgest.bo.def.v2.boDefLovImpl;
+import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boSessionUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,482 +22,514 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Properties;
 
 import com.ibm.regex.*;
 
 import java.util.Hashtable;
 
+public class lovObject {
+	private ArrayList p_lov_cod = new ArrayList();
+	private ArrayList p_lov_description = new ArrayList();
+	private int p_pointer = -1;
+	private int p_count = 0;
+	private long p_lovboui = -1;
+	private String p_name = "";
+	private String p_language = null;
+	//////////
+	static EboContext ctxt;
 
+	public lovObject(EboContext ctx, String name, String[] onlyThisValues)
+			throws boRuntimeException {
+		ctxt=ctx;
+		
+		p_name = name;
+		boObject lov;
+		lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV",
+				"name='" + name + "'");
 
-public class lovObject
-{
-    private ArrayList p_lov_cod         = new ArrayList();
-    private ArrayList p_lov_description = new ArrayList();
-    private int p_pointer               = -1;
-    private int p_count                 = 0;
-    private long p_lovboui = -1;
+		p_language = lov.getAttribute("lang").getValueString();
+		
+		if (lov.exists()) {
+			p_lovboui = lov.getBoui();
+			bridgeHandler lovdetails = lov.getBridge("details");
 
-    public lovObject(EboContext ctx, String name, String[] onlyThisValues)
-        throws boRuntimeException
-    {
-        boObject lov;
-        lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV", "name='" + name + "'");
-        
-        if (lov.exists())
-        {
-            p_lovboui = lov.getBoui();
-            bridgeHandler lovdetails = lov.getBridge("details");
+			
+			lovdetails.beforeFirst();
 
-            lovdetails.beforeFirst();
+			// Ebo_LOVDetails det;
+			boObject details;
 
-            // Ebo_LOVDetails det;
-            boObject det;
+			if (lovdetails.getRowCount() > 0) {
+				
 
-            if (lovdetails.getRowCount() > 0)
-            {
-                String v = null;
+				while (lovdetails.next()) {
+					details = lovdetails.getObject();
+					String xcod = details.getAttribute("value").getValueString();
+					String xlabel = details.getAttribute("description")
+							.getValueString();
+					boolean toAdd = true;
 
-                while (lovdetails.next())
-                {
-                    det = lovdetails.getObject();
+					if (onlyThisValues != null) {
+						toAdd = false;
 
-                    String xcod   = det.getAttribute("value").getValueString();
-                    String xlabel = det.getAttribute("description").getValueString();
-                    boolean toAdd = true;
+						for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++) {
+							if (xcod.equals(onlyThisValues[i])) {
+								toAdd = true;
+							}
+						}
+					}
 
-                    if (onlyThisValues != null)
-                    {
-                        toAdd = false;
+					if (toAdd) {
+						add(xcod, xlabel);
+					}
+					/////////////////
+					if(this.p_language==null || (this.p_language != null && p_language.length() == 0))
+						this.p_language=boApplication.getDefaultApplication().getApplicationLanguage();
+					
+					/////////
+				}
+			}
+		}
+	}
 
-                        for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++)
-                        {
-                            if (xcod.equals(onlyThisValues[i]))
-                            {
-                                toAdd = true;
-                            }
-                        }
-                    }
+	// psantos ini
+	public lovObject(EboContext ctx, long lovBoui, String name, String sql,
+			String field_description, String field_cod,
+			Hashtable queryParameters, String[] onlyThisValues) {
+		PreparedStatement pstm = null;
+		ResultSet rslt = null;
+		Connection cn = null;
+		///////////////
+		if (this.p_language==null)
+			this.p_language=boApplication.getDefaultApplication().getApplicationLanguage();
+		
+		////////////
+		try {
+			p_lovboui = lovBoui;
+			cn = ctx.getConnectionData();
+			RegularExpression regex = new RegularExpression(
+					"(:([a-zA-Z0-9_$]+))");
+			ArrayList values = new ArrayList();
+			Match match = new Match();
+			while (regex.matches(sql, match)) {
+				String parName = match.getCapturedText(2).toUpperCase();
+				values.add(queryParameters.get(parName));
+				sql = sql.substring(0, match.getBeginning(1)) + "?"
+						+ sql.substring(match.getEnd(1));
+			}
+			pstm = cn.prepareStatement(sql);
+			for (int i = 0; i < values.size(); i++) {
+				if (values.get(i) == null) {
+					pstm.setString(i + 1, null);
+				} else {
+					pstm.setObject(i + 1, values.get(i));
+				}
+			}
+			rslt = pstm.executeQuery();
+			while (rslt.next()) {
+				Object o = rslt.getObject(field_cod);
+				String xcod = "";
+				if (o != null) {
+					xcod = o.toString();
+				}
+				String[] fieldsDescription = field_description.split(",");
+				StringBuffer str = new StringBuffer();
 
-                    if (toAdd)
-                    {
-                        add(xcod, xlabel);
-                    }
-                }
-            }
-        }
-    }
-    
-    // psantos ini
-    public lovObject(   EboContext ctx,
-                        long lovBoui,
-                        String name, 
-                        String sql, 
-                        String field_description, 
-                        String field_cod, 
-                        Hashtable queryParameters, 
-                        String[] onlyThisValues )
-    {
-        PreparedStatement pstm = null;
-        ResultSet         rslt = null;
-        Connection        cn   = null;
-        try 
-        {
-            p_lovboui = lovBoui;
-            cn = ctx.getConnectionData();
-            RegularExpression regex = new RegularExpression( "(:([a-zA-Z0-9_$]+))" );
-            ArrayList values = new ArrayList();
-            Match match = new Match();
-            while( regex.matches( sql, match ) )
-            {
-                String parName = match.getCapturedText( 2 ).toUpperCase();
-                values.add( queryParameters.get( parName ) );
-                sql = sql.substring( 0, match.getBeginning( 1 ) )
-                        + "?" +
-                      sql.substring( match.getEnd( 1 ) );
-            }
-            pstm = cn.prepareStatement( sql );
-            for (int i = 0; i < values.size(); i++) 
-            {
-                if( values.get( i ) == null )
-                {
-                    pstm.setString( i + 1, null );
-                }
-                else
-                {
-                    pstm.setObject( i + 1, values.get( i ) );
-                }
-            }
-            rslt = pstm.executeQuery();
-            while (rslt.next())
-            {                
-                Object o = rslt.getObject(field_cod);
-                String xcod  = "";
-                if( o != null)
-                {
-                    xcod                 = o.toString();   
-                }                
-                String[] fieldsDescription = field_description.split(",");
-                StringBuffer str           = new StringBuffer();
+				for (int i = 0; i < fieldsDescription.length; i++) {
+					str.append(rslt.getObject(field_description)).append(" ");
+				}
 
-                for (int i = 0; i < fieldsDescription.length; i++)
-                {
-                    str.append(rslt.getObject( field_description )).append(" ");
-                }
-                
-                boolean toAdd = true;
+				boolean toAdd = true;
 
-                if (onlyThisValues != null)
-                {
-                    toAdd = false;
+				if (onlyThisValues != null) {
+					toAdd = false;
 
-                    for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++)
-                    {
-                        if (xcod.equals(onlyThisValues[i]))
-                        {
-                            toAdd = true;
-                        }
-                    }
-                }
+					for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++) {
+						if (xcod.equals(onlyThisValues[i])) {
+							toAdd = true;
+						}
+					}
+				}
 
-                if (toAdd)
-                {
-                    add(xcod, str.toString(), true);
-                }
-            }
-        }
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-        } 
-        finally 
-        {
-            try 
-            {
-                rslt.close();
-                pstm.close();
-            } catch (Exception ex) 
-            { 
-                ex.printStackTrace();
-            } finally 
-            {
-            }
-        }
-        
-    }
-    
-     public lovObject(   EboContext ctx,
-                        long lovBoui,
-                        String name, 
-                        String sql, 
-                        String field_description, 
-                        String field_cod, 
+				if (toAdd) {
+					add(xcod, str.toString(), true);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				rslt.close();
+				pstm.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			} finally {
+			}
+		}
 
-                        String[] onlyThisValues )
-    {
-        PreparedStatement pstm = null;
-        ResultSet         rslt = null;
-        Connection        cn   = null;
-        try 
-        {
-            p_lovboui = lovBoui;
-            cn = ctx.getConnectionData();
-            RegularExpression regex = new RegularExpression( "(:([a-zA-Z0-9_$]+))" );
-             Match match = new Match();
-            
-            pstm = cn.prepareStatement( sql );
-            rslt = pstm.executeQuery();
-            while (rslt.next())
-            {                
-                Object o = rslt.getObject(field_cod);
-                String xcod  = "";
-                if( o != null)
-                {
-                    xcod                 = o.toString();   
-                }                
-                String[] fieldsDescription = field_description.split(",");
-                StringBuffer str           = new StringBuffer();
+	}
 
-                for (int i = 0; i < fieldsDescription.length; i++)
-                {
-                    str.append(rslt.getObject( field_description )).append(" ");
-                }
-                
-                boolean toAdd = true;
+	public lovObject(EboContext ctx, long lovBoui, String name, String sql,
+			String field_description, String field_cod,
 
-                if (onlyThisValues != null)
-                {
-                    toAdd = false;
+			String[] onlyThisValues) {
+		PreparedStatement pstm = null;
+		ResultSet rslt = null;
+		Connection cn = null;
+		try {
+			p_lovboui = lovBoui;
+			cn = ctx.getConnectionData();
+			RegularExpression regex = new RegularExpression(
+					"(:([a-zA-Z0-9_$]+))");
+			Match match = new Match();
 
-                    for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++)
-                    {
-                        if (xcod.equals(onlyThisValues[i]))
-                        {
-                            toAdd = true;
-                        }
-                    }
-                }
+			pstm = cn.prepareStatement(sql);
+			rslt = pstm.executeQuery();
+			while (rslt.next()) {
+				Object o = rslt.getObject(field_cod);
+				String xcod = "";
+				if (o != null) {
+					xcod = o.toString();
+				}
+				String[] fieldsDescription = field_description.split(",");
+				StringBuffer str = new StringBuffer();
 
-                if (toAdd)
-                {
-                    add(xcod, str.toString(), true);
-                }
-            }
-        }
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-        } 
-        finally 
-        {
-            try 
-            {
-                if (rslt!= null) rslt.close();
-                if (pstm!= null) pstm.close();
-            } catch (Exception ex) 
-            { 
-                ex.printStackTrace();
-            } finally 
-            {
-            }
-        }
-        
-    }
+				for (int i = 0; i < fieldsDescription.length; i++) {
+					str.append(rslt.getObject(field_description)).append(" ");
+				}
 
+				boolean toAdd = true;
 
-    // psantos fim
+				if (onlyThisValues != null) {
+					toAdd = false;
 
-    public lovObject(
-        EboContext ctx, long lovBoui, String name, String tableName, String whereClause, String field_description,
-        String field_cod, String[] onlyThisValues
-    )
-        throws boRuntimeException
-    {
-        PreparedStatement pst = null;
-        ResultSet rslt = null;
-        try
-        {
-            p_lovboui = lovBoui;
-            Connection cn;
-            cn = ctx.getConnectionData();
-            
-            String sql = "";
-            String[] fields1 = field_description.split(",");
-            String[] fields2 = field_cod.split(",");
-            
-            if ("".equals(whereClause) || (whereClause == null))
-            
-            {
-                String f="";
-                for (int i = 0; i < fields1.length; i++) 
-                {
-                    f+= fields1[i];
-                    if ( i+1 < fields1.length )
-                    {
-                        f+=",";
-                    }
-                }
-                for (int i = 0; i < fields2.length; i++) 
-                {
-                    if ( f.toUpperCase().indexOf( fields2[i].toUpperCase() ) == -1 )
-                    {
-                        
-                        f+=","+fields2[i];
-                    }
-                }
-                
-                sql = "select " + f + " from " + tableName + " order by " +
-                    field_description;
-            }
-            else
-            {
-                sql = "select " + field_description + "," + field_cod + " from " + tableName + " where " +
-                    whereClause + " order by " + field_description;
-            }
+					for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++) {
+						if (xcod.equals(onlyThisValues[i])) {
+							toAdd = true;
+						}
+					}
+				}
 
-            pst       = cn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            rslt     = pst.executeQuery();
+				if (toAdd) {
+					add(xcod, str.toString(), true);
+				}
+			}/////////
+			if (this.p_language==null)
+				this.p_language=boApplication.getDefaultApplication().getApplicationLanguage();
+			
+			////////////
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (rslt != null)
+					rslt.close();
+				if (pstm != null)
+					pstm.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			} finally {
+			}
+		}
 
-            //boolean haveResults = rslt.next();
-            while (rslt.next())
-            {                
-                Object o = rslt.getObject(field_cod);
-                String xcod  = "";
-                if( o != null)
-                {
-                    xcod                 = o.toString();   
-                }                
-                String[] fieldsDescription = field_description.split(",");
-                StringBuffer str           = new StringBuffer();
+	}
 
-                for (int i = 0; i < fieldsDescription.length; i++)
-                {
-                    str.append(rslt.getObject(fieldsDescription[i])).append(" ");
-                }
+	// psantos fim
 
-                
-                
-                boolean toAdd = true;
+	public lovObject(EboContext ctx, long lovBoui, String name,
+			String tableName, String whereClause, String field_description,
+			String field_cod, String[] onlyThisValues)
+			throws boRuntimeException {
+		PreparedStatement pst = null;
+		ResultSet rslt = null;
+		try {
+			p_lovboui = lovBoui;
+			Connection cn;
+			cn = ctx.getConnectionData();
 
-                if (onlyThisValues != null)
-                {
-                    toAdd = false;
+			String sql = "";
+			String[] fields1 = field_description.split(",");
+			String[] fields2 = field_cod.split(",");
 
-                    for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++)
-                    {
-                        if (xcod.equals(onlyThisValues[i]))
-                        {
-                            toAdd = true;
-                        }
-                    }
-                }
+			if ("".equals(whereClause) || (whereClause == null))
 
-                if (toAdd)
-                {
-                    add(xcod, str.toString());
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            throw new boRuntimeException("Error Creating LovObject", "", e);
-        }
-        finally
-        {
-            try{if(rslt != null) rslt.close();}catch(Exception e){}
-            try{if(pst != null) pst.close();}catch(Exception e){}
-        }
-    }
-    
-    // psantos ini
-     private void add(String cod, String description, boolean allvalues )
-    {
-        if (allvalues || !p_lov_cod.contains(cod))
-        {
-            p_lov_cod.add(cod);
-            p_lov_description.add(description);
-            p_count++;
-        }
-    }
-    // psantos fim
+			{
+				String f = "";
+				for (int i = 0; i < fields1.length; i++) {
+					f += fields1[i];
+					if (i + 1 < fields1.length) {
+						f += ",";
+					}
+				}
+				for (int i = 0; i < fields2.length; i++) {
+					if (f.toUpperCase().indexOf(fields2[i].toUpperCase()) == -1) {
 
-    private void add(String cod, String description)
-    {
-        if (!p_lov_cod.contains(cod))
-        {
-            p_lov_cod.add(cod);
-            p_lov_description.add(description);
-            p_count++;
-        }
-    }
-    
-    public int getSize()
-    {
-        return p_count;
-    }
-    public boolean beforeFirst()
-    {
-        p_pointer = -1;
+						f += "," + fields2[i];
+					}
+				}
 
-        return true;
-    }
+				sql = "select " + f + " from " + tableName + " order by "
+						+ field_description;
+			} else {
+				sql = "select " + field_description + "," + field_cod
+						+ " from " + tableName + " where " + whereClause
+						+ " order by " + field_description;
+			}
 
-    public boolean first()
-    {
-        if (p_count > 0)
-        {
-            p_pointer = 1;
+			pst = cn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY);
+			rslt = pst.executeQuery();			
+				/////////
+			if (this.p_language==null)
+				this.p_language=boApplication.getDefaultApplication().getApplicationLanguage();
+			
+			////////////
+			// boolean haveResults = rslt.next();
+			while (rslt.next()) {
+				Object o = rslt.getObject(field_cod);
+				String xcod = "";
+				if (o != null) {
+					xcod = o.toString();
+				}
+				String[] fieldsDescription = field_description.split(",");
+				StringBuffer str = new StringBuffer();
 
-            return true;
-        }
+				for (int i = 0; i < fieldsDescription.length; i++) {
+					str.append(rslt.getObject(fieldsDescription[i]))
+							.append(" ");
+				}
 
-        return false;
-    }
+				boolean toAdd = true;
 
-    public boolean next()
-    {
-        p_pointer++;
+				if (onlyThisValues != null) {
+					toAdd = false;
 
-        if (p_pointer >= p_count)
-        {
-            return false;
-        }
+					for (int i = 0; (i < onlyThisValues.length) && !toAdd; i++) {
+						if (xcod.equals(onlyThisValues[i])) {
+							toAdd = true;
+						}
+					}
+				}
 
-        return true;
-    }
+				if (toAdd) {
+					add(xcod, str.toString());
+				}
+			}
+		} catch (SQLException e) {
+			throw new boRuntimeException(MessageLocalizer.getMessage("ERROR_CREATING_LOVOBJECT"), "", e);
+		} finally {
+			try {
+				if (rslt != null)
+					rslt.close();
+			} catch (Exception e) {
+			}
+			try {
+				if (pst != null)
+					pst.close();
+			} catch (Exception e) {
+			}
+		}
+	}
 
-    public boolean previous()
-    {
-        p_pointer--;
+	// psantos ini
+	private void add(String cod, String description, boolean allvalues) {
+		if (allvalues || !p_lov_cod.contains(cod)) {
+			p_lov_cod.add(cod);
+			p_lov_description.add(description);
+			p_count++;
+		}
+	}
 
-        if (p_pointer < 0)
-        {
-            p_pointer = -1;
+	// psantos fim
 
-            return false;
-        }
+	private void add(String cod, String description) {
+		if (!p_lov_cod.contains(cod)) {
+			p_lov_cod.add(cod);
+			p_lov_description.add(description);
+			p_count++;
+		}
+	}
 
-        return true;
-    }
+	public int getSize() {
+		return p_count;
+	}
 
-    public String getCode()
-    {
-        if ((p_pointer == -1) || (p_pointer >= p_count))
-        {
-            return null;
-        }
+	public boolean beforeFirst() {
+		p_pointer = -1;
 
-        return ( String ) p_lov_cod.get(p_pointer);
-    }
+		return true;
+	}
 
-    public String getDescription()
-    {
-        if ((p_pointer == -1) || (p_pointer >= p_count))
-        {
-            return null;
-        }
+	public boolean first() {
+		if (p_count > 0) {
+			p_pointer = 1;
 
-        return ( String ) p_lov_description.get(p_pointer);
-    }
-    
-    public long getLovBoui()
-    {
-        return p_lovboui;
-    }
-    
-    public boolean findLovItemByCode(String code) {
-        boolean toRet=false;
-        beforeFirst();        
-        while (next()) {
-            if (getCode().equals(code)) toRet=true;
-        }
-        return toRet;
-    }
+			return true;
+		}
 
-    /**
-     * 
-     * Retrieves an item description, given its code (value)
-     * 
-     * @param code The code of the item to retrieve the description 
-     * 
-     * @return A string with the description of the item
-     */
-    public String getDescriptionByCode(String code){
-    	beforeFirst();
-    	while (next())
-    	{
-    		if (getCode().equals(code))
-    			return getCode();
-    	}
-    	return null;
-    }
-    
-    
-    public boolean findLovItemByDescription(String description) {
-        boolean toRet=false;
-        beforeFirst();        
-        while (next()) {
-            if (getDescription().equals(description))toRet=true;
-        }
-        return toRet;
-    }    
+		return false;
+	}
+
+	public boolean next() {
+		p_pointer++;
+
+		if (p_pointer >= p_count) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean previous() {
+		p_pointer--;
+
+		if (p_pointer < 0) {
+			p_pointer = -1;
+
+			return false;
+		}
+
+		return true;
+	}
+
+	public String getCode() {
+		if ((p_pointer == -1) || (p_pointer >= p_count)) {
+			return null;
+		}
+
+		return (String) p_lov_cod.get(p_pointer);
+	}
+
+	/**
+	 * 
+	 * @return LOV description(String) returns the translation in the current
+	 *         language
+	 * @throws boRuntimeException 
+	 */
+
+	public String getDescription() throws boRuntimeException {
+		boSessionUser boUser = boApplication.currentContext().getEboContext()
+				.getSysUser();
+		String language = getLanguage();
+		if (boUser.getLanguage().equals(language)) {
+			if ((p_pointer == -1) || (p_pointer >= p_count)) {
+				return null;
+			}
+
+			
+			return (String) p_lov_description.get(p_pointer);
+		} else {
+			String description = getTranslation(p_name, (String) p_lov_cod
+					.get(p_pointer), (String) p_lov_description.get(p_pointer));
+
+			return description;
+		}
+
+	}
+
+	public long getLovBoui() {
+		return p_lovboui;
+	}
+
+	public boolean findLovItemByCode(String code) {
+		boolean toRet = false;
+		beforeFirst();
+		while (next()) {
+			if (getCode().equals(code))
+				toRet = true;
+		}
+		return toRet;
+	}
+
+	/**
+	 * Pedro Rio
+	 * 
+	 * Retrieves an item description, given its code
+	 * 
+	 * @param code
+	 *            The code of the
+	 * 
+	 * @return A string with the description of the given code
+	 */
+	public String getDescriptionByCode(String code) {
+		beforeFirst();
+		while (next()) {
+			if (getCode().equals(code))
+				return getCode();
+		}
+		return null;
+	}
+
+	public boolean findLovItemByDescription(String description) throws boRuntimeException {
+		boolean toRet = false;
+		beforeFirst();
+		while (next()) {
+			if (getDescription().equals(description))
+				toRet = true;
+		}
+		return toRet;
+	}
+
+	public String getLanguage() {
+		return p_language;
+	}
+	public void setLanguage(String lang){
+		p_language=lang;
+	}
+
+	/**
+	 * 
+	 * @param lovName
+	 * @param value
+	 * @param defaultDescription
+	 * @return LOVtranslation(String)
+	 * @throws boRuntimeException 
+	 * 
+	 */
+
+	public static String getTranslation(String lovName, String value,
+			String defaultDescription) throws boRuntimeException {		
+		boObject lov;	
+		String usedLanguage=null;
+		String label;
+			lov = boObject.getBoManager().loadObject(ctxt, "Ebo_LOV",
+					"name='" + lovName + "'");	
+			AttributeHandler fileName=lov.getAttribute("xeolovfile");
+			if (fileName!=null){
+			String sFileName=fileName.toString();
+		
+		boApplication app = boApplication
+				.getApplicationFromStaticContext("XEO");
+		 usedLanguage = app.getApplicationLanguage();
+		if(boApplication.currentContext()!=null)
+			if(boApplication.currentContext().getEboContext()!=null)
+				if(boApplication.currentContext().getEboContext().getBoSession()!=null)
+		{
+		boSessionUser user = boApplication.currentContext().getEboContext()
+				.getBoSession().getUser();
+		if (user.getLanguage() != null && user.getLanguage() != "")
+			usedLanguage = user.getLanguage();
+		}
+		
+		HashMap<String, Properties> map = boDefHandlerImpl
+				.getLanguagesMap(sFileName);
+		
+			
+		if (usedLanguage != null
+				&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
+						+ ".properties")) {
+			Properties prop = map.get(fileName + "_"
+					+ usedLanguage.toUpperCase() + ".properties");
+			label = prop.getProperty(lovName+"."+value);
+		} else {
+			label = defaultDescription;
+		}}else
+			label = defaultDescription;
+
+		return label;
+	}
+
 }

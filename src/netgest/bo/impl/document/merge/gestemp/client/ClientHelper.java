@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.util.Date;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.impl.document.DocumentHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -56,7 +58,7 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.severe("Não foi possível efectuar o login", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("UNABLE_TO_LOGIN"), e);
         }
         catch (RuntimeException e)
         {
@@ -64,7 +66,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
         }
         finally
         {
@@ -117,8 +119,8 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.severe("Não foi possível efectuar o login", e);
-            throw new RuntimeException("Não foi possível efectuar o login");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNABLE_TO_LOGIN"), e);
+            throw new RuntimeException(MessageLocalizer.getMessage("UNABLE_TO_LOGIN"));
         }
         catch (RuntimeException e)
         {
@@ -126,8 +128,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -175,8 +177,8 @@ public class ClientHelper
             }
             else
             {
-                logger.severe("A sessão do utilizador foi fechada.");
-                throw new RuntimeException("A sessão do utilizador foi fechada.");
+                logger.severe(LoggerMessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
+                throw new RuntimeException(MessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
             }
         }
         catch (RuntimeException e)
@@ -185,7 +187,7 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -252,8 +254,8 @@ public class ClientHelper
             }
             else
             {
-                logger.severe("A sessão do utilizador foi fechada.");
-                throw new RuntimeException("A sessão do utilizador foi fechada.");
+                logger.severe(LoggerMessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
+                throw new RuntimeException(MessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
             }
         }
         catch (RuntimeException e)
@@ -262,8 +264,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -284,11 +286,11 @@ public class ClientHelper
         }
         catch(FileNotFoundException e)
         {
-            throw new RuntimeException("O ficheiro não foi encontrado.");
+            throw new RuntimeException(MessageLocalizer.getMessage("FILE_NOT_FOUND"));
         }
         catch(IOException e2)
         {
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }       
         return file;
     }
@@ -325,8 +327,8 @@ public class ClientHelper
             }
             else
             {
-                logger.severe("A sessão do utilizador foi fechada.");
-                throw new RuntimeException("A sessão do utilizador foi fechada.");
+                logger.severe(LoggerMessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
+                throw new RuntimeException(MessageLocalizer.getMessage("USER_SESSION_WAS_CLOSED"));
             }
         }
         catch (RuntimeException e)
@@ -335,8 +337,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e); 
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e); 
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -386,11 +388,11 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.severe("NÃ£o foi possÃ­vel efectuar o login", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("UNABLE_TO_LOGIN"), e);
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
         }
         finally
         {
@@ -426,8 +428,8 @@ public class ClientHelper
         }
         catch (boLoginException e)
         {
-            logger.severe("Não foi possível efectuar o login", e);
-            throw new RuntimeException("Não foi possível efectuar o login");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNABLE_TO_LOGIN"), e);
+            throw new RuntimeException(MessageLocalizer.getMessage("UNABLE_TO_LOGIN"));
         }
         catch (RuntimeException e)
         {
@@ -435,8 +437,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -484,8 +486,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {
@@ -529,8 +531,8 @@ public class ClientHelper
         }
         catch (Exception e)
         {
-            logger.severe("Erro inesperado:", e);
-            throw new RuntimeException("Erro no servidor. Tente novamente.");
+            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+":", e);
+            throw new RuntimeException(MessageLocalizer.getMessage("SERVER_ERROR_TRY_AGAIN"));
         }
         finally
         {

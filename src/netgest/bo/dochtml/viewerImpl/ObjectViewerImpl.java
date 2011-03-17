@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.PostInformation;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.boObject;
@@ -16,7 +17,6 @@ import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.*;
-import netgest.utils.ClassUtils;
 import netgest.bo.system.Logger;
 import org.w3c.dom.Element;
 
@@ -460,7 +460,7 @@ public class ObjectViewerImpl implements ObjectViewer
                     }
                     else
                     {
-                        logger.severe("Objecto  "+ctxObj.getBoui() +" com program =0 no xwfVarvalue");
+                        logger.severe(LoggerMessageLocalizer.getMessage("OBJECT")+" "+ctxObj.getBoui() +LoggerMessageLocalizer.getMessage("WITH_PROGRAM_IN_XWFVARVALUE"));
                     }
     
                     
@@ -589,7 +589,7 @@ public class ObjectViewerImpl implements ObjectViewer
                                 dt = df.format(ctxObj.getAttribute("send_date_read_receipt").getValueDate());                        
                             }catch(Exception e)
                             {
-                                logger.warn("Erro ao efectuar o set das datas do email.", e);
+                                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_PERFORMING_EMAIL_DATE_SET"), e);
                             }
                             if(dt != null)
                             {

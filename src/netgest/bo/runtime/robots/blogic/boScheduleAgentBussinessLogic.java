@@ -7,6 +7,7 @@ import javax.rmi.PortableRemoteObject;
 
 import netgest.bo.data.DataException;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -42,7 +43,7 @@ public class boScheduleAgentBussinessLogic
   
   public void execute()
   {
-      logger.finest("Starting schedule agent.....");
+      logger.finest(LoggerMessageLocalizer.getMessage("STARTING_SCHEDULE_AGENT"));
       boSession session = null;
       Context ic = null;
       try 
@@ -72,11 +73,11 @@ public class boScheduleAgentBussinessLogic
                       { 
                           try 
                           {
-                              logger.finest( "Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
+                              logger.finest( LoggerMessageLocalizer.getMessage("UPDATE_ACTIVE_SCHEDULE_CONNECTION_HASH")  + ctx.getConnectionData().hashCode() );
                               boObject sched = list.getObject();  
                               sched.getAttribute("activeStatus").setValueString("1");
                               sched.update();
-                              logger.finest( "End Update active schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
+                              logger.finest( LoggerMessageLocalizer.getMessage("END_UPDATE_ACTIVE_SCHEDULE_CONNECTION_HASH")  + ctx.getConnectionData().hashCode() );
                                                                 
                               if (p_group!=null)
                               {
@@ -90,14 +91,14 @@ public class boScheduleAgentBussinessLogic
                               else //Implementar com EJB Timer definir timer para executar de seguida e após execução é logo suspendido
                               {
                                   String tname = "XEO Schedule EjbTimer [" + sched.getAttribute("description").getValueString()  +"]";
-                                  logger.finest("Starting " + tname );
+                                  logger.finest(LoggerMessageLocalizer.getMessage("STARTING")+" " + tname );
                                   ic = new InitialContext();
                                   boScheduleThreadEJBLocalHome home = (boScheduleThreadEJBLocalHome)ic.lookup("java:comp/env/ejb/boScheduleThreadLocal");   
                                   boScheduleThreadLocalEJB schedejb = home.create();
                                   schedejb.addSchedule(sched);
                                   schedejb.start(sched.getAttribute("description").getValueString());
                                   ic.close();
-                                  logger.finest("Started "+tname);  
+                                  logger.finest(LoggerMessageLocalizer.getMessage("STARTED")+" "+tname);  
                               }
                           } 
                           catch (Exception e) 
@@ -118,16 +119,16 @@ public class boScheduleAgentBussinessLogic
           }
           else
           {
-              logger.finest("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
+              logger.finest(LoggerMessageLocalizer.getMessage("STOPING_AGENT_IXEOUSER_OR_EBOSCHEDULE_NOT_DEPLOYED"));
           }
       }
       catch ( DataException e )
       {
-          logger.finest("Error reading schedule table.\n"+e.getMessage());
+          logger.finest(LoggerMessageLocalizer.getMessage("ERROR_READING_SCHEDULE_TABLE")+e.getMessage());
       }
       catch ( Exception e )
       {
-          logger.finest("Schedule agent finished with errors ");
+          logger.finest(LoggerMessageLocalizer.getMessage("SCHEDULE_AGENT_FINISHED_WITH_ERRORS"));
           e.printStackTrace();
       }
       finally
@@ -145,6 +146,6 @@ public class boScheduleAgentBussinessLogic
           }
       }
       
-      logger.finest("Schedule agent finished");
+      logger.finest(LoggerMessageLocalizer.getMessage("SCHEDULE_AGENT_FINISHED"));
   }
 }

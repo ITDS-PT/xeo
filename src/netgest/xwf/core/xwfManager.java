@@ -2,6 +2,7 @@
 package netgest.xwf.core;
 
 import netgest.bo.controller.xwf.XwfKeys;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.bo.utils.DateUtils;
@@ -192,7 +193,7 @@ public class xwfManager
       }
     }
     if(boui_prog_def < 1)
-      throw new boRuntimeException("xwfManager", "createProgram", new Exception("Error: There is no active program version!!!"));
+      throw new boRuntimeException("xwfManager", "createProgram", new Exception("Error: "+MessageLocalizer.getMessage("THERE_IS_NO_ACTIVE_PROGRAM_VERSION")));
     else
       return boui_prog_def;
   }

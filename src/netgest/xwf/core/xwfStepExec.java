@@ -10,6 +10,7 @@ import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataSet;
 import netgest.bo.impl.Ebo_TemplateImpl;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.xwf.StepControl;
 import netgest.xwf.stepControllers.xwfPollController;
 import netgest.xwf.common.*;
@@ -556,7 +557,7 @@ public class xwfStepExec
         }
       }
       else
-        throw new boRuntimeException("xwfStepExec", "makeWaitResp", new Exception("Error: send message not found!!!"));
+        throw new boRuntimeException("xwfStepExec", "makeWaitResp", new Exception("Error: "+MessageLocalizer.getMessage("SEND_MESSAGE_NOT_FOUND")));
     }
     
     value_xml = nxml.getChildNodeText("responseMessageVariable", null);
@@ -1673,7 +1674,7 @@ public class xwfStepExec
     if(lpart != 0)
       b.getAttribute("CREATOR").setValueLong(lpart);
     else
-      throw new boRuntimeException("xwfControlFlow", "createActivity", new Exception("Error: Not a valid Administrator defined!!!"));
+      throw new boRuntimeException("xwfControlFlow", "createActivity", new Exception("Error: "+MessageLocalizer.getMessage("NOT_A_VALID_ADMINISTRATOR_DEFINED")));
     if(partname != null && partname.length() > 0)
     {
       try{
@@ -1695,7 +1696,7 @@ public class xwfStepExec
     if(lpart != 0)
       b.getAttribute("assignedQueue").setValueLong(lpart);
     else
-      throw new boRuntimeException("xwfControlFlow", "createActivity", new Exception("Error: Not a valid Administrator defined!!!"));
+      throw new boRuntimeException("xwfControlFlow", "createActivity", new Exception("Error: "+MessageLocalizer.getMessage("NOT_A_VALID_ADMINISTRATOR_DEFINED")));
     
     return lpart;
   }

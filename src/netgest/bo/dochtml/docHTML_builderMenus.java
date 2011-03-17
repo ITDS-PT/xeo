@@ -10,6 +10,7 @@ import netgest.bo.boConfig;
 import netgest.bo.def.*;
 import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.impl.document.merge.TemplateWord;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.localized.JSPMessages;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.boObject;
@@ -2807,7 +2808,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
 
     private static boObject getSourceObject(String bridge, boObject parent, int grau, int nAttrib) throws boRuntimeException{        
         if(grau == 0){
-            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Declaração inválida da bridge", null, ""); 
+            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", MessageLocalizer.getMessage("INVALID_BRIDGE_DECLARATION"), null, ""); 
         }
         boObject obj = parent;
         for(int i = grau; i > 1; i--){
@@ -2835,7 +2836,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
             attName = getAttributeName(s, i + 1);
             tt = aux.getAttribute(attName);
             if(tt == null){
-                throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Atributo inválido: " + attName, null, "");
+                throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE",MessageLocalizer.getMessage("INVALID_ATTRIBUTE")+": " + attName, null, "");
             }
             aux = tt.getObject();
             if(aux == null) return null;
@@ -2867,7 +2868,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
         int finalParent = (numberOfParents * 6) + numberOfParents;
         String attributesString = bridge.substring(finalParent);
         if(attributesString == null ||  attributesString.length() == 0){
-            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, "");
+            throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE",MessageLocalizer.getMessage("BRIDGE_DOES_NOT_EXIST"), null, "");
         }
         while((pos = attributesString.indexOf(".")) != -1){
             attributesString = attributesString.substring(pos +1);
@@ -2899,7 +2900,7 @@ private  static Hashtable[] menuLIST_SEARCH( boObject obj, boObjectList bolist, 
                 return removeObjectWord(bda.getType());
             }
         }
-        throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", "Bridge inexistente", null, "");
+        throw new boRuntimeException("netgest.bo.dochtml.docHTML_builderMenus.menuLIST_BRIDGE_TO_BRIDGE", MessageLocalizer.getMessage("BRIDGE_DOES_NOT_EXIST"), null, "");
     }
     
     private static String getAttribute(String bridge){

@@ -3,6 +3,8 @@ package netgest.bo.data;
 
 import java.util.Hashtable;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.*;
 
@@ -69,26 +71,26 @@ public class DriverManager
                 catch (InstantiationException e)
                 {
                     logger.finest(
-                        "netgest.bo.data.DriverManager: InstantiationException when loading Driver Class [" +
+                        "netgest.bo.data.DriverManager: "+LoggerMessageLocalizer.getMessage("INSTANTIATIONEXCEPTION_WHEN_LOADING_DRIVER_CLASS")+" [" +
                         driver + "]", e);
                 }
                 catch (IllegalAccessException e)
                 {
                     logger.finest(
-                        "netgest.bo.data.DriverManager: IllegalAccessException when loading Driver Class [" +
+                        "netgest.bo.data.DriverManager: "+LoggerMessageLocalizer.getMessage("ILLEGALACCESSEXCEPTION_WHEN_LOADING_DRIVER_CLASS")+" [" +
                         driver + "]", e);
                 }
                 catch (ClassNotFoundException e)
                 {
                     logger.finest(
-                        "netgest.bo.data.DriverManager: ClassNotFoundException when loading Driver Class [" +
+                        "netgest.bo.data.DriverManager: "+LoggerMessageLocalizer.getMessage("CLASSNOTFOUNDEXCEPTION_WHEN_LOADING_DRIVER_CLASS")+" [" +
                         driver + "]", e);
                 }
             }
         }
         catch (XSLException e)
         {
-            logger.severe("Error: ",e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ",e);
         }
     }
 
@@ -104,7 +106,7 @@ public class DriverManager
         else
         {
             throw new RuntimeException(
-                "netgest.bo.data.DriverManager: DataSource not found (" +
+                "netgest.bo.data.DriverManager: "+MessageLocalizer.getMessage("DATASOURCE_NOT_FOUND")+" (" +
                 source + ")");
         }
 
@@ -140,7 +142,7 @@ public class DriverManager
         if (xd == null)
         {
             throw new RuntimeException("DataSource [" + dataSourceName +
-                "] not found in configuration. check please in boconfig.xml file the tag DataSources.");
+                "] "+MessageLocalizer.getMessage("NOT_FOUND_IN_CONFIGURATION_CHECK_PLEASE_IN_BOCONFIGXML_"));
         }
 
         return xd;

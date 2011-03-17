@@ -3,6 +3,8 @@ package netgest.bo.report;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -102,7 +104,7 @@ public class BDHTMLBuilder
         }
        
         if (objList.size() == 0)
-        	toReturn.append("Não foram encontrados objectos");
+        	toReturn.append(MessageLocalizer.getMessage("NO_OBJECTS_WHERE_FOUND"));
         toReturn.append(index)
         .append(html)
         .append("</body>\n")
@@ -133,7 +135,7 @@ html.append("\n");html.append("\n");
         //descrição
         html.append(PARAGRAPH_START).append(BOLD_START)
             .append(FONT_5_START).append(cap).append(".1")
-            .append(" Descrição:&nbsp;&nbsp;").append(FONT_END)
+            .append(MessageLocalizer.getMessage("DESCRIPTION")+":&nbsp;&nbsp;").append(FONT_END)
             .append(BOLD_END)
             .append(FONT_4_START).append(((XMLObject)tableList.get(0)).getDescription())
             .append(FONT_END)
@@ -143,7 +145,7 @@ html.append("\n");html.append("\n");
         //Descrição da Tabela
         html.append(PARAGRAPH_START).append(BOLD_START)
             .append(FONT_5_START).append(cap).append(".2")
-            .append(" Descrição da Tabela&nbsp;&nbsp;").append(FONT_END)
+            .append(MessageLocalizer.getMessage("TABLE_DESCRIPTION")+" &nbsp;&nbsp;").append(FONT_END)
             .append(BOLD_END)
             .append(PARAGRAPH_END);
         html.append(TABLE_DESCRIPTION_HEADER);        
@@ -164,7 +166,7 @@ html.append("\n");html.append("\n");
         //objectos alojados
         html.append(PARAGRAPH_START).append(BOLD_START)
             .append(FONT_5_START).append(cap).append(".3")
-            .append(" Objectos Alojados&nbsp;&nbsp;").append(FONT_END)
+            .append(MessageLocalizer.getMessage("NESTED_OBJECTS")+" &nbsp;&nbsp;").append(FONT_END)
             .append(BOLD_END)
             .append(PARAGRAPH_END);
         html.append(TABLE_OBJECT_HEADER);
@@ -176,7 +178,7 @@ html.append("\n");html.append("\n");
         //Campos
         html.append(PARAGRAPH_START).append(BOLD_START)
             .append(FONT_5_START).append(cap).append(".4")
-            .append(" Campos&nbsp;&nbsp;").append(FONT_END)
+            .append(MessageLocalizer.getMessage("FIELDS")+" &nbsp;&nbsp;").append(FONT_END)
             .append(BOLD_END)
             .append(PARAGRAPH_END);
         html.append(TABLE_FIELDS_HEADER);
@@ -196,7 +198,7 @@ html.append("\n");html.append("\n");
         //Views
         html.append(PARAGRAPH_START).append(BOLD_START)
             .append(FONT_5_START).append(cap).append(".5")
-            .append(" Vistas&nbsp;&nbsp;").append(FONT_END)
+            .append(MessageLocalizer.getMessage("VIEWS")+" &nbsp;&nbsp;").append(FONT_END)
             .append(BOLD_END)
             .append(PARAGRAPH_END);
         html.append(TABLE_VIEWS_HEADER);

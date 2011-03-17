@@ -7,6 +7,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.*;
 
 import netgest.utils.*;
@@ -170,17 +171,17 @@ public class DeployFilter implements Filter
 	            checkDeployDir();
 	        }
 	        
-	    	logger.finer("Starting deploying modules webfiles ..." );
+	    	logger.finer(LoggerMessageLocalizer.getMessage("STARTING_DEPLOYING_MODULES_WEBFILES") );
 	        for( int i=0; i < srcDir.length; i++ ) {
 	        	File file = new File( srcDir[i] );
-	        	logger.finer("Deployig root web files for:" + file.getName() );
+	        	logger.finer(LoggerMessageLocalizer.getMessage("DEPLOYING_ROOT_WEB_FILES_FOR")+": " + file.getName() );
 	        	deployDir( file, deployDir );
 	        }
-	    	logger.finer("Finished deploying modules webfiles ..." );
+	    	logger.finer(LoggerMessageLocalizer.getMessage("FINISHED_DEPLOYING_MODULES_WEBFILES") );
         }
         else {
-        	System.err.println("DeployFilter disabled because XEO Failed to initialize!");
-	    	logger.severe("Cannoad load XEO Application..." );
+        	System.err.println(LoggerMessageLocalizer.getMessage("DEPLOYFILTER_DISABLED_BECAUSE_XEO_FAILED_TO_INITIALIZE"));
+	    	logger.severe(LoggerMessageLocalizer.getMessage("CANNOT_LOAD_XEO_APPLICATION") );
         }
     }
     
@@ -532,11 +533,11 @@ public class DeployFilter implements Filter
                 
                 if( e.getRootCause() != null )
                 {
-                    logger.finest( "Erro na Servlet "+request.getRequestURI()+":", e.getRootCause() );
+                    logger.finest( LoggerMessageLocalizer.getMessage("ERROR_IN_SERVLET")+" "+request.getRequestURI()+":", e.getRootCause() );
                 }
                 else
                 {
-                    logger.finest( "Erro na Servlet "+request.getRequestURI()+":", e );
+                    logger.finest( LoggerMessageLocalizer.getMessage("ERROR_IN_SERVLET")+" "+request.getRequestURI()+":", e );
                 }
                 
                 throw e;

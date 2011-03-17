@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import netgest.bo.boConfig;
 import netgest.bo.boConfigRepository;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.ObjAttHandler;
 import netgest.bo.runtime.boContextFactory;
@@ -39,7 +40,7 @@ public class boLdapLogin implements LoginManager
   public long boLogin( boApplication app, String repository , String username, long time, long timeCheck, HttpServletRequest request) throws boLoginException
   {
     //not implemented
-    throw new boLoginException("Not implemented");
+    throw new boLoginException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
   }
   public long boLogin(boApplication app, String repository, String username ,String password , HttpServletRequest request) throws boLoginException
   {

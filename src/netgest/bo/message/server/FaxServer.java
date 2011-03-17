@@ -14,6 +14,8 @@ import netgest.bo.ejb.*;
 import netgest.bo.impl.document.merge.MergeHelper;
 import netgest.bo.impl.document.print.PrintHelper;
 import netgest.bo.impl.document.print.RemoteFileConversion;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.GarbageController;
 import netgest.bo.message.server.fax.FaxParser;
 import netgest.bo.message.server.mail.*;
@@ -25,10 +27,8 @@ import netgest.bo.message.utils.XEOIDUtil;
 import netgest.bo.runtime.*;
 
 import netgest.io.*;
-import netgest.io.FSiFile;
 
 import netgest.utils.*;
-import netgest.utils.ClassUtils;
 
 import netgest.xwf.EngineGate;
 import netgest.xwf.core.*;
@@ -151,7 +151,7 @@ public class FaxServer extends Mail implements MediaServer
     {
         boolean toRetTo = false, toRetCC = false, toRetBCC = false;
         ArrayList filesTodelete = new ArrayList();
-        logger.finer("Preparing to send Fax Via Email");
+        logger.finer(LoggerMessageLocalizer.getMessage("PREPARING_TO_SEND_FAX_VIA_EMAIL"));
         try
         {
             if(engine == null || ctx == null)
@@ -260,7 +260,7 @@ public class FaxServer extends Mail implements MediaServer
     public boolean send_via_email(Object context, boObject message, boolean saveBinary, String fromAddress, String faxNumber, int type) throws boRuntimeException
     {
         ArrayList filesTodelete = new ArrayList();
-        logger.finer("Preparing to send Fax Via Email to number: " + faxNumber);
+        logger.finer(LoggerMessageLocalizer.getMessage("PREPARING_TO_SEND_FAX_VIA_EMAIL_TO_NUMBER")+": " + faxNumber);
         try
         {
             MailMessage mailmsg = MailMessage.getNewMailMessageToSent();
@@ -317,9 +317,9 @@ public class FaxServer extends Mail implements MediaServer
             message.getAttribute("errorMsg").setValueString("Ocorreu um erro inesperado a anexar ficheiros ao email.");
             
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a anexar ficheiros ao email" +
+                MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_ATTACHING_FILES_TO_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
@@ -335,12 +335,12 @@ public class FaxServer extends Mail implements MediaServer
             }
             else
             {
-                message.getAttribute("errorMsg").setValueString("Ocorreu um erro inesperado a enviar o email.");
+                message.getAttribute("errorMsg").setValueString(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL"));
                 this.addErrorMessage(
-                    "Ocorreu um erro inesperado a enviar o email" +
+                		   MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                     "<span style='display:none'>" + e.getMessage() + "</span>");
             }
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
@@ -348,20 +348,20 @@ public class FaxServer extends Mail implements MediaServer
          catch (MessagingException e)
         {
             message.getAttribute("error").setValueString("1");
-            message.getAttribute("errorMsg").setValueString("Ocorreu um erro inesperado a enviar o fax.");
+            message.getAttribute("errorMsg").setValueString(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_FAX"));
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o fax" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_FAX") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
          catch (IOException e)
         {
             message.getAttribute("error").setValueString("1");
-            message.getAttribute("errorMsg").setValueString("Erro ao anexar ficheiro.");
-            logger.warn("Error: ", e);
-            this.addErrorMessage("Impossível enviar attach." +
+            message.getAttribute("errorMsg").setValueString(MessageLocalizer.getMessage("ERROR_ATTACHING_FILE"));
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+            this.addErrorMessage(MessageLocalizer.getMessage("UNABLE_TO_SEND_ATTACH")+"." +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
 
             return false;
@@ -369,11 +369,11 @@ public class FaxServer extends Mail implements MediaServer
          catch (Exception e)
         {
             message.getAttribute("error").setValueString("1");
-            message.getAttribute("errorMsg").setValueString("Ocorreu um erro inesperado a enviar o fax.");
+            message.getAttribute("errorMsg").setValueString(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_FAX"));
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
@@ -438,7 +438,7 @@ public class FaxServer extends Mail implements MediaServer
                 
                 if(!validMimeType(bridge.getEboContext(), tempFile))
                 {
-                    throw new boRuntimeException("", "Ficheiro inválido para envio de Fax [" + bridge.getObject().getCARDID() + "]", null);
+                    throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_FILE_FOR_SENDING_FAX")+" [" + bridge.getObject().getCARDID() + "]", null);
                 }
                 
                 mailmsg.addAttach(null, tempFile.getAbsolutePath(), new Integer(i).toString(), true);
@@ -446,7 +446,7 @@ public class FaxServer extends Mail implements MediaServer
             }
             else
             {
-                throw new boRuntimeException("", "Ficheiro inválido para envio de Fax [" + bridge.getObject().getCARDID() + "]", null);
+                throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_FILE_FOR_SENDING_FAX")+" [" + bridge.getObject().getCARDID() + "]", null);
             }
         }
         return i;
@@ -515,7 +515,7 @@ public class FaxServer extends Mail implements MediaServer
         }
         if(MessageUtils.isToWaitResponse(originalMessage) && receivers.size() > 0)
         {
-            logger.finer("Vou criar o wait para msg!");
+            logger.finer(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_WAIT_FOR_MSG"));
             originalMessage.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
             try
             {

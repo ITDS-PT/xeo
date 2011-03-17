@@ -3,6 +3,8 @@ package netgest.bo.runtime;
 import java.sql.SQLException;
 import netgest.bo.data.*;
 import netgest.bo.def.*;
+import netgest.bo.localizations.MessageLocalizer;
+
 import java.math.BigDecimal;
 
 /**
@@ -39,38 +41,38 @@ public  class ObjectMultiValues extends bridgeHandler
 
     public void add(BigDecimal boui) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
 
     public void add(BigDecimal boui, byte type) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
 
     public void add(BigDecimal boui, int row, byte type) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
 
     public void add(BigDecimal boui, int row) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
     
     public boolean remove() throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
         
     }
 
     public void setValue(BigDecimal xboui, byte type) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
 
     public void setValue(BigDecimal xboui) throws boRuntimeException
     {
-        throw new RuntimeException("Not supported in Multi Value Attributes");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_SUPPORTED_IN_MULTI_VALUE_ATTRIBUTES"));
     }
 
     //fcamara: dúvidas

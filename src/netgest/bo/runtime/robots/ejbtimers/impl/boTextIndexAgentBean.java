@@ -7,6 +7,7 @@ import javax.ejb.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 
 import netgest.bo.runtime.robots.ejbtimers.XEOTimedObjectWrapper;
@@ -79,11 +80,11 @@ implements SessionBean, TimedObject
                     timedObject.setIsRunning(false);
                 }
             }
-            else logger.warn("XEOTimedObject Not Found");
+            else logger.warn(LoggerMessageLocalizer.getMessage("XEOTIMEDOBJECT_NOT_FOUND"));
         }
         catch(Exception e)
         {
-            logger.warn("Unexpected Error executing EJBTimer - "+(String)timer.getInfo());
+            logger.warn(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR_EXECUTING_EJBTIMER")+" - "+(String)timer.getInfo());
             scheduleNextRun(timer);
             if (timedObject!=null)timedObject.setIsRunning(false);
         }

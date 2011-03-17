@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import netgest.bo.data.Driver;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boRepository;
@@ -47,7 +48,7 @@ public class DataUtils
          stm = null;
          return ""+xret;
      } catch (SQLException e) {
-        throw(new SQLException("Erro a gerar um número sequencial para ["+table+"].["+pkeys[i]+"]\nA coluna tem que ser numérica."));
+        throw(new SQLException(MessageLocalizer.getMessage("ERROR_GENERATING_A_SEQUENTIAL_NUMBER_FOR")+" ["+table+"].["+pkeys[i]+"]\n"+MessageLocalizer.getMessage("THE_COLUMN_HAS_TO_BE_NUMERIC")));
      }
   }
   public static final long checkSequenceNextVal( boApplication app, Connection cn, String seqchave )
@@ -71,7 +72,7 @@ public class DataUtils
           }
       } catch (SQLException e){
           if (e.getMessage().indexOf("ORA-00942")>-1) {
-              throw(new RuntimeException("A tabela [SYSNGT_SEQUENCES] não existe no esquema da tabela dados, não é possivel gerar próximo numero"));
+              throw(new RuntimeException(MessageLocalizer.getMessage("THE_TABLE_DOESNT_EXIT_IN_THE_DATATABLE_SCHEME_NOT_POSSIBLE_")));
           } else {
               throw new RuntimeException(e.getMessage());
           }
@@ -235,9 +236,9 @@ public class DataUtils
       catch (SQLException e) 
       {
           if (e.getMessage().indexOf("ORA-00942")>-1) {
-              throw(new RuntimeException("A tabela [SYSNGT_SEQUENCES] não existe no esquema da tabela dados, não é possivel gerar próximo numero"));
+              throw(new RuntimeException(MessageLocalizer.getMessage("THE_TABLE_DOESNT_EXIT_IN_THE_DATATABLE_SCHEME_NOT_POSSIBLE_")));
           } else {
-              throw(new RuntimeException("Error in DataUtils geting next value from sequence:\n"+e.getMessage()));
+              throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_DATAUTILS_GETTING_NEXT_VALUE_FROM_SEQUENCE")+":\n"+e.getMessage()));
           }
       } 
       finally

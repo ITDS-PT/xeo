@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import netgest.bo.builder.boBuilder;
 import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -211,7 +212,7 @@ public class SchemaUtils
         {
             String schemaName = objController.getName() + "_" +
                 objController.getBoui();
-            logger.finer("criar o schema: " + schemaName);
+            logger.finer(LoggerMessageLocalizer.getMessage("CREATE_SCHEMA")+": " + schemaName);
             dbm = new OracleDBM();
             dbm.setEnvironment(ctx);
 

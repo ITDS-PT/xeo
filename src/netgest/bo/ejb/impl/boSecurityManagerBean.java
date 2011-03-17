@@ -49,7 +49,7 @@ public class boSecurityManagerBean implements SessionBean, boManagerLocal
     }
 
     private static boManagerLocal getBoManager() throws boRuntimeException {
-            return new boManagerBean();
+            return new boManagerBean(); 
     
 //        try {
 //            return ((boManagerLocalHome)boContextFactory.getContext().lookup("java:comp/env/ejb/boManagerLocal")).create();

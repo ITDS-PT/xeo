@@ -10,6 +10,8 @@ import java.util.*;
 import netgest.bo.*;
 import netgest.bo.data.*;
 import netgest.bo.def.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.*;
 import netgest.bo.runtime.*;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
@@ -101,7 +103,7 @@ public class MapType2DataManager implements IDataManager
                         }
                         catch (boRuntimeException e)
                         {
-                             logger.warn("Error on MapType2DataManager.eventListener", e);
+                             logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON")+" MapType2DataManager.eventListener", e);
                         }
                     }
                 }
@@ -472,7 +474,7 @@ public class MapType2DataManager implements IDataManager
         {
             if( System.currentTimeMillis() - init > 10000  )
             {
-                logger.finer( "Brige a carregar muito lenta: ["+parentObj.getName()+"("+parentObj.getBoui()+")].["+attName+"]" );
+                logger.finer( LoggerMessageLocalizer.getMessage("BRIDGE_LOADING_VERY_SLOW")+": ["+parentObj.getName()+"("+parentObj.getBoui()+")].["+attName+"]" );
             }
         }
     }
@@ -642,7 +644,7 @@ public class MapType2DataManager implements IDataManager
                             }
                             else
                             {
-                                String msg = "Object Map referes to a non existing object. Object is  ["+remoteObj.getName()+"], parent is ["+parentObj.getBoui()+"]";
+                                String msg = MessageLocalizer.getMessage("OBJECT_MAP_REFERS_TO_A_NON_EXISTING_OBJECT_OBJECT_IS")+" ["+remoteObj.getName()+"], "+MessageLocalizer.getMessage("PARENT_IS")+" ["+parentObj.getBoui()+"]";
                                 logger.warn( msg );
                             }
                         }
@@ -657,7 +659,7 @@ public class MapType2DataManager implements IDataManager
             } 
             catch (Exception ex) 
             {
-                 logger.warn("Error on mapBridge", ex);
+                 logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON_MAPBRIDGE"), ex);
             } 
             finally 
             {
@@ -862,7 +864,7 @@ public class MapType2DataManager implements IDataManager
             } 
             catch (Exception ex) 
             {
-                 logger.warn("Error on mapBridge", ex);
+                 logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON_MAPBRIDGE"), ex);
             } 
             finally 
             {
@@ -1320,7 +1322,7 @@ public class MapType2DataManager implements IDataManager
             }
             catch (Exception e)
             {
-                logger.warn("Error on reverseMap", e);
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON_REVERSEMAP"), e);
             }
         }
         else
@@ -1669,7 +1671,7 @@ public class MapType2DataManager implements IDataManager
             }
             catch (Exception e)
             {
-                logger.warn("Error on immediateMapInternal:"+e.getMessage());
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_ON_IMMEDIATEMAPINTERNAL")+":"+e.getMessage());
             }
             finally
             {

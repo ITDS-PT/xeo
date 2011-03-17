@@ -3,6 +3,7 @@ package netgest.bo.runtime.robots.blogic;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.impl.Ebo_TemplateImpl;
 import netgest.bo.impl.Ebo_TextIndexImpl;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
@@ -30,7 +31,7 @@ public class TemplateTextIndexAgentBussinessLogic
         EboContext ctx = null;
         boSession session = null;
         boolean locked = false;
-        logger.finest("Starting Template_TextIndex rebuilder agent.....");
+        logger.finest(LoggerMessageLocalizer.getMessage("STARTING_TEMPLATE_TEXTINDEX_REBUILDER_AGENT"));
         try
         {          
         	if ( boDefHandler.getBoDefinition("iXEOUser") != null ) {
@@ -41,11 +42,11 @@ public class TemplateTextIndexAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.severe("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_REBUILDING_TEMPLATE_TEXTINDEX") + e.getMessage(), e);
         }  
         catch (boRuntimeException e)
         {
-            logger.severe("Error Rebuilding Template TextIndex \n" + e.getMessage(), e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_REBUILDING_TEMPLATE_TEXTINDEX") + e.getMessage(), e);
         }
         finally
         {

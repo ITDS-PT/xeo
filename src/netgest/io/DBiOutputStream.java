@@ -3,6 +3,8 @@ package netgest.io;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.sql.*;
+
+import netgest.bo.localizations.MessageLocalizer;
 import oracle.sql.*;
 
 public class DBiOutputStream extends OutputStream  {
@@ -20,7 +22,7 @@ public class DBiOutputStream extends OutputStream  {
         } 
         catch (SQLException e) 
         {
-            throw new RuntimeException("Cannot initialize BLOB\n"+e.getClass().getName()+"\n"+e.getMessage());    
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_INITIALIZE_BLOB")+e.getClass().getName()+"\n"+e.getMessage());    
         }
     }
 

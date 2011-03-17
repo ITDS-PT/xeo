@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.naming.InitialContext;
 
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boReferencesManager;
@@ -47,7 +48,7 @@ public class RebuildEboReferences extends OperationStatus
     }
     public void run()
     {
-        super.logln( "Starting the rebuild of references..." );
+        super.logln( MessageLocalizer.getMessage("STARTING_THE_REBUILD_OF_REFERENCES"));
         boDefHandler[] def = boDefHandler.listBoDefinitions();
         boolean first = true;
         
@@ -76,36 +77,36 @@ public class RebuildEboReferences extends OperationStatus
     //                                    "_nojta")).getConnection();
                                 cn = ctx.getConnectionManager().getDedicatedConnection();
                                 super.logln( "-----");
-                                super.log( "Truncating table [ EBO_REFERENCES ] " );
+                                super.log(MessageLocalizer.getMessage("TRUNCATING_TABLE")+ " [ EBO_REFERENCES ] " );
                                 pstm = cn.prepareStatement( "TRUNCATE TABLE " + fullTableName );
                                 pstm.execute();
                                 pstm.close();
-                                super.loggreenln( "[ Done    ]" );
-                                super.logln("Disabling Constraints:");
+                                super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" );
+                                super.logln(MessageLocalizer.getMessage("DISABLING_COSTRAINTS")+":");
                                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " DISABLE CONSTRAINT FK_EBO_REFERENCES_BOUI" );
                                 try
                                 {
-                                    super.log( "Disabling [FK_EBO_REFERENCES_BOUI   ]" );
+                                    super.log( MessageLocalizer.getMessage("DISABLING")+" [FK_EBO_REFERENCES_BOUI   ]" );
                                     pstm.execute();
-                                    super.loggreenln( "[ Done    ]" );
+                                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" );
                                 }
                                 catch (SQLException e)
                                 {
                                     super.logln("    ");
-                                    super.logerrln("[ Error Disabling Constraint [ "+e.getMessage()+" ] ]");   
+                                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_DISABLING_CONSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                                 }
                                 pstm.close();
                                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName+ " DISABLE CONSTRAINT FK_EBO_REFERENCES_REFBOUI" );
                                 try
                                 {
-                                    super.log( "Disabling [FK_EBO_REFERENCES_REFBOUI]" );
+                                    super.log( MessageLocalizer.getMessage("DISABLING")+"Disabling [FK_EBO_REFERENCES_REFBOUI]" );
                                     pstm.execute();
-                                    super.loggreenln( "[ Done    ]" );
+                                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"    ]" );
                                 }
                                 catch (SQLException e)
                                 {
                                     super.logln("    ");
-                                    super.logerrln("[ Error Disabling Constraint [ "+e.getMessage()+" ] ]");   
+                                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_DISABLING_CONSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                                 }
                                 pstm.close();
                                 super.logln( "------");
@@ -114,7 +115,7 @@ public class RebuildEboReferences extends OperationStatus
                             }
                             cn = ctx.getConnectionData();
                             
-                            super.log( "Rebuilding [ "+ def[j].getName() + "]" );
+                            super.log( MessageLocalizer.getMessage("REBUILDING")+" [ "+ def[j].getName() + "]" );
                             
                             pstm = cn.prepareStatement( "SELECT A.BOUI FROM "+def[j].getBoMasterTable()+" A,EBO_REGISTRY B WHERE A.BOUI = B.UI$ AND A.CLASSNAME=?" );
                             pstm.setString( 1, def[j].getName() );
@@ -156,14 +157,14 @@ public class RebuildEboReferences extends OperationStatus
                             }
                             rslt.close();
                             pstm.close();
-                            super.loggreenln( " [ Done    ] ");
+                            super.loggreenln( " [ "+MessageLocalizer.getMessage("DONE")+"    ] ");
                         } 
                         catch (Exception ex) 
                         {
                             ex.printStackTrace();
                             super.log("");
                             super.logerrln( "-----" );
-                            super.logerrln( " Error rebuilding Object ["+ def[j].getName() +"] " );
+                            super.logerrln( MessageLocalizer.getMessage("ERROR_REBUILDING_OBJECT")+" ["+ def[j].getName() +"] " );
                             super.logerrln( ex.getMessage() );
                             super.logerrln( "-----" );
                             try
@@ -174,11 +175,11 @@ public class RebuildEboReferences extends OperationStatus
                             {
                                 super.log("");
                                 super.logerrln( "-----" );
-                                super.logerrln( " Error rollingback transaction " );
+                                super.logerrln(MessageLocalizer.getMessage("ERROR_ROLLINGBACK_TRANSACTION"));
                                 super.logerrln( e.getMessage() );
                                 super.logerrln( "-----" );
                             }
-                            super.logln( " Continuing.... ");
+                            super.logln(MessageLocalizer.getMessage("CONTINUING"));
                         } 
                         finally 
                         {
@@ -221,30 +222,30 @@ public class RebuildEboReferences extends OperationStatus
                 
                 cn = ctx.getConnectionManager().getDedicatedConnection();
                 super.logln( "----"  );
-                super.logln("Enabling Constraints:");
+                super.logln(MessageLocalizer.getMessage("ENABLING_CONSTRAINTS")+":");
                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " ENABLE CONSTRAINT FK_EBO_REFERENCES_BOUI" );
                 try
                 {
-                    super.log( "Enabling: [FK_EBO_REFERENCES_BOUI    ]" );
+                    super.log( MessageLocalizer.getMessage("ENABLING")+": [FK_EBO_REFERENCES_BOUI    ]" );
                     pstm.execute();
-                    super.loggreenln( "[ Done    ]" );
+                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"    ]" );
                 }
                 catch (SQLException e)
                 {
-                    super.logerrln("[ Error Enabling Constraint [ "+e.getMessage()+" ] ]");   
+                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                 }
                 pstm.close();
                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " ENABLE CONSTRAINT FK_EBO_REFERENCES_REFBOUI" );
                 try
                 {
-                    super.log( "Enabling: [FK_EBO_REFERENCES_REFBOUI ]" );
+                    super.log( MessageLocalizer.getMessage("ENABLING")+": [FK_EBO_REFERENCES_REFBOUI ]" );
                     pstm.execute();
-                    super.loggreenln( "[ Done    ]" );
+                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" );
                 }
                 catch (SQLException e)
                 {
                     super.logln("    ");
-                    super.logerrln("[ Error Enabling Constraint [ "+e.getMessage()+" ] ]");   
+                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                 }
                 pstm.close();
                 cn.close();
@@ -254,10 +255,10 @@ public class RebuildEboReferences extends OperationStatus
             {
                 ex.printStackTrace();
                 super.logerrln( "----" );
-                super.logerrln( " Error enabling constraints " );
+                super.logerrln( MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINTS") );
                 super.logerrln( ex.getMessage() );
                 super.logerrln(  "----" );
-                super.logln( " Continuing.... ");
+                super.logln(MessageLocalizer.getMessage("CONTINUING"));
                 
             }
             finally 
@@ -291,7 +292,7 @@ public class RebuildEboReferences extends OperationStatus
         }
         
         super.logln( "----" );
-        super.logln("Finished rebuild ...");
+        super.logln(MessageLocalizer.getMessage("FINISHED_REBUILD"));
     }
     
     private void runForObj()
@@ -334,31 +335,31 @@ public class RebuildEboReferences extends OperationStatus
                             
                             if( first )
                             {                                 
-                                super.logln("Disabling Constraints:");
+                                super.logln(MessageLocalizer.getMessage("DISABLING_COSTRAINTS")+":");
                                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " DISABLE CONSTRAINT FK_EBO_REFERENCES_BOUI" );
                                 try
                                 {
-                                    super.log( "Disabling [FK_EBO_REFERENCES_BOUI   ]" );
+                                    super.log( MessageLocalizer.getMessage("DISABLING")+" [FK_EBO_REFERENCES_BOUI   ]" );
                                     pstm.execute();
-                                    super.loggreenln( "[ Done    ]" );
+                                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"    ]" );
                                 }
                                 catch (SQLException e)
                                 {
                                     super.logln("    ");
-                                    super.logerrln("[ Error Disabling Constraint [ "+e.getMessage()+" ] ]");   
+                                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_DISABLING_CONSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                                 }
                                 pstm.close();
                                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName+ " DISABLE CONSTRAINT FK_EBO_REFERENCES_REFBOUI" );
                                 try
                                 {
-                                    super.log( "Disabling [FK_EBO_REFERENCES_REFBOUI]" );
+                                    super.log( MessageLocalizer.getMessage("DISABLING")+" [FK_EBO_REFERENCES_REFBOUI]" );
                                     pstm.execute();
-                                    super.loggreenln( "[ Done    ]" );
+                                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"    ]" );
                                 }
                                 catch (SQLException e)
                                 {
                                     super.logln("    ");
-                                    super.logerrln("[ Error Disabling Constraint [ "+e.getMessage()+" ] ]");   
+                                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_DISABLING_CONSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                                 }
                                 pstm.close();
                                 super.logln( "------");                                
@@ -367,7 +368,7 @@ public class RebuildEboReferences extends OperationStatus
                             cn.close();
                             cn = ctx.getConnectionData();
                             
-                            super.log( "Rebuilding [ "+ def[j].getName() + "]" );
+                            super.log( MessageLocalizer.getMessage("REBUILDING")+" [ "+ def[j].getName() + "]" );
                             
                             pstm = cn.prepareStatement( "SELECT A.BOUI FROM "+def[j].getBoMasterTable()+" A,EBO_REGISTRY B WHERE A.BOUI = B.UI$ AND A.CLASSNAME=?" );
                             pstm.setString( 1, def[j].getName() );
@@ -409,14 +410,14 @@ public class RebuildEboReferences extends OperationStatus
                             }
                             rslt.close();
                             pstm.close();
-                            super.loggreenln( " [ Done    ] ");
+                            super.loggreenln( " [ "+MessageLocalizer.getMessage("DONE")+"   ] ");
                         } 
                         catch (Exception ex) 
                         {
                             ex.printStackTrace();
                             super.log("");
                             super.logerrln( "-----" );
-                            super.logerrln( " Error rebuilding Object ["+ def[j].getName() +"] " );
+                            super.logerrln(  MessageLocalizer.getMessage("ERROR_REBUILDING_OBJECT")+" ["+ def[j].getName() +"] " );
                             super.logerrln( ex.getMessage() );
                             super.logerrln( "-----" );
                             try
@@ -427,11 +428,11 @@ public class RebuildEboReferences extends OperationStatus
                             {
                                 super.log("");
                                 super.logerrln( "-----" );
-                                super.logerrln( " Error rollingback transaction " );
+                                super.logerrln( MessageLocalizer.getMessage("ERROR_ROLLINGBACK_TRANSACTION") );
                                 super.logerrln( e.getMessage() );
                                 super.logerrln( "-----" );
                             }
-                            super.logln( " Continuing.... ");
+                            super.logln( MessageLocalizer.getMessage("CONTINUING"));
                         } 
                         finally 
                         {
@@ -474,30 +475,30 @@ public class RebuildEboReferences extends OperationStatus
                 
                 cn = ctx.getConnectionManager().getDedicatedConnection();
                 super.logln( "----"  );
-                super.logln("Enabling Constraints:");
+                super.logln(MessageLocalizer.getMessage("ENABLING_CONSTRAINTS")+":");
                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " ENABLE CONSTRAINT FK_EBO_REFERENCES_BOUI" );
                 try
                 {
-                    super.log( "Enabling: [FK_EBO_REFERENCES_BOUI    ]" );
+                    super.log( MessageLocalizer.getMessage("ENABLING")+": [FK_EBO_REFERENCES_BOUI    ]" );
                     pstm.execute();
-                    super.loggreenln( "[ Done    ]" );
+                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"    ]" );
                 }
                 catch (SQLException e)
                 {
-                    super.logerrln("[ Error Enabling Constraint [ "+e.getMessage()+" ] ]");   
+                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                 }
                 pstm.close();
                 pstm = cn.prepareStatement( "ALTER TABLE " + fullTableName + " ENABLE CONSTRAINT FK_EBO_REFERENCES_REFBOUI" );
                 try
                 {
-                    super.log( "Enabling: [FK_EBO_REFERENCES_REFBOUI ]" );
+                    super.log( MessageLocalizer.getMessage("ENABLING")+": [FK_EBO_REFERENCES_REFBOUI ]" );
                     pstm.execute();
-                    super.loggreenln( "[ Done    ]" );
+                    super.loggreenln( "[ "+MessageLocalizer.getMessage("DONE")+"   ]" );
                 }
                 catch (SQLException e)
                 {
                     super.logln("    ");
-                    super.logerrln("[ Error Enabling Constraint [ "+e.getMessage()+" ] ]");   
+                    super.logerrln("[ "+MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINT")+" [ "+e.getMessage()+" ] ]");   
                 }
                 pstm.close();
                 cn.close();
@@ -507,10 +508,10 @@ public class RebuildEboReferences extends OperationStatus
             {
                 ex.printStackTrace();
                 super.logerrln( "----" );
-                super.logerrln( " Error enabling constraints " );
+                super.logerrln( MessageLocalizer.getMessage("ERROR_ENABLING_CNSTRAINTS") );
                 super.logerrln( ex.getMessage() );
                 super.logerrln(  "----" );
-                super.logln( " Continuing.... ");
+                super.logln( MessageLocalizer.getMessage("CONTINUING"));
                 
             }
             finally 

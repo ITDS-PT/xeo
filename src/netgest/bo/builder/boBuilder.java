@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.sql.CallableStatement;
@@ -17,10 +19,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -44,12 +48,16 @@ import netgest.bo.def.boDefUtils;
 import netgest.bo.def.v2.boDefLovImpl;
 import netgest.bo.dochtml.docHTML_treeServer;
 import netgest.bo.http.Builder;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.presentation.manager.uiObjectBuilder;
 import netgest.bo.presentation.render.elements.ExplorerServer;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boClassLoader;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boObjectUtils;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.Logger;
@@ -57,6 +65,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boSession;
+import netgest.bo.utils.XeoApplicationLanguage;
 import netgest.utils.IOUtils;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
@@ -68,12 +77,15 @@ import oracle.xml.parser.v2.XSLException;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
+import org.apache.log4j.helpers.Loader;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
  
 public class boBuilder {
+
+	
 	
 	private static final Logger logger = Logger.getLogger(boBuilder.class);
     private static final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger( Builder.class );
@@ -105,6 +117,7 @@ public class boBuilder {
 		p_eboctx = ebo;
 	}
 
+
 	public static void main(String[] args) throws Exception {
 
 		int exitStatus = 0;
@@ -119,7 +132,7 @@ public class boBuilder {
 				appender = new WriterAppender(layout, System.out);
 				appender.setName("Console");
 			} catch (Exception e) {
-				logger.severe("Error: ", e);
+				logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 			}
 			log4j.addAppender(appender);
 			log4j.setLevel(Level.DEBUG);
@@ -202,20 +215,23 @@ public class boBuilder {
 			if (buildOptions.getFullBuild())
 				buildTasks++;
 			
+			//Always copy translation files
+			buildTasks++;
+			
 			// rest web services module is present
 			if (Thread.currentThread().getContextClassLoader().getResource("xeo.rest.webservices") != null )
 				buildTasks++;
 
 			builder.p_builderProgress.setOverallTasks(buildTasks);
 			builder.p_builderProgress
-					.setOverallTaskName("Stopping XEO Threads...");
+					.setOverallTaskName(MessageLocalizer.getMessage("STOPPING_XEO_THREADS") );
 			ebo.getApplication().suspendAgents();
 
 			if (buildOptions.getFullBuild()) {
 				builder.p_builderProgress
-						.setOverallTaskName("Cleaning Build Folders...");
+						.setOverallTaskName(MessageLocalizer.getMessage("CLEANING_BUILD_FOLDERS"));
 				builder.p_builderProgress
-						.setCurrentTaskName("Clean bodef-deployment...");
+						.setCurrentTaskName(MessageLocalizer.getMessage("CLEAN_BODEF_DEPLOYMENT"));
 				builder.p_builderProgress.setCurrentTasks(3);
 
 				builder.cleanboDefDeployment();
@@ -223,14 +239,14 @@ public class boBuilder {
 				if (buildOptions.getGenerateAndCompileJava()) {
 					builder.p_builderProgress.addCurrentTaskProgress();
 					builder.p_builderProgress
-							.setCurrentTaskName("Clean Java Classes...");
+							.setCurrentTaskName(MessageLocalizer.getMessage("CLEAN_JAVA_CLASSES"));
 					builder.cleanBuildClasses();
 				}
 
 				if (buildOptions.getGenerateAndCompileJava()) {
 					builder.p_builderProgress.addCurrentTaskProgress();
 					builder.p_builderProgress
-							.setCurrentTaskName("Clean Java Sources...");
+							.setCurrentTaskName(MessageLocalizer.getMessage("CLEAN_JAVA_SOURCES"));
 					builder.cleanBuildSource();
 				}
 
@@ -255,12 +271,12 @@ public class boBuilder {
 
 			builder.p_builderProgress.addOverallProgress();
 			builder.p_builderProgress
-					.setOverallTaskName("Starting XEO Threads...");
+					.setOverallTaskName(MessageLocalizer.getMessage("STARTING_XEO_THREADS"));
 			ebo.getApplication().startAgents();
 
 			builder.p_builderProgress.addOverallProgress();
 			builder.p_builderProgress
-					.setOverallTaskName("XEO Builder Finished...");
+					.setOverallTaskName(MessageLocalizer.getMessage("XEO_BUILDER_FINISHED"));
 			if (builder.p_builderOptions.getIntegrateWithXEOStudioBuilder())
 				resetXEOStudioBuilderLastRun();
 		} finally {
@@ -291,6 +307,7 @@ public class boBuilder {
 	private void buildLov(String name) throws boRuntimeException {
 		boBuildLov blov = new boBuildLov(p_eboctx);
 		boDefLov xx = boDefLovImpl.loadLov(name);
+		blov.setXeoLovFileName(name);
 		blov.build(xx);
 	}
 
@@ -513,11 +530,11 @@ public class boBuilder {
 			IOUtils.copy(dboObject, xboObject);
 		}
 
-		p_builderProgress.appendInfoLog("Starting deploying objects...");
+		p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("STARTING_DEPLOYING_OBJECTS"));
 
 		p_builderProgress.addOverallProgress();
 		p_builderProgress
-				.setOverallTaskName("Checking for updated XEO descriptors...");
+				.setOverallTaskName(MessageLocalizer.getMessage("CHECKING_FOR_UPDATED_XEO_DESCRIPTORS"));
 
 		boDefHandler.clearInterfacesCache();
 		boBuilder.p_undeployeddefs.clear();
@@ -582,10 +599,10 @@ public class boBuilder {
 						IOUtils.copy(depfile, p_bcfg.getDeploymentDir()
 								+ sBackFileName);
 						p_builderProgress
-								.appendInfoLog("New version detected [" + name
+								.appendInfoLog(MessageLocalizer.getMessage("NEW_VERSION_DETECTED")+" [" + name
 										+ "]");
 					} else {
-						p_builderProgress.appendInfoLog("New object detected ["
+						p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("NEW_OBJECT_DETECTED")+" ["
 								+ name + "]");
 						IOUtils.copy(bofiles[i], depfile).setLastModified(
 								bofiles[i].lastModified() - 60000);
@@ -601,13 +618,13 @@ public class boBuilder {
 
 				deployfile.setLastModified(bofiles[i].lastModified() - 600);
 
-				p_builderProgress.appendInfoLog("Building StateObjectHandler:'"
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_STATEOBJETHANDLER")+":'"
 						+ name + "'");
 
 				if (p_builderOptions.getGenerateAndCompileJava()) {
 					buildStates(htdeploy, name);
 				}
-				p_builderProgress.appendInfoLog("end...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
 
 				deployfile.setLastModified(bofiles[i].lastModified());
 			} else if (bofiles[i].getName().toLowerCase().endsWith(TYPE_LOV)) {
@@ -623,7 +640,7 @@ public class boBuilder {
 
 		p_builderProgress.addOverallProgress();
 		p_builderProgress
-				.setOverallTaskName("Checking for XEO Models dependencies...");
+				.setOverallTaskName(MessageLocalizer.getMessage("CHECKING_FOR_XEO_MODELS_DEPENDENCIES"));
 
 		// Make BuildOrder
 		Stack stack = new Stack();
@@ -664,11 +681,11 @@ public class boBuilder {
 		}
 
 		try {
-			p_builderProgress.appendInfoLog("Creating bodef-deployment xml...");
+			p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("CREATING_BODEF_DEPLOYMENT_XML"));
 
 			p_builderProgress.addOverallProgress();
 			p_builderProgress
-					.setOverallTaskName("Creating XEO Models descriptors...");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_XEO_MODELS_DESCRIPTORS"));
 
 			p_builderProgress.setCurrentTasks(todeploy.size());
 			for (int i = 0; i < todeploy.size(); i++) {
@@ -690,9 +707,9 @@ public class boBuilder {
 					if (todepDef.getClassType() == boDefHandler.TYPE_INTERFACE) {
 						if (!fname.endsWith(TYPE_INTERFACE)) {
 							p_builderProgress
-									.appendErrorLog("Debug info. Object ["
+									.appendErrorLog(MessageLocalizer.getMessage("DEBUG_INFO_OBJECT")+" ["
 											+ todepDef.getName()
-											+ "] is interface and are ready to be writed as a object.");
+											+ "] "+MessageLocalizer.getMessage("IS_INTERFACE_AND_ARE_READY_TO_BE_WRITTEN_AS_OBJECT"));
 						}
 					}
 
@@ -717,14 +734,14 @@ public class boBuilder {
 								.setLastModified(srcfile.lastModified() - 60000);
 					}
 				} catch (FileNotFoundException e) {
-					throw new RuntimeException(
-							"Unexpected java.io.FileNotFoundException cpoying files to deploy directory ["
+					throw new RuntimeException(MessageLocalizer.getMessage("UNEXPECTED_FNFE_COPYING_FILES_TO_DEPLOY_DIRECTORY")+
+							" ["
 									+ ((boDefHandler) todeploy.get(i))
 											.getName() + "]\n" + e.getClass()
 									+ "\n" + e.getMessage());
 				} catch (IOException e) {
-					throw new RuntimeException(
-							"Erro copying files to deployment directory ["
+					throw new RuntimeException(MessageLocalizer.getMessage("ERROR_COPYING_FILES_TO_DEPOYMENT_DIRECTORY")+
+							" ["
 									+ ((boDefHandler) todeploy.get(i))
 											.getName() + "]\n" + e.getClass()
 									+ "\n" + e.getMessage());
@@ -737,7 +754,7 @@ public class boBuilder {
 
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress
-					.setOverallTaskName("Creating XEO Model forward methos...");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_XEO_MODELS_FORWARD_METHODS"));
 			p_builderProgress.setCurrentTasks(todeploy.size());
 			for (int i = 0; i < todeploy.size(); i++) {
 				try {
@@ -745,7 +762,7 @@ public class boBuilder {
 						String xname = ((boDefHandler) todeploy.get(i))
 								.getBoName();
 						p_builderProgress.appendInfoLog(xname
-								+ " has Foward Methods");
+								+ " "+MessageLocalizer.getMessage("HAS_FORWARD_METHODS"));
 
 						// File srcfile =new
 						// File(this.p_bcfg.getDefinitiondir()+xname+TYPE_BO);
@@ -781,14 +798,14 @@ public class boBuilder {
 
 					}
 				} catch (FileNotFoundException e) {
-					throw new RuntimeException(
-							"Unexpected java.io.FileNotFoundException cpoying files to deploy directory ["
+					throw new RuntimeException(MessageLocalizer.getMessage("UNEXPECTED_FNFE_COPYING_FILES_TO_DEPLOY_DIRECTORY")+
+							" ["
 									+ ((boDefHandler) todeploy.get(i))
 											.getName() + "]\n" + e.getClass()
 									+ "\n" + e.getMessage());
 				} catch (IOException e) {
-					throw new RuntimeException(
-							"Erro copying files to deployment directory ["
+					throw new RuntimeException(MessageLocalizer.getMessage("ERROR_COPYING_FILES_TO_DEPOYMENT_DIRECTORY")+
+							" ["
 									+ ((boDefHandler) todeploy.get(i))
 											.getName() + "]\n" + e.getClass()
 									+ "\n" + e.getMessage());
@@ -817,16 +834,153 @@ public class boBuilder {
 			// Build Classes 1'st phase.....
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress
-					.setOverallTaskName("Creating and Compiling XEO Model Java Classes...");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_AND_COMPILING_XEO_MODEL_JAVA_CLASS"));
 			this.p_builderProgress.setCurrentTasks(1);
 			if (this.p_builderOptions.getGenerateAndCompileJava()) {
 				boClassBuilder bcl = new boClassBuilder(p_builderProgress);
 
-				p_builderProgress.appendInfoLog("Building Object Classes...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_OBJECT_CLASSES"));
 				bcl.build(defs, classesbouis);
 
 				this.p_builderProgress.addCurrentTaskProgress();
 			}
+			
+			/////////////////////////////////////////////////////////////////////
+			/**
+			 *copies the translation files 
+			 * and shows progress on the builder progress bar
+			 * 
+			 */
+			
+			File[] translationsToCopyList = repository.getFileTranslations();
+			String destiny = p_eboctx.getApplication().getApplicationConfig()
+			.getDeploymentDir();
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("COPYING_OBJECT_MODEL_TRANSLATIONS"));
+			p_builderProgress.setCurrentTasks(translationsToCopyList.length);
+			
+			
+			
+			
+			for (int in=0; in<translationsToCopyList.length; in++)
+			{		
+				Properties properties = new Properties();
+		
+		     String filename;
+		     boDefHandler[] refdef = boDefHandler.listBoDefinitions();
+		     try {
+		    	 filename=translationsToCopyList[in].toString();
+		    	 String fileName=filename;//to use later
+		    	 filename=filename.replace(translationsToCopyList[in].getParent()+"\\", "");//filename=object
+			     OutputStream output=new FileOutputStream(destiny+filename);//where to copy the files+filename  
+				   boApplication app=boApplication.currentContext().getApplication();
+				   HashSet<String> languageMap=app.getAllLanguages();
+				   String[] obj=new String[10];					
+					String object=filename;
+
+				//////////
+				//search and copy for interface attributes used by the object
+				Iterator it=languageMap.iterator();
+				while(it.hasNext()){
+				String[] intermedia =it.next().toString().split("=");
+				obj=object.split("_"+intermedia[0]);
+				object=obj[0];//class name
+				}try{
+				 boDefHandler objHandler=boDefHandler.getBoDefinition(object);
+				 if(objHandler!=null)
+				 if(objHandler.getName()!=null)
+				 if(objHandler.getImplements()!=null){//checks for interfaces
+				String[] objInterfaces=objHandler.getImplements();//load used interfaces
+			
+					for (int y=0 ; y<objInterfaces.length;y++)
+				if (objInterfaces[y]!=null)
+				{		
+				  int i =0 ; 
+				   while (i < refdef.length){		//checks for the used interface				
+						boDefHandler[] usedInterfaces =	refdef[i].getBoInterfaces();						
+						if (usedInterfaces.length>0){					
+						if (usedInterfaces.length!=-1 && usedInterfaces.length!=0){				
+							int j=0;	
+							String interfaceJaUsada=null;
+						while (j<usedInterfaces.length){
+							if(objInterfaces.length == usedInterfaces.length)
+								for (int z=0;z<objInterfaces.length;z++)
+							if (objInterfaces[z].equals(usedInterfaces[j].getName())){
+								 if (interfaceJaUsada!=null)
+									if (fileName.contains(interfaceJaUsada)){//substitui o nome da ultima interface pelo da actual
+											fileName=fileName.replace(interfaceJaUsada,usedInterfaces[j].getName());
+								       properties.load(new FileInputStream(fileName));
+								      }
+											if (fileName.contains(refdef[i].getName()))
+										{				
+									   fileName=fileName.replace(refdef[i].getName(),usedInterfaces[j].getName());//gets the interface file to copy
+									
+										interfaceJaUsada=usedInterfaces[j].getName();//guarda para ser substituido na proxima
+									properties.load(new FileInputStream(fileName));
+									//input.close();
+						
+									/**	while (e.hasMoreElements())
+									System.out.println(e.nextElement());
+									boolean first=true;
+							     		String toWrite;
+							     		byte[] bu=new byte[1024];
+									while ((len = input.read(bu)) > 0)
+									{  
+										if (first){
+										 first=false;
+										 toWrite=new String(bu);//
+										 String[] str=toWrite.split("\r\n");//split to get each line
+										 for (int z=2;z<str.length-1;z++){//does not copy interfaces label and description
+											 Properties nextLine=new Properties();
+											 String key=(String)str[z];
+											 if(!str[z+1].isEmpty()){
+												 nextLine.put(key, str[z+1]);
+											 Enumeration<Object> keys=nextLine.keys();
+											 
+											 while (keys.hasMoreElements()){
+												
+												 String element1=(String) keys.nextElement();
+													 String element2 =(String) nextLine.get(element1);
+													 element1="\n "+element1;
+													 element2 ="\n"+element2;										
+													 byte[] keyByte =element1.getBytes();
+													 byte[] myByteArray =element2.getBytes();				
+													output.write(keyByte);
+												    output.write(myByteArray);
+											 }}else{
+												 if (key!=null && key!="")
+												 output.write(key.getBytes());												 
+											 }								 
+											 z++;
+										 }}
+										else{
+									
+									   output.write(bu, 0, len);
+										}
+										}**/
+										
+								}																	
+						}j++;}
+						}}
+						i++;}				
+					}}}
+				finally{
+					
+					
+					///////
+				p_builderProgress.addCurrentTaskProgress();
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": "+filename);
+				p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": " + filename);
+			
+				 //copy object translation file
+				properties.load(new FileInputStream(translationsToCopyList[in])); 
+				     properties.store(output,null);
+	//input.close();
+				output.close();}
+			} catch (IOException e) {
+
+			}}
+			
+			/////////////////////////////////////////////////////////////////////
 
 			// Build Database Objects
 			if (p_builderOptions.getBuildDatabase()) {
@@ -837,7 +991,7 @@ public class boBuilder {
 
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress
-					.setOverallTaskName("Creating JSP's for XEO Models...");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_JSP_FOR_XEO_MODELS"));
 			// jsp faz sempre
 			boBuildJSP bjsp = null;
 
@@ -846,7 +1000,7 @@ public class boBuilder {
 			for (int i = 0; i < defs.length; i++) {
 				p_builderProgress.setCurrentTaskName(defs[i].getLabel() + " ("
 						+ defs[i].getName() + ")");
-				p_builderProgress.appendInfoLog("Building JSP for:'"
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUIDING_JSP_FOR")+":'"
 						+ defs[i].getBoName() + "'");
 
 				bjsp = new boBuildJSP();
@@ -860,7 +1014,7 @@ public class boBuilder {
 
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress
-					.setOverallTaskName("Creating JSP's for XEO Model Interfaces...");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_JSPS_FOR_XEO_MODEL_INTERFACES"));
 			p_builderProgress.setCurrentTasks(defs.length);
 			if (objectInterf != null && objectInterf.size() > 0) {
 				Enumeration oEnum = objectInterf.keys();
@@ -875,7 +1029,7 @@ public class boBuilder {
 								+ " (" + defI.getName() + ")");
 						bjsp = new boBuildJSP();
 						p_builderProgress
-								.appendInfoLog("Building Mandatory Interface JSP for:'"
+								.appendInfoLog(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
 										+ mandInterface + "'");
 						bjsp.generate(defI);
 					}
@@ -889,17 +1043,17 @@ public class boBuilder {
 					createResources(defs[i].getBoName());
 				} catch (IOException e) {
 					p_builderProgress
-							.appendInfoLog("Error creating resources directory for object: "
+							.appendInfoLog(MessageLocalizer.getMessage("ERROR_CREATING_RESOURCES_DIRECTORY_FOR_OBJECT")+": "
 									+ defs[i].getBoName());
 				}
 			}
 
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress
-					.setOverallTaskName("Updating timestamp of deployed descriptors...");
+					.setOverallTaskName(MessageLocalizer.getMessage("UPDATING_TIMESTAMP_OF_DEPLOYED_DESCRIPTORS"));
 			// Update timestamps of deployed files;
 			p_builderProgress
-					.appendInfoLog("Updating TimeStamps of the deployed files...");
+					.appendInfoLog(MessageLocalizer.getMessage("UPDATING_TIMESTAMPS_OF_THE_DEPLOYED_FILES"));
 			for (int i = 0; i < todeploy.size(); i++) {
 				boDefHandler xdef = (boDefHandler) todeploy.get(i);
 				String ext = (xdef.getClassType() == boDefHandler.TYPE_INTERFACE) ? TYPE_INTERFACE
@@ -931,29 +1085,29 @@ public class boBuilder {
 				// build rest web services
 				try {
 					Class<?> xclass = Class.forName("netgest.bo.webservices.rest.builder.RESTwebServicesBuilder");
-					p_builderProgress.appendInfoLog("Building REST WebServices...");
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_REST_WEBSERVICES"));
 					Constructor con =  xclass.getConstructor(new Class[] {  boBuilderProgress.class } );
 					Object xclassInstance = con.newInstance( new Object[] { p_builderProgress }  );
 					Method m = xclass.getMethod("build",new Class<?>[]{}); 
 					m.invoke(xclassInstance,new Object[]{});
 				} catch (Exception e) {
 					p_builderProgress.appendInfoLog("___________________________________");
-					p_builderProgress.appendInfoLog("Failed build of REST WebServices...");
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("FAILED_BUILD_OF_RESTSERVICES"));
 					p_builderProgress.appendInfoLog("___________________________________");
 					e.printStackTrace();
 				}
 			}
 
-			p_builderProgress.appendInfoLog("Deploy take "
-					+ ((System.currentTimeMillis() - ms) / 1000) + " seconds.");
-			p_builderProgress.appendInfoLog("Deploy finished.");
+			p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("DEPLOY_TAKE")+" "
+					+ ((System.currentTimeMillis() - ms) / 1000) + " "+MessageLocalizer.getMessage("SECONDS"));
+			p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("DEPLOY_FINISHED"));
 
 			success = true;
 		} finally {
 			if (!success) {
-				p_builderProgress.appendInfoLog("Error deploying Files...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("ERROR_DEPLOYING_FILES"));
 				p_builderProgress
-						.appendInfoLog("Rolling back deployment files...");
+						.appendInfoLog(MessageLocalizer.getMessage("ROLLING_BACK_DEPLOYMENT_FILES"));
 				for (int i = 0; i < todeploy.size(); i++) {
 					boDefHandler xdef = (boDefHandler) todeploy.get(i);
 					String oname = xdef.getName();
@@ -994,7 +1148,7 @@ public class boBuilder {
 					}
 				}
 
-				p_builderProgress.appendInfoLog("Done.");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("DONE"));
 			} else {
 
 				p_eboctx.getApplication().releaseClassLoader();
@@ -1033,7 +1187,7 @@ public class boBuilder {
 		try {
 			p_builderProgress.addOverallProgress();
 			p_builderProgress
-					.setOverallTaskName("Creating System Database Objects");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_SYSTEM_DATABASE_OBJECTS"));
 			if (buildSystemObjs) {
 
 				// build ngtdic e index
@@ -1046,14 +1200,14 @@ public class boBuilder {
 
 			if (buildSystemObjs) {
 				// Make a deep rebuild including system tables.
-				p_builderProgress.appendInfoLog("Creating System Tables...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("CREATING_SYSTEM_TABLES"));
 
 				boBuildDB bdb = new boBuildDB(p_eboctx);
 				bdb.buildSystemStables();
-				p_builderProgress.appendInfoLog("Done.");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("DONE"));
 
 				p_builderProgress
-						.appendInfoLog("Creating Views for System Tables... ");
+						.appendInfoLog(MessageLocalizer.getMessage("CREATING_VIEWS_FOR_SYSTEM_TABLES"));
 				bdb = new boBuildDB(p_eboctx, repository, interfacedeploy);
 				bdb.buildSystemViews();
 			}
@@ -1070,7 +1224,7 @@ public class boBuilder {
 			}
 
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Creating Database Tables");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATING_DATABASE_TABLES"));
 
 			p_builderProgress.setCurrentTasks(defs.length);
 			for (short i = 0; i < defs.length; i++) {
@@ -1079,7 +1233,7 @@ public class boBuilder {
 					p_builderProgress.setCurrentTaskName(defs[i].getLabel()
 							+ " (" + defs[i].getName() + ")");
 					p_builderProgress
-							.appendInfoLog("Building DB Attributes for:'"
+							.appendInfoLog(MessageLocalizer.getMessage("BUILDING_DB_ATTRIBUTES_FOR")+":'"
 									+ defs[i].getName() + "'");
 
 					if (buildedobjects.get(defs[i].getName()) == null) {
@@ -1104,13 +1258,13 @@ public class boBuilder {
 
 			p_builderProgress.addOverallProgress();
 			p_builderProgress
-					.setOverallTaskName("Creating Database Constraints");
+					.setOverallTaskName(MessageLocalizer.getMessage("CREATING_DATABASE_CONSTRAINTS"));
 			p_builderProgress.setCurrentTasks(defs.length);
 
 			if (buildSystemObjs) {
 				// Make a deep rebuild including system tables.
 				p_builderProgress
-						.appendInfoLog("Creating System Constraints...");
+						.appendInfoLog(MessageLocalizer.getMessage("CREATING_SYSTEM_CONSTRAINTS"));
 				boBuildDB bdb = new boBuildDB(p_eboctx);
 				bdb.buildSystemKeys();
 			}
@@ -1124,7 +1278,7 @@ public class boBuilder {
 							+ " (" + defs[i].getName() + ")");
 
 					p_builderProgress
-							.appendInfoLog("Building DB Constraints for:'"
+							.appendInfoLog(MessageLocalizer.getMessage("BUILDING_DB_CONSTRAINTS_FOR")+":'"
 									+ defs[i].getName() + "'");
 
 					if (buildedobjects.get(defs[i].getName()) == null) {
@@ -1140,7 +1294,7 @@ public class boBuilder {
 			}
 
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Creating Database Views");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATING_DATABASE_VIEWS"));
 
 			p_builderProgress.setCurrentTasks(defs.length);
 			// garantir que as vies das interfaces são as ultimas, devido a
@@ -1156,7 +1310,7 @@ public class boBuilder {
 					}
 				} else {
 					if (defs[i].getDataBaseManagerManageViews()) {
-						p_builderProgress.appendInfoLog("Building Views for:'"
+						p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_VIEWS_FOR")+":'"
 								+ defs[i].getName() + "'");
 
 						boBuildDB bdb = new boBuildDB(p_eboctx);
@@ -1168,9 +1322,9 @@ public class boBuilder {
 			}
 
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Create Interfaces Views");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATE_INTERFACE_VIEWS"));
 			p_builderProgress
-					.appendInfoLog("Building Special Views for:'Ebo_ClsReg' and 'Ebo_Package'");
+					.appendInfoLog(MessageLocalizer.getMessage("BUILDING_SPECIAL_VIEWS_FOR_EBO_CLRSREG_AND_EBO_PACKAGE"));
 			boBuildDB specialView = new boBuildDB(p_eboctx);
 			specialView.createInheritViews(boDefHandler
 					.getBoDefinition("Ebo_ClsReg"), true);
@@ -1182,11 +1336,12 @@ public class boBuilder {
 			p_builderProgress.setCurrentTasks(interfaceDefs.size());
 			for (short i = 0; i < interfaceDefs.size(); i++) {
 				boDefHandler intDef = (boDefHandler) interfaceDefs.get(i);
+				p_builderProgress.addCurrentTaskProgress();
 
 				p_builderProgress.setCurrentTaskName(intDef.getLabel() + " ("
 						+ intDef.getName() + ")"); 
 
-				p_builderProgress.appendInfoLog("Building Interface View for:'"
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_INTERFACE_VIEW_FOR")+":'"
 						+ intDef.getName() + "'");
 
 				boBuildDB bdb = new boBuildDB(p_eboctx);
@@ -1203,8 +1358,15 @@ public class boBuilder {
 					try {
 						mandInterface = (String) oIt.next();
 						p_builderProgress
-								.appendInfoLog("Building Mandatory Interface View for:'"
+								.appendInfoLog(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
 										+ mandInterface + "'");
+						///////////
+						p_builderProgress.addCurrentTaskProgress();
+						p_builderProgress
+						.setCurrentTaskName(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
+								+ mandInterface + "'");
+						
+						//////////
 						boBuildDB bdb = new boBuildDB(p_eboctx);
 						bdb.createInheritViewsForMandatoryInterfaces(
 								mandInterface, (ArrayList) objectInterf
@@ -1229,17 +1391,17 @@ public class boBuilder {
 				deployfile.setLastModified(scriptFile.lastModified() - 600);
 
 				p_builderProgress
-						.appendInfoLog("Treating ScriptObjectHandler:'" + name
+						.appendInfoLog(MessageLocalizer.getMessage("TREATING_SCRIPTOBJECTHANDLER")+":'" + name
 								+ "'");
 
 				treatScript(p_eboctx, name);
 
-				p_builderProgress.appendInfoLog("end...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
 				deployfile.setLastModified(scriptFile.lastModified());
 			}
 
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Registring packages...");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_PACKAGES"));
 
 			p_builderProgress.setCurrentTasks(repository.getPackages().size());
 			for (short i = 0; i < repository.getPackages().size(); i++) {
@@ -1249,7 +1411,7 @@ public class boBuilder {
 				p_builderProgress.setCurrentTaskName(packagename);
 
 				p_builderProgress
-						.appendInfoLog("Registering Packages in Ebo_Package:'"
+						.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_PACKAGE_IN_EBO_PACKAGE")+":'"
 								+ packagename + "'");
 
 				boObject pack = null;
@@ -1281,7 +1443,7 @@ public class boBuilder {
 
 			// Register classes in Ebo_ClsReg
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Registring XEO Models...");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_XEO_MODELS"));
 
 			p_builderProgress.setCurrentTasks(defs.length);
 			for (short i = 0; i < defs.length; i++) {
@@ -1294,7 +1456,7 @@ public class boBuilder {
 				p_builderProgress.setCurrentTaskName(defs[i].getLabel() + " ("
 						+ defs[i].getName() + ")");
 				p_builderProgress
-						.appendInfoLog("Registering classes in Ebo_ClsReg:'"
+						.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_CLASSES_IN_EBO_CLSREG")+":'"
 								+ defs[i].getBoName() + "'");
 
 				boObject clsreg = null;
@@ -1353,7 +1515,7 @@ public class boBuilder {
 				// Fill the array with class BOUI
 			}
 			p_builderProgress
-					.appendInfoLog("Redoing Normal Views for:'Ebo_ClsReg' and 'Ebo_Package'");
+					.appendInfoLog(MessageLocalizer.getMessage("REDOING_NORMAL_VIEWS_FOR_EBO_CLSREG_AND_EBO_PACKAGE"));
 			specialView = new boBuildDB(p_eboctx);
 			specialView.createInheritViews(boDefHandler
 					.getBoDefinition("Ebo_ClsReg"));
@@ -1363,7 +1525,7 @@ public class boBuilder {
 
 			// construção das Lov's
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Creating/Updating LOVs...");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATING_UPDATING_LOVS"));
 
 			p_builderProgress.setCurrentTasks(lovFiles.size());
 			for (int i = 0; i < lovFiles.size(); i++) {
@@ -1382,12 +1544,12 @@ public class boBuilder {
 
 				deployfile.setLastModified(bofiles[j].lastModified() - 600);
 
-				p_builderProgress.appendInfoLog("Building LovObjectHandler:'"
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_LOVOBJECTHANDLER")+":'"
 						+ name + "'");
 
 				buildLov(name);
 
-				p_builderProgress.appendInfoLog("end...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
 
 				deployfile.setLastModified(bofiles[j].lastModified());
 
@@ -1401,7 +1563,7 @@ public class boBuilder {
 						bofiles[j].getName().toLowerCase().indexOf(TYPE_WSD));
 				File deployfile = new File(p_bcfg.getDeploymentDir() + name
 						+ boBuilder.TYPE_WSD);
-				p_builderProgress.appendInfoLog("Building WSD:'" + name + "'");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_WSD")+":'" + name + "'");
 
 				IOUtils.copy(bofiles[j], deployfile);
 				deployfile.setLastModified(bofiles[j].lastModified());
@@ -1412,35 +1574,40 @@ public class boBuilder {
 
 			// Create System Users and Groups
 			createSystemUsersandGroups(p_eboctx);
-
+			
+			//Criar linguas
+			 createLanguages();
+			
+			
+			
 			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName("Removing User Workplaces...");
+			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_USER_WORKPLACES"));
 			if (p_builderOptions.getRemoveUserWorkplaces()) {
 				p_builderProgress
-						.appendInfoLog("Starting Removing User WorkPlaces ...");
+						.appendInfoLog(MessageLocalizer.getMessage("STARTING_REMOVING_USER_WORKPLACES"));
 				removeUserWorkPlaces(p_eboctx);
 				p_builderProgress
-						.appendInfoLog("Ended Removing User WorkPlaces");
+						.appendInfoLog(MessageLocalizer.getMessage("ENDED_REMOVING_USER_WORKPLACES"));
 			}
 
 			p_builderProgress.addOverallProgress();
 			p_builderProgress
-					.setOverallTaskName("Removing Default Workplaces...");
+					.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_DEFAULT_WORKPLACES"));
 			if (p_builderOptions.getBuildWorkplaces()) {
 				p_builderProgress
-						.appendInfoLog("Starting Rebuild Default WorkPlaces ...");
+						.appendInfoLog(MessageLocalizer.getMessage("STARTING_REBUILD_DEFAULT_WORKPLACES"));
 				buildWorkPlaceDefault(p_eboctx);
 				p_builderProgress
-						.appendInfoLog("Ended Rebuild Default WorkPlaces");
+						.appendInfoLog(MessageLocalizer.getMessage("ENDED_REBUILD_DEFAUT_WORKPLACES"));
 			}
 
 			p_builderProgress.addOverallProgress();
 			p_builderProgress
-					.setOverallTaskName("Marking Objects as deployed...");
+					.setOverallTaskName(MessageLocalizer.getMessage("MARKING_OBJECTS_AS_DEPLOYED"));
 			if (p_builderOptions.getMarkDeployedObjects()) {
-				p_builderProgress.appendInfoLog("Marking deployed Objects...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("MARKING_DEPLOYED_OBJECTS"));
 				setDeployedObjects();
-				p_builderProgress.appendInfoLog("End Mark deployed Objects...");
+				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END_MARK_DEPLOYED_OBJECTS"));
 			}
 
 			ok = true;
@@ -1456,11 +1623,35 @@ public class boBuilder {
 
 	}
 
+	private void createLanguages() throws boRuntimeException{
+		HashSet<XeoApplicationLanguage> languages=p_bcfg.getAllLanguages();
+		XeoApplicationLanguage apl;
+		Iterator it=languages.iterator();
+		boObject obj;
+		while (it.hasNext()){
+			
+			apl=(XeoApplicationLanguage)it.next();
+	
+		boObjectList pack = boObjectList.list(p_eboctx,
+				"SELECT XeoApplicationLanguage WHERE code = '" + apl.code + "'");
+		if (pack.isEmpty()){		
+			obj=boObject.getBoManager().createObject(p_eboctx,"XeoApplicationLanguage");
+			//System.out.println(apl.code);
+			obj.getAttribute("code").setValueString(apl.code);
+			obj.getAttribute("description").setValueString(apl.description);
+			//System.out.println(apl.code);
+			obj.update();
+			
+		}
+		
+		}
+	}
+	
 	private void setDeployedObjects() {
 		try {
 			boBuildRepository repository = new boBuildRepository(p_eboctx
 					.getBoSession().getRepository());
-			File[] f = repository.getXMLFilesFromDefinition();
+			File[] file = repository.getXMLFilesFromDefinition();
 			ArrayList packages = repository.getPackages();
 			String name;
 			StringBuffer sbClsrg = new StringBuffer(" where ");
@@ -1468,12 +1659,12 @@ public class boBuilder {
 			boObject pack = null;
 			boolean first = true;
 			boolean intf = false;
-			for (int i = 0; i < f.length; i++) {
-				intf = f[i].getName().toLowerCase().endsWith(TYPE_INTERFACE);
-				if (f[i].getName().toLowerCase().endsWith(TYPE_BO) || intf) {
-					name = f[i].getName().substring(
+			for (int i = 0; i < file.length; i++) {
+				intf = file[i].getName().toLowerCase().endsWith(TYPE_INTERFACE);
+				if (file[i].getName().toLowerCase().endsWith(TYPE_BO) || intf) {
+					name = file[i].getName().substring(
 							0,
-							f[i].getName().toLowerCase().indexOf(
+							file[i].getName().toLowerCase().indexOf(
 									!intf ? TYPE_BO : TYPE_INTERFACE));
 
 					boObjectList clsRegList = boObjectList.list(  p_eboctx, "select Ebo_ClsReg where name=?", new Object[]{ name });
@@ -1519,7 +1710,7 @@ public class boBuilder {
 			executeUpdate(this.p_eboctx, updates);
 		} catch (boRuntimeException e) {
 			p_builderProgress
-					.appendErrorLog("Não foi possível efectuar o setDeployed.");
+					.appendErrorLog(MessageLocalizer.getMessage("COULD_NOT_SETDEPLOYED"));
 		}
 	}
 
@@ -1538,8 +1729,8 @@ public class boBuilder {
 					n = csm.executeUpdate();
 					csm.close();
 					p_builderProgress
-							.appendInfoLog("Executed Query to set Deployed Objects. updated "
-									+ n + " records.");
+							.appendInfoLog(MessageLocalizer.getMessage("EXECUTED_QUERY_TO_SET_DEPLOYED_OBJECTS_UPDATED")+" "
+									+ n + " "+MessageLocalizer.getMessage("RECORDS"));
 				}
 			}
 		} catch (Exception e) {
@@ -1736,12 +1927,12 @@ public class boBuilder {
 						}
 					}
 				}
-
+					
 				if (atrdef.getLovItems() != null) {
 					String lovName = atrdef.getLOVName();
 					boolean rtValues = atrdef.getLovRetainValues();
 					boBuildLov l = new boBuildLov(p_eboctx);
-					l.buildLov(lovName, rtValues, atrdef.getLovItems());
+					l.buildLov(lovName, rtValues, atrdef.getLovItems(),boApplication.getDefaultApplication().getApplicationLanguage() );
 				}
 
 				String attributeName = atrdef.getName();
@@ -2019,7 +2210,7 @@ public class boBuilder {
 						intf = boDefHandler.getInterfaceDefinition(intfName);
 						if (intf == null) {
 							logger.warn("Interface " + intfName
-									+ " does not exists.");
+									+ " "+LoggerMessageLocalizer.getMessage("DOESNT_EXIST")+".");
 							continue;
 						}
 
@@ -2167,8 +2358,8 @@ public class boBuilder {
 						.getBoSuperBo(), objectInterfaceMap, false);
 
 				if (xderiv == null) {
-					throw new RuntimeException("Object [" + name
-							+ "] extends a unknown object [" + xderivName + "]");
+					throw new RuntimeException(MessageLocalizer.getMessage("OBJECT")+" [" + name
+							+ "] "+MessageLocalizer.getMessage("EXTENDES_A_UNKNOWN_OBJECT")+" [" + xderivName + "]");
 				}
 
 				if (xderiv.getBoHaveMultiParent()) {
@@ -2181,8 +2372,8 @@ public class boBuilder {
 							bodef.getBoSuperBo(), objectInterfaceMap, false)
 							.getBoHaveMultiParent() != multiparent)) {
 				atts.getNode().appendChild(
-						boDefUtils.createAttribute("PARENT", "PARENT$",
-								"Objecto Pai", "attributeObject",
+						boDefUtils.createAttribute("PARENT", "PARENT$",MessageLocalizer.getMessage("FATHER_OBJECT")
+								, "attributeObject",
 								"object.boObject", 0, multiparent, atts
 										.getNode().getOwnerDocument()));
 			}
@@ -2192,7 +2383,7 @@ public class boBuilder {
 			if (!bodef.hasAttribute("PARENTCTX")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("PARENTCTX", "PARENTCTX$",
-								"Contexto de Criação", "attributeObject",
+								MessageLocalizer.getMessage("CREATION_CONTEXT"), "attributeObject",
 								"object.boObject", 0, false, atts.getNode()
 										.getOwnerDocument()));
 			}
@@ -2202,7 +2393,7 @@ public class boBuilder {
 					&& !bodef.getName().equals("Ebo_Map")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("TEMPLATE", "TEMPLATE$",
-								"Modelo", "attributeObject",
+								MessageLocalizer.getMessage("MODEL"), "attributeObject",
 								"object.Ebo_Template", 0, false, atts.getNode()
 										.getOwnerDocument()));
 			}
@@ -2217,14 +2408,14 @@ public class boBuilder {
 			if (!bodef.hasAttribute("CLASSNAME")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("CLASSNAME", "CLASSNAME",
-								"Categoria do Objecto", "attributeText", "",
+								MessageLocalizer.getMessage("OBJECT_CATEGORY"), "attributeText", "",
 								50, false, atts.getNode().getOwnerDocument()));
 			}
 
 			if (!bodef.hasAttribute("CREATOR")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("CREATOR", "CREATOR$",
-								"Criador", "attributeObject",
+								MessageLocalizer.getMessage("CREATOR"), "attributeObject",
 								"object.iXEOUser", 0, false, atts.getNode()
 										.getOwnerDocument()));
 			}
@@ -2232,7 +2423,7 @@ public class boBuilder {
 			if (!bodef.hasAttribute("SYS_DTCREATE")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("SYS_DTCREATE",
-								"SYS_DTCREATE", "Data de Criação",
+								"SYS_DTCREATE", MessageLocalizer.getMessage("CREATION_DATE"),
 								"attributeDateTime", "", 0, false, atts
 										.getNode().getOwnerDocument()));
 			}
@@ -2240,7 +2431,7 @@ public class boBuilder {
 			if (!bodef.hasAttribute("SYS_DTSAVE")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("SYS_DTSAVE", "SYS_DTSAVE",
-								"Data da última actualização",
+								MessageLocalizer.getMessage("LAST_UPDATE_DATE"),
 								"attributeDateTime", "", 0, false, atts
 										.getNode().getOwnerDocument()));
 			}
@@ -2248,13 +2439,13 @@ public class boBuilder {
 			if (!bodef.hasAttribute("SYS_ORIGIN")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("SYS_ORIGIN", "SYS_ORIGIN",
-								"Origem dos dados", "attributeText", "", 30,
+								MessageLocalizer.getMessage("DATA_ORIGIN"), "attributeText", "", 30,
 								false, atts.getNode().getOwnerDocument()));
 			}
 			if (!bodef.hasAttribute("SYS_FROMOBJ")) {
 				atts.getNode().appendChild(
 						boDefUtils.createAttribute("SYS_FROMOBJ",
-								"SYS_FROMOBJ$", "Objecto Origem",
+								"SYS_FROMOBJ$", MessageLocalizer.getMessage("ORIGIN_OBJECT"),
 								"attributeObject", "object.boObject", 0, false,
 								atts.getNode().getOwnerDocument()));
 			}
@@ -2292,7 +2483,7 @@ public class boBuilder {
 					atts[i].getChildNode("bridge").getChildNode("attributes")
 							.getNode().appendChild(
 									boDefUtils.createAttribute("LIN", "LIN",
-											"Linha", "attributeNumber",
+											MessageLocalizer.getMessage("LINE"), "attributeNumber",
 											"NUMBER", 0, false, atts[i]
 													.getNode()
 													.getOwnerDocument()));
@@ -2661,14 +2852,14 @@ public class boBuilder {
 				if (bobj.getClassType() == boDefHandler.TYPE_INTERFACE
 						&& !xbofile.getName().toLowerCase().endsWith(
 								".xeoimodel")) {
-					throw new RuntimeException(
-							"Object ["
+					throw new RuntimeException(MessageLocalizer.getMessage("OBJECT")+
+							" ["
 									+ boname
-									+ "] in bodef-deployment as wrong extension, must be .xeoimodel not xeomodel because is declared as a interface.");
+									+ "] "+MessageLocalizer.getMessage("IN_BODEF_DEPLOYMENT_AS_WRONG_EXTENTIONS_MUST_BE_"));
 				}
 				if (!bobj.getName().equalsIgnoreCase(boname)) {
-					throw new RuntimeException(
-							"Erro in object definition:Object filename does not match with name specified in the XML. ["
+					throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_OBJECT_DEFINITION_OB_F_NAME_DOES_NOT_MATCH_")+
+							" ["
 									+ boname + "!=" + bobj.getName() + "].");
 				}
 
@@ -2728,7 +2919,7 @@ public class boBuilder {
 	}
 
 	public void cleanboDefDeployment() {
-		p_builderProgress.setCurrentTaskName("Cleaning bodef-deployment....");
+		p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("CLEANING_BODEF_DEPLOYMENT"));
 		p_builderProgress.setCurrentTasks(1);
 		File f = new File(p_bcfg.getDeploymentDir());
 		if (f.exists() && f.canWrite()) {
@@ -2738,7 +2929,7 @@ public class boBuilder {
 	}
 
 	public void cleanBuildClasses() {
-		p_builderProgress.setCurrentTaskName("Cleaning Java Classes....");
+		p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("CLEANING_JAVA_CLASSES"));
 		p_builderProgress.setCurrentTasks(1);
 		File f = new File(p_bcfg.getDeploymentclassdir());
 		if (f.exists() && f.canWrite()) {
@@ -2748,7 +2939,7 @@ public class boBuilder {
 	}
 
 	public void cleanBuildSource() {
-		p_builderProgress.setCurrentTaskName("Cleaning Java Sources....");
+		p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("CLEANING_JAVA_SOURCES"));
 		p_builderProgress.setCurrentTasks(1);
 		File f = new File(p_bcfg.getDeploymentsrcdir());
 		if (f.exists() && f.canWrite()) {
@@ -2902,7 +3093,7 @@ public class boBuilder {
 			// Create Users SYSUSER, ROBOT and group PUBLIC
 
 			p_builderProgress
-					.appendInfoLog("Checking if System Users and Groups exist");
+					.appendInfoLog(MessageLocalizer.getMessage("CHECKING_IF_SYSTEM_USERS_AND_GROUPS_EXIST"));
 
 			boObject perf = boObject.getBoManager().loadObject(ctx, "Ebo_Perf",
 					"username='SYSUSER'");
@@ -2916,11 +3107,11 @@ public class boBuilder {
 				p_builderProgress
 						.appendInfoLog("Ebo_Perf "
 								+ perf.getAttribute("id").getValueString()
-								+ " Created");
+								+ " "+MessageLocalizer.getMessage("CREATED"));
 			} else
 				p_builderProgress.appendInfoLog("Ebo_Perf "
 						+ perf.getAttribute("id").getValueString()
-						+ " already exists");
+						+ " "+MessageLocalizer.getMessage("ALREADY_EXISTS"));
 
 			perf = boObject.getBoManager().loadObject(ctx, "Ebo_Perf",
 					"username='ROBOT'");
@@ -2935,11 +3126,11 @@ public class boBuilder {
 				p_builderProgress
 						.appendInfoLog("Ebo_Perf "
 								+ perf.getAttribute("id").getValueString()
-								+ " Created");
+								+ " "+MessageLocalizer.getMessage("CREATED"));
 			} else
 				p_builderProgress.appendInfoLog("Ebo_Perf "
 						+ perf.getAttribute("id").getValueString()
-						+ " already exists");
+						+ " "+MessageLocalizer.getMessage("ALREADY_EXISTS"));
 
 			boObject group = boObject.getBoManager().loadObject(ctx,
 					"Ebo_Group", "name='PUBLIC'");
@@ -2951,14 +3142,14 @@ public class boBuilder {
 				group.update();
 				p_builderProgress.appendInfoLog("Ebo_Group "
 						+ group.getAttribute("id").getValueString()
-						+ " Created");
+						+ " "+MessageLocalizer.getMessage("CREATED"));
 			} else
 				p_builderProgress.appendInfoLog("Ebo_Group "
 						+ group.getAttribute("id").getValueString()
-						+ " already exists");
+						+ " "+MessageLocalizer.getMessage("ALREADY_EXISTS"));
 		} catch (boRuntimeException e) {
 			p_builderProgress
-					.appendInfoLog("Error creating  System Users and Groups "
+					.appendInfoLog(MessageLocalizer.getMessage("ERROR_CREATING_SYSTEM_USERS_AND_GROUPS")+" "
 							+ e.getMessage());
 		}
 	}
@@ -3005,7 +3196,7 @@ public class boBuilder {
 					String sql = "update ebo_package set description = ? where name = ?";
 					pst = con.prepareStatement(sql);
 					p_builderProgress
-							.appendInfoLog("Setting Packages Descriptions");
+							.appendInfoLog(MessageLocalizer.getMessage("SETTING_PACKAGE_DESCRIPTIONS"));
 					for (int i = 0; i < packs.length; i++) {
 						auxPackName = packs[i].getAttribute("name");
 						auxPackDesc = packs[i].getChildNode("description")
@@ -3014,8 +3205,8 @@ public class boBuilder {
 						pst.setString(1, auxPackDesc);
 						pst.setString(2, auxPackName);
 						pst.executeUpdate();
-						p_builderProgress.appendInfoLog("Package ["
-								+ auxPackName + "] setting description ["
+						p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("PACKAGE")+" ["
+								+ auxPackName + "] "+MessageLocalizer.getMessage("SETTING_DESCRIPTION")+" ["
 								+ auxPackDesc + "]");
 					}
 					pst.close();
@@ -3064,7 +3255,7 @@ public class boBuilder {
 						IOUtils.copy(fPackSrc, fPackDpl);
 					} else {
 						p_builderProgress
-								.appendInfoLog("Não foi possível efectuar os set da descrição do Packages");
+								.appendInfoLog(MessageLocalizer.getMessage("COULD_NOT_DO_SET_PACKAGE_DESCRIPTION"));
 						eboCtx.rollbackContainerTransaction();
 					}
 					eboCtx.close();
@@ -3072,15 +3263,15 @@ public class boBuilder {
 			} else {
 				if (fPackSrc.exists()) {
 					p_builderProgress
-							.appendInfoLog("Não foi necessário efectuar o set das descrições dos packages");
+							.appendInfoLog(MessageLocalizer.getMessage("NOT_NECESSARY_TO_DO_SET_PACKAGES_DESCRIPTION"));
 				} else {
 					p_builderProgress
-							.appendInfoLog("Não existe o ficheiro de configuração das descrições dos packages.");
+							.appendInfoLog(MessageLocalizer.getMessage("THE_PACKAGES_DESCRIPTION_CONFIGURATION_FILE_DOESNT_EXIST"));
 				}
 			}
 		} catch (boRuntimeException e) {
 			p_builderProgress
-					.appendErrorLog("Não foi possível efectuar o set dos Packages names.");
+					.appendErrorLog(MessageLocalizer.getMessage("COULD_NOT_DO_SET_PACKAGES_NAME"));
 		} finally {
 			if (mybuild) {
 				boBuilder.p_running = false;

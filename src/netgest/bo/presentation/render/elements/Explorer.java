@@ -30,6 +30,8 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_controler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.presentation.render.HTMLBuilder;
@@ -494,7 +496,7 @@ public class Explorer implements Element {
                     }
                 }
                 catch (Exception e) {
-                    logger.severe("Erro loading extension class.", e );
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR_LOADING_EXTENSION_CLASS"), e );
                 }
             }
         }
@@ -533,7 +535,7 @@ public class Explorer implements Element {
                 }
                 catch (boRuntimeException e)
                 {
-                    logger.warn("Error loading explorer filter ");
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_LOADING_EXPLORER_FILTER"));
                 }
             }
             else
@@ -3788,7 +3790,7 @@ public class Explorer implements Element {
         try {
         String xDir=boConfig.getDeploymentDir();
         long pBoui= boctx.getBoSession().getPerformerBoui();
-        System.out.println("Tree def a ler:" + xDir+File.separator+pBoui+File.separator+p_key+".xml");
+        System.out.println(MessageLocalizer.getMessage("TREE_DEF_TO_READ") + xDir+File.separator+pBoui+File.separator+p_key+".xml");
         File file = new File(xDir+File.separator+pBoui+File.separator+p_key+".xml");
         if ( file.exists())
         {

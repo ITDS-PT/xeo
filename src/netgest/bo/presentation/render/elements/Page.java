@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_controler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.presentation.render.HTMLBuilder;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.runtime.boRuntimeException;
@@ -216,7 +217,7 @@ public class Page implements Element {
         HTMLBuilder.writePage(out, this,docHTML, docList, control);
         long tf = System.currentTimeMillis() - ti;
         String t = ((float) (Math.round((float) (tf) / 100f)) / 10f) + "s";
-        logger.finer("Tempo da constução da página: " + t);
+        logger.finer(LoggerMessageLocalizer.getMessage("PAGE_BUILDING_TIME")+": " + t);
     }
 
     public String getHTML(docHTML docHTML, docHTML_controler docList, PageController control)

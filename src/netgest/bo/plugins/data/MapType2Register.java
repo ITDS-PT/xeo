@@ -17,6 +17,8 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.robots.boSchedule;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.utils.DataUtils;
@@ -50,12 +52,12 @@ public class MapType2Register implements boSchedule
             {
                 if( CurrentRegisterObjects.get( def.getName() ) != Thread.currentThread() )
                 {
-                    logger.finest("Wainting Concurrent Object Mapping ["+def.getName()+"]");
+                    logger.finest(LoggerMessageLocalizer.getMessage("WAITING_CONCURRENT_OBJECT_MAPPING")+" ["+def.getName()+"]");
                     wcounter ++;
                     Thread.sleep( 1000 );
                     if ( wcounter > 300 )
                     {
-                        logger.severe("DeadLock detetcted in Object Mapping. 300 Seconds of wait ["+def.getName()+"]");
+                        logger.severe(LoggerMessageLocalizer.getMessage("DEADLOCK_DETECTED_IN_OBJECT_MAPPING_300_SEC_OF_WAIT")+" ["+def.getName()+"]");
                         return true;
                     }
                 }
@@ -80,7 +82,7 @@ public class MapType2Register implements boSchedule
                 MapType2Def mapdef = MapType2Def.getDataSourceDefinition( def );
                 if( mapdef != null && mapdef.getMapType().equals("2") && mapdef.getPreRegisterObjects() )
                 {
-                    logger.finest("Before register :"  + ctx.getConnectionData().hashCode() );
+                    logger.finest(LoggerMessageLocalizer.getMessage("BEFORE_REGISTER")+" :"  + ctx.getConnectionData().hashCode() );
                     ObjectDS[] allods = mapdef.getObjectDataSources().getDataSources();
                     for (int d = 0 ; d < allods.length; d ++ ) 
                     {
@@ -288,7 +290,7 @@ public class MapType2Register implements boSchedule
                                     pstmInsert   = tcn1.prepareStatement( inslocsql.toString() );
 
                                     
-                                    logger.finest( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] avegared registry is ["+
+                                    logger.finest( LoggerMessageLocalizer.getMessage("COMMITTING")+" [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] "+LoggerMessageLocalizer.getMessage("AVERAGED_REGISTRY_IS")+" ["+
                                                     (System.currentTimeMillis()-initTime) / totalcounter
                                                     +"] ms" 
                                                 );
@@ -304,7 +306,7 @@ public class MapType2Register implements boSchedule
                                 regBouis = new ArrayList();
                                 ctx.commitContainerTransaction();
     
-                                logger.finest( "Commiting [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] average registry is ["+
+                                logger.finest( LoggerMessageLocalizer.getMessage("COMMITTING")+" [ "+totalcounter+" ] [ Ebo_Registry/INSERT ] "+LoggerMessageLocalizer.getMessage("AVERAGED_REGISTRY_IS")+" ["+
                                                 (System.currentTimeMillis()-initTime) / totalcounter
                                                 +"] ms" 
                                             );
@@ -506,7 +508,7 @@ public class MapType2Register implements boSchedule
                                             pstmUpd = ctx.getConnectionData().prepareStatement( sqlUpdate.toString() );
                                             
                                             
-                                            logger.finest( "Commiting [ "+totalcounter+" ] average registry is ["+
+                                            logger.finest( LoggerMessageLocalizer.getMessage("COMMITTING")+" [ "+totalcounter+" ] "+LoggerMessageLocalizer.getMessage("AVERAGED_REGISTRY_IS")+" ["+
                                                             (System.currentTimeMillis()-initTime) / totalcounter
                                                             +"] ms" 
                                                         );
@@ -516,7 +518,7 @@ public class MapType2Register implements boSchedule
                                     }
                                     catch (Exception e)
                                     {
-                                        String error = "Erro registring object ["+def.getName()+"] com a chave ["  ;
+                                        String error = MessageLocalizer.getMessage("ERROR_REGISTERING_OBJECT")+" ["+def.getName()+"] "+MessageLocalizer.getMessage("WITH_KEY")+" ["  ;
                                         for (int i = 0; i < pkobj.length; i++) 
                                         {
                                             error += String.valueOf( pkobj[i] );
@@ -535,7 +537,7 @@ public class MapType2Register implements boSchedule
                                     int[] x = pstmUpd.executeBatch();
                                     
                                     ctx.commitContainerTransaction();
-                                    logger.finest( "Commiting [ "+totalcounter+" ] average registry is ["+
+                                    logger.finest(LoggerMessageLocalizer.getMessage("COMMITTING")+" [ "+totalcounter+" ] "+LoggerMessageLocalizer.getMessage("AVERAGED_REGISTRY_IS")+" ["+
                                                     (System.currentTimeMillis()-initTime) / totalcounter
                                                     +"] ms" 
                                                 );
@@ -643,7 +645,7 @@ public class MapType2Register implements boSchedule
                         }
                     }
                 }
-                logger.finest("After register :"  + ctx.getConnectionData().hashCode() );
+                logger.finest(LoggerMessageLocalizer.getMessage("AFTER_REGISTER")+" :"  + ctx.getConnectionData().hashCode() );
                 
             }
         }

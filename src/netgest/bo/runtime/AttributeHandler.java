@@ -17,6 +17,7 @@ import netgest.bo.def.boDefClsEvents;
 import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localized.JSPMessages;
 import netgest.bo.security.securityRights;
 import netgest.bo.system.Logger;
@@ -587,7 +588,7 @@ public abstract class AttributeHandler implements boIEvents
                             }
                             catch (Exception e)
                             {
-                                logger.severe("Error evaluating XEOQL:\n"+tokAux+";",e);
+                                logger.severe(LoggerMessageLocalizer.getMessage("ERROR_EVALUATING_XEOQL")+tokAux+";",e);
                             }
                             xeoql = xeoql.replaceAll(tok,xepStr == null ? "-1":xepStr);
                         }

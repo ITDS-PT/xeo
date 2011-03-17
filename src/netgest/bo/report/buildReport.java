@@ -12,6 +12,7 @@ import javax.naming.*;
 import netgest.bo.*;
 import netgest.bo.dochtml.*;
 import netgest.bo.ejb.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.runtime.robots.*;
 import netgest.bo.system.*;
@@ -25,7 +26,6 @@ import oracle.xml.parser.v2.*;
 //import org.faceless.report.ReportParser;
 //import org.faceless.pdf2.PDF;
 import org.w3c.dom.*;
-import org.w3c.dom.Node;
 //import org.w3c.tidy.*;
 import org.xml.sax.*;
 
@@ -117,7 +117,7 @@ public class buildReport
                     {
                          Element e = xmlToPrint.getDocument().createElement("div");
                          e.setAttribute("class","note");
-                         e.appendChild( xmlToPrint.getDocument().createTextNode("NOTA : Alguns destes dados ainda não estão gravados") );
+                         e.appendChild( xmlToPrint.getDocument().createTextNode(MessageLocalizer.getMessage("NOTE_SOME_OF_THIS_DATA_IS_STILL_NOT_SAVED")) );
                          body.appendChild(e);
                         
                     }

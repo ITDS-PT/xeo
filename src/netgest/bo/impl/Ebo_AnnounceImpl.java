@@ -3,10 +3,9 @@ package netgest.bo.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.*;
-import java.sql.SQLException;
 import netgest.bo.def.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.boAttributesArray;
 import netgest.io.*;
 import netgest.utils.*;
 
@@ -327,8 +326,8 @@ public abstract class Ebo_AnnounceImpl extends boObject
             }
             if ( count > 0 )
             {
-                if ( count ==1 ) toRet="Tem 1 mensagem ";
-                else toRet="Tem "+count+" mensagens ";
+                if ( count ==1 ) toRet=MessageLocalizer.getMessage("YOU_HAVE_MESSAGE");
+                else toRet=MessageLocalizer.getMessage("YOU_HAVE")+" "+count+" "+MessageLocalizer.getMessage("MESSAGES");
             }
             return toRet;
         }

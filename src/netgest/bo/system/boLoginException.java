@@ -3,6 +3,8 @@ package netgest.bo.system;
 import java.io.*;
 import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 public class boLoginException extends Exception  {
     public static Hashtable ht = new Hashtable();
     
@@ -12,7 +14,7 @@ public class boLoginException extends Exception  {
     public String p_errcode;
     
     static {
-        ht.put("BO-4000","Invalid credencials");
+        ht.put("BO-4000",MessageLocalizer.getMessage("INVALID_CREDENTIALS"));
     }
     public String getErrorCode() {
         return p_errcode;
@@ -26,7 +28,7 @@ public class boLoginException extends Exception  {
         p_errcode = errcode;
     }
     public static final String errorToMessage(String code,Throwable base) {
-        String description = "Description not available";
+        String description = MessageLocalizer.getMessage("DESCRIPTION_NOT_AVAILABLE");
         if(base!=null) {
             CharArrayWriter cr = new CharArrayWriter();
             PrintWriter pw = new PrintWriter(cr);

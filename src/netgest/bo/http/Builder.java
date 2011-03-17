@@ -22,6 +22,7 @@ import netgest.bo.builder.ITask;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.def.Tasks;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -92,7 +93,7 @@ public class Builder extends HttpServlet  {
                 } 
                 catch( Exception e )
                 {
-                    logger.severe("Error: ", e );
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e );
                 }
                 
                 log4j.addAppender(appender);
@@ -106,7 +107,7 @@ public class Builder extends HttpServlet  {
 					bosess = (boSession)request.getSession().getAttribute("boSession");
 					if (bosess==null || !bosess.getUser().getUserName().equalsIgnoreCase("SYSUSER"))
 					{
-					    logger.severe("Authentication was not performed or your Session TimedOut. You must authenticate before you can run Builder.");
+					    logger.severe(LoggerMessageLocalizer.getMessage("AUTHENTICATION_WAS_NOT_PERFORMED_OR_YOUR_SESSION_TIMEOUT_YOU_MUST_"));
 					    return;
 					}
                 }
@@ -117,9 +118,9 @@ public class Builder extends HttpServlet  {
                 boolean ok = false;
                 try
                 {
-                    logger.finer("Starting suspending Agents");
+                    logger.finer(LoggerMessageLocalizer.getMessage("STARTING_SUSPENDING_AGENTS"));
                     boctx.getApplication().suspendAgents();
-                    logger.finer("Ended suspending Agents");
+                    logger.finer(LoggerMessageLocalizer.getMessage("ENDET_SUSPENDING_AGENTS"));
                     final InitialContext ic = new InitialContext();
                     ut = (UserTransaction) ic.lookup("java:comp/UserTransaction");
                     ut.setTransactionTimeout(6000000);
@@ -144,9 +145,9 @@ public class Builder extends HttpServlet  {
                     }
                     try
                     {
-                        logger.finer("Starting Agents");
+                        logger.finer(LoggerMessageLocalizer.getMessage("STARTING_AGENTS"));
                         boctx.getApplication().startAgents();
-                        logger.finer("Ended starting Agents");
+                        logger.finer(LoggerMessageLocalizer.getMessage("ENDET_STARTING_AGENTS"));
                     }
                     catch (Exception e)
                     {
@@ -160,7 +161,7 @@ public class Builder extends HttpServlet  {
 
                 if(module != null && module.indexOf("taskValidation") != -1)
                 {
-                    logger.finest("Starting Tasks Validation ...");
+                    logger.finest(LoggerMessageLocalizer.getMessage("STARTING_TASK_VALIDATION"));
                     Enumeration oEnum = Tasks.getInstance().getActiveTasksNames();
                     while(oEnum.hasMoreElements())
                     {
@@ -168,28 +169,28 @@ public class Builder extends HttpServlet  {
                         task = Tasks.getInstance().getClass(taskName);
                         if(!task.done(boctx))
                         {
-                            logger.finest("Starting [" + taskName + "] Validation");
+                            logger.finest(LoggerMessageLocalizer.getMessage("STARTING")+" [" + taskName + "] "+LoggerMessageLocalizer.getMessage("VALIDATION"));
                             if(task.validation(boctx))
                             {
-                                logger.finest("Validation [" + taskName + "] : OK" );
+                                logger.finest(LoggerMessageLocalizer.getMessage("VALIDATION")+" [" + taskName + "] : OK" );
                             }
                             else
                             {
-                                logger.finest("Validation [" + taskName + "] : NOT OK" );
+                                logger.finest(LoggerMessageLocalizer.getMessage("VALIDATION")+" [" + taskName + "] : NOT OK" );
                             }
-                            logger.finest("Ended [" + taskName + "] Validation");
+                            logger.finest(LoggerMessageLocalizer.getMessage("ENDED")+" [" + taskName + "] "+LoggerMessageLocalizer.getMessage("VALIDATION"));
                         }
                         else
                         {
-                            logger.finest("Task [" + taskName + "] : DONE ALREADY");
+                            logger.finest(LoggerMessageLocalizer.getMessage("TASK")+" [" + taskName + "] : "+LoggerMessageLocalizer.getMessage("DONE_ALREADY"));
                         }
                     }
-                    logger.finest("Ended Tasks Validation");
+                    logger.finest(LoggerMessageLocalizer.getMessage("ENDED_TASKS_VALIDATION"));
                 }
 
                 if(module != null && module.indexOf("taskExecution") != -1)
                 {
-                    logger.finest("Starting Tasks Execution ...");
+                    logger.finest(LoggerMessageLocalizer.getMessage("STARTING_TASK_VALIDATION"));
                     Enumeration oEnum = Tasks.getInstance().getActiveTasksNames();
                     while(oEnum.hasMoreElements())
                     {
@@ -197,23 +198,23 @@ public class Builder extends HttpServlet  {
                         task = Tasks.getInstance().getClass(taskName);
                         if(!task.done(boctx))
                         {
-                            logger.finest("Starting [" + taskName + "] Task");
+                            logger.finest(LoggerMessageLocalizer.getMessage("STARTING")+" [" + taskName + "] "+LoggerMessageLocalizer.getMessage("TASK"));
                             if(task.execute(boctx))
                             {
-                                logger.finest("Execution [" + taskName + "] : OK" );
+                                logger.finest(LoggerMessageLocalizer.getMessage("EXECUTION") +" [" + taskName + "] : OK" );
                             }
                             else
                             {
-                                logger.finest("Execution [" + taskName + "] : NOT OK" );
+                                logger.finest(LoggerMessageLocalizer.getMessage("EXECUTION") +" [" + taskName + "] : NOT OK" );
                             }
-                            logger.finest("Ended [" + taskName + "] Task.");
+                            logger.finest(LoggerMessageLocalizer.getMessage("ENDED") +" [" + taskName + "] "+LoggerMessageLocalizer.getMessage("TASK")+".");
                         }
                         else
                         {
-                            logger.finest("Task [" + taskName + "] : DONE ALREADY");
+                            logger.finest(LoggerMessageLocalizer.getMessage("TASK") +" [" + taskName + "] : "+LoggerMessageLocalizer.getMessage("DONE_ALREADY"));
                         }
                     }
-                    logger.finest("Ended Tasks Execution");
+                    logger.finest(LoggerMessageLocalizer.getMessage("ENDED_TASK_EXECUTION"));
                 }
             }
             catch (Exception e)

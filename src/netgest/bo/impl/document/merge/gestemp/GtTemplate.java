@@ -25,6 +25,8 @@ import netgest.bo.impl.document.merge.gestemp.validation.Contexto;
 import netgest.bo.impl.document.merge.gestemp.validation.JavaExecuter;
 import netgest.bo.impl.document.merge.gestemp.validation.Modelo;
 import netgest.bo.impl.document.print.GDOCXUtilsStub;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
@@ -783,7 +785,7 @@ public class GtTemplate
         }
         catch(boRuntimeException e )
         {
-            logger.severe("Erro a carregar Template ["+templateBoui+"] EboContext["+(boctx!=null?boctx.poolUniqueId():"")+"]" , e ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_LOADING_TEMPLATE")+" ["+templateBoui+"] EboContext["+(boctx!=null?boctx.poolUniqueId():"")+"]" , e ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
             throw e;
         }
         return aux;        
@@ -1185,7 +1187,7 @@ public class GtTemplate
 //                    actvSend.update();
                     setActvSendBoui(actvSend.getBoui());
                     long tf = System.currentTimeMillis();
-                    logger.finest("Tempo Total da Geração (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+                    logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_GENERATING_TIME")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
 //                    logger.finest("--------------------------------------------------------------------------------");
                     if(canChooseLetterType())
                         hasSelectedLetterType = false;
@@ -1339,14 +1341,14 @@ public class GtTemplate
                 out = new FileOutputStream(ff);
                 template.save(out);
                 result = ff.getAbsolutePath();
-                logger.severe("Gerou para: " +result); //$NON-NLS-1$
+                logger.severe(LoggerMessageLocalizer.getMessage("GENERATED_FOR")+": " +result); //$NON-NLS-1$
             }
             else
             {
                 result = template.getResult();
             }
             long tf = System.currentTimeMillis();
-            logger.finest("Tempo Total do Text Merge (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_TIME_OF_TEXT_MERGE")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
 //            logger.finest("--------------------------------------------------------------------------------");
         }
         catch(boRuntimeException e)
@@ -1548,9 +1550,9 @@ public class GtTemplate
             out = new FileOutputStream(ff);
             template.save(out);
             filePath = ff.getAbsolutePath();
-            logger.finest("Gerou para: " +filePath); //$NON-NLS-1$
+            logger.finest(LoggerMessageLocalizer.getMessage("GENERATED_FOR")+": " +filePath); //$NON-NLS-1$
             long tf = System.currentTimeMillis();
-            logger.finest("Tempo Total WORD MERGE (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_TIME_OF_WORD_MERGE")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
 //            logger.finest("--------------------------------------------------------------------------------");
         }
         finally
@@ -1600,7 +1602,7 @@ public class GtTemplate
             throw new RuntimeException(e);
         }
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total WORD MACRO (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_TIME_OF_WORD_MACRO")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
         return toRet;
     }
 
@@ -1801,7 +1803,7 @@ public class GtTemplate
             {
                 if (ce.getCreateProcessErrorMessage() != null)
                 {
-                    throw new RuntimeException( "Error a criar o processo:" + ce.getCreateProcessErrorMessage()  ); //$NON-NLS-1$
+                    throw new RuntimeException(MessageLocalizer.getMessage("ERROR_CREATING_PROCESS")+ ":" + ce.getCreateProcessErrorMessage()  ); //$NON-NLS-1$
                 } 
                 else  
                 {
@@ -1820,7 +1822,7 @@ public class GtTemplate
             
         }
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total EXTERNAL PROG (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_TIME_OF_EXTENAL_PROG")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
 //        logger.finest("----------------------------FIM EXTERNAL PROG----------------------------------------");
         return toRet;
     }
@@ -2280,7 +2282,7 @@ public class GtTemplate
                     erro = msg[1];
                 }
             }
-            logger.severe("Erro a gerar template Modelo ["+this.getDescricao()+"] User:["+ boctx.getSysUser().getUserName() +"]",e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_GENERATING_TEMPLATE_MODEL")+" ["+this.getDescricao()+"] User:["+ boctx.getSysUser().getUserName() +"]",e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         return null;
     }
@@ -2342,7 +2344,7 @@ public class GtTemplate
                     javaValidation(boctx, erros);
             }
             long tf = System.currentTimeMillis();
-            logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+            logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_VALIDATION_TIME")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 //        logger.finest("--------------------------------------------------------------------------------");
     }
@@ -2367,7 +2369,7 @@ public class GtTemplate
             }
         }
         long tf = System.currentTimeMillis();
-        logger.finest("Tempo Total da Validação (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
+        logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_VALIDATION_TIME")+" (" + (float)(Math.round((float)(tf-ti)/100f))/10f +"s)"); //$NON-NLS-1$ //$NON-NLS-2$
 //        logger.finest("--------------------------------------------------------------------------------");
     }
     

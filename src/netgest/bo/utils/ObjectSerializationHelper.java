@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import netgest.bo.def.boDefAttribute;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
@@ -264,7 +265,7 @@ public class ObjectSerializationHelper
                 }
             }
         } //Colocar excepção correcta
-        else throw new boRuntimeException("The Attribute "+attrName+" does not exist in "+obj.getName(),"", null,
+        else throw new boRuntimeException(MessageLocalizer.getMessage("THE_ATTRIBUTE")+" "+attrName+" "+MessageLocalizer.getMessage("DOES_NOT_EXIST_IN")+" "+obj.getName(),"", null,
             "" + obj.getBoui());         
     }
   

@@ -18,6 +18,8 @@ import netgest.bo.builder.boBuildDB;
 import netgest.bo.builder.boBuildRepository;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException2;
@@ -354,14 +356,14 @@ public class MapType1DBBuilder implements IDataBuilderDB
                         }
                         catch (SQLException e)
                         {
-                            p_dbb.logger.warn("Error deploying MappingTrigger on ["+cd.getFullTableName( tables[i] )+"]");
+                            p_dbb.logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DEPLOYING_MAPPINGTRIGGER_ON")+" ["+cd.getFullTableName( tables[i] )+"]");
                         }
 
                     }
                 }
                 catch (FileNotFoundException e)
                 {
-                    throw new boRuntimeException2("Template of triggers not found, please check this file ["+templatesdir + "mappingtrigger.txt"+"].");
+                    throw new boRuntimeException2(MessageLocalizer.getMessage("TEMPLATE_OF_TRIGGERS_NOT_FOUND_PLEASE_CHECK_THIS_FILE")+" ["+templatesdir + "mappingtrigger.txt"+"].");
                 }
                 catch (IOException e)
                 {

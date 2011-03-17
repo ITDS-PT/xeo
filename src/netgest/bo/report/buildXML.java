@@ -9,6 +9,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import netgest.bo.def.*;
 import netgest.bo.dochtml.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.runtime.*;
@@ -452,7 +453,7 @@ public final class buildXML
                                         }
                                         catch (Exception e)
                                         {
-                                            logger.warn(" Objecto com boui " + values[i] +"nao encontrado - Referencia no Template");
+                                            logger.warn(LoggerMessageLocalizer.getMessage("OBJECT_WITH_BOUI")+" " + values[i] +" "+LoggerMessageLocalizer.getMessage("NOT_FOUND_TEMPLATE_REFERENCE"));
                                         }
                                     }
 
@@ -469,7 +470,7 @@ public final class buildXML
                                     }
                                     catch (Exception e)
                                     {
-                                        logger.warn(" Objecto com boui " + value +"nao encontrado - Referencia no Template");
+                                        logger.warn(LoggerMessageLocalizer.getMessage("OBJECT_WITH_BOUI")+" " + value +" "+LoggerMessageLocalizer.getMessage("NOT_FOUND_TEMPLATE_REFERENCE"));
                                     }
                                 }
                            }

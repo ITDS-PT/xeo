@@ -2,6 +2,7 @@
 package netgest.bo.impl;
 
 import netgest.bo.impl.document.print.PrintHelper;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.MessageServer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.boObject;
@@ -20,7 +21,7 @@ public class XEO_MailMergeImpl
 		{
 			if(obj == null)
 			{
-				obj.addErrorMessage("Erro: Não foi passado o object.");
+				obj.addErrorMessage(MessageLocalizer.getMessage("ERROR_THE_OBJECT_WAS_NO_PASSED"));
 				return;
 			}
 			
@@ -98,7 +99,7 @@ public class XEO_MailMergeImpl
 				
 				msg.applyTemplate(null,template.getBoui());
 				
-				msg.getAttribute("name").setValueString("Mail merge do Objecto - " + temp.getBoui());
+				msg.getAttribute("name").setValueString(MessageLocalizer.getMessage("OBJECT_MAIL_MERGE")+" - " + temp.getBoui());
 				
 				msg.getAttribute("preferedMedia").setValueString(media);
 				
@@ -128,11 +129,11 @@ public class XEO_MailMergeImpl
 				
 				obj.update();
 			}
-			if(cnt == 1) obj.addErrorMessage("Não há objectos para processar.");
+			if(cnt == 1) obj.addErrorMessage(MessageLocalizer.getMessage("THERE_ARE_NO_OBJECTS_TO_BE_PROCESSED"));
 		}
 		catch(Exception e)
 		{
-			obj.addErrorMessage("Erro: " + e.getMessage());
+			obj.addErrorMessage(MessageLocalizer.getMessage("ERROR")+": " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -143,7 +144,7 @@ public class XEO_MailMergeImpl
 		{
 			if(obj == null)
 			{
-				obj.addErrorMessage("Erro: Não foi passado o object.");
+				obj.addErrorMessage(MessageLocalizer.getMessage("ERROR_THE_OBJECT_WAS_NO_PASSED"));
 				return;
 			}
 			
@@ -177,7 +178,7 @@ public class XEO_MailMergeImpl
 		}
 		catch(Exception e)
 		{
-			obj.addErrorMessage("Erro: " + e.getMessage());
+			obj.addErrorMessage(MessageLocalizer.getMessage("ERROR")+": " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

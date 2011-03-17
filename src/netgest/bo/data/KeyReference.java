@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 import java.util.Arrays;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 
 /**
@@ -36,7 +38,7 @@ public class KeyReference extends Exception
         {
             return this.p_value[pos];
         }
-        throw new boRuntimeException2("Invalid key index, valid range is [ 1.."+(this.p_name.length-1)+" ]");
+        throw new boRuntimeException2(MessageLocalizer.getMessage("INVALID_KEY_INDEX_VALID_RANGE_IS")+" [ 1.."+(this.p_name.length-1)+" ]");
     }
     
     public void setValue(String key, Object value)
@@ -55,7 +57,7 @@ public class KeyReference extends Exception
         {
             return this.p_value[pos];
         }
-        throw new boRuntimeException2("Key not found");
+        throw new boRuntimeException2(MessageLocalizer.getMessage("KEY_NOT_FOUND"));
     }
     public String[] getKeys()
     {

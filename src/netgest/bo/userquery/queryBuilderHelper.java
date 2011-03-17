@@ -5,6 +5,7 @@ import netgest.bo.def.*;
 
 import netgest.bo.dochtml.*;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.ql.*;
@@ -187,7 +188,7 @@ public class queryBuilderHelper
                 }
                 catch (Exception e)
                 {
-                    logger.warn("Loading Lov ERROR : lovname= " + lovName);
+                    logger.warn(LoggerMessageLocalizer.getMessage("LOADING_LOV_ERROR_LOVNAME")+"= " + lovName);
                 }
             //}
         }

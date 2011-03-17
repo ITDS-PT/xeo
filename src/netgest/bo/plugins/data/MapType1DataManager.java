@@ -15,6 +15,7 @@ import netgest.bo.runtime.*;
 import netgest.bo.runtime.robots.*;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 import netgest.bo.system.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.plugins.data.MapType1Def;
 import netgest.bo.plugins.data.MapType1Def.ObjectDS;
 import netgest.bo.plugins.data.MapType1Def.ObjectDataSource;
@@ -244,7 +245,7 @@ public class MapType1DataManager implements IDataManager
                                                     logKeys.append("[").append(keys[y]).append("=").append(values[y]).append("]");
                                                 }
 
-                                                logger.warn("Error importing ["+ objdef.getName() +"]. The folowing key as generated errors. ["+logKeys.toString()+"]" );
+                                                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_IMPORTING")+" ["+ objdef.getName() +"]. "+LoggerMessageLocalizer.getMessage("THE_FOLOWING_KEY_HAS_GENERATED_ERRORS")+" ["+logKeys.toString()+"]" );
 
                                             }
                                         }
@@ -322,7 +323,7 @@ public class MapType1DataManager implements IDataManager
                                     }
                                     catch (Exception e)
                                     {
-                                        logger.warn("Error importing ["+ objdef.getName() +"]. The folowing key as genrated errors.");
+                                        logger.warn(LoggerMessageLocalizer.getMessage("ERROR_IMPORTING")+" ["+ objdef.getName() +"]. "+LoggerMessageLocalizer.getMessage("THE_FOLOWING_KEY_HAS_GENERATED_ERRORS"));
                                     }
                                 }
                                 finally

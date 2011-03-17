@@ -3,6 +3,7 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefClsState;
 import netgest.bo.def.boDefDatabaseObject;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.DataPluginManager;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.plugins.data.MapType2Def;
@@ -162,7 +163,7 @@ public class QLObjectImpl implements IQLObject, IQLObjectAttributeResolver
     			}
     		}
     		if( ret == null ) {
-    			throw new RuntimeException( "Cannot select objects not compatible with xeo withou a primary defined" );
+    			throw new RuntimeException( MessageLocalizer.getMessage("CANNOT_SELECT_OBJECTS_NOT_COMPATIBLE_W_XEO_W_OUT_A_PRIMARY_DEFINED") );
     		}
     		return ret;
     	}

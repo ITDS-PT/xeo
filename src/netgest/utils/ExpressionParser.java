@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.utils;
 import java.sql.*;
+
+import netgest.bo.localizations.MessageLocalizer;
 //import netgest.document.DataNode;
 
 public class ExpressionParser
@@ -26,7 +28,7 @@ public class ExpressionParser
                 posb =++tmpposb;
             }
             if(pose == -1)
-                throw new RuntimeException("Unbalance (");
+                throw new RuntimeException(MessageLocalizer.getMessage("UNBALANCE")+" (");
             exp = exp.substring(0,posb-1)+
                   parseExpression(exp.substring(posb,pose),_slots)+
                   exp.substring(pose+1);
@@ -127,7 +129,7 @@ public class ExpressionParser
                     return ((Float)lo).floatValue() < ((Float)ro).floatValue();
                 }
             } else {
-                throw new RuntimeException("Type mismatch "+lo.getClass().getName()+","+lo.getClass().getName());
+                throw new RuntimeException(MessageLocalizer.getMessage("TYPE_MISMATCH")+" "+lo.getClass().getName()+","+lo.getClass().getName());
             }
         } else if (lo instanceof Boolean && ro instanceof Boolean) {
             if(operator.equals("&&")) {
@@ -136,7 +138,7 @@ public class ExpressionParser
                 return ((Boolean)lo).booleanValue() || ((Boolean)ro).booleanValue();
             }
         }
-        throw new RuntimeException("Type mismatch"+lo.getClass().getName()+","+ro.getClass().getName());
+        throw new RuntimeException(MessageLocalizer.getMessage("TYPE_MISMATCH")+" "+lo.getClass().getName()+","+ro.getClass().getName());
     }
     public String getSlot(Object val,Object[] _slots) {
         Integer ms = (Integer)_slots[255];
@@ -187,7 +189,7 @@ public class ExpressionParser
                         return new Float(p_rslt.getFloat(col));
                     }
                 }
-                throw new RuntimeException("ExpressionParser Error:Variable expected ["+value+"]");
+                throw new RuntimeException(MessageLocalizer.getMessage("EXPRESSIONPARSER_ERROR")+":"+MessageLocalizer.getMessage("VARIABLE_EXPECTED")+" ["+value+"]");
             } catch (SQLException e) {
                 throw new RuntimeException(e.getMessage());
             }

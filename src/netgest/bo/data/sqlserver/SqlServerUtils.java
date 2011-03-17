@@ -9,6 +9,7 @@ import netgest.bo.data.DataException;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.DataTypes;
 import netgest.bo.data.DriverUtils;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 /**
@@ -59,8 +60,8 @@ public class SqlServerUtils implements DriverUtils {
 			case DataTypes.NUMERIC:
 				return expression;
 			default:
-				throw new DataException("0000",
-						"Cannot conver from to [NUMERIC] type to ["
+				throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+
+						" [NUMERIC] "+MessageLocalizer.getMessage("TYPE_TO")+" ["
 								+ toDataType + "]");
 			}
 		case DataTypes.VARCHAR:
@@ -70,13 +71,13 @@ public class SqlServerUtils implements DriverUtils {
 			case DataTypes.NUMERIC:
 				return "CONVERT(numeric," + expression + ")";
 			default:
-				throw new DataException("0000",
-						"Cannot conver from to [VARCHAR] type to ["
+				throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+
+						" [VARCHAR] "+MessageLocalizer.getMessage("TYPE_TO")+" ["
 								+ toDataType + "]");
 			}
 		default:
-			throw new DataException("0000", "Cannot conver from to ["
-					+ fromDataType + "] type to [" + toDataType + "]");
+			throw new DataException("0000", MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+" ["
+					+ fromDataType + "] "+MessageLocalizer.getMessage("TYPE_TO")+" [" + toDataType + "]");
 		}
 	}
 

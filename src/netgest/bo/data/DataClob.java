@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.sql.Clob;
 import java.sql.SQLException;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -40,7 +42,7 @@ public class DataClob implements Clob, Serializable
         }
         catch (IOException e)
         {
-            throw new DataException("0000","IOException reading Clob from stream.\n"+e.getClass()+"\n"+e.getMessage());
+            throw new DataException("0000","IOException "+MessageLocalizer.getMessage("READING_CLOB_FROM_STREAM")+"\n"+e.getClass()+"\n"+e.getMessage());
         }
     }
     
@@ -114,12 +116,12 @@ public class DataClob implements Clob, Serializable
     
     // Since JDK 1.6
     public void free() {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public Reader getCharacterStream(long pos,
                                      long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 }

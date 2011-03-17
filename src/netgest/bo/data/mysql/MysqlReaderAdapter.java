@@ -18,6 +18,7 @@ import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.DataTypes;
 import netgest.bo.data.ReaderAdapter;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 public class MysqlReaderAdapter implements ReaderAdapter {
@@ -31,6 +32,8 @@ public class MysqlReaderAdapter implements ReaderAdapter {
    private ResultSetMetaData activeRsltMetaData;
    private String dmlDs;
 
+   
+   
    public MysqlReaderAdapter(String dmlds)
    {
        dmlDs = dmlds;
@@ -101,8 +104,8 @@ public class MysqlReaderAdapter implements ReaderAdapter {
        {
            try{if(activeRslt != null){activeRslt.close();}}catch(Exception _e){/*IGNORE*/}
            try{if(activePstm != null){activePstm.close();}}catch(Exception _e){/*IGNORE*/}
-           throw new DataException("0000",
-               "Error executiong SQL["+query+"]\n" + e.getMessage());
+           throw new DataException("0000",MessageLocalizer.getMessage("ERROR_EXECUTING_SQL")+
+               "["+query+"]\n" + e.getMessage());
        }
        finally
        {
@@ -184,13 +187,13 @@ public class MysqlReaderAdapter implements ReaderAdapter {
                        break;
 
                    case Types.BLOB:
-                       throw new DataException("0000", "BLOB not supported");
+                       throw new DataException("0000",MessageLocalizer.getMessage("BLOB_NOT_SUPORTED") );
 
                    default:
-                       throw new DataException("0000",
-                           "Type [" + meta.getColumnType(z) +
-                           "] supported by [" + meta.getColumnClassName(z) +
-                           "] not suported");
+                       throw new DataException("0000",MessageLocalizer.getMessage("TYPE")+
+                           " [" + meta.getColumnType(z) +
+                           "] "+MessageLocalizer.getMessage("SUPPORED_BY")+" [" + meta.getColumnClassName(z) +
+                           "] "+MessageLocalizer.getMessage("NOT_SUPPORED"));
                    }
                	}
                }
@@ -287,8 +290,8 @@ public class MysqlReaderAdapter implements ReaderAdapter {
                }
                else
                {
-                   throw new DataException("0000",
-                       "BO MySQL Driver doesn't support this data type [" +
+                   throw new DataException("0000",MessageLocalizer.getMessage("BO_MYSQL_DRIVER_DOESNT_SUPPORT_THIS_DATA_TYPE")+
+                       " [" +
                        className + "] ");
                }
            }
@@ -298,7 +301,7 @@ public class MysqlReaderAdapter implements ReaderAdapter {
        }
        catch (SQLException e)
        {
-           throw new DataException("0000", "Error creating ResultSetMetaData");
+           throw new DataException("0000", MessageLocalizer.getMessage("ERROR_CREATING_RESULTSETMETADATA"));
        }
    }
 
@@ -344,7 +347,7 @@ public class MysqlReaderAdapter implements ReaderAdapter {
        }
        catch (SQLException e)
        {
-           throw new DataException("0000", "Error calling next()");
+           throw new DataException("0000", MessageLocalizer.getMessage("ERROR_CALLING_NEXT"));
        }
    }
 
@@ -361,7 +364,7 @@ public class MysqlReaderAdapter implements ReaderAdapter {
        }
        catch (SQLException e)
        {
-           throw new DataException("0000", "Error calling next()");
+           throw new DataException("0000",MessageLocalizer.getMessage("ERROR_CALLING_NEXT"));
        }
    }
 }

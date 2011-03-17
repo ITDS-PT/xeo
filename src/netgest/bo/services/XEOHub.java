@@ -5,6 +5,8 @@ import javax.ejb.SessionContext;
 import org.w3c.dom.*;
 import oracle.xml.parser.v2.*;
 import org.xml.sax.helpers.*;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import java.util.*;
 import netgest.bo.def.*;
@@ -308,7 +310,7 @@ public class XEOHub
       {
         if(notSystemAttribute(attrName))parseXEOXML(currElement,objattr,obj);
       }
-      else  throw new boRuntimeException("The Attribute "+attrName+" does not exist in "+obj.getName(),"", null,
+      else  throw new boRuntimeException(MessageLocalizer.getMessage("THE_ATTRIBUTE")+" "+attrName+" "+MessageLocalizer.getMessage("DOES_NOT_EXIST_IN")+" "+obj.getName(),"", null,
                 "" + obj.getBoui());
     }
     
@@ -378,7 +380,7 @@ public class XEOHub
           else objattr.setValueString(attrValue);          
         }
     } //Colocar excepção correcta
-    else throw new boRuntimeException("The Attribute "+attrName+" does not exist in "+obj.getName(),"", null,
+    else throw new boRuntimeException(MessageLocalizer.getMessage("THE_ATTRIBUTE")+" "+attrName+" "+MessageLocalizer.getMessage("DOES_NOT_EXIST_IN")+" "+obj.getName(),"", null,
             "" + obj.getBoui());         
   }
   

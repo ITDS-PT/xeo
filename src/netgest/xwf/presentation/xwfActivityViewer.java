@@ -24,6 +24,7 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_renderFields;
 import netgest.bo.impl.document.DocumentHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.presentation.render.elements.AdHocElement;
@@ -685,7 +686,7 @@ public class xwfActivityViewer
         }
         else 
         {
-            logger.severe("Variable["+variable.getBoui()+"] with VarValue NULL");         
+            logger.severe(LoggerMessageLocalizer.getMessage("VARIABLE")+"["+variable.getBoui()+"] "+LoggerMessageLocalizer.getMessage("WITH")+" VarValue NULL");         
         }            
     }
     private static String renderList(Controller controller,boObject activity,boObject variable, int idx, boolean forceDisabled)  throws boRuntimeException 

@@ -15,6 +15,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import netgest.bo.data.Driver;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -150,7 +151,7 @@ public class boConnectionManager
         }
         catch (SQLException e)
         {
-            throw new RuntimeException("Error retriving or closing a connection from Driver.\n" + e.getMessage());
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_RETRIEVING_OR_CLOSING_A_CONNECTION_FROM_DRIVER")+".\n" + e.getMessage());
         }
         return retcn;
     }
@@ -236,7 +237,7 @@ public class boConnectionManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException("EboContext.beginContainerTransaction( EboContext )", "BO-3150", e, "commiting");
+                throw new boRuntimeException("EboContext.beginContainerTransaction( EboContext )", "BO-3150", e, MessageLocalizer.getMessage("COMMITING"));
             }
             this.beginTransaction();
         }
@@ -270,7 +271,7 @@ public class boConnectionManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException("EboContext.isContainerTransactionActive( EboContext )", "BO-3150", e, "commiting");
+                throw new boRuntimeException("EboContext.isContainerTransactionActive( EboContext )", "BO-3150", e, MessageLocalizer.getMessage("COMMITING"));
             }
     }
 
@@ -286,7 +287,7 @@ public class boConnectionManager
         catch (Exception e)
         {
             p_isInContainerTrans = false;
-            throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", e, "commiting");
+            throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", e, MessageLocalizer.getMessage("COMMITING"));
         }
     }
 
@@ -302,7 +303,7 @@ public class boConnectionManager
                 if (ut.getStatus() == Status.STATUS_MARKED_ROLLBACK)
                 {
                     rollbackContainerTransaction();
-                    throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", null, "( Transaction Marked for Rollback )");
+                    throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", null, "( "+MessageLocalizer.getMessage("TRANSACTION_MARKED_FOR_ROLLBACK")+" )");
                 }
                 else if (ut.getStatus() == Status.STATUS_ACTIVE)
                 {
@@ -328,7 +329,7 @@ public class boConnectionManager
                 else
                 {
                     rollbackContainerTransaction();
-                    throw new RuntimeException("XEO:Cannot commit. Transaction not active. Current State is ["+ut.getStatus()+"]");
+                    throw new RuntimeException("XEO:"+MessageLocalizer.getMessage("CANNOT_COMMIT_TRANSACTION_NOT_ACTIVE_CURRENT_STATE_IS")+" ["+ut.getStatus()+"]");
                 }
                 p_isInContainerTrans = false;
             }
@@ -336,7 +337,7 @@ public class boConnectionManager
         catch (Exception e)
         {
             p_isInContainerTrans = false;
-            throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", e, "commiting");
+            throw new boRuntimeException("boManagerBean.commitTransaction( EboContext )", "BO-3150", e, MessageLocalizer.getMessage("COMMITING"));
         }
     }
     
@@ -402,7 +403,7 @@ public class boConnectionManager
         }
         catch (Exception e)
         {
-            throw new boRuntimeException("boConnectionManager.rollBackTransaction( EboContext )", "BO-3150", e, "rolling back");
+            throw new boRuntimeException("boConnectionManager.rollBackTransaction( EboContext )", "BO-3150", e,MessageLocalizer.getMessage("ROLLING_BACK"));
         }
     }
 

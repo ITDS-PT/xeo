@@ -34,6 +34,7 @@ import netgest.bo.def.boDefViewerCategory;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.impl.Ebo_TemplateImpl;
 import netgest.bo.impl.templates.boTemplateManager;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localized.JSPMessages;
 import netgest.bo.message.PostInformation;
 import netgest.bo.presentation.manager.favoritesLookupManager;
@@ -302,7 +303,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
               catch(Exception e)
               {
                     p_METH_LIST_ORDERBY=p_METH_LIST_ORDERBY.replaceFirst("--ATT--",orderby);
-                    logger.warn("Erro a susbtituir o --ATT-- do select",e);
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REPLACING_THE_ATT_FROM_SELECT"),e);
                     orderby="";
               }
             }
@@ -1007,7 +1008,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                 pars.append("\n");
             }
 
-            logger.severe("Erro a construir o boObjectList para a JSP:\nRequest:\n" + pars, e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_CONTRUCTING_THE_BOOBJECTLIST_FOR_THE_JSP")+":\n"+LoggerMessageLocalizer.getMessage("REQUEST")+":\n" + pars, e);
 
             String[] args = { convertRequestToString() };
             throw new boRuntimeException(this.getClass().getName()+".buildMasterList","BO-3110",e,args);
@@ -2153,7 +2154,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
             }
             lastobj.computeSecurityKeys(false);
 
-            logger.finer("Binding:"+(System.currentTimeMillis()-xt));
+            logger.finer(LoggerMessageLocalizer.getMessage("BINDING")+":"+(System.currentTimeMillis()-xt));
         }
         catch ( boRuntimeException e )
         {
@@ -2634,7 +2635,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                             }
                             else
                             {
-                                logger.finest("Expected bobj");
+                                logger.finest(LoggerMessageLocalizer.getMessage("EXPECTED_BOBJ"));
                             }
                         }
                     }
@@ -2748,7 +2749,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                         }
                         else
                         {
-                            logger.finest("Expected bobj");
+                            logger.finest(LoggerMessageLocalizer.getMessage("EXPECTED_BOBJ"));
                         }
                     }
                 }
@@ -2788,7 +2789,7 @@ public final class docHTML  extends boObjectContainer implements boPoolOwner {
                     }
                     else
                     {
-                        logger.finest("Expected bobj");
+                        logger.finest(LoggerMessageLocalizer.getMessage("EXPECTED_BOBJ"));
                     }
                 }
             }

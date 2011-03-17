@@ -4,6 +4,8 @@ package netgest.bo.parser.beautifier;
 import java.io.*;
 
 import java.util.*;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 
@@ -149,27 +151,27 @@ public class JSFormatter
                 isHelpShown = true;
 
                 logger.severe("");
+                logger.severe(LoggerMessageLocalizer.getMessage("USAGE")+
+                    "  : java jstyle.JSFormatter ["+LoggerMessageLocalizer.getMessage("OPTIONS")+"] < Original.java > Formatted.java");
                 logger.severe(
-                    "Usage  : java jstyle.JSFormatter [options] < Original.java > Formatted.java");
-                logger.severe(
-                    "         java jstyle.JSFormatter [options] Foo.java Bar.java  [...]");
+                    "         java jstyle.JSFormatter ["+LoggerMessageLocalizer.getMessage("OPTIONS")+"] Foo.java Bar.java  [...]");
                 logger.severe("");
                 logger.severe(
-                    "When given a specific file, JSFormatter will create an output file with a");
-                logger.severe(
-                    "suffix of \".js\" added to the original filename, i.e: Foo.java --> Foo.java.js");
+                    LoggerMessageLocalizer.getMessage("WHEN_GIVEN_A_SPECIFIC_FILE_JSFORMATTER_WILL_CREATE_AN_OUTPUT_FILE_WITH_A"));
+                logger.severe(LoggerMessageLocalizer.getMessage("SUFFIX_OF_JS_ADDED_TO_THE_ORIGINAL_FILENAME")+
+                    " i.e: Foo.java --> Foo.java.js");
                 logger.severe("");
                 logger.severe(
-                    "Options: -ll#  Set preferred line length to #");
+                    LoggerMessageLocalizer.getMessage("OPTIONS")+": -ll#  "+LoggerMessageLocalizer.getMessage("SET_PREFERRED_LINE_LENGTH_TO")+" #");
                 logger.severe(
-                    "         -ld#  Set preferred upper line length deviation to #");
+                    "         -ld#  "+LoggerMessageLocalizer.getMessage("SET_PREFERRED_UPPER_LINE_LENGTH_DEVIATION_TO")+" #");
                 logger.severe(
-                    "         -b    Break lines BEFORE '{' brackets (ala C++ style)");
+                    "         -b   "+LoggerMessageLocalizer.getMessage("BREAK_LINES_BEFORE_BRACKETS")+" (ala C++ style)");
                 logger.severe(
-                    "         -ib   Same as '-b', but add extra indentation to brackets");
+                    "         -ib   "+LoggerMessageLocalizer.getMessage("SAME_AS_BUT_ADD_EXTRA_INDENTATION_TO_BRACKETS"));
                 logger.severe(
-                    "         -fs   flush (i.e. don't indent) 'switch' blocks");
-                logger.severe("         -h    Print this help message");
+                    "         -fs   "+LoggerMessageLocalizer.getMessage("FLUSH_IE_DONT_INDENT_SWITCH_BLOCKS"));
+                logger.severe("         -h    "+LoggerMessageLocalizer.getMessage("PRINT_THIS_HELP_MESSAGE"));
                 System.exit(0);
             }
             else

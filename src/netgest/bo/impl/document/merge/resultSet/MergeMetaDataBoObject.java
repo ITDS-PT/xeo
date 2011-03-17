@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import netgest.bo.def.*;
 import netgest.bo.runtime.*;
 import netgest.bo.impl.document.merge.*;
+import netgest.bo.localizations.MessageLocalizer;
 /**
  * Esta classe implementa o ResultSet.
  * <P>
@@ -84,7 +85,7 @@ public class MergeMetaDataBoObject implements ResultSetMetaData
     {
         if(obj.getAttribute(columnName[apt]) == null)
         {
-            throw new boRuntimeException("MergeMetaDataBoObject.getType", "Coluna inexistente: " + columnName[apt], null);
+            throw new boRuntimeException("MergeMetaDataBoObject.getType", MessageLocalizer.getMessage("INEXISTENT_COLUMN")+": " + columnName[apt], null);
         }
         boDefAttribute att = obj.getAttribute(columnName[apt]).getDefAttribute();
         if(columnName.length == (apt + 1))
@@ -173,101 +174,101 @@ public class MergeMetaDataBoObject implements ResultSetMetaData
     //======================================================================
     public String getColumnTypeName(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public int getPrecision(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public int getColumnDisplaySize(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public int getScale(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public int isNullable(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public String getColumnLabel(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isSigned(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public String getSchemaName(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public String getTableName(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public String getCatalogName(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isReadOnly(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isWritable(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isDefinitelyWritable(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isAutoIncrement(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isCaseSensitive(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isSearchable(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public boolean isCurrency(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public String getColumnClassName(int column)
     {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 }

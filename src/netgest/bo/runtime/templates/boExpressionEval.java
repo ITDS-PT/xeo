@@ -4,10 +4,9 @@ import bsh.*;
 import java.math.*;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
 import netgest.bo.def.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.utils.*;
 import oracle.xml.parser.v2.XMLNode;
@@ -77,7 +76,7 @@ public class boExpressionEval  {
             }
             catch ( boRuntimeException e )
             {
-                logger.severe("Error: ", e);
+                logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
             }
         } 
         catch (boExpressionException e) 
@@ -156,7 +155,7 @@ public class boExpressionEval  {
         } 
         else
         {
-            throw new boExpressionException("Attribute expression refers a object witch is no in the context table.");
+            throw new boExpressionException(MessageLocalizer.getMessage("ATTRIBUTE_EXPRESSION_REFERS_A_OBJECT_WITCH_IS_NOT_IN_THE_CONTEXT_TABLE"));
         }
         return result.toString();
     }
@@ -205,7 +204,7 @@ public class boExpressionEval  {
             }
             catch (NumberFormatException e)
             {
-                throw new boRuntimeException2("Cannor parse date value ["+expr+"] ");                    
+                throw new boRuntimeException2( MessageLocalizer.getMessage("CANNOT_PARSE_DATE_VALUE")+" ["+expr+"] ");                    
             }
         }
         return ptr;

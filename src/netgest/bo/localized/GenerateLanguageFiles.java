@@ -17,6 +17,7 @@ import java.util.PropertyResourceBundle;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import netgest.bo.boConfig;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.StringUtils;
 
 public class GenerateLanguageFiles extends Thread
@@ -88,9 +89,9 @@ public class GenerateLanguageFiles extends Thread
         br.close();
         oFileReader.close();
 
-        if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, "Converte para o default?","" ,JOptionPane.OK_CANCEL_OPTION  ))
+        if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(null, MessageLocalizer.getMessage("CONVERT_TO_DEFAULT")+"?","" ,JOptionPane.OK_CANCEL_OPTION  ))
         {
-            System.out.println("Converter:");
+            System.out.println(MessageLocalizer.getMessage("CONVERTER"));
 
             FileInputStream oInput = new FileInputStream( file );
             InputStreamReader is = new InputStreamReader( oInput, "UTF-8" );

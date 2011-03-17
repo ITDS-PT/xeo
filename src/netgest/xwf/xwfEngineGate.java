@@ -9,6 +9,7 @@ import java.util.List;
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.controller.xwf.XwfKeys;
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -585,7 +586,7 @@ public class xwfEngineGate implements EngineGate
                 result = DestroyBusinessObject.destroy(object);
                 if(!result)
                 {
-                    this.addErrorMessage("Não foi possível remover este fluxo de trabalho");
+                    this.addErrorMessage(MessageLocalizer.getMessage("COULD_NOT_REMOVE_THIS_WORKFLOW"));
                 }
             }   
             else if(action.equals(XwfKeys.ACTION_CANCEL_PROGRAM_KEY))
@@ -596,7 +597,7 @@ public class xwfEngineGate implements EngineGate
                 }
                 else
                 {
-                    this.addErrorMessage("Não foi possível cancelar este fluxo de trabalho");
+                    this.addErrorMessage(MessageLocalizer.getMessage("COULD_NOT_CANCEL_THIS_WORKFLOW"));
                 }                                                                                
             }            
             else

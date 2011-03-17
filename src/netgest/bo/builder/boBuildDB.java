@@ -27,6 +27,8 @@ import netgest.bo.def.boDefClsState;
 import netgest.bo.def.boDefDatabaseObject;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefInterface;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.DataPluginManager;
 import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.plugins.IDataPlugin;
@@ -982,8 +984,8 @@ public class boBuildDB
         {
             if (name.length() > 30)
             {
-                logger.warn("Warning foreign key name [" + name +
-                    "] exceeds 30 characters, some constraints may be loose");
+                logger.warn(LoggerMessageLocalizer.getMessage("WARNING_FOREIGN_KEY_NAME")+" [" + name +
+                    "] "+LoggerMessageLocalizer.getMessage("EXCEEDS_30CHARACTERS_SOME_CONSTRAINTS_MAY_BE_LOOSE"));
             }
 
             for (int i = 0; i < wksdef.length; i++)
@@ -1110,15 +1112,15 @@ public class boBuildDB
             {
                 if (p_ngtdic.getString("OBJECTTYPE").equals("IDX"))
                 {
-                    logger.warn("Warning index key name [" + p_ngtdic.getString("OBJECTNAME") +
-                        "] expected error: " + e.getMessage());
+                    logger.warn(LoggerMessageLocalizer.getMessage("WARNING_INDEX_KEY_NAME")+" [" + p_ngtdic.getString("OBJECTNAME") +
+                        "] "+LoggerMessageLocalizer.getMessage("EXPECTED_ERROR")+": " + e.getMessage());
                     return "";
                 }
                 else
                 {
-                    logger.severe("ERROR ON GENERATE SCRIPTS [" + p_ngtdic.getString("OBJECTNAME") +
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR_ON_GENERATE_SCRIPTS")+" [" + p_ngtdic.getString("OBJECTNAME") +
                         " -" + p_ngtdic.getString("OBJECTTYPE") +
-                        "] expected error: " + e.getMessage());
+                        "] "+LoggerMessageLocalizer.getMessage("EXPECTED_ERROR")+": " + e.getMessage());
                     throw new boException(this.getClass().getName() +
                         ":generateScripts()", "BO-1304", e );
                 }
@@ -1207,7 +1209,7 @@ public class boBuildDB
                                                 migr.srcfield + " WHERE " +
                                                 migr.srcfield + " IS NOT NULL");
                                         int nrecs = csm.executeUpdate();
-                                        logger.finest("Migrating data from " +
+                                        logger.finest(LoggerMessageLocalizer.getMessage("MIGRATING_DATA_FROM")+" " +
                                             migr.srctable + "." +
                                             migr.srcfield + "->" +
                                             migr.desttable + "." +
@@ -1240,7 +1242,7 @@ public class boBuildDB
                                                     migr.srcfield + "= NULL");
                                             nrecs = csm.executeUpdate();
                                             logger.finest(
-                                                "Migrating data from " +
+                                            		LoggerMessageLocalizer.getMessage("MIGRATING_DATA_FROM")+" " +
                                                 migr.srctable + "." +
                                                 migr.srcfield + "->" +
                                                 migr.desttable + "." +
@@ -1351,7 +1353,7 @@ public class boBuildDB
         this.p_tomigrate.add(mig);
 
         addTable(reltable,
-            "Relation between [" + xfather.getBoName() + "] and [" +
+            MessageLocalizer.getMessage("RELATION_BETWEEN")+" [" + xfather.getBoName() + "] "+MessageLocalizer.getMessage("AND")+" [" +
             xchild.getBoName() + "]");
 
         if (this.p_mode == BUILD_ATTRIBUTES)
@@ -1383,7 +1385,7 @@ public class boBuildDB
             if(xfather.getBoMarkInputType() || markInputType)
             {
                 addField(reltable, "SYS_FLDINPUTTYPE", "RAW(2000)",
-                    "User or auto input of field", false, "", "", "");
+                    MessageLocalizer.getMessage("USER_OR_AUTO_INPUT_OF_FIELD"), false, "", "", "");
             }
         }
 
@@ -1394,7 +1396,7 @@ public class boBuildDB
             if( getChildTables( xfather ).length == 1 )
             {
                 addForeignKey("FK" + ffield + reltable,
-                "Relation with [" + xfather.getBoName() + "]", reltable,
+                MessageLocalizer.getMessage("RELATION_WITH")+" [" + xfather.getBoName() + "]", reltable,
                 ffield, p_tablename, "BOUI");
             }
         }
@@ -1421,7 +1423,7 @@ public class boBuildDB
                     if (atts[i].getDbIsUnique())
                     {
                         addUnique(reltable + "_" + atts[i].getDbName() + "_UN",
-                            "Unique key for " + atts[i].getLabel(), reltable,
+                            MessageLocalizer.getMessage("UNIQUE_KEY_FOR")+" " + atts[i].getLabel(), reltable,
                             atts[i].getDbName());
                     }
                 }
@@ -1449,14 +1451,14 @@ public class boBuildDB
 
                         addField(reltable, atts[i].getDbName(),
                             boBuildDB.DBTYPE_BOUI,
-                            "BOUI for Object " + xbobdef.getBoName(), rqDb, "",
+                            MessageLocalizer.getMessage("BOUI_FOR_OBJECT")+" " + xbobdef.getBoName(), rqDb, "",
                             "", "");
                     }
                 }
                 catch (Exception e)
                 {
-                    logger.warn("Business Object [" + atts[i].getType() +
-                        "] doesn't exist");
+                    logger.warn(LoggerMessageLocalizer.getMessage("BUSINESS_OBJECT")+" [" + atts[i].getType() +
+                        "] "+LoggerMessageLocalizer.getMessage("DOESNT_EXIST"));
                 }
 
                 if (xbobdef != null)
@@ -1475,8 +1477,8 @@ public class boBuildDB
             if (p_mode == BUILD_ATTRIBUTES)
             {
                 addPrimaryKey(reltable,
-                    "Primary key of relation between [" + xfather.getBoName() +
-                    "] and [" + xchild.getBoName() + "]", reltable,
+                    MessageLocalizer.getMessage("PRIMARY_KEY_OF_RELATION_BETWEEN")+" [" + xfather.getBoName() +
+                    "] "+MessageLocalizer.getMessage("AND")+" [" + xchild.getBoName() + "]", reltable,
                     ffield + "," + cfield);
             }
 
@@ -1841,93 +1843,93 @@ public class boBuildDB
         this.p_mode = BUILD_ATTRIBUTES;
 
         // Create a table to handle references of the objects
-        addTable("EBO_REFERENCES", "Table with all references of the Objects");
+        addTable("EBO_REFERENCES",MessageLocalizer.getMessage("TABLE_WITH_ALL_REFERENCES_OF_THE_OBJECTS"));
         addField("EBO_REFERENCES", "BOUI", DBTYPE_BOUI, "Object BOUI", true,
             "", "", "");
         addField("EBO_REFERENCES", "ATTRIBUTE", "CHAR(255)",
-            "Attribute where the referece exists", true, "", "", "");
+            MessageLocalizer.getMessage("ATTRIBUTE_WHERE_THE_REFERENCE_EXISTS"), true, "", "", "");
         addField("EBO_REFERENCES", "REFBOUI$", DBTYPE_BOUI, "Reference BOUI",
             true, "", "", "");
 
         if(!doneMigration(this.p_eboctx) || isCleanInstallation(this.p_eboctx))
         {
-            addTable("DBFS_FILE", "Table to Store File Objects");
-            addField("DBFS_FILE", "ID", "number", "Sequence", true, "", "", "");
-            addField("DBFS_FILE", "FILENAME", "CHAR(255)", "File Name", true, "",
+            addTable("DBFS_FILE", MessageLocalizer.getMessage("TABLE_TO_STORE_FILE_OBJECTS"));
+            addField("DBFS_FILE", "ID", "number",MessageLocalizer.getMessage("SEQUENCE"), true, "", "", "");
+            addField("DBFS_FILE", "FILENAME", "CHAR(255)", MessageLocalizer.getMessage("FILE_NAME"), true, "",
                 "", "");
-            addField("DBFS_FILE", "BINDATA", "BLOB", "Data", false, "", "", "");
-            addPrimaryKey("DBFS_FILE", "Primary Key for Table DBFS_FILE",
+            addField("DBFS_FILE", "BINDATA", "BLOB", MessageLocalizer.getMessage("DATA"), false, "", "", "");
+            addPrimaryKey("DBFS_FILE", MessageLocalizer.getMessage("PRIMARY_KEY_FOR_TABLE_DBFS_FILE"),
                 "DBFS_FILE", "ID");
         }
         else
         {
 
-        addTable("DBFS_FILE", "Table to Store File Objects");
-        addField("DBFS_FILE", "FILENAME", "CHAR(255)", "File Name", true, "",
+        addTable("DBFS_FILE", MessageLocalizer.getMessage("TABLE_TO_STORE_FILE_OBJECTS"));
+        addField("DBFS_FILE", "FILENAME", "CHAR(255)", MessageLocalizer.getMessage("FILE_NAME"), true, "",
             "", "");
 
         //addField("DBFS_FILE","BINDATA","BLOB","Object BOUI",false,"","","");
-        addField("DBFS_FILE","KEY", "NUMBER","Chave Unica", true, "",
+        addField("DBFS_FILE","KEY", "NUMBER",MessageLocalizer.getMessage("UNIQUE_KEY"), true, "",
             "", "");
-        addField("DBFS_FILE", "DATECREATE", "DATE", "Reference BOUI", true, "",
+        addField("DBFS_FILE", "DATECREATE", "DATE", MessageLocalizer.getMessage("REFERENCE_BOUI"), true, "",
             "", "");
-        addField("DBFS_FILE", "USERCREATE", DBTYPE_BOUI, "Creation User", true,
+        addField("DBFS_FILE", "USERCREATE", DBTYPE_BOUI, MessageLocalizer.getMessage("CREATION_USER"), true,
             "", "", ""); //new ?? tirar pq já esta na versao??
-        addField("DBFS_FILE", "DATEMODIFIED", "DATE", "Reference BOUI", false,
+        addField("DBFS_FILE", "DATEMODIFIED", "DATE", MessageLocalizer.getMessage("REFERENCE_BOUI"), false,
             "", "", ""); //para tirar e por na versao??
         addField("DBFS_FILE", "ID", "number", "Reference BOUI", true, "", "", "");
-        addField("DBFS_FILE", "PARENT_ID", "number", "Reference BOUI", true,
+        addField("DBFS_FILE", "PARENT_ID", "number", MessageLocalizer.getMessage("REFERENCE_BOUI"), true,
             "", "", "");
-        addField("DBFS_FILE", "TYPE", "number", "Reference BOUI", true, "", "",
+        addField("DBFS_FILE", "TYPE", "number", MessageLocalizer.getMessage("REFERENCE_BOUI"), true, "", "",
             "");
-        addField("DBFS_FILE", "ACTIVE", "number", "Active Version", true, "",
+        addField("DBFS_FILE", "ACTIVE", "number", MessageLocalizer.getMessage("ACTIVE_VERSION"), true, "",
             "", "");
-        addField("DBFS_FILE", "STATUS", "number", "File Status", false, "", "",
+        addField("DBFS_FILE", "STATUS", "number", MessageLocalizer.getMessage("FILE_STATUS"), false, "", "",
             ""); //new
-        addField("DBFS_FILE", "STATUSUSER", DBTYPE_BOUI, "Status User", false,
+        addField("DBFS_FILE", "STATUSUSER", DBTYPE_BOUI, MessageLocalizer.getMessage("STATUS_USER"), false,
             "", "", ""); //new
-        addPrimaryKey("DBFS_FILE", "Primary Key 0for Table DBFS_FILE",
+        addPrimaryKey("DBFS_FILE", MessageLocalizer.getMessage("PRIMARY_KEY_FOR_TABLE_DBFS_FILE"),
             "DBFS_FILE", "ID,FILENAME");
 
-        addTable("DBFS_VERSION", "Table to Store File Objects Version");
-        addField("DBFS_VERSION","KEY", "NUMBER","Chave Unica", true, "",
+        addTable("DBFS_VERSION", MessageLocalizer.getMessage("TABLE_TO_STORE_FILE_OBJECTS_VERSIONS"));
+        addField("DBFS_VERSION","KEY", "NUMBER",MessageLocalizer.getMessage("UNIQUE_KEY"), true, "",
             "", "");
-        addField("DBFS_VERSION", "ID", "number", "Reference BOUI", true, "",
+        addField("DBFS_VERSION", "ID", "number", MessageLocalizer.getMessage("REFERENCE_BOUI"), true, "",
             "", "");
-        addField("DBFS_VERSION", "VERSION", "number", "Version", true, "", "",
+        addField("DBFS_VERSION", "VERSION", "number", MessageLocalizer.getMessage("VERSION"), true, "", "",
             "");
-        addField("DBFS_VERSION", "VERSIONDATE", "DATE", "Version Date", false,
+        addField("DBFS_VERSION", "VERSIONDATE", "DATE", MessageLocalizer.getMessage("VERSION_DATE"), false,
             "", "", "");
-        addField("DBFS_VERSION", "VERSIONUSER", DBTYPE_BOUI, "Version User",
+        addField("DBFS_VERSION", "VERSIONUSER", DBTYPE_BOUI, MessageLocalizer.getMessage("VERSION_USER"),
             true, "", "", "");
-        addField("DBFS_VERSION", "BINDATA", "BLOB", "Data", false, "", "", "");
+        addField("DBFS_VERSION", "BINDATA", "BLOB", MessageLocalizer.getMessage("DATA"), false, "", "", "");
 
         //addField("DBFS_VERSION","DATEMODIFIED","DATE","Reference BOUI",false,"","","");
         //addField("DBFS_VERSION","PARENT_ID","number","Reference BOUI",true,"","","");
-        addPrimaryKey("DBFS_VERSION", "Primary Key 0for Table DBFS_VERSION",
+        addPrimaryKey("DBFS_VERSION", MessageLocalizer.getMessage("PRIMARY_KEY_FOR_TABLE")+"DBFS_VERSION",
             "DBFS_VERSION", "ID,VERSION");
 
         }
 
 
 
-        addTable("SYSNGT_SEQUENCES", "Table to Store Transational Sequences");
-        addField("SYSNGT_SEQUENCES", "SEQCHAVE", "CHAR(255)", "Sequence key",
+        addTable("SYSNGT_SEQUENCES", MessageLocalizer.getMessage("TABLE_TO_STORE_TRANSACTIONAL_SEQUENCES"));
+        addField("SYSNGT_SEQUENCES", "SEQCHAVE", "CHAR(255)", MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
-        addField("SYSNGT_SEQUENCES", "COUNTER", "number", "Sequence Number",
+        addField("SYSNGT_SEQUENCES", "COUNTER", "number",  MessageLocalizer.getMessage("SEQUENCE_NUMBER"),
             false, "", "", "");
         addPrimaryKey("SYSNGT_SEQUENCES",
-            "Primary Key for Table SYSNGT_SEQUENCES", "SYSNGT_SEQUENCES",
+        		MessageLocalizer.getMessage("PRIMARY_KEY_FOR_TABLE")+"SYSNGT_SEQUENCES", "SYSNGT_SEQUENCES",
             "SEQCHAVE");
 
-        addTable("EBO_TEXTINDEX_QUEUE", "Table to store objects pending of textindex");
-        addField("EBO_TEXTINDEX_QUEUE", "ENQUEUETIME", "TIMESTAMP", "Sequence key",
+        addTable("EBO_TEXTINDEX_QUEUE", MessageLocalizer.getMessage("TABLE_TO_STORE_OBJECTS_PENDING_OF_TEXTINDEX"));
+        addField("EBO_TEXTINDEX_QUEUE", "ENQUEUETIME", "TIMESTAMP", MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
-        addField("EBO_TEXTINDEX_QUEUE", "BOUI", "NUMBER", "Sequence key",
+        addField("EBO_TEXTINDEX_QUEUE", "BOUI", "NUMBER",  MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
-        addField("EBO_TEXTINDEX_QUEUE", "STATE", "NUMBER(1)", "Sequence key",
+        addField("EBO_TEXTINDEX_QUEUE", "STATE", "NUMBER(1)", MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
-        addField("EBO_TEXTINDEX_QUEUE", "MESSAGE", "CHAR(4000)", "Sequence key",
+        addField("EBO_TEXTINDEX_QUEUE", "MESSAGE", "CHAR(4000)",  MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
 
 
@@ -1977,7 +1979,7 @@ public class boBuildDB
                     "' AS \"SYS_ORIGIN\" FROM ").append(schemaParent).append(".DBFS_FILE");
             }
         }
-        addView("O" + "DBFS_FILE", "System table Union [DBFS_FILE]",
+        addView("O" + "DBFS_FILE", MessageLocalizer.getMessage("SYSTEM_TABLE_UNION")+" [DBFS_FILE]",
             sb.toString());
 
 /*
@@ -2027,7 +2029,7 @@ public class boBuildDB
               .append(schemaParent).append(".EBO_REFERENCES");
         }
 
-        addView("O" + "EBO_REFERENCES", "System table Union [EBO_REFERENCES]",
+        addView("O" + "EBO_REFERENCES", MessageLocalizer.getMessage("SYSTEM_TABLE_UNION")+" [EBO_REFERENCES]",
             sb.toString());
 
         OracleDBM dbm = null;
@@ -2094,7 +2096,7 @@ public class boBuildDB
 
         //addField("DBFS_VERSION","DATEMODIFIED","DATE","Reference BOUI",false,"","","");
         //addField("DBFS_VERSION","PARENT_ID","number","Reference BOUI",true,"","","");
-        addPrimaryKey("DBFS_VERSION", "Primary Key 0for Table DBFS_VERSION",
+        addPrimaryKey("DBFS_VERSION",MessageLocalizer.getMessage("PRIMARY_KEY_FOR_TABLE")+" DBFS_VERSION",
             "DBFS_VERSION", "ID,VERSION");
 
         generateScripts(true);
@@ -2103,10 +2105,10 @@ public class boBuildDB
     public void buildSystemKeys()
     {
         this.p_mode = BUILD_CONSTRAINTS;
-        addIndex("IDX_EBO_REFERENCES", "Index  for BOUI in EboRefrences",
+        addIndex("IDX_EBO_REFERENCES", MessageLocalizer.getMessage("INDEX_OF_BOUI_IN")+" EboRefrences",
             "EBO_REFERENCES", "BOUI");
         addIndex("IDX_EBO_REFERENCES_REFBOUI",
-            "Index for REFBOUI in EboReferences", "EBO_REFERENCES", "REFBOUI$");
+        		MessageLocalizer.getMessage("INDEX_OF_REFBOUI_IN")+" EboReferences", "EBO_REFERENCES", "REFBOUI$");
 
         if (p_repository.getParentRepository() != null)
         {
@@ -2115,10 +2117,10 @@ public class boBuildDB
         else
         {
             addForeignKey("FK_EBO_REFERENCES_BOUI",
-                "Foreign key for refereced by objects ", "EBO_REFERENCES",
+                MessageLocalizer.getMessage("FOREIGN_KEY_FOR_REFERENCED_BY_OBJECTS"), "EBO_REFERENCES",
                 "REFBOUI$", "EBO_REGISTRY", "UI$");
             addForeignKey("FK_EBO_REFERENCES_REFBOUI",
-                "Foreign key for refececed objects", "EBO_REFERENCES", "BOUI",
+            		MessageLocalizer.getMessage("FOREIGN_KEY_FOR_REFERENCED_OBJECTS"), "EBO_REFERENCES", "BOUI",
                 "EBO_REGISTRY", "UI$");
         }
 
@@ -2313,8 +2315,8 @@ public class boBuildDB
             }
 
             addView("O" + def.getName(),
-                "Union with object [" + def.getBoDescription() +
-                "] and all child objects ", viewtext.toString());
+                MessageLocalizer.getMessage("UNION_WITH_OBJECT")+" [" + def.getBoDescription() +
+                "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS"), viewtext.toString());
 
             OracleDBM dbm = null;
 
@@ -2430,7 +2432,7 @@ public class boBuildDB
             }
         }
         addView("O" + mandInterface,
-                "Mandatory Interface view for " + mandInterface +
+                MessageLocalizer.getMessage("MANDATORY_INTERFACE_VIEW_FOR")+" " + mandInterface +
                 "]", total.toString());
 
         createExtendedViewsForInterfaces(mandInterface, tables);
@@ -2613,9 +2615,9 @@ public class boBuildDB
             finalquery.append(unions.get(i));
         }
 
-        addView("OE" + mandInterface,
-           "Mandatory Interface view for " + mandInterface +
-                "] and all child objects, all child field are included ",
+        addView("OE" + mandInterface,MessageLocalizer.getMessage("MANDATORY_INTERFACE_VIEW_FOR")+
+           " " + mandInterface +
+                "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS_ALL_CHILD_FIELDS_ARE_INCLUDED"),
             finalquery.toString());
     }
     public void createExtendedViews(boDefHandler def)
@@ -2826,9 +2828,9 @@ public class boBuildDB
             finalquery.append(unions.get(i));
         }
 
-        addView("OE" + def.getName(),
-            "Union with object [" + def.getBoDescription() +
-            "] and all child objects, all child field are included ",
+        addView("OE" + def.getName(),MessageLocalizer.getMessage("UNION_WITH_OBJECT")+
+            " [" + def.getBoDescription() +
+            "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS_ALL_CHILD_FIELDS_ARE_INCLUDED"),
             finalquery.toString());
     }
 
@@ -3047,9 +3049,9 @@ public class boBuildDB
                 union.append(unionquerys.get(i));
             }
 
-            addView("O" + def.getName(),
-                "Union with object [" + def.getBoDescription() +
-                "] and all child objects ", union.toString());
+            addView("O" + def.getName(),MessageLocalizer.getMessage("UNION_WITH_OBJECT")+
+                " [" + def.getBoDescription() +
+                "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS"), union.toString());
 
             // Create Extended Views
             createExtendedViews(def, special);
@@ -3298,8 +3300,8 @@ public class boBuildDB
             }
 
             addView("O" + def.getName(),
-                "Union with object [" + def.getBoDescription() +
-                "] and all child objects ", union.toString());
+                MessageLocalizer.getMessage("UNION_WITH_OBJECT")+" [" + def.getBoDescription() +
+                "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS"), union.toString());
 
             // Create Extended Views
             createExtendedViewsForSemiPrivate(def);
@@ -3535,8 +3537,8 @@ public class boBuildDB
                 union.append(unionquerys.get(i));
             }
             addView("O" + mandIntfName + "$" + def.getName(),
-                "Mandatory Interface view for " + mandIntfName +
-                " and bridge" + def.getName() +"]", union.toString());
+                MessageLocalizer.getMessage("MANDATORY_INTERFACE_VIEW_FOR")+" " + mandIntfName +
+                MessageLocalizer.getMessage("AND_BRIDGE")+" " + def.getName() +"]", union.toString());
 
             OracleDBM dbm = null;
 
@@ -4596,8 +4598,8 @@ public class boBuildDB
             }
 
             addView("O" + def.getName(),
-                "Union with object [" + def.getBoDescription() +
-                "] and all child objects ", union.toString());
+                MessageLocalizer.getMessage("UNION_WITH_OBJECT")+" [" + def.getBoDescription() +
+                "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS"), union.toString());
 
             // Create Extended Views
             createExtendedViewsToParent(def);
@@ -4701,8 +4703,8 @@ public class boBuildDB
             }
 
             addView("O" + def.getName(),
-                "Union with object [" + def.getBoDescription() +
-                "] and all child objects ", viewtext.toString());
+                MessageLocalizer.getMessage("UNION_WITH_OBJECT")+" [" + def.getBoDescription() +
+                "]  "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS"), viewtext.toString());
 
             OracleDBM dbm = null;
 
@@ -4940,9 +4942,9 @@ public class boBuildDB
             finalquery.append(sbparentView);
         }
 
-        addView("OE" + def.getName(),
-            "Union with object [" + def.getBoDescription() +
-            "] and all child objects, all child field are included ",
+        addView("OE" + def.getName(),MessageLocalizer.getMessage("UNION_WITH_OBJECT")+
+            " [" + def.getBoDescription() +
+            "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS_ALL_CHILD_FIELDS_ARE_INCLUDED"),
             finalquery.toString());
     }
 
@@ -5161,9 +5163,9 @@ public class boBuildDB
             finalquery.append(unions.get(i));
         }
 
-        addView("OE" + def.getName(),
-            "Union with object [" + def.getBoDescription() +
-            "] and all child objects, all child field are included ",
+        addView("OE" + def.getName(),MessageLocalizer.getMessage("UNION_WITH_OBJECT")+
+            " [" + def.getBoDescription() +
+            "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS_ALL_CHILD_FIELDS_ARE_INCLUDED"),
             finalquery.toString());
     }
 
@@ -5192,7 +5194,7 @@ public class boBuildDB
 
                 while (rs.next())
                 {
-                    logger.finest("Setting grants on table (" + rs.getString(1) + ")");
+                    logger.finest(LoggerMessageLocalizer.getMessage("SETTING_GRANTS_ON_TABLE")+" (" + rs.getString(1) + ")");
                     dml = "grant select, insert, update, delete, references on " +
                         rs.getString(1) + " to " + p_repository.getUserName();
                     odbm.executeDDL(dml, parentRepository.getName());

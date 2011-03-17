@@ -10,6 +10,8 @@ import netgest.bo.impl.document.merge.gestemp.validation.Contexto;
 import netgest.bo.impl.document.merge.gestemp.validation.JavaExecuter;
 import netgest.bo.impl.document.merge.gestemp.validation.Modelo;
 import netgest.bo.impl.document.merge.gestemp.validation.Query;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
@@ -525,12 +527,12 @@ public class GtQuery {
             
             if( !javaExec.sucess() )
             {
-                    throw new boRuntimeException("",
-                        "Não foi possível calcular [" + getPergunta() +
-                        "]. Verifique a formula.\n" + javaExec.getErrorMessage(), null);
+                    throw new boRuntimeException("",MessageLocalizer.getMessage("UNABLE_TO_CALCULATE")+
+                        " [" + getPergunta() +
+                        "]. "+MessageLocalizer.getMessage("CHECK_THE_FORMULA") + javaExec.getErrorMessage(), null);
             }
         
-            logger.finer("Java caculate campo ["+getNome()+"] ["+(System.currentTimeMillis()-init)+"]ms");
+            logger.finer(LoggerMessageLocalizer.getMessage("JAVA_CALCULATE_FIELD")+" ["+getNome()+"] ["+(System.currentTimeMillis()-init)+"]ms");
         }
     }  
 

@@ -1,12 +1,11 @@
 /*Enconding=UTF-8*/
 package netgest.bo.utils;
 import java.io.*;
-import java.io.Serializable;
 import java.util.*; 
-import java.util.Vector;
 import netgest.bo.*;
 import netgest.bo.def.*;
 import netgest.bo.impl.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.utils.*;
 import javax.servlet.http.HttpServletResponse;
@@ -195,7 +194,7 @@ private static String[] reservedAttributes={"CLASSNAME","PARENTCTX","SYS_DTCREAT
           else objattr.setValueString(attrValue);          
         }
     } //Colocar excepção correcta
-    else throw new boRuntimeException("The Attribute "+attrName+" does not exist in "+obj.getName(),"", null,
+    else throw new boRuntimeException(MessageLocalizer.getMessage("THE_ATTRIBUTE")+" "+attrName+" "+MessageLocalizer.getMessage("DOES_NOT_EXIST_IN")+" "+obj.getName(),"", null,
             "" + obj.getBoui());         
   }
   

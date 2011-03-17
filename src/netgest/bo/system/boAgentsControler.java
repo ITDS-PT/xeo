@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.lang.reflect.*;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 import javax.naming.*;
 import java.util.*;
@@ -126,7 +128,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 Thread activeListener = (Thread)list.get( i );
                 if( !activeListener.isAlive() )
                 {
-                    logger.finest( "Dead XEO Thread found... Removing it" );
+                    logger.finest(LoggerMessageLocalizer.getMessage("DEAD_XEO_THREAD_FOUND_REMOVING_IT"));
                     list.remove( i );
                     p_boapp.removeContextFromThread( activeListener );
 
@@ -140,7 +142,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 try
                 {
                     String tname = "XEO Thread [" + name  +"]";
-                    logger.finest("Starting " + tname );
+                    logger.finest(LoggerMessageLocalizer.getMessage("STARTING")+" " + tname );
                     Class threadClass = Class.forName(  p_boapp.getApplicationConfig().getThreadsClass()[ id_idx ]  );
                     Constructor constructor = threadClass.getConstructor( new Class[] {ThreadGroup.class,boApplication.class,String.class} );
                     xthread = (Thread)constructor.newInstance( new Object[] { this.tGroup, this.p_boapp, tname } );
@@ -205,7 +207,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                 try
                 {
                     Thread thread = ((Thread)active.get( i ));
-                    logger.finest("Stopping XEO Thread ["+ thread.getName() +"]");
+                    logger.finest(LoggerMessageLocalizer.getMessage("STOPPING_XEO_THREAD")+" ["+ thread.getName() +"]");
                     thread.interrupt();
                     int wait = 0;                  
                     while( thread.isAlive() && !thread.isInterrupted() && wait < this.maxWaitTime )
@@ -216,7 +218,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
                     }
                     if( wait >= this.maxWaitTime )
                     {                        
-                        logger.warn("Cannot stop Thread ["+thread.getName()+"]");
+                        logger.warn(LoggerMessageLocalizer.getMessage("CANNOT_STOP_THREAD")+" ["+thread.getName()+"]");
                     }
                 }
                 catch (Exception e)

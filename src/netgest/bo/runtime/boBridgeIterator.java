@@ -11,6 +11,8 @@ import java.util.Date;
 
 import netgest.bo.def.boDefAttribute;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.sorter.AttributeSorter;
 import netgest.bo.runtime.sorter.CardidSorter;
 import netgest.bo.runtime.sorter.SorterNode;
@@ -94,7 +96,7 @@ public final class boBridgeIterator
                         p_virtualRow[i] = pos+1;
                     }
                 }
-                logger.finer("Total time:" + (System.currentTimeMillis() - ti));
+                logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+":" + (System.currentTimeMillis() - ti));
             }
             catch (boRuntimeException e)
             {
@@ -264,7 +266,7 @@ public final class boBridgeIterator
     {
         if( p_row < 1 || p_row > p_bridge.getRowCount() )
         {
-            throw new RuntimeException("BridgeIterator is before first, after last or is empty. ");
+            throw new RuntimeException(MessageLocalizer.getMessage("BRIDGEITERATOR_IS_BEFORE_FIRST_AFTER_LAST_OR_IS_EMPTY"));
         }
         return p_bridge.rows( translateToPhisicalRow(p_row) );
     }

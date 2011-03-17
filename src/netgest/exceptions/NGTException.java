@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.exceptions;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.*;
 
 public class NGTException extends Exception
@@ -22,34 +23,34 @@ public class NGTException extends Exception
        p_errdesc = new String[23];
 
        // Errors handled by updates bean
-       p_errdesc[i++] = "NGT-01003: O campo ? esta repetido";
-   	   p_errdesc[i++] = "NGT-01001: Numero com formato invalido no campo ?";
-   	   p_errdesc[i++] = "NGT-01002: Data invalida no campo ?";
-   	   p_errdesc[i++] = "NGT-01004: Não foi possivel inserir ? num CLOB";
-   	   p_errdesc[i++] = "NGT-01005: Não foi encontrada secção master no documento ?";
-   	   p_errdesc[i++] = "NGT-01006: O campo da chave primaria ? tem que estar preenchido";
-   	   p_errdesc[i++] = "NGT-01007: O campo da chave primaria ? tem que fazer parte da virtual table";
-   	   p_errdesc[i++] = "NGT-01008: O(s) campo(s) da chave primaria ? tem que estar preenchido(s)";
-   	   p_errdesc[i++] = "NGT-01009: Nao é possivel gravar secções filhas da MASTER ?, pois esta tem multiplas linhas";
-   	   p_errdesc[i++] = "NGT-01010: Não tem previlegios Suficientes na tabela ? ";
-   	   p_errdesc[i++] = "NGT-01011: A tabela ? nao tem Chaves Primária Defenidas";
-   	   p_errdesc[i++] = "NGT-01012: A Virtual Table ? não existe";
-   	   p_errdesc[i++] = "NGT-01013: Registo ja foi alterado por outro utilizador";
-   	   p_errdesc[i++] = "NGT-01014: Não pode gravar um documento com a seccao master vazia";
-   	   p_errdesc[i++] = "NGT-01015: O documento esta vazio";
-   	   p_errdesc[i++] = "NGT-01016: Modo invalido para gravacao";
+       p_errdesc[i++] = "NGT-01003: "+MessageLocalizer.getMessage("THE_FIELD_IS_REPEATED");
+   	   p_errdesc[i++] = "NGT-01001: "+MessageLocalizer.getMessage("NUMBER_WITH_INVALID_FORMAT_IN_FIELD");
+   	   p_errdesc[i++] = "NGT-01002: "+MessageLocalizer.getMessage("INVALID_DATE_IN_FIELD");
+   	   p_errdesc[i++] = "NGT-01004: "+MessageLocalizer.getMessage("COULD_NOT_INSERT_IN_A_CLOB");
+   	   p_errdesc[i++] = "NGT-01005: "+MessageLocalizer.getMessage("COULD_NOT_FIND_MASTER_SECTION_IN_DOCUMENT");
+   	   p_errdesc[i++] = "NGT-01006: "+MessageLocalizer.getMessage("THE_FIELD_OF_PRIMARY_KEY_HAS_TO_BE_FILLED");
+   	   p_errdesc[i++] = "NGT-01007: "+MessageLocalizer.getMessage("THE_FIELD_OF_PRIMARY_KEY_HAS_TO_BE_PART_OF_VIRTUALTABLE");
+   	   p_errdesc[i++] = "NGT-01008: "+MessageLocalizer.getMessage("THE_FIELDS_OF_THE_PRIMARY_KEY_HAVE_TO_BE_FILLED");
+   	   p_errdesc[i++] = "NGT-01009: "+MessageLocalizer.getMessage("UNABLE_TO_SAVE_DAUGHTER_SECTIONS_OF_MASTER_ONCE_IT_");
+   	   p_errdesc[i++] = "NGT-01010: "+MessageLocalizer.getMessage("DOES_NOT_HAVE_SUFFICIENT_PRIVILEGES_ON_TABLE");
+   	   p_errdesc[i++] = "NGT-01011: "+MessageLocalizer.getMessage("THE_TABE_HAS_NO_DEFINED_PRIMARY_KEY");
+   	   p_errdesc[i++] = "NGT-01012: "+MessageLocalizer.getMessage("THE_VIRTUAL_TABLE_DOES_NOT_EXIST");
+   	   p_errdesc[i++] = "NGT-01013: "+MessageLocalizer.getMessage("REGISTRY_HAS_BEEN_CHANGED_BY_ANOTHER_USER");
+   	   p_errdesc[i++] = "NGT-01014: "+MessageLocalizer.getMessage("CANNOT_SAVE_A_DOCUMENT_WITH_EMPTY_MASTER_SECTION");
+   	   p_errdesc[i++] = "NGT-01015: "+MessageLocalizer.getMessage("THE_DOCUMENT_IS_EMPTY");
+   	   p_errdesc[i++] = "NGT-01016: "+MessageLocalizer.getMessage("INVALID_MODE_FOR_SAVING");
 
 
        // Errors handled by SQL server
-   	   p_errdesc[i++] = "NGT-01100: Servidor muito ocupado\nSQL:?";
-   	   p_errdesc[i++] = "NGT-01101: Chave ja existente\nSQL:?";
-   	   p_errdesc[i++] = "NGT-01102: Campo obrigatorio vazio\nSQL:?";
-   	   p_errdesc[i++] = "NGT-01103: Erro SQL:\n?";
-   	   p_errdesc[i++] = "NGT-01104: Erro XSU:\n?";
+   	   p_errdesc[i++] = "NGT-01100: "+MessageLocalizer.getMessage("SERVER_TO_BUSY");
+   	   p_errdesc[i++] = "NGT-01101: "+MessageLocalizer.getMessage("KEY_ALREADY_EXISTS");
+   	   p_errdesc[i++] = "NGT-01102: "+MessageLocalizer.getMessage("EMPTY_OBLIGATORY_FIELD");
+   	   p_errdesc[i++] = "NGT-01103: "+MessageLocalizer.getMessage("ERROR_SQL");
+   	   p_errdesc[i++] = "NGT-01104: "+MessageLocalizer.getMessage("ERROR_XSU");
 
        // Server side Execution erros
-   	   p_errdesc[i++] = "NGT-01200: Esse EJB não existe";
-   	   p_errdesc[i++] = "NGT-01201: O metodo desse EJB não existe";
+   	   p_errdesc[i++] = "NGT-01200: "+MessageLocalizer.getMessage("THAT_EJB_DOES_NOT_EXIST");
+   	   p_errdesc[i++] = "NGT-01201: "+MessageLocalizer.getMessage("THE_METHOD_FROM_THAT_EJB_DOES_NOT_EXIST");
 
 
        for (i=0;i<p_errdesc.length;i++) {

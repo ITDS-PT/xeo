@@ -9,6 +9,9 @@ import netgest.utils.mail.*;
 import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.*;
 import netgest.io.*;
@@ -30,10 +33,10 @@ public class boMail extends mail
     //logger
     private static Logger logger = Logger.getLogger("netgest.bo.system.boMail");
     
-  private static final String errSMTP="Não existe nenhum servidor de SMTP definido";
-  private static final String errFrom="É impossivel enviar um email sem endereço de email definido";
-  private static final String errTo="É impossivel enviar um email sem destinatários";
-  private static final String errMailNotSaved="O Email tem que ser gravado antes de poder ser enviado";
+  private static final String errSMTP=MessageLocalizer.getMessage("THERE_IS_NO_DEFINED_SMTP_SERVER");
+  private static final String errFrom=MessageLocalizer.getMessage("UNABLE_TO_SEND_MAIL_WITHOUT_EMAIL_ADDRESS_DEFINED");
+  private static final String errTo=MessageLocalizer.getMessage("UNABLE_TO_SEND_MAIL_WITHOUT_RECEIVER_DEFINED");
+  private static final String errMailNotSaved=MessageLocalizer.getMessage("EMAIL_HAS_TO_BE_SAVED_BEFORE_SENDING");
   private EboContext ctx=null;
   private boObject mailfolder=null;
   private boObject mailaccount=null;
@@ -178,15 +181,15 @@ public class boMail extends mail
             String subject = null;
             try
             {
-                subject = "LIDO: " + mailobject.getAttribute("name").getValueString();        
+                subject = MessageLocalizer.getMessage("READ")+": " + mailobject.getAttribute("name").getValueString();        
             }
             catch (boRuntimeException e)
             {
-                subject = "LIDO: ";
+                subject = MessageLocalizer.getMessage("READ")+": ";
             }
             StringBuffer msg = new StringBuffer();
             //de
-            msg.append("A sua mensagem\n\tPara: ");
+            msg.append(MessageLocalizer.getMessage("YOUR_MESSAGE_TO"));
             if(toMail != null)
             {
                 try
@@ -212,7 +215,7 @@ public class boMail extends mail
                     //ignore
                 }
             }
-            msg.append("\n\tAssunto: ");
+            msg.append(MessageLocalizer.getMessage("SUBJECT"));
             try
             {
                 msg.append(mailobject.getAttribute("name").getValueString());
@@ -221,7 +224,7 @@ public class boMail extends mail
             {
                 //ignore
             }
-            msg.append("\nfoi lida na data: ");
+            msg.append(MessageLocalizer.getMessage("WAS_READ_ON_DATE"));
             Date readDate = new Date();
             SimpleDateFormat df = new SimpleDateFormat("EEEEE, dd 'de' MMMMM 'de' yyyy HH:mm:ss");            
             msg.append(df.format(readDate)).append(".");
@@ -239,36 +242,36 @@ public class boMail extends mail
         {
             mailobject.addErrorMessage
             ( 
-            "Ocorreu um erro inesperado a enviar a sua mensagem"+
+            LoggerMessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
             "<span style='display:none'>" + e.getMessage() +
             "</span>"
             );
-                  logger.warn("Error: ", e);
+                  logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
             return false;
         }
         catch(AddressException e)
         {
       
-           mailobject.addErrorMessage("Endereço inválido"+
+           mailobject.addErrorMessage(MessageLocalizer.getMessage("INVALID_ADDRESS")+
            "<span style='display:none'>" + e.getMessage() +
             "</span>"
             );
-                  logger.warn("Error: ", e);
+                  logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
            return false; 
         }
         catch(MessagingException e)
         {
-           mailobject.addErrorMessage("Ocorreu um erro inesperado a enviar a sua mensagem"+
+           mailobject.addErrorMessage(LoggerMessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
            "<span style='display:none'>" + e.getMessage() +
             "</span>"
             );
-                  logger.severe("Error: ", e);
+                  logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
            return false; 
         }
         catch(IOException e)
         {
-                logger.warn("Error: ", e);
-            mailobject.addErrorMessage("Impossivel enviar attach"+
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+            mailobject.addErrorMessage(MessageLocalizer.getMessage("CANNOT_SEND_ATTACH")+
             "<span style='display:none'>" + e.getMessage() +
             "</span>"
             );
@@ -276,11 +279,11 @@ public class boMail extends mail
         }
         catch(Exception e)
         {
-                mailobject.addErrorMessage("Ocorreu um erro inesperado a enviar a sua mensagem"+
+                mailobject.addErrorMessage(LoggerMessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
                 "<span style='display:none'>" + e.getMessage() +
                 "</span>"            
             );
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
             return false;
         }
     }
@@ -408,7 +411,7 @@ public class boMail extends mail
         String links=""; 
         String link="";
         bridge=mailobject.getBridge("RO");
-        if (bridge.getRowCount()>0) links="<BR><BR>Links Relacionados:<BR>";
+        if (bridge.getRowCount()>0) links="<BR><BR>"+MessageLocalizer.getMessage("RELATED_LINKS")+":<BR>";
         bridge.beforeFirst();      
         while(bridge.next())
         {
@@ -423,7 +426,7 @@ public class boMail extends mail
         String refs="";
         if (footprint==null || footprint.equalsIgnoreCase("true"))
         {
-          refs= "<i><hr>Se desejar responder a este mail inclua por favor no texto ou no assunto do email a(s) seguinte(s) referencias: <br/></i>";
+          refs= "<i><hr>"+MessageLocalizer.getMessage("IF_YOU_DESIRE_TO_ANSWER_TO_THIS_MAIL_PLEASE_INCLUDE_")+" <br/></i>";
           refs+=" [XEO"+mailobject.getBoui()+"] ";
           boObject[] parents=mailobject.getParents();
           for (int i = 0; i < parents.length ; i++) 
@@ -504,7 +507,7 @@ public class boMail extends mail
             }
         }catch(Exception e)
         {
-            logger.warn("Erro ao efectuar o set das datas do email.", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_SETTING_EMAIL_DATE"), e);
         }
         mailobject.getAttribute("already_send").setValueString("1");
         //mailobject.setParameter("TOSEND","N");
@@ -513,47 +516,47 @@ public class boMail extends mail
       }
       catch(iFilePermissionDenied e)
       {
-        mailobject.addErrorMessage("Ocorreu um erro inesperado a anexar ficheiros ao email"+
+        mailobject.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_ATTACHING_FILES_TO_THE_EMAIL")+
         "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
-              logger.warn("Error: ", e);
+              logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
         return false;
       }
       catch(boRuntimeException e)
       {
         mailobject.addErrorMessage
         ( 
-        "Ocorreu um erro inesperado a enviar a sua mensagem"+
+        		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
         "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
-              logger.warn("Error: ", e);
+              logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
         return false;
       }
       catch(AddressException e)
       {
       
-       mailobject.addErrorMessage("Endereço inválido"+
+       mailobject.addErrorMessage(MessageLocalizer.getMessage("INVALID_ADDRESS")+
        "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
-              logger.warn("Error: ", e);
+              logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
        return false; 
       }
       catch(MessagingException e)
       {
-       mailobject.addErrorMessage("Ocorreu um erro inesperado a enviar a sua mensagem"+
+       mailobject.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
        "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
-              logger.severe("Error: ", e);
+              logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
        return false; 
       }
       catch(IOException e)
       {
-            logger.warn("Error: ", e);
-        mailobject.addErrorMessage("Impossivel enviar attach"+
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+        mailobject.addErrorMessage(MessageLocalizer.getMessage("UNABLE_TO_SEND_ATTACH")+
         "<span style='display:none'>" + e.getMessage() +
         "</span>"
         );
@@ -561,11 +564,11 @@ public class boMail extends mail
       }
       catch(Exception e)
       {            
-            mailobject.addErrorMessage("Ocorreu um erro inesperado a enviar a sua mensagem"+
+            mailobject.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_YOUR_MESSAGE")+
             "<span style='display:none'>" + e.getMessage() +
             "</span>"            
         );
-        logger.severe("Error: ", e);
+        logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
         return false;
       }
 /*    }
@@ -607,7 +610,7 @@ public class boMail extends mail
     }
     catch(MessagingException e)
     {
-      logger.severe("Erro reading mails: Deleting messages on the server \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);      
+      logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_DELETING_MESSAGES_ON_THE_SERVER_")+": "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);      
     }   
   }
   
@@ -652,7 +655,7 @@ public class boMail extends mail
     }
     catch (Exception e)
     {
-       logger.severe("Error: ", e);
+       logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       return 0;
     }
   }
@@ -690,7 +693,7 @@ public class boMail extends mail
             }
         }catch(Exception e)
         {
-            logger.warn("Erro ao efectuar o set das datas do email.", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_SETTING_EMAIL_DATE"), e);
         }
         
         //prioridade
@@ -810,7 +813,7 @@ public class boMail extends mail
                     }
                 }catch(Exception e)
                 {
-                    logger.warn("Erro devido a ligação a um objecto inexistente", e);
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"), e);
                 }
           }
           
@@ -903,16 +906,16 @@ public class boMail extends mail
         {
             try
             {
-                logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName() + " Email(subject - messageid):" +treatingEmail.getAttribute("name").getValueString() +" - "+treatingEmail.getAttribute("messageid").getValueString() +"\n"+e.getMessage(), e);
+                logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName() + " Email(subject - messageid):" +treatingEmail.getAttribute("name").getValueString() +" - "+treatingEmail.getAttribute("messageid").getValueString() +"\n"+e.getMessage(), e);
             }
             catch (Exception _e)
             {
-                logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+                logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
             }
         }
         else
         {
-            logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
         }
       }
       this.mailfolder.update();
@@ -934,28 +937,28 @@ public class boMail extends mail
       }
       catch (Exception e)
       {
-          logger.warn("Erro ao remover ficheiros temporários.", e);
+          logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REMOVING_TEMPORARY_FILES"), e);
       }
       return true;
     }
     catch (boRuntimeException e)
     {
-      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }
     catch (RemoteException e)
     {
-      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;      
     }
     catch(MessagingException e)
     {
-      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }   
     catch(IOException e)
     {
-      logger.severe("Erro reading mails: \n Account name: "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
+      logger.severe(LoggerMessageLocalizer.getMessage("ERROR_READING_MAILS_ACCOUNT_NAME")+" "+this.getPOPHost()+" "+this.getUserName()+"\n"+e.getMessage(), e);
       return false;
     }   
     
@@ -1336,7 +1339,7 @@ public class boMail extends mail
     }
     catch(Exception e)
     {
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       return null;
     }
   }
@@ -1450,7 +1453,7 @@ public class boMail extends mail
                  }
                  catch(Exception e)
                  {
-                    logger.warn("Erro devido a ligação a um objecto inexistente", e);
+                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"), e);
                  }
              }
         }
@@ -1713,7 +1716,7 @@ public class boMail extends mail
         }
         catch (Exception e)
         {
-            logger.warn("Erro devido a ligação a um objecto inexistente", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"), e);
         }
         
         

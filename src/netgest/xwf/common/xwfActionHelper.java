@@ -17,6 +17,7 @@ import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.controller.xwf.XwfKeys;
 import netgest.bo.controller.xwf.XwfValidator;
 import netgest.bo.impl.Ebo_QueueImpl;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.MessageServer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.AttributeHandler;
@@ -861,11 +862,11 @@ public final class xwfActionHelper
         xwfAnnounceImpl.addAnnounce(message, notify_user, xm.getProgram(), xm,true);
         if(xm.getDocHTML() != null)
         {
-            xm.getDocHTML().addErrorMessage("Error: Unexpected error, please contact the workflow administrator!!!");
+            xm.getDocHTML().addErrorMessage(MessageLocalizer.getMessage("ERROR_UNEXPECTED_ERROR_PLEASE_CONTACT_THE_WORKFLOW_ADMINISTRATOR"));
         }
         else
         {
-            logger.severe("Erro ao criar Announce",e);
+            logger.severe(MessageLocalizer.getMessage("ERROR_CREATING_ANNOUNCE"),e);
         }
       }
       catch(boRuntimeException ne)

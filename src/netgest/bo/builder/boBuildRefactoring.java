@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.builder;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 
@@ -67,9 +68,9 @@ public class boBuildRefactoring
                             csm = con.prepareCall(update);
                             n = csm.executeUpdate();
                             csm.close();
-                            logger.finest("Executed Query (" +
-                                sqls[j].getText() + ") updated " + n +
-                                " records.");
+                            logger.finest(LoggerMessageLocalizer.getMessage("EXECUTED_QUERY")+" (" +
+                                sqls[j].getText() + ") "+LoggerMessageLocalizer.getMessage("UPDATED")+" " + n +
+                                " "+LoggerMessageLocalizer.getMessage("RECORDS"));
                         }
                     }
 
@@ -77,8 +78,8 @@ public class boBuildRefactoring
                 }
                 catch (Exception e)
                 {
-                    logger.finest("Error (" + e.getMessage() +
-                        ") executing update(" + update + ").");
+                    logger.finest(LoggerMessageLocalizer.getMessage("ERROR")+" (" + e.getMessage() +
+                        ") "+LoggerMessageLocalizer.getMessage("EXECUTING_UPDATE")+"(" + update + ").");
                 }
             }
         }

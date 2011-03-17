@@ -7,6 +7,7 @@ import netgest.bo.def.*;
 
 import netgest.bo.impl.templates.XMLExpressionTokenizer;
 import netgest.bo.impl.templates.boExpressionException;
+import netgest.bo.localizations.MessageLocalizer;
 
 import netgest.bo.runtime.*;
 import netgest.bo.runtime.templates.CodeTokenizer;
@@ -26,9 +27,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import java.util.*;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 
 public class boExpressionEval
@@ -190,7 +188,7 @@ public class boExpressionEval
         }
         else
         {
-            throw new boExpressionException("Attribute expression refers a object witch is no in the context table.");
+            throw new boExpressionException(MessageLocalizer.getMessage("ATTRIBUTE_EXPRESSION_REFERS_A_OBJECT_WITCH_IS_NOT_IN_THE_CONTEXT_TABLE"));
         }
 
         return result.toString();
@@ -247,7 +245,7 @@ public class boExpressionEval
             }
             catch (NumberFormatException e)
             {
-                throw new RuntimeException("Cannor parse date value [" + expr + "] ");
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_PARSE_DATE_VALUE")+" [" + expr + "] ");
             }
         }
 

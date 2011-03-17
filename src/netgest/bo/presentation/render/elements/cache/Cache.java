@@ -2,6 +2,8 @@ package netgest.bo.presentation.render.elements.cache;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class Cache
@@ -18,7 +20,7 @@ public class Cache
 
     public Cache(String cacheName, int minutes, int maxObjects, int gap)
     {
-        logger.finer("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap);
+        logger.finer(LoggerMessageLocalizer.getMessage("NEW_CACHE_CREATED")+":" + cacheName + " "+LoggerMessageLocalizer.getMessage("MINUTES")+":" + minutes + " "+LoggerMessageLocalizer.getMessage("MAX_OBJECTS")+":" + maxObjects + " "+LoggerMessageLocalizer.getMessage("GAP")+":" +gap);
         cache = new Hashtable();
         this.cacheName = cacheName;
         this.minutes = minutes;
@@ -28,7 +30,7 @@ public class Cache
 
     public String getState()
     {
-        logger.finer("New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap+" shrinkTimes:" +shrinkTimes);
+        logger.finer(LoggerMessageLocalizer.getMessage("NEW_CACHE_CREATED")+":" + cacheName + " "+LoggerMessageLocalizer.getMessage("MINUTES")+":" + minutes + " "+LoggerMessageLocalizer.getMessage("MAX_OBJECTS")+":" + maxObjects + " "+LoggerMessageLocalizer.getMessage("GAP")+":" +gap+" "+LoggerMessageLocalizer.getMessage("SHRINKTIMES")+":" +shrinkTimes);
         return "New Cache Created:" + cacheName + " minutes:" + minutes + " max_objects:" + maxObjects + " gap:" +gap+" shrinkTimes:" +shrinkTimes;
     }
 
@@ -49,19 +51,19 @@ public class Cache
 
     public void clear()
     {
-        logger.finer("Cache "+cacheName+" ("+cache.size()+") cleared");
+        logger.finer("Cache "+cacheName+" ("+cache.size()+") "+LoggerMessageLocalizer.getMessage("CLEARED"));
         cache.clear();
     }
 
     public void remove(String key)
     {
-        logger.finer("Cache removed Key("+key+")");
+        logger.finer(LoggerMessageLocalizer.getMessage("CACHE_REMOVED_KEY")+"("+key+")");
         cache.remove(key);
     }
 
     public void remove(long user)
     {
-        logger.finer("Cache "+cacheName+" removed user("+user+")");
+        logger.finer("Cache "+cacheName+" "+LoggerMessageLocalizer.getMessage("REMOVED_USER")+"("+user+")");
         Enumeration oEnum = cache.keys();
         CacheElement c = null;
         String k = null;
@@ -78,7 +80,7 @@ public class Cache
 
     public void removeWPrefix(String prefix)
     {
-        logger.finer("Cache "+cacheName+" removed explorers w prefix("+prefix+")");
+        logger.finer("Cache "+cacheName+" "+LoggerMessageLocalizer.getMessage("REMOVED_EXPLORERS_W_PREFIX")+"("+prefix+")");
         Enumeration oEnum = cache.keys();
         CacheElement c = null;
         String k = null;
@@ -107,13 +109,13 @@ public class Cache
 
         if( (getSize() ) >= maxObjects )
         {
-            logger.finer("["+cacheName+"] LRU Started running ");
+            logger.finer("["+cacheName+"] LRU "+LoggerMessageLocalizer.getMessage("STARTED_RUNNING"));
             if( !lruRunning )
             {
                 shrinkTimes++;
                 runLRU();
             }
-            logger.finer("["+cacheName+"] LRU ENDED running ");
+            logger.finer("["+cacheName+"] LRU "+LoggerMessageLocalizer.getMessage("ENDED_RUNNING"));
         }
     }
 
@@ -152,7 +154,7 @@ public class Cache
                 boolean runOne = false;
                 while(!runOne || (getSize() > maxObjects && run <= 3))
                 {
-                    logger.finer("["+cacheName+"] Started  cycle "+run+": " + getSize());
+                    logger.finer("["+cacheName+"] "+LoggerMessageLocalizer.getMessage("STARTED_CYCLE")+" "+run+": " + getSize());
                     runOne = true;
                     while (oEnum.hasMoreElements())
                     {
@@ -174,7 +176,7 @@ public class Cache
                         //vou tirar mais minutos para libertar memoria até ao GAP.
                         validTime -= Math.abs( minutes * 60000 );
                     }
-                    logger.finer("["+cacheName+"] ENDED cycle "+run+": " + getSize());
+                    logger.finer("["+cacheName+"] "+LoggerMessageLocalizer.getMessage("STARTED_CYCLE")+" "+run+": " + getSize());
                 }
 
                 if( shrinkTimes > 20 )

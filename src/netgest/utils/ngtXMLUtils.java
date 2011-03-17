@@ -19,6 +19,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import netgest.bo.localizations.MessageLocalizer;
 import oracle.xml.parser.schema.XMLSchema;
 import oracle.xml.parser.schema.XSDBuilder;
 import oracle.xml.parser.v2.DOMParser;
@@ -59,11 +60,11 @@ public class ngtXMLUtils  {
       }
       catch (FileNotFoundException e)
       {
-          throw new RuntimeException( "Error file not found.\n"+e.getMessage() );
+          throw new RuntimeException( MessageLocalizer.getMessage("ERROR_FILE_NOT_FOUND")+e.getMessage() );
       }
       catch (IOException e)
       {
-          throw new RuntimeException( "Error writing to ["+file.getAbsolutePath()+"].\n"+e.getMessage() );
+          throw new RuntimeException( MessageLocalizer.getMessage("ERROR_WRITING_TO")+" ["+file.getAbsolutePath()+"].\n"+e.getMessage() );
       }
   }
   public static XMLDocument loadXML(InputStream input)
@@ -74,11 +75,11 @@ public class ngtXMLUtils  {
             return (XMLDocument)xmldoc;
         } 
         catch (IOException e) { 
-            throw new RuntimeException("Erro de IO no InputStream XML\n"+e.getMessage()+"\n"+e.getMessage()+"\n XML Source:\n"+input);
+            throw new RuntimeException(MessageLocalizer.getMessage("IO_ERROR_IN_THE_XML_INPUTSTREAM")+e.getMessage()+"\n"+e.getMessage()+"\n XML Source:\n"+input);
         }
         catch (SAXException e) 
         { 
-            throw new RuntimeException("Erro no parsing do XML"+e.getMessage()+"\n"+e.getMessage()+"\n XML Source:\n"+input);
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+e.getMessage()+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+input);
         }      
   }
   
@@ -99,11 +100,11 @@ public class ngtXMLUtils  {
             return (XMLDocument)xmldoc;
         } 
         catch (IOException e) { 
-            throw new RuntimeException("Erro de IO no ficheiro XML\n"+e.getMessage()+"\n"+e.getMessage()+"\n XML Source:\n"+filename);
+            throw new RuntimeException(MessageLocalizer.getMessage("XML_FILE_IO_ERROR")+e.getMessage()+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+filename);
         }
         catch (SAXException e) 
         { 
-            throw new RuntimeException("Erro no parsing do XML"+e.getMessage()+"\n"+e.getMessage()+"\n XML Source:\n"+filename);
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+e.getMessage()+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+filename);
         }
   }  
   
@@ -117,10 +118,10 @@ public class ngtXMLUtils  {
             return xmlp.getDocument();
         } 
         catch (IOException e) { 
-            throw(new RuntimeException("Erro de IO no ficheiro XML\n"+e.getMessage()+"\n XML Source:\n"+filename));
+            throw(new RuntimeException(MessageLocalizer.getMessage("XML_FILE_IO_ERROR")+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+filename));
         }
         catch (SAXException e) { 
-            throw(new RuntimeException("Erro no parsing do XML"+e.getMessage()+"\n XML Source:\n"+filename));
+            throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+filename));
         }
   }  
   
@@ -131,7 +132,7 @@ public class ngtXMLUtils  {
           xml.print(bo,"UTF-8");
           return bo.toByteArray();
       } catch (IOException e) {
-              throw new RuntimeException("Erro a extrair XML do XMLDocument"+"\n"+"Utils.getXML");
+              throw new RuntimeException(MessageLocalizer.getMessage("ERROR_EXTRACTING_XML_FROM_XMLDOCUMENT")+"\n"+"Utils.getXML");
       }
   }
   public static String getXML(XMLDocument xml) 
@@ -145,7 +146,7 @@ public class ngtXMLUtils  {
           cw.flush();
           return cw.toString();
       } catch(IOException e) {
-            throw new RuntimeException("Erro a extrair XML do XMLDocument"+"\n"+"Utils.getXML");
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_EXTRACTING_XML_FROM_XMLDOCUMENT")+"\n"+"Utils.getXML");
       }
   }
   public static XMLDocument loadXML(byte[] xmldoc) 
@@ -157,10 +158,10 @@ public class ngtXMLUtils  {
             return (XMLDocument)xml;
         } 
         catch (IOException e) { 
-            throw new RuntimeException("Erro no parsing do XML\n"+e.getMessage()+"\n XML Source:\n"+xmldoc+"\n"+"Utils.loadXML");
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmldoc+"\n"+"Utils.loadXML");
         }
         catch (SAXException e) { 
-            throw new RuntimeException("Erro no parsing do XML\n"+e.getMessage()+"\n XML Source:\n"+xmldoc+"\n"+"Utils.loadXML");
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmldoc+"\n"+"Utils.loadXML");
         }
   }
   
@@ -188,10 +189,10 @@ public class ngtXMLUtils  {
             return (XMLDocument)xml;
         } 
         catch (IOException e) { 
-            throw new RuntimeException("Erro no parsing do XML\n"+e.getMessage()+"\n XML Source:\n"+xmldoc+"\n"+"Utils.loadXML");
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmldoc+"\n"+"Utils.loadXML");
         }
         catch (SAXException e) { 
-            throw new RuntimeException("Erro no parsing do XML\n"+e.getMessage()+"\n XML Source:\n"+xmldoc+"\n"+"Utils.loadXML");
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmldoc+"\n"+"Utils.loadXML");
         }
   }
   

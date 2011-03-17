@@ -9,6 +9,7 @@ import java.util.Iterator;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefBridge;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boAttributesArray;
@@ -127,7 +128,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                         catch( Exception e )
                         {
                             //ESTA A DAR UM ERRO AQUI QUANDO INDEXA UM XWFACTIVITYfill boui= 14964870
-                            logger.severe("ERRO A INDEXAR ACTIVIDADE "+bobj.getBoui() );
+                            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_INDEXING_THE_ACTIVITY")+" "+bobj.getBoui() );
                         }
                     }
                 }
@@ -585,7 +586,7 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                     } catch (Exception e) {
                         logger.severe(e);
                     }
-                    logger.finest("Tempo:" + (System.currentTimeMillis()-xx));
+                    logger.finest(LoggerMessageLocalizer.getMessage("TIME")+":" + (System.currentTimeMillis()-xx));
                 }
 
                 if(pages==1) {

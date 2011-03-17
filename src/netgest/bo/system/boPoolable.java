@@ -2,6 +2,7 @@
 package netgest.bo.system;
 import java.util.ArrayList;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 public abstract class boPoolable implements Cloneable 
@@ -84,7 +85,7 @@ public abstract class boPoolable implements Cloneable
         IsStateFull = true;
         if( this.owners.indexOf( owner ) == -1  ) 
         {
-            throw new RuntimeException("Cannot set statefull to a diferent context ");
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_SET_STATEFULL_TO_A_DIFFERENT_CONTEXT"));
         }
     }
     public boolean havePoolChilds()

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boAttributesArray;
@@ -95,7 +96,7 @@ public class BDIntegrity
                     }
                     catch(Exception e)
                     {
-                        logger.warn("Boui inválido: " + listBoui.get(i));
+                        logger.warn(LoggerMessageLocalizer.getMessage("INVALID_BOUI")+": " + listBoui.get(i));
                     }
                 }
             }
@@ -111,14 +112,14 @@ public class BDIntegrity
             {
                 toRet = verifyAll();
             }
-            logger.finest("Total de objectos para duplicar : " + objsToDupl);
+            logger.finest(LoggerMessageLocalizer.getMessage("TOTAL_OF_OBJECTS_TO_DUPLICATE")+" : " + objsToDupl);
         }
         catch(Exception e)
         {
             e.printStackTrace();
             toRet = -1;
         }
-        logger.finest("Terminou");
+        logger.finest(LoggerMessageLocalizer.getMessage("FINISHED"));
         return toRet;
     }
 
@@ -151,13 +152,13 @@ public class BDIntegrity
                             }
                             catch(Exception _e)
                             {
-                                logger.severe("?????????????????????????? objecto inválido: " + list.getCurrentBoui());
+                                logger.severe("?????????????????????????? "+LoggerMessageLocalizer.getMessage("INVALID_OBJECT")+": " + list.getCurrentBoui());
                             }
                             if(aux2 != null)
                             {
-                                logger.finest("*****Starting verifier for object: " + aux2.getBoui());
+                                logger.finest("*****"+LoggerMessageLocalizer.getMessage("STARTING_VERIFIER_FOR_OBJECT")+": " + aux2.getBoui());
                                 verifierDuplicatedNoOrphans(aux2);
-                                logger.finest("*****Ending verifier for object: " + aux2.getBoui());
+                                logger.finest("*****"+LoggerMessageLocalizer.getMessage("ENDING_VERIFIER_FOR_OBJECT")+": " + aux2.getBoui());
                             }
                         }
                         catch(Exception e)
@@ -273,26 +274,26 @@ public class BDIntegrity
                                 else
                                 {
                                     if(DEBUG)
-                                        logger.finest("Attribute: " + attH.getName() + " (multiparent)");
+                                        logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE")+": " + attH.getName() + " (multiparent)");
                                 }
                             }
                             else
                             {
                                 if(DEBUG)
-                                    logger.finest("Attribute: " + attH.getName() + " (orphan)");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE")+": " + attH.getName() + " (orphan)");
                             }
                         }
                         else
                         {
                             if(DEBUG)
-                                logger.finest("Attribute: " + attH.getName() + " (null value)");
+                                logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE")+": " + attH.getName() + " (null value)");
                         }
                     }
                 }
                 else
                 {
                     if(DEBUG)
-                        logger.finest("Attribute: " + attH.getName() + " (not to treat)");
+                        logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE")+": " + attH.getName() + " (not to treat)");
                 }
             }
             else
@@ -461,7 +462,7 @@ public class BDIntegrity
                         if(isInListClone(aux.getName()))
                         {
                             objsToDupl++;
-                            logger.finest("Object should be duplicated");
+                            logger.finest(LoggerMessageLocalizer.getMessage("OBJECT_SHOULD_BE_DUPLICATED"));
                         }
                     }
                     else
@@ -471,7 +472,7 @@ public class BDIntegrity
                             if(isInListClone(aux.getName()))
                             {
                                 objsToDupl++;
-                                logger.finest("Going to duplicate object: " + aux.getBoui() + " of type: " + aux.getName());
+                                logger.finest(LoggerMessageLocalizer.getMessage("GOING_TO_DUPLICATE_OBJECT")+": " + aux.getBoui() + " "+LoggerMessageLocalizer.getMessage("OF_TYPE")+": " + aux.getName());
                                 ctx.beginContainerTransaction();
                                 newObject = boObject.getBoManager().createObject(ctx, aux);
                                 //logger.finest("Finished duplication new object identification: " + newObject.getBoui() + " of type: " + newObject.getName());
@@ -496,20 +497,20 @@ public class BDIntegrity
                             }
                         }catch(Exception e)
                         {
-                            logger.severe("ERRO INESPERADO: ", e);
+                            logger.severe(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+": ", e);
                         }
                     }
                 }
                 else
                 {
                     if(DEBUG)
-                        logger.finest("Object/Attribute is correct.");
+                        logger.finest(LoggerMessageLocalizer.getMessage("OBJECT_ATTRIBUTE_IS_CORRECT"));
                 }
             }
             else
             {
                 if(DEBUG)
-                    logger.finest("Object not to treat.");
+                    logger.finest(LoggerMessageLocalizer.getMessage("OBJECT_NOT_TO_TREAT"));
             }
         }
         catch(boRuntimeException _e)
@@ -561,7 +562,7 @@ public class BDIntegrity
                     else
                     {
                         if(DEBUG)
-                            logger.finest("Bridge doesn't have attributes.");
+                            logger.finest(LoggerMessageLocalizer.getMessage("BRIDGE_DOESNT_HAVE_ATTRIBUTES"));
                     }
                     try
                     {
@@ -571,7 +572,7 @@ public class BDIntegrity
                     {
                         if(r != null)
                         {
-                            logger.finest("Erro inesperado: " + r.getMessage());
+                            logger.finest(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR")+": " + r.getMessage());
                         }
                         //ignore
                     }
@@ -582,21 +583,21 @@ public class BDIntegrity
                             if (!lineObject.getBoDefinition().getBoHaveMultiParent())
                             {
                                 if(DEBUG)
-                                    logger.finest("Started verifying bridge valueObject.");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("STARTED_VERIFYING_BRIDGE_VALUEOBJECT"));
                                 verifyObject(parent,bh, attH, lineObject, bh.getDefAttribute().getBridge().getBoPhisicalMasterTable(), "child$");
                                 if(DEBUG)
-                                    logger.finest("Ended verifying bridge valueObject.");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("ENDED_VERIFYING_BRIDGE_VALUEOBJECT"));
                             }
                             else
                             {
                                 if(DEBUG)
-                                    logger.finest("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (multiparent)");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("OBJECT")+": " + lineObject.getBoui() + " "+LoggerMessageLocalizer.getMessage("OF_TYPE")+": " + lineObject.getBoDefinition().getName() + " (multiparent)");
                             }
                         }
                         else
                         {
                             if(DEBUG)
-                                logger.finest("Object: " + lineObject.getBoui() + " of type: " + lineObject.getBoDefinition().getName() + " (orphan)");
+                                logger.finest(LoggerMessageLocalizer.getMessage("OBJECT")+": " + lineObject.getBoui() + " "+LoggerMessageLocalizer.getMessage("OF_TYPE")+": " + lineObject.getBoDefinition().getName() + " (orphan)");
                         }
 
                     }

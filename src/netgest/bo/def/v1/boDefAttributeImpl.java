@@ -14,6 +14,8 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.system.Logger;
 import netgest.bo.transformers.Transformer;
@@ -285,19 +287,19 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
                 }
                 catch (InstantiationException e)
                 {
-                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
-                    throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe(LoggerMessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+"  (" + getTransformClassMapName() + ")");
+                    throw new boRuntimeException2(MessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+" (" + getTransformClassMapName() + ")");
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.severe("Transformer não identificado (" + getTransformClassMapName() + ")");
-                    throw new boRuntimeException2("Transformer não identificado (" + getTransformClassMapName() + ")");
+                    logger.severe(LoggerMessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+"  (" + getTransformClassMapName() + ")");
+                    throw new boRuntimeException2(MessageLocalizer.getMessage("UNIDENTIFIED_TRANSFORMER")+"  (" + getTransformClassMapName() + ")");
                 }
             }
             catch (ClassNotFoundException e)
             {
-                logger.severe("Interface Class Map (" + getTransformClassMapName() + ") not found");
-                throw new boRuntimeException2("Interface Class Map (" + getTransformClassMapName() + ") not found");
+                logger.severe(LoggerMessageLocalizer.getMessage("INTERFACE_CLASS_MAP")+" (" + getTransformClassMapName() + ") "+LoggerMessageLocalizer.getMessage("NOT_FOUND"));
+                throw new boRuntimeException2("Interface Class Map (" + getTransformClassMapName() + ") "+MessageLocalizer.getMessage("NOT_FOUND"));
             }
         }
         return null;
@@ -1486,7 +1488,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute
                 }
                 else
                 {
-                    throw new RuntimeException("Bug in ( Standart Attributes ) in boDefAttribute.needsClass" );                    
+                    throw new RuntimeException(MessageLocalizer.getMessage("BUG_IN__INBODEFATTRIBUTE_NEEDSCLASS") );                    
                 }
             }
         }

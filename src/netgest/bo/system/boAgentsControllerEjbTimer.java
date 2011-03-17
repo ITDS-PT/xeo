@@ -13,6 +13,8 @@ import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 
 import netgest.bo.boConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimer;
 import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimerHome;
 
@@ -56,7 +58,7 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
             }
             catch (Exception e)
             {
-                logger.warn("Error Starting XEO EJBTimer(s)",e);
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_STARTING_XEO_EJBTIMER"),e);
             }
         }
     }
@@ -88,7 +90,7 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
             try
             {
                 String tname = "XEO EjbTimer [" + name  +"]";
-                logger.finest("Starting " + tname );
+                logger.finest(LoggerMessageLocalizer.getMessage("STARTING")+" " + tname );
                 Context ic = new InitialContext();
                 Object objref =
                     ic.lookup("java:comp/env/"+ ejbName);   
@@ -99,20 +101,20 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
                 timerejb.start(name);
                 timerejb.remove();
                 ic.close();
-                logger.finest("Started "+tname);
+                logger.finest(LoggerMessageLocalizer.getMessage("STARTED")+""+tname);
                 this.activeEJBTimers.put(name,timerejb);
             }
             catch (NamingException e) {
-                logger.warn("Error Looking Up XEO EjbTimer ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_LOOKING_UP_TO_XEO_EJBTIMER")+" ["+name+"]");
             }
             catch (CreateException e) {
-                logger.warn("Error Creating XEO EjbTimer ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_CREATING_XEO_EJBTIMER")+" ["+name+"]");
             }
             catch (RemoteException e) {
-                logger.warn("Error Executing XEO EjbTimer ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_EXECUTING_XEO_EJBTIMER")+" ["+name+"]");
             }   
             catch (RemoveException e) {
-                logger.warn("Error Removing XEO EjbTimer ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REMOVING_XEO_EJBTIMER")+" ["+name+"]");
             }               
         }
         
@@ -173,7 +175,7 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
     
     public void join() {
     
-        System.out.println("XEO EJBTimer Agent Controler JOIN METHOD");
+        System.out.println("XEO EJBTimer "+MessageLocalizer.getMessage("AGENT_CONTROLLER")+" JOIN METHOD");
     }
     
     public void suspendAgents()
@@ -195,14 +197,14 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
         {
             xeoEJBTimer activeEJBTimer=(xeoEJBTimer)this.activeEJBTimers.get(name);
 
-            logger.finest("Stopping XEO EjbTimer ["+ name +"]");
+            logger.finest(LoggerMessageLocalizer.getMessage("STOPPING_XEO_EJBTIMER")+" ["+ name +"]");
             activeEJBTimer.suspend(name);    
             activeEJBTimers.remove(name);
-            logger.finest("Stopped XEO EjbTimer ["+ name +"]");
+            logger.finest(LoggerMessageLocalizer.getMessage("STOPPED_XEO_EJBTIMER")+" ["+ name +"]");
         }
         catch (RemoteException e)
         {
-            logger.warn("Error Stopping XEO EjbTimer [" + name+"]");
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_STOPPING_XEO_EJBTIMER")+" [" + name+"]");
         }      
     }
   

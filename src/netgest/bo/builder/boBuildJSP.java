@@ -12,6 +12,7 @@ import netgest.bo.def.boDefBridge;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefViewer;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 import netgest.utils.StringUtils;
@@ -3922,8 +3923,8 @@ public final class boBuildJSP {
                 xInstr2.appendChild(xBody.createTextNode(code.toString()));
             }
         } else {
-            logger.warn("Object " + objName + " referenced in " +
-                this.p_jspName + " not deployed");
+            logger.warn(LoggerMessageLocalizer.getMessage("OBJECT")+" " + objName + " "+LoggerMessageLocalizer.getMessage("REFERENCED_IN")+" " +
+                this.p_jspName + " "+LoggerMessageLocalizer.getMessage("NOT_DEPLOYED"));
         }
 
         if (xInstr != null) {
@@ -4523,7 +4524,7 @@ public final class boBuildJSP {
                                         atr.getReferencedObjectName() +
                                         " not HAVE VIEWER.FORM « " + xvName +
                                         "." + xFormName + " »*/ #END# ");
-                                        logger.warn("Requested FORM  " +
+                                        logger.warn(LoggerMessageLocalizer.getMessage("REQUESTED_FORM")+"  " +
                                             atr.getName() + ":" +
                                             atr.getReferencedObjectName() +
                                             "  « " + xvName + "." + xFormName +
@@ -4615,20 +4616,20 @@ public final class boBuildJSP {
                                     atr.getName() + ":" +
                                     atr.getReferencedObjectName() +
                                     " not HAVE VIEWER « " + xvName + " »*/ #END# ");
-                                    logger.warn("Requested VIEWER  " +
+                                    logger.warn(LoggerMessageLocalizer.getMessage("REQUESTED_VIEWER")+"  " +
                                         atr.getName() + ":" +
                                         atr.getReferencedObjectName() + "  « " +
                                         xvName + " » in " + this.p_jspName +
-                                        " NOT FOUND ");
+                                        " "+LoggerMessageLocalizer.getMessage("NOT_FOUND"));
                                 }
                             }
                         } else {
                             toReturn += ("#BEGIN# /* object " + atr.getName() +
                             ":" + atr.getReferencedObjectName() +
                             " not DEPLOYED */ #END# ");
-                            logger.warn("Requested object " + atr.getName() +
+                            logger.warn(LoggerMessageLocalizer.getMessage("REQUESTED_OBJECT")+" " + atr.getName() +
                                 ":" + atr.getReferencedObjectName() + " in " +
-                                this.p_jspName + " not DEPLOYED ");
+                                this.p_jspName + " "+LoggerMessageLocalizer.getMessage("NOT_DEPLOYED") );
                             not_deployed = true;
                         }
                     } else {

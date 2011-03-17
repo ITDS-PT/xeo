@@ -1,5 +1,7 @@
 package netgest.utils.sms;
 import netgest.bo.boConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 
 import netgest.utils.StringUtils;
@@ -35,7 +37,7 @@ public class SMSApi
             
             if (xnode == null) 
             {
-                throw new RuntimeException("Não foi indicado no ficheiro boconfig.xml a localização dos proxys SMS.");
+                throw new RuntimeException(MessageLocalizer.getMessage("SMS_PROXYS_LOCALIZATION_NOT_FOUND_IN_BOCONFIG"));
             }
             
             ngtXMLHandler[] childs = xnode.getChildNodes();
@@ -106,7 +108,7 @@ public class SMSApi
         }
         finally
         {
-            logger.finest("Envio de SMS para o número:"+number +" tempo(ms): " + (tf - ti));
+            logger.finest(LoggerMessageLocalizer.getMessage("SENDING_SMS_TO_NUMBER")+ ":"+number +" "+LoggerMessageLocalizer.getMessage("TIME")+"(ms): " + (tf - ti));
         }
         
         return true;

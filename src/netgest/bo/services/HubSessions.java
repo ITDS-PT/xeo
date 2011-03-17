@@ -2,6 +2,7 @@
 package netgest.bo.services;
 import java.util.*;
 import netgest.bo.system.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 
 public class HubSessions
@@ -27,11 +28,11 @@ public class HubSessions
       Date data=session.getTimeStamp();
       if (!isValid(data,new Date()))
       {
-        throw new boRuntimeException("The specified session timed out.","", null,"");
+        throw new boRuntimeException(MessageLocalizer.getMessage("THE_SPECIFIED_SESSION_TIMED_OUT"),"", null,"");
       }
     }
     else
-     throw new boRuntimeException("Invalid session id.","", null,"");
+     throw new boRuntimeException(MessageLocalizer.getMessage("INVALID_SESSION_ID"),"", null,"");
 
     return session;
   }
@@ -45,7 +46,7 @@ public class HubSessions
       session.setTimeStamp(new Date());
     }
     else
-      throw new boRuntimeException("Invalid session id.","", null,"");
+      throw new boRuntimeException(MessageLocalizer.getMessage("INVALID_SESSION_ID"),"", null,"");
   }
 
   public static boolean isValid(Date d1,Date d2)

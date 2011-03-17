@@ -6,6 +6,7 @@ import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.impl.document.merge.MergeHelper;
 import netgest.bo.impl.document.print.PrintHelper;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
 import netgest.xwf.EngineGate;
@@ -139,7 +140,7 @@ public class LetterServer implements MediaServer
         }
         if(MessageUtils.isToWaitResponse(originalMessage) && receivers.size() > 0)
         {
-            logger.finer("Vou criar o wait para msg!");
+            logger.finer(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_WAIT_FOR_MSG"));
             originalMessage.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
             try
             {

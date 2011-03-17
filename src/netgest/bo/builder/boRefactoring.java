@@ -27,9 +27,9 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefViewer;
 import netgest.bo.def.v1.boDefHandlerImpl;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boRepository;
 
 import netgest.bo.transformers.*;
@@ -86,7 +86,7 @@ public class boRefactoring
                 pathProvider.put(theFile);
                 if(theFile == null)
                 {
-                    logger.finest("Objecto inexistente.");
+                    logger.finest(LoggerMessageLocalizer.getMessage("NONEXISENT_OBJECT"));
                     return;
                 }
                 else
@@ -104,7 +104,7 @@ public class boRefactoring
                 }
                 else
                 {
-                    logger.finest(files[i].getAbsolutePath() + " ERROR: Can't write.");
+                    logger.finest(files[i].getAbsolutePath() + " "+LoggerMessageLocalizer.getMessage("ERROR_CANT_WRITE"));
                 }
             }
         }
@@ -127,7 +127,7 @@ public class boRefactoring
             File bodef = new File(p_bcfg.getDefinitiondir()); 
             File[] files = p_repository.getXMLFiles();
             pathProvider.put( files);
-            logger.finest("Files that will be changed by this refactoring: ");
+            logger.finest(LoggerMessageLocalizer.getMessage("FILES_THAT_WILL_BE_CHANGED_BY_THIS_REFACTORING")+": ");
             File theFile = p_repository.getXMLFile( objName);
             if(theFile == null)
             {
@@ -135,7 +135,7 @@ public class boRefactoring
             }
             if(!theFile.canWrite() || !theFile.getParentFile().canWrite())
             {
-                logger.finest(theFile.getAbsolutePath() + " ERROR: Can't write.");
+                logger.finest(theFile.getAbsolutePath() + " "+LoggerMessageLocalizer.getMessage("ERROR_CANT_WRITE") );
                 noPermission = true;
             }            
             String boname= theFile.getName().substring(0, theFile.getName().indexOf("$"));
@@ -146,7 +146,7 @@ public class boRefactoring
             Stack stack;
             if(stackToRemove.size() > 0)
                 files = removeDeletes(stackToRemove, files);
-            logger.finest("Objects to Remove: ");
+            logger.finest(LoggerMessageLocalizer.getMessage("OBJECTS_TO_REMOVE")+": ");
             for(int i = 0; i < stackToRemove.size(); i++)
             {
                 stack = new Stack();
@@ -156,7 +156,7 @@ public class boRefactoring
             }
             File aux;
             ArrayList search = new ArrayList();
-            logger.finest("Objects that will be changed by this refactoring: ");
+            logger.finest(LoggerMessageLocalizer.getMessage("OBJECTS_THAT_WILL_BE_CHANGED_BY_THIS_REFACTORING")+": ");
             for(int i = 0; i < stackTochange.size(); i++)
             {
                 stack = (Stack)stackTochange.get(i);
@@ -167,7 +167,7 @@ public class boRefactoring
                     {
                         if(!aux.canWrite())
                         {
-                            logger.finest(aux.getAbsolutePath() + " ERROR: Can't write.");
+                            logger.finest(aux.getAbsolutePath() + " "+LoggerMessageLocalizer.getMessage("ERROR_CANT_WRITE"));
                             noPermission = true;
                         }
                         else
@@ -291,7 +291,7 @@ public class boRefactoring
             File bodef = new File(p_bcfg.getDefinitiondir()); 
             File[] files = p_repository.getXMLFiles();
             pathProvider.put( files);
-            logger.finest("Files that will be changed by this refactoring: ");
+            logger.finest(LoggerMessageLocalizer.getMessage("FILES_THAT_WILL_BE_CHANGED_BY_THIS_REFACTORING")+": ");
             File theFile = p_repository.getXMLFile(fromObj);
             if(theFile == null)
             {
@@ -299,7 +299,7 @@ public class boRefactoring
             }
             if(!theFile.canWrite() || !theFile.getParentFile().canWrite())
             {
-                logger.finest(theFile.getAbsolutePath() + " ERROR: Can't write.");
+                logger.finest(theFile.getAbsolutePath() + " "+LoggerMessageLocalizer.getMessage("ERROR_CANT_WRITE"));
                 return -4;
             }
             logger.finest(theFile.getAbsolutePath() );            
@@ -314,7 +314,7 @@ public class boRefactoring
                 aux = p_repository.getXMLFileFromDefinition((String)stack.pop());                
                 if(!aux.canWrite())
                 {
-                    logger.finest(aux.getAbsolutePath() + " ERROR: Can't write.");
+                    logger.finest(aux.getAbsolutePath() + " "+LoggerMessageLocalizer.getMessage("ERROR_CANT_WRITE"));
                     noPermission = true;
                 }
                 else
@@ -1468,7 +1468,7 @@ public class boRefactoring
                         catch (Exception e)
                         {
                             //vou ignorar
-                            logger.finest("Erro ao executar para a tabela: " + tableName + " column: " + columnName);
+                            logger.finest(LoggerMessageLocalizer.getMessage("ERROR_EXECUTING_FOR_TABLE")+": " + tableName + " "+LoggerMessageLocalizer.getMessage("COLUMN")+": " + columnName);
                         }
                     }
                     ps3.close();
@@ -1539,8 +1539,8 @@ public class boRefactoring
             rs.close();
             ps.close();
             boctx.commitContainerTransaction();
-            sb.append("N. de deletes: " + size  + "\n");
-            sb.append("Tempo total(seg): " + ((System.currentTimeMillis() - iT)/1000));
+            sb.append(MessageLocalizer.getMessage("NUMBER_OF_DELETES")+": " + size  + "\n");
+            sb.append(MessageLocalizer.getMessage("TOTAL_TIME")+": " + ((System.currentTimeMillis() - iT)/1000));
         }
         catch(Exception e)
         {            
@@ -2317,7 +2317,7 @@ public class boRefactoring
                         }
                         else
                         {
-                            logger.finest("Não foi efecutado update. [" + keyOnMidTab + ", " + bouiToTranform + "]");
+                            logger.finest(LoggerMessageLocalizer.getMessage("UPDATE_WAS_NOT_EXECUTED")+" [" + keyOnMidTab + ", " + bouiToTranform + "]");
                         }                        
                         ctx.commitContainerTransaction();
                     }
@@ -2337,7 +2337,7 @@ public class boRefactoring
                 
             }
             e.printStackTrace();
-            logger.finest("TERMINOU - COM ERROS");
+            logger.finest(LoggerMessageLocalizer.getMessage("FINISHED_WITH_ERRORS"));
             return -1;
         }
         finally
@@ -2389,7 +2389,7 @@ public class boRefactoring
                 }
             }
         }
-        logger.finest("TERMINOU - SEM ERROS");
+        logger.finest(LoggerMessageLocalizer.getMessage("FINISHED_WITHOUT_ERRORS"));
         return 0;
     }
  

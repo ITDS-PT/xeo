@@ -6,6 +6,8 @@ import java.util.Calendar;
 import javax.naming.InitialContext;
 import netgest.bo.controller.ControllerFactory;
 import netgest.bo.controller.xwf.XwfController;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.GarbageController;
 import netgest.bo.message.MessageServer;
 import netgest.bo.system.*;
@@ -89,7 +91,7 @@ public class xwfDefActivity extends Thread
         boolean deactivate = false;
         try
         {
-            logger.finest("Starting Agent for Def Actividade "+ p_defActivity.getAttribute("label").getValueString() );
+            logger.finest(MessageLocalizer.getMessage("STARTING_AGENT_FOR_DEF_ACTIVITY")+" "+ p_defActivity.getAttribute("label").getValueString() );
             
             InitialContext ic = new InitialContext();
             
@@ -134,7 +136,7 @@ public class xwfDefActivity extends Thread
         catch (Exception e)
         {
             deactivate = true;
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
         }
         boSession session = null;
         try
@@ -177,11 +179,11 @@ public class xwfDefActivity extends Thread
         }
         catch (boRuntimeException e)
         {
-            logger.warn("Error seting object to State Ready", e);
+            logger.warn(MessageLocalizer.getMessage("ERROR_SETTING_OBJECT_TO_STATE_READY"), e);
         }
         catch (Exception e)
         {
-            logger.warn("Error seting object to State Ready", e);
+            logger.warn(MessageLocalizer.getMessage("ERROR_SETTING_OBJECT_TO_STATE_READY"), e);
         }
         finally
         {
@@ -1390,7 +1392,7 @@ public class xwfDefActivity extends Thread
                 
                 boObject fillActv =
                             createActivity(bo_manag, defActivity,"xwfActivityFill", "0", "makeFinalReport", 
-                                "Elaborar Relatório Final", "Elaborar Relatório Final", "1", 
+                                MessageLocalizer.getMessage("MAKE_FINAL_REPORT"), "Elaborar Relatório Final", "1", 
                                null, "-1", "-1", "false", "false", "true", "true",
                                "true", defActivity.getAttribute("to").getObject(), 
                                null,getDeadLineDate(defActivity),vo,
@@ -1460,7 +1462,7 @@ public class xwfDefActivity extends Thread
                 
                 boObject fillActv =
                             createActivity(bo_manag, defActivity,"xwfActivityFill", "0", "makeReport", 
-                                "Elaborar Relatório", "Elaborar Relatório", "1", 
+                                MessageLocalizer.getMessage("MAKE_REPORT"), "Elaborar Relatório", "1", 
                                null, "-1", "-1", "false", "false", "true", "true",
                                "true", defActivity.getAttribute("to").getObject(), 
                                null,getDeadLineDate(defActivity),vo,
@@ -1508,7 +1510,7 @@ public class xwfDefActivity extends Thread
                     
                     boObject fillActv =
                                 createActivity(bo_manag, defActivity,"xwfActivityFill", "0", "makeFinalResume", 
-                                    "Elaborar Resumo Final", "Elaborar Resumo Final", "1", 
+                                    MessageLocalizer.getMessage("MAKE_FINAL_RESUME"), "Elaborar Resumo Final", "1", 
                                    null, "-1", "-1", "false", "false", "true", "true",
                                    "true", defActivity.getAttribute("to").getObject(), 
                                    null,getDeadLineDate(defActivity), vo,
@@ -1545,7 +1547,7 @@ public class xwfDefActivity extends Thread
                     
                     boObject fillActv =
                                 createActivity(bo_manag, defActivity,"xwfActivityFill", "0", "makeFinalReport", 
-                                    "Elaborar Relatório Final", "Elaborar Relatório Final", "1", 
+                                    MessageLocalizer.getMessage("MAKE_FINAL_REPORT"), "Elaborar Relatório Final", "1", 
                                    null, "-1", "-1", "false", "false", "true", "true",
                                    "true", defActivity.getAttribute("to").getObject(), 
                                    null,getDeadLineDate(defActivity),vo,
@@ -1578,7 +1580,7 @@ public class xwfDefActivity extends Thread
             if("makeFinalReport".equalsIgnoreCase(name) && notify)
             {
                 boObject objMessage = getReportObject(activity);
-                xwfAnnounceImpl.addAnnounce("Tarefas concluídas e o relatório final pedido já foi elaborado." , 
+                xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED_AND_MADE_REQUESTED_FINAL_REPORT") , 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,objMessage);
@@ -1586,7 +1588,7 @@ public class xwfDefActivity extends Thread
             else if("makeReport".equalsIgnoreCase(name) && notifyTask)
             {
                 boObject objMessage = getReportObject(activity);
-                xwfAnnounceImpl.addAnnounce("Tarefa concluída e o relatório pedido já foi elaborado." , 
+                xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED_AND_MADE_REQUESTED_REPORT") , 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,objMessage);
@@ -1594,7 +1596,7 @@ public class xwfDefActivity extends Thread
             else if("makeFinalResume".equalsIgnoreCase(name) && notifyTask)
             {
                 String objMessage = getResume(activity);
-                xwfAnnounceImpl.addAnnounce("Tarefas concluídas e o resumo final pedido já foi elaborado:\n" + objMessage , 
+                xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED_AND_MADE_REQUESTED_FINAL_RESUME") + objMessage , 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,defActivity);
@@ -1606,14 +1608,14 @@ public class xwfDefActivity extends Thread
             {
                 if(notify && "end".equalsIgnoreCase(toReturn))
                 {
-                    xwfAnnounceImpl.addAnnounce("Tarefa concluída." ,
+                    xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED") ,
                                         defActivity.getAttribute("assignedQueue").getObject(), 
                                         engine.getProgramRuntime(), 
                                         engine.getBoManager(),true,activity);
                 }
                 else if(notify && "resume".equalsIgnoreCase(toReturn))
                 {
-                    xwfAnnounceImpl.addAnnounce("Tarefa concluída e o resumo pedido já foi elaborado." , 
+                    xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED_AND_MADE_REQUESTED_RESUME"), 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,activity);
@@ -1625,7 +1627,7 @@ public class xwfDefActivity extends Thread
                 {
                     if("end".equalsIgnoreCase(taskReturn))
                     {
-                        xwfAnnounceImpl.addAnnounce("Tarefas concluídas." , 
+                        xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASKS_COMPLETED") , 
                                                 defActivity.getAttribute("assignedQueue").getObject(), 
                                                 engine.getProgramRuntime(),
                                                 engine.getBoManager(),true,activity);
@@ -1635,14 +1637,14 @@ public class xwfDefActivity extends Thread
                 {
                     if("resume".equalsIgnoreCase(taskReturn))
                     {
-                        xwfAnnounceImpl.addAnnounce("Tarefa concluída e o resumo pedido já foi elaborado." , 
+                        xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED_AND_MADE_REQUESTED_RESUME") , 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,activity);
                     }
                     else if("end".equalsIgnoreCase(taskReturn))
                     {
-                        xwfAnnounceImpl.addAnnounce("Tarefa concluída." , 
+                        xwfAnnounceImpl.addAnnounce(MessageLocalizer.getMessage("TASK_COMPLETED") , 
                                                 defActivity.getAttribute("assignedQueue").getObject() , 
                                                 engine.getProgramRuntime(), 
                                                 engine.getBoManager(),true,activity);

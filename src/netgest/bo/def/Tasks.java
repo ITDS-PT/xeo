@@ -14,6 +14,7 @@ import netgest.utils.ngtXMLUtils;
 
 import oracle.xml.parser.v2.XMLDocument;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class Tasks  
@@ -65,7 +66,7 @@ public class Tasks
         } 
         catch (Exception e) 
         {
-            logger.severe( "Isto indica um mau deployment ou ficheiro de tarefas inexistente : " + boConfig.getNgtHome() + File.separator + fileName);
+            logger.severe( LoggerMessageLocalizer.getMessage("THIS_INDICATES_A_BAD_DEPLOYMENT_OR_INEXISTENT_TASK_FILE")+" : " + boConfig.getNgtHome() + File.separator + fileName);
         }
     }
     private TaskProperties getProperties(ngtXMLHandler node)
@@ -124,7 +125,7 @@ public class Tasks
         }
         catch (ClassNotFoundException e)
         {
-            logger.severe( "Isto indica um mau deployment ou ficheiro de tarefa inexistente : " + className , e );            
+            logger.severe( LoggerMessageLocalizer.getMessage("THIS_INDICATES_A_BAD_DEPLOYMENT_OR_INEXISTENT_TASK_FILE")+" : " + className , e );            
         }        
         return object;
     }     

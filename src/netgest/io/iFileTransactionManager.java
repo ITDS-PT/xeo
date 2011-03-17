@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import netgest.bo.data.Driver;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
@@ -126,7 +127,7 @@ public class iFileTransactionManager extends Thread {
 		        }
 		        catch (Throwable e)
 		        {
-		            logger.severe( "Error cleaning iFile \n" +e.getMessage(), e );
+		            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_CLEANING_IFILE") +e.getMessage(), e );
 		        }
 		        finally
 		        {                  

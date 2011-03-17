@@ -18,6 +18,7 @@ import netgest.bo.def.boDefClsState;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.v2.boDefAttributeImpl;
 import netgest.bo.def.v2.boDefHandlerImpl;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectState;
 
@@ -71,7 +72,7 @@ public class boDefClsStateImpl extends boDefAttributeImpl implements boDefClsSta
             }
             return ret;
         } catch (Exception e) {
-            throw new RuntimeException("Error reading XML of ["+statename+"]\n",e);
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_READING_XML_OF")+" ["+statename+"]\n",e);
         }
     }
     

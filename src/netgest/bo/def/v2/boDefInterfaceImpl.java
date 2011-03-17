@@ -4,9 +4,11 @@ package netgest.bo.def.v2;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Properties;
 
 import netgest.bo.boConfig;
 import netgest.bo.builder.boBuilder;
@@ -16,7 +18,10 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefInterface;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefUtils;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boSessionUser;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
@@ -24,6 +29,7 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
+import org.omg.PortableServer.ImplicitActivationPolicy;
 import org.w3c.dom.Node;
 
 
@@ -36,6 +42,9 @@ import org.w3c.dom.Node;
  */
 public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterface
 {
+	
+	int i=0;
+	
     //logger
     private static Logger logger = Logger.getLogger("netgest.bo.def.boDefInterface");
     private String[] p_implObjects = null;
@@ -134,6 +143,46 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
             logger.severe(e);
         }
     }
+    /**
+     * translation
+     * 
+     * 
+     * 
+     */
+    public String getLabel(){
+    	String language = this.getBoLanguage();
+		String nome =this.getBoName();
+		//String iAttr=this.getName();
+	
+
+		
+		String lab=p_implName;
+		//String ATTRIBUTE_PROPERTY="attribute";
+		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
+		if(boUser.getLanguage()!=null);{			
+			language=boUser.getLanguage();			
+		}	
+		
+		 String label=boDefHandlerImpl.getTranslation(nome, lab,null, language,null,"label");
+		
+		 return label;  	
+    }
+    public String getDescription(){
+    	String language = this.getBoDefaultLanguage();
+		String nome =this.getBoName();
+		String AttributeName =this.getName();
+		String defaultValue=this.p_implName;
+		String ATTRIBUTE_PROPERTY="description";
+		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
+		
+		if(boUser.getLanguage()!=null);{			
+			language=boUser.getLanguage();			
+		}
+	  String label=	boDefHandlerImpl.getTranslation(nome, defaultValue, ATTRIBUTE_PROPERTY, language,AttributeName,"description");
+		return label;  	
+    }
+    ///////////////////
+    
     
     /**
      * 
@@ -169,12 +218,12 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
     	
     	HashSet<boDefHandler> result = new HashSet<boDefHandler>();
     	boDefHandler[] allObjects = boDefHandler.getAllBoDefinition();
-    	for (boDefHandler b : allObjects)
+    	for (boDefHandler defHandler : allObjects)
     	{
-    		String[] interfaceImpls = b.getImplements();
+    		String[] interfaceImpls = defHandler.getImplements();
     		for (String interfaceName : interfaceImpls){
     			if (interfaceName.equalsIgnoreCase(p_implName))
-    				result.add(b);
+    				result.add(defHandler);
     		}
     	}
     	String[] implementedInMe = getImplObjects();
@@ -345,9 +394,11 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
             doc = ngtXMLUtils.loadXMLFile(path);
             ret = new boDefInterfaceImpl(interfaceName, doc);
         }
-
+       
         return ret;
     }
+    
+    
     public static final void fillSystemAttribute(String interfaceName)
     {
         boDefInterface ret = null;
@@ -435,7 +486,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
             File xfile = new File( xmlFile );
             if( !xfile.exists() )
             {
-                logger.warn("Interface referenced in "+objName+" doesn't exist, expected ["+xmlFile+"]." );
+                logger.warn(LoggerMessageLocalizer.getMessage("INTERFACE_REFERENCED_IN")+" "+objName+" "+LoggerMessageLocalizer.getMessage("DOESNT_EXIST_EXPECTED")+" ["+xmlFile+"]." );
                 return;
             }
 

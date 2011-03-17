@@ -16,6 +16,7 @@ import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boRepository;
 
@@ -221,7 +222,7 @@ public final class boReferencesManager
         }
         catch (SQLException e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
         finally
         {
@@ -231,7 +232,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Execption cstm.close() Erro em "+boReferencesManager.class.getName()+".removeReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("EXCEPTION_CSTMCLOSE_ERROR_IN")+" "+boReferencesManager.class.getName()+".removeReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
         }
 
@@ -266,7 +267,7 @@ public final class boReferencesManager
         }
         catch (SQLException e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
         finally
         {
@@ -276,7 +277,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Execption cstm.close() Erro em "+boReferencesManager.class.getName()+".removeReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("EXCEPTION_CSTMCLOSE_ERROR_IN")+" "+boReferencesManager.class.getName()+".removeReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
         }
     }
@@ -379,7 +380,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                 throw new boRuntimeException2("Execption cstm.close() Erro em "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                 throw new boRuntimeException2(MessageLocalizer.getMessage("EXCEPTION_CSTMCLOSE_ERROR_IN")+" "+boReferencesManager.class.getName()+".daoUpdateReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
 //            try
 //            {
@@ -490,7 +491,7 @@ public final class boReferencesManager
         }
         catch (SQLException e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
         finally
         {
@@ -500,7 +501,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Erro rslt.close() em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_RSLTCLOSE_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
             try
             {
@@ -508,7 +509,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Erro pstm.close() em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_PSTMCLOSE_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
 //            try
 //            {
@@ -541,7 +542,7 @@ public final class boReferencesManager
         }
         catch (boRuntimeException e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".geObjectsFromBoui() \n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".geObjectsFromBoui() \n"+e.getClass().getName()+"\n"+e.getMessage());
         }
     }
 
@@ -625,7 +626,7 @@ public final class boReferencesManager
         }
         catch (Exception e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".getReferencedByObjects\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".getReferencedByObjects\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
     }
     
@@ -646,7 +647,7 @@ public final class boReferencesManager
         }
         catch (Exception e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".getReferencedByObjects\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".getReferencedByObjects\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
     }
 
@@ -724,7 +725,7 @@ public final class boReferencesManager
         }
         catch (SQLException e)
         {
-            throw new boRuntimeException2("Erro em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+            throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
         }
         finally
         {
@@ -734,7 +735,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Erro rslt.close() em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_RSLTCLOSE_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
             try
             {
@@ -742,7 +743,7 @@ public final class boReferencesManager
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Erro pstm.close() em "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_PSTMCLOSE_IN")+" "+boReferencesManager.class.getName()+".getReferences\n"+e.getClass().getName()+"\n"+e.getMessage());
             }
 //            try
 //            {

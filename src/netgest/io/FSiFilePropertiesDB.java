@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.io;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 public class FSiFilePropertiesDB  {
     private iFile p_path;
     public FSiFilePropertiesDB(iFile file) {
@@ -15,6 +17,6 @@ public class FSiFilePropertiesDB  {
     }
     public void loadDefinitions() {
         if(p_path.isDirectory())
-            throw new RuntimeException("Location of properties repository must be a directory");
+            throw new RuntimeException(MessageLocalizer.getMessage("LOCATION_OF_PROPERTIES_REPOSITORY_MUST_BE_A_DIRECTORY"));
     }
 }

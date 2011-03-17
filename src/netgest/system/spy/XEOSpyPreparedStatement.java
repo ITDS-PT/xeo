@@ -6,6 +6,9 @@ import java.sql.*;
 import java.math.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 
@@ -44,7 +47,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
             if( !xeoRs.isClosed() ){
                 xeoRs.close();
                 logger.warn("------------------------------------------------");
-                logger.warn("O ResultSet não foi fechado: " + xeoRs.getQuery() );
+                logger.warn(LoggerMessageLocalizer.getMessage("THE_CALLABLESTATEMENT_WAS_NOT_CLOSED")+": " + xeoRs.getQuery() );
                 xeoRs.printStackTrace();
                 logger.warn("------------------------------------------------");
             }
@@ -250,7 +253,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     /* we override this because the p6statement version will not be able to return
      * the accurate prepared statement or query information */
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        logger.warn("Metodo não preparado ! : " + getQueryFromPreparedStatement() );
+        logger.warn(LoggerMessageLocalizer.getMessage("METHOD_NOT_PREPARED")+" : " + getQueryFromPreparedStatement() );
         return new XEOSpyResultSet(passthru.getResultSet(), this, preparedQuery, getQueryFromPreparedStatement());
     }
 
@@ -358,7 +361,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     }
 
     private static void writeToLog(long time, String query){
-        logger.warn("Query demorada (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
+        logger.warn(LoggerMessageLocalizer.getMessage("DELAYED_QUERY")+" (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
 
     public void printStackTrace()
@@ -369,106 +372,106 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
     // Since JDK 1.6
     public void setAsciiStream(int parameterIndex,
                                InputStream x) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void setAsciiStream(int parameterIndex, InputStream x,
                                long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setBinaryStream(int parameterIndex,
                                 InputStream x) throws SQLException {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setBinaryStream(int parameterIndex, InputStream x,
                                 long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setBlob(int parameterIndex,
                         InputStream inputStream) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setBlob(int parameterIndex, InputStream inputStream,
                         long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setCharacterStream(int parameterIndex,
                                    Reader reader) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setCharacterStream(int parameterIndex, Reader reader,
                                    long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setClob(int parameterIndex,
                         Reader reader) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setClob(int parameterIndex, Reader reader,
                         long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void setNCharacterStream(int parameterIndex,
                                     Reader value) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setNCharacterStream(int parameterIndex, Reader value,
                                     long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setNClob(int parameterIndex, NClob value) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setNClob(int parameterIndex,
                          Reader reader) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setNClob(int parameterIndex, Reader reader,
                          long length) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setNString(int parameterIndex,
                            String value) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setRowId(int parameterIndex, RowId x) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void setSQLXML(int parameterIndex,
                           SQLXML xmlObject) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 }

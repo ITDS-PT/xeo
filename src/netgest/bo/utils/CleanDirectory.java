@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class CleanDirectory
@@ -43,13 +45,13 @@ public class CleanDirectory
                 }
                 catch (Exception e)
                 {
-                    logger.severe( "Erro a eliminar ficheiros temporarios 1:", e );
+                    logger.severe( LoggerMessageLocalizer.getMessage("ERROR_DELETING_TEMPORARY_FILES1"), e );
                 }
             }
         }
         catch (Exception e)
         {
-            logger.severe( "Erro a eliminar ficheiros temporarios 2:", e );
+            logger.severe( LoggerMessageLocalizer.getMessage("ERROR_DELETING_TEMPORARY_FILES2"), e );
         }
     }
     

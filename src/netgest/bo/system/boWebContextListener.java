@@ -2,6 +2,8 @@ package netgest.bo.system;
 import java.io.File;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class boWebContextListener implements ServletContextListener
@@ -15,7 +17,7 @@ public class boWebContextListener implements ServletContextListener
 
     public void contextInitialized(ServletContextEvent oServletContext )
     {
-        logger.finer("Initializing XEO.... ");
+        logger.finer(LoggerMessageLocalizer.getMessage("INITIALIZING_XEO"));
         boApplication.getApplicationFromStaticContext("XEO");
     }
 

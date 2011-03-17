@@ -19,9 +19,10 @@ import netgest.bo.data.DataSet;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefXeoCode;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.security.securityRights;
 
-    /**
+	/**
      * 
      * Represents the handler for an ordered collection attribute (1:N relation) also
      * known as a "bridge"
@@ -178,7 +179,7 @@ import netgest.bo.security.securityRights;
 
         public abstract void add(BigDecimal boui, byte type) throws boRuntimeException;
         public abstract void add(BigDecimal boui,int row, byte type) throws boRuntimeException;
-        /**
+         /**
          * 
          * 
          * Removes the currently selected {@link boObject} from the collection
@@ -260,7 +261,7 @@ import netgest.bo.security.securityRights;
             }
             catch (SQLException e)
             {
-                throw new boRuntimeException("bridgeHandler.getRow Searching boui ->"+bouiToSearch, "BO-3999", e);
+                throw new boRuntimeException("bridgeHandler.getRow "+MessageLocalizer.getMessage("SEARCHING")+" boui ->"+bouiToSearch, "BO-3999", e);
             }
             return toRet;
         }

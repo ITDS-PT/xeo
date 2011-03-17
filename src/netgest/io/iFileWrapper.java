@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.io.metadata.iMetadataItem;
 
@@ -160,15 +161,15 @@ public class iFileWrapper implements iFile {
         return p_ifile.getURI();
     }
     
-    public void     setDescription(String description) {throw new RuntimeException("setDescription:Not Impelemented");}
-    public String   getDescription() {throw new RuntimeException("getDescription:Not Impelemented");}
-    public void     setAuthor(String author) {throw new RuntimeException("setAuthor:Not Impelemented");}
-    public String   getAuthor() {throw new RuntimeException("getAuthor:Not Impelemented");}
-    public void     setCategory(String author) {throw new RuntimeException("setCategory:Not Impelemented");}
-    public String   getCategory() {throw new RuntimeException("getCategory:Not Impelemented");}
+    public void     setDescription(String description) {throw new RuntimeException("setDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getDescription() {throw new RuntimeException("getDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setAuthor(String author) {throw new RuntimeException("setAuthor:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getAuthor() {throw new RuntimeException("getAuthor:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setCategory(String author) {throw new RuntimeException("setCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getCategory() {throw new RuntimeException("getCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
     
-    public long     getKey() {throw new RuntimeException("getKey : Not Impelemented");}
-    public iFile     getCopy() {throw new RuntimeException("getCopy : Not Impelemented");}
+    public long     getKey() {throw new RuntimeException("getKey : "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public iFile     getCopy() {throw new RuntimeException("getCopy : "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
     
     public void setVersionUser(String user)
     {
@@ -223,7 +224,7 @@ public class iFileWrapper implements iFile {
 
 	@Override
 	public boolean addChild(iFile file) throws iFileException {
-		throw new iFileException("Not implemented");
+		throw new iFileException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
 	}
 
 	@Override

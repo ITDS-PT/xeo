@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.boRepository;
 
 import netgest.bo.system.Logger;
@@ -23,10 +24,11 @@ public class boBuildRepository
     public static final char VERSION_SEPARATOR = '$';
 
 
-    private static Hashtable packagesHash = null;
-    private static Hashtable filesHash    = null;
-    private static Hashtable allFiles     = null;
-
+    private static Hashtable packagesHash 					= null;
+    private static Hashtable filesHash    					= null;
+    private static Hashtable allFiles     					= null;
+    private static Hashtable<String,RepositoryFile> allTranslations 	= null;
+    
 
     private boRepository    p_repository;
     private File            deployDir;
@@ -37,9 +39,10 @@ public class boBuildRepository
         p_repository = repository;
         if( packagesHash == null )
         {
-            packagesHash = new Hashtable();
-            filesHash    = new Hashtable();
-            allFiles     = new Hashtable();
+            packagesHash 		= new Hashtable();
+            filesHash    		= new Hashtable();
+            allFiles     		= new Hashtable();
+            allTranslations 	= new Hashtable<String, RepositoryFile>();
             refresh();
         }
     }
@@ -54,6 +57,7 @@ public class boBuildRepository
             packagesHash = new Hashtable();
             filesHash    = new Hashtable();
             allFiles     = new Hashtable();
+            allTranslations 	= new Hashtable<String, RepositoryFile>();
             refresh();
         }
     }    
@@ -63,6 +67,7 @@ public class boBuildRepository
         packagesHash = null;
         filesHash    = null;
         allFiles     = null;
+        allTranslations = null;
     }
 
     public static void main( String[] args  )
@@ -103,10 +108,12 @@ public class boBuildRepository
                         file.id.endsWith( boBuilder.TYPE_INTERFACE )
                     )
                     {
-                        logger.warn("Multiple objects with same name found in different packages. This error was fired by the file ["+file.filePath.getAbsolutePath()+"], changes may not be detected or wrong file may be deployed");
+                        logger.warn(LoggerMessageLocalizer.getMessage("MULIPLE_OBJECTS_WITH_SAME_NAME_FOUND_IN_DIF_PACK_THIS_ERROR_WAS_FIRED_")+" ["+file.filePath.getAbsolutePath()+"], "+LoggerMessageLocalizer.getMessage("CHANGES_MAY_NOT_BE_DETECTED_OR_WRONG_FILE_MAY_BE_DEPLOYED"));
                     }
                 }
                 allFiles.put( file.id, file );
+                if ( file.id.endsWith("properties"))
+                	allTranslations.put(file.id, file);
             }
         }
     }
@@ -286,6 +293,17 @@ public class boBuildRepository
         return p_repository.getSchemaName();
     }
 
+    public File[] getFileTranslations(){
+    	
+    	Vector<File> ret = new Vector<File>();
+        Enumeration oEnum = allTranslations.elements();
+        while( oEnum.hasMoreElements() )
+        {
+            RepositoryFile file = ((RepositoryFile)oEnum.nextElement());
+            ret.add( file.filePath );
+        }
+        return (File[])ret.toArray( new File[ ret.size() ]  );
+    }
 
     public File[] getFilesToDeploy()
     {

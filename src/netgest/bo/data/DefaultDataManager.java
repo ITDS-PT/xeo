@@ -23,6 +23,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.boRepository;
 import netgest.bo.system.Logger;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.plugins.IDataManager;
 
 public class DefaultDataManager
@@ -311,7 +312,7 @@ public class DefaultDataManager
             if (e.getType() == WriterException.CONCURRENCY_FAILED)
             {
                 logger.finest(
-                    "Concurrency in data detected, trying to merge changes...");
+                   LoggerMessageLocalizer.getMessage("CONCURRENCY_IN_DATA_DETECTED_TRYING_TO_MERGE_CHANGES"));
 
                 if (retryConcurrency && mergeObjectData(object))
                 {

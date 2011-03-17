@@ -13,6 +13,8 @@ import netgest.bo.data.DataSet;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.data.ObjectDataManager;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.sorter.AttributeSorter;
 import netgest.bo.runtime.sorter.CardidSorter;
@@ -502,7 +504,7 @@ public class boObjectList extends boPoolable {
 			String fulltext, String[] letter_filter) {
 		boObjectList toReturn = boObjectList.list(ctx, "select " + objName
 				+ " where 1=0");
-		logger.finest("STARTED listOnlyUsingAlias");
+		logger.finest(LoggerMessageLocalizer.getMessage("STARTED_LISTONLYUSINGALIAS"));
 		long t1 = System.currentTimeMillis();
 		String alias[] = arrangeAlias(fulltext);
 		if (alias != null && alias.length > 0) {
@@ -541,7 +543,7 @@ public class boObjectList extends boPoolable {
 						pagesize, orderby, null, letter_filter, null,
 						boObjectList.FORMAT_MANY, true, true, true);
 				long t2 = System.currentTimeMillis();
-				logger.finest("listOnlyUsingAlias took "
+				logger.finest(LoggerMessageLocalizer.getMessage("LISTONLYUSINGALIAS_TOOK")+" "
 						+ (float) (Math.round((float) (t2 - t1) / 100f)) / 10f
 						+ "s");
 				return toReturn;
@@ -558,7 +560,7 @@ public class boObjectList extends boPoolable {
 		;
 		long t1 = System.currentTimeMillis();
 		String alias[] = arrangeAlias(fulltext);
-		logger.finer("STARTED listUsingAlias");
+		logger.finer(LoggerMessageLocalizer.getMessage("STARTED_LISTONLYUSINGALIAS"));
 		if (alias != null && alias.length > 0) {
 			StringBuffer sbBoql = new StringBuffer("select Ebo_Alias where ");
 			for (int i = 0; i < alias.length; i++) {
@@ -607,7 +609,7 @@ public class boObjectList extends boPoolable {
 					null, page, pagesize, orderby, fulltext, letter_filter,
 					null, boObjectList.FORMAT_MANY, true, true, true);
 			long t2 = System.currentTimeMillis();
-			logger.finer("listUsingAlias took "
+			logger.finer(LoggerMessageLocalizer.getMessage("LISTONLYUSINGALIAS_TOOK")+" "
 					+ (float) (Math.round((float) (t2 - t1) / 100f)) / 10f
 					+ "s");
 			return toReturn;
@@ -1516,8 +1518,7 @@ public class boObjectList extends boPoolable {
 					 */
 					if (ret!=null && ret.getBoui() != p_resultset.getLong(p_fieldname)) {
 						if (ret.getBoui() == 0) {
-							throw new RuntimeException(
-									"Internal error!!!! cannot add a object with boui [0]");
+							throw new RuntimeException(MessageLocalizer.getMessage("INTERNAL_ERROR_CANNOT_ADD_A_OBJECT_WITH_BOUI_"));
 						}
 						p_resultset.updateLong(p_fieldname, ret.getBoui());
 						p_resultset.updateRow();
@@ -1845,7 +1846,7 @@ public class boObjectList extends boPoolable {
 					}
 				}
 				long t1 = System.currentTimeMillis();
-				logger.finer("Tempo total " + (t1 - t0));
+				logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+" " + (t1 - t0));
 			} catch (Exception e) {
 				logger.severe("", e);
 			}
@@ -2142,7 +2143,7 @@ public class boObjectList extends boPoolable {
 			}
 		}
 		long t1 = System.currentTimeMillis();
-		logger.finer("Tempo total " + (t1 - t0));
+		logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+" " + (t1 - t0));
 	}
 
 	public void selectionSort(Comparator c) throws boRuntimeException {
@@ -2355,7 +2356,7 @@ public class boObjectList extends boPoolable {
 		boolean change = true;
 		boObject o1 = null, o2 = null;
 		while (change) {
-			logger.finer("1st");
+			logger.finer(LoggerMessageLocalizer.getMessage("FIRST_"));
 			print();
 			change = false;
 			for (int i = 1; i < this.getRowCount(); i++) {
@@ -2364,7 +2365,7 @@ public class boObjectList extends boPoolable {
 				this.moveTo(i + 1);
 				o2 = getObject();
 				if (c.compare(o1, o2) > 0) {
-					logger.finer("2st (" + (i) + "," + (i + 1) + ")");
+					logger.finer(LoggerMessageLocalizer.getMessage("SECOND_")+" (" + (i) + "," + (i + 1) + ")");
 					print();
 					swap(i, i + 1);
 					change = true;
@@ -2374,7 +2375,7 @@ public class boObjectList extends boPoolable {
 		}
 		print();
 		long t1 = System.currentTimeMillis();
-		logger.finer("Tempo total " + (t1 - t0));
+		logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+"l " + (t1 - t0));
 	}
 
 

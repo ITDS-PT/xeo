@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Enumeration;
 
 import netgest.bo.impl.Ebo_AnnounceImpl;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.boObject;
@@ -45,22 +46,22 @@ public abstract class actionObjectImpl extends boObjectState
             {
                 if (object.exists())
                 {
-                    message = "Pronta a ser aceite";
+                    message =MessageLocalizer.getMessage("READY_TO_E_ACCEPTED");
                 }
                 else
                 {
-                    message = "NOVA.Pronta a ser aceite";
+                    message = MessageLocalizer.getMessage("NEW_READY_TO_E_ACCEPTED");
                 }
             }
             else
             {
                 if (object.exists())
                 {
-                    message = "Ficou em espera";
+                    message =MessageLocalizer.getMessage("WAITING");
                 }
                 else
                 {
-                    message = "NOVA.Ficou em espera";
+                    message = MessageLocalizer.getMessage("NEW_WAITING");
                 }
             }
         }
@@ -73,11 +74,11 @@ public abstract class actionObjectImpl extends boObjectState
             {
                 if (object.exists())
                 {
-                    message = "Aceite.Ficou em espera";
+                    message = MessageLocalizer.getMessage("ACCEPTED_WAITING");
                 }
                 else
                 {
-                    message = "NOVA.Aceite.Ficou em espera";
+                    message = MessageLocalizer.getMessage("NEW_ACCEPTED_WAITING");
                 }
             }
             else if (pst1.equals("hold"))
@@ -85,22 +86,22 @@ public abstract class actionObjectImpl extends boObjectState
                 
                 if (object.exists())
                 {
-                    message = "Aceite.Ficou em suspensa";
+                    message = MessageLocalizer.getMessage("ACCEPTED_SUSPENDED");
                 }
                 else
                 {
-                    message = "NOVA.Aceite.Ficou suspensa";
+                    message = MessageLocalizer.getMessage("NEW_ACCEPTED_SUSPENDED");
                 }
             }
             else
             {
                 if (object.exists())
                 {
-                    message = "Aceite.Pronta a executar";
+                    message = MessageLocalizer.getMessage("ACCEPTED_READY_TO_EXECUTE");
                 }
                 else
                 {
-                    message = "NOVA.Aceite.Pronta a executar";
+                    message =MessageLocalizer.getMessage("NEW_ACCEPTED_READY_TO_EXECUTE");
                 }
             }
 
@@ -317,11 +318,11 @@ public abstract class actionObjectImpl extends boObjectState
             toRet = "create_" + pst1 + "-" + pst2;
             if (pst1.equals("started"))
             {
-                tooltip = " Actividade ainda não aceite ";
+                tooltip = MessageLocalizer.getMessage("ACTIVITY_NOT_YET_ACCEPTED");
             }
             else
             {
-                tooltip = " Actividade ainda não aceite e dependente de outras actividades ";
+                tooltip = MessageLocalizer.getMessage("ACTIVITY_NOT_YET_ACCEPTED_DEPENDS_FROM_OTHERS");
             }
         }
         else if (pstate.equals("open"))
@@ -331,15 +332,15 @@ public abstract class actionObjectImpl extends boObjectState
 
             if (pst1.equals("waitFor"))
             {
-                tooltip = " Actividade aceite mas depende de outras para poder ser finalizada ";
+                tooltip = MessageLocalizer.getMessage("ACTIVITY_ACCEPTED_BUT_DEPENDS_FROM_OTHERS_TO_BE_FINALIZED");
             }
             else if (pst1.equals("hold"))
             {
-                tooltip = " Actividade aceite e suspensa ";
+                tooltip = MessageLocalizer.getMessage("ACTIVITY_ACCEPTED_AND_SUSPENDED");
             }
             else
             {
-                tooltip = " Actividade aceite e a decorrer normalmente ";
+                tooltip = MessageLocalizer.getMessage("ACTIVITY_ACCEPTED_AND_PROCEEDING_NORMALLY");
             }
 
             toRet = "open_" + pst1 + "-" + pst2;

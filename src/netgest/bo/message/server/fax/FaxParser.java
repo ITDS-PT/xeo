@@ -12,6 +12,7 @@ import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.ejb.*;
 
 import netgest.bo.impl.document.print.PrintHelper;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.GarbageController;
 import netgest.bo.message.server.mail.*;
 import netgest.bo.message.utils.Attach;
@@ -21,10 +22,8 @@ import netgest.bo.message.utils.XEOIDUtil;
 import netgest.bo.runtime.*;
 
 import netgest.io.*;
-import netgest.io.FSiFile;
 
 import netgest.utils.*;
-import netgest.utils.ClassUtils;
 
 import netgest.utils.HTMLRemover;
 import netgest.xwf.EngineGate;
@@ -465,25 +464,25 @@ public class FaxParser
 
         try
         {
-            System.out.println("Assunto:" + f.getSubject()        );
-            System.out.println("Sucesso:" + f.sucessReport()      );
-            System.out.println("N fax: " + f.getFaxNumber()      );
-            System.out.println("Sender: " + f.getSender()         );
-            System.out.println("Sender Mail: " + f.getSenderMail()     );
-            System.out.println("Estado: " + f.getStatus()         );
-            System.out.println("Data de envio: " + f.getSentDate()       );
+            System.out.println(MessageLocalizer.getMessage("SUBJECT_") + f.getSubject()        );
+            System.out.println(MessageLocalizer.getMessage("SUCCESS")  + f.sucessReport()      );
+            System.out.println(MessageLocalizer.getMessage("FAX_NR")  + f.getFaxNumber()      );
+            System.out.println(MessageLocalizer.getMessage("SENDER")  + f.getSender()         );
+            System.out.println(MessageLocalizer.getMessage("SENDER_MAIL")  + f.getSenderMail()     );
+            System.out.println(MessageLocalizer.getMessage("STATE")  + f.getStatus()         );
+            System.out.println(MessageLocalizer.getMessage("SEND_DATE")  + f.getSentDate()       );
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             if(f.getSentDate() != null && !"".equals(f.getSentDate()))
-                System.out.println("Data de envio2: " + sdf.parse(f.getSentDate())      );
-            System.out.println("Velocidade: " + f.getSpeed()          );
-            System.out.println("Temp Ligação: " + f.getConnectionTime() );
-            System.out.println("Pags. Enviadas: " + f.getPagesSended()    );
-            System.out.println("Pags para Enviar: " + f.getNumberOfPages()  );
-            System.out.println("Resolução: " + f.getResolution()     );
-            System.out.println("Maq. Remota: " + f.getRemoteId()       );
-            System.out.println("N Linha: " + f.getLineNumber()     );
-            System.out.println("Tentativas: " + f.getRetries()        );
-            System.out.println("Descrição: " + f.getDescription()    );
+                System.out.println(MessageLocalizer.getMessage("SEND_DATE2")  + sdf.parse(f.getSentDate())      );
+            System.out.println(MessageLocalizer.getMessage("SPEED")  + f.getSpeed()          );
+            System.out.println(MessageLocalizer.getMessage("CONNECTION_TIME")  + f.getConnectionTime() );
+            System.out.println(MessageLocalizer.getMessage("PAGES_SEND")  + f.getPagesSended()    );
+            System.out.println(MessageLocalizer.getMessage("PAGES_TO_SEND")  + f.getNumberOfPages()  );
+            System.out.println(MessageLocalizer.getMessage("RESOLUTION")  + f.getResolution()     );
+            System.out.println(MessageLocalizer.getMessage("REMOTE_MACHINE")  + f.getRemoteId()       );
+            System.out.println(MessageLocalizer.getMessage("NUMBER_OF_LINES")  + f.getLineNumber()     );
+            System.out.println(MessageLocalizer.getMessage("TRIES")  + f.getRetries()        );
+            System.out.println(MessageLocalizer.getMessage("DESCRIPTION")  + f.getDescription()    );
     //        System.out.println(f.getContent()      );
         }
         catch (ParseException e)

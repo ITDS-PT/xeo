@@ -3,6 +3,7 @@ package netgest.bo.presentation.manager;
 
 import netgest.bo.*;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 
 import netgest.bo.utils.*;
@@ -261,7 +262,7 @@ public class uiObjectManager
         }
         else
         {
-            throw new boRuntimeException("uiObjectManager", "Tipo inesperado<" + type + ".", null);
+            throw new boRuntimeException("uiObjectManager", MessageLocalizer.getMessage("UNEXPECTED_TYPE")+"<" + type + ".", null);
         }
 
         return toRet;

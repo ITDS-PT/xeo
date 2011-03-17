@@ -28,6 +28,8 @@ import netgest.bo.boConfig;
 import netgest.bo.boDataSource;
 import netgest.bo.builder.boBuildDB;
 import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
@@ -1325,7 +1327,7 @@ public class SqlServerDBM extends OracleDBM {
 						try {
 							executeDDL(dml, node.getString("SCHEMA"));
 						} catch (Exception e) {
-							logger.warn("Error executing DDL (" + dml + ") "
+							logger.warn(LoggerMessageLocalizer.getMessage("ERROR_EXCUTING_DDL")+" (" + dml + ") "
 									+ e.getMessage());
 						}
 					}
@@ -1720,11 +1722,11 @@ public class SqlServerDBM extends OracleDBM {
 			cn.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Erro updating NGTDIC : "
+			throw new RuntimeException(MessageLocalizer.getMessage("ERROR_UPDATING_NGTDIC")+" : "
 					+ e.getClass().getName() + "\n" + e.getMessage());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Erro updating NGTDIC : "
+			throw new RuntimeException(MessageLocalizer.getMessage("ERROR_UPDATING_NGTDIC")+" : "
 					+ e.getClass().getName() + "\n" + e.getMessage());
 		}
 	}
@@ -1827,13 +1829,13 @@ public class SqlServerDBM extends OracleDBM {
 					// ignora: tentou colocar uma unique key que já existe com
 					// nome diferente
 				} else {
-					throw new SQLException("Error executing ddl:"
-							+ e.getMessage() + "\nDDL Statement was:\n" + dml);
+					throw new SQLException(MessageLocalizer.getMessage("ERROR_EXECUTING_DDL")+":"
+							+ e.getMessage() + "\n"+MessageLocalizer.getMessage("DDL_STATEMENT_WAS")+":\n" + dml);
 				}
 			} catch (Exception e) {
 				hasError = true;
-				throw new SQLException("Error executing ddl:" + e.getMessage()
-						+ "\nDDL Statement was:\n" + dml);
+				throw new SQLException(MessageLocalizer.getMessage("ERROR_EXECUTING_DDL")+":" + e.getMessage()
+						+ "\n"+MessageLocalizer.getMessage("DDL_STATEMENT_WAS")+":\n" + dml);
 			} finally {
 				if (csm != null)
 					csm.close();
@@ -2178,21 +2180,21 @@ public class SqlServerDBM extends OracleDBM {
 			}
 
 			if (!destexists && srcexists) {
-				logger.finest("Renaming table from [" + srcTableName + "] to ["
+				logger.finest(LoggerMessageLocalizer.getMessage("RENAMING_TABLE_FROM")+" [" + srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" ["
 						+ destTableName + "]");
 
 				CallableStatement cstm = cn.prepareCall("ALTER TABLE "
 						+ srcTableName + " RENAME TO " + destTableName);
 				cstm.execute();
 				cstm.close();
-				logger.finest(" Updating ngtdic... ");
+				logger.finest(LoggerMessageLocalizer.getMessage("UPDATING_NGTDIC"));
 				SqlServerDBM.createDictionaryFromTable(
 						new String[] { destTableName }, "DATA", cndef, cn);
-				logger.finest("done renaming");
+				logger.finest(LoggerMessageLocalizer.getMessage("DONE_RENAMING"));
 			} else {
-				logger.finest("Cannot rename table [" + srcTableName + "] to ["
+				logger.finest(LoggerMessageLocalizer.getMessage("CANNOT_RENAME_TABLE")+" [" + srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" ["
 						+ destTableName
-						+ "] because one of them does not exist.");
+						+ "] "+LoggerMessageLocalizer.getMessage("BECAUSE_ONE_OF_THEM_DOES_NOT_EXIST"));
 			}
 		} catch (Exception e) {
 			try {
@@ -2280,16 +2282,15 @@ public class SqlServerDBM extends OracleDBM {
 					sec++;
 
 					if (sec == 100) {
-						throw new RuntimeException(
-								"Please delete backlupo files, cannot create new");
+						throw new RuntimeException(MessageLocalizer.getMessage("PLEASE_DELETE_BACKLUPO_FILES_CANNOT_CREATE_NEW"));
 					}
 				}
 
-				logger.finest("---  RENAMING TABLE FROM  [" + srcTableName
-						+ "] TO [" + newtable + "]");
+				logger.finest("---  "+LoggerMessageLocalizer.getMessage("RENAMING_TABLE_FROM")+"  [" + srcTableName
+						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
 				ret = renameTable(p_eboctx, srcTableName, newtable);
-				logger.finest("---  END RENAMING TABLE FROM [" + srcTableName
-						+ "] TO [" + newtable + "]");
+				logger.finest("---  "+LoggerMessageLocalizer.getMessage("END_RENAMING_TABLE_FROM")+" [" + srcTableName
+						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
 			}
 		} catch (boRuntimeException e) {
 			throw e;
@@ -2322,8 +2323,7 @@ public class SqlServerDBM extends OracleDBM {
 					sec++;
 
 					if (sec == 100) {
-						throw new RuntimeException(
-								"Please delete backlupo files, cannot create new");
+						throw new RuntimeException(MessageLocalizer.getMessage("PLEASE_DELETE_BACKLUPO_FILES_CANNOT_CREATE_NEW"));
 					}
 
 					newtable = boBuildDB.encodeObjectName("BK"
@@ -2331,8 +2331,8 @@ public class SqlServerDBM extends OracleDBM {
 							+ srcTableName.toUpperCase());
 				}
 
-				logger.finest("---  CREATING A BACKUP OF [" + srcTableName
-						+ "] TO [" + newtable + "]");
+				logger.finest("---  "+LoggerMessageLocalizer.getMessage("CREATING_A_BACKUP_OF")+" [" + srcTableName
+						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
 				ret = copyDataToNewTable(p_eboctx, srcTableName, newtable,
 						null, false, 0);
 
@@ -2409,8 +2409,8 @@ public class SqlServerDBM extends OracleDBM {
 
 			if (srcexists && !destexists) {
 				if (log) {
-					logger.finest("Creating and copy Data from ["
-							+ srcTableName + "] to [" + destTableName + "]");
+					logger.finest(LoggerMessageLocalizer.getMessage("CREATING_AND_COPY_DATA_FROM")+" ["
+							+ srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + destTableName + "]");
 				}
 
 				CallableStatement cstm = cn
@@ -2425,7 +2425,7 @@ public class SqlServerDBM extends OracleDBM {
 				cstm.close();
 
 				if (log) {
-					logger.finest(" Updating ngtdic... ");
+					logger.finest(LoggerMessageLocalizer.getMessage("UPDATING_NGTDIC"));
 				}
 
 				// if( log ) dbmagf.loadTableFromDB( new String[] {
@@ -2434,7 +2434,7 @@ public class SqlServerDBM extends OracleDBM {
 				ret = true;
 			} else if (srcexists && destexists) {
 				if (log) {
-					logger.finest("Copy Data from [" + srcTableName + "] to ["
+					logger.finest(LoggerMessageLocalizer.getMessage("COPY_DATA_FROM")+" [" + srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" ["
 							+ destTableName + "]");
 				}
 
@@ -2505,7 +2505,7 @@ public class SqlServerDBM extends OracleDBM {
 					cstm.close();
 
 					if (log) {
-						logger.finest("done. [" + recs + "] records copied.");
+						logger.finest(LoggerMessageLocalizer.getMessage("DONE")+" [" + recs + "] "+LoggerMessageLocalizer.getMessage("RECORDS_COPIED"));
 					}
 				}
 
@@ -2584,7 +2584,7 @@ public class SqlServerDBM extends OracleDBM {
 		else if (colType.startsWith("TIMESTAMP"))
 			return "DATETIME";
 
-		throw new SQLException("DBMAGF - Tipo de dados desconhecido [" + oft
+		throw new SQLException("DBMAGF - "+MessageLocalizer.getMessage("UNKNOWN_DATA_TYPE")+" [" + oft
 				+ "]");
 	}
 
@@ -2634,7 +2634,7 @@ public class SqlServerDBM extends OracleDBM {
 		rslt.close();
 		pstm.close();
 		if (ret == null) {
-			throw new SQLException("Macrofield [" + macrofield + "] não existe");
+			throw new SQLException("Macrofield [" + macrofield + "] "+MessageLocalizer.getMessage("DOESNT_EXIST"));
 		}
 		return ret;
 	}
@@ -2670,13 +2670,13 @@ public class SqlServerDBM extends OracleDBM {
 				fout
 						.write("\n-------------------------------------------------------------------------------------------------------------------------------\n");
 				fout.write(ddl);
-				fout.write("-- EXECUTE RESULT : [" + result + "]");
+				fout.write("-- "+MessageLocalizer.getMessage("EXECUTE_RESULT")+": [" + result + "]");
 				fout.close();
 			}
 
 		} catch (Exception e) {
 			if (!loggerError) {
-				logger.warn("Cannot Log File DDl", e);
+				logger.warn(LoggerMessageLocalizer.getMessage("CANNOT_LOG_FILE_DDL"), e);
 			}
 			loggerError = true;
 		}

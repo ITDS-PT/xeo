@@ -11,6 +11,7 @@ import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 
 import netgest.utils.ClassUtils;
 
@@ -235,7 +236,7 @@ public class bridgeReverseHandler extends bridgeHandler {
 
     public boObjectList edit() throws boRuntimeException
     {
-        throw new RuntimeException("edit in dynamic bridges not supported yet");
+        throw new RuntimeException(MessageLocalizer.getMessage("EDIT_IN_DYNAMIC_BRIDGES_NOT_SUPPORTED_YET"));
     }
 
     public boolean remove() throws boRuntimeException
@@ -355,7 +356,7 @@ public class bridgeReverseHandler extends bridgeHandler {
             }
             catch (Exception e)
             {
-                throw new boRuntimeException2("Error reading dynamic bridge attribute.\n"+e.getClass().getName()+".getChildAttribute\n"+e.getMessage());
+                throw new boRuntimeException2(MessageLocalizer.getMessage("ERROR_READING_DYNAMIC_BRIDGE_ATTRIBUTE")+".\n"+e.getClass().getName()+".getChildAttribute\n"+e.getMessage());
             }
         }
 

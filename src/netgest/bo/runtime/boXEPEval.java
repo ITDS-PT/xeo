@@ -12,6 +12,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import netgest.bo.def.boDefXeoCode;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 import netgest.bo.xep.Xep;
 import netgest.xwf.core.xwfECMAparser;
@@ -102,7 +104,7 @@ public class boXEPEval
 		}
 		else
 		{
-			throw new RuntimeException("Cannot evaluate code, Language not implemented in boXEPEval.");
+			throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_EVAL_CODE_LANGUAGE_NOT_IMPLEMENTED_IN_BOXEPEVAL"));
 		}
 	}
 
@@ -155,7 +157,7 @@ public class boXEPEval
 		}
 		catch (Exception e)
 		{
-			logger.severe("Error evaluating Java Code:\n"+source,e);
+			logger.severe(LoggerMessageLocalizer.getMessage("ERROR_EVALUATING_JAVA_CODE")+source,e);
 			if( throwException )  
 			{
 				throw new RuntimeException(e);
@@ -200,7 +202,7 @@ public class boXEPEval
         } 
         catch (Exception ex) 
         {
-			logger.severe("Error evaluating Xep Code:\n"+source,ex);
+			logger.severe(LoggerMessageLocalizer.getMessage("ERROR_EVALUATING_XEP_CODE")+source,ex);
 			if( throwException )  
 			{
 				throw new RuntimeException(ex);

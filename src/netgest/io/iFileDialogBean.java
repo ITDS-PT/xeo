@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import netgest.utils.ObjectSorter;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 
@@ -93,9 +94,9 @@ public class iFileDialogBean {
     public String[] upLoadedResult;
 
     public static final String[] ERROR_MESSAGES = {
-                                    "Não foi possível reservar ficheiro",
-                                    "Não foi possível disponibilizar ficheiro",
-                                    "O Ficheiro especificado não existe!"
+                                    MessageLocalizer.getMessage("COULD_NOT_RESERVE_FILE"),
+                                    MessageLocalizer.getMessage("COULD_NOT_SET_FILE_AVAILABLE"),
+                                    MessageLocalizer.getMessage("THE_SPECIFIED_FILE_DOESNT_EXIST")
                                  };
     public static final byte ERROR_FILENOTFOUND=2;
     public static final byte ERROR_CHECKIN=1;

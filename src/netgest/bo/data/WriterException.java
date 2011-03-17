@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -25,12 +27,12 @@ public class WriterException extends Exception
      
      public static final String[] descriptions = 
      {
-         "Data connot be updated because it is inconsistent with the database.",
-         "Data was changed by another user.",
-         "An error occurs updating data.",
-         "PrimaryKey duplicated error.",
-         "Referenced keys found to the object.",
-         "UniqueKey duplicates error."
+         MessageLocalizer.getMessage("DATA_CANNOT_BE_UPDATED_BECAUSE_IT_IS_INCONSISTENT_W_DB"),
+         MessageLocalizer.getMessage("DATA_WAS_CHANGED_BY_ANOTHER_USER"),
+         MessageLocalizer.getMessage("AN_ERROR_OCCURS_UPDATING_DATA"),
+         MessageLocalizer.getMessage("PRIMARYKEY_DUPLICATED_ERROR"),
+         MessageLocalizer.getMessage("REFERENCED_KEYS_FOUND_TO_THE_OBJECT"),
+         MessageLocalizer.getMessage("UNIQUEKEY_DUPLICATES_ERROR")
      };
      
      private Throwable p_cause;

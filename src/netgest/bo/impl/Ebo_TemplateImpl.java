@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import java.util.*;
 import netgest.bo.def.*;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.templates.*;
 import netgest.utils.*;
 import oracle.xml.parser.v2.XMLNode;
 import netgest.bo.system.Logger;
 import org.w3c.dom.*;
 import netgest.bo.impl.templates.boExpressionEval;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 
 /**
  *
@@ -561,7 +561,7 @@ public abstract class Ebo_TemplateImpl extends boObject
         }
         catch (SQLException e)
         {
-            logger.warn("Error rebuilding Ebo_Template FullText index.\n"+e.getMessage());
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REBUILDING_EBO_TEMPLATE_FULLTEXT_INDEX")+".\n"+e.getMessage());
         }
         finally
         {

@@ -4,6 +4,9 @@ import java.util.*;
 import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class boRuntimeException extends Exception {
@@ -51,7 +54,7 @@ public class boRuntimeException extends Exception {
         p_code = code;
         p_baseexception = base;
         String xmsg = (String)p_errors.get(code);
-        p_message = src+":"+code+":"+(xmsg!=null? xmsg:"")+(base!=null? "\nErro Base:"+base.getMessage():"");
+        p_message = src+":"+code+":"+(xmsg!=null? xmsg:"")+(base!=null? "\n"+MessageLocalizer.getMessage("BASE_ERROR")+":"+base.getMessage():"");
         int i=0;
         if(args!=null) {
             for(i=0;i<args.length;i++) {
@@ -65,70 +68,70 @@ public class boRuntimeException extends Exception {
     private void initErrorCodes() {
        if(p_errors==null) {
             p_errors = new Hashtable();
-            p_errors.put("BO-3001","Error building objects\n :baserror");
-            p_errors.put("BO-3001","Error loading object [:1] with query [:2]\n :baserror");
-            p_errors.put("BO-3002","Error updating attribute [:1] on [:2]\n :baserror");
-            p_errors.put("BO-3003","Error reading attribute [:1] on [:2]\n :baserror");
-            p_errors.put("BO-3004","Error adding multi object attribute [:1] on [:2]\n :baserror");
-            p_errors.put("BO-3005","Error removing multi object attribute [:1] on [:2]\n :baserror");
-            p_errors.put("BO-3006","Error marshalling Object [:1] \n :baserror");
-            p_errors.put("BO-3007","Error Serializing XML \n :baserror");
-            p_errors.put("BO-3008","Error unmarshaling Object [:1] \n :baserror");
-            p_errors.put("BO-3009","Error binding field [:1] in Object [:2] \n :baserror");
-            p_errors.put("BO-3010","Object registry failed for Object [:1] \n :baserror");
+            p_errors.put("BO-3001",MessageLocalizer.getMessage("ERROR_BUILDING_OBJECTS"));
+            p_errors.put("BO-3001",MessageLocalizer.getMessage("ERROR_LOADING_OBJECT_WITH_QUERY"));
+            p_errors.put("BO-3002",MessageLocalizer.getMessage("ERROR_UPDATING_ATTRIBUTE_ON"));
+            p_errors.put("BO-3003",MessageLocalizer.getMessage("ERROR_READING_ATTRIBUTE_ON"));
+            p_errors.put("BO-3004",MessageLocalizer.getMessage("ERROR_ADDING_MULTI_OBJECT_ATTRIBUTE_ON"));
+            p_errors.put("BO-3005",MessageLocalizer.getMessage("ERROR_REMOVING_MULTI_OBJECT_ATTRIBUTE_ON"));
+            p_errors.put("BO-3006",MessageLocalizer.getMessage("ERROR_MARSHALLING_OBJECT"));
+            p_errors.put("BO-3007",MessageLocalizer.getMessage("ERROR_SERIALIZING_XML"));
+            p_errors.put("BO-3008",MessageLocalizer.getMessage("ERROR_UNMARSHALING_OBJECT"));
+            p_errors.put("BO-3009",MessageLocalizer.getMessage("ERROR_BINDING_FIELD_IN_OBJECT"));
+            p_errors.put("BO-3010",MessageLocalizer.getMessage("OBJECT_REGISTRY_FAILED_FOR_OBJECT"));
 
-            p_errors.put("BO-3011","BoKernel Error parsing Argument type [:1]");
-            p_errors.put("BO-3012","Error converting argument value from String to [:1] \n :baseerror");
-            p_errors.put("BO-3013","Error converting argument value.\n Data type not supported [:1] \n :baseerror");
+            p_errors.put("BO-3011",MessageLocalizer.getMessage("BOKERNEL_ERROR_PARSING_ARGUMENT_TYPE"));
+            p_errors.put("BO-3012",MessageLocalizer.getMessage("ERROR_CONVERTING_ARGUMENT_VALUE_FROM_STRING"));
+            p_errors.put("BO-3013",MessageLocalizer.getMessage("ERROR_CONVERTING_ARGUMENT_VALUE_DATA_TYPE_NOT_SUPPORTED"));
 
-            p_errors.put("BO-3014","Error marshalling Object arguments \n :baserror");
-            p_errors.put("BO-3015","Object with boui [:1] not found.");
+            p_errors.put("BO-3014",MessageLocalizer.getMessage("ERROR_MARSHALING_OBJECT_ARGUMENTS"));
+            p_errors.put("BO-3015",MessageLocalizer.getMessage("OBJECT_WITH_BOUI_NOT_FOUND"));
 
-            p_errors.put("BO-3016","Error updating Object [:1] \n :baserror");
-            p_errors.put("BO-3017","Cannot load a Object with multi results Object [:1] \n :baserror");
-            p_errors.put("BO-3018","Cannot load a Object with BOUI = 0.\n :baserror");
+            p_errors.put("BO-3016",MessageLocalizer.getMessage("ERROR_UPDATING_OBJECT"));
+            p_errors.put("BO-3017",MessageLocalizer.getMessage("CANNOT_LOAD_A_OBJECT_WITH_MULTI_RESULT_OBJECT"));
+            p_errors.put("BO-3018",MessageLocalizer.getMessage("CANNOT_LOAD_A_OBJECT_WITH_BOUI0"));
 
-            p_errors.put("BO-3019","Object doesn't exist [:1]");
-            p_errors.put("BO-3020","Class with boui [:1] does not exist.");
+            p_errors.put("BO-3019",MessageLocalizer.getMessage("OBJECT_DOESNT_EXIST"));
+            p_errors.put("BO-3020",MessageLocalizer.getMessage("CLASS_WITH_BOUI_DOES_NOT_EXIST"));
         
-            p_errors.put("BO-3021","Cannot save object because there are invalid attributes.\n [:1]");
-            p_errors.put("BO-3022","Cannot save object because it was changed by writed by another user \n [:1]");
-            p_errors.put("BO-3023","Cannot destroy object because there are database references keys for this. ( Foreign Keys ) \n [:1]");
+            p_errors.put("BO-3021",MessageLocalizer.getMessage("CANNOT_SAVE_OBJECT_BECAUSE_THERE_ARE_INVALID_ATTRIBUTES"));
+            p_errors.put("BO-3022",MessageLocalizer.getMessage("CANNOT_SAVE_OBJECT_BECAUSE_IT_WAS_CHANGED_BY_ANOTHER_USER"));
+            p_errors.put("BO-3023",MessageLocalizer.getMessage("CANNOT_DESTROI_OBJECT_BECAUSE_THERE_ARE_DATABASE_REF_KEY_FOR_THIS"));
 
-            p_errors.put("BO-3024","Cannot read a single value from a multi value attrribute [:1] ");
+            p_errors.put("BO-3024",MessageLocalizer.getMessage("CANNOT_READ_A_SIGLE_VALUE_FROM_A_MULTI_VALUE_ATTRIBUTE"));
 
-            p_errors.put("BO-3025","Error creating a Object from a exsting. :baserror");
+            p_errors.put("BO-3025",MessageLocalizer.getMessage("ERROR_CREATING_A_OBJECT_FROM_A_EXISTING"));
 
-            p_errors.put("BO-3050","Erro enqueing Object Operation \n :baserror");
-            p_errors.put("BO-3051","Error creating savepoint \n :baserror");
-            p_errors.put("BO-3052","Error rolling back Object \n :baserror");
+            p_errors.put("BO-3050",MessageLocalizer.getMessage("ERROR_ENQUEING_OBJECT_OPERATION"));
+            p_errors.put("BO-3051",MessageLocalizer.getMessage("ERROR_CREATING_SAVEPOINT"));
+            p_errors.put("BO-3052",MessageLocalizer.getMessage("ERROR_ROLLING_BACK_OBJECT"));
 
 
 //  Not used           p_errors.put("BO-3053","Cannot insert, object generate a duplicated Primary Keys in the table while inserting. \n [:1]");
-            p_errors.put("BO-3054","Cannot update/insert, object generate a duplicated Unique Key in the table while updating/inserting. \n [:1]");
-            p_errors.put("BO-3055","Error updating object data. \n :baseerror");
+            p_errors.put("BO-3054",MessageLocalizer.getMessage("CANNOT_UPDATEINSERT_OBJECT_GENERATE_DUPLICATE_UNIKEKEY_IN_"));
+            p_errors.put("BO-3055",MessageLocalizer.getMessage("ERROR_UPDATING_OBJECT_DATA"));
 
 
-            p_errors.put("BO-3056","Error registering external object data \n :baseerror");
+            p_errors.put("BO-3056",MessageLocalizer.getMessage("ERROR_REGISTERING_EXTERNAL_OBJECT_DATA"));
 
-            p_errors.put("BO-3999","Unexpected Error!!! \n :baseerror");
+            p_errors.put("BO-3999",MessageLocalizer.getMessage("UNEXPECTED_ERROR_"));
 
             
-            p_errors.put("BO-3100","Error loading viewer [:1]\n :baserror");
-            p_errors.put("BO-3110","Error loading MasterBolist [:1]\n :baserror");
-            p_errors.put("BO-3120","Error invoking method [:1]\n :baserror");
-            p_errors.put("BO-3121","Error creating transational [:1] \n :baserror");
-            p_errors.put("BO-3150","Error [:1] transaction \n :baserror");
-            p_errors.put("BO-3200","Error updating object [:1]. Not enough permissions.\n :baserror");
-            p_errors.put("BO-3210","Error deleting object [:1]. Not enough permissions.\n :baserror");
-            p_errors.put("BO-3220","Error reading object [:1]. Not enough permissions.\n :baserror");
-            p_errors.put("BO-3230","Error [:1]. Not enough permissions.\n :baserror");
+            p_errors.put("BO-3100",MessageLocalizer.getMessage("ERROR_LOADING_VIEWER"));
+            p_errors.put("BO-3110",MessageLocalizer.getMessage("ERROR_LOADING_MASTERBOLIST"));
+            p_errors.put("BO-3120",MessageLocalizer.getMessage("ERROR_INVOKING_METHOD"));
+            p_errors.put("BO-3121",MessageLocalizer.getMessage("ERROR_CREATING_TRANSATIONAL"));
+            p_errors.put("BO-3150",MessageLocalizer.getMessage("ERROR_TRANSACTION"));
+            p_errors.put("BO-3200",MessageLocalizer.getMessage("ERROR_UPDATING_OBJECT_NOT_ENOUGH_PERMISSIONS"));
+            p_errors.put("BO-3210",MessageLocalizer.getMessage("ERROR_DELETING_OBJECT_NOT_ENOUGH_PERMISSIONS"));
+            p_errors.put("BO-3220",MessageLocalizer.getMessage("ERROR_READING_OBJECT_NOT_ENOUGH_PERMISSIONS"));
+            p_errors.put("BO-3230",MessageLocalizer.getMessage("ERROR_NOT_ENOUGH_PERMISSIONS"));
         
             // ERRORS for WORKFLOW
-            p_errors.put("WKFL-000","A actualizar WF \n :baserror ");
-            p_errors.put("WKFL-001","Não é possível executar mudança de estado de [:1] para [:2] ");
+            p_errors.put("WKFL-000",MessageLocalizer.getMessage("UPDATING_WF"));
+            p_errors.put("WKFL-001",MessageLocalizer.getMessage("CANNOT_CHANGE_STATE_FROM_TO"));
             
-            p_errors.put("WKFL-002","Não é possível adicionar uma dependencia neste objecto [:1] ");
+            p_errors.put("WKFL-002",MessageLocalizer.getMessage("CANNOT_ADD_DEPEDENCY_TO_THIS_OBJECT"));
             
        }
     }
@@ -136,21 +139,21 @@ public class boRuntimeException extends Exception {
     public void printStackTrace() {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
-        logger.severe("Nexted expcetion is:", this);
+        logger.severe(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"), this);
         super.printStackTrace();
     }
 
     public void printStackTrace(PrintStream s) {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
-        s.println("Nexted expcetion is:");
+        s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"));
         super.printStackTrace(s);
     }
 
     public void printStackTrace(PrintWriter s) {
         // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
-        s.println("Nexted expcetion is:");
+        s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"));
         super.printStackTrace(s);
     }
 

@@ -6,6 +6,8 @@ import bsh.Modifiers;
 import bsh.NameSpace;
 
 import bsh.TargetError;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
 
@@ -33,8 +35,7 @@ public class JavaExecuter
         try {
             nsp.importPackage(importStr);
         } catch (Exception e) {
-            throw new boRuntimeException("JavaExecuter.addImport",
-                "Erro a parametrizar a execução do Namespace [" + name + "]", e);
+            throw new boRuntimeException("JavaExecuter.addImport",MessageLocalizer.getMessage("ERROR_AT_PARAMETERIZE_THE_IMPLEMENTATION_OF_THE_NAMESPACE")+" [" + name + "]", e);
         }
     }
 
@@ -43,8 +44,8 @@ public class JavaExecuter
         try {
             nsp.setTypedVariable(varName, varClass, varValue, modifiers);
         } catch (Exception e) {
-            throw new boRuntimeException("JavaExecuter.addType",
-                "Erro a parametrizar a execução do Namespace [" + name + "]", e);
+            throw new boRuntimeException("JavaExecuter.addType",MessageLocalizer.getMessage("ERROR_AT_PARAMETERIZE_THE_IMPLEMENTATION_OF_THE_NAMESPACE")+
+                " [" + name + "]", e);
         }
     }
 
@@ -80,11 +81,11 @@ public class JavaExecuter
             this.errorException = e;
             try
             {
-                logger.severe( "Error executing java code line#:" + e.getErrorLineNumber() + "\n" + this.javaCode );
+                logger.severe( LoggerMessageLocalizer.getMessage("ERROR_EXEUTING_JAVA_CODE_LINE")+"#:" + e.getErrorLineNumber() + "\n" + this.javaCode );
             }
             catch (Exception ex)
             {
-                logger.severe( "Erro dumping error.", e );
+                logger.severe( LoggerMessageLocalizer.getMessage("ERROR_DUMPING_ERROR"), e );
             }
             
             String lineNumber = "<uknown>";
@@ -127,11 +128,11 @@ public class JavaExecuter
             }
             catch (Exception ex)
             {
-                logger.severe( "Erro dumping error.", e );
+                logger.severe( LoggerMessageLocalizer.getMessage("ERROR_DUMPING_ERROR"), e );
             }
             
             this.errorMessage = 
-                    "Erro na execução " + e.getMessage() ;
+                    MessageLocalizer.getMessage("ERROR_EXECUTING")+ e.getMessage() ;
             return null;
         }
     }

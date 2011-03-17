@@ -10,13 +10,10 @@ import javax.naming.NamingException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.*;
-import netgest.bo.system.LoginManager;
-import netgest.bo.system.boApplication;
-import netgest.bo.system.boLoginException;
-import netgest.bo.system.boRepository;
 
 import netgest.utils.MD5Utils;
 
@@ -29,7 +26,7 @@ public class boDefaultLogin implements LoginManager
   public long boLogin( boApplication app, String repository , String username, long time, long timeCheck, HttpServletRequest request) throws boLoginException
   {
     //not implemented
-    throw new boLoginException("Not implemented");
+    throw new boLoginException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
   }
   
   public long boLogin(boApplication app, String repository,  String username,String password,HttpServletRequest request) throws boLoginException

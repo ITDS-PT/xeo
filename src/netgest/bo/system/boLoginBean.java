@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.login.boMD5Login;
@@ -67,12 +69,25 @@ public class boLoginBean implements SessionBean  {
           long perfboui=p_loginmanager.boLogin( app, repository, username,password,request);
           if (perfboui!=0)
           {
-//            boConfigRepository rep = boConfig.getConfigRepository(repos);
             boSession session = boLoginSystem(SystemKey,repository, app, request);
             ctx = session.createRequestContext(null,null,null);            
             boObject perf=boObject.getBoManager().loadObject(ctx,perfboui);
-
-            boSessionUser user = new boSessionUser( );
+   
+            
+            boSessionUser user = new boSessionUser( );      
+            
+            if(perf.getAttribute("user_language")!=null  && perf.getAttribute("user_language").getValueString() != "")
+            {
+	            user.language = perf.getAttribute("user_language").toString();
+	            
+	            long lang = Long.valueOf(user.language);
+	            boObject perfLang=boObject.getBoManager().loadObject(ctx,lang);
+	            
+	            user.language = perfLang.getAttribute("code").toString(); 
+            }
+            else
+            	user.language =null;
+            
             user.userName = perf.getAttribute("username").getValueString();
             user.boui = perfboui;
             user.email = perf.getAttribute("email").getValueString();
@@ -165,8 +180,18 @@ public class boLoginBean implements SessionBean  {
             boSession session = boLoginSystem(SystemKey,repository, app, request);
             ctx = session.createRequestContext(null,null,null);            
             boObject perf=boObject.getBoManager().loadObject(ctx,perfboui);
-
+            
+           
+           
             boSessionUser user = new boSessionUser( );
+            user.language=perf.getAttribute("language").toString();
+            //boObject perfLang=boObject.getBoManager().loadObject(ctx,user.language);
+            //if (perfLang.getAttribute("value").toString()!=null)
+            //user.language = perfLang.getAttribute("value").toString();
+            
+            //System.out.println(user.language);
+           // System.out.println(perfLang.getAttribute("value").toString());
+            
             user.userName = perf.getAttribute("username").getValueString();
             user.boui = perfboui;
             user.email = perf.getAttribute("email").getValueString();

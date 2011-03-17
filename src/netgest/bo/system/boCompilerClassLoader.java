@@ -1,7 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
 
 /**
  * 
@@ -76,12 +76,12 @@ public class boCompilerClassLoader extends ClassLoader
                 }
                 else
                 {
-                    throw new boRuntimeException2("Class ["+classname+"] must extends Class ["+xextends.getName()+"]");
+                    throw new boRuntimeException2(MessageLocalizer.getMessage("CLASS")+" ["+classname+"] "+MessageLocalizer.getMessage("MUST_EXTEND_CLASS")+" ["+xextends.getName()+"]");
                 }
             }
             else
             {
-                throw new boRuntimeException2("Class ["+classname+"] must implement interface ["+xinterface.getName()+"]");
+                throw new boRuntimeException2(MessageLocalizer.getMessage("CLASS")+" ["+classname+"] "+MessageLocalizer.getMessage("MUST_IMPLEMENT_INTERFACE")+" ["+xinterface.getName()+"]");
             }
         }
         catch (ClassNotFoundException e)

@@ -11,15 +11,11 @@ import netgest.bo.controller.basic.BasicController;
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.controller.xwf.XwfKeys;
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.server.FaxServer;
 import netgest.bo.message.server.LetterServer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.AttributeHandler;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boBridgeIterator;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.EngineGate;
@@ -230,7 +226,7 @@ public class PostInformation
                     }
                      catch (Exception e)
                     {
-                        logger.warn("Erro ao efectuar o set das datas do email.",
+                        logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DOING_THE_EMAIL_DATESET"),
                             e);
                     }
 
@@ -458,7 +454,7 @@ public class PostInformation
                             }
                              catch (Exception e)
                             {
-                                logger.warn("Erro ao efectuar o set das datas do email.",
+                                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DOING_THE_EMAIL_DATESET"),
                                     e);
                             }
 

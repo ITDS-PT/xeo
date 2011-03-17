@@ -2,6 +2,7 @@
 package netgest.bo.presentation.render;
 
 import netgest.bo.boConfig;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException;
 
 
@@ -215,7 +216,7 @@ public class Browser {
             return MOZILLA;
         }
 
-        throw new boRuntimeException("", "Browser not supported or unknow", null);
+        throw new boRuntimeException("", MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"), null);
     }
 
     public static String getBrowserName(int code) throws boRuntimeException {
@@ -227,6 +228,6 @@ public class Browser {
             return "MOZILLA";
         }
 
-        throw new boRuntimeException("", "Browser not supported or unknow", null);
+        throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"), null);
     }
 }

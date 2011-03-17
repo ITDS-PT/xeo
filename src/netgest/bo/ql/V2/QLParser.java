@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.PageContext;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
@@ -79,49 +81,49 @@ public class QLParser  {
     private static final String OPWx_START="startswith";
     private static final String OPWH_CONTAIN="contains";
     private static final String FROM_FROM="from";
-    private static final String GROUP_ERR1="Impossible to make group by after an aggregate function";
+    private static final String GROUP_ERR1=MessageLocalizer.getMessage("IMPOSSIBLE_TO_MAKE_GROUP_BY_AFTER_AN_AGGREGATE_FUNCTION");
 
-    private static final String SEL_ERR1="Target Object not defiened";
-    private static final String SEL_ERR2="Object name is incorrect or doesn't exist";
-    private static final String SEL_ERR3="Query should begin with SELECT word";
-    private static final String USING_ERR1="UserID not specified";
-    private static final String USING_ERR2=" is not a recognized user";
-    private static final String STATE_ERR1="State not defined";
-    private static final String STATE_ERR2="Not a valid state for this object";
-    private static final String STATE_ERR3="Incorrect state sintax (pristate.secstate)";
-    private static final String WHERE_ERR1="No where expression defined";
-    private static final String VAL_ERR1="Empty WHERE expression";
-    private static final String VAL_ERR2="Incomplete expression";
-    private static final String RVAL_ERR2="Missing ' to terminate the string";
-    private static final String LVAL_ERR1="Attribute required after Object (obj_name.att_name)";
-    private static final String ATRIB_ERR1="Not a valid attribute";
-    private static final String ATRIB_ERR2="You must define a bridge atribute (bridge_name.bridge.bridge_attribute)";
-    private static final String ATRIB_ERR3="Expecting attribute after '.' ";
-    private static final String ATT_ERR4="It’s not possible to compare bridge attributes";
-    private static final String AGG_ERR1="Aggregate function must have an atribute.";
-    private static final String AGG_ERR2="Aggregate function needs an atribute between parentheses.";
-    private static final String CALC_ERR1="Incomplete Expression"; 
-    private static final String TYPE_ERR1="Type missmatch; String not expected";
-    private static final String TYPE_ERR2="Type missmatch; Number not expected";
-    private static final String EXPRE_ERR1="Expression must have a relational operator (=,<,>,<=,>=,!=, <>, like, in, is null)";
-    private static final String EXPRE_ERR2="Incomplete Expression";
-    private static final String EXPRE_ERR3="Missing right parentheses";
-    private static final String OPST_ERR1="Missing left parentheses";
-    private static final String OPWx_ERR1="Missing parentheses";
-    private static final String OPWX_ERR2="Operator IS without NULL";
-    private static final String ORDER_ERR1="Unexpected end of query";
-    private static final String ORDER_ERR2="Object doesn't make part of any query expression";
-    private static final String VIEW_ERR1="Viewer must be defined for the object";
-    private static final String VIEW_ERR2="Viewer not defined for the selected object";
-    private static final String EXT_ERR1="Class doesn't have any extended sub-calsses";
-    private static final String ATT_ERR1="Final attribute can not be extended";
-    private static final String FATT_ERR1="Incomplete Function";
-    private static final String FATT_ERR2="Unrecognized Function";
-    private static final String FATTx_ERR1="Missing argument in function";
-    private static final String STARTS_ERR1="Incorrect STARTSWITH statement (ex: arg STARTSWITH 'a')";
-    private static final String CONT_ERR1="Incorrect CONTAINS statement (ex: SELECT task where CONTAINS 'a')";
-    private static final String ATVAL_ERR1="Incorrect use of [ ] (ex: [ sqlstatement ])";
-    private static final String ALLI_ERR1="Allias already in use";
+    private static final String SEL_ERR1=MessageLocalizer.getMessage("TARGET_OBJECT_NOT_DEFINED");
+    private static final String SEL_ERR2=MessageLocalizer.getMessage("OBJECT_NAME_IS_INCORRET_OR_DOESNT_EXST");
+    private static final String SEL_ERR3=MessageLocalizer.getMessage("QUERY_SHOULD_BEGIN_WITH_SELECT_WORD");
+    private static final String USING_ERR1=MessageLocalizer.getMessage("USERID_NOT_SPECIFIED");
+    private static final String USING_ERR2=MessageLocalizer.getMessage("IS_NOT_A_RECOGNIZED_USER");
+    private static final String STATE_ERR1=MessageLocalizer.getMessage("STATE_NOT_DEFINED");
+    private static final String STATE_ERR2=MessageLocalizer.getMessage("NOT_A_VALID_STATE_FOR_THIS_OBJECT");
+    private static final String STATE_ERR3=MessageLocalizer.getMessage("INCORRECT_STATE_SINTAX");
+    private static final String WHERE_ERR1=MessageLocalizer.getMessage("NO_WHERE_EXPRESSION_DEFINED");
+    private static final String VAL_ERR1=MessageLocalizer.getMessage("EMPTY_WHERE_EXPRESSION");
+    private static final String VAL_ERR2=MessageLocalizer.getMessage("INCOMPLETE_EXPRESSION");
+    private static final String RVAL_ERR2=MessageLocalizer.getMessage("MISSING_TO_TERMINATE_THE_STRING");
+    private static final String LVAL_ERR1=MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED_AFTER_OBJECT");
+    private static final String ATRIB_ERR1=MessageLocalizer.getMessage("NOT_A_VALID_ATTRIBUTE");
+    private static final String ATRIB_ERR2=MessageLocalizer.getMessage("YOU_MUST_DEFINE_A_BRIDGE_ATTRIBUTE");
+    private static final String ATRIB_ERR3=MessageLocalizer.getMessage("EXPECTING_ATTRIBUTE_AFTER");
+    private static final String ATT_ERR4=MessageLocalizer.getMessage("ITS_NOT_POSSIBLE_TO_COMPARE_BRIDGE_ATTRIBUTES");
+    private static final String AGG_ERR1=MessageLocalizer.getMessage("AGGREGATE_FUNCTION_MUST_HAVE_AN_ATTRIBUTE");
+    private static final String AGG_ERR2=MessageLocalizer.getMessage("AGGREGATE_FUNCTION_NEED_AN_ATTRIBUTE_BETWEEN_PARENTHESES");
+    private static final String CALC_ERR1=MessageLocalizer.getMessage("INCOMPLETE_EXPRESSION"); 
+    private static final String TYPE_ERR1=MessageLocalizer.getMessage("TYPE_MISMATCH_STRING_NOT_EXPECTED");
+    private static final String TYPE_ERR2=MessageLocalizer.getMessage("TYPE_MISMATCH_NUMBER_NOT_EXPECTED");
+    private static final String EXPRE_ERR1=MessageLocalizer.getMessage("EXPRESSION_MUST_HAVE_A_RELATIONAL_OPERATOR");
+    private static final String EXPRE_ERR2=MessageLocalizer.getMessage("INCOMPLETE_EXPRESSION");
+    private static final String EXPRE_ERR3=MessageLocalizer.getMessage("MISSING_RIGHT_PARENTHESES");
+    private static final String OPST_ERR1=MessageLocalizer.getMessage("MISSING_LEFT_PARENTHESES");
+    private static final String OPWx_ERR1=MessageLocalizer.getMessage("MISSING_PARENTHESES");
+    private static final String OPWX_ERR2=MessageLocalizer.getMessage("OPERATOR_IS_WITHOUT_NULL");
+    private static final String ORDER_ERR1=MessageLocalizer.getMessage("UNEXPECTED_END_OF_QUERY");
+    private static final String ORDER_ERR2=MessageLocalizer.getMessage("OBJECT_DOESNT_MAKE_PART_OF_ANY_QUERY_EXPRESSION");
+    private static final String VIEW_ERR1=MessageLocalizer.getMessage("VIEWER_MUST_BE_DEFINED_FOR_THE_OBJECT");
+    private static final String VIEW_ERR2=MessageLocalizer.getMessage("VIEWER_NOT_DEFINED_FOR_THE_SELECTED_OBJECT");
+    private static final String EXT_ERR1=MessageLocalizer.getMessage("CLASS_DOESNT_HAVE_AN_EXTENDED_SUBCLASSES");
+    private static final String ATT_ERR1=MessageLocalizer.getMessage("FINAL_ATRIBUTE_CAN_NOT_BE_NULL");
+    private static final String FATT_ERR1=MessageLocalizer.getMessage("INCOMPLETE_FUNCTION");
+    private static final String FATT_ERR2=MessageLocalizer.getMessage("UNRECOGNIZED_FUNCTION");
+    private static final String FATTx_ERR1=MessageLocalizer.getMessage("MISSING_ARGUMENT_IN_FUNCTION");
+    private static final String STARTS_ERR1=MessageLocalizer.getMessage("INCORRECT_STARTSWITH_STATEMENT");
+    private static final String CONT_ERR1=MessageLocalizer.getMessage("INCORRECT_CONTAINS_STATEMENT");
+    private static final String ATVAL_ERR1=MessageLocalizer.getMessage("INCORRECT_USE_OF");
+    private static final String ALLI_ERR1=MessageLocalizer.getMessage("ALLIAS_ALREADY_IN_USE");
     private static final String PERF_ID_TAG="CTX_PERFORMER_BOUI";
     private static final String PERF_GROUSPS_TAG="CTX_ALLPERFORMERGROUPS";
     private static final String XWFMYWORK="CTX_XWFMYORWK";
@@ -991,7 +993,7 @@ public class QLParser  {
                     return res.getMessage();
                }
                else
-                    throw new boqlParserException("QLParser", "XEO.QL", new Exception("Unexpected character. Query should be over. Correct syntax so far."+errorSpot()));
+                    throw new boqlParserException("QLParser", "XEO.QL", new Exception(MessageLocalizer.getMessage("UNEXPECTED_CHAR_QUERY_SHOULD_BE_OVER_CORRECT_SO_FAR") + errorSpot()));
   }
   
   //função que sistematiza a remoção de produtores
@@ -1278,14 +1280,14 @@ public class QLParser  {
             if(substUserId())
               return new ResultQL(1);
             else
-              return new ResultQL(2, "Parameters Error");
+              return new ResultQL(2, MessageLocalizer.getMessage("PARAMETERS_ERROR"));
         }
         else
         {
           if(substUserId())
             return new ResultQL(2, lookCurrentWord()+USING_ERR2);//" is not a recognized user"
           else
-            return new ResultQL(2, "Parameters Error");
+            return new ResultQL(2, MessageLocalizer.getMessage("PARAMETERS_ERROR"));
           
         }
             
@@ -1295,7 +1297,7 @@ public class QLParser  {
       if(substUserId())
         return new ResultQL(0);
       else
-        return new ResultQL(2, "Parameters Error");
+        return new ResultQL(2, MessageLocalizer.getMessage("PARAMETERS_ERROR"));
     }
          
   }

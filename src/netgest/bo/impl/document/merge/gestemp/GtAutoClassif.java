@@ -26,6 +26,7 @@ import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.impl.document.merge.Tabela;
 import netgest.bo.impl.document.merge.gestemp.presentation.GesDocViewer;
 import netgest.bo.impl.document.merge.resultSet.MergeResultSetBoObject;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.message.MessageServer;
 import netgest.bo.message.utils.MessageUtils;
@@ -91,7 +92,7 @@ public class GtAutoClassif
         }
         if(actvSend == null || msg == null || msg.getAttribute("usedTemplate").getValueLong() <= 0)
         {
-            throw new boRuntimeException("", "Mensagem inválida para Classificação Automática", null);
+            throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_MESSAGE_FOR_AUTOMATIC_CLASSIFICATION"), null);
         }
         
         boObject modelo = boObject.getBoManager().loadObject( msg.getEboContext(), msg.getAttribute("usedTemplate").getValueLong() );

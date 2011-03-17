@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime.robots;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.utils.*;
 public class ScheduleAgentThread extends Thread 
@@ -16,7 +17,7 @@ public class ScheduleAgentThread extends Thread
             if(!p_isrunning)
                 p_isrunning = true;
             else 
-                throw new RuntimeException("Canoot load to ScheduleAgent Threads");
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_LOAD_TO_SCHEDULEAGENT_THREADS"));
         }
     }
     public void run() {

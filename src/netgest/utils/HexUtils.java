@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.utils;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -57,8 +59,8 @@ public class HexUtils
     }
     public static final int intFromByteArray( byte[] val )
     {
-        if( val==null ) throw new NullPointerException("The array is null, converstion not possible");
-        if( val.length < 4 ) throw new IllegalArgumentException("Integer values most be four byte array");
+        if( val==null ) throw new NullPointerException(MessageLocalizer.getMessage("THE_ARRAY_IS_NULL_CONVERSION_NOT_POSSIBLE"));
+        if( val.length < 4 ) throw new IllegalArgumentException(MessageLocalizer.getMessage("INTEGER_VALUSE_MUST_BE_FOUR_BYTE_ARRAY"));
         
         StringBuffer newHexString = new StringBuffer();
         if( (val[0] & 0x80) != 0 )
@@ -129,7 +131,7 @@ public class HexUtils
             case 'F':
                 return 0xF;
             default:
-                throw new IllegalArgumentException(String.valueOf( xchar ) + " Cannot be converted to Hex ");
+                throw new IllegalArgumentException(String.valueOf( xchar ) + " "+MessageLocalizer.getMessage("CANNOT_BE_CONVERTED_TO_HEX"));
         }
     }
     static final char[] charVal = { '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };

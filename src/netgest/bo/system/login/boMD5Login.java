@@ -13,6 +13,8 @@ import javax.naming.NamingException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.LoginManager;
@@ -36,7 +38,7 @@ public class boMD5Login implements LoginManager
   public long boLogin(boApplication app, String repository,  String username,String password,HttpServletRequest request) throws boLoginException
   {
     //not implemented
-    throw new boLoginException("Not implemented");
+    throw new boLoginException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
   }
   public long boLogin(boApplication app, String repository, String username, long time, long timeCheck, HttpServletRequest request) throws boLoginException
   {
@@ -52,19 +54,19 @@ public class boMD5Login implements LoginManager
         try {
               SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss.SSS");              
               c = Calendar.getInstance();
-              logger.finer("Tempo de calculo ->" + c.getTimeInMillis() + ":" +formatter.format(new Date(c.getTimeInMillis())));
+              logger.finer(LoggerMessageLocalizer.getMessage("CALCULATE_TIME")+" ->" + c.getTimeInMillis() + ":" +formatter.format(new Date(c.getTimeInMillis())));
               Calendar auxC = (Calendar)c.clone();
               auxC.add(Calendar.SECOND, SECONDS_GAP);
               max_time =  auxC.getTimeInMillis();
-              logger.finer("Tempo de calculo (MAX)->" + max_time+ ":" +formatter.format(new Date(max_time)));
+              logger.finer(LoggerMessageLocalizer.getMessage("CALCULATE_TIME")+" (MAX)->" + max_time+ ":" +formatter.format(new Date(max_time)));
               c.add(Calendar.SECOND, -SECONDS_GAP);
               min_time =  c.getTimeInMillis();
-              logger.finer("Tempo de calculo (MIN)->" + min_time+ ":" +formatter.format(new Date(min_time)));
+              logger.finer(LoggerMessageLocalizer.getMessage("CALCULATE_TIME")+" (MIN)->" + min_time+ ":" +formatter.format(new Date(min_time)));
               long timeCheckCalc = MD5Utils.getCheckTime(time); 
-              logger.finer("Tempo enviado ->" + time + ":" +formatter.format(new Date(time)));
-              logger.finer("Tempo Check enviado ->" + timeCheck);
+              logger.finer(LoggerMessageLocalizer.getMessage("SEND_TIME")+" ->" + time + ":" +formatter.format(new Date(time)));
+              logger.finer(LoggerMessageLocalizer.getMessage("SEND_CHECK_TIME")+" ->" + timeCheck);
               
-              logger.finer("Tempo Check calculado ->" + timeCheckCalc);
+              logger.finer(LoggerMessageLocalizer.getMessage("CALCULATED_CHECK_TIME")+" ->" + timeCheckCalc);
               
               
               if(MD5Utils.getCheckTime(time) == timeCheck &&  time>=min_time && time<=max_time)
@@ -79,18 +81,18 @@ public class boMD5Login implements LoginManager
                   rslt = pstm.executeQuery();
                   if(rslt.next()) 
                   {
-                    logger.finer("Encontrou o Utilizador");
+                    logger.finer(LoggerMessageLocalizer.getMessage("FOUND_USER"));
                     toReturn = rslt.getLong(1);
                   }
                   else 
                   {
-                    logger.severe("Não encontrou o Utilizador");
+                    logger.severe(LoggerMessageLocalizer.getMessage("DID_NOT_FIND_USER"));
                     throw new boLoginException(boLoginException.INVALID_CREDENCIALS);
                   }
               }
               else 
               {
-                logger.severe("Não passou do if");
+                logger.severe(LoggerMessageLocalizer.getMessage("DID_NOT_PASS_FROM_IF"));
                 throw new boLoginException(boLoginException.INVALID_CREDENCIALS);
               }
         }

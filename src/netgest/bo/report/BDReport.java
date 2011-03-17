@@ -17,6 +17,7 @@ import netgest.bo.boConfig;
 import netgest.bo.builder.boBuildRepository;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
@@ -105,7 +106,7 @@ public class BDReport
         catch (Exception e)
         {
             e.printStackTrace();
-            return "Não foi possível gerar o Relatório. Erro: " +
+            return MessageLocalizer.getMessage("COULD_NOT_GENERATE_REPORT")+": " +
             e.getLocalizedMessage() + ".";
         }
         finally
@@ -122,7 +123,7 @@ public class BDReport
 //            }
         }
 
-        return "Relatório gerado com Sucesso.";
+        return MessageLocalizer.getMessage("REPORT_GENERATED_SUCCESSFULLY");
     }
 
     private void createHtmlReport(EboContext ebo, ArrayList files)

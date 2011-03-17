@@ -3,17 +3,19 @@ package netgest.io;
 import java.io.*;
 import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 public class FSiFileProvider extends iFileProvider {
     private boolean connected=false;
     private String p_servicename;
     public iFile getFile(String pathname,String uri) {
         if(!connected)
-            throw(new RuntimeException("No active connection"));
+            throw(new RuntimeException(MessageLocalizer.getMessage("NO_ACTIVE_CONNECTION")));
         return (iFile)(new FSiFile(this, pathname,uri));
     }
     public iFile[] listRoots() {
         if(!connected)
-            throw(new RuntimeException("No active connection"));
+            throw(new RuntimeException(MessageLocalizer.getMessage("NO_ACTIVE_CONNECTION")));
             
         return FSiFile.FilesArrayToFSiFilesArray(this,"//"+p_servicename+"/",File.listRoots(),null);
     }

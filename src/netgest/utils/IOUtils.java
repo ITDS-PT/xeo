@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -49,11 +51,11 @@ public final class IOUtils
         }
         catch (FileNotFoundException e)
         {
-            throw new RuntimeException("Cannot copy file.\n "+e.getClass().getName() + '\n' + e.getMessage() );
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_COPY_FILE")+e.getClass().getName() + '\n' + e.getMessage() );
         }
         catch (IOException e)
         {
-            throw new RuntimeException("Cannot copy file.\n "+e.getClass().getName() + '\n' + e.getMessage() );
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_COPY_FILE")+e.getClass().getName() + '\n' + e.getMessage() );
         }
         dest.setLastModified(src.lastModified());
         return dest;

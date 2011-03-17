@@ -11,14 +11,12 @@ import java.text.SimpleDateFormat;
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.dochtml.viewerImpl.ObjectViewer;
 import netgest.bo.dochtml.docHTML;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.message.PostInformation;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boRuntimeException;
 
 import netgest.utils.*;
 import netgest.bo.system.Logger;
@@ -448,7 +446,7 @@ public class DeliverMessageViewer implements ObjectViewer
                                 dt = df.format(ctxObj.getAttribute("send_date_read_receipt").getValueDate());                        
                             }catch(Exception e)
                             {
-                                logger.warn("Erro ao efectuar o set das datas do email.", e);
+                                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_PERFORMING_EMAIL_DATE_SET"), e);
                             }
                             if(dt != null)
                             {

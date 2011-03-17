@@ -26,6 +26,7 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
 
 import org.w3c.dom.Node;
@@ -145,7 +146,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
             {
                 atts.getNode().appendChild(
                             boDefUtils.createAttribute("PARENT", "PARENT",
-                            "Objecto Pai", "attributeObject","object.boObject", 0,false,
+                            MessageLocalizer.getMessage("FATHER_OBJECT"), "attributeObject","object.boObject", 0,false,
                             atts.getNode().getOwnerDocument()));
             }
 
@@ -153,7 +154,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("PARENTCTX",
-                            "PARENTCTX", "Contexto de Criação","attributeObject", "object.boObject",0,false,
+                            "PARENTCTX", MessageLocalizer.getMessage("CREATION_CONTEXT"),"attributeObject", "object.boObject",0,false,
                             atts.getNode().getOwnerDocument())
                             );
                 }
@@ -162,7 +163,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("TEMPLATE",
-                            "TEMPLATE", "Modelo","attributeObject", "object.Ebo_Template",0,false,
+                            "TEMPLATE", MessageLocalizer.getMessage("MODEL"),"attributeObject", "object.Ebo_Template",0,false,
                             atts.getNode().getOwnerDocument()));
                 }
 
@@ -177,7 +178,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("CLASSNAME",
-                            "CLASSNAME", "Categoria do Objecto", "attributeText","",50,false,
+                            "CLASSNAME", MessageLocalizer.getMessage("OBJECT_CATEGORY"), "attributeText","",50,false,
                             atts.getNode().getOwnerDocument()));
                 }
 
@@ -185,7 +186,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("CREATOR",
-                            "CREATOR", "Criador","attributeObject", "object.iXEOUser",0,false,
+                            "CREATOR", MessageLocalizer.getMessage("CREATOR"),"attributeObject", "object.iXEOUser",0,false,
                             atts.getNode().getOwnerDocument()));
                 }
 
@@ -193,7 +194,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("SYS_DTCREATE",
-                            "SYS_DTCREATE", "Data de Criação","attributeDateTime" ,"",0,false,
+                            "SYS_DTCREATE",MessageLocalizer.getMessage("CREATION_DATE"),"attributeDateTime" ,"",0,false,
                             atts.getNode().getOwnerDocument()));
                 }
 
@@ -201,7 +202,7 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("SYS_DTSAVE",
-                            "SYS_DTSAVE", "Data da última actualização",
+                            "SYS_DTSAVE", MessageLocalizer.getMessage("LAST_UPDATE_DATE"),
                             "attributeDateTime" ,"", 0,false, atts.getNode().getOwnerDocument()));
                 }
 
@@ -209,14 +210,14 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("SYS_ORIGIN",
-                            "SYS_ORIGIN", "Origem dos dados", "attributeText" ,"",30,false,
+                            "SYS_ORIGIN",MessageLocalizer.getMessage("DATA_ORIGIN"), "attributeText" ,"",30,false,
                             atts.getNode().getOwnerDocument()));
                 }
                 if (atts.getChildNode("SYS_FROMOBJ") == null)
                 {
                     atts.getNode().appendChild(
                             boDefUtils.createAttribute("SYS_FROMOBJ",
-                            "SYS_FROMOBJ", "Objecto Origem", "attributeObject", "object.boObject",0,false,
+                            "SYS_FROMOBJ",MessageLocalizer.getMessage("ORIGIN_OBJECT"), "attributeObject", "object.boObject",0,false,
                             atts.getNode().getOwnerDocument()));
                 }
         }

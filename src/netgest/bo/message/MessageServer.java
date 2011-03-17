@@ -6,6 +6,8 @@ import netgest.bo.controller.Controller;
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.dochtml.*;
 import netgest.bo.impl.document.print.PrintHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.server.EmailServer;
 import netgest.bo.message.server.FaxServer;
 import netgest.bo.message.server.LetterServer;
@@ -14,10 +16,6 @@ import netgest.bo.message.server.SMSServer;
 import netgest.bo.message.server.SgisServer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boBridgeIterator;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.boObject;
 import netgest.bo.workflow.*;
 import netgest.utils.XEOUserUtils;
 import netgest.xwf.core.*;
@@ -67,7 +65,7 @@ public class MessageServer
         }
         catch (boRuntimeException e)
         {
-            logger.severe("Error synchronizing mailBox from user: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_SYNCHRONIZING_MAILBOX_FROM_USER")+": ", e);
         }
     }
 
@@ -90,13 +88,13 @@ public class MessageServer
 //            controller = (XwfController)message.getEboContext().getController();
             if(MessageUtils.EMAIL.equals(mediaType) || MessageUtils.BV.equals(mediaType))
             {
-                logger.finest("SENDING RECEIPT");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_RECEIPT"));
                 MediaServer man = new EmailServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
             else if(MessageUtils.FAX.equals(mediaType))
             {
-                logger.finest("SENDING RECEIPT");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_RECEIPT"));
                 MediaServer man = new FaxServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
@@ -110,7 +108,7 @@ public class MessageServer
             }
             else if(MessageUtils.SGIS.equals(mediaType))
             {
-                logger.finest("SENDING RECEIPT");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_RECEIPT"));
                 MediaServer man = new SgisServer(engine,activityBoui);
                 toRet = man.sendReceipt(message, performer);
             }
@@ -118,7 +116,7 @@ public class MessageServer
         catch (boRuntimeException e)
         {
             logger.severe(e);
-            engine.addErrorMessage("Erro inesperado. Tente novamente." );
+            engine.addErrorMessage(MessageLocalizer.getMessage("UNEXPECTED_ERROR_TRY_AGAIN") );
         }
         return toRet;
     }
@@ -239,9 +237,9 @@ public class MessageServer
             String mediaType = message.getAttribute(MessageUtils.ATT_PRF_MEDIA).getValueString();            
             if(MessageUtils.EMAIL.equals(mediaType))
             {
-                logger.finest("SENDING EMAIL");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_EMAIL"));
                 delivered = email(engine, message,activityBoui);
-                logger.finest("SENDING EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_EMAIL_FINISHED")+" ->"+(delivered ? LoggerMessageLocalizer.getMessage("SUCCESS"):LoggerMessageLocalizer.getMessage("FAILED")));
             }
             else if(MessageUtils.FAX.equals(mediaType))
             {
@@ -265,15 +263,15 @@ public class MessageServer
             }
             else if(MessageUtils.BV.equals(mediaType))
             {
-                logger.finest("SENDING BV EMAIL");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_BV_EMAIL"));
                 delivered = email(engine, message,activityBoui);
-                logger.finest("SENDING BV EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_BV_EMAIL_FINISHED")+" ->"+(delivered ? LoggerMessageLocalizer.getMessage("SUCCESS"):LoggerMessageLocalizer.getMessage("FAILED")));
             }
             else if(MessageUtils.SMS.equals(mediaType))
             {
-                logger.finest("SENDING SMS EMAIL");
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_SMS_EMAIL"));
                 delivered = sms(engine, message,activityBoui);
-                logger.finest("SENDING SMS EMAIL FINISHED ->"+(delivered ? "SUCESS":"FAILED"));
+                logger.finest(LoggerMessageLocalizer.getMessage("SENDING_SMS_EMAIL_FINISHED")+" ->"+(delivered ? LoggerMessageLocalizer.getMessage("SUCCESS"):LoggerMessageLocalizer.getMessage("FAILED")));
             }
             else
             {

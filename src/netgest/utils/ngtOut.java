@@ -4,6 +4,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import netgest.bo.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 public class ngtOut  
 {
@@ -81,8 +82,8 @@ public class ngtOut
         {
             //pq do builder
             System.out.print(dtf.format(new Date())+" - "+"DBG:"+msg);
-            System.out.println(" >>>> From  "+ClassName+"."+Method);
-            logger.finest(msg + " >>>> From  "+ClassName+"."+Method);
+            System.out.println(" >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
+            logger.finest(msg + " >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
     }
     public static final void WarningInf(String msg,String ClassName,String Method){
@@ -103,33 +104,33 @@ public class ngtOut
         if(logger == null)
         {
             System.out.print(dtf.format(new Date())+" - "+"DBG:"+msg);
-            System.out.println(" >>>> From  "+ClassName+"."+Method);
+            System.out.println(" >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
         else
         {
-            logger.severe(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.severe(msg + " >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
     }
     public static final void errorInf(String msg,String ClassName,String Method){
         if(logger == null)
         {
             System.out.print(dtf.format(new Date())+" - "+"WRN:"+msg);
-            System.out.println(" >>>> From  "+ClassName+"."+Method);
+            System.out.println(" >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
         else
         {
-            logger.severe(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.severe(msg + " >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
     }
      public static final void info(String msg,String ClassName,String Method){        
         if(logger == null)
         {
             System.out.print(dtf.format(new Date())+" - "+"DBG:"+msg);
-            System.out.println(" >>>> From  "+ClassName+"."+Method);
+            System.out.println(" >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
         else
         {
-            logger.finer(msg + " >>>> From  "+ClassName+"."+Method);
+            logger.finer(msg + " >>>> "+LoggerMessageLocalizer.getMessage("FROM")+"  "+ClassName+"."+Method);
         }
     }
 //--------------------------------------

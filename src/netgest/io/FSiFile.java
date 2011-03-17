@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.io;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.io.metadata.iMetadataItem;
@@ -202,20 +204,20 @@ public class FSiFile implements iFile {
         else
             return p_file.getAbsolutePath();
     }
-    public void     setDescription(String description) {throw new RuntimeException("setDescription:Not Impelemented");}
-    public String   getDescription() {throw new RuntimeException("getDescription:Not Impelemented");}
-    public void     setAuthor(String author) {throw new RuntimeException("setAuthor:Not Impelemented");}
-    public String   getAuthor() {throw new RuntimeException("getAuthor:Not Impelemented");}
-    public void     setCategory(String author) {throw new RuntimeException("setCategory:Not Impelemented");}
-    public String   getCategory() {throw new RuntimeException("getCategory:Not Impelemented");}    
-    public void     setVersionUser(String user) {throw new RuntimeException("setVersionUser:Not Impelemented");}
-    public String   getVersionUser() {throw new RuntimeException("getVersionUser:Not Impelemented");}
-    public void     setCheckOutUser(String user) {throw new RuntimeException("setCheckOutUser:Not Impelemented");}
-    public String   getCheckOutUser() {throw new RuntimeException("getCheckOutUser:Not Impelemented");}    
-    public long     getVersion() {throw new RuntimeException("getVersion:Not Impelemented");}
+    public void     setDescription(String description) {throw new RuntimeException("setDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getDescription() {throw new RuntimeException("getDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setAuthor(String author) {throw new RuntimeException("setAuthor:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getAuthor() {throw new RuntimeException("getAuthor:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setCategory(String author) {throw new RuntimeException("setCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getCategory() {throw new RuntimeException("getCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}    
+    public void     setVersionUser(String user) {throw new RuntimeException("setVersionUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getVersionUser() {throw new RuntimeException("getVersionUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setCheckOutUser(String user) {throw new RuntimeException("setCheckOutUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getCheckOutUser() {throw new RuntimeException("getCheckOutUser:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}    
+    public long     getVersion() {throw new RuntimeException("getVersion:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
     
-    public long     getKey() {throw new RuntimeException("getKey : Not Impelemented");}
-    public iFile     getCopy() {throw new RuntimeException("getCopy : Not Impelemented");}
+    public long     getKey() {throw new RuntimeException("getKey : "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public iFile     getCopy() {throw new RuntimeException("getCopy : "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
 
 	@Override
 	public List<iMetadataItem> getAllMetadata() {
@@ -247,7 +249,7 @@ public class FSiFile implements iFile {
 	}
 	@Override
 	public boolean addChild(iFile file) throws iFileException {
-		throw new iFileException("Not implemented");
+		throw new iFileException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
 	}
 	@Override
 	public boolean save(EboContext ctx) throws iFileException {

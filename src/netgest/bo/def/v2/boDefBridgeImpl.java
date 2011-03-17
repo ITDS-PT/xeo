@@ -11,6 +11,7 @@ import netgest.bo.def.v2.boDefMethodImpl;
 
 import netgest.utils.ngtXMLHandler;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 
@@ -161,7 +162,7 @@ public class boDefBridgeImpl extends ngtXMLHandler implements boDefBridge
         {
             logger.finer(this.p_atthandler.getReferencedObjectName());
             logger.finer(this.p_atthandler.getName());
-            logger.finer("Null ");
+            logger.finer(LoggerMessageLocalizer.getMessage("NULL"));
         }
 
         if (p_fatherdef.getBoName().equals(p_childdef.getBoName()))

@@ -11,6 +11,8 @@ import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.ejb.*;
 
 import netgest.bo.impl.document.print.PrintHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.GarbageController;
 import netgest.bo.message.server.mail.*;
 import netgest.bo.message.utils.Attach;
@@ -21,10 +23,8 @@ import netgest.bo.runtime.*;
 
 import netgest.bo.utils.boEncrypter;
 import netgest.io.*;
-import netgest.io.FSiFile;
 
 import netgest.utils.*;
-import netgest.utils.ClassUtils;
 
 import netgest.xwf.EngineGate;
 import netgest.xwf.core.*;
@@ -133,7 +133,7 @@ public class EmailServer extends Mail implements MediaServer
     {
         try
         {
-            logger.finer("Synchronizing mailBox from user: " +
+            logger.finer(LoggerMessageLocalizer.getMessage("SYNCHRONIZING_MAILBOX_FROM_USER")+": " +
                 mailAccount.getAttribute("username").getValueString());
 
             setPOPHost(mailAccount.getAttribute("receivehost").getValueString());
@@ -176,7 +176,7 @@ public class EmailServer extends Mail implements MediaServer
         {
             //write the exception to the log
             //and continue to next mailAccount
-            logger.severe("Error synchronizing mailBox from user: " +
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_SYNCHRONIZING_MAILBOX_FROM_USER")+": " +
                 mailAccount.getAttribute("username").getValueString(), e);
         }
     }
@@ -207,7 +207,7 @@ public class EmailServer extends Mail implements MediaServer
                 try
                 {
                     xeoid =auxMsg.getXEOID();
-                    logger.finest("looking for XEOID="+xeoid + " of messageid="+auxMsg.getMessageID());
+                    logger.finest(LoggerMessageLocalizer.getMessage("LOOKING_FOR_XEOID")+"= "+xeoid + " "+LoggerMessageLocalizer.getMessage("OF_MESSAGEID")+"= "+auxMsg.getMessageID());
 
                     boObjectList list = boObjectList.list(ctx, 
                         "select message where XEOID='" + xeoid +"' and classname <> 'messageDelivered' and classname <> 'messageSystem' and classname <> 'messageReceipt'",false,false);
@@ -218,7 +218,7 @@ public class EmailServer extends Mail implements MediaServer
                         GarbageController.isSpamServer(mailAccount, auxMsg.getFrom().getAddress()))
                     )
                     {
-                        logger.finer("START TREATING A SPAM MESSAGE");
+                        logger.finer(LoggerMessageLocalizer.getMessage("START_TREATING_A_SPAM_MESSAGE"));
                         mailFolder.getAttribute("lastmessageid").setValueString(auxMsg.getMessageID());
                         mailFolder.update();
                         if (getDeleteMessages())
@@ -226,14 +226,14 @@ public class EmailServer extends Mail implements MediaServer
                             deleteMessage(auxMsg.getMessageID());
                         }
                         addFilesTodelete(auxMsg, filesTodelete);
-                        logger.finer("END TREATING A SPAM MESSAGE");
+                        logger.finer(LoggerMessageLocalizer.getMessage("END_TREATING_A_SPAM_MESSAGE"));
                     }
                     else if ((next = list.next()) || treatedXEOid.contains(xeoid))
                     {
                         if(next)
                         {
                             boObject mailObject = list.getObject();
-                            logger.finest("Atenção msg já existe com o boui = " + mailObject.getBoui());
+                            logger.finest(LoggerMessageLocalizer.getMessage("ATTENTION_MSG_ALREADY_EXISTS_WITH_BOUI")+" = " + mailObject.getBoui());
                                                     
                               
                             //object já existe e já foi tratado
@@ -248,7 +248,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getTO().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getTO()[j];
-                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest(LoggerMessageLocalizer.getMessage("COMPARING")+" ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
                                 
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -259,7 +259,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getCC()[j];
-                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest(LoggerMessageLocalizer.getMessage("COMPARING")+" ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
                                 
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -270,7 +270,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; !exists && j < auxMsg.getBCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getBCC()[j];
-                                logger.finest("comparing ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
+                                logger.finest(LoggerMessageLocalizer.getMessage("COMPARING")+" ("+mailaddress.getFullAddress().toLowerCase()+", "+ accountEmail+")");
     
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail) > -1)
                                 {
@@ -281,7 +281,7 @@ public class EmailServer extends Mail implements MediaServer
                             {
                                 if(mailAccount.getParent() != null)
                                 {
-                                    logger.finest("Vou adicionar o bcc!");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("GOING_TO_ADD_THE_BCC"));
                                     mailObject.getBridge("bcc").add(mailAccount.getParent().getBoui());
                                     mailObject.getAttribute("already_read").setValueString("0");
                                 }
@@ -292,7 +292,7 @@ public class EmailServer extends Mail implements MediaServer
                                 listProgram.beforeFirst();
                                 while(listProgram.next())
                                 {
-                                    logger.finest("Vou criar o recv msg para o bcc!");
+                                    logger.finest(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_THE_RECV_MSG_FOR_THE_BCC"));
                                     program = listProgram.getObject();
                                     man = new xwfManager(ctx, program);
                                     xwfMessage.createRecActv(man,mailAccount.getParent().getBoui(), mailObject, program.getBoui());
@@ -312,7 +312,7 @@ public class EmailServer extends Mail implements MediaServer
                     }
                     else
                     {   
-                        logger.finest("Não existe");
+                        logger.finest(LoggerMessageLocalizer.getMessage("DOESNT_EXIST"));
                         //verificar se é para ler apenas mensagens XEO e se trata de uma mensagem XEO
                         if (relatedBoui == null)
                         {
@@ -333,7 +333,7 @@ public class EmailServer extends Mail implements MediaServer
 
                         if (isXEOMessage || !onlyXEOMessage())
                         {
-                            logger.finest("SIM XEO MESSAGE");
+                            logger.finest(LoggerMessageLocalizer.getMessage("SIM_XEO_MESSAGE"));
                             boObject mailobject = null;
                             faxReceipt = FaxServer.isFaxReceipt(auxMsg.getFrom(), auxMsg.getSubject(), auxs);
                             if(auxMsg.isSystemMessage() || faxReceipt)
@@ -395,7 +395,7 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             catch (Exception e)
                             {
-                                logger.warn("Erro ao efectuar o set das datas do email.",
+                                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DOING_THE_EMAIL_DATESET"),
                                     e);
                             }
                             
@@ -440,13 +440,13 @@ public class EmailServer extends Mail implements MediaServer
                             //ao mesmo tempo que preencho estes campos
                             //senão existir introduz-se no bcc
                             //to
-                            logger.finest("TO");
+                            logger.finest(LoggerMessageLocalizer.getMessage("TO"));
                             MailAddress mailaddress = null;
                             boolean exists = false;
                             for (int j = 0; j < auxMsg.getTO().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getTO()[j];
-                                logger.finest("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
+                                logger.finest(LoggerMessageLocalizer.getMessage("COMPARING")+": " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
                                 if(mailaddress.getEmail().toLowerCase().indexOf(accountEmail)>=0)
                                 {
                                     exists = true;
@@ -460,7 +460,7 @@ public class EmailServer extends Mail implements MediaServer
                             for (int j = 0; j < auxMsg.getCC().length; j++)
                             {
                                 mailaddress = (MailAddress) auxMsg.getCC()[j];
-                                logger.finest("COMPARING " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
+                                logger.finest(LoggerMessageLocalizer.getMessage("COMPARING")+": " + mailaddress.getEmail().toLowerCase() + " - " + accountEmail);
                                 if(mailaddress.getFullAddress().toLowerCase().indexOf(accountEmail)>=0)
                                 {
                                     exists = true;
@@ -477,7 +477,7 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             
                             //attach
-                            logger.finest("ATTACH");
+                            logger.finest(LoggerMessageLocalizer.getMessage("ATTACH"));
                             for (int j = 0; j < auxMsg.getAttach().length;
                                     j++)
                             {
@@ -509,7 +509,7 @@ public class EmailServer extends Mail implements MediaServer
                             }
                             //subject
                             //tenho que remover [XEO...] do subject
-                            logger.finest("ASSUNTO");
+                            logger.finest(LoggerMessageLocalizer.getMessage("SUBJECT"));
                             String assunto = auxMsg.getSubject();  
                             if(assunto != null && assunto.length() >= 3000)
                             {
@@ -537,7 +537,7 @@ public class EmailServer extends Mail implements MediaServer
                             mailobject.getAttribute("messageid").setValueString(auxMsg.getMessageID());
                             
                             //content
-                            logger.finest("CONTENT");
+                            logger.finest(LoggerMessageLocalizer.getMessage("CONTENT"));
                             if(faxReceipt)
                             {
                                 //TODO: Lusitania??
@@ -552,11 +552,11 @@ public class EmailServer extends Mail implements MediaServer
                             else if ((auxMsg.getContentHTML() != null) &&
                                     !"".equals(auxMsg.getContentHTML()))
                             {
-                                logger.finest("XEO TAGS");
+                                logger.finest(LoggerMessageLocalizer.getMessage("XEO_TAGS"));
                                 String descr = removeXEOTags(auxMsg.getContentHTML());
-                                logger.finest("XEO TAGS 2");
+                                logger.finest(LoggerMessageLocalizer.getMessage("XEO_TAGS2"));
                                 descr = removeSRCTags(descr);
-                                logger.finest("XEO TAGS 3");
+                                logger.finest(LoggerMessageLocalizer.getMessage("XEO_TAGS3"));
                                 mailobject.getAttribute("description")
                                           .setValueString(descr);
                             }
@@ -640,7 +640,7 @@ public class EmailServer extends Mail implements MediaServer
                                 }
                                 catch (Exception e)
                                 {
-                                    logger.warn("Erro devido a ligação a um objecto inexistente",
+                                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"),
                                         e);
                                 }
                             }
@@ -651,14 +651,14 @@ public class EmailServer extends Mail implements MediaServer
 
                                 try
                                 {
-                                    logger.finest("ei :" + program.getBoDefinition().getName());
+                                    logger.finest(LoggerMessageLocalizer.getMessage("EI")+" :" + program.getBoDefinition().getName());
                                     if (!bridgeContainsBoui(
                                                 program.getBridge("message"),
                                                 mailobject.getBoui()))
                                     {
                                         if(!faxReceipt)
                                         {
-                                            logger.finest("ei vou criar os receives");                                            
+                                            logger.finest(LoggerMessageLocalizer.getMessage("EI_GOING_TO_CREATE_THE_RECEIVERS"));                                            
                                             xwfManager man = new xwfManager(ctx, program);
                                             xwfMessage.receiveMessage(man, mailobject, program);
                                         }
@@ -670,7 +670,7 @@ public class EmailServer extends Mail implements MediaServer
                                 }
                                  catch (Exception e)
                                 {
-                                    logger.warn("Erro devido a ligação a um programa inexistente",
+                                    logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_PROGRAM"),
                                         e);
                                 }
                             }
@@ -792,7 +792,7 @@ public class EmailServer extends Mail implements MediaServer
         }
         catch (Exception e)
         {
-            logger.severe("Error synchronizing mailBox from user: " +
+            logger.severe( LoggerMessageLocalizer.getMessage("ERROR_SYNCHRONIZING_MAILBOX_FROM_USER")+": " +
                 mailAccount.getAttribute("username").getValueString(), e);
         }
     }
@@ -1387,7 +1387,7 @@ public class EmailServer extends Mail implements MediaServer
         }
          catch (Exception e)
         {
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return 0;
         }
@@ -1494,7 +1494,7 @@ public class EmailServer extends Mail implements MediaServer
                     }
                      catch (Exception e)
                     {
-                        logger.warn("Erro devido a ligação a um objecto inexistente",
+                        logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"),
                             e);
                     }
                 }
@@ -1515,7 +1515,7 @@ public class EmailServer extends Mail implements MediaServer
                     }
                      catch (Exception e)
                     {
-                        logger.warn("Erro devido a ligação a um objecto inexistente",
+                        logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DUE_TO_A_CONNECTION_TO_AN_INEXISTENT_OBJECT"),
                             e);
                     }
                 }
@@ -2041,7 +2041,7 @@ public class EmailServer extends Mail implements MediaServer
         }
          catch (Exception e)
         {
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
             throw new boRuntimeException("", "", e);
         }
     }
@@ -2487,7 +2487,7 @@ public class EmailServer extends Mail implements MediaServer
             }
              catch (Exception e)
             {
-                logger.warn("Erro ao efectuar o set das datas do email.", e);
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_DOING_THE_EMAIL_DATESET"), e);
             }
 
             //to
@@ -2533,7 +2533,7 @@ public class EmailServer extends Mail implements MediaServer
             long receivers[] = MessageUtils.getToReceivers(message);
             if(MessageUtils.isToWaitResponse(message) && receivers != null && receivers.length > 0)
             {
-                logger.finer("Vou criar o wait para msg!");
+                logger.finer(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_WAIT_FOR_MSG"));
                 message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                 try
                 {
@@ -2561,19 +2561,18 @@ public class EmailServer extends Mail implements MediaServer
         }
          catch (iFilePermissionDenied e)
         {
-            this.addErrorMessage(
-                "Ocorreu um erro inesperado a anexar ficheiros ao email" +
+            this.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_ATTACHING_FILES_TO_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
          catch (boRuntimeException e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+                MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
@@ -2590,27 +2589,25 @@ public class EmailServer extends Mail implements MediaServer
         //      }
          catch (MessagingException e)
         {
-            this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            this.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL")+
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
          catch (IOException e)
         {
-            logger.warn("Error: ", e);
-            this.addErrorMessage("Impossivel enviar attach" +
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+            this.addErrorMessage(MessageLocalizer.getMessage("UNABLE_TO_SEND_ATTACH") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
 
             return false;
         }
          catch (Exception e)
         {
-            this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            this.addErrorMessage(MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL")+
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return false;
         }
@@ -2972,33 +2969,33 @@ public class EmailServer extends Mail implements MediaServer
          catch (boRuntimeException e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return null;
         }
          catch (AddressException e)
         {
-            this.addErrorMessage("Endereço inválido" +
+            this.addErrorMessage(MessageLocalizer.getMessage("INVALID_ADDRESS") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.warn("Error: ", e);
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return null;
         }
          catch (MessagingException e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
 
             return null;
         }
          catch (IOException e)
         {
-            logger.warn("Error: ", e);
-            this.addErrorMessage("Impossivel enviar attach" +
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+            this.addErrorMessage(MessageLocalizer.getMessage("UNABLE_TO_SEND_ATTACH") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
 
             return null;
@@ -3006,9 +3003,9 @@ public class EmailServer extends Mail implements MediaServer
          catch (Exception e)
         {
             this.addErrorMessage(
-                "Ocorreu um erro inesperado a enviar o email" +
+            		MessageLocalizer.getMessage("A_UNEXPECTED_ERROR_OCCURRED_SENDING_THE_EMAIL") +
                 "<span style='display:none'>" + e.getMessage() + "</span>");
-            logger.severe("Error: ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+"r: ", e);
 
             return null;
         }

@@ -39,6 +39,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimePart;
 import javax.mail.internet.MimeUtility;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.Address;
 import netgest.bo.message.utils.Attach;
 import netgest.bo.runtime.boRuntimeException;
@@ -586,7 +587,7 @@ public class MailUtil
         {
             try
             {
-                logger.finer("EMAIL WITH DIFERENT TYPE = " + mp.getClass().getName());
+                logger.finer(LoggerMessageLocalizer.getMessage("EMAIL_WITH_DIFERENT_TYPE")+" = " + mp.getClass().getName());
             }
             catch (Exception e)
             {

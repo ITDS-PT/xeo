@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_controler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.presentation.render.PageController;
 import netgest.bo.presentation.render.elements.AdHocElement;
 import netgest.bo.presentation.render.elements.Explorer;
@@ -58,7 +59,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -83,7 +84,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -108,7 +109,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -133,7 +134,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -158,7 +159,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -184,7 +185,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -209,7 +210,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -237,7 +238,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -263,7 +264,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -289,7 +290,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -315,7 +316,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -341,7 +342,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -368,7 +369,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -395,7 +396,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -421,7 +422,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -447,7 +448,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }
@@ -473,7 +474,7 @@ public class HTMLBuilder {
         //            case MOZILLA: 
         //                    break;
         default:
-            throw new boRuntimeException("", "Browser not supported or unknow",
+            throw new boRuntimeException("",  MessageLocalizer.getMessage("BROWSER_NOT_SUPPORTED_OR_UNKNOWN"),
                 null);
         }
     }

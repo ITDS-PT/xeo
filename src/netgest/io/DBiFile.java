@@ -17,6 +17,7 @@ import javax.naming.InitialContext;
 import javax.transaction.UserTransaction;
 
 import netgest.bo.data.Driver;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
@@ -459,7 +460,7 @@ public class DBiFile implements iFile  {
     
     public RuntimeException createRuntimeException(String method,Exception e) 
     {
-        return new RuntimeException("Error executing "+method+".\n"+e.getClass().getName()+"\n"+e.getMessage());
+        return new RuntimeException(MessageLocalizer.getMessage("ERROR_EXECUTING")+" "+method+".\n"+e.getClass().getName()+"\n"+e.getMessage());
     }
     
 
@@ -856,7 +857,7 @@ public class DBiFile implements iFile  {
     public OutputStream getOutputStream() throws iFilePermissionDenied
     {
         if(this.isDirectory())
-            throw new RuntimeException("File "+p_uri+" is directory.");
+            throw new RuntimeException(MessageLocalizer.getMessage("FILE")+" "+p_uri+" "+MessageLocalizer.getMessage("IS_DIRECTORY"));
         Blob blob;
         OutputStream os=null;
         ResultSet rslt=null;
@@ -890,7 +891,7 @@ public class DBiFile implements iFile  {
             } 
             else 
             {
-                throw new RuntimeException("Cannot create file "+p_absolutepath);    
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_CREATE_FILE")+" "+p_absolutepath);    
             }
         }
         catch (IOException e)
@@ -912,7 +913,7 @@ public class DBiFile implements iFile  {
     public InputStream getInputStream() throws iFilePermissionDenied
     {
         if(this.isDirectory())
-            throw new RuntimeException("File "+p_uri+" is directory.");
+            throw new RuntimeException(MessageLocalizer.getMessage("FILE")+" "+p_uri+" "+MessageLocalizer.getMessage("IS_DIRECTORY"));
         Blob blob;
         InputStream is = null;
 
@@ -944,7 +945,7 @@ public class DBiFile implements iFile  {
             } 
             else 
             {
-                throw new RuntimeException("Cannot create file "+p_absolutepath);    
+                throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_CREATE_FILE")+" "+p_absolutepath);    
             }
         }
         catch (SQLException e)
@@ -1114,20 +1115,20 @@ public class DBiFile implements iFile  {
     
     public iFile getCopy()
     {
-        throw new RuntimeException("getCopy:Not Impelemented");
+        throw new RuntimeException("getCopy:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     public boolean canRead() { return true; }
     public boolean canWrite() { return true; }
     public boolean isVersioned() { return false; }
     public boolean makeVersioned() throws iFilePermissionDenied { return false; }
-    public void     setDescription(String description) {throw new RuntimeException("setDescription:Not Impelemented");}
-    public String   getDescription() {throw new RuntimeException("getDescription:Not Impelemented");}
-    public void     setCategory(String author) {throw new RuntimeException("setCategory:Not Impelemented");}
-    public String   getCategory() {throw new RuntimeException("getCategory:Not Impelemented");}
+    public void     setDescription(String description) {throw new RuntimeException("setDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getDescription() {throw new RuntimeException("getDescription:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public void     setCategory(String author) {throw new RuntimeException("setCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
+    public String   getCategory() {throw new RuntimeException("getCategory:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));}
     
 	public void setBinaryStream(InputStream is) throws iFilePermissionDenied,
 			iFilePermissionDenied {
-		throw new RuntimeException("Not implemented after version of mysql!!!");
+		throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED_AFTER_VERSION_MYSQL"));
 		
 	}
 	
@@ -1161,7 +1162,7 @@ public class DBiFile implements iFile  {
 	}
 	@Override
 	public boolean addChild(iFile file) throws iFileException {
-		throw new iFileException("Not implemented");
+		throw new iFileException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
 	}
 	@Override
 	public boolean save(EboContext ctx) throws iFileException {

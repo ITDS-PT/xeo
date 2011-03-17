@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.utils.lock;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 
@@ -85,7 +86,7 @@ public class DBLock {
         }
         catch (SQLException e) 
         {
-            throw new boRuntimeException("SQL Exception setting new lock", "", e);
+            throw new boRuntimeException(MessageLocalizer.getMessage("SQL_EXCEPTION_SETTING_NEW_LOCK"), "", e);
         } 
         finally 
         {
@@ -130,7 +131,7 @@ public class DBLock {
             }
             return false;
         } catch (SQLException e) {
-            throw new boRuntimeException("SQL Exception setting new lock", "", e);
+            throw new boRuntimeException(MessageLocalizer.getMessage("SQL_EXCEPTION_SETTING_NEW_LOCK"), "", e);
         } finally {
             try {
                 if (stat != null) {

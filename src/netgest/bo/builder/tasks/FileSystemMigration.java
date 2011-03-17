@@ -3,6 +3,7 @@ package netgest.bo.builder.tasks;
 
 import netgest.bo.builder.ITask;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
@@ -110,7 +111,7 @@ public class FileSystemMigration implements ITask
 
                     if (!result)
                      {
-                        logger.finest("Object invalid for migration: " +
+                        logger.finest(LoggerMessageLocalizer.getMessage("OBJECT_INVALID_FOR_MIGRATION")+": " +
                             document.getBoui() + ", ClassName : " +
                             document.getName());
                     }
@@ -118,7 +119,7 @@ public class FileSystemMigration implements ITask
             }
             else
              {
-                logger.finest(" Migration already done ");
+                logger.finest(LoggerMessageLocalizer.getMessage("MIGRATION_ALREADY_DONE"));
             }
         }
          catch (boRuntimeException e)
@@ -128,7 +129,7 @@ public class FileSystemMigration implements ITask
 
         if (result)
          {
-            logger.finest("Validation successfull, you can now migrate.");
+            logger.finest(LoggerMessageLocalizer.getMessage("VALIDATION_SUCCESSFUL_YOU_CAN_NOW_MIGRATE"));
         }
 
         return result;
@@ -146,7 +147,7 @@ public class FileSystemMigration implements ITask
                 context.getApplication().suspendAgents();
                 Connection cn = connection.getConnection();
                 connection.beginContainerTransaction();
-                logger.finer("Start migrating dbfs_file to new the version.");
+                logger.finer(LoggerMessageLocalizer.getMessage("START_MIGRATING_BDFS_FILE_TO_NEW_THE_VERSION"));
                 if(!execute(cn, "alter table dbfs_file add (KEY NUMBER)", false))
                 {
                     execute(cn, "update dbfs_file set key = null", false);
@@ -203,7 +204,7 @@ public class FileSystemMigration implements ITask
                         }
                     }
                 }               
-                logger.finer("Ended migrating dbfs_file to new the version.");
+                logger.finer(LoggerMessageLocalizer.getMessage("ENDED_MIGRATING_BDFS_FILE_TO_NEW_THE_VERSION"));
             }
             else
              {
@@ -302,7 +303,7 @@ public class FileSystemMigration implements ITask
 
         if (!result && verbose)
          {
-            logger.severe("Object attributes invalid : " + object.getBoui());
+            logger.severe(LoggerMessageLocalizer.getMessage("OBJECT_ATTRIBUTES_INVALID")+" : " + object.getBoui());
         }
 
         return result;
@@ -481,8 +482,8 @@ public class FileSystemMigration implements ITask
 
                             path = "//basic/" + file.getKey() + "/" +
                                 file.getName();
-                            logger.finer("Changing Ebo_DocBase : " +
-                                document.getBoui() + " , File : " + path);
+                            logger.finer(LoggerMessageLocalizer.getMessage("CHANGING_EBO_DOCBASE")+" : " +
+                                document.getBoui() + " , "+LoggerMessageLocalizer.getMessage("FILE")+" : " + path);
                             document.getAttribute("file").setValueString(path);
 
 //                            logger.finer("updating dbfs_file_aux boui : " +
@@ -494,7 +495,7 @@ public class FileSystemMigration implements ITask
                 }
                  catch (Exception e)
                  {
-                    logger.severe("Cannot change document : " +
+                    logger.severe(LoggerMessageLocalizer.getMessage("CANNOT_CHANGE_DOCUMENT")+" : " +
                         document.getBoui());
                 }
             }
@@ -569,7 +570,7 @@ public class FileSystemMigration implements ITask
                     if (copyStream(getInputStream(connection, id),getOutputStream(connection, newId)))
                     {
                         insertKey(connection, id, newId);
-                        logger.finest("Already copy ID : " + id + " KEY : " + newId);
+                        logger.finest(LoggerMessageLocalizer.getMessage("ALREADY_COPY_ID")+" : " + id + " "+LoggerMessageLocalizer.getMessage("KEY")+" : " + newId);
                     }
                 }
             }

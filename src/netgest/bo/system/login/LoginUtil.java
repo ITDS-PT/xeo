@@ -1,9 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system.login;
 import java.util.Date;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.system.*;
-import netgest.bo.system.Logger;
 
 /**
  * 
@@ -51,7 +52,7 @@ public class LoginUtil
         }
         catch (Exception e)
         {
-            logger.severe("Erro a registar o LOGIN/OUT ["+type+"] do user ["+session.getUser().getUserName()+"]" + e.getClass() + ":" + e.getMessage(),e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_REGISTERING_THE_LOGIN_OUT")+" ["+type+"] "+LoggerMessageLocalizer.getMessage("FROM_USER")+" ["+session.getUser().getUserName()+"]" + e.getClass() + ":" + e.getMessage(),e);
         }
         finally
         {

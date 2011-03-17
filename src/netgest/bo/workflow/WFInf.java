@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.workflow;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 
 import java.util.*;
@@ -39,11 +40,11 @@ public final class WFInf
         Hashtable WKFL_MSG_RESOURCES = new Hashtable();
 
         WKFL_MSG_RESOURCES.put(
-            WF_ACTIVITY_CONDITION_CANNOT_EVALUTED, "A condição nao pode ser executada [:1] ");
+            WF_ACTIVITY_CONDITION_CANNOT_EVALUTED,MessageLocalizer.getMessage("THE_CONDITION_CANNOT_BE_EXECUTED"));
 
-        WKFL_MSG_RESOURCES.put(WF_ACTIVITY_ALREADY_COMPLETE, "A actividade ja está completa");
+        WKFL_MSG_RESOURCES.put(WF_ACTIVITY_ALREADY_COMPLETE, MessageLocalizer.getMessage("THE_ACTIVITY_IS_COMPLETE"));
 
-        WKFL_MSG_RESOURCES.put(WF_ACTIVITY_UNKNOWN_STATE, "Actividade com estado desconhecido");
+        WKFL_MSG_RESOURCES.put(WF_ACTIVITY_UNKNOWN_STATE, MessageLocalizer.getMessage("ACTIVITY_WITH_UNKNOWN_STATE"));
     }
 
     private ArrayList p_Errors;
@@ -63,7 +64,7 @@ public final class WFInf
         }
         else
         {
-            mess = "desconhecido";
+            mess = MessageLocalizer.getMessage("UNKNOWN");
         }
 
         p_Warnings.add(new WFInf.Entry(operation, srcObject.getBoui(), mess, TYPE_WARNING));

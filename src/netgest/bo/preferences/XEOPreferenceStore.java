@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -97,12 +98,12 @@ public class XEOPreferenceStore implements PreferenceStore {
 
 				}
 			} catch (Exception e) {
-				logger.severe("Error loading preferences [%s]. Caused by:", e, p.getName() );
+				logger.severe(LoggerMessageLocalizer.getMessage("ERROR_LOADING_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("CAUSED_BY")+":", e, p.getName() );
 				ret = false;
 			}
 		}
 		else {
-			logger.severe("Failed to load preference [%s]. There is no EboContext associated to this Thread.", p.getName() );
+			logger.severe(LoggerMessageLocalizer.getMessage("FAILED_TO_LOAD_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("THERE_IS_NO_EBOCONTEXT_ASSOCIATED_TOTHIS_THREAD"), p.getName() );
 		}
 		return ret;
 	}
@@ -169,7 +170,7 @@ public class XEOPreferenceStore implements PreferenceStore {
 					}
 					commit = true;
 				} catch (Exception e) {
-					logger.severe("Error saving preferences [%s]. Caused by:", e, p.getName() );
+					logger.severe(LoggerMessageLocalizer.getMessage("ERROR_SAVING_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("CAUSED_BY")+":", e, p.getName() );
 				} finally {
 					if( myTrans ) {
 						if( commit ) {
@@ -187,7 +188,7 @@ public class XEOPreferenceStore implements PreferenceStore {
 				}
 			}
 			else {
-				logger.severe("Failed to save preference [%s]. There is no EboContext associated to this Thread.", p.getName() );
+				logger.severe(LoggerMessageLocalizer.getMessage("FAILED_TO_SAVE_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("THERE_IS_NO_EBOCONTEXT_ASSOCIATED_TOTHIS_THREAD"), p.getName() );
 			}
 		}
 		catch ( Exception e ) {

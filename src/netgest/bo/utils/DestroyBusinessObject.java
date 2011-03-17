@@ -6,6 +6,7 @@ import java.util.List;
 
 import netgest.bo.impl.document.merge.gestemp.GtTemplate;
 import netgest.bo.impl.document.merge.gestemp.Helper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -36,7 +37,7 @@ public final class DestroyBusinessObject
     public static boolean destroy(boObject object)  throws boRuntimeException
     {
         boolean result = false;
-        logger.finer("Starting destroying object " + object.getBoui());
+        logger.finer(LoggerMessageLocalizer.getMessage("STARTING_DETROYING_OBJECT")+" " + object.getBoui());
         if("message".equals(object.getName()) || 
            "message".equals(object.getBoDefinition().getBoSuperBo()) ||
            "messageSystem".equals(object.getBoDefinition().getBoSuperBo())
@@ -56,7 +57,7 @@ public final class DestroyBusinessObject
         {
             result = destroyObject(object);
         }            
-        logger.finer("Ending destroying object " + object.getBoui());
+        logger.finer(LoggerMessageLocalizer.getMessage("ENDING_DETROYING_OBJECT")+" " + object.getBoui());
         return result;
     }
     /**
@@ -361,7 +362,7 @@ public final class DestroyBusinessObject
             document = (boObject)documents.get(i);
             if(document.getAttribute("fileName").getValueString().endsWith(".eml"))
             {
-                logger.finest("Destroy EML");                    
+                logger.finest(LoggerMessageLocalizer.getMessage("DESTROY_EML"));                    
                 document.destroy();                                    
             }
             else if(usedTemplate &&
@@ -375,7 +376,7 @@ public final class DestroyBusinessObject
                 Object creator =  document.getAttribute("CREATOR").getValueObject();
                 if(creator == null)
                 {
-                    logger.finest("Destroy Anexo");
+                    logger.finest(LoggerMessageLocalizer.getMessage("DESTROY_ATTACH"));
                     boObject[] referencedBy = document.getReferencedByObjects();
                     if( referencedBy != null && referencedBy.length == 0 )
                     {

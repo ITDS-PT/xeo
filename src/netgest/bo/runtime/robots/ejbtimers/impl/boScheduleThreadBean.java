@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import javax.rmi.PortableRemoteObject;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.robots.blogic.boScheduleThreadBussinessLogic;
 
@@ -98,7 +99,7 @@ public class boScheduleThreadBean
         }
         catch(Exception e)
         {
-            logger.warn("Unexpected Error executing EJBTimer - "+(String)timer.getInfo());
+            logger.warn(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR_EXECUTING_EJBTIMER")+" - "+(String)timer.getInfo());
             timer.cancel();
         }
         finally {

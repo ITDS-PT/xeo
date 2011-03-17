@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import netgest.bo.def.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.utils.*;
 
@@ -120,7 +121,7 @@ public class docHtml_wizard
         {
             throw new boRuntimeException("docHtml_wizard",
                 "executeJavaCode",
-                new Exception("Wrong type of data returned;"));
+                new Exception(MessageLocalizer.getMessage("WRONG_TYPE_OF_DATA_RETURNED")));
         }
     }
     
@@ -141,7 +142,7 @@ public class docHtml_wizard
         {
             throw new boRuntimeException("docHtml_wizard",
                 "executeJavaCode",
-                new Exception("Wrong type of data returned;"));
+                new Exception(MessageLocalizer.getMessage("WRONG_TYPE_OF_DATA_RETURNED")));
         }
     }
     
@@ -162,7 +163,7 @@ public class docHtml_wizard
         {
             throw new boRuntimeException("docHtml_wizard",
                 "executeJavaCode",
-                new Exception("Wrong type of data returned;"));
+                new Exception(MessageLocalizer.getMessage("WRONG_TYPE_OF_DATA_RETURNED")));
         }
     }
     
@@ -227,7 +228,7 @@ public class docHtml_wizard
         {
             throw new boRuntimeException("docHtml_wizard",
                 "executeJavaCode",
-                new Exception("Wrong type of data returned;"));
+                new Exception(MessageLocalizer.getMessage("WRONG_TYPE_OF_DATA_RETURNED")));
         }
     }
     

@@ -10,6 +10,9 @@ import netgest.xwf.stepControllers.*;
 import bsh.Primitive;
 import java.io.ByteArrayOutputStream;
 import java.util.*;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.bo.utils.DateUtils;
@@ -968,7 +971,7 @@ public class xwfControlFlow
           markProgramStart(ngt_code); 
         }
         else
-          throw new boRuntimeException("xwfControlFlow", "finishedStep", new Exception("Error: not a valid program definition in sub Porgram call"));
+          throw new boRuntimeException("xwfControlFlow", "finishedStep", new Exception("Error: "+MessageLocalizer.getMessage("NOT_A_VALID_PROGRAM_DEFINITION_IN_SUB_PROGRAM_CALL")));
       }
     }
     else
@@ -1665,10 +1668,10 @@ public class xwfControlFlow
           finishedStep(n);
       }
       else
-        throw new boRuntimeException("xwfControlFlow", "makeForeach", new Exception("Error: wrong variable type in foreach"));
+        throw new boRuntimeException("xwfControlFlow", "makeForeach", new Exception("Error: "+MessageLocalizer.getMessage("WRONG_VARIABLE_TYPE_IN_FOREACH")));
     }
     else
-      throw new boRuntimeException("xwfControlFlow", "makeForeach", new Exception("Error: variable name empty in foreach"));
+      throw new boRuntimeException("xwfControlFlow", "makeForeach", new Exception("Error: "+MessageLocalizer.getMessage("VARIABLE_NAME_EMPTY_IN_FOREACH")));
   }
   
   /**
@@ -1737,11 +1740,11 @@ public class xwfControlFlow
         nllb = actual_xml.getDocument().selectNodes("//programlabel[@name='"+label+"']/ancestor::thread | //milestone[@name='"+label+"']/ancestor::thread");
       }catch(Exception e){throw new boRuntimeException("xwfControlFlow", "makeGoto", e);}
       if((nlgt.getLength() == 0 && nllb.getLength() != 0) || (nlgt.getLength() != 0 && nllb.getLength() == 0) )
-        throw new boRuntimeException("xwfControlFlow", "makeGoto", new Exception("Error: goto -> label on diferent flows"));
+        throw new boRuntimeException("xwfControlFlow", "makeGoto", new Exception("Error: goto -> "+MessageLocalizer.getMessage("LABEL_ON_DIFFERENT_FLOWS")));
       else
         if(nlgt.getLength()!=0 && nllb.getLength() != 0)
           if(!nlgt.item(nlgt.getLength()-1).equals(nllb.item(nllb.getLength()-1)))
-            throw new boRuntimeException("xwfControlFlow", "makeGoto", new Exception("Error: goto -> label on diferent flows"));
+            throw new boRuntimeException("xwfControlFlow", "makeGoto", new Exception("Error: goto -> "+MessageLocalizer.getMessage("LABEL_ON_DIFFERENT_FLOWS")));
     
     }
     else
@@ -3241,7 +3244,7 @@ public class xwfControlFlow
         }
         catch (Exception e)
         {
-            logger.finer("Treated error:",e);
+            logger.finer(LoggerMessageLocalizer.getMessage("TREATED_ERROR")+":",e);
             return false;
         }
         return false;

@@ -9,8 +9,9 @@ import java.util.Date;
 import java.util.Vector;
 import javax.mail.MessagingException;
 import javax.mail.internet.*;
-import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
@@ -130,7 +131,7 @@ public class Ebo_forumtopicImpl
 //                          task.getAttribute("description").setValueString("Foi convidado a participar no fórum [<span style='color:blue' unselectable='on' CONTENTEDITABLE='false'>" + forumtopic.getAttribute("name").getValueString()+ "</span>] criado por <span style='color:blue' unselectable='on' CONTENTEDITABLE='false'>[ "+forumtopic.getAttribute("CREATOR").getObject().getCARDID().toString()+" ]</span><br>"
 //                          +" <A unselectable='on' CONTENTEDITABLE='false' target='_parent' href='javascript:winmain().openDocUrl(\"large\",\"forumposts.jsp\",\"?topic="+forumtopic.getBoui()+"\");'>Para participar clique aqui</A>"
 //                          );
-                        String subject = "Convite para participar no tópico ["+forumtopic.getAttribute("name").getValueString()+"]";
+                        String subject = MessageLocalizer.getMessage("INVITATION_TO_PARTICIPATE_IN_THE_TOPIC")+" ["+forumtopic.getAttribute("name").getValueString()+"]";
                         sendEmail( forumtopic.getEboContext(), members.getObject().getAttribute("name").getValueString(), 
                                    members.getObject().getAttribute("email").getValueString(),
                                    subject,
@@ -163,7 +164,7 @@ public class Ebo_forumtopicImpl
                 {
                     if( !sended.contains( new Long( perf ) ) )
                     {
-                        String subject = "Novo tópico na categoria ["+catObj.getAttribute("name").getValueString()+"]";
+                        String subject = MessageLocalizer.getMessage("NEW_TOPIC_IN_CATEGORY")+" ["+catObj.getAttribute("name").getValueString()+"]";
                         boObject perfobj = boObject.getBoManager().loadObject( forumtopic.getEboContext(), perf );
                         sendEmail( forumtopic.getEboContext(), 
                                     perfobj.getAttribute("name").getValueString(),
@@ -248,7 +249,7 @@ public class Ebo_forumtopicImpl
                     {
                         if( !sended.contains( new Long( perf ) ) )
                         {
-                            String subject = "Nova mensagem no tópico ["+forumTopic.getAttribute("name").getValueString()+"]";
+                            String subject = MessageLocalizer.getMessage("NEW_MESSAGE_IN_TOPIC")+" ["+forumTopic.getAttribute("name").getValueString()+"]";
                             boObject perfobj = boObject.getBoManager().loadObject( forumTopic.getEboContext(), perf );
                             sendEmail( forumTopic.getEboContext(), 
                                         perfobj.getAttribute("name").getValueString(),
@@ -290,7 +291,7 @@ public class Ebo_forumtopicImpl
  
 //                            Ebo_AnnounceImpl.addAnnounce( activepost, to , "Nova mensagem em ["+forumtopic.getAttribute("name").getValueString()+"] colocada por "+post.getAttribute("CREATOR").getObject().getAttribute("name").getValueString() );
                             
-                            String subject = "Resposta a mensagem no tópico ["+forumtopic.getAttribute("name").getValueString()+"]";
+                            String subject = MessageLocalizer.getMessage("ANSWER_TO_TOPIC_MESSAGE")+" ["+forumtopic.getAttribute("name").getValueString()+"]";
                             
                             sendEmail( activepost.getEboContext(), to.getAttribute("name").getValueString(), 
                                        to.getAttribute("email").getValueString(),
@@ -321,7 +322,7 @@ public class Ebo_forumtopicImpl
             {
                 if ( subscribers[i].getBoui() != forumPost.getEboContext().getBoSession().getPerformerBoui() )
                 {
-                    Ebo_AnnounceImpl.addAnnounce( forumPost, subscribers[i], forumTopic, "Nova mensagem em ["+forumTopic.getAttribute("name").getValueString()+"] colocada por "+forumPost.getAttribute("CREATOR").getObject().getAttribute("name").getValueString() );
+                    Ebo_AnnounceImpl.addAnnounce( forumPost, subscribers[i], forumTopic, MessageLocalizer.getMessage("NEW_MESSAGE_IN")+" ["+forumTopic.getAttribute("name").getValueString()+"] colocada por "+forumPost.getAttribute("CREATOR").getObject().getAttribute("name").getValueString() );
                 }
             }
         }
@@ -509,7 +510,7 @@ public class Ebo_forumtopicImpl
         }
         else
         {
-            baseUrl = "javascript:alert('Hiperligação não disponível');";
+            baseUrl = "javascript:alert('"+MessageLocalizer.getMessage("LINK_NOT_AVAILABLE")+"');";
         }
         return baseUrl;
     }

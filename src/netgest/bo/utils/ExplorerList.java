@@ -23,6 +23,7 @@ import java.sql.*;
 import netgest.bo.system.Logger;
 import java.util.Vector;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localized.JSPMessages;
 
 
@@ -1821,7 +1822,7 @@ public final class ExplorerList  implements Serializable {
         }
         tFinal = System.currentTimeMillis();
 //        logger.finer("Tempo Total Print : " + (tFinal-tInicial)/1000 +"s" );
-        logger.finer("Tempo Total Print : " + String.valueOf(tFinal-tInicial)  );
+        logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_PRINT_TIME")+" : " + String.valueOf(tFinal-tInicial)  );
       
         return result;      
     }

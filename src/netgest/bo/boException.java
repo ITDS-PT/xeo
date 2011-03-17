@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.StringUtils;
 
 public class boException extends RuntimeException {
@@ -47,39 +48,39 @@ public class boException extends RuntimeException {
             p_errors = new Hashtable();
 
             // Erros Mais genéricos
-            p_errors.put("BO-1201","Erro a carregar o ficheiro :1 \n :baserror");
-            p_errors.put("BO-1202","Erro a interpretar o ficheiro :1 \n :baserror");
-            p_errors.put("BO-1203","Error reading/parsing file for [:1] \n :baserror");
+            p_errors.put("BO-1201",	MessageLocalizer.getMessage("ERROR_LOADING_FILE_BASEERROR"));
+            p_errors.put("BO-1202",MessageLocalizer.getMessage("ERROR_INTEPRETING_FILE_BASEERROR"));
+            p_errors.put("BO-1203",MessageLocalizer.getMessage("ERROR_READING_PARSING_FILE_FOR_BASEERROR"));
 
             // Erros boBuildDB
-            p_errors.put("BO-1301","Erro a adicionar no NGTDIC a tabela [:1] \n :baserror");
-            p_errors.put("BO-1302","Erro a adicionar no NGTDIC o campo [:1] \n :baserror");
-            p_errors.put("BO-1303","Erro a adicionar no NGTDIC o ForeignKey [:1] \n :baserror");
-            p_errors.put("BO-1304","Erro a gerar Scripts para a o object [:1] \n :baserror");
-            p_errors.put("BO-1305","Tipo de dados não suportado [:1] \n :baserror");
-            p_errors.put("BO-1306","Erro de sintaxe no [:1] \n :baserror");
-            p_errors.put("BO-1307","Erro a carregar o NGTDIC \n :baserror");
+            p_errors.put("BO-1301",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_TABLE_BASEERROR"));
+            p_errors.put("BO-1302",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_FIELD_BASEERROR"));
+            p_errors.put("BO-1303",MessageLocalizer.getMessage("ERROR_ADDING_TO_NGTDIC_THE_FOREIGNKEY_BASEERROR"));
+            p_errors.put("BO-1304",MessageLocalizer.getMessage("ERROR_GENERATING_SCRIPTS_FOR_THE_OBJECT_BASEERROR"));
+            p_errors.put("BO-1305",MessageLocalizer.getMessage("UNSUPPORTED_DATA_TYPE_BASEERROR"));
+            p_errors.put("BO-1306",MessageLocalizer.getMessage("SYNTAX_ERROR_IN_BASEERROR"));
+            p_errors.put("BO-1307",MessageLocalizer.getMessage("ERROR_LOADING_THE_NGTDIC_BASEERROR"));
 
             // 
-            p_errors.put("BO-1401","Current Attribute is not a object [:1]");
-            p_errors.put("BO-1402","Only Orphan Objects are supported in bridge attributes [:1]");
-            p_errors.put("BO-1403","Attribute without type defined [:1]");
+            p_errors.put("BO-1401",MessageLocalizer.getMessage("CURRENT_ATTRIBUTE_IS_NOT_A_OBJECT"));
+            p_errors.put("BO-1402",MessageLocalizer.getMessage("ONLY_ORPHAN_OBJECTS_ARE_SUPPORTED_IN_BRIDGE_ATTRIBUTES"));
+            p_errors.put("BO-1403",MessageLocalizer.getMessage("ATTRIBUTE_WITHOUT_TYPE_DEFINED"));
 
 
             // Errors Class Generator and compiler
-            p_errors.put("BO-1501","Error copying xml to deployment dir og business object [:1]");
-            p_errors.put("BO-1502","Error copying template from (:1) to deployment dir (:2)");
+            p_errors.put("BO-1501",MessageLocalizer.getMessage("ERROR_COPYING_XML_TO_DEPLOYMENT_DIR_OF_BUSINESS_OBJECT"));
+            p_errors.put("BO-1502",MessageLocalizer.getMessage("ERROR_COPYING_TEMPLATES_FROM_TO_DEPLOYMENT_DIR"));
 
             // Error of class compiler
-            p_errors.put("BO-1601","Error compiling class generated for [:1]");
+            p_errors.put("BO-1601",MessageLocalizer.getMessage("ERROR_COMPILING_CLASS_GENERATED_FOR"));
 
             // Erros of configuration
-            p_errors.put("BO-1701","Error executing query of object State\nSource is [:1] in Object [:2] and the base error is [:3]");
-            p_errors.put("BO-1702","Error executing BOQL to evalute a boolean source is [:1]");
+            p_errors.put("BO-1701",MessageLocalizer.getMessage("ERROR_EXECUTING_QUERY_OF_OBJECT_STATE_SOURCE_IS_IN_OBJ_BASEERROR"));
+            p_errors.put("BO-1702",MessageLocalizer.getMessage("ERROR_EXECUTING_BOQL_TO_EVALUATE_A_BOOLEAN_SOURCE_IS"));
 
 
             // Error Runtime Class Errors
-            p_errors.put("BO-2101","Error Loading class for object [:1]");
+            p_errors.put("BO-2101",MessageLocalizer.getMessage("ERROR_LOADING_CLASS_FOR_OBJECT"));
 
         }    
     }

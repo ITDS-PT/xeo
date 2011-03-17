@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.impl.Ebo_TemplateImpl;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.BridgeObjAttributeHandler;
 import netgest.bo.runtime.EboContext;
@@ -878,7 +879,7 @@ public final class boTemplateManager
             args[0] = object;
             out = ometh.invoke(null,args);
             result = ((Boolean)out).booleanValue();
-            System.out.println("Result : " + result);
+            System.out.println(MessageLocalizer.getMessage("RESULT")+" : " + result);
         }
         catch (InvocationTargetException e)
         {

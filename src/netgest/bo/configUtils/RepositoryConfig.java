@@ -10,6 +10,7 @@ import javax.jcr.Session;
 
 import netgest.bo.boConfig;
 import netgest.bo.def.boDefDocument;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
@@ -93,6 +94,7 @@ public class RepositoryConfig
 	 * The set of system properties (Properties that shoul'd not appear 
 	 */
 	private HashSet<String> p_sysProps;
+	
 	/**
 	 * 
 	 * Public constructor that loads the information
@@ -446,8 +448,8 @@ public class RepositoryConfig
 	 */
 	public MetadataNodeConfig getDefaultMetadataConfig(){
 		if (p_defaultMetadata == null)
-			throw new RuntimeException("The repository configuration " + getName() 
-					+ " does not have a default metadata node configuration");
+			throw new RuntimeException(MessageLocalizer.getMessage("THE_REPOSITORY_CONFIGURATION")+" " + getName() 
+					+ " "+MessageLocalizer.getMessage("DOES_NOT_HAVE_A_DEFAULT_NODE_CONFIGURATION"));
 		return p_defaultMetadata;
 	}
 	

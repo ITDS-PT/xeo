@@ -2,6 +2,8 @@
 package netgest.utils.mail;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class mailAddress 
@@ -26,7 +28,7 @@ public class mailAddress
       }
       catch (Exception e)
       {
-          logger.warn("Erro ao resolver o endereço de email (" + fullemail +")", e);
+          logger.warn(LoggerMessageLocalizer.getMessage("ERROR_RESOLVING_THE_EMAIL_ADDRESS")+" (" + fullemail +")", e);
       }
       if(Email == null)
       {

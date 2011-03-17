@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.events;
 import java.util.Iterator;
+
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.utils.*;
 import netgest.bo.system.Logger;
@@ -73,7 +75,7 @@ public class MailAccountEvents
         }
         catch(Exception e)
         {
-            logger.severe("EMAILACCOUNT ERROR ", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("EMAILACCOUNT_ERROR"), e);
         }
         finally
         {

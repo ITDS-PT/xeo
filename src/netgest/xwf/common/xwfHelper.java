@@ -8,17 +8,12 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 import netgest.bo.controller.xwf.XwfController;
 import netgest.bo.def.boDefAttribute;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.*;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boRuntimeException;
 
 import netgest.bo.security.securityOPL;
 import netgest.bo.security.securityRights;
@@ -27,7 +22,6 @@ import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
 import netgest.xwf.*;
-import netgest.xwf.EngineGate;
 
 import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XSLException;
@@ -167,7 +161,7 @@ public final class xwfHelper
                 result = VALUE_LOV;
                 break;
             default: 
-                throw new RuntimeException("getTypeName(boObject varValue): type not found");
+                throw new RuntimeException("getTypeName(boObject varValue): "+MessageLocalizer.getMessage("TYPE_NOT_FOUND"));
         }
         return result;
     }   

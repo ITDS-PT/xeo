@@ -10,6 +10,8 @@ import netgest.bo.impl.document.merge.gestemp.validation.Contexto;
 import netgest.bo.impl.document.merge.gestemp.validation.JavaExecuter;
 import netgest.bo.impl.document.merge.gestemp.validation.Modelo;
 import netgest.bo.impl.document.merge.gestemp.validation.Query;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -206,10 +208,10 @@ public class GtCampoFormula extends GtCampo {
                 }
             }
             msg += "\n" + javaExec.getErrorMessage();
-            logger.severe("Campo Formula[" + getNome() + "] : " + msg, javaExec.getException() );
-            throw new boRuntimeException("",
-                "Não foi possível calcular [" + getPergunta() +
-                "]. Verifique se o valor introduzido está correcto.", null);
+            logger.severe(LoggerMessageLocalizer.getMessage("FIELD_FORMULA")+" [" + getNome() + "] : " + msg, javaExec.getException() );
+            throw new boRuntimeException("",MessageLocalizer.getMessage("UNABLE_TO_CALCULATE")+
+                " [" + getPergunta() +
+                "]. "+MessageLocalizer.getMessage("CHECK_IF_THE_INTRODUCED_VALUE_IS_CORRECT"), null);
         }
     }
 

@@ -18,6 +18,7 @@ import netgest.bo.data.DriverUtils;
 import netgest.bo.data.ReaderAdapter;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 
@@ -33,6 +34,7 @@ public class MysqlDriver implements Driver
     private String p_ddlds;
     private String p_dmlds;
     private String p_name;
+
 
     /**
      *
@@ -86,8 +88,8 @@ public class MysqlDriver implements Driver
             {
                 if (retries >= retrycount)
                 {
-                    throw new RuntimeException(
-                        " Failed to create connection. \n" +
+                    throw new RuntimeException(MessageLocalizer.getMessage("FAILED_TO_CREATE_CONNECTION")+
+                        " \n" +
                         e.getClass().getName() + "\n" + e.getMessage());
                 }
             }
@@ -119,8 +121,8 @@ public class MysqlDriver implements Driver
                 ret = null;
                 if (retries >= retrycount) 
                 {
-                    throw new RuntimeException(
-                        " Failed to create connection. \n" +
+                    throw new RuntimeException(MessageLocalizer.getMessage("FAILED_TO_CREATE_CONNECTION")+
+                        " \n" +
                         e.getClass().getName() + "\n" + e.getMessage());
                 }
             }
@@ -141,7 +143,7 @@ public class MysqlDriver implements Driver
         }
         catch (NamingException e)
         {
-            throw new RuntimeException("Error looking for DataSource name [" +
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_LOOKING_FOR_DATASOURCE_NAME")+" [" +
                 dataSourceName + "].\n" + e.getMessage());
         }
     }
@@ -155,7 +157,7 @@ public class MysqlDriver implements Driver
             cn.setAutoCommit(false);
         }
         catch (SQLException e) {
-            System.out.println("Failed to obtain Dedicated Connection or disable AutoCommit");
+            System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABL_AUTOCOMIT"));
         }
         return cn;    
     }
@@ -174,7 +176,7 @@ public class MysqlDriver implements Driver
             cn.setAutoCommit(false);
         }
         catch (SQLException e) {
-            System.out.println("Failed to obtain Dedicated Connection or disable AutoCommit");
+            System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABL_AUTOCOMIT"));
         }
         return cn;
     }
@@ -256,7 +258,7 @@ public class MysqlDriver implements Driver
 			if( val != null )
 				return val.longValue();
 			
-			throw new RuntimeException("XEO MYSQL Driver: Erro a obter sequencia [" + sequenceName + "] ");
+			throw new RuntimeException("XEO MYSQL Driver: "+MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" [" + sequenceName + "] ");
 		} catch (SQLException e) {
 			throw new RuntimeException( e );
 		}

@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Vector;
 import netgest.bo.boConfig;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -83,7 +84,7 @@ public class PrintJob
             }
             else
             {
-                throw new RuntimeException( "A queue com o id [" + this.queueId + "] não existe." );
+                throw new RuntimeException(MessageLocalizer.getMessage("THE_QUEUE_WITH_ID")+ " [" + this.queueId + "] "+MessageLocalizer.getMessage("DOESNT_EXIST")+"." );
             }
 
             boObject printJobQueue = boObject.getBoManager().createObject( ctx ,"PrintQueueJob");
@@ -215,17 +216,17 @@ public class PrintJob
             {
                 boObject objdoc = boObject.getBoManager().loadObject( ctx, document );
                 if( objdoc.getAttribute("file") == null )
-                    throw new RuntimeException( "Erro, o objecto documento não tem o atributo FILE." );
+                    throw new RuntimeException( MessageLocalizer.getMessage("ERROR_THE_DOCUMENT_OBJECT_DOESNT_HAVE_THE_ATTRIBUTE_FILE"));
             }
             else if( document == 0 )
             {
                 if ( file == null )
-                    throw new RuntimeException( "Não foi especificado documento ou ficheiro a ser impresso." );
+                    throw new RuntimeException( MessageLocalizer.getMessage("NO_DOCUMNT_OR_FILE_WAS_SPECIFIED_TO_PRINT"));
                 
                 if( file instanceof File )
                 {
                     if( !((File)file).exists() || !((File)file).isFile() )
-                        throw new RuntimeException( "Ficheiro não existe ou não especifica um localização correcta." );
+                        throw new RuntimeException( MessageLocalizer.getMessage("FILE_DOESNT_EXIST_OR_DOESNT_SPECIFY_A_CORRECT_LOCALIZATION") );
                 }
             }
             

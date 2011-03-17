@@ -4,6 +4,8 @@ package netgest.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -103,7 +105,7 @@ public final class StringUtils
         }
         else
         {
-            throw new IllegalArgumentException("Cannot remove quotes from a not literal expression ["+arg+"]");
+            throw new IllegalArgumentException(MessageLocalizer.getMessage("CANNOT_REMOVE_QUOTES_FROM_A_NOT_LITERAL_EXPRESSION")+" ["+arg+"]");
         }
     }
      
@@ -320,6 +322,6 @@ public final class StringUtils
     {
 //        System.out.println(Arrays.binarySearch(CHAR_TO_RPLC, 'ó'));
 //        System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
-        System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
+        System.out.println(StringUtils.smsReplaceChars(MessageLocalizer.getMessage("WE_APPRECIATE_PHONE_CONTACT")));
     }
 }

@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.message.server.mail;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.Address;
 import netgest.bo.message.utils.XEOIDUtil;
 
@@ -34,7 +35,7 @@ public class MailAddress implements Address
         }
          catch (Exception e)
         {
-            logger.warn("Erro ao resolver o endereço de email (" + fullemail +
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_RESOLVING_THE_EMAIL_ADDRESS")+" (" + fullemail +
                 ")", e);
         }
 
@@ -86,7 +87,7 @@ public class MailAddress implements Address
         }
         catch (Exception e)
         {
-            logger.warn("Erro ao resolver o endereço de email (" + fullName +
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_RESOLVING_THE_EMAIL_ADDRESS")+" (" + fullName +
                 ")", e);
         }
 
@@ -118,7 +119,7 @@ public class MailAddress implements Address
         }
         catch (Exception e)
         {
-            logger.warn("Erro ao resolver o endereço de email (" + fullName +
+            logger.warn(LoggerMessageLocalizer.getMessage("ERROR_RESOLVING_THE_EMAIL_ADDRESS")+" (" + fullName +
                 ")", e);
         }
 

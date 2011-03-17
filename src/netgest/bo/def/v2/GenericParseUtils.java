@@ -1,5 +1,6 @@
 package netgest.bo.def.v2;
 import netgest.utils.ngtXMLHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 public class GenericParseUtils 
@@ -37,7 +38,7 @@ public class GenericParseUtils
             } 
             catch (NumberFormatException ex) 
             {
-                logger.warn("Unparsable Number["+value+"]" );
+                logger.warn(LoggerMessageLocalizer.getMessage("UNPARSABLE_NUMBER")+"["+value+"]" );
                 return 0;
             }
         }
@@ -65,7 +66,7 @@ public class GenericParseUtils
             }
             catch (NumberFormatException ex) 
             {
-                logger.warn("Unparsable Number["+value+"]" );
+                logger.warn(LoggerMessageLocalizer.getMessage("UNPARSABLE_NUMBER")+"["+value+"]" );
                 return 0;
             }
         }

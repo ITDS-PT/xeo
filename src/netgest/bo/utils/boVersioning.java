@@ -13,6 +13,7 @@ import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boAttributesArray;
@@ -799,7 +800,7 @@ public class boVersioning
         }
         catch (SQLException e)
         {
-            throw new boRuntimeException("SQL Exception reading Version from DataBase", "", e);
+            throw new boRuntimeException(MessageLocalizer.getMessage("SQL_EXCEPTION_READING_VERSION_FROM_DATABASE"), "", e);
         }
         finally
         {
@@ -944,7 +945,7 @@ public class boVersioning
                 log.getAttribute("value_String").setValueObject(value);
                 break;
             default:
-                throw new RuntimeException("Tipo de dados não possivel de criar histórico");
+                throw new RuntimeException(MessageLocalizer.getMessage("DATA_TYPE_UNABLE_TO_CREATE_HISTORY"));
         }
 
         log.getAttribute("action").setValueString(action);

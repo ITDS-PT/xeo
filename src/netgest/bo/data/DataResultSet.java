@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.RowId;
 import java.sql.SQLXML;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.ExpressionParser;
 
 /**
@@ -108,7 +109,7 @@ public class DataResultSet implements ResultSet, Serializable
         for (i=0;i<fields.length;i++) {
             fldpos[i] = this.findColumn(fields[i]);
             if(fldpos[i]<1)
-                throw new SQLException("O campo ["+fields[i]+"] não existe");
+                throw new SQLException(MessageLocalizer.getMessage("THE_FIELD")+" ["+fields[i]+"] "+MessageLocalizer.getMessage("DOESNT_EXIST"));
         }
         if( pos==0 )
         {
@@ -134,7 +135,7 @@ public class DataResultSet implements ResultSet, Serializable
                         boltoken = false;
                     }
                 } else {
-                    throw(new SQLException("Locate is limited to strings and numbers, no other types can be searched"));
+                    throw(new SQLException("Locate "+MessageLocalizer.getMessage("IS_LIMITED_TO_STRING_AND_NUMBERS_NO_OTHER_TYPES_CAN_BE_SEARCHED")));
                 }
             }
             if (boltoken) break;
@@ -189,17 +190,17 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final boolean getBoolean(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public final byte getByte(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public final short getShort(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     public final int getInt(int columnIndex) throws SQLException
@@ -229,7 +230,7 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final byte[] getBytes(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO:"+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Date getDate(int columnIndex) throws SQLException
@@ -259,17 +260,17 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final InputStream getAsciiStream(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final InputStream getUnicodeStream(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final InputStream getBinaryStream(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final String getString(String columnName) throws SQLException
@@ -279,17 +280,17 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final boolean getBoolean(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final byte getByte(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final short getShort(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+".. ");
     }
 
     public final int getInt(String columnName) throws SQLException
@@ -319,7 +320,7 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final byte[] getBytes(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Date getDate(String columnName) throws SQLException
@@ -349,32 +350,32 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final InputStream getAsciiStream(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final InputStream getUnicodeStream(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final InputStream getBinaryStream(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final SQLWarning getWarnings() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void clearWarnings() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final String getCursorName() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final ResultSetMetaData getMetaData() throws SQLException
@@ -399,12 +400,12 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final Reader getCharacterStream(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Reader getCharacterStream(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final BigDecimal getBigDecimal(int columnIndex) throws SQLException
@@ -517,32 +518,32 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void setFetchDirection(int direction) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final int getFetchDirection() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void setFetchSize(int rows) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final int getFetchSize() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final int getType() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final int getConcurrency() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final boolean rowUpdated() throws SQLException
@@ -567,12 +568,12 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateBoolean(int columnIndex, boolean x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateByte(int columnIndex, byte x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateShort(int columnIndex, short x) throws SQLException
@@ -612,7 +613,7 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateBytes(int columnIndex, byte[] x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateDate(int columnIndex, Date x) throws SQLException
@@ -632,17 +633,17 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateAsciiStream(int columnIndex, InputStream x, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateBinaryStream(int columnIndex, InputStream x, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateCharacterStream(int columnIndex, Reader x, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateObject(int columnIndex, Object x, int scale) throws SQLException
@@ -662,12 +663,12 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateBoolean(String columnName, boolean x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateByte(String columnName, byte x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateShort(String columnName, short x) throws SQLException
@@ -707,7 +708,7 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateBytes(String columnName, byte[] x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateDate(String columnName, Date x) throws SQLException
@@ -727,17 +728,17 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void updateAsciiStream(String columnName, InputStream x, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateBinaryStream(String columnName, InputStream x, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateCharacterStream(String columnName, Reader reader, int length) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateObject(String columnName, Object x, int scale) throws SQLException
@@ -773,12 +774,12 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final void refreshRow() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void cancelRowUpdates() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void moveToInsertRow() throws SQLException
@@ -793,391 +794,391 @@ public class DataResultSet implements ResultSet, Serializable
 
     public final Statement getStatement() throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Object getObject(int i, Map map) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Ref getRef(int i) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Blob getBlob(int i) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Clob getClob(int i) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Array getArray(int i) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Object getObject(String colName, Map map) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+".. ");
     }
 
     public final Ref getRef(String colName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Blob getBlob(String colName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Clob getClob(String colName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Array getArray(String colName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Date getDate(int columnIndex, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Date getDate(String columnName, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Time getTime(int columnIndex, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Time getTime(String columnName, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final Timestamp getTimestamp(String columnName, Calendar cal) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final URL getURL(int columnIndex) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final URL getURL(String columnName) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateRef(int columnIndex, Ref x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateRef(String columnName, Ref x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateBlob(int columnIndex, Blob x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateBlob(String columnName, Blob x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateClob(int columnIndex, Clob x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateClob(String columnName, Clob x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateArray(int columnIndex, Array x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     public final void updateArray(String columnName, Array x) throws SQLException
     {
-        throw new SQLException("NGTBO: Not implemented... ");
+        throw new SQLException("NGTBO: "+MessageLocalizer.getMessage("NOT_IMPLEMENTED")+"... ");
     }
 
     // Since JDK 1.6
     public void updateNClob(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateNClob(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     } 
     
     // Since JDK 1.6
     public void updateNClob(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     } 
 
     // Since JDK 1.6
     public void updateNClob(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public void updateClob(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateClob(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }   
 
     // Since JDK 1.6
     public void updateClob(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     } 
 
     // Since JDK 1.6
     public void updateClob(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }  
     
     // Since JDK 1.6
     public void updateBlob(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateBlob(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }  
 
     // Since JDK 1.6
     public void updateBlob(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateBlob(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public void updateCharacterStream(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }    
 
     // Since JDK 1.6
     public void updateCharacterStream(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }  
 
     // Since JDK 1.6
     public void updateCharacterStream(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public void updateCharacterStream(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }   
     
     // Since JDK 1.6
     public void updateBinaryStream(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateBinaryStream(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateBinaryStream(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateBinaryStream(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateAsciiStream(String p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateAsciiStream(int p0, InputStream p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }  
 
     // Since JDK 1.6
     public void updateAsciiStream(String p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateAsciiStream(int p0, InputStream p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }  
     
     // Since JDK 1.6
     public void updateNCharacterStream(String p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public void updateNCharacterStream(int p0, Reader p1) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
     
     // Since JDK 1.6
     public void updateNCharacterStream(String p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public void updateNCharacterStream(int p0, Reader p1, long p3) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
 
     // Since JDK 1.6
     public Reader getNCharacterStream(String p0) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }       
 
     // Since JDK 1.6
     public Reader getNCharacterStream(int p0) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }    
     
     // Since JDK 1.6
     public String getNString(String p0) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }     
     
     // Since JDK 1.6
     public String getNString(int p0) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public int getHoldability() {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public NClob getNClob(int columnIndex) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public NClob getNClob(String columnLabel)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public RowId getRowId(int columnIndex)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public RowId getRowId(String columnLabel) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public SQLXML getSQLXML(int columnIndex) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public SQLXML getSQLXML(String columnLabel)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public boolean isClosed() throws SQLException {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateNClob(int columnIndex, NClob nClob)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateNClob(String columnLabel,
                             NClob nClob) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateNString(int columnIndex,
                               String nString) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateNString(String columnLabel,
                               String nString) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateRowId(int columnIndex, RowId x) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public void updateRowId(String columnLabel, RowId x) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateSQLXML(int columnIndex,
                              SQLXML xmlObject)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
 
     // Since JDK 1.6
     public void updateSQLXML(String columnLabel,
                              SQLXML xmlObject) {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }    
 }

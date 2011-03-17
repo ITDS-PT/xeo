@@ -9,6 +9,7 @@ import java.util.Arrays;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefDatabaseObject;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
@@ -173,7 +174,7 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 				sb.append( keysValues[i] );
 			}
 			else {
-				throw new RuntimeException( "Cannot relate object because the attribute [" + keys[i] + "] doesn't exist." );
+				throw new RuntimeException(  MessageLocalizer.getMessage("CANNOT_RELATE_BECAUSE_THE_ATTRIBUTE")+" [" + keys[i] + "] "+MessageLocalizer.getMessage("DOESNT_EXIST")+"." );
 			}
 		}
 		
@@ -224,7 +225,7 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 					keysValues[i] = keyAtt.getValueObject();
 				}
 				else {
-					throw new RuntimeException( "Cannot relate object because the attribute [" + keys[i] + "] doesn't exist." );
+					throw new RuntimeException( MessageLocalizer.getMessage("CANNOT_RELATE_BECAUSE_THE_ATTRIBUTE")+" [" + keys[i] + "] "+MessageLocalizer.getMessage("DOESNT_EXIST")+"." );
 				}
 	
 			}
@@ -358,7 +359,7 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 	public void destroyDataSet(EboContext ctx, DataSet emptyDataSet, boObject object) 
 								throws boRuntimeException {
 		
-		System.out.print( "destroy object" );
+		System.out.print( MessageLocalizer.getMessage("DESTROY_OBJECT"));
 		
 	}
 
@@ -366,7 +367,7 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 	public void updateDataSet(EboContext ctx, DataSet emptyDataSet,
 			boObject object) 	throws boRuntimeException {
 
-		System.out.print( "update object" );
+		System.out.print( MessageLocalizer.getMessage("UPDATE_OBJECT"));
 		
 	}
 

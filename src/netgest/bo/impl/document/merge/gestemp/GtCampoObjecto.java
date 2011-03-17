@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.impl.document.merge.Tabela;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -163,13 +165,13 @@ public class GtCampoObjecto extends GtCampo {
         {
             if( value == null )
             {
-                logger.severe("Campo  ["+attDef.getBoDefHandler().getName()+"."+attDef.getName()+
-                        "] está a null no modelo " +
-                        " Header:["+this.getHeaderName()+"]"+
-                        " Nome:["+this.getNome()+"]"+
-                        " Query:["+this.getQueryName()+"] " +
-                        " Modelo:["+this.getTemplate().getNome()+"] " +
-                        " Utilizador:["+boctx.getSysUser().getUserName()+"] ",
+                logger.severe(LoggerMessageLocalizer.getMessage("FIELD")+"  ["+attDef.getBoDefHandler().getName()+"."+attDef.getName()+
+                        "] "+LoggerMessageLocalizer.getMessage("IS_NULL_IN_MODEL")+" " +
+                        " "+LoggerMessageLocalizer.getMessage("HEADER")+":["+this.getHeaderName()+"]"+
+                        " "+LoggerMessageLocalizer.getMessage("NAME")+":["+this.getNome()+"]"+
+                        " "+LoggerMessageLocalizer.getMessage("QUERY")+":["+this.getQueryName()+"] " +
+                        " "+LoggerMessageLocalizer.getMessage("MODEL")+":["+this.getTemplate().getNome()+"] " +
+                        " "+LoggerMessageLocalizer.getMessage("USER")+":["+boctx.getSysUser().getUserName()+"] ",
                         new Throwable()
                 );
                 
@@ -181,9 +183,9 @@ public class GtCampoObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.finer("Tempo Total (" +
+        logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+" (" +
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
-            "s) campoObjecto:" + getNome());
+            "s) "+LoggerMessageLocalizer.getMessage("FIELDOBJECT")+":" + getNome());
     }
 
     public void setData(EboContext boctx, Tabela tab, byte templateType,
@@ -248,9 +250,9 @@ public class GtCampoObjecto extends GtCampo {
         }
 
         long tf = System.currentTimeMillis();
-        logger.finer("Tempo Total (" +
+        logger.finer(LoggerMessageLocalizer.getMessage("TOTAL_TIME")+" (" +
             ((float) (Math.round((float) (tf - ti) / 100f)) / 10f) +
-            "s) campoObjecto:" + getNome());
+            "s) "+LoggerMessageLocalizer.getMessage("FIELDOBJECT")+":" + getNome());
     }
 
     public void calculateAutomicFields(EboContext boctx, GtTemplate template)
@@ -298,20 +300,20 @@ public class GtCampoObjecto extends GtCampo {
                 }
             }
         } catch (Exception e) {
-            String msg = "Não foi possível calcular [" + getHelper() + "]";
+            String msg = LoggerMessageLocalizer.getMessage("UNABLE_TO_CALCUTE")+" [" + getHelper() + "] ";
 
             if ((g != null) && (g.getValue() != null)) {
                 if (g.getValue() instanceof boObject) {
-                    msg += (" para o objecto [" +
+                    msg += (LoggerMessageLocalizer.getMessage("FOR_OBJECT")+" [" +
                     ((boObject) g.getValue()).getBoui() + "/" +
                     ((boObject) g.getValue()).getName() + "]");
                 }
             }
 
-            logger.severe("Campo Objecto[" + getNome() + "] : " + msg, e);
-            throw new boRuntimeException("",
-                "Não foi possível calcular [" + getPergunta() +
-                "]. Verifique se o valor introduzido está correcto.", null);
+            logger.severe(LoggerMessageLocalizer.getMessage("OBJECT_FIELD")+"[" + getNome() + "] : " + msg, e);
+            throw new boRuntimeException("",MessageLocalizer.getMessage("UNABLE_TO_CALCULATE")+
+                " [" + getPergunta() +
+                "]."+MessageLocalizer.getMessage("CHECK_IF_THE_INTRODUCED_VALUE_IS_CORRECT"), null);
         }
     }
 

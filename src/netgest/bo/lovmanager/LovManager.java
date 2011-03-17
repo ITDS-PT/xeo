@@ -10,6 +10,7 @@ import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.boApplication;
 
 
 public class LovManager
@@ -36,7 +37,7 @@ public class LovManager
     public static lovObject getLovObject(EboContext ctx, long lovBoui, String[] onlyThisvalues, Hashtable parameters)
         throws boRuntimeException
     {
-        
+        String language="";
         String extrakey="";
         if ((onlyThisvalues != null) && (onlyThisvalues.length == 0))
         {
@@ -56,7 +57,11 @@ public class LovManager
         {
             boObject lov;
             lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV", "boui=" + lovBoui + "");
-            
+          ///////
+            if(lov.getAttribute("lang").getValueString()!=null){
+                
+            	language=lov.getAttribute("lang").getValueString();
+            }
             if (lov.exists())
             {
                 String name          = lov.getAttribute("name").getValueString();
@@ -84,6 +89,12 @@ public class LovManager
                 {
                     lovo = new lovObject(ctx, name, onlyThisvalues);
                 }
+                if (language!="")
+                    lovo.setLanguage(language);
+                    else
+                    	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
+                
+                
                 p_lovs.put(lovBoui+extrakey, lovo);
                 toRet=lovo;
             }
@@ -96,7 +107,7 @@ public class LovManager
         public static lovObject getLovObject(EboContext ctx, String name, String[] onlyThisvalues, Hashtable parameters)
         throws boRuntimeException
     {
-        
+        String language="";
         String extrakey="";
         if ((onlyThisvalues != null) && (onlyThisvalues.length == 0))
         {
@@ -116,6 +127,11 @@ public class LovManager
         {
             boObject lov;
             lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV", "name='" + name + "'");
+            ///////
+            if(lov.getAttribute("lang").getValueString()!=null){
+                
+            	language=lov.getAttribute("lang").getValueString();
+            }
             
             if (lov.exists())
             {
@@ -144,6 +160,10 @@ public class LovManager
                 {
                     lovo = new lovObject(ctx, name, onlyThisvalues);
                 }
+                if (language!="")
+                    lovo.setLanguage(language);
+                    else
+                    	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
                 
                 p_lovs.put(name+extrakey, lovo);
                 toRet=lovo;
@@ -157,7 +177,7 @@ public class LovManager
     public static lovObject getLovObject(EboContext ctx, String name, String[] onlyThisvalues)
         throws boRuntimeException
     {
-        
+    	String language="";
         String extrakey="";
         if ((onlyThisvalues != null) && (onlyThisvalues.length == 0))
         {
@@ -176,7 +196,11 @@ public class LovManager
         {
             boObject lov;
             lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV", "name='" + name + "'");
-
+           ///////
+            if(lov.getAttribute("lang").getValueString()!=null){
+            
+            	language=lov.getAttribute("lang").getValueString();
+            }
             if (lov.exists())
             {            
                 String tableName     = lov.getAttribute("fromTable").getValueString();
@@ -192,7 +216,7 @@ public class LovManager
                     lovo = new lovObject(
                             ctx, lovBoui, name, sqlQuery, fieldForLabel, fieldForCod, onlyThisvalues
                         );
-                
+                   
                 }
                 else if ((tableName != null) && (tableName.length() > 0))
                 {
@@ -205,6 +229,11 @@ public class LovManager
                     lovo = new lovObject(ctx, name, onlyThisvalues);
                 }
 
+                if (language!="")
+                    lovo.setLanguage(language);
+                    else
+                    	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
+                
                 p_lovs.put(name+extrakey, lovo);
                 toRet=lovo;
             }

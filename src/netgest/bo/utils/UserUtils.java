@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.EboContext;
 
@@ -50,7 +51,7 @@ public class UserUtils
               }
         }
         catch (SQLException e) {
-            logger.severe("Erro:", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+":", e);
         }
         finally {
             try {

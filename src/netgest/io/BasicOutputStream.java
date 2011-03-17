@@ -7,6 +7,8 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 
 public class BasicOutputStream extends OutputStream  {
     
@@ -27,7 +29,7 @@ public class BasicOutputStream extends OutputStream  {
         } 
         catch (SQLException e) 
         {
-            throw new RuntimeException("Cannot initialize BLOB\n"+e.getClass().getName()+"\n"+e.getMessage());    
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_INITIALIZE_BLOB")+e.getClass().getName()+"\n"+e.getMessage());    
         }
     }
 

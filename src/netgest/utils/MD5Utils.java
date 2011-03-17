@@ -6,8 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
 
 public class MD5Utils  {
     public static void main(String[] args) {
@@ -38,13 +39,13 @@ public class MD5Utils  {
     }
 
     public static final String toHexMD5(byte[] toencode) {
-        if(toencode==null) throw new NullPointerException("String to encode cannot be null");
+        if(toencode==null) throw new NullPointerException(MessageLocalizer.getMessage("STRING_TO_ENCODE_CANNOT_BE_NULL"));
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             return toHexString(digest.digest(toencode));
         }
         catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error encoding to MD5\n"+e.getMessage());
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_ENCODING_TO_MD5")+e.getMessage());
         }
     }
     public static final String toHexMD5(String toencode) {

@@ -1,7 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime.robots;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boMail;
 import netgest.utils.*;
 import netgest.bo.system.Logger;
@@ -63,7 +63,7 @@ public class EmailSchedule implements boSchedule
       {
         //write the exception to the log
         //and continue to next mailAccount
-         logger.severe("Error synchronizing mailBox from user: " + object.getAttribute("username").getValueString(), e);
+         logger.severe(LoggerMessageLocalizer.getMessage("ERROR_SYNCHRONIZING_MAILBOX_FROM_USER")+": " + object.getAttribute("username").getValueString(), e);
       }
     }        
     return true;

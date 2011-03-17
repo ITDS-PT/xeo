@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import netgest.bo.data.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 /**
@@ -72,7 +73,7 @@ public class OracleUtils  implements DriverUtils
                     case DataTypes.NUMERIC:
                         return expression;
                     default:
-                        throw new DataException("0000","Cannot conver from to [NUMERIC] type to ["+toDataType+"]");
+                        throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+" [NUMERIC] "+MessageLocalizer.getMessage("TYPE_TO")+" ["+toDataType+"]");
                 }
             case DataTypes.VARCHAR:
                 switch ( toDataType )
@@ -82,10 +83,10 @@ public class OracleUtils  implements DriverUtils
                     case DataTypes.NUMERIC:
                         return "TO_CHAR(" + expression + ")";
                     default:
-                        throw new DataException("0000","Cannot conver from to [VARCHAR] type to ["+toDataType+"]");
+                        throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+" [VARCHAR] "+MessageLocalizer.getMessage("TYPE_TO")+" ["+toDataType+"]");
                 }
             default:
-                throw new DataException("0000","Cannot conver from to ["+fromDataType+"] type to ["+toDataType+"]");
+                throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM_TO")+" ["+fromDataType+"] "+MessageLocalizer.getMessage("TYPE_TO")+" ["+toDataType+"]");
         }
     }
     

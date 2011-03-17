@@ -2,6 +2,8 @@ package netgest.bo.impl.document.merge.gestemp;
 import bsh.BshClassManager;
 import bsh.NameSpace;
 import java.util.ArrayList;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
@@ -71,7 +73,7 @@ public class GtTag
         }
         catch (Exception e)
         {
-            String msg = "Não foi possível calcular a tag [" +getName() +"]";
+            String msg = MessageLocalizer.getMessage("UNABLE_TO_CALCULATE_THE_TAG")+" [" +getName() +"]";
             logger.severe("Query[" + getName()+"] : " + msg, e);
             throw new boRuntimeException("", msg, null);
         }

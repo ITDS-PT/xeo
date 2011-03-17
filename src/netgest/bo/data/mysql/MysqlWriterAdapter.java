@@ -15,6 +15,8 @@ import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.WriterException;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 public class MysqlWriterAdapter implements WriterAdapter {
@@ -165,8 +167,8 @@ public class MysqlWriterAdapter implements WriterAdapter {
                 if (rslt.next())
                 {
                     throw new WriterException(WriterException.CONCURRENCY_FAILED,
-                        "[" + this.p_fulltablename + "] Local ICN is [" + rslt.getString(1) +
-                        "] and remote icn is [" + row.getBigDecimal("SYS_ICN") +
+                        "[" + this.p_fulltablename + "] "+MessageLocalizer.getMessage("LOCAL_ICN_IS")+" [" + rslt.getString(1) +
+                        "] "+MessageLocalizer.getMessage("ADN_REMOTE_ICN_IS")+" [" + row.getBigDecimal("SYS_ICN") +
                         "]");
                 }
             }
@@ -432,15 +434,15 @@ public class MysqlWriterAdapter implements WriterAdapter {
             }
             else
             {
-                throw new DataException("0000",
-                    " No data found, but expected. \n Error updating CLOB clumns in [" +
+                throw new DataException("0000",MessageLocalizer.getMessage("NO_DATA_FOUND_BUT_EXPECTED_ERROR_UPDATING_")+
+                    "  [" +
                     p_fulltablename + "]");
             }
         }
         catch (Exception e)
         {
             throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-                "IOException writing CLOB to " + this.p_fulltablename + "\n" +
+                "IOException "+MessageLocalizer.getMessage("WRITING_CLOB_TO")+" " + this.p_fulltablename + "\n" +
                 e.getMessage(), e);
         }
     }
@@ -762,8 +764,8 @@ public class MysqlWriterAdapter implements WriterAdapter {
 
             if (!ret)
             {
-                logger.warn("Expected row not longer exist in [" +
-                    p_fulltablename + "]. ( Deleting Row )");
+                logger.warn(LoggerMessageLocalizer.getMessage("EXPECTED_ROW_NOT_LONGER_EXISTS_IN")+" [" +
+                    p_fulltablename + "]. ( "+LoggerMessageLocalizer.getMessage("DELETING_ROW")+" )");
             }
 
             ret = true;

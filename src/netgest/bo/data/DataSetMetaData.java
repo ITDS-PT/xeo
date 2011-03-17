@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import netgest.bo.localizations.MessageLocalizer;
+
 /**
  * 
  * @Company Enlace3
@@ -60,7 +62,7 @@ public class DataSetMetaData implements Serializable, ResultSetMetaData
     {
         if( columnIndex < 1 || columnIndex > p_column_count )
         {
-            throw new DataException("0000","Invalid Column Index");   
+            throw new DataException("0000",MessageLocalizer.getMessage("INVALID_COLUMN_INDEX"));   
         }
         return;
     }
@@ -373,11 +375,11 @@ public class DataSetMetaData implements Serializable, ResultSetMetaData
 
     // Since JDK 1.6
     public boolean isWrapperFor(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     }
     
     // Since JDK 1.6
     public Object unwrap(Class iface)  {
-        throw new RuntimeException("Not Implemented");
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
     } 
 }

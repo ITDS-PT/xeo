@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 
 import netgest.bo.dochtml.docHTML_controler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boSession;
 import netgest.bo.system.boSessions;
@@ -63,7 +64,7 @@ public class boHTTPSessionListener implements javax.servlet.http.HttpSessionList
         }
         catch (Exception e)
         {
-            logger.severe("Error closing session.",e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_CLOSING_SESSION"),e);
         }
         
         if( ( System.currentTimeMillis() - LastClean ) > (600000) )
@@ -98,24 +99,24 @@ public class boHTTPSessionListener implements javax.servlet.http.HttpSessionList
                             }
                         }
                         else
-                            logger.finest("boHTTPSessionListener.cleanSessions(): Session was Null, shouldn't happen!");
+                            logger.finest("boHTTPSessionListener.cleanSessions(): "+LoggerMessageLocalizer.getMessage("SESSION_WAS_NULL_SHOULDNT_HAPPEN"));
                     }
                     
                     if( logger.isFinestEnabled() )
-                        logger.finest( icounter + " Sessions forced to close..." );
+                        logger.finest( icounter + " "+LoggerMessageLocalizer.getMessage("SESSIONS_FORCED_TO_CLOSE") );
                     
                 }//if(aSessions != null && aSessions.length > 0)
                 else
-                    logger.finest("boHTTPSessionListener.cleanSessions(): Active Sessions returned Null or has No Active Sessions");
+                    logger.finest("boHTTPSessionListener.cleanSessions(): " + LoggerMessageLocalizer.getMessage("ACTIVE_SESSIONS_RETURNED_NULL_OR_HAS_NO_ACTIVE_SESSIONS"));
                 
             }//if(sessions != null)
             else
-                logger.finest("boHTTPSessionListener.cleanSessions(): Sessions returned Null");
+                logger.finest("boHTTPSessionListener.cleanSessions(): "+LoggerMessageLocalizer.getMessage("SESSIONS_RETURNED_NULL"));
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            logger.severe("Error cleaning sessions", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_CLEANING_SESSIONS"), e);
         }
     }
 }

@@ -8,6 +8,8 @@ import netgest.bo.builder.*;
 import netgest.bo.data.Driver;
 import netgest.bo.def.*;
 import netgest.bo.runtime.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.plugins.data.MapType2Def;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
@@ -50,7 +52,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
         p_bdb.addField( p_bdb.getTableName(), 
                         MapType2Plugin.FLAG_FIELD_NAME, 
                         "char(1)", 
-                        "Field internal used to know if the object is local or remote" ,
+                        MessageLocalizer.getMessage("FIELD_INTERNAL_USED_TO_KNOW_IF_THE_OBJECT_IS_LOCAL_OR_REMOTE") ,
                         true,
                         "X", 
                         null,
@@ -63,7 +65,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
             for (int i = 0; i < ads.length; i++ ) 
             {
                 p_bdb.addIndex( 
-                                    "IDX_"+p_bdb.getTableName()+"_MAP_"+i,"Unique of remote Objects", 
+                                    "IDX_"+p_bdb.getTableName()+"_MAP_"+i,MessageLocalizer.getMessage("UNIQUE_OF_REMOTE_OBJECTS"), 
                                     p_bdb.getTableName(),
                                     DataUtils.concatFields( 
                                     		p_ctx.getDataBaseDriver(), ads[i].getKeys() 
@@ -74,7 +76,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
         else
         {
             p_bdb.addUnique( 
-                                "IDX_"+p_bdb.getTableName()+"_MAPPING","Unique of remote Objects", 
+                                "IDX_"+p_bdb.getTableName()+"_MAPPING",MessageLocalizer.getMessage("UNIQUE_OF_REMOTE_OBJECTS"), 
                                 p_bdb.getTableName(),
                                 DataUtils.concatFields( 
                                 		p_ctx.getDataBaseDriver(), mapdef.getObjectDataSources().getDataSources()[0].getKeys() 
@@ -116,9 +118,9 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                     );
             if( def.getPreRegisterObjects() )
             {
-                p_bdb.logger.finer(" Adding Register Schedule for mapping:" + boDef.getName() );
+                p_bdb.logger.finer(LoggerMessageLocalizer.getMessage("ADDING_REGISTER_SCHEDULE_FOR_MAPPING")+":" + boDef.getName() );
                 scheduleObj.getAttribute( "id" ).setValueString( schedName );
-                scheduleObj.getAttribute( "description" ).setValueString( "Pré registo do Objecto mapeado " + boDef.getName() );
+                scheduleObj.getAttribute( "description" ).setValueString( MessageLocalizer.getMessage("PRE_REGISTRATION_OFMAPPED_OBJECT")+" " + boDef.getName() );
                 scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2Register" );
                 scheduleObj.getAttribute( "parameters" ).setValueString( boDef.getName() );
                 scheduleObj.getAttribute( "state" ).setValueString( "1" );
@@ -146,9 +148,9 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                     
             if( def.getSyncTextIndex() )
             {
-                p_bdb.logger.finer(" Adding TextIndex Schedule for mapping:" + boDef.getName() );
+                p_bdb.logger.finer(LoggerMessageLocalizer.getMessage("ADDING_TEXTINDEX_SCHEDULE_FOR_MAPPING")+":" + boDef.getName() );
                 scheduleObj.getAttribute( "id" ).setValueString( schedName );
-                scheduleObj.getAttribute( "description" ).setValueString( "Sincronização Ebo_TextIndex do Objecto mapeado "+boDef.getName() );
+                scheduleObj.getAttribute( "description" ).setValueString( MessageLocalizer.getMessage("EBO_TEXTINDEX_SYNCHRONIZATION_FO_THE_MAPPED_OBJECT")+" "+boDef.getName() );
                 scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2SyncTextIndex" );
                 scheduleObj.getAttribute( "parameters" ).setValueString( boDef.getName() );
                 scheduleObj.getAttribute( "type" ).setValueString( "REPEATLY" );
@@ -373,7 +375,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
             viewSql.append( remSql );
         }
         p_bdb.addView(  deployedDef.getBoPhisicalMasterTable()+"$M", 
-                        "Tabela que junta objectos remotos e locais do objecto " + deployedDef.getName(),
+                        MessageLocalizer.getMessage("TABLE_THAT_JOINS_REMOTE_OBJECTS_AND_LOCAL_OBJECTS")+" " + deployedDef.getName(),
                         viewSql.toString()
                     );
    }
@@ -433,7 +435,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                                         deployedDef.getBoPhisicalMasterTable(), 
                                                         fieldName,
                                                         typkeys[k],
-                                                        "Chave da tabela remota",
+                                                        MessageLocalizer.getMessage("REMOTE_TABLE_KEY"),
                                                         false,
                                                         null,
                                                         null,
@@ -459,7 +461,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
                                                     undeployedDef.getBoPhisicalMasterTable(), 
                                                     fieldName,
                                                     "CHAR(100)",  // TODO: HANDLE DATATYPES FOR RELATIONS
-                                                    "Chave da tabela remota",
+                                                    MessageLocalizer.getMessage("REMOTE_TABLE_KEY"),
                                                     false,
                                                     null,
                                                     null,

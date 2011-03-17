@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -66,7 +67,7 @@ public class boScheduleThreadBussinessLogic
       String error = null;
       try
       {
-          logger.finest("Starting Agent for Schedule "+p_scheduleDescription );
+          logger.finest(LoggerMessageLocalizer.getMessage("STARTING_AGENT_FOR_SCHEDULE")+" "+p_scheduleDescription );
           
           //Executa o agendamento com o utilizador definido no mesmo
           
@@ -80,7 +81,7 @@ public class boScheduleThreadBussinessLogic
           
           startTime=ScheduleCalcNextRun.getActualSynchonizedDate(ctx);
           
-          logger.finest( "Starting schedule Connection hash:"  + ctx.getConnectionData().hashCode() );
+          logger.finest( LoggerMessageLocalizer.getMessage("STARTING_SCHEDULE_CONNECTION_HASH")  + ctx.getConnectionData().hashCode() );
           
           try
           {
@@ -90,7 +91,7 @@ public class boScheduleThreadBussinessLogic
               itemsched.setParameter(p_schedule.getAttribute("parameters").getValueString());
               ok = itemsched.doWork( ctx, p_schedule );
               
-              logger.finest(p_scheduleDescription + " finished without errors.");
+              logger.finest(p_scheduleDescription + " "+LoggerMessageLocalizer.getMessage("FINISHED_WITHOUT_ERRORS"));
               
           }
           finally
@@ -110,30 +111,30 @@ public class boScheduleThreadBussinessLogic
       {
           deactivate = true;
           error = logError( e.getClass().getName(), e );
-          logger.severe("Error: ",e);
+          logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ",e);
       }
       catch (InstantiationException e)
       {
           deactivate = true;
           error = logError( e.getClass().getName(), e ); 
-          logger.severe("Error: ", e);
+          logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       }
       catch (ClassNotFoundException e)
       {
           deactivate = true;
           error = logError( e.getClass().getName(), e ); 
-          logger.severe("Error: ", e);
+          logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       }
       catch (boLoginException e)
       {
           deactivate = true;
           error = logError( e.getClass().getName(), e ); 
-          logger.severe("Error: ", e);
+          logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       }
       catch (Exception e)
       {
           error = logError( e.getClass().getName(), e ); 
-          logger.severe("Error: ", e);
+          logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
       }
       
       boolean activeStatusWasSet = false;
@@ -143,7 +144,7 @@ public class boScheduleThreadBussinessLogic
           session = p_app.boLogin( "SYSTEM", boLoginBean.getSystemKey(),p_app.getDefaultRepositoryName() );            
           ctx = session.createRequestContext( null,null,null );
 
-          logger.finest( "Update nextRuntime Connection hash:"  + ctx.getConnectionData().hashCode() );
+          logger.finest( LoggerMessageLocalizer.getMessage("UPDATE_NEXTRUNTIME_CONNECTION_HASH") + ctx.getConnectionData().hashCode() );
 
           
           boObject reloadedsched = boObject.getBoManager().loadObject( ctx, p_schedule_boui );
@@ -171,11 +172,11 @@ public class boScheduleThreadBussinessLogic
       }
       catch (boRuntimeException e)
       {
-          logger.warn("Error seting object to State Ready", e);
+          logger.warn(LoggerMessageLocalizer.getMessage("ERROR_SETTING_OBJECT_TO_STATE_READY"), e);
       }
       catch (Exception e)
       {
-          logger.warn("Error seting object to State Ready", e);
+          logger.warn(LoggerMessageLocalizer.getMessage("ERROR_SETTING_OBJECT_TO_STATE_READY"), e);
       }
       finally
       {
@@ -185,7 +186,7 @@ public class boScheduleThreadBussinessLogic
               {
                   // Workaround if object fails to update via  reloadedsched.update();
                   // In some case happened.
-                  logger.warn("FAIL TO UPDATE BOSCHEDULE["+p_schedule_boui+"]");
+                  logger.warn(LoggerMessageLocalizer.getMessage("FAIL_TO_UPDATE_BOSCHEDULE")+"["+p_schedule_boui+"]");
                   ctx.close();
                   try 
                   {
@@ -196,7 +197,7 @@ public class boScheduleThreadBussinessLogic
                   }
                   catch (Exception e)
                   {
-                      logger.severe("FAIL TO UPDATE VIA SQL BOSCHEDULE["+p_schedule_boui+"]",e);
+                      logger.severe(LoggerMessageLocalizer.getMessage("FAIL_TO_UPDATE_VIA_SQL_BOSCHEDULE")+"["+p_schedule_boui+"]",e);
                   }
               }
               ctx.close();                    
@@ -244,7 +245,7 @@ public class boScheduleThreadBussinessLogic
         public static final void CalcNextRun(EboContext ctx,boObject sched,Date startDate) throws netgest.bo.runtime.boRuntimeException {
             Date nextrun = GetNextRun(ctx,sched,getScheduleProps(sched),startDate);
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss");
-            logger.finest( "Next run date:" + df.format(nextrun) );
+            logger.finest(LoggerMessageLocalizer.getMessage("NEXT_RUN_DATE")+ ":" + df.format(nextrun) );
             sched.getAttribute("nextruntime").setValueDate( nextrun );
         }
         private static Date GetNextRun(EboContext ctx,boObject sched,boScheduleThreadBussinessLogic.ScheduleCalcNextRun.ScheduleProps props,Date startDate) throws boRuntimeException {

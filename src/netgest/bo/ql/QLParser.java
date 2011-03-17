@@ -9,6 +9,8 @@ import java.util.*;
 
 import javax.servlet.http.*;
 import javax.servlet.jsp.PageContext;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
@@ -590,7 +592,7 @@ public class QLParser  {
     		
     		this.objDef = boDefHandler.getBoDefinition( objectName );
     		if( this.objDef == null ) {
-    			throw new RuntimeException( "Object [" + objectName + "] doesnt exist in the sistem." );  
+    			throw new RuntimeException( MessageLocalizer.getMessage("OBJECT")+" [" + objectName + "] "+MessageLocalizer.getMessage("DOESNT_EXIST_IN_THE_SYSTEM") );  
     		}
     		return sqlResult;
     	}
@@ -1271,7 +1273,7 @@ public class QLParser  {
                     return res.getMessage();
                }
                else
-                    throw new boqlParserException("QLParser", "XEO.QL", new Exception("Unexpected character. Query should be over. Correct syntax so far."+errorSpot()));
+                    throw new boqlParserException("QLParser", "XEO.QL", new Exception(MessageLocalizer.getMessage("UNEXPECTED_CHAR_QUERY_SHOULD_BE_OVER_CORRECT_SO_FAR")+errorSpot()));
   }
   
   //função que sistematiza a remoção de produtores

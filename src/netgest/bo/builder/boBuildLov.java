@@ -4,11 +4,13 @@ package netgest.bo.builder;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefLov;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.boApplication;
 
 import netgest.utils.ngtXMLHandler;
 
@@ -28,7 +30,8 @@ public class boBuildLov
     private boDefLov xmllov;
     private boDefHandler xmlObj;
     private EboContext p_eboctx;
-
+    private String xeoLovFileName;
+   
     /**
      *
      * @since
@@ -54,7 +57,7 @@ public class boBuildLov
                         buildLov(lovName, childs[i]); 
                     }
                     else
-                    throw new boRuntimeException("boBuildLov.build - Missing Atribute name in Lov",
+                    throw new boRuntimeException("boBuildLov.build - "+MessageLocalizer.getMessage("MISSING_ATTRIBUTE_NAME_IN_LOV"),
                         "", new Exception());
                 }
                 else
@@ -100,7 +103,12 @@ public class boBuildLov
             boolean retainValues = "Y".equalsIgnoreCase(lov.getAttribute(
                         "retainValues")) ||
                 "YES".equalsIgnoreCase(lov.getAttribute("retainValues"));
-            buildLov(lovName, retainValues, details);
+           //////////////
+            String lovLanguage = lov.getAttribute("lang");
+            if (lovLanguage == null || (lovLanguage != null && lovLanguage.length() < 1))
+            	lovLanguage = boApplication.getDefaultApplication().getApplicationConfig().getLanguage(); 
+        ////////////
+            buildLov(lovName, retainValues, details,lovLanguage);
         }
         catch (boRuntimeException e)
         {
@@ -114,7 +122,7 @@ public class boBuildLov
     }
 
     public void buildLov(String lovName, boolean retainValues,
-        ngtXMLHandler details) throws boRuntimeException
+        ngtXMLHandler details, String lovLanguage) throws boRuntimeException
     {
         try
         {
@@ -158,7 +166,9 @@ public class boBuildLov
                 {
                     n = boObject.getBoManager().createObject(p_eboctx, "Ebo_LOV");
                     n.getAttribute("name").setValueString(lovName);
-                    n.getAttribute("lang").setValueString("pt");
+                    n.getAttribute("xeolovfile").setValueString(getXeoLovFileName());
+                    if (lovLanguage!="")
+                    n.getAttribute("lang").setValueString(lovLanguage);
                     bridge = n.getBridge("details");
 
                     for (int i = 0; i < items.length; i++)
@@ -182,6 +192,9 @@ public class boBuildLov
 
                 bridge = aux.getBridge("details");
                 bridge.beforeFirst();
+                
+                //Set the correct .xeolov filename
+                aux.getAttribute("xeolovfile").setValueString(getXeoLovFileName());
 
                 boolean remove = false;
 
@@ -411,4 +424,12 @@ public class boBuildLov
     {
         return flag.getChildNode("description").getText();
     }
+
+	public void setXeoLovFileName(String xeoLovFileName) {
+		this.xeoLovFileName = xeoLovFileName;
+	}
+
+	public String getXeoLovFileName() {
+		return xeoLovFileName;
+	}
 }

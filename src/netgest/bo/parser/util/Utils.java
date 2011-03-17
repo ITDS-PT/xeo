@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import netgest.bo.def.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.system.Logger;
 
@@ -56,7 +57,7 @@ public class Utils
                     if(attDef[i].getAtributeType() == attDef[i].TYPE_OBJECTATTRIBUTE &&
                         attDef[i].getRelationType() == boDefAttribute.RELATION_1_TO_N)
                     {
-                        throw new boRuntimeException("", "Cannot have a bridge as middle attribute", null);
+                        throw new boRuntimeException("",MessageLocalizer.getMessage("CANNOT_HAVE_A_BRIDGE_AS_MIDDLE_ATTRIBUTE"), null);
                     }
                     else
                     {
@@ -65,7 +66,7 @@ public class Utils
                 }
             }
         }
-        throw new boRuntimeException("", "Invalid Attribute - " + joinStr(path)+ " - " + boDef.getName() , null);
+        throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_ATTRIBUTE")+" - " + joinStr(path)+ " - " + boDef.getName() , null);
     }
     private static String joinStr(String[] path)
     {
@@ -109,7 +110,7 @@ public class Utils
                     if(attDef[i].getAtributeType() == attDef[i].TYPE_OBJECTATTRIBUTE &&
                         attDef[i].getRelationType() == boDefAttribute.RELATION_1_TO_N)
                     {
-                        throw new boRuntimeException("Cannot have a bridge as middle attribute", null, null);
+                        throw new boRuntimeException(MessageLocalizer.getMessage("CANNOT_HAVE_A_BRIDGE_AS_MIDDLE_ATTRIBUTE"), null, null);
                     }
                     else
                     {
@@ -118,7 +119,7 @@ public class Utils
                 }
             }
         }
-        throw new boRuntimeException("", "Invalid Attribute - " + joinStr(path) + " - " + boDef.getName() , null);
+        throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_ATTRIBUTE")+" - " + joinStr(path) + " - " + boDef.getName() , null);
     }
     public static boolean isObjectAttrFromObj(String path, boDefHandler boDef) throws boRuntimeException
     {
@@ -148,7 +149,7 @@ public class Utils
                     if(attDef[i].getAtributeType() == attDef[i].TYPE_OBJECTATTRIBUTE &&
                         attDef[i].getRelationType() == boDefAttribute.RELATION_1_TO_N)
                     {
-                        throw new boRuntimeException("Cannot have a bridge as middle attribute", null, null);
+                        throw new boRuntimeException(MessageLocalizer.getMessage("CANNOT_HAVE_A_BRIDGE_AS_MIDDLE_ATTRIBUTE"), null, null);
                     }
                     else
                     {
@@ -157,7 +158,7 @@ public class Utils
                 }
             }
         }
-        throw new boRuntimeException("", "Invalid Attribute - " + joinStr(path)+ " - " + boDef.getName() , null);
+        throw new boRuntimeException("", MessageLocalizer.getMessage("INVALID_ATTRIBUTE")+" - " + joinStr(path)+ " - " + boDef.getName() , null);
     }
     
     public static void copyAttribute(AttributeHandler fromAtt, AttributeHandler toAtt) throws boRuntimeException

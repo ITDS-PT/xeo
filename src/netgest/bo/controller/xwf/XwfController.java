@@ -159,7 +159,7 @@ public class XwfController extends BasicController
             PrintWriter pw = new PrintWriter( cr );
             exception.printStackTrace( pw );
             getEngine().getBoManager().getDocHTML().addErrorMessage("<span style='background-color:#FFFFFF;border:2px solid red' onclick=\"displayXeoError(  errorpre.innerHTML )\" >Erro interno no Sistema ,clique para reportar o erro</span><pre class='error' id='errorpre'> \n" + cr.toString() +"</pre>" );
-            logger.severe(cr.toString());            
+            logger.severe(cr.toString());             
         }
         try
         {

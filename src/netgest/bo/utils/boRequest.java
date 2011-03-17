@@ -8,6 +8,7 @@ import netgest.bo.data.DataSet;
 import netgest.bo.def.*;
 
 import netgest.bo.impl.*;
+import netgest.bo.localizations.MessageLocalizer;
 
 import netgest.bo.runtime.*;
 
@@ -22,7 +23,6 @@ import java.nio.*;
 import java.sql.*;
 
 import java.util.*;
-import java.util.Vector;
 
 
 /**
@@ -549,7 +549,7 @@ public class boRequest {
             if(!requests[i].valid())
             {
                requests[i].p_forceCheck=true;
-               bobj.addErrorMessage("Pedido Nao Preenchido");
+               bobj.addErrorMessage(MessageLocalizer.getMessage("NON_FILLED_REQUEST"));
                return;
             }
         }

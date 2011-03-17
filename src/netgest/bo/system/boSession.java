@@ -43,6 +43,8 @@ public class boSession implements Serializable {
     
     private static ThreadLocal threadLocale = new ThreadLocal();
     
+    //
+    private String p_language="pt";
     
     /**
      * A map of sessions with each repository
@@ -71,7 +73,15 @@ public class boSession implements Serializable {
     {
         return new Long(getPerformerBoui());
     }
-    
+  
+	
+	
+	public String getDefaultLanguage(){	
+		p_language=boApplication.getDefaultApplication().getApplicationLanguage();
+		
+    	return p_language;
+    	
+    }
     public void init()
     {
         p_createdon = System.currentTimeMillis();

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.utils.ParametersHandler;
 
@@ -113,7 +114,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         }
         catch (CloneNotSupportedException e)
         {
-            throw new DataException("0000","CloneNotSupported cloning object DataRow in getFlashBackRow");
+            throw new DataException("0000",MessageLocalizer.getMessage("CLONENOTSUPPORTED_CLONING_OBJECT_DATAROW_IN_GETFLASHBACKROW"));
         }
     }
     public final int getRow()
@@ -471,7 +472,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
         {
             if( newValue.toString().length() > this.rowset.metaData.p_column_display_size[ columnIndex-1 ] )
             {
-                throw new DataException( "0000", "Value too large for column ["+this.rowset.metaData.p_column_name[ columnIndex-1 ] +"]" );
+                throw new DataException( "0000", MessageLocalizer.getMessage("VALUE_TO_LARGE_FOR_COLUMN")+" ["+this.rowset.metaData.p_column_name[ columnIndex-1 ] +"]" );
             }
         }
 
@@ -512,7 +513,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
     {
         if( columnIndex <= 0 || columnIndex > this.rowset.metaData.p_column_count )
         {
-            throw new DataException("0000","Invalid column");
+            throw new DataException("0000",MessageLocalizer.getMessage("INVALID_COLUMN"));
         }
     }
 
@@ -542,7 +543,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
                         default:
                             // Error
-                            throw new DataException("0000","Cannot convert from VARCHAR to ["+dataType+"]");
+                            throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" VARCHAR "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
                     break;
                 case DataTypes.NUMERIC:
@@ -559,7 +560,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
                         default:
                             // Error
-                            throw new DataException("0000","Cannot convert from NUMERIC to ["+dataType+"]");
+                            throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" NUMERIC "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
                     break;
                 case DataTypes.DATE:
@@ -578,7 +579,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
                             break;
                         default:
                             // Error
-                            throw new DataException("0000","Cannot convert from TIMESTAMP to ["+dataType+"]");
+                            throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" TIMESTAMP "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
                     break;
                 case DataTypes.BINARY:
@@ -589,14 +590,14 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
                             break;
                         default:
                             // Error
-                            throw new DataException("0000","Cannot convert from TIMESTAMP to ["+dataType+"]");
+                            throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" TIMESTAMP "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
                 case DataTypes.BLOB:
                     switch( dataType )
                     {
                         default:
                             // Error
-                            throw new DataException("0000"," BLOB Type is not implemented ");
+                            throw new DataException("0000",MessageLocalizer.getMessage("BLOB_TYPE_IS_NOT_IMPLEMENTED"));
                     }
 //                    break;
                 case DataTypes.CLOB:
@@ -608,11 +609,11 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
                         default:
                             // Error
-                            throw new DataException("0000","Cannot convert from CLOB to ["+dataType+"]");
+                            throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" CLOB "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
                     break;
                 default:
-                    throw new DataException("0000","DataType Not supported ["+fromType+"]");
+                    throw new DataException("0000",MessageLocalizer.getMessage("DataType Not supported")+" ["+fromType+"]");
 
             }
         }

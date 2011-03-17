@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import netgest.bo.impl.document.print.remote.ConvertImagesStub;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplicationConfig;
 import netgest.io.iFile;
 import netgest.io.iFilePermissionDenied;
@@ -143,7 +144,7 @@ public class RemoteFileConversion
             String[] images = cisStub.convertBytes( null, null , fileName, fileData, null, type );
 
             if(images.length>1)
-            	throw new RuntimeException("Multiple File Convertion not Suported");
+            	throw new RuntimeException(MessageLocalizer.getMessage("MULTIPLE_FILE_CONVERSION_NOT_SUPPORTED"));
 
             if(images.length==0)
             	return new byte[0];

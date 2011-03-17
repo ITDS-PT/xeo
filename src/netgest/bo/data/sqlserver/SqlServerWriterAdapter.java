@@ -17,6 +17,8 @@ import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.WriterException;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 
@@ -151,9 +153,9 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 				if (rslt.next()) {
 					throw new WriterException(
 							WriterException.CONCURRENCY_FAILED, "["
-									+ this.p_fulltablename + "] Local ICN is ["
+									+ this.p_fulltablename + "] "+MessageLocalizer.getMessage("LOCAL_ICN_IS")+" ["
 									+ rslt.getString(1)
-									+ "] and remote icn is ["
+									+ "] "+MessageLocalizer.getMessage("AND_REMOTE_ICN_IS")+" ["
 									+ row.getBigDecimal("SYS_ICN") + "]");
 				}
 			} finally {
@@ -448,13 +450,13 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 				rslt.close();
 				pstm.close();
 			} else {
-				throw new DataException("0000",
-						" No data found, but expected. \n Error updating CLOB clumns in ["
+				throw new DataException("0000",MessageLocalizer.getMessage("NO_DATA_FOUND_BUT_EXPECTED_ERROR_UPDATING_")+
+						" ["
 								+ p_fulltablename + "]");
 			}
 		} catch (Exception e) {
 			throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-					"IOException writing CLOB to " + this.p_fulltablename
+					"IOException "+MessageLocalizer.getMessage("WRITING_CLOB_TO") + this.p_fulltablename
 							+ "\n" + e.getMessage(), e);
 		}
 	}
@@ -751,8 +753,8 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 			ret = p_activeDeletePstm.executeUpdate() > 0;
 
 			if (!ret) {
-				logger.warn("Expected row not longer exist in ["
-						+ p_fulltablename + "]. ( Deleting Row )");
+				logger.warn(LoggerMessageLocalizer.getMessage("EXPECTED_ROW_NOT_LONGER_EXISTS_IN")+" ["
+						+ p_fulltablename + "]. ( "+LoggerMessageLocalizer.getMessage("DELETING_ROW")+" )");
 			}
 
 			ret = true;

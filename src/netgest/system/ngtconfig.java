@@ -6,6 +6,8 @@ import javax.naming.*;
 import java.io.Serializable;
 import org.w3c.dom.NodeList;
 import java.util.Properties;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.utils.ngtProperties;
 import org.xml.sax.SAXException;
 
@@ -175,16 +177,16 @@ public class ngtconfig implements Serializable
               else p_systemngtconnstr="jdbc/systemngt";
 
           } catch (FileNotFoundException e){
-              throw new RuntimeException("Ficheiro netgest de configuração não encontrado\n"+fullpath);
+              throw new RuntimeException(MessageLocalizer.getMessage("NETGEST_CONFIG_FILE_NOT_FOUND")+fullpath);
           }  
           catch (XSLException e){
-              throw new RuntimeException("Erro a fazer o parse do XML de configuração\n"+fullpath);
+              throw new RuntimeException(MessageLocalizer.getMessage("ERROR_PARSING_CONFIGURATION_XML")+fullpath);
           }       
           catch (IOException e){
-              throw new RuntimeException("Erro no dispositivo de Armazenamento\n"+fullpath);
+              throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_STORAGE_DEVICE")+fullpath);
           } 
           catch (SAXException e){
-              throw new RuntimeException("Erro a fazer o parse do XML de configuração\n"+fullpath);
+              throw new RuntimeException(MessageLocalizer.getMessage("ERROR_PARSING_CONFIGURATION_XML")+fullpath);
           }
       }
   }

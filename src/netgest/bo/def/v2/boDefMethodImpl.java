@@ -6,6 +6,8 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boSessionUser;
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
 
@@ -36,6 +38,15 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     private boDefAttribute 	 p_parentAtt;
     
     private ngtXMLHandler[]  p_javascriptToRun;
+    
+    //Name used on file languages properties  as prefix of a method     
+    public static final String METHOD_PROPERTY = "method";
+    
+    private boDefHandler defHandler;
+	private String language;
+	private String nome;
+	private String AttributeName;
+    
 
     public boDefMethodImpl(boDefHandlerImpl defh, Node xml)
     {
@@ -206,10 +217,22 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     {
         return p_returntype;
     }
-
+    
+    
+    /**
+     * returns the label of the attribute in the current language
+     */
     public String getLabel()
     {
-        return p_label;
+    	defHandler = getBoDefHandler();
+		language = defHandler.getBoLanguage();
+		nome = defHandler.getName();
+		AttributeName =this.getName();
+		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
+		language=boUser.getLanguage();
+		
+	  String label=	boDefHandlerImpl.getTranslation(nome, p_label,METHOD_PROPERTY, language,AttributeName,"label");
+		return label;
     }
 
     public boDefXeoCode getHiddenWhen()

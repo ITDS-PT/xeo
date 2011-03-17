@@ -19,6 +19,7 @@ import javax.naming.NamingException;
 import netgest.bo.boConfig;
 import netgest.bo.ejb.boManagerLocalHome;
 import netgest.bo.impl.document.DocumentHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.boApplication;
@@ -266,7 +267,7 @@ public class boClientRemoteBean implements SessionBean
         }
         catch(Exception e)
         {
-            logger.severe("Erro na actualização do netgest Win32 Client : " + userHostClient);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_UPDATING_THE_NETGEST_WIN32_CLIENT")+" : " + userHostClient);
         }
         return result;
     }

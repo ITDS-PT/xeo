@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import netgest.bo.def.*;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import java.util.*;
 
@@ -30,6 +31,7 @@ import netgest.utils.*;
  */
 public class boBuildStates extends boAttributesArray
 {
+
     public void build(boDefHandler bodef) throws boRuntimeException {
         try {
             Vector srcfiles = new Vector();
@@ -160,7 +162,7 @@ public class boBuildStates extends boAttributesArray
     private static final int checktags(String starttag,String endtag,String srccode) {
         int x = srccode.indexOf(starttag);
         if(x!= -1 &&  x > srccode.indexOf(endtag)) {
-            throw new RuntimeException(starttag+ " not closed ");
+            throw new RuntimeException(starttag+ " "+MessageLocalizer.getMessage("NOT_CLOSED"));
         }
         return x;
     }

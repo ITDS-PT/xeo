@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.builder.boBuilderProgress;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
@@ -101,9 +102,9 @@ public class XEOBuilderFilter implements Filter {
 		 buildOptions.setBuildWorkplaces(true);
 		 buildOptions.setMarkDeployedObjects(true);
 		 try {
-			System.out.println("XEO Studio Partial Build Started...");
+			System.out.println(MessageLocalizer.getMessage("XEO_STUDIO_PARTIAL_BUILD_STARTED"));
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
-			System.out.println("OK");
+			System.out.println(MessageLocalizer.getMessage("OK"));
 			running=false;
 		} catch (Exception e) {	
 			e.printStackTrace();

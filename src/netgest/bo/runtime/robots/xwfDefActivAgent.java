@@ -5,6 +5,7 @@ import netgest.bo.def.*;
 import javax.naming.NamingException;
 import netgest.bo.data.DataException;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -47,7 +48,7 @@ public class xwfDefActivAgent extends Thread
     
     public void run()
     {
-        logger.finest("Starting XEO Schedule Agent for Def Activity Thread.....");
+        logger.finest(LoggerMessageLocalizer.getMessage("STARTING_XEO_SCHEDULE_FOR_DEF_ACTIVITYTHREAD"));
         InitialContext ic = null;
         boSession session = null;
         try 
@@ -114,7 +115,7 @@ public class xwfDefActivAgent extends Thread
                             }
                             catch( NamingException e )
                             {
-                                logger.severe( "OC4J Shutdown or XEO not deployed.  [boLogin] JNDI name not found" );
+                                logger.severe( LoggerMessageLocalizer.getMessage("OC4J_SHUTDOWN_OR_XEO_NOT_DEPLOYED_JNDI_NAME_NOT_FOUND") );
                                 super.interrupt();
                                 break;
                             }
@@ -132,16 +133,16 @@ public class xwfDefActivAgent extends Thread
             }
             else
             {
-                logger.finest("Stopping agent, iXEOUser or Ebo_Schedule not deployed.");
+                logger.finest(LoggerMessageLocalizer.getMessage("STOPING_AGENT_IXEOUSER_OR_EBOSCHEDULE_NOT_DEPLOYED"));
             }
         }
         catch ( DataException e )
         {
-            logger.finest("Error reading schedule table.\n"+e.getMessage());
+            logger.finest(LoggerMessageLocalizer.getMessage("ERROR_READING_SCHEDULE_TABLE")+e.getMessage());
         }
         catch ( Exception e )
         {
-            logger.finest("Schedule agent finished with errors ");
+            logger.finest(LoggerMessageLocalizer.getMessage("SCHEDULE_AGENT_FINISHED_WITH_ERRORS"));
             e.printStackTrace();
         }
         finally

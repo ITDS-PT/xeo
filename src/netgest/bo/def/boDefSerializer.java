@@ -6,6 +6,7 @@ import java.util.Iterator;
 import netgest.bo.boConfig;
 import netgest.bo.builder.boBuildRepository;
 import netgest.bo.builder.boBuilder;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boRepository;
 import netgest.utils.IOUtils;
@@ -124,7 +125,7 @@ public class boDefSerializer
         fileName = fileName.substring(0,fileName.indexOf( oldExt ));
         fileName = file.getParent()+ File.separator + fileName + newExt;
         IOUtils.copy( file, fileName );
-        System.out.println( "Converting file:" + file.getAbsolutePath() + " to " + fileName + newExt);
+        System.out.println(MessageLocalizer.getMessage("CONVERTING_FILE") + file.getAbsolutePath() + " "+MessageLocalizer.getMessage("TO")+" " + fileName + newExt);
     }
     
     private static final void copyStateDir( File path )
@@ -155,7 +156,7 @@ public class boDefSerializer
     
     private static final void convertFile( File file )
     {
-        System.out.println( "Converting file:" + file.getAbsolutePath() );
+        System.out.println( MessageLocalizer.getMessage("CONVERTING_FILE") + file.getAbsolutePath() );
         XMLDocument xmldoc = ngtXMLUtils.loadXMLFile( file.getAbsolutePath() );
         
         String name = file.getName().substring(0,file.getName().indexOf("$"));
@@ -191,11 +192,11 @@ public class boDefSerializer
         }
         
         String fileToSave = file.getParentFile().getAbsolutePath()+"\\"+def.getName()+fileExt;
-        System.out.println("Saving:" + fileToSave );
+        System.out.println(MessageLocalizer.getMessage("SAVING") + fileToSave );
         ngtXMLUtils.saveXML( defs.xml, fileToSave );
         if( VALIDATE_XEOMODEL )
         {
-            System.out.println("Validating:" + fileToSave );
+            System.out.println(MessageLocalizer.getMessage("VALIDATING") + fileToSave );
             ngtXMLUtils.validateXmlwithSchema( fileToSave, "C:\\projects\\itds\\xeov2\\netgest\\xeoModel.xsd" );
         }
         
@@ -209,7 +210,7 @@ public class boDefSerializer
             boolean toBreak = true;
         }
         
-        xml.appendChild( xml.createComment( "Ficheiro xeoModel v2 convertido em:"+(new java.util.Date()) ) );
+        xml.appendChild( xml.createComment( MessageLocalizer.getMessage("FILE_XEOMODEL_V2_CONVERTED_AT")+(new java.util.Date()) ) );
         Element xeoModel = createAndAppend( "xeoModel", xml );
         serializeGeneral( xeoModel, def );
         serializeOpl( def, xeoModel  );
@@ -614,7 +615,7 @@ public class boDefSerializer
                     len = l(att.getLen());
                     break;
                 default:
-                    throw new RuntimeException("Erro no atributo" + att.getName() );
+                    throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_ATTRIBUTE")+" " + att.getName() );
                 
             }
         }

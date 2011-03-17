@@ -2,6 +2,7 @@ package netgest.bo.runtime.robots.blogic;
 
 import java.util.Date;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
@@ -47,15 +48,15 @@ public class boSessionCleanAgentBussinessLogic {
                   currSession.closeSession();
                 }
               }
-              logger.finest("boSessionCleanAgent Cleaned Sessions: "+sessionsCleaned);
+              logger.finest(LoggerMessageLocalizer.getMessage("BOSESSIONCLEANGENT_CLEANED_SESSIONS")+": "+sessionsCleaned);
           }
           catch (boLoginException e)
           {
-              logger.severe("Cleaning boSessions XEOLogin Error: ",e);
+              logger.severe(LoggerMessageLocalizer.getMessage("CLEANING_BOSESSIONS_XEOLOGIN_ERROR")+": ",e);
           }
           catch(Exception e)
           {
-              logger.severe("Cleaning boSessions Unexpected Error: ",e);   
+              logger.severe(LoggerMessageLocalizer.getMessage("CLEANING_BOSESSIONS_UNEXPECTED_ERROR")+": ",e);   
           }
           finally
           {

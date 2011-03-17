@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import netgest.bo.controller.Controller;
 import netgest.bo.controller.xwf.XwfController;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
 import netgest.utils.DataUtils;
@@ -506,7 +507,7 @@ public class boMessage
                     long receivers[] = MessageUtils.getToReceivers(message);
                     if(MessageUtils.isToWaitResponse(message) && receivers.length > 0)
                     {
-                        logger.finer("Vou criar o wait para msg!");
+                        logger.finer(LoggerMessageLocalizer.getMessage("GOING_TO_CREATE_WAIT_FOR_MSG"));
                         message.getEboContext().getBoSession().setProperty("creatingWaitMsg", Boolean.TRUE);
                         try
                         {

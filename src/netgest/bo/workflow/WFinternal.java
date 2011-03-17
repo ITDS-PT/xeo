@@ -3,6 +3,7 @@ package netgest.bo.workflow;
 
 import netgest.bo.data.*;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
 
 import netgest.utils.*;
@@ -594,7 +595,7 @@ public class WFinternal
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
         
-           logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_CREATE);
+           logger.finest(LoggerMessageLocalizer.getMessage("ACTIVITY_IN_MODE")+" " + WF.STATE_ARCHIVE + " "+LoggerMessageLocalizer.getMessage("CANNOT_CHANGE_TO")+" " + WF.STATE_CREATE);
             toRet = false;
         }
         else
@@ -839,7 +840,7 @@ public class WFinternal
         }
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
-            logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
+            logger.finest(LoggerMessageLocalizer.getMessage("ACTIVITY_IN_MODE")+" " + WF.STATE_ARCHIVE + " " + WF.STATE_ARCHIVE + " "+LoggerMessageLocalizer.getMessage("CANNOT_CHANGE_TO")+" " + WF.STATE_OPEN);
             toRet = false;
         }
         else
@@ -991,7 +992,7 @@ String xname=activity.getAttribute("name").getValueString();
         }
         else if (pstate.equals(WF.STATE_ARCHIVE))
         {
-            logger.finest("Activity in mode " + WF.STATE_ARCHIVE + " cannot change to " + WF.STATE_OPEN);
+            logger.finest(LoggerMessageLocalizer.getMessage("ACTIVITY_IN_MODE")+" " + WF.STATE_ARCHIVE + " " + WF.STATE_ARCHIVE + " "+LoggerMessageLocalizer.getMessage("CANNOT_CHANGE_TO")+" " + WF.STATE_OPEN);
             toRet = false;
         }
         else

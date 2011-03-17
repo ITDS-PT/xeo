@@ -13,6 +13,7 @@ import netgest.bo.impl.document.DocumentHelper;
 import netgest.bo.impl.document.merge.MergeHelper;
 import netgest.bo.impl.document.print.PrintHelper;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.server.sms.SMSExpressApi;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
@@ -389,7 +390,7 @@ public class SMSServer implements MediaServer
             out = new FileOutputStream(ff);
             out.write(texto.getBytes());
             result = ff.getAbsolutePath();
-            logger.severe("Gerou para: " +result);
+            logger.severe(LoggerMessageLocalizer.getMessage("GENERATED_FOR")+": " +result);
         }
         catch (Exception ex)
         {

@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.io.metadata.ValueFormatException;
 import netgest.io.metadata.iMetadataItem;
 import netgest.io.metadata.iMetadataProperty;
@@ -336,8 +337,8 @@ public class MetadataProperty implements iMetadataProperty {
 	 * @throws ValueFormatException 
 	 */
 	public void throwInvalidDataTypeConversion(String convertionAttempt) throws ValueFormatException{
-		throw new ValueFormatException("The value of property " + p_name +"("+ 
-				p_dataType.name() + ") is not of type " + convertionAttempt);
+		throw new ValueFormatException(MessageLocalizer.getMessage("THE_VALUE_OF_PROPERTY")+" " + p_name +"("+ 
+				p_dataType.name() + ") "+MessageLocalizer.getMessage("IS_NOT_OF_TYPE")+" " + convertionAttempt);
 	}
 
 	

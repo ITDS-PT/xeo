@@ -8,6 +8,8 @@ import java.util.*;
 import netgest.bo.*;
 import netgest.bo.def.*;
 import javax.servlet.jsp.*;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.presentation.render.elements.cache.Cache;
 import netgest.bo.ql.*;
 import netgest.bo.runtime.*;
@@ -469,7 +471,7 @@ public class ExplorerServer
          File file = new File(xDir+File.separator+pBoui+File.separator);
          file.mkdirs();
          ngtXMLUtils.saveXML( ( XMLDocument )treeUser.getNode(), file.getAbsolutePath()+File.separator+tree.p_key+".xml" );
-         System.out.println("Tree def a escrever:" + file.getAbsolutePath()+File.separator+tree.p_key+".xml");
+         System.out.println(MessageLocalizer.getMessage("TREE_DEF_TO_WRITE") + file.getAbsolutePath()+File.separator+tree.p_key+".xml");
 
     }
 

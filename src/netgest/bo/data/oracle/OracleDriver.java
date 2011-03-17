@@ -15,6 +15,7 @@ import netgest.bo.data.Driver;
 import netgest.bo.data.DriverUtils;
 import netgest.bo.data.ReaderAdapter;
 import netgest.bo.data.WriterAdapter;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 
@@ -82,8 +83,8 @@ public class OracleDriver implements Driver {
             {
                 if (retries >= retrycount)
                 {
-                    throw new RuntimeException(
-                        " Failed to create connection. \n" +
+                    throw new RuntimeException(MessageLocalizer.getMessage("FAILED_TO_CREATE_CONNECTION")+
+                        " \n" +
                         e.getClass().getName() + "\n" + e.getMessage());
                 }
             }
@@ -116,7 +117,7 @@ public class OracleDriver implements Driver {
                 if (retries >= retrycount) 
                 {
                     throw new RuntimeException(
-                        " Failed to create connection. \n" +
+                    		MessageLocalizer.getMessage("FAILED_TO_CREATE_CONNECTION")+" \n" +
                         e.getClass().getName() + "\n" + e.getMessage());
                 }
             }
@@ -137,7 +138,7 @@ public class OracleDriver implements Driver {
         }
         catch (NamingException e)
         {
-            throw new RuntimeException("Error looking for DataSource name [" +
+            throw new RuntimeException(MessageLocalizer.getMessage("ERROR_LOOKING_FOR_DATASOURCE_NAME")+" [" +
                 dataSourceName + "].\n" + e.getMessage());
         }
     }
@@ -151,7 +152,7 @@ public class OracleDriver implements Driver {
             cn.setAutoCommit(false);
         }
         catch (SQLException e) {
-            System.out.println("Failed to obtain Dedicated Connection or disable AutoCommit");
+            System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABLE_AUTOCOMIT"));
         }
         return cn;    
     }
@@ -170,7 +171,7 @@ public class OracleDriver implements Driver {
             cn.setAutoCommit(false);
         }
         catch (SQLException e) {
-            System.out.println("Failed to obtain Dedicated Connection or disable AutoCommit");
+            System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABLE_AUTOCOMIT"));
         }
         return cn;
     }
@@ -241,7 +242,7 @@ public class OracleDriver implements Driver {
 			  else {
 			  	rslt.close();
 			  	pstm.close();
-			  	throw(new SQLException("Erro a obter sequencia ["+seqname+"]"));
+			  	throw(new SQLException(MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" ["+seqname+"]"));
 			  }
 		  } 
 		  catch (SQLException e) 
@@ -284,7 +285,7 @@ public class OracleDriver implements Driver {
 			  else {
 			      rslt.close();
 			      pstm.close();
-			      throw(new SQLException("Erro a obter sequencia ["+seqname+"]"));
+			      throw(new SQLException(MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" ["+seqname+"]"));
 			  }
 		  }
 		} catch (SQLException e) {

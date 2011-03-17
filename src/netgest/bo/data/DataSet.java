@@ -3,8 +3,8 @@ package netgest.bo.data;
 import java.io.Serializable;
 
 import java.util.*;
-import java.util.Hashtable;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.utils.*;
 
@@ -58,7 +58,7 @@ public class DataSet extends ParametersHandler implements Serializable, Cloneabl
         
         if(p_deletedRows == null || ( position <= 0 && position > p_deletedRows.size() ) )
         {
-            throw new DataException("0000","Deleted row does not exist at position ["+position+"]");
+            throw new DataException("0000",MessageLocalizer.getMessage("DELETED_ROW_DOES_NOT_EXIST_AT_POSITION")+" ["+position+"]");
         }
         return (DataRow)p_deletedRows.get( position - 1 );
         
@@ -74,7 +74,7 @@ public class DataSet extends ParametersHandler implements Serializable, Cloneabl
         int colidx = findColumn( columnName );
         if( colidx == -1 )
         {
-            throw new DataException("0000","The column ["+columnName+"] doesn't exists.");
+            throw new DataException("0000",MessageLocalizer.getMessage("THE_COLUMN")+" ["+columnName+"] "+MessageLocalizer.getMessage("DOESNT_EXIST")+".");
         }
         return colidx;
     }
@@ -152,7 +152,7 @@ public class DataSet extends ParametersHandler implements Serializable, Cloneabl
         }
         else
         {
-            throw new DataException("0000","Row is not a member of this DataSet");
+            throw new DataException("0000",MessageLocalizer.getMessage("ROW_IS_NOT_A_MEMBER_OF_THIS_DATASET"));
         }
     }
     public synchronized final void deleteRow( int position )
@@ -172,7 +172,7 @@ public class DataSet extends ParametersHandler implements Serializable, Cloneabl
     {
         if(position <= 0 || position > p_rows.size()  )
         {
-            throw new DataException("0000","Row doesn't exist ["+position+"]");
+            throw new DataException("0000", MessageLocalizer.getMessage("ROW_DOESNT_EXIST")+" ["+position+"]");
         }
     }
     

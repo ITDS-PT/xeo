@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
 import netgest.utils.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 
 /**
@@ -15,7 +16,7 @@ public final class boRuntimeException2 extends RuntimeException
     public boRuntimeException2()
     {
     super();
-    logger.severe( " execpção sem mensagem!!! " );  
+    logger.severe( LoggerMessageLocalizer.getMessage("EXCEPTION_WITHOUT_MESSAGE") );  
     
 	
     

@@ -12,6 +12,7 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.ICustomField;
 import netgest.bo.dochtml.docHTML;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.message.utils.MessageUtils;
@@ -985,9 +986,9 @@ public class ObjectCardReportBuilder {
                                                        .toString();
                                             iscdata = true;
                                         } catch (Exception e) {
-                                            logger.warn(" Objecto com boui " +
+                                            logger.warn(LoggerMessageLocalizer.getMessage("OBJECT_WITH_BOUI")+" " +
                                                 values[i] +
-                                                "nao encontrado - Referencia no Template");
+                                                " "+LoggerMessageLocalizer.getMessage("NOT_FOUND_TEMPLATE_REFERENCE"));
                                         }
                                     }
                                 } else {
@@ -997,9 +998,9 @@ public class ObjectCardReportBuilder {
                                         value = o3.getCARDID(false).toString();
                                         iscdata = true;
                                     } catch (Exception e) {
-                                        logger.warn(" Objecto com boui " +
+                                        logger.warn(LoggerMessageLocalizer.getMessage("OBJECT_WITH_BOUI")+" " +
                                             value +
-                                            "nao encontrado - Referencia no Template");
+                                            " "+LoggerMessageLocalizer.getMessage("NOT_FOUND_TEMPLATE_REFERENCE"));
                                     }
                                 }
                             }

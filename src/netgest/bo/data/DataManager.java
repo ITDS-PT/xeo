@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
 import java.sql.Timestamp;
@@ -251,7 +252,7 @@ public class DataManager
                             if (!ok)
                             {
                                 throw new DataException("0000",
-                                    "Invalid state of the data, Expeceted row doesn't exist.");
+                                    MessageLocalizer.getMessage("INVALID_STATE_OF_THE_DATA_EXPECTED_ROW_DOESNT_EXIST"));
                             }
                         }
                     }
@@ -278,7 +279,7 @@ public class DataManager
                                     if (!wa[z].insertRow(ctx, row))
                                     {
                                         throw new DataException("0000",
-                                            "Invalid state of the data, Expeceted row doesn't exist.");
+                                        		MessageLocalizer.getMessage("INVALID_STATE_OF_THE_DATA_EXPECTED_ROW_DOESNT_EXIST"));
                                     }
                                 }
                                 else if (row.wasChanged())
@@ -290,7 +291,7 @@ public class DataManager
                                     if (!wa[z].updateRow(ctx, row))
                                     {
                                         throw new DataException("0000",
-                                            "Invalid state of the data, Expeceted row doesn't exist.");
+                                        		MessageLocalizer.getMessage("INVALID_STATE_OF_THE_DATA_EXPECTED_ROW_DOESNT_EXIST"));
                                     }
                                 }
                             }

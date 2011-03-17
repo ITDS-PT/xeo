@@ -21,6 +21,8 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.dochtml.docHTML_controler;
 import netgest.bo.impl.document.DocumentHelper;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.presentation.render.HTMLCommon;
@@ -385,7 +387,7 @@ public class TreeBuilder {
                 {
                     logger.severe(e);
                     
-                    logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + sqlGroups);
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_EXPLORER")+": " + tree.getKey() + " - " + tree.getExplorerName() + " "+LoggerMessageLocalizer.getMessage("USER")+": " + tree.getUser() + " SQL: " + sqlGroups);
                     throw new boRuntimeException("TreeBuilder", "writeTree", e);
                 }
                 finally
@@ -736,7 +738,7 @@ public class TreeBuilder {
                 {
                     logger.severe(e);
                     
-                    logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_EXPLORER")+": " + tree.getKey() + " - " + tree.getExplorerName() + " "+LoggerMessageLocalizer.getMessage("USER")+": " + tree.getUser() + " SQL: " + xsql);
                     throw new boRuntimeException("TreeBuilder", "writeTree", e);
                 }
                 finally
@@ -811,7 +813,7 @@ public class TreeBuilder {
         
         if ( tree.ctrlLines == null )
         {
-            logger.warn("Groups a null... error, recovering...");
+            logger.warn(LoggerMessageLocalizer.getMessage("GROUPS_ARE_NULL_ERROR_RECOVERING"));
             writeTree( new PrintWriter(new ByteArrayOutputStream()), elementTree, doc, docList, null );
         }
 
@@ -934,7 +936,7 @@ public class TreeBuilder {
                     {
                         logger.severe( e );
                         
-                        logger.severe("ERRO_NO_EXP Explorador: " + tree.getKey() + " - " + tree.getExplorerName() + " Utilizador: " + tree.getUser() + " SQL: " + xsql);
+                        logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_EXPLORER")+": " + tree.getKey() + " - " + tree.getExplorerName() + " "+LoggerMessageLocalizer.getMessage("USER")+": " + tree.getUser() + " SQL: " + xsql);
                         throw new boRuntimeException("TreeBuilder", "writeTree", e);
                     }
                     finally
@@ -1203,7 +1205,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
                 }
             }
         }
-        writeToLog(out, "1 ciclo".toCharArray(), System.currentTimeMillis()-ti);
+        writeToLog(out, ("1 "+MessageLocalizer.getMessage("CYCLE")).toCharArray(), System.currentTimeMillis()-ti);
         ti = System.currentTimeMillis();
         bouis = ClassUtils.setsizeLongArray(bouis, indice);
         try
@@ -1212,7 +1214,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
         }
         catch(Exception e)
         {
-            logger.severe("Erro no preLoadObjects", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_PRELOADOBJECTS"), e);
         }
         writeToLog(out, "preload".toCharArray(), System.currentTimeMillis()-ti);
 
@@ -1891,7 +1893,7 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
                 logger.severe(sTmp, e);
             }
         }
-        writeToLog(out, "2 ciclo".toCharArray(), System.currentTimeMillis()-ti);
+        writeToLog(out, ("2 "+MessageLocalizer.getMessage("CYCLE")).toCharArray(), System.currentTimeMillis()-ti);
         if (alreadyPrintHeader) {
             out.append(HTMLCommon.HTML_TABLE_END);
             out.append(HTMLCommon.UTIL_NEW_LINE);
@@ -1901,14 +1903,14 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
         toRet[0] = renderLines;
         toRet[1] = currentLine;
         toRet[2] = rslt.next() ? 1 : 0;
-        writeToLog(out, "Render Line time".toCharArray(), System.currentTimeMillis() - xt);
+        writeToLog(out, MessageLocalizer.getMessage("RENDER_LINE_TIME").toCharArray(), System.currentTimeMillis() - xt);
         return toRet;
     }
 
     private static void writeQueryToLog(PrintWriter out, long time,
         String query) throws IOException {
         String t = ((float) (Math.round((float) (time) / 100f)) / 10f) + "s";
-        out.write(("<!--Tempo da query(" + t + "): " + query + " -->").toCharArray());
+        out.write(("<!--"+MessageLocalizer.getMessage("QUERY_TIME")+"(" + t + "): " + query + " -->").toCharArray());
     }
 
     private static void writeToLog(StringBuffer out, char[] s, long time)
@@ -1962,11 +1964,11 @@ public static int[] renderLines(StringBuffer out, Explorer tree,
             if("0".equals(value))
             {
                 //falta verificar a lingua
-                return "Não";
+                return MessageLocalizer.getMessage("NO");
             }
             else if("1".equals(value))
             {
-                return "Sim";
+                return MessageLocalizer.getMessage("YES");
             }
             return value;
          }             

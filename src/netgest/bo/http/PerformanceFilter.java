@@ -36,6 +36,8 @@ import netgest.bo.system.boSession;
 import netgest.bo.system.Logger;
 import javax.servlet.ServletOutputStream;
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.server.mail.Mail;
 import netgest.bo.message.server.mail.MailAddress;
 import netgest.bo.message.server.mail.MailMessage;
@@ -111,11 +113,11 @@ public class PerformanceFilter implements Filter
         }
         catch( FileNotFoundException e )
         {
-            logger.severe("Ficheiro de configuração PerformanceFilter não encontrado ["+ logDir + "perfConfig.properties" +"]"  );
+            logger.severe(LoggerMessageLocalizer.getMessage("PERFORMERFILTER_CONFIG_FILE_NOT_FOUND")+" ["+ logDir + "perfConfig.properties" +"]"  );
         }
         catch( Exception e )
         {
-            logger.severe("Erro a inicializar PerformanceFilter",e);            
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_INITIALIZING_PRFORMANCEFILTER"),e);            
         }
     }
 
@@ -267,7 +269,7 @@ public class PerformanceFilter implements Filter
 	        long timeTaken = System.currentTimeMillis() - xx;
 	        if( timeTaken > 1500 )
 	        {
-	            logger.warn("Query Demorada ["+timeTaken+"]:" + url );
+	            logger.warn(LoggerMessageLocalizer.getMessage("DELAYED_QUERY")+" ["+timeTaken+"]:" + url );
 	        }
 	    }
 	    finally
@@ -334,9 +336,9 @@ public class PerformanceFilter implements Filter
                 File logFile = new File( logDir + logCliName );
                 boolean exists = logFile.exists();
 
-                logger.finer("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
+                logger.finer(LoggerMessageLocalizer.getMessage("INITIALIZED_NEW_LOGGER_TO_FILE")+" ["+logFile.getAbsolutePath()+"]");
                 logCliOut = new FileWriter( logFile , true ); 
-                if(!exists)  logCliOut.write( "Date Hora;IP do Cliente;Utilizador;Tempo de Render;Pagina\n" );
+                if(!exists)  logCliOut.write(MessageLocalizer.getMessage("DATE_HOUR_CLIENTIP_USER_RENDERTIME_PAGE") );
             }
             logLine.append("\n");
             logCliOut.write( logLine.toString() );
@@ -353,7 +355,7 @@ public class PerformanceFilter implements Filter
         }
         catch( Throwable e )
         {
-            logger.warn( "Erro logging client metrics", e );
+            logger.warn( LoggerMessageLocalizer.getMessage("ERROR_lOADING_CLIENT_METRICS"), e );
         }
     }
     
@@ -423,9 +425,9 @@ public class PerformanceFilter implements Filter
                 File logFile = new File( logDir + logSrvName );
                 boolean exists = logFile.exists();
 
-                logger.finer("Initialized new logger to file ["+logFile.getAbsolutePath()+"]");
+                logger.finer(LoggerMessageLocalizer.getMessage("INITIALIZED_NEW_LOGGER_TO_FILE")+" ["+logFile.getAbsolutePath()+"]");
                 logSrvOut = new FileWriter( logFile , true ); 
-                if(!exists)  logSrvOut.write( "Date Hora;Memoria Total;Memoria Livre;IP do Cliente;Utilizador;Tempo de Resposta;Escrita da Resposta;Metodo;Pagina;Parametros\n" );
+                if(!exists)  logSrvOut.write( MessageLocalizer.getMessage("DATEHOUR_TOTALMEMORY_FREEMEMORY_CLIENTIP_USER_TIME_") );
             }
 
 
@@ -521,7 +523,7 @@ public class PerformanceFilter implements Filter
         {
             try
             {
-                logger.finer( "Request Monitor Started" );
+                logger.finer( LoggerMessageLocalizer.getMessage("REQUEST_MONITOR_STARTED") );
                 while( !super.isInterrupted() )
                 {
                     try
@@ -549,11 +551,11 @@ public class PerformanceFilter implements Filter
                                     {
                                         StringBuffer sb = new StringBuffer();
                                         
-                                        sb.append("ATENÇÃO Pedido no servidor a demorar ["+ (lElapsedTime/1000) +" sec's]\n");
+                                        sb.append(MessageLocalizer.getMessage("ATTENTION_REQUEST_DELAYED_ON_SERVER")+" ["+ (lElapsedTime/1000) +" sec's]\n");
                                         sb.append("-----------------------------------------------------------").append("\n");
-                                        sb.append("Request URL:\n" + request.getRequestURL() ).append("\n");
+                                        sb.append(MessageLocalizer.getMessage("REQUEST_URL")+":\n" + request.getRequestURL() ).append("\n");
                                         sb.append("-----------------------------------------------------------").append("\n");
-                                        sb.append("Request Headers:").append("\n");
+                                        sb.append(MessageLocalizer.getMessage("REQUEST_HEADERS")+":").append("\n");
                                         sb.append("-----------------------------------------------------------").append("\n");
                                         Enumeration headerNamesEnum = request.getHeaderNames();
                                         while( headerNamesEnum.hasMoreElements() )
@@ -564,7 +566,7 @@ public class PerformanceFilter implements Filter
                                         } 
                     
                                         sb.append("-----------------------------------------------------------").append("\n");
-                                        sb.append("Request Parameters:").append("\n");
+                                        sb.append(MessageLocalizer.getMessage("REQUEST_PARAMETERS")+":").append("\n");
                                         sb.append("-----------------------------------------------------------").append("\n");
                                         Enumeration paramNamesEnum = request.getParameterNames();
                                         while( paramNamesEnum.hasMoreElements() )
@@ -585,7 +587,7 @@ public class PerformanceFilter implements Filter
                     }
                     catch( Exception e )
                     {
-                        logger.severe( "Erro na Thread de Monitorização de pedidos", e );
+                        logger.severe( LoggerMessageLocalizer.getMessage("ERROR_IN_THE_REQUEST_MONITORING_THREAD"), e );
                     }
                     Thread.sleep(30000);
                 }
@@ -621,7 +623,7 @@ public class PerformanceFilter implements Filter
             
             String sHostName = InetAddress.getLocalHost().getHostName().toLowerCase();            
             
-            String msgStart = "Pedidos Demorados no Servidor ["+sHostName+"]";
+            String msgStart = MessageLocalizer.getMessage("REQUESTS_DELAYED_ON_SERVER")+" ["+sHostName+"]";
             mailmsg.setSubject("XEO NTF: " + msgStart);
             mailmsg.setContent(msgStart + ":\n" + text);
             mailmsg.setAskForDeliveredReceipt(false);

@@ -1,10 +1,8 @@
 package netgest.bo.runtime.robots.blogic;
 
 
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLogin;
 import netgest.bo.system.boLoginBean;
@@ -32,7 +30,7 @@ public class GarbageRemoverAgentBussinessLogic
         EboContext ctx = null;
         boSession session = null;
         boolean locked = false;
-        logger.finest("Starting Garbage Remover Agent ...");
+        logger.finest(LoggerMessageLocalizer.getMessage("STARTING_GARBAGE_REMOVER_AGENT"));
         try
         {
             session = p_app.boLogin("SYSTEM",boLoginBean.getSystemKey(), p_app.getDefaultRepositoryName());
@@ -49,11 +47,11 @@ public class GarbageRemoverAgentBussinessLogic
         }
         catch (boLoginException e)
         {
-            logger.severe("Error in Garbage Remover Agent \n" + e.getMessage(), e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_GARBAGE_REMOVER_AGENT") + e.getMessage(), e);
         }  
         catch (boRuntimeException e)
         {
-            logger.severe("Error in Garbage Remover Agent \n" + e.getMessage(), e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_IN_GARBAGE_REMOVER_AGENT") + e.getMessage(), e);
         }
     }   
     /**
@@ -84,7 +82,7 @@ public class GarbageRemoverAgentBussinessLogic
             }
             catch (Exception ex) 
             {
-                logger.severe("Cannot Remove xwfSerialObject " + object.getBoui());
+                logger.severe(LoggerMessageLocalizer.getMessage("CANNOT_REMOVE_XWFSERIALOBJECT")+" " + object.getBoui());
             }                    
         }
     }  

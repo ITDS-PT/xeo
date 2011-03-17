@@ -5,6 +5,7 @@ import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
 
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.parser.symbol.AssignExpression;
 import netgest.bo.parser.symbol.BinaryExpression;
 import netgest.bo.parser.symbol.BlockStatement;
@@ -394,9 +395,8 @@ public class XEORecognizer
 
                 if (!(token instanceof StringLiteral))
                 {
-                    throw new boRuntimeException("XEORecognizer",
-                        "Erro ao verificar o attributo: " +
-                        thisAttribute.getName() + " do objecto: " +
+                    throw new boRuntimeException("XEORecognizer",MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                        thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                         bodef.getBoName(), new Exception());
                 }
 
@@ -692,8 +692,8 @@ public class XEORecognizer
                             if ((be == null) && (bLast == null))
                             {
                                 throw new boRuntimeException("XEORecognizer",
-                                    "Erro ao verificar o attributo: " +
-                                    thisAttribute.getName() + " do objecto: " +
+                                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                                     bodef.getBoName(), new Exception());
                             }
                             else
@@ -755,8 +755,8 @@ public class XEORecognizer
                     if ((be == null) && (bLast == null))
                     {
                         throw new boRuntimeException("XEORecognizer",
-                            "Erro ao verificar o attributo: " +
-                            thisAttribute.getName() + " do objecto: " +
+                        		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                            thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                             bodef.getBoName(), new Exception());
                     }
                     else if (bLast != null)
@@ -1111,8 +1111,8 @@ public class XEORecognizer
         }
 
         throw new boRuntimeException("XEORecognizer",
-            "Erro ao verificar o attributo: " + thisAttribute.getName() +
-            " do objecto: " + bodef.getBoName(), new Exception());
+        		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " + thisAttribute.getName() +
+            " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " + bodef.getBoName(), new Exception());
     }
 
     private int constructEqualsIgnoreCase(ArrayList statements, int i,
@@ -1651,7 +1651,7 @@ public class XEORecognizer
                         else
                         {
                             throw new boRuntimeException("XEORecognizer",
-                                "Chamada a um método sem passar parâmetros: " +
+                                MessageLocalizer.getMessage("METHOD_CALL_WITHOUT_PASSING_PARAMETERS")+": " +
                                 commands, new Exception());
                         }
                     }
@@ -1728,7 +1728,7 @@ public class XEORecognizer
                             else
                             {
                                 throw new boRuntimeException("XEORecognizer",
-                                    "Chamada a um método sem passar parâmetros: " +
+                                		 MessageLocalizer.getMessage("METHOD_CALL_WITHOUT_PASSING_PARAMETERS")+": " +
                                     commands, new Exception());
                             }
                         }
@@ -1762,7 +1762,7 @@ public class XEORecognizer
         if (pos >= statement.size())
         {
             throw new boRuntimeException("XEORecognizer",
-                "Atributo ou objecto inexistente: " + commands, new Exception());
+                MessageLocalizer.getMessage("ATTRIBUTE_OR_OBJECT_DOESNT_EXIST")+": " + commands, new Exception());
         }
 
         //        if(pos == 0)
@@ -2022,8 +2022,8 @@ public class XEORecognizer
                     if ((pos + 1) == statement.size())
                     {
                         throw new boRuntimeException("XEORecognizer",
-                            "Erro ao verificar o attributo: " +
-                            thisAttribute.getName() + " do objecto: " +
+                        		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                            thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                             bodef.getBoName(), new Exception());
                     }
 
@@ -2654,7 +2654,7 @@ public class XEORecognizer
         if ((objType == null) || "".equals(objType))
         {
             throw new boRuntimeException("XEORecognizer",
-                "Erro ao verificar o attributo: " + attName + " da bridge: " +
+            		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " + attName +"  "+ MessageLocalizer.getMessage("FROM_BRIDGE")+": " +
                 attDef.getName(), new Exception());
         }
         else
@@ -2802,8 +2802,8 @@ public class XEORecognizer
                             if ((objType == null) || "".equals(objType))
                             {
                                 throw new boRuntimeException("XEORecognizer",
-                                    "Erro ao verificar o attributo: " +
-                                    thisAttribute.getName() + " do objecto: " +
+                                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                                     bodef.getBoName(), new Exception());
                             }
                             else
@@ -2834,8 +2834,8 @@ public class XEORecognizer
             else
             {
                 throw new boRuntimeException("XEORecognizer",
-                    "Erro ao verificar o attributo: " +
-                    thisAttribute.getName() + " do objecto: " +
+                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                     bodef.getBoName(), new Exception());
             }
         }
@@ -2935,8 +2935,8 @@ public class XEORecognizer
         catch (Exception e)
         {
             throw new boRuntimeException("XEORecognizer",
-                "Erro ao verificar o attributo: " + thisAttribute.getName() +
-                " do objecto: " + bodef.getBoName(), e);
+            		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " + thisAttribute.getName() +
+                " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " + bodef.getBoName(), e);
         }
     }
 
@@ -3134,8 +3134,8 @@ public class XEORecognizer
                             if ((objType == null) || "".equals(objType))
                             {
                                 throw new boRuntimeException("XEORecognizer",
-                                    "Erro ao verificar o attributo: " +
-                                    thisAttribute.getName() + " do objecto: " +
+                                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                                     bodef.getBoName(), new Exception());
                             }
                             else
@@ -3158,8 +3158,8 @@ public class XEORecognizer
             else
             {
                 throw new boRuntimeException("XEORecognizer",
-                    "Erro ao verificar o attributo: " +
-                    thisAttribute.getName() + " do objecto: " +
+                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                     bodef.getBoName(), new Exception());
             }
         }
@@ -3177,8 +3177,8 @@ public class XEORecognizer
             if (path.size() == (pos + 1))
             {
                 throw new boRuntimeException("XEORecognizer",
-                    "Erro ao verificar o attributo: " +
-                    thisAttribute.getName() + " do objecto: " +
+                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                     bodef.getBoName(), new Exception());
             }
             else if (aux.startsWith("parent_"))
@@ -3262,8 +3262,8 @@ public class XEORecognizer
                             if ((objType == null) || "".equals(objType))
                             {
                                 throw new boRuntimeException("XEORecognizer",
-                                    "Erro ao verificar o attributo: " +
-                                    thisAttribute.getName() + " do objecto: " +
+                                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                                     bodef.getBoName(), new Exception());
                             }
                             else
@@ -3286,8 +3286,8 @@ public class XEORecognizer
             else
             {
                 throw new boRuntimeException("XEORecognizer",
-                    "Erro ao verificar o attributo: " +
-                    thisAttribute.getName() + " do objecto: " +
+                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                     bodef.getBoName(), new Exception());
             }
         }
@@ -3349,8 +3349,8 @@ public class XEORecognizer
         }
 
         throw new boRuntimeException("XEORecognizer",
-            "Erro ao verificar o attributo: " + thisAttribute.getName() +
-            " do objecto: " + bodef.getBoName(), new Exception());
+        		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " + thisAttribute.getName() +
+            " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " + bodef.getBoName(), new Exception());
     }
 
     private EList getDateParameters(String s) throws boRuntimeException
@@ -3395,8 +3395,8 @@ public class XEORecognizer
                 catch (Exception e)
                 {
                     throw new boRuntimeException("XEORecognizer",
-                        "Erro ao verificar o attributo: " +
-                        thisAttribute.getName() + " do objecto: " +
+                    		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                        thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                         bodef.getBoName(), e);
                 }
 
@@ -3743,8 +3743,8 @@ public class XEORecognizer
         }
 
         throw new boRuntimeException("XEORecognizer",
-            "Erro ao verificar o attributo: " + thisAttribute.getName() +
-            " do objecto: " + bodef.getBoName(), new Exception());
+        		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " + thisAttribute.getName() +
+            " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " + bodef.getBoName(), new Exception());
     }
 
     private StatementSymbol getResumeCode(String nameOfBridge,
@@ -4134,8 +4134,8 @@ public class XEORecognizer
                         if ((objType == null) || "".equals(objType))
                         {
                             throw new boRuntimeException("XEORecognizer",
-                                "Erro ao verificar o attributo: " +
-                                thisAttribute.getName() + " do objecto: " +
+                            		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                                thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                                 bodef.getBoName(), new Exception());
                         }
                         else
@@ -4157,8 +4157,8 @@ public class XEORecognizer
             else
             {
                 throw new boRuntimeException("XEORecognizer",
-                    "Erro ao verificar o attributo: " +
-                    thisAttribute.getName() + " do objecto: " +
+                		MessageLocalizer.getMessage("ERROR_CHECKING_THE_ATTRIBUTE")+": " +
+                    thisAttribute.getName() + " "+MessageLocalizer.getMessage("FROM_OBJECT")+": " +
                     bodef.getBoName(), new Exception());
             }
         }

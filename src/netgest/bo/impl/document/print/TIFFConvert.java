@@ -12,6 +12,8 @@ import netgest.utils.ngtXMLUtils;
 import netgest.utils.ngtXMLHandler;
 import oracle.xml.parser.v2.XMLElement;
 import org.w3c.dom.Node;
+
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.boApplication;
 import netgest.bo.boConfig;
 
@@ -43,7 +45,7 @@ public class TIFFConvert
         
         if (xnode == null) 
         {
-            throw new RuntimeException("Não foi indicado no ficheiro boconfig.xml a localização do conversor para Tiff.");
+            throw new RuntimeException(MessageLocalizer.getMessage("THE_TIFF_CONVERTER_LOCALIZATION_HAS_NOT_BEEN_DEFINED_IN_THE_BOCONFIGXML"));
         }
                
         return xnode.getText();

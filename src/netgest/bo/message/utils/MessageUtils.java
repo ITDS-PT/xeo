@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import netgest.bo.boConfig;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.securityRights;
 import netgest.utils.*;
@@ -222,7 +223,7 @@ public class MessageUtils
         }
         catch(Exception e)
         {
-            logger.severe("Error ao efectuar o set do already_read", e);
+            logger.severe(LoggerMessageLocalizer.getMessage("ERROR_DOING_THE_ALREADY_READ_SET"), e);
         }
     }
     

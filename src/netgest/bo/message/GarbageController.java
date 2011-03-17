@@ -7,10 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.*;
 import netgest.bo.*;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.server.mail.MailAddress;
 import netgest.bo.message.utils.MessageUtils;
 import netgest.bo.runtime.*;
-import netgest.bo.runtime.EboContext;
 import netgest.utils.XEOUserUtils;
 import netgest.bo.system.Logger;
 
@@ -49,7 +49,7 @@ public class GarbageController
                 {
                     if(email.equalsIgnoreCase(it.currentRow().getObject().getAttribute("email").getValueString()))
                     {
-                        logger.finer("IT'S SPAM");
+                        logger.finer(LoggerMessageLocalizer.getMessage("ITS_SPAM"));
                         return true;
                     }
                 }
@@ -59,7 +59,7 @@ public class GarbageController
         {
             logger.severe(e);
         }
-        logger.finest("NOT SPAM");
+        logger.finest(LoggerMessageLocalizer.getMessage("NOT_SPAM"));
         return false;
     }
     
@@ -77,7 +77,7 @@ public class GarbageController
                 {
                     if(server.equalsIgnoreCase(it.currentRow().getObject().getAttribute("server").getValueString()))
                     {
-                       logger.finer("IT'S SPAM");
+                       logger.finer(LoggerMessageLocalizer.getMessage("ITS_SPAM"));
                         return true;
                     }
                 }
@@ -87,7 +87,7 @@ public class GarbageController
         {
             logger.severe(e);
         }
-        logger.finest("NOT SPAM");
+        logger.finest(LoggerMessageLocalizer.getMessage("NOT_SPAM"));
         return false;
     }
     
@@ -122,7 +122,7 @@ public class GarbageController
         {
             if(email != null)
             {
-                logger.finest("Erro ao resolver o email: " + email);
+                logger.finest(LoggerMessageLocalizer.getMessage("ERROR_RESOLVING_THE_EMAIL")+": " + email);
             }
             try{logger.finest("",e);}catch(Exception _e){};
         }
