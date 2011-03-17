@@ -1,38 +1,36 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
-<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
-   <general name="Ebo_DAOparameter" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
-      <locale language="pt" country="PT" variant=""/>
-      <implements/>
-      <database/>
-      <versioning active="false"/>
-      <textIndex active="true" appendChilds="false" deep="1">
-         <process/>
-      </textIndex>
-      <description>Ebo_DAOparameter</description>
-      <cardID>[codeDAO] </cardID>
-      <label>DAO Config Object Line Parameters</label>
-   </general>
-   <opl active="false"/>
-   <states/>
-   <methods>
-      <method name="getCardIDByExtendAttributeAlias" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
-         <label></label>
-         <icon></icon>
-         <javascriptToRun>
-            <viewer name="edit">
-               <before>
-                  <![CDATA[]]>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="false" extends="" version="1.0" type="object" name="Ebo_DAOparameter">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Ebo_DAOparameter</description>
+        <cardID>[codeDAO] </cardID>
+        <label>DAO Config Object Line Parameters</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods>
+        <method toObject="" modeTemplate="true" openDoc="false" serverOnly="false" requiredTransaction="NotSuported" toolbar="false" menu="false" public="false" name="getCardIDByExtendAttributeAlias">
+            <label></label>
+            <icon></icon>
+            <javascriptToRun>
+                <viewer name="edit">
+                    <before>
+                  
                </before>
-               <after>
-                  <![CDATA[]]>
+                    <after>
+                  
                </after>
-            </viewer>
-         </javascriptToRun>
-         <assinature return="StringBuffer"/>
-         <body language="JAVA">
-            <![CDATA[
+                </viewer>
+            </javascriptToRun>
+            <assinature return="StringBuffer"/>
+            <body language="JAVA">
+            
 			String shortAlias = this.extAttrAliasParent.getValue(); 
 bridgeHandler bridge = this.getParentBridgeRow().getParent().getParentBridgeRow().getParent().getBridge("extendAttribute");
 bridge.beforeFirst();
@@ -43,80 +41,104 @@ while ( bridge.next() ){
 	}
 }
 return new StringBuffer();
-			 ]]>
+			 
          </body>
-      </method>
-      <method name="getAliasChildLov" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
-         <label></label>
-         <icon></icon>
-         <javascriptToRun>
-            <viewer name="edit">
-               <before>
-                  <![CDATA[]]>
+        </method>
+        <method toObject="" modeTemplate="true" openDoc="false" serverOnly="false" requiredTransaction="NotSuported" toolbar="false" menu="false" public="false" name="getAliasChildLov">
+            <label></label>
+            <icon></icon>
+            <javascriptToRun>
+                <viewer name="edit">
+                    <before>
+                  
                </before>
-               <after>
-                  <![CDATA[]]>
+                    <after>
+                  
                </after>
-            </viewer>
-         </javascriptToRun>
-         <assinature return="StringBuffer"/>
-         <body language="JAVA">
-            <![CDATA[return netgest.bo.events.sysBridges.getAliasChildLovImpl( this ); ]]>
+                </viewer>
+            </javascriptToRun>
+            <assinature return="StringBuffer"/>
+            <body language="JAVA">
+            return netgest.bo.events.sysBridges.getAliasChildLovImpl( this ); 
          </body>
-      </method>
-   </methods>
-   <events/>
-   <fwdObjects/>
-   <attributes>
-      <attributeNumber name="extAttrParentBoui">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Boui do Atributo extendido do Pai</label>
-         <tooltip></tooltip>
-      </attributeNumber>
-      <attributeText name="extAttrAliasParent">
-         <len>50</len>
-         <label>Alias do Attributo Pai</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeText name="extAttrAliasChild">
-         <len>50</len>
-         <label>Alias do Attributo Filho</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeText name="inout">
-         <len>10</len>
-         <label>Envia/Recebe</label>
-         <tooltip></tooltip>
-         <lov name="inout" retainValues="false"/>
-      </attributeText>
-   </attributes>
-   <viewers>
-      <viewer name="general">
-         <forms>
-            <form name="list" formtype="List">
-               <grid bo_node="settings" mode="edit">
-                  <cols>
-                     <col width="" method="getCardIDByExtendAttributeAlias">
-                        <attribute>method</attribute>
+        </method>
+    </methods>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeNumber name="extAttrParentBoui">
+            <label>Boui do Atributo extendido do Pai</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+        </attributeNumber>
+        <attributeText name="extAttrAliasParent">
+            <label>Alias do Atributo Pai</label>
+            <description></description>
+            <tooltip></tooltip>
+            <len>50</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeText name="extAttrAliasChild">
+            <label>Alias do Atributo Filho</label>
+            <description></description>
+            <tooltip></tooltip>
+            <len>50</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeText name="inout">
+            <label>Envia/Recebe</label>
+            <tooltip></tooltip>
+            <len>10</len>
+            <lov retainValues="false" name="inout"/>
+        </attributeText>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form formtype="List" name="list">
+                    <grid bo_node="settings" mode="edit">
+                        <cols>
+                            <col method="getCardIDByExtendAttributeAlias" width="">
+                                <attribute>method</attribute>
                      </col>
-                     <col width="110">
-                        <attribute>inout</attribute>
+                            <col width="110">
+                                <attribute>inout</attribute>
                      </col>
-                     <col width="250" method="getAliasChildLov">
-                        <attribute>method</attribute>
+                            <col method="getAliasChildLov" width="250">
+                                <attribute>method</attribute>
                      </col>
                   </cols>
                </grid>
             </form>
          </forms>
-         <categories>
-            <category name="settings" label="Geral" description="">
-               <attributes/>
+            <categories>
+                <category description="" label="Geral" name="settings">
+                    <attributes/>
             </category>
          </categories>
-      </viewer>
-   </viewers>
+        </viewer>
+    </viewers>
 </xeoModel>

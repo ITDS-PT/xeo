@@ -77,6 +77,11 @@
 			<label>Nome</label>
 			<tooltip/>
 		</attributeText>
+		<attributeText name="xeolovfile">
+			<len>50</len>
+			<label>Ficheiro da Lov</label>
+			<tooltip/>
+		</attributeText>
 		<attributeText name="fromTable">
 			<len>100</len>
 			<label>Valores da Tabela</label>

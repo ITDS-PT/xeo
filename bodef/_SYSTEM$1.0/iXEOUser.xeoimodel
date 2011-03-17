@@ -1,39 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 U (http://www.altova.com) by jcarreira (EMBRACE) -->
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:25 BST 2006-->
-<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
-	<general name="iXEOUser" type="interface" optionalInterface="false" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
-		<locale language="pt" country="PT" variant=""/>
-		<implements/>
-		<database/>
-		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
-			<process/>
-		</textIndex>
-		<description>iXEOUser</description>
-		<cardID>[name] ,[id]</cardID>
-		<label>Utilizador</label>
-		<objects>
-			<object>Ebo_Contact</object>
-			<object>Ebo_Perf</object>
-		</objects>
-	</general>
-	<opl active="false"/>
-	<states/>
-	<methods>
-		<method name="update" public="false" menu="false" toolbar="false" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
-			<label/>
-			<icon></icon>
-			<javascriptToRun>
-				<viewer name="edit">
-					<before><![CDATA[]]></before>
-					<after><![CDATA[]]></after>
-				</viewer>
-			</javascriptToRun>
-			<assinature return="void"/>
-			<body language="JAVA"><![CDATA[
-				if(this.password.getValue()!=null && this.password.getValue().length() < 20) {
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" mastertable="" extends="" version="1.0" type="interface" name="iXEOUser" optionalInterface="false">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/> 
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>iXEOUser</description>
+        <cardID>[name] ,[id]</cardID>
+        <label>Utilizador</label>
+        <objects>
+            <object>Ebo_Contact</object>
+            <object>Ebo_Perf</object>
+        </objects>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods>
+        <method toObject="" modeTemplate="true" openDoc="false" serverOnly="false" requiredTransaction="NotSuported" toolbar="false" menu="false" public="false" name="update">
+            <label></label>
+            <icon></icon>
+            <javascriptToRun>
+                <viewer name="edit">
+                    <before></before>
+                    <after></after>
+                </viewer>
+            </javascriptToRun>
+            <assinature return="void"/>
+            <body language="JAVA">
+				if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) {
 					if(!"".equals(this.password.getValue()))
                     {
                         this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
@@ -44,173 +41,194 @@
                     }
 				}
 				super.update();
-				]]></body>
-		</method>
-	</methods>
-	<events/>
-	<fwdObjects/>
-	<attributes>
-		<attributeText name="id">
-			<len>50</len>
-			<label>Código</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="username">
-			<len>50</len>
-			<label>Utilizador</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="name">
-			<len>200</len>
-			<label>Nome</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="password">
-			<len>50</len>
-			<label>Password</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="MD5Code">
-			<len>500</len>
-			<label>MD5</label>
-			<tooltip/>
-		</attributeText>
-		<attributeObjectCollection name="queues">
-			<type>object.workQueue</type>
-			<label>Pool de Recursos</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="groups">
-			<type>object.Ebo_Group</type>
-			<label>Membro de</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="compartments">
-			<type>object.Ebo_Role</type>
-			<label>Compartimentos</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeNumber name="securityLevel">
-			<len>0</len>
-			<grouping>false</grouping>
-			<decimals>0</decimals>
-			<minDecimals>0</minDecimals>
-			<label>Nível Segurança</label>
-			<tooltip/>
-		</attributeNumber>
-		<attributeObjectCollection name="roles">
-			<type>object.Ebo_Role</type>
-			<label>Função</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeText name="notifica">
-			<len>1</len>
-			<label>Notificar</label>
-			<tooltip/>
-			<lov name="NOTIFICATIONTYPE" retainValues="false"/>
-		</attributeText>
-		<attributeObjectCollection name="emailAccounts">
-			<type>object.mailAccount</type>
-			<label>Contas de Correio</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes>
-					<attributeBoolean name="default">
-						<label>Default</label>
-						<renderAsCheck>false</renderAsCheck>
-						<tooltip/>
-					</attributeBoolean>
-				</attributes>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="iProfile">
-			<type>object.uiProfile</type>
-			<label>Perfil</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeText name="lastname">
-			<len>50</len>
-			<label>Apelido</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="email">
-			<len>200</len>
-			<label>Email</label>
-			<tooltip/>
-		</attributeText>
-		<attributeObjectCollection name="packages">
-			<type>object.boObject</type>
-			<label>Aplicação</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objects>
-				<object>Ebo_Package</object>
-				<object>Ebo_Application</object>
-			</objects>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-	</attributes>
-	<viewers>
-		<viewer name="general">
-			<forms>
-				<form name="list" formtype="List">
-					<grid name="listiXeoUser" template="std">
-						<cols>
-							<col width="100">
-								<attribute>name</attribute>
+				</body>
+        </method>
+    </methods>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="id">
+            <label>Código</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="username">
+            <label>Utilizador</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="name">
+            <label>Nome</label>
+            <tooltip></tooltip>
+            <len>200</len>
+        </attributeText>
+        <attributeText name="password">
+            <label>Password</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="MD5Code">
+            <label>MD5</label>
+            <tooltip></tooltip>
+            <len>500</len>
+        </attributeText>
+        <attributeObjectCollection name="queues">
+            <label>Pool de Recursos</label>
+            <tooltip></tooltip>
+            <type>object.workQueue</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="groups">
+            <label>Membro de</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Group</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="compartments">
+            <label>Compartimentos</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Role</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeNumber name="securityLevel">
+            <label>Nível Segurança</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+        </attributeNumber>
+        <attributeObjectCollection name="roles">
+            <label>Função</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Role</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeText name="notifica">
+            <label>Notificar</label>
+            <tooltip></tooltip>
+            <len>1</len>
+            <lov retainValues="false" name="NOTIFICATIONTYPE"/>
+        </attributeText>
+        <attributeObjectCollection name="emailAccounts">
+            <label>Contas de Correio</label>
+            <tooltip></tooltip>
+            <type>object.mailAccount</type>
+            <objectFilter/>
+            <bridge>
+                <attributes>
+                    <attributeBoolean name="default">
+                        <label>Default</label>
+                        <tooltip></tooltip>
+                        <renderAsCheck>false</renderAsCheck>
+                    </attributeBoolean>
+                </attributes>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="iProfile">
+            <label>Perfil</label>
+            <tooltip></tooltip>
+            <type>object.uiProfile</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeText name="lastname">
+            <label>Apelido</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="email">
+            <label>Email</label>
+            <tooltip></tooltip>
+            <len>200</len>
+        </attributeText>
+        <attributeObjectCollection name="packages">
+            <label>Aplicação</label>
+            <tooltip></tooltip>
+            <type>object.boObject</type>
+            <objects>
+                <object>Ebo_Package</object>
+                <object>Ebo_Application</object>
+            </objects>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObject name="user_language">
+            <label>Língua</label>
+            <description>Língua</description>
+            <tooltip>Língua</tooltip>
+            <type>object.XeoApplicationLanguage</type>
+            <objects/>
+            <setParent>false</setParent>
+            <renderAsLov>false</renderAsLov>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required></required>
+            <onChangeSubmit></onChangeSubmit>
+            <orphanRelation>true</orphanRelation>
+        </attributeObject>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form formtype="List" name="list">
+                    <grid name="listiXeoUser" template="std">
+                        <cols>
+                            <col width="100">
+                                <attribute>name</attribute>
 							</col>
-							<col width="55">
-								<attribute>id</attribute>
+                            <col width="55">
+                                <attribute>id</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
 			</forms>
-			<categories/>
-		</viewer>
-	</viewers>
+            <categories/>
+        </viewer>
+    </viewers>
 </xeoModel>

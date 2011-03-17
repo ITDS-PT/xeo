@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by pcampos (ITDS) --><xeoLov name="Ebo_ExtendAttribute">
+   <General bo_class="abstract" public="no" nacionalityDefault="pt">
+      <cls_version_control>yes</cls_version_control>
+      <cls_majorVersion>1</cls_majorVersion>
+      <cls_minorVersion>0</cls_minorVersion>
+      <deploy_information>
+         <deployDate/>
+         <delete_data/>
+      </deploy_information>
+      <active_information>
+         <ActiveDate/>
+         <delete_menor_major_versions/>
+         <delete_menor_minor_versions/>
+      </active_information>
+      <description/>
+      <label>
+         <pt/>
+         <en-us/>
+      </label>
+   </General>
+   <Lov name="attributeRequire" retainValues="No">
+      <description>
+         <pt>Lov referente a obrigatoriedade do atributo</pt>
+         <en-us>Attribute definition type Lov</en-us>
+      </description>
+      <details>
+         <item>
+            <value>1</value>
+            <label>Atributo obrigatório p/ Actividade ser criada</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>Atributo obrigatório p/ Actividade ser completada</label>
+         </item>
+         <item>
+            <value>3</value>
+            <label>Não é obrigatório preenchimento do Atributo</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="attributeConstraints" retainValues="No">
+      <description>
+         <pt>Lov referente ás definições dos Atributos</pt>
+         <en-us>Attribute definition type Lov</en-us>
+      </description>
+      <details>
+         <item>
+            <value>1</value>
+            <label>Atributo tem de vir do Pai</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>Atributo é definido numa subactividade</label>
+         </item>
+         <item>
+            <value>3</value>
+            <label>Atributo definido nesta Actividade</label>
+         </item>
+         <item>
+            <value>4</value>
+            <label>Não interessa onde é definido</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="attributeCardinal" retainValues="No">
+      <description>
+         <pt>Lov referente a cadinalidade do attributo</pt>
+         <en-us>Attribute cardinal  type Lov</en-us>
+      </description>
+      <details>
+         <item>
+            <value>1</value>
+            <label>Um</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>Lista</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="extendedAttributeType" retainValues="No" systemLov="yes">
+      <description>
+         <pt>Lov referente ao tipo de Atributo extendido</pt>
+         <en-us>Extended Attribute Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>0</value>
+            <label>Objecto</label>
+         </item>
+         <item>
+            <value>9</value>
+            <label>Texto</label>
+         </item>
+         <item>
+            <value>4</value>
+            <label>Numero</label>
+         </item>
+         <item>
+            <value>6</value>
+            <label>Data</label>
+         </item>
+         <item>
+            <value>5</value>
+            <label>Data e Hora</label>
+         </item>
+         <item>
+            <value>1</value>
+            <label>Verdadeiro/Falso</label>
+         </item>
+         <item>
+            <value>12</value>
+            <label>Lista de Valores</label>
+         </item>
+      </details>
+   </Lov>
+</xeoLov>

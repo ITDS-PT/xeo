@@ -1,138 +1,171 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 U (http://www.altova.com) by jcarreira (EMBRACE) -->
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
-<xeoModel>
-	<general name="Ebo_FilterQuery" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
-		<locale language="pt" country="PT" variant=""/>
-		<implements/>
-		<database/>
-		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
-			<process/>
-		</textIndex>
-		<description>Ebo_FilterQuery</description>
-		<cardID>[attribute]</cardID>
-		<label>Condição</label>
-	</general>
-	<opl active="false"/>
-	<states>
-		<state name="state">
-			<label>state</label>
-			<options>
-				<option name="Inactive" value="0" active="true">
-					<label>Inactivo</label>
-					<subStates/>
-				</option>
-				<option name="active" value="1" active="true">
-					<label>Activo</label>
-					<subStates/>
-				</option>
-			</options>
-		</state>
-	</states>
-	<methods/>
-	<events/>
-	<fwdObjects/>
-	<attributes>
-		<attributeObject name="attribute">
-			<type>object.Ebo_Attribute</type>
-			<label>Attributo</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<objectFilter/>
-		</attributeObject>
-		<attributeText name="joinQuery">
-			<len>50</len>
-			<label>Ligação</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="attributeName">
-			<len>150</len>
-			<label>Nome do Attributo</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="operator">
-			<len>50</len>
-			<label>Operador</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="value">
-			<len>4000</len>
-			<label>Valor</label>
-			<editor>HTML</editor>
-			<tooltip/>
-		</attributeText>
-		<attributeBoolean name="active">
-			<label>Activo</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-		</attributeBoolean>
-		<attributeObjectCollection name="subFilter">
-			<type>object.Ebo_Filter</type>
-			<label>Sub Filtro</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeText name="question">
-			<len>4000</len>
-			<label>Etiqueta/Pergunta a efectuar</label>
-			<editor>HTML</editor>
-			<tooltip/>
-		</attributeText>
-		<attributeBoolean name="nullIgnore">
-			<label>Se Null ignora</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-		</attributeBoolean>
-	</attributes>
-	<viewers>
-		<viewer name="general">
-			<forms>
-				<form name="edit" template="std"/>
-				<form name="list" formtype="List">
-					<grid bo_node="global" template="std">
-						<cols>
-							<col width="15">
-								<attribute>active</attribute>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" extends="" version="1.0" type="object" name="Ebo_FilterQuery">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Ebo_FilterQuery</description>
+        <cardID>[attribute]</cardID>
+        <label>Condição</label>
+    </general>
+    <opl active="false"/>
+    <states>
+        <state name="state">
+            <label>state</label>
+            <options>
+                <option value="0" name="Inactive" active="true">
+                    <label>Inactivo</label>
+                    <subStates/>
+                </option>
+                <option value="1" name="active" active="true">
+                    <label>Activo</label>
+                    <subStates/>
+                </option>
+            </options>
+        </state>
+    </states>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeObject name="attribute">
+            <label>Atributo</label>
+            <description></description>
+            <tooltip></tooltip>
+            <type>object.Ebo_Attribute</type>
+            <objects/>
+            <objectFilter/>
+            <setParent>false</setParent>
+            <renderAsLov>false</renderAsLov>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+            <orphanRelation>true</orphanRelation>
+        </attributeObject>
+        <attributeText name="joinQuery">
+            <label>Ligação</label>
+            <tooltip></tooltip>
+            <len>50</len>
+            <events/>
+            <required/>
+            <formula/>
+            <defaultValue/>
+            <valid/>
+            <disableWhen/>
+            <hiddenWhen/>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeText name="attributeName">
+            <label>Nome do Atributo</label>
+            <description></description>
+            <tooltip></tooltip>
+            <len>150</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeText name="operator">
+            <label>Operador</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="value">
+            <label>Valor</label>
+            <tooltip></tooltip>
+            <len>4000</len>
+            <editor>HTML</editor>
+        </attributeText>
+        <attributeBoolean name="active">
+            <label>Activo</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+        <attributeObjectCollection name="subFilter">
+            <label>Sub Filtro</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Filter</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeText name="question">
+            <label>Etiqueta/Pergunta a efectuar</label>
+            <tooltip></tooltip>
+            <len>4000</len>
+            <editor>HTML</editor>
+        </attributeText>
+        <attributeBoolean name="nullIgnore">
+            <label>Se Null ignora</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form name="edit" template="std"/>
+                <form formtype="List" name="list">
+                    <grid bo_node="global" template="std">
+                        <cols>
+                            <col width="15">
+                                <attribute>active</attribute>
 							</col>
-							<col width="15">
-								<attribute>joinQuery</attribute>
+                            <col width="15">
+                                <attribute>joinQuery</attribute>
 							</col>
-							<col width="40">
-								<attribute>attributeName</attribute>
+                            <col width="40">
+                                <attribute>attributeName</attribute>
 							</col>
-							<col width="25">
-								<attribute>operator</attribute>
+                            <col width="25">
+                                <attribute>operator</attribute>
 							</col>
-							<col width="100">
-								<attribute>value</attribute>
+                            <col width="100">
+                                <attribute>value</attribute>
 							</col>
-							<col width="100">
-								<attribute>question</attribute>
+                            <col width="100">
+                                <attribute>question</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
 			</forms>
-			<categories>
-				<category name="global" label="Geral" description="">
-					<attributes>
-						<attribute>name</attribute>
-						<attribute>description</attribute>
+            <categories>
+                <category description="" label="Geral" name="global">
+                    <attributes>
+                        <attribute>name</attribute>
+                        <attribute>description</attribute>
 					</attributes>
 				</category>
-				<category name="detalhes" label="Querys" description="">
-					<attributes>
-						<attribute>details</attribute>
+                <category description="" label="Querys" name="detalhes">
+                    <attributes>
+                        <attribute>details</attribute>
 					</attributes>
 				</category>
 			</categories>
-		</viewer>
-	</viewers>
+        </viewer>
+    </viewers>
 </xeoModel>

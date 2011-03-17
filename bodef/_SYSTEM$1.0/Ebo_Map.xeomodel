@@ -1,122 +1,135 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:18 BST 2006-->
-<xeoModel>
-   <general name="Ebo_Map" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
-      <locale language="pt" country="PT" variant=""/>
-      <implements/>
-      <database/>
-      <versioning active="false"/>
-      <textIndex active="true" appendChilds="false" deep="1">
-         <process/>
-      </textIndex>
-      <description>Ebo_Map</description>
-      <cardID></cardID>
-      <label>Map</label>
-   </general>
-   <opl active="false"/>
-   <states>
-      <state name="primaryState">
-         <label>primaryState</label>
-         <options>
-            <option name="open" value="0" active="true">
-               <label>Aberto</label>
-               <subStates/>
-            </option>
-            <option name="resolution" value="1" active="true">
-               <label>Em resolução</label>
-               <subStates/>
-            </option>
-            <option name="close" value="90" active="true">
-               <label>Fechado</label>
-               <subStates/>
-            </option>
-            <option name="cancel" value="95" active="true">
-               <label>Cancelado</label>
-               <subStates/>
-            </option>
-            <option name="archive" value="99" active="true">
-               <label>Arquivado</label>
-               <subStates/>
-            </option>
-         </options>
-      </state>
-   </states>
-   <methods/>
-   <events/>
-   <fwdObjects/>
-   <attributes>
-      <attributeText name="id">
-         <len>20</len>
-         <label>ID</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeText name="name">
-         <len>250</len>
-         <label>Nome</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeText name="description">
-         <len>250</len>
-         <label>Descrição</label>
-         <tooltip></tooltip>
-         <disableWhen language="BOL"><depends/>true</disableWhen>
-      </attributeText>
-      <attributeText name="objectAttributeName">
-         <len>250</len>
-         <label>Attributo</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeLongText name="value">
-         <label>Valor Fixo</label>
-         <editor>HTML</editor>
-         <tooltip></tooltip>
-      </attributeLongText>
-      <attributeLongText name="transformation">
-         <label>Fórmula</label>
-         <editor>HTML</editor>
-         <tooltip></tooltip>
-      </attributeLongText>
-   </attributes>
-   <viewers>
-      <viewer name="general">
-         <forms>
-            <form name="edit" width="600px" height="400px" template="std">
-               <areas>
-                  <area label="Identificação" bo_node="identification;dates;relations">
-                     <panel voui="panel">
-                        <tab bo_node="identification" voui="tab1">
-                           <section label="node.label" showlabel="no">
-                              <rows>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">id</attribute>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="false" extends="" version="1.0" type="object" name="Ebo_Map">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Ebo_Map</description>
+        <cardID></cardID>
+        <label>Map</label>
+    </general>
+    <opl active="false"/>
+    <states>
+        <state name="primaryState">
+            <label>primaryState</label>
+            <options>
+                <option value="0" name="open" active="true">
+                    <label>Aberto</label>
+                    <subStates/>
+                </option>
+                <option value="1" name="resolution" active="true">
+                    <label>Em resolução</label>
+                    <subStates/>
+                </option>
+                <option value="90" name="close" active="true">
+                    <label>Fechado</label>
+                    <subStates/>
+                </option>
+                <option value="95" name="cancel" active="true">
+                    <label>Cancelado</label>
+                    <subStates/>
+                </option>
+                <option value="99" name="archive" active="true">
+                    <label>Arquivado</label>
+                    <subStates/>
+                </option>
+            </options>
+        </state>
+    </states>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="id">
+            <label>ID</label>
+            <tooltip></tooltip>
+            <len>20</len>
+        </attributeText>
+        <attributeText name="name">
+            <label>Nome</label>
+            <tooltip></tooltip>
+            <len>250</len>
+        </attributeText>
+        <attributeText name="description">
+            <label>Descrição</label>
+            <tooltip></tooltip>
+            <len>250</len>
+            <disableWhen language="BOL">true
+                <depends/>
+            </disableWhen>
+        </attributeText>
+        <attributeText name="objectAttributeName">
+            <label>Atributo</label>
+            <description></description>
+            <tooltip></tooltip>
+            <len>250</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeLongText name="value">
+            <label>Valor Fixo</label>
+            <tooltip></tooltip>
+            <editor>HTML</editor>
+        </attributeLongText>
+        <attributeLongText name="transformation">
+            <label>Fórmula</label>
+            <tooltip></tooltip>
+            <editor>HTML</editor>
+        </attributeLongText>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form height="400px" name="edit" template="std" width="600px">
+                    <areas>
+                        <area bo_node="identification;dates;relations" label="Identificação">
+                            <panel voui="panel">
+                                <tab bo_node="identification" voui="tab1">
+                                    <section label="node.label" showlabel="no">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">id</attribute>
                                     </cell>
-                                    <cell>
-                                       <attribute showlabel="yes">name</attribute>
+                                                <cell>
+                                                    <attribute showlabel="yes">name</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">objectAttributeName</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">objectAttributeName</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">value</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">value</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">transformation</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">transformation</attribute>
                                     </cell>
                                  </row>
                               </rows>
                            </section>
-                           <section label="node.label" showlabel="no">
-                              <rows>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="no">transformation</attribute>
+                                    <section label="node.label" showlabel="no">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="no">transformation</attribute>
                                     </cell>
                                  </row>
                               </rows>
@@ -126,36 +139,36 @@
                   </area>
                </areas>
             </form>
-            <form name="list" width="670px" height="400px" formtype="List">
-               <grid bo_node="identification" name="listrs" template="std">
-                  <cols>
-                     <col width="100">
-                        <attribute>objectAttributeName</attribute>
+                <form formtype="List" height="400px" name="list" width="670px">
+                    <grid bo_node="identification" name="listrs" template="std">
+                        <cols>
+                            <col width="100">
+                                <attribute>objectAttributeName</attribute>
                      </col>
-                     <col width="100">
-                        <attribute>value</attribute>
+                            <col width="100">
+                                <attribute>value</attribute>
                      </col>
-                     <col width="150">
-                        <attribute>transformation</attribute>
+                            <col width="150">
+                                <attribute>transformation</attribute>
                      </col>
                   </cols>
                </grid>
             </form>
-            <form name="identification">
-               <div bo_node="identification">id.field</div>
+                <form name="identification">
+                    <div bo_node="identification">id.field</div>
             </form>
          </forms>
-         <categories>
-            <category name="identification" label="Identificação" description="">
-               <attributes/>
+            <categories>
+                <category description="" label="Identificação" name="identification">
+                    <attributes/>
             </category>
-            <category name="relations" label="Relações" description="">
-               <attributes/>
+                <category description="" label="Relações" name="relations">
+                    <attributes/>
             </category>
-            <category name="security" label="Segurança" description="">
-               <attributes/>
+                <category description="" label="Segurança" name="security">
+                    <attributes/>
             </category>
          </categories>
-      </viewer>
-   </viewers>
+        </viewer>
+    </viewers>
 </xeoModel>

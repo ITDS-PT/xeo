@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoLov name="Country">
+	<General />
+	<Lov retainValues="No" name="Country">
+		<description>Country</description>
+		<details>
+			<item>
+				<value>PT</value>
+				<label>Portugal</label>
+			</item>
+			<item>
+				<value>EN_UK</value>
+				<label>England</label>
+			</item>
+			<item>
+				<value>EN_US</value>
+				<label>USA</label>
+			</item>
+		</details>
+	</Lov>
+</xeoLov>

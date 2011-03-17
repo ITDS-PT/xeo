@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2006 U (http://www.altova.com) by acruz (EMBRACE) --><!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo (nowhere) --><xeoLov name="Ebo_Schedule">
+	<General bo_class="abstract" public="no" nacionalityDefault="pt">
+		<classextends/>
+		<cls_version_control>yes</cls_version_control>
+		<cls_majorVersion>1</cls_majorVersion>
+		<cls_minorVersion>0</cls_minorVersion>
+		<deploy_information>
+			<deployDate/>
+			<delete_data/>
+		</deploy_information>
+		<active_information>
+			<ActiveDate/>
+			<delete_menor_major_versions/>
+			<delete_menor_minor_versions/>
+		</active_information>
+		<description/>
+		<label>
+			<pt/>
+			<en-us/>
+		</label>
+	</General>
+	<Lov name="EBO_scheduleType" retainValues="No">
+		<description>
+			<pt>Lov com os tipos de agendamento</pt>
+			<en-us>Lov with the scheduling types</en-us>
+		</description>
+		<details>
+			<item>
+				<value>REPEATLY</value>
+				<label>Repetidamente</label>
+			</item>
+			<item>
+				<value>DAILY</value>
+				<label>Diário</label>
+			</item>
+			<item>
+				<value>WEEKLY</value>
+				<label>Semanal</label>
+			</item>
+			<item>
+				<value>MONTHLY</value>
+				<label>Mensal</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleDays" retainValues="No">
+		<description>
+			<pt>Lov com agendamentos do tipo diário</pt>
+			<en-us>Lov with the scheduling types for DAILY</en-us>
+		</description>
+		<details>
+			<item>
+				<value>ALLDAYS</value>
+				<label>Todos os Dias</label>
+			</item>
+			<item>
+				<value>WEEKDAYS</value>
+				<label>Dias da semana</label>
+			</item>
+			<item>
+				<value>WEEKEND</value>
+				<label>Fim de semana</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleWeek" retainValues="No">
+		<description>
+			<pt>Lov com os agendamentos do tipo Semanal</pt>
+			<en-us>Lov with the scheduling types for Week</en-us>
+		</description>
+		<details>
+			<item>
+				<value>MO</value>
+				<label>Segundas</label>
+			</item>
+			<item>
+				<value>TU</value>
+				<label>Terças</label>
+			</item>
+			<item>
+				<value>WE</value>
+				<label>Quartas</label>
+			</item>
+			<item>
+				<value>TH</value>
+				<label>Quintas</label>
+			</item>
+			<item>
+				<value>FR</value>
+				<label>Sextas</label>
+			</item>
+			<item>
+				<value>SA</value>
+				<label>Sabados</label>
+			</item>
+			<item>
+				<value>SU</value>
+				<label>Domingos</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleStates" retainValues="No">
+		<description>
+			<pt>Lov com os tipos de estado</pt>
+			<en-us>Lov with the types of states</en-us>
+		</description>
+		<details>
+			<item>
+				<value>0</value>
+				<label>Inactivo</label>
+			</item>
+			<item>
+				<value>1</value>
+				<label>Activo</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleActiveStates" retainValues="No">
+		<description>
+			<pt>Lov com os tipos de estado</pt>
+			<en-us>Lov with the types of states</en-us>
+		</description>
+		<details>
+			<item>
+				<value>0</value>
+				<label>Idle</label>
+			</item>
+			<item>
+				<value>1</value>
+				<label>A Correr...</label>
+			</item>
+			<item>
+				<value>2</value>
+				<label>Em erro...</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleMonth" retainValues="No">
+		<description>
+			<pt>Lov com agendamentos do tipo Mensal</pt>
+			<en-us>Lov with the scheduling types for Month</en-us>
+		</description>
+		<details>
+			<item>
+				<value>LAST</value>
+				<label>Último dia do Mês</label>
+			</item>
+			<item>
+				<value>1</value>
+				<label>1</label>
+			</item>
+			<item>
+				<value>2</value>
+				<label>2</label>
+			</item>
+			<item>
+				<value>3</value>
+				<label>3</label>
+			</item>
+			<item>
+				<value>4</value>
+				<label>4</label>
+			</item>
+			<item>
+				<value>5</value>
+				<label>5</label>
+			</item>
+			<item>
+				<value>6</value>
+				<label>6</label>
+			</item>
+			<item>
+				<value>7</value>
+				<label>7</label>
+			</item>
+			<item>
+				<value>8</value>
+				<label>8</label>
+			</item>
+			<item>
+				<value>9</value>
+				<label>9</label>
+			</item>
+			<item>
+				<value>10</value>
+				<label>10</label>
+			</item>
+			<item>
+				<value>11</value>
+				<label>11</label>
+			</item>
+			<item>
+				<value>12</value>
+				<label>12</label>
+			</item>
+			<item>
+				<value>13</value>
+				<label>13</label>
+			</item>
+			<item>
+				<value>14</value>
+				<label>14</label>
+			</item>
+			<item>
+				<value>15</value>
+				<label>15</label>
+			</item>
+			<item>
+				<value>16</value>
+				<label>16</label>
+			</item>
+			<item>
+				<value>17</value>
+				<label>17</label>
+			</item>
+			<item>
+				<value>18</value>
+				<label>18</label>
+			</item>
+			<item>
+				<value>19</value>
+				<label>19</label>
+			</item>
+			<item>
+				<value>20</value>
+				<label>20</label>
+			</item>
+			<item>
+				<value>21</value>
+				<label>21</label>
+			</item>
+			<item>
+				<value>22</value>
+				<label>22</label>
+			</item>
+			<item>
+				<value>23</value>
+				<label>23</label>
+			</item>
+			<item>
+				<value>24</value>
+				<label>24</label>
+			</item>
+			<item>
+				<value>25</value>
+				<label>25</label>
+			</item>
+			<item>
+				<value>26</value>
+				<label>26</label>
+			</item>
+			<item>
+				<value>27</value>
+				<label>27</label>
+			</item>
+			<item>
+				<value>28</value>
+				<label>28</label>
+			</item>
+			<item>
+				<value>29</value>
+				<label>29</label>
+			</item>
+			<item>
+				<value>30</value>
+				<label>30</label>
+			</item>
+			<item>
+				<value>31</value>
+				<label>31</label>
+			</item>
+		</details>
+	</Lov>
+	<Lov name="EBO_scheduleResults" retainValues="No">
+		<description>
+			<pt>Lov com os tipos de Resultados</pt>
+			<en-us>Lov with the result codes</en-us>
+		</description>
+		<details>
+			<item>
+				<value>OK</value>
+				<label>OK</label>
+			</item>
+			<item>
+				<value>NOK</value>
+				<label>Erro</label>
+			</item>
+		</details>
+	</Lov>
+</xeoLov>

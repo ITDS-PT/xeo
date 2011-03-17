@@ -1,43 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 U (http://www.altova.com) by jcarreira (EMBRACE) -->
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:24 BST 2006-->
-<xeoModel>
-	<general name="Ebo_Perf" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
-		<locale language="pt" country="PT" variant=""/>
-		<implements/>
-		<database/>
-		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
-			<process/>
-		</textIndex>
-		<description>Ebo_Perf</description>
-		<cardID>[name] ,[id]</cardID>
-		<label>Funcionário</label>
-	</general>
-	<opl active="false"/>
-	<states>
-		<state name="state">
-			<label>state</label>
-			<options>
-				<option name="Inactive" value="0" active="true">
-					<label>Inactivo</label>
-					<subStates/>
-				</option>
-				<option name="active" value="1" active="true">
-					<label>Activo</label>
-					<subStates/>
-				</option>
-			</options>
-		</state>
-	</states>
-	<methods/>
-	<events>
-		<event name="onAfterSave">
-			<body language="JAVA"><![CDATA[netgest.bo.security.securityRights.cleanPerfomerPolicies();
-netgest.bo.utils.AliasUtils.setAlias(this);]]></body>
-		</event>
-		<event name="onBeforeSave">
-			<body language="JAVA"><![CDATA[if(this.password.getValue()!=null && this.password.getValue().length() < 20) {
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" extends="" version="1.0" type="object" name="Ebo_Perf">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Ebo_Perf</description>
+        <cardID>[name] ,[id]</cardID>
+        <label>Funcionário</label>
+    </general> 
+    <opl active="false"/>
+    <states>
+        <state name="state">
+            <label>state</label>
+            <options>
+                <option value="0" name="Inactive" active="true">
+                    <label>Inactivo</label>
+                    <subStates/>
+                </option>
+                <option value="1" name="active" active="true">
+                    <label>Activo</label>
+                    <subStates/>
+                </option>
+            </options>
+        </state>
+    </states>
+    <methods/>
+    <events>
+        <event name="onAfterSave">
+            <body language="JAVA">netgest.bo.security.securityRights.cleanPerfomerPolicies();
+netgest.bo.utils.AliasUtils.setAlias(this);</body>
+        </event>
+        <event name="onBeforeSave">
+            <body language="JAVA">if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) {
    if(!"".equals(this.password.getValue()))
                     {
                         this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
@@ -47,10 +45,10 @@ netgest.bo.utils.AliasUtils.setAlias(this);]]></body>
                         this.password.setValue(null);
                     }
 }
-return (super.onBeforeSave( event ) && netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts"));]]></body>
-		</event>
-		<event name="onBeforeDestroy">
-			<body language="JAVA"><![CDATA[try
+return (super.onBeforeSave( event ) &amp;&amp; netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts"));</body>
+        </event>
+        <event name="onBeforeDestroy">
+            <body language="JAVA">try
 {
 	netgest.bo.runtime.boObjectList list = netgest.bo.runtime.boObjectList.list(this.getEboContext(), "select Ebo_Alias where boui = " + this.getBoui());
 	ArrayList r = new ArrayList();
@@ -61,397 +59,397 @@ return (super.onBeforeSave( event ) && netgest.bo.events.MailAccountEvents.inact
 	return true;
 }catch(Exception e)
 {}
-return false;]]></body>
-		</event>
-	</events>
-	<fwdObjects/>
-	<attributes>
-		<attributeText name="id">
-			<len>50</len>
-			<label>Código</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="username">
-			<len>50</len>
-			<label>Utilizador</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="password">
-			<len>50</len>
-			<label>Password</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="MD5Code">
-			<len>500</len>
-			<label>MD5</label>
-			<tooltip/>
-		</attributeText>
-		<attributeObjectCollection name="queues">
-			<type>object.workQueue</type>
-			<label>Pool de Recursos</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="groups">
-			<type>object.Ebo_Group</type>
-			<label>Membro de</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="compartments">
-			<type>object.Ebo_Role</type>
-			<label>Função</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeNumber name="securityLevel">
-			<len>0</len>
-			<grouping>false</grouping>
-			<decimals>0</decimals>
-			<minDecimals>0</minDecimals>
-			<label>Nível Segurança</label>
-			<tooltip/>
-		</attributeNumber>
-		<attributeObjectCollection name="roles">
-			<type>object.Ebo_Role</type>
-			<label>Função</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObjectCollection name="packages">
-			<type>object.boObject</type>
-			<label>Aplicação</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objects>
-				<object>Ebo_Package</object>
-				<object>Ebo_Application</object>
-			</objects>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeObject name="curriculo">
-			<type>object.Ebo_Document</type>
-			<label>Curriculo</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<objectFilter/>
-		</attributeObject>
-		<attributeObject name="templateEmail">
-			<type>object.Ebo_Template</type>
-			<label>Modelo de Email</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<objectFilter/>
-		</attributeObject>
-		<attributeText name="notifica">
-			<len>1</len>
-			<label>Notificar</label>
-			<tooltip/>
-			<lov name="NOTIFICATIONTYPE" retainValues="false"/>
-		</attributeText>
-		<attributeObjectCollection name="emailAccounts">
-			<type>object.mailAccount</type>
-			<label>Contas de Correio</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes>
-					<attributeBoolean name="default">
-						<label>Default</label>
-						<renderAsCheck>false</renderAsCheck>
-						<tooltip/>
-					</attributeBoolean>
-				</attributes>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeDate name="dataAdmissao">
-			<label>Data Admissão</label>
-			<tooltip/>
-		</attributeDate>
-		<attributeObjectCollection name="iProfile">
-			<type>object.uiProfile</type>
-			<label>Perfil</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeText name="situacao">
-			<len>10</len>
-			<label>Situação</label>
-			<tooltip/>
-			<lov name="situationType" retainValues="false"/>
-		</attributeText>
-	</attributes>
-	<viewers>
-		<viewer name="general">
-			<forms>
-				<form name="edit" template="std">
-					<areas>
-						<area label="Geral" order="1" bo_node="identification">
-							<panel voui="panel">
-								<tab bo_node="identification" voui="tab1">
-									<section showlabel="no" label="node.label">
-										<rows>
-											<row>
-												<cell>
-													<attribute showlabel="yes">id</attribute>
+return false;</body>
+        </event>
+    </events>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="id">
+            <label>Código</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="username">
+            <label>Utilizador</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="password">
+            <label>Password</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="MD5Code">
+            <label>MD5</label>
+            <tooltip></tooltip>
+            <len>500</len>
+        </attributeText>
+        <attributeObjectCollection name="queues">
+            <label>Pool de Recursos</label>
+            <tooltip></tooltip>
+            <type>object.workQueue</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="groups">
+            <label>Membro de</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Group</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="compartments">
+            <label>Função</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Role</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeNumber name="securityLevel">
+            <label>Nível Segurança</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+        </attributeNumber>
+        <attributeObjectCollection name="roles">
+            <label>Função</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Role</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObjectCollection name="packages">
+            <label>Aplicação</label>
+            <tooltip></tooltip>
+            <type>object.boObject</type>
+            <objects>
+                <object>Ebo_Package</object>
+                <object>Ebo_Application</object>
+            </objects>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeObject name="curriculo">
+            <label>Curriculo</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Document</type>
+            <objectFilter/>
+            <renderAsLov>false</renderAsLov>
+        </attributeObject>
+        <attributeObject name="templateEmail">
+            <label>Modelo de Email</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_Template</type>
+            <objectFilter/>
+            <renderAsLov>false</renderAsLov>
+        </attributeObject>
+        <attributeText name="notifica">
+            <label>Notificar</label>
+            <tooltip></tooltip>
+            <len>1</len>
+            <lov retainValues="false" name="NOTIFICATIONTYPE"/>
+        </attributeText>
+        <attributeObjectCollection name="emailAccounts">
+            <label>Contas de Correio</label>
+            <tooltip></tooltip>
+            <type>object.mailAccount</type>
+            <objectFilter/>
+            <bridge>
+                <attributes>
+                    <attributeBoolean name="default">
+                        <label>Default</label>
+                        <tooltip></tooltip>
+                        <renderAsCheck>false</renderAsCheck>
+                    </attributeBoolean>
+                </attributes>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeDate name="dataAdmissao">
+            <label>Data Admissão</label>
+            <tooltip></tooltip>
+        </attributeDate>
+        <attributeObjectCollection name="iProfile">
+            <label>Perfil</label>
+            <tooltip></tooltip>
+            <type>object.uiProfile</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeText name="situacao">
+            <label>Situação</label>
+            <tooltip></tooltip>
+            <len>10</len>
+            <lov retainValues="false" name="situationType"/>
+        </attributeText>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form name="edit" template="std">
+                    <areas>
+                        <area bo_node="identification" label="Geral" order="1">
+                            <panel voui="panel">
+                                <tab bo_node="identification" voui="tab1">
+                                    <section label="node.label" showlabel="no">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">id</attribute>
 												</cell>
-												<cell/>
+                                                <cell/>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">lastname</attribute>
-												</cell>
-											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">name</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">lastname</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">email</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">name</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">notifica</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">email</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">templateEmail</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">notifica</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">username</attribute>
-												</cell>
-												<cell/>
-											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">password</attribute>
-												</cell>
-												<cell/>
-											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">dataAdmissao</attribute>
-												</cell>
-												<cell>
-													<attribute showlabel="yes">situacao</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">templateEmail</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">securityLevel</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">username</attribute>
 												</cell>
-												<cell/>
+                                                <cell/>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">workplace</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">password</attribute>
 												</cell>
-												<cell>
-													<attribute showlabel="yes">workSchedule</attribute>
+                                                <cell/>
+											</row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">dataAdmissao</attribute>
+												</cell>
+                                                <cell>
+                                                    <attribute showlabel="yes">situacao</attribute>
+												</cell>
+											</row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">securityLevel</attribute>
+												</cell>
+                                                <cell/>
+											</row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">workplace</attribute>
+												</cell>
+                                                <cell>
+                                                    <attribute showlabel="yes">workSchedule</attribute>
 												</cell>
 											</row>
 										</rows>
 									</section>
 								</tab>
-								<tab bo_node="office_address">
-									<div width="100%" height="100%">office_address.edit</div>
+                                <tab bo_node="office_address">
+                                    <div height="100%" width="100%">office_address.edit</div>
 								</tab>
-								<tab bo_node="home_address">
-									<div width="100%" height="100%">home_address.edit</div>
+                                <tab bo_node="home_address">
+                                    <div height="100%" width="100%">home_address.edit</div>
 								</tab>
-								<tab bo_node="correspondencia_address">
-									<div width="100%" height="100%">correspondencia_address.edit</div>
+                                <tab bo_node="correspondencia_address">
+                                    <div height="100%" width="100%">correspondencia_address.edit</div>
 								</tab>
-								<tab bo_node="holiday_address">
-									<div width="100%" height="100%">holiday_address.edit</div>
+                                <tab bo_node="holiday_address">
+                                    <div height="100%" width="100%">holiday_address.edit</div>
 								</tab>
-								<tab bo_node="addresses">
-									<div width="100%" height="100%">addresses.list</div>
-								</tab>
-							</panel>
-						</area>
-						<area label="Pool's" order="2" bo_node="identification">
-							<panel>
-								<tab bo_node="queues">
-									<div width="100%" height="100%">queues.list</div>
+                                <tab bo_node="addresses">
+                                    <div height="100%" width="100%">addresses.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Membro de" order="3" bo_node="groups">
-							<panel>
-								<tab bo_node="groups">
-									<div width="100%" height="100%">groups.list</div>
+                        <area bo_node="identification" label="Pool's" order="2">
+                            <panel>
+                                <tab bo_node="queues">
+                                    <div height="100%" width="100%">queues.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Funções" order="4" bo_node="roles">
-							<panel>
-								<tab bo_node="roles">
-									<div width="100%" height="100%">roles.list</div>
+                        <area bo_node="groups" label="Membro de" order="3">
+                            <panel>
+                                <tab bo_node="groups">
+                                    <div height="100%" width="100%">groups.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Aplicações" order="5" bo_node="packages">
-							<panel>
-								<tab bo_node="packages">
-									<div width="100%" height="100%">packages.list</div>
+                        <area bo_node="roles" label="Funções" order="4">
+                            <panel>
+                                <tab bo_node="roles">
+                                    <div height="100%" width="100%">roles.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Perfis" order="7" bo_node="iProfile">
-							<panel>
-								<tab bo_node="iProfile">
-									<div width="100%" height="100%">iProfile.list</div>
+                        <area bo_node="packages" label="Aplicações" order="5">
+                            <panel>
+                                <tab bo_node="packages">
+                                    <div height="100%" width="100%">packages.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Contas de Correio" bo_node="" order="9">
-							<panel>
-								<tab bo_node="" label="Contas de Correio">
-									<div width="100%" height="100%">emailAccounts.list</div>
+                        <area bo_node="iProfile" label="Perfis" order="7">
+                            <panel>
+                                <tab bo_node="iProfile">
+                                    <div height="100%" width="100%">iProfile.list</div>
+								</tab>
+							</panel>
+						</area>
+                        <area bo_node="" label="Contas de Correio" order="9">
+                            <panel>
+                                <tab bo_node="" label="Contas de Correio">
+                                    <div height="100%" width="100%">emailAccounts.list</div>
 								</tab>
 							</panel>
 						</area>
 					</areas>
 				</form>
-				<form name="list" formtype="List">
-					<grid bo_node="identification" name="listebo_perf" template="std">
-						<cols>
-							<col width="100">
-								<attribute>name</attribute>
+                <form formtype="List" name="list">
+                    <grid bo_node="identification" name="listebo_perf" template="std">
+                        <cols>
+                            <col width="100">
+                                <attribute>name</attribute>
 							</col>
-							<col width="55">
-								<attribute>id</attribute>
+                            <col width="55">
+                                <attribute>id</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
-				<form name="explorer" formtype="List">
-					<explorer name="explorer_for_ebo_perf">
-						<attributes>
-							<attribute width="200">lastname</attribute>
-							<attribute width="200">name</attribute>
-							<attribute width="200">username</attribute>
-							<attribute width="200">groups</attribute>
+                <form formtype="List" name="explorer">
+                    <explorer name="explorer_for_ebo_perf">
+                        <attributes>
+                            <attribute width="200">lastname</attribute>
+                            <attribute width="200">name</attribute>
+                            <attribute width="200">username</attribute>
+                            <attribute width="200">groups</attribute>
 						</attributes>
-						<cols>
-							<col>
-								<attribute>name</attribute>
+                        <cols>
+                            <col>
+                                <attribute>name</attribute>
 							</col>
 						</cols>
-						<boql>select Ebo_Perf where 1=1</boql>
-						<order>
-							<attribute direction="asc">name</attribute>
+                        <boql>select Ebo_Perf where 1=1</boql>
+                        <order>
+                            <attribute direction="asc">name</attribute>
 						</order>
-						<groups>
-							<group>
-								<attribute order="asc">groups</attribute>
+                        <groups>
+                            <group>
+                                <attribute order="asc">groups</attribute>
 							</group>
 						</groups>
 					</explorer>
 				</form>
-				<form name="emailAccounts_list" formtype="List" forBridge="emailAccounts">
-					<grid forBridge="emailAccounts" name="emailAccounts.list" edit_inLine="yes" template="std" bo_node="">
-						<cols>
-							<col width="200">
-								<attribute>name</attribute>
+                <form forBridge="emailAccounts" formtype="List" name="emailAccounts_list">
+                    <grid bo_node="" edit_inLine="yes" forBridge="emailAccounts" name="emailAccounts.list" template="std">
+                        <cols>
+                            <col width="200">
+                                <attribute>name</attribute>
 							</col>
-							<col width="100">
-								<attribute>default</attribute>
+                            <col width="100">
+                                <attribute>default</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
-				<form name="packages_list" forBridge="packages" formtype="List">
-					<grid name="list" template="std" forBridge="packages">
-						<cols>
-							<col width="200" label="Aplicação/Pacote">
-								<attribute>childObject.cardid</attribute>
+                <form forBridge="packages" formtype="List" name="packages_list">
+                    <grid forBridge="packages" name="list" template="std">
+                        <cols>
+                            <col label="Aplicação/Pacote" width="200">
+                                <attribute>childObject.cardid</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
 			</forms>
-			<categories>
-				<category name="identification" label="Identificação" description="">
-					<attributes>
-						<attribute>id</attribute>
+            <categories>
+                <category description="" label="Identificação" name="identification">
+                    <attributes>
+                        <attribute>id</attribute>
 					</attributes>
-					<categories>
-						<category name="cat_name" label="Nome" description="">
-							<attributes>
-								<attribute>adress</attribute>
-								<attribute>name</attribute>
+                    <categories>
+                        <category description="" label="Nome" name="cat_name">
+                            <attributes>
+                                <attribute>adress</attribute>
+                                <attribute>name</attribute>
 							</attributes>
 						</category>
 					</categories>
 				</category>
-				<category name="moradas" label="Outras Moradas" description="">
-					<attributes>
-						<attribute>addresses</attribute>
+                <category description="" label="Outras Moradas" name="moradas">
+                    <attributes>
+                        <attribute>addresses</attribute>
 					</attributes>
 				</category>
-				<category name="queues" label="Pool's de Recursos a Monitorizar" description="">
-					<attributes>
-						<attribute>queues</attribute>
+                <category description="" label="Pool's de Recursos a Monitorizar" name="queues">
+                    <attributes>
+                        <attribute>queues</attribute>
 					</attributes>
 				</category>
-				<category name="Seguranca" label="" description="">
-					<attributes>
-						<attribute>sl</attribute>
-						<attribute>compartment</attribute>
+                <category description="" label="" name="Seguranca">
+                    <attributes>
+                        <attribute>sl</attribute>
+                        <attribute>compartment</attribute>
 					</attributes>
 				</category>
-				<category name="iProfile" label="Perfis" description="">
-					<attributes>
-						<attribute>iProfile</attribute>
+                <category description="" label="Perfis" name="iProfile">
+                    <attributes>
+                        <attribute>iProfile</attribute>
 					</attributes>
 				</category>
 			</categories>
-		</viewer>
-	</viewers>
+        </viewer>
+    </viewers>
 </xeoModel>

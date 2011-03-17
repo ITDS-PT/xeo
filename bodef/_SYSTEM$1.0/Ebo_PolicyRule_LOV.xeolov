@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) --><!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by José Manual Capaz Formiga (ENLACE3) --><xeoLov name="Ebo_PolicyRule">
+   <General/>
+   <Lov name="TypePolicy" retainValues="No">
+      <description>Lov referente ao Tipo de Regra</description>
+      <details>
+         <item>
+            <value>read</value>
+            <label>Acesso</label>
+         </item>
+         <item>
+            <value>write</value>
+            <label>Escrita</label>
+         </item>
+         <item>
+            <value>add</value>
+            <label>Adicionar</label>
+         </item>
+         <item>
+            <value>delete</value>
+            <label>Apagar</label>
+         </item>
+         <item>
+            <value>execute</value>
+            <label>Executar</label>
+         </item>
+      </details>
+   </Lov>
+</xeoLov>

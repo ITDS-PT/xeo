@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by dev2 (itds) --><xeoLov name="Ebo_Perf">
+   <General/>
+   <Lov name="NOTIFICATIONTYPE" retainValues="No">
+      <description>Lov referente ao Tipo de Notificação</description>
+      <details>
+         <item>
+            <value>0</value>
+            <label>Nao notificar</label>
+         </item>
+         <item>
+            <value>1</value>
+            <label>Email</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>SMS</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="docType" retainValues="No">
+      <description>
+         <pt>Lov referente ao Tipo de Documentos</pt>
+         <en-us>Documents Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>1</value>
+            <label>Bilhete Identidade</label>
+         </item>
+         <item>
+            <value>2</value>
+            <label>Nº Carta de Condução</label>
+         </item>
+         <item>
+            <value>3</value>
+            <label>Nº Identifcação Fiscal</label>
+         </item>
+         <item>
+            <value>4</value>
+            <label>Nº Passaporte</label>
+         </item>
+         <item>
+            <value>5</value>
+            <label>Outro</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="situationType" retainValues="No">
+      <description>
+         <pt>Lov referente ao Tipo de Situação</pt>
+         <en-us>Situation Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>CPRA</value>
+            <label>Contracto a Prazo</label>
+         </item>
+         <item>
+            <value>CPRZ</value>
+            <label>Contracto a Prazo</label>
+         </item>
+         <item>
+            <value>DMTD</value>
+            <label>Demitido</label>
+         </item>
+         <item>
+            <value>FLCD</value>
+            <label>Falecido</label>
+         </item>
+         <item>
+            <value>ISP</value>
+            <label>Isento de Profissão</label>
+         </item>
+         <item>
+            <value>LSVC</value>
+            <label>Licença sem vencimento</label>
+         </item>
+         <item>
+            <value>NRML</value>
+            <label>NORMAL</label>
+         </item>
+         <item>
+            <value>RFRM</value>
+            <label>Reformado</label>
+         </item>
+         <item>
+            <value>RQSR</value>
+            <label>Requisitado</label>
+         </item>
+         <item>
+            <value>RQST</value>
+            <label>Requisitado</label>
+         </item>
+         <item>
+            <value>Estagiário</value>
+            <label>Estagiário</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="genderType" retainValues="No">
+      <description>
+         <pt>Lov referente ao genério da pessoa</pt>
+         <en-us>Gender Type</en-us>
+      </description>
+      <details>
+         <item>
+            <value>M</value>
+            <label>Masculino</label>
+         </item>
+         <item>
+            <value>F</value>
+            <label>Feminino</label>
+         </item>
+      </details>
+   </Lov>
+</xeoLov>

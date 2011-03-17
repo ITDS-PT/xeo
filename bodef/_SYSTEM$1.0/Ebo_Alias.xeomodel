@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
-<xeoModel>
+<xeoModel> 
    <general name="Ebo_Alias" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>

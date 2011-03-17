@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" mastertable="" extends="" version="1.0" type="object" name="XeoApplicationLanguage">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Application Language</description>
+        <cardID>[description]</cardID>
+        <label>Application Language</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="code">
+            <label>Código</label>
+            <description>Código</description>
+            <tooltip>Código</tooltip>
+            <len>5</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required></required>
+            <onChangeSubmit></onChangeSubmit>
+        </attributeText>
+        <attributeText name="description">
+            <label>Descrição</label>
+            <description>Descrição do país</description>
+            <tooltip>Descrição</tooltip>
+            <len>50</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required></required>
+            <onChangeSubmit></onChangeSubmit>
+        </attributeText>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+			</forms>
+            <categories/>
+        </viewer>
+    </viewers>
+</xeoModel>

@@ -1,310 +1,354 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:17 BST 2006-->
-<xeoModel>
-   <general name="Ebo_ExtendAttribute" type="object" version="1.0" extends="" orphan="false" multiparent="false" extendsJavaClass="">
-      <locale language="pt" country="PT" variant=""/>
-      <implements/>
-      <database/>
-      <versioning active="false"/>
-      <textIndex active="true" appendChilds="false" deep="1">
-         <process/>
-      </textIndex>
-      <description>Ebo_ExtendAttribute</description>
-      <cardID>[alias]</cardID>
-      <label>Atributos</label>
-   </general>
-   <opl active="false"/>
-   <states>
-      <state name="state">
-         <label>state</label>
-         <options>
-            <option name="Inactive" value="0" active="true">
-               <label>Inactivo</label>
-               <subStates/>
-            </option>
-            <option name="active" value="1" active="true">
-               <label>Activo</label>
-               <subStates/>
-            </option>
-         </options>
-      </state>
-   </states>
-   <methods/>
-   <events>
-      <event name="onBeforeDestroy">
-         <body language="JAVA">
-            <![CDATA[return netgest.bo.workflow.WFUpdateEvents.removeExtendAttr(this);]]>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="false" extends="" version="1.0" type="object" name="Ebo_ExtendAttribute">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Ebo_ExtendAttribute</description>
+        <cardID>[alias]</cardID>
+        <label>Atributos</label>
+    </general>
+    <opl active="false"/>
+    <states>
+        <state name="state">
+            <label>state</label>
+            <options>
+                <option value="0" name="Inactive" active="true">
+                    <label>Inactivo</label>
+                    <subStates/>
+                </option>
+                <option value="1" name="active" active="true">
+                    <label>Activo</label>
+                    <subStates/>
+                </option>
+            </options>
+        </state>
+    </states>
+    <methods/>
+    <events>
+        <event name="onBeforeDestroy">
+            <body language="JAVA">
+            return netgest.bo.workflow.WFUpdateEvents.removeExtendAttr(this);
          </body>
-      </event>
-   </events>
-   <fwdObjects/>
-   <attributes>
-      <attributeText name="alias">
-         <len>200</len>
-         <label>Alias</label>
-         <tooltip></tooltip>
-         <required language="BOL">true</required>
-      </attributeText>
-      <attributeText name="shortAlias">
-         <len>50</len>
-         <label>Short Alias</label>
-         <tooltip></tooltip>
-         <required language="BOL">true</required>
-      </attributeText>
-      <attributeNumber name="attributeRequire">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Obrigatoriedade</label>
-         <tooltip></tooltip>
-         <lov name="attributeRequire" retainValues="false"/>
-         <required language="BOL">true</required>
-      </attributeNumber>
-      <attributeNumber name="attributeConstraints">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Prioridade</label>
-         <tooltip></tooltip>
-         <lov name="attributeConstraints" retainValues="false"/>
-         <required language="BOL">true</required>
-      </attributeNumber>
-      <attributeNumber name="attributeCardinal">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Cardinalidade</label>
-         <tooltip></tooltip>
-         <lov name="attributeCardinal" retainValues="false"/>
-      </attributeNumber>
-      <attributeNumber name="attributeType">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Tipo</label>
-         <tooltip></tooltip>
-         <lov name="extendedAttributeType" retainValues="false"/>
-         <required language="BOL">true</required>
-      </attributeNumber>
-      <attributeBoolean name="changed">
-         <label>Pode ser alterado</label>
-         <renderAsCheck>false</renderAsCheck>
-         <tooltip></tooltip>
-      </attributeBoolean>
-      <attributeBoolean name="quickView">
-         <label>Quick View</label>
-         <renderAsCheck>false</renderAsCheck>
-         <tooltip></tooltip>
-      </attributeBoolean>
-      <attributeObject name="object">
-         <type>object.Ebo_ClsReg</type>
-         <label>Objecto</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <objectFilter/>
-      </attributeObject>
-      <attributeObject name="lov">
-         <type>object.Ebo_LOV</type>
-         <label>Lista de Valores</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <objectFilter/>
-      </attributeObject>
-      <attributeText name="valueText">
-         <len>4000</len>
-         <label>Texto</label>
-         <editor>HTML</editor>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeNumber name="valueNumber">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Numero</label>
-         <tooltip></tooltip>
-      </attributeNumber>
-      <attributeDate name="valueDate">
-         <label>Data</label>
-         <tooltip></tooltip>
-      </attributeDate>
-      <attributeDateTime name="valueDateTime">
-         <label>Data e Hora</label>
-         <tooltip></tooltip>
-      </attributeDateTime>
-      <attributeBoolean name="valueBoolean">
-         <label>Verdadeiro/Falso</label>
-         <renderAsCheck>false</renderAsCheck>
-         <tooltip></tooltip>
-      </attributeBoolean>
-      <attributeText name="valueLov">
-         <len>20</len>
-         <label>Valor da Lov</label>
-         <tooltip></tooltip>
-      </attributeText>
-      <attributeObject name="valueObject">
-         <type>object.boObject</type>
-         <label>Objecto</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <objectFilter/>
-      </attributeObject>
-      <attributeObjectCollection name="valueList">
-         <type>object.boObject</type>
-         <label>Lista</label>
-         <renderAsLov>false</renderAsLov>
-         <tooltip></tooltip>
-         <maxOccurs>N</maxOccurs>
-         <minOccurs>0</minOccurs>
-         <objectFilter/>
-         <bridge>
-            <attributes/>
-         </bridge>
-      </attributeObjectCollection>
-      <attributeNumber name="decimals">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Casas Decimais</label>
-         <tooltip></tooltip>
-         <disableWhen language="JAVA"><depends><attribute>attributeType</attribute></depends>    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
+        </event>
+    </events>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="alias">
+            <label>Alias</label>
+            <tooltip></tooltip>
+            <len>200</len>
+            <required language="BOL">true</required>
+        </attributeText>
+        <attributeText name="shortAlias">
+            <label>Alias curto</label>
+            <description></description>
+            <tooltip></tooltip>
+            <len>50</len>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required language="BOL">true</required>
+            <onChangeSubmit/>
+        </attributeText>
+        <attributeNumber name="attributeRequire">
+            <label>Obrigatoriedade</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <lov retainValues="false" name="attributeRequire"/>
+            <required language="BOL">true</required>
+        </attributeNumber>
+        <attributeNumber name="attributeConstraints">
+            <label>Prioridade</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <lov retainValues="false" name="attributeConstraints"/>
+            <required language="BOL">true</required>
+        </attributeNumber>
+        <attributeNumber name="attributeCardinal">
+            <label>Cardinalidade</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <lov retainValues="false" name="attributeCardinal"/>
+        </attributeNumber>
+        <attributeNumber name="attributeType">
+            <label>Tipo</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <lov retainValues="false" name="extendedAttributeType"/>
+            <required language="BOL">true</required>
+        </attributeNumber>
+        <attributeBoolean name="changed">
+            <label>Pode ser alterado</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+        <attributeBoolean name="quickView">
+            <label>Vista Rápida</label>
+            <description></description>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required/>
+            <onChangeSubmit/>
+        </attributeBoolean>
+        <attributeObject name="object">
+            <label>Objecto</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_ClsReg</type>
+            <objectFilter/>
+            <renderAsLov>false</renderAsLov>
+        </attributeObject>
+        <attributeObject name="lov">
+            <label>Lista de Valores</label>
+            <tooltip></tooltip>
+            <type>object.Ebo_LOV</type>
+            <objectFilter/>
+            <renderAsLov>false</renderAsLov>
+        </attributeObject>
+        <attributeText name="valueText">
+            <label>Texto</label>
+            <tooltip></tooltip>
+            <len>4000</len>
+            <editor>HTML</editor>
+        </attributeText>
+        <attributeNumber name="valueNumber">
+            <label>Numero</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+        </attributeNumber>
+        <attributeDate name="valueDate">
+            <label>Data</label>
+            <tooltip></tooltip>
+        </attributeDate>
+        <attributeDateTime name="valueDateTime">
+            <label>Data e Hora</label>
+            <tooltip></tooltip>
+        </attributeDateTime>
+        <attributeBoolean name="valueBoolean">
+            <label>Verdadeiro/Falso</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+        <attributeText name="valueLov">
+            <label>Valor da Lov</label>
+            <tooltip></tooltip>
+            <len>20</len>
+        </attributeText>
+        <attributeObject name="valueObject">
+            <label>Objecto</label>
+            <tooltip></tooltip>
+            <type>object.boObject</type>
+            <objectFilter/>
+            <renderAsLov>false</renderAsLov>
+        </attributeObject>
+        <attributeObjectCollection name="valueList">
+            <label>Lista</label>
+            <tooltip></tooltip>
+            <type>object.boObject</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeNumber name="decimals">
+            <label>Casas Decimais</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <disableWhen language="JAVA">    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
     {
 this.setValueObject(null);return true;
-    }return false;</disableWhen>
-      </attributeNumber>
-      <attributeNumber name="minDecimals">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Mínimo Decimais</label>
-         <tooltip></tooltip>
-         <disableWhen language="JAVA"><depends><attribute>attributeType</attribute></depends>    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
+    }return false;
+                <depends>
+                    <attribute>attributeType</attribute>
+                </depends>
+            </disableWhen>
+        </attributeNumber>
+        <attributeNumber name="minDecimals">
+            <label>Mínimo Decimais</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <disableWhen language="JAVA">    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
     {
 this.setValueObject(null);return true;
-    }return false;</disableWhen>
-      </attributeNumber>
-      <attributeNumber name="minNumber">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Número Minimo</label>
-         <tooltip></tooltip>
-         <valid language="BOL"><depends/>false</valid>
-         <disableWhen language="JAVA"><depends><attribute>attributeType</attribute></depends>    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
+    }return false;
+                <depends>
+                    <attribute>attributeType</attribute>
+                </depends>
+            </disableWhen>
+        </attributeNumber>
+        <attributeNumber name="minNumber">
+            <label>Número Minimo</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <valid language="BOL">false
+                <depends/>
+            </valid>
+            <disableWhen language="JAVA">    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
     {
 this.setValueObject(null);return true;
-    }return false;</disableWhen>
-      </attributeNumber>
-      <attributeNumber name="maxNumber">
-         <len>0</len>
-         <grouping>false</grouping>
-         <decimals>0</decimals>
-         <minDecimals>0</minDecimals>
-         <label>Número Máximo</label>
-         <tooltip></tooltip>
-         <disableWhen language="JAVA"><depends><attribute>attributeType</attribute></depends>    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
+    }return false;
+                <depends>
+                    <attribute>attributeType</attribute>
+                </depends>
+            </disableWhen>
+        </attributeNumber>
+        <attributeNumber name="maxNumber">
+            <label>Número Máximo</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <disableWhen language="JAVA">    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
     {
 this.setValueObject(null);return true;
-    }return false;</disableWhen>
-      </attributeNumber>
-      <attributeBoolean name="grouping">
-         <label>Agrupar</label>
-         <renderAsCheck>false</renderAsCheck>
-         <tooltip></tooltip>
-         <disableWhen language="JAVA"><depends><attribute>attributeType</attribute></depends>    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
+    }return false;
+                <depends>
+                    <attribute>attributeType</attribute>
+                </depends>
+            </disableWhen>
+        </attributeNumber>
+        <attributeBoolean name="grouping">
+            <label>Agrupar</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+            <disableWhen language="JAVA">    if(!"4".equals( this.getParent().getAttribute("attributeType").getValueString()))
     {
 this.setValueObject("0");return true;
-    }return false;</disableWhen>
-      </attributeBoolean>
-   </attributes>
-   <viewers>
-      <viewer name="general">
-         <forms>
-            <form name="edit" template="std">
-               <areas>
-                  <area label="Geral" bo_node="global">
-                     <panel voui="panel">
-                        <tab bo_node="global" voui="tab1">
-                           <section showlabel="no" label="node.label">
-                              <rows>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">alias</attribute>
+    }return false;
+                <depends>
+                    <attribute>attributeType</attribute>
+                </depends>
+            </disableWhen>
+        </attributeBoolean>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form name="edit" template="std">
+                    <areas>
+                        <area bo_node="global" label="Geral">
+                            <panel voui="panel">
+                                <tab bo_node="global" voui="tab1">
+                                    <section label="node.label" showlabel="no">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">alias</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">shortAlias</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">shortAlias</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">attributeRequire</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">attributeRequire</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">attributeConstraints</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">attributeConstraints</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">changed</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">changed</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">quickView</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">quickView</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">attributeType</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">attributeType</attribute>
                                     </cell>
-                                    <cell/>
+                                                <cell/>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">attributeCardinal</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">attributeCardinal</attribute>
                                     </cell>
-                                    <cell>
-                                       <attribute showlabel="yes">object</attribute>
-                                    </cell>
-                                 </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">lov</attribute>
-                                    </cell>
-                                    <cell/>
-                                 </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">minNumber</attribute>
-                                    </cell>
-                                    <cell>
-                                       <attribute showlabel="yes">maxNumber</attribute>
+                                                <cell>
+                                                    <attribute showlabel="yes">object</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">decimals</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">lov</attribute>
                                     </cell>
-                                    <cell>
-                                       <attribute showlabel="yes">minDecimals</attribute>
+                                                <cell/>
+                                 </row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">minNumber</attribute>
+                                    </cell>
+                                                <cell>
+                                                    <attribute showlabel="yes">maxNumber</attribute>
                                     </cell>
                                  </row>
-                                 <row>
-                                    <cell>
-                                       <attribute showlabel="yes">grouping</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">decimals</attribute>
                                     </cell>
-                                    <cell/>
+                                                <cell>
+                                                    <attribute showlabel="yes">minDecimals</attribute>
+                                    </cell>
+                                 </row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">grouping</attribute>
+                                    </cell>
+                                                <cell/>
                                  </row>
                               </rows>
                            </section>
@@ -313,33 +357,33 @@ this.setValueObject("0");return true;
                   </area>
                </areas>
             </form>
-            <form name="list" formtype="List">
-               <grid bo_node="global" name="listprocess" template="std">
-                  <cols>
-                     <col width="100">
-                        <attribute>alias</attribute>
+                <form formtype="List" name="list">
+                    <grid bo_node="global" name="listprocess" template="std">
+                        <cols>
+                            <col width="100">
+                                <attribute>alias</attribute>
                      </col>
                   </cols>
                </grid>
             </form>
-            <form name="valueList_list" forBridge="valueList" formtype="List">
-               <grid name="list" template="std" forBridge="valueList" edit_inLine="no">
-                  <cols>
-                     <col width="200">
-                        <attribute>childObject.cardid</attribute>
+                <form forBridge="valueList" formtype="List" name="valueList_list">
+                    <grid edit_inLine="no" forBridge="valueList" name="list" template="std">
+                        <cols>
+                            <col width="200">
+                                <attribute>childObject.cardid</attribute>
                      </col>
                   </cols>
                </grid>
             </form>
          </forms>
-         <categories>
-            <category name="global" label="Definição" description="">
-               <attributes>
-                  <attribute>name</attribute>
-                  <attribute>lang</attribute>
+            <categories>
+                <category description="" label="Definição" name="global">
+                    <attributes>
+                        <attribute>name</attribute>
+                        <attribute>lang</attribute>
                </attributes>
             </category>
          </categories>
-      </viewer>
-   </viewers>
+        </viewer>
+    </viewers>
 </xeoModel>
