@@ -1172,8 +1172,15 @@ public final class boBuildJSP {
 
             ///          JSPFooter.append("<%}\n");
             JSPFooter.append("<%\n");
+            
             JSPFooter.append(
-                "} else response.sendRedirect(\"dialogBoxSecurityWarning.htm\"); } finally {\n"); //end initPage
+            "} else response.sendRedirect(\"dialogBoxSecurityWarning.htm\"); }\n");
+		    JSPFooter.append("catch(boRuntimeException e) {\n");
+		    JSPFooter.append("  if(e.getErrorCode().equals(\"BO-3220\")) {\n");
+		    JSPFooter.append("    response.sendRedirect(\"dialogBoxSecurityWarning.htm\");\n  }\n");
+		    JSPFooter.append("  else { \n");
+		    JSPFooter.append("    throw(e);\n  }\n}\n");
+		    JSPFooter.append("finally {\n"); //end initPage
 
             ///            JSPFooter.append("if(initPage) {boctx.close();");
             JSPFooter.append("if (boctx!=null)boctx.close();if (DOCLIST!=null && boctx!=null)DOCLIST.releseObjects(boctx);\n");
@@ -4524,7 +4531,7 @@ public final class boBuildJSP {
                                         atr.getReferencedObjectName() +
                                         " not HAVE VIEWER.FORM « " + xvName +
                                         "." + xFormName + " »*/ #END# ");
-                                        logger.warn(LoggerMessageLocalizer.getMessage("REQUESTED_FORM")+"  " +
+                                        logger.warn("Requested FORM  " +
                                             atr.getName() + ":" +
                                             atr.getReferencedObjectName() +
                                             "  « " + xvName + "." + xFormName +
