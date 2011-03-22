@@ -1575,11 +1575,24 @@ public class boObjectList extends boPoolable {
 		return ret;
 	}
 
+	
+	/**
+	 * 
+	 * Returns the number of rows in the current page
+	 * 
+	 * @return The number of rows in the current page
+	 */
 	public int getRowCount() {
 		checkLazyResult();
 		return p_resultset.getRowCount();
 	}
 
+	/**
+	 * 
+	 * Retrieves the number of records returned by the select query
+	 * 
+	 * @return The total number of records in the query
+	 */
 	public long getRecordCount() {
 		if (p_qlp != null) {
 			if (p_nrrecords == Long.MIN_VALUE) {
