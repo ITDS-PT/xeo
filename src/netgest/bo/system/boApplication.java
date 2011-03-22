@@ -4,21 +4,24 @@ package netgest.bo.system;
 import java.io.File;
 import java.net.URL;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.WeakHashMap;
 
 import javax.ejb.CreateException;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.spi.LoggerFactory;
+import javax.servlet.http.HttpServletResponse;
 
 import netgest.bo.data.DriverManager;
 import netgest.bo.data.IXEODataManager;
 import netgest.bo.def.boDefHandler;
-import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.def.boDefInterface;
+import netgest.bo.ejb.boManagerLocal;
+import netgest.bo.ejb.impl.boManagerBean;
+import netgest.bo.lovmanager.LovManager;
 import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.ObjectListManager;
 import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -197,7 +200,14 @@ public class boApplication
     
     
     
-    
+    /**
+	 * 
+	 * Retrieves the default application (same as invoking
+	 * {@link boApplication#getApplicationFromStaticContext(String)} with "XEO"
+	 * as a parameter
+	 * 
+	 * @return The default {@link boApplication}
+	 */
     public static boApplication getDefaultApplication(){
     	return getApplicationFromStaticContext("XEO");
     }
@@ -501,4 +511,103 @@ public class boApplication
     	}
     	return dataManager;
     }
+    
+    /**
+	 * 
+	 * Retrieves a wrapper for the Object Model XML definition for a given Model
+	 * name
+	 * 
+	 * @param modelName
+	 *            The name of the Object Model
+	 * 
+	 * @return A handler to the Model Definition or null if it does not exist
+	 */
+	public boDefHandler getModelDefinition(String modelName) {
+		return boDefHandler.getBoDefinition(modelName);
+	}
+
+	/**
+	 * 
+	 * Retrieves a wrapper for the Interface Object Model XML definition given
+	 * the name of the interface
+	 * 
+	 * @param interfaceName
+	 *            The name of the interface
+	 * 
+	 * @return A handler to the interface definition or null if it does not
+	 *         exist
+	 */
+	public boDefInterface getInterfaceDefinition(String interfaceName) {
+		return boDefHandler.getInterfaceDefinition(interfaceName);
+	}
+
+	/**
+	 * 
+	 * Retrieves an implementation of {@link boManagerLocal} which is
+	 * responsible for managing operation with instances of boObjects, such as
+	 * creating and loading instances
+	 * 
+	 * @return A {@link boManagerBean} which is capable of creating an loading
+	 *         boObject instances
+	 * 
+	 * @throws boRuntimeException
+	 *             If the manager cannot be retrieved
+	 */
+	public boManagerLocal getObjectManager() throws boRuntimeException {
+		return boObject.getBoManager();
+	}
+	
+	public boManagerLocal getSecureObjectManager() throws boRuntimeException{
+			return boObject.getBoSecurityManager();
+	}
+
+	/**
+	 * 
+	 * Retrieves an instance of the Lov Manager (to handle operations with lovs)
+	 * 
+	 * @return A Lov Manager to handle operations with Lists of Values
+	 */
+	public LovManager getLovManager() {
+		return new LovManager();
+	}
+
+	/**
+	 * 
+	 * Retrieves an instance of the {@link ObjectListManager} which allows to
+	 * perform BOQL (XEOQL) queries and return paginated lists of
+	 * {@link boObject}
+	 * 
+	 * @return An Object List Manager instance
+	 */
+	public ObjectListManager getObjectListManager() {
+		return new ObjectListManager();
+	}
+
+	/**
+	 * 
+	 * Retrieves an instance of the SecurityManager which allows to query if a
+	 * given Object Model / Object Model instance has a set privileges to
+	 * perform a certain action
+	 * 
+	 * @return A security manager instance
+	 */
+	//public SecurityManager getSecurityManager() {
+	//	return null;
+		//TODO: Create the SecurityManager class
+	//}
+
+	/**
+	 * 
+	 * Creates an {@link EboContext} instance from a session
+	 * 
+	 * @param session The user session
+	 * @return An {@link EboContext} instance
+	 * 
+	 * @throws boRuntimeException
+	 */
+	public EboContext createContext(boSession session)
+			throws boRuntimeException {
+		return new EboContext(session, (HttpServletRequest) null,
+				(HttpServletResponse) null, (ServletContext) null);
+	}
 }
