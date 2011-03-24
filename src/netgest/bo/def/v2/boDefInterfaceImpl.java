@@ -4,11 +4,9 @@ package netgest.bo.def.v2;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Properties;
 
 import netgest.bo.boConfig;
 import netgest.bo.builder.boBuilder;
@@ -21,6 +19,8 @@ import netgest.bo.def.boDefUtils;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boContext;
+import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
@@ -29,7 +29,6 @@ import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
 
-import org.omg.PortableServer.ImplicitActivationPolicy;
 import org.w3c.dom.Node;
 
 
@@ -152,16 +151,22 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
     public String getLabel(){
     	String language = this.getBoLanguage();
 		String nome =this.getBoName();
-		//String iAttr=this.getName();
-	
-
-		
+				
 		String lab=p_implName;
-		//String ATTRIBUTE_PROPERTY="attribute";
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		if(boUser.getLanguage()!=null);{			
-			language=boUser.getLanguage();			
-		}	
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
+		}
+		
 		
 		 String label=boDefHandlerImpl.getTranslation(nome, lab,null, language,null,"label");
 		
