@@ -20,6 +20,8 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boContext;
+import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.bo.transformers.Transformer;
 import netgest.utils.ngtXMLHandler;
@@ -777,21 +779,27 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 
 	public String getLabel() {
 		
-		//getTranslation(getName(),p_label)
-		/**
-		 * variaveis de getLabel()
-		 * */
 		defHandler = getBoDefHandler();
 	    language = defHandler.getBoLanguage();
 		nome = defHandler.getName();
 		AttributeName =this.getName();
 		
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
 		
-		if(boUser.getLanguage()!=null);{			
-			language=boUser.getLanguage();			
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
 		}
-		 String label;	
+		
+		String label;	
 	        label=	boDefHandlerImpl.getTranslation(nome, p_label, ATTRIBUTE_PROPERTY, language,AttributeName,"label");
 		return label;
 	}
@@ -868,13 +876,21 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 		language = defHandler.getBoLanguage();
 		nome = defHandler.getName();
 		AttributeName =this.getName();
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		if(boUser.getLanguage()!=null);{			
-			language=boUser.getLanguage();
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
 		}
 		
-		
-	   String description=	boDefHandlerImpl.getTranslation(nome, p_description, ATTRIBUTE_PROPERTY, language,AttributeName,"description");				
+		String description=	boDefHandlerImpl.getTranslation(nome, p_description, ATTRIBUTE_PROPERTY, language,AttributeName,"description");				
 		return description;
 	}
 	/**
@@ -885,9 +901,19 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 		language = defHandler.getBoLanguage();
 		nome = defHandler.getName();
 		AttributeName =this.getName();
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		if(boUser.getLanguage()!=null);{			
-			language=boUser.getLanguage();
+		
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
 		}
 		
 	  String tooltip=	boDefHandlerImpl.getTranslation(nome, p_tooltip, ATTRIBUTE_PROPERTY, language,AttributeName,"tooltip");
