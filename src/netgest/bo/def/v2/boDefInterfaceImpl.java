@@ -178,10 +178,18 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
 		String AttributeName =this.getName();
 		String defaultValue=this.p_implName;
 		String ATTRIBUTE_PROPERTY="description";
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		
-		if(boUser.getLanguage()!=null);{			
-			language=boUser.getLanguage();			
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
 		}
 	  String label=	boDefHandlerImpl.getTranslation(nome, defaultValue, ATTRIBUTE_PROPERTY, language,AttributeName,"description");
 		return label;  	
