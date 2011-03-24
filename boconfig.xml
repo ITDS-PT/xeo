@@ -46,15 +46,15 @@
 			<email active='false' buffer='50' smtpHost='venus.itds.pt' from='machine@itds.pt' to='jp@itds.pt' cc='' bcc='' subject='ola' />
 		</logger>
 	</logConfig>
-	<authxentication>
-		<authclass-REMOVETHIS>netgest.bo.system.login.boLdapLogin</authclass-REMOVETHIS>
+	<!-- <authentication active='false'>
+		<authclass>netgest.bo.system.login.boLdapLogin</authclass>
 		<usesso>false</usesso>
 		<ldapserver>ldap://host:port</ldapserver>
 		<ldapuserdn>cn=users,dc=netgest,dc=net</ldapuserdn>
 		<ldapgroupdn>cn=grupos,cn=groups,dc=netgest,dc=net</ldapgroupdn>
 		<ldapadmin>orcladmin</ldapadmin>
 		<ldapadminpassword>password</ldapadminpassword>
-	</authxentication>
+	</authentication> -->
 	<mail>
 		<smtphost>smtp.host.domain</smtphost>
 		<pophost/>
@@ -78,6 +78,19 @@
 	<wordTemplate>
 		<path>.\wordTemplates\</path>
 	</wordTemplate>
+	 <languages>
+       <ApplicationLanguage>PT</ApplicationLanguage>
+    	<availableLanguages>
+         	<language>
+    		  <code>EN</code>
+    		  <description>English</description>
+    		</language> 
+    		<language>
+    		  <code>PT</code>
+    		  <description>Português</description>
+    		</language>
+    	</availableLanguages>
+    </languages>
 	<win32Client>
 		<version>0.9.1</version>
 		<name>xeoWin32Client.jar</name>
