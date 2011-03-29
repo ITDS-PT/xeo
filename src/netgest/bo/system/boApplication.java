@@ -22,6 +22,7 @@ import netgest.bo.lovmanager.LovManager;
 import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.ObjectListManager;
+import netgest.bo.runtime.SecurityManager;
 import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
@@ -591,10 +592,10 @@ public class boApplication
 	 * 
 	 * @return A security manager instance
 	 */
-	//public SecurityManager getSecurityManager() {
-	//	return null;
-		//TODO: Create the SecurityManager class
-	//}
+	public SecurityManager getSecurityManager() {
+		return new SecurityManager();
+		
+	}
 
 	/**
 	 * 
