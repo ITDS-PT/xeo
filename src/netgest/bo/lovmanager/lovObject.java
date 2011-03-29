@@ -418,16 +418,18 @@ public class lovObject {
 					}
 					return (String) p_lov_description.get(p_pointer);
 				}
-			}
-		 
-		}
-		else {
-			String description = getTranslation(p_name, (String) p_lov_cod
-					.get(p_pointer), (String) p_lov_description.get(p_pointer));
+				else {
+					String description = getTranslation(p_name, (String) p_lov_cod
+							.get(p_pointer), (String) p_lov_description.get(p_pointer));
 
-			return description;
+					return description;
+				}
+			}
 		}
-		return null;
+		if ((p_pointer == -1) || (p_pointer >= p_count)) {
+			return null;
+		}
+		return (String) p_lov_description.get(p_pointer);
 	}
 
 	public long getLovBoui() {
