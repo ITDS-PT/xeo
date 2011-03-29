@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
+import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.bo.transformers.CastInterface;
@@ -251,6 +253,9 @@ public class boDefHandlerImpl extends boDefHandler {
 		
 		HashSet<String> lang = boapp.getAllLanguages();
 		
+		if (p_appLanguage != null && p_appLanguage.size() > 0)
+			return p_appLanguage;
+		
 		Iterator<String> itLangs = lang.iterator();
 		while (itLangs.hasNext()){
 			String currentLanguage = itLangs.next();
@@ -261,14 +266,20 @@ public class boDefHandlerImpl extends boDefHandler {
 			File ofile_languages = new File(file_languages);
 			
 			try {
-				prop.load(new FileInputStream(ofile_languages));
+				FileInputStream fis = new FileInputStream(ofile_languages);
+				InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+				prop.load(isr);
 				String fileName = (boname
 						+ "_" + currentLanguage.toUpperCase()+".properties");
 				
 				p_appLanguage.put(fileName, prop);
 			
+				fis.close();
+				isr.close();
 			} catch (IOException e) {
-				
+				//Move Along, it just means that the file for the given
+				//XEO Model does not exist
+				logger.warn(file_languages + " does not exist ");
 			}
 		}
 		return p_appLanguage;
@@ -903,10 +914,10 @@ public class boDefHandlerImpl extends boDefHandler {
 	 * 
 	 */
 	public String getLabel() {		
-	    	language=p_local_language;
+		language=p_local_language;
 		nome = this.getName();	
 	    String label=	boDefHandlerImpl.getTranslation(nome, p_label,null, language,null,"label");
-			    return label;		
+	    return label;		
 	}
 
 	public String getModifyProtocol() {
@@ -931,9 +942,20 @@ public class boDefHandlerImpl extends boDefHandler {
 
 	public String getDescription() {
 		nome = this.getName();		
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		if(boUser.getLanguage()!=null)
-		language=boUser.getLanguage();
+		
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
+		}
 		else
 			language=p_local_language;
 		

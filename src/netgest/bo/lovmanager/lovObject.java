@@ -1,34 +1,28 @@
 /*Enconding=UTF-8*/
 package netgest.bo.lovmanager;
 
-import netgest.bo.builder.boBuildLov;
-import netgest.bo.def.boDefLov;
-import netgest.bo.def.v2.boDefHandlerImpl;
-import netgest.bo.def.v2.boDefLovImpl;
-import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.runtime.AttributeHandler;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boAttributesArray;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.bridgeHandler;
-import netgest.bo.system.boApplication;
-import netgest.bo.system.boSessionUser;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Properties;
 
-import com.ibm.regex.*;
+import netgest.bo.def.v2.boDefHandlerImpl;
+import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.runtime.AttributeHandler;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boContext;
+import netgest.bo.system.boSessionUser;
 
-import java.util.Hashtable;
+import com.ibm.regex.Match;
+import com.ibm.regex.RegularExpression;
 
 public class lovObject {
 	private ArrayList p_lov_cod = new ArrayList();
@@ -409,25 +403,31 @@ public class lovObject {
 	 *         language
 	 * @throws boRuntimeException 
 	 */
-
 	public String getDescription() throws boRuntimeException {
-		boSessionUser boUser = boApplication.currentContext().getEboContext()
-				.getSysUser();
-		String language = getLanguage();
-		if (boUser.getLanguage().equals(language)) {
-			if ((p_pointer == -1) || (p_pointer >= p_count)) {
-				return null;
+		
+		boContext bctx = boApplication.currentContext();
+		if (bctx != null){
+			EboContext ctx = bctx.getEboContext();
+			if (ctx != null){
+				boSessionUser boUser = ctx.getSysUser();
+				String language = getLanguage();
+				if (boUser.getLanguage().equals(language)) 
+				{
+					if ((p_pointer == -1) || (p_pointer >= p_count)) {
+						return null;
+					}
+					return (String) p_lov_description.get(p_pointer);
+				}
 			}
-
-			
-			return (String) p_lov_description.get(p_pointer);
-		} else {
+		 
+		}
+		else {
 			String description = getTranslation(p_name, (String) p_lov_cod
 					.get(p_pointer), (String) p_lov_description.get(p_pointer));
 
 			return description;
 		}
-
+		return null;
 	}
 
 	public long getLovBoui() {

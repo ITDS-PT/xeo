@@ -7,6 +7,8 @@ import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boContext;
+import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.utils.ClassUtils;
 import netgest.utils.ngtXMLHandler;
@@ -228,8 +230,20 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
 		language = defHandler.getBoLanguage();
 		nome = defHandler.getName();
 		AttributeName =this.getName();
-		boSessionUser boUser = boApplication.currentContext().getEboContext().getBoSession().getUser();
-		language=boUser.getLanguage();
+		if (boApplication.currentContext() != null)
+		{
+			boContext ctx = boApplication.currentContext();
+			if (ctx.getEboContext() != null){
+				boSession session = ctx.getEboContext().getBoSession();
+				if (session != null){
+					boSessionUser boUser = session.getUser();
+					if(boUser.getLanguage()!=null);{			
+						language=boUser.getLanguage();			
+					}	
+				}
+			}
+		}
+		
 		
 	  String label=	boDefHandlerImpl.getTranslation(nome, p_label,METHOD_PROPERTY, language,AttributeName,"label");
 		return label;
