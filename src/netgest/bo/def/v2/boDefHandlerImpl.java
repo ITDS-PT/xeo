@@ -279,7 +279,7 @@ public class boDefHandlerImpl extends boDefHandler {
 			} catch (IOException e) {
 				//Move Along, it just means that the file for the given
 				//XEO Model does not exist
-				logger.warn(file_languages + " does not exist ");
+				logger.finest(file_languages + " does not exist ");
 			}
 		}
 		return p_appLanguage;
