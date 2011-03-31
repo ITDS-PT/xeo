@@ -411,7 +411,7 @@ public class lovObject {
 			if (ctx != null){
 				boSessionUser boUser = ctx.getSysUser();
 				String language = getLanguage();
-				if (boUser.getLanguage().equals(language)) 
+				if (boUser.getLanguage() != null && boUser.getLanguage().equals(language)) 
 				{
 					if ((p_pointer == -1) || (p_pointer >= p_count)) {
 						return null;

@@ -1,14 +1,15 @@
 package netgest.bo.localizations;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import netgest.bo.boConfig;
+import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
-import netgest.bo.system.boApplicationConfig;
+import netgest.bo.system.boContext;
+import netgest.bo.system.boSession;
+import netgest.bo.system.boSessionUser;
 /**
  * Class that loads the exception messages from the properties file
  * in the current language
@@ -80,15 +81,24 @@ public static String getMessage(String whichMessage){
 		language = boApp.getApplicationLanguage();
 		if(boApp.getSessions()!=null){
 		
-		  boApplicationConfig cf=boApp.getApplicationConfig();
-		   if( boApp.getSessions().getActiveSessions().length > 0)
-			   if(boApplication.currentContext() != null)
-				   if(boApplication.currentContext().getEboContext() != null)
-					   if(boApplication.currentContext().getEboContext().getBoSession() != null)
-						   if(boApplication.currentContext().getEboContext().getBoSession().getUser() != null){
-							   if(boApplication.currentContext().getEboContext().getBoSession().getUser().getLanguage() != null)
-							   language=boApplication.currentContext().getEboContext().getBoSession().getUser().getLanguage();		        
-		       }		
+			boContext boctx;
+			EboContext ctx;
+			boSession session;
+			boSessionUser user;
+			boctx = boApplication.currentContext();
+			
+				if (boApp.getSessions().getActiveSessions().length > 0)
+					 if(boctx != null){
+						 ctx = boctx.getEboContext();
+						  if(ctx != null){
+							  session = ctx.getBoSession();
+							  if(session != null){
+								  user = session.getUser();
+								  if(user.getLanguage() != null)
+									  language = user.getLanguage();
+							  }
+					 }
+				}
 		}
 		if(language==null||language=="")
 			language=boApplication.getDefaultApplication().getApplicationLanguage();
