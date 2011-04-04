@@ -50,6 +50,12 @@ import netgest.bo.utils.XeoApplicationLanguage;
 public class boApplication
 {
 	
+	/**
+	 * Whether the application is in development mode or not
+	 * (default is false)
+	 */
+	private boolean inDevelopment = false;
+	
 	private static Logger logger;
 	
     private static boApplication XEO_APPLICATION;
@@ -493,6 +499,28 @@ public class boApplication
     		getXEODataManager( boDefHandler.getBoDefinition( objectName )  );
     	}
     	return dataManager;
+    }
+    
+    /**
+     * 
+     * Retrieves whether or not the application is is development mode
+     * 
+     * @return True if the application is in development mode
+     * and false otherwise
+     * 
+     */
+    public boolean inDevelopmentMode(){
+    	return inDevelopment;
+    }
+    
+    /**
+     * 
+     * Sets the development mode to active or false
+     * 
+     * @param dev The development mode (true/false)
+     */
+    public void setDevelopmentMode(boolean dev){
+    	inDevelopment = dev;
     }
     
     public IXEODataManager getXEODataManager( boDefHandler def ) {

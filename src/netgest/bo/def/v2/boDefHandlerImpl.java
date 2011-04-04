@@ -239,50 +239,49 @@ public class boDefHandlerImpl extends boDefHandler {
 
 		return ret;
 	}
-	/**
-	 * 
-	 * @param boname
-	 * @return (HashMap<String,properties>)A String with the file name and Properties 
-	 * with all properties in that file
-	 */
-	public static HashMap<String,Properties> getLanguagesMap(String boname){
-		
-		//MultiLingua
 	
-		boApplication boapp = boApplication.getDefaultApplication();		
+	
+	/**
+	 * Read all the properties files, from languages
+	 */
+	public static void readLanguages(){
 		
-		HashSet<String> lang = boapp.getAllLanguages();
+		//Clear the map
+		p_appLanguage.clear();
 		
-		if (p_appLanguage != null && p_appLanguage.size() > 0)
-			return p_appLanguage;
-		
-		Iterator<String> itLangs = lang.iterator();
-		while (itLangs.hasNext()){
-			String currentLanguage = itLangs.next();
-			Properties prop = new Properties();
-			
-			String file_languages = boConfig.getDeploymentDir() + boname
-			+ "_" + currentLanguage + ".properties";
-			File ofile_languages = new File(file_languages);
-			
-			try {
-				FileInputStream fis = new FileInputStream(ofile_languages);
+		//Read all files
+		File[] allFiles = new File(boConfig.getDeploymentDir()).listFiles(new TranslationsFileFilter());
+		if (logger.isFinerEnabled())
+			logger.finer("Reading translation files");
+		for (File file: allFiles){
+			try
+			{
+				Properties prop = new Properties();
+				FileInputStream fis = new FileInputStream(file);
 				InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
 				prop.load(isr);
-				String fileName = (boname
-						+ "_" + currentLanguage.toUpperCase()+".properties");
-				
-				p_appLanguage.put(fileName, prop);
-			
-				fis.close();
-				isr.close();
-			} catch (IOException e) {
-				//Move Along, it just means that the file for the given
-				//XEO Model does not exist
-				logger.finest(file_languages + " does not exist ");
+				p_appLanguage.put(file.getName(), prop);
 			}
-		}
-		return p_appLanguage;
+			catch (IOException e){
+				if (logger.isFinestEnabled())
+					logger.finest("Error reading " + file.getName());
+			}
+		}	
+	}
+	
+	/**
+	 * 
+	 * Retrieves map of all translations
+	 * 
+	 * @return (HashMap<String,properties>) A map with all properties files
+	 * representing the translations
+	 */
+	public static HashMap<String,Properties> getLanguagesMap(){
+		
+		if (p_appLanguage == null || p_appLanguage.size() == 0)
+			readLanguages();
+		
+		return p_appLanguage;		
 	}				
 
 	public static boDefHandler[] getAllBoDefinition() {
@@ -1637,13 +1636,18 @@ public class boDefHandlerImpl extends boDefHandler {
 	}
 	
 	/**
+	 * 
+	 * Retrieves the translation for a given item
+	 * 
 	 * @param className
-	 * @param defaultValue
+	 * @param defaultValue The default translation of the item
 	 * @param type (attribute or method)
-	 * @param language
+	 * @param language The language to get the translation
 	 * @param attribute(attribute name)
 	 * @param whichText(label, description or tooltip)
-	 * @return(String)label, description or tooltip in the used language
+	 * 
+	 * @return(String)label, description or tooltip in the desired language, or the default value
+	 * in case a suitable translation does not exist
 	 */
 public static String getTranslation(String className, String defaultValue, String type, String language,String attribute, String whichText)
 {	
@@ -1658,12 +1662,9 @@ public static String getTranslation(String className, String defaultValue, Strin
 				if(user.getLanguage()!=null && user.getLanguage()!="")
 				usedLanguage = user.getLanguage();
 			}	
-		HashMap<String,Properties> map = boDefHandlerImpl.getLanguagesMap(className);
+		HashMap<String,Properties> map = boDefHandlerImpl.getLanguagesMap();
 		if (usedLanguage != null && map.containsKey(className+"_"+usedLanguage.toUpperCase()+".properties")){
 			Properties prop = map.get(className+"_"+usedLanguage.toUpperCase()+".properties");
-		//	boDefHandler b=boDefAttributeImpl.;
-		//	 String[] bo =b.getInterfaces();
-			
 			if (type!=null){
 				if(prop.getProperty(type + "." + attribute + "." + whichText)!=null)
 					if(prop.getProperty(type + "." + attribute + "." + whichText)!="")	
@@ -1740,4 +1741,23 @@ public static String getTranslation(String className, String defaultValue, Strin
 		return toRet;
 	}
 
+	/**
+	 * 
+	 * A filter for .properties files
+	 * 
+	 * 
+	 */
+	private static class TranslationsFileFilter implements FileFilter{
+
+		@Override
+		public boolean accept(File pathname) {
+			if (pathname.getPath().endsWith(".properties"))
+				return true;
+			return false;
+		}
+		
+		 
+		
+	}
+	
 }

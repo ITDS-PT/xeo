@@ -501,24 +501,23 @@ public class lovObject {
 					"name='" + lovName + "'");	
 			AttributeHandler fileName=lov.getAttribute("xeolovfile");
 			if (fileName!=null){
-			String sFileName=fileName.toString();
-		
-		boApplication app = boApplication
-				.getApplicationFromStaticContext("XEO");
-		 usedLanguage = app.getApplicationLanguage();
-		if(boApplication.currentContext()!=null)
-			if(boApplication.currentContext().getEboContext()!=null)
-				if(boApplication.currentContext().getEboContext().getBoSession()!=null)
-		{
-		boSessionUser user = boApplication.currentContext().getEboContext()
-				.getBoSession().getUser();
-		if (user.getLanguage() != null && user.getLanguage() != "")
-			usedLanguage = user.getLanguage();
-		}
-		
-		HashMap<String, Properties> map = boDefHandlerImpl
-				.getLanguagesMap(sFileName);
-		
+				
+				boApplication app = boApplication
+						.getApplicationFromStaticContext("XEO");
+				 usedLanguage = app.getApplicationLanguage();
+				if(boApplication.currentContext()!=null)
+					if(boApplication.currentContext().getEboContext()!=null)
+						if(boApplication.currentContext().getEboContext().getBoSession()!=null)
+				{
+				boSessionUser user = boApplication.currentContext().getEboContext()
+						.getBoSession().getUser();
+				if (user.getLanguage() != null && user.getLanguage() != "")
+					usedLanguage = user.getLanguage();
+				}
+				
+				HashMap<String, Properties> map = boDefHandlerImpl
+						.getLanguagesMap();
+				
 			
 		if (usedLanguage != null
 				&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()

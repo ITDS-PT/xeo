@@ -16,7 +16,6 @@ import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.builder.boBuilderProgress;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
@@ -63,8 +62,10 @@ public class XEOBuilderFilter implements Filter {
 		
 		String xeodev=System.getProperty("xeo.development");
 		if (xeodev!=null && (xeodev.equalsIgnoreCase("true") ||
-				xeodev.equalsIgnoreCase("yes")))
+				xeodev.equalsIgnoreCase("yes"))){
 			developmentMode=true;
+			boApplication.getDefaultApplication().setDevelopmentMode(true);
+		}
 
 	}
 	

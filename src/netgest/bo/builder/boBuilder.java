@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -45,6 +44,7 @@ import netgest.bo.def.boDefInterface;
 import netgest.bo.def.boDefLov;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefUtils;
+import netgest.bo.def.v2.boDefHandlerImpl;
 import netgest.bo.def.v2.boDefLovImpl;
 import netgest.bo.dochtml.docHTML_treeServer;
 import netgest.bo.http.Builder;
@@ -54,10 +54,8 @@ import netgest.bo.parser.CodeJavaConstructor;
 import netgest.bo.presentation.manager.uiObjectBuilder;
 import netgest.bo.presentation.render.elements.ExplorerServer;
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boClassLoader;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boObjectUtils;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.Logger;
@@ -77,7 +75,6 @@ import oracle.xml.parser.v2.XSLException;
 import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
-import org.apache.log4j.helpers.Loader;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -267,6 +264,11 @@ public class boBuilder {
 			File[] toDepl = rep.getFilesToDeploy();
 			if (toDepl.length > 0) {
 				builder.buildObjects();
+			}
+			
+			//Read all translation files into memory, if we're in development mode
+			if (boApplication.getDefaultApplication().inDevelopmentMode()){
+				boDefHandlerImpl.readLanguages();
 			}
 
 			builder.p_builderProgress.addOverallProgress();
