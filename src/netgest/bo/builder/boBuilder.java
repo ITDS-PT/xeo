@@ -265,11 +265,9 @@ public class boBuilder {
 			if (toDepl.length > 0) {
 				builder.buildObjects();
 			}
-			
-			//Read all translation files into memory, if we're in development mode
-			if (boApplication.getDefaultApplication().inDevelopmentMode()){
-				boDefHandlerImpl.readLanguages();
-			}
+
+			//Reset languages
+			boDefHandlerImpl.resetLanguages();
 
 			builder.p_builderProgress.addOverallProgress();
 			builder.p_builderProgress
@@ -855,135 +853,25 @@ public class boBuilder {
 			 */
 			
 			File[] translationsToCopyList = repository.getFileTranslations();
-			String destiny = p_eboctx.getApplication().getApplicationConfig()
-			.getDeploymentDir();
 			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("COPYING_OBJECT_MODEL_TRANSLATIONS"));
 			p_builderProgress.setCurrentTasks(translationsToCopyList.length);
 			
 			
-			
-			
-			for (int in=0; in<translationsToCopyList.length; in++)
-			{		
-				Properties properties = new Properties();
-		
-		     String filename;
-		     boDefHandler[] refdef = boDefHandler.listBoDefinitions();
-		     try {
-		    	 filename=translationsToCopyList[in].toString();
-		    	 String fileName=filename;//to use later
-		    	 filename=filename.replace(translationsToCopyList[in].getParent()+"\\", "");//filename=object
-			     OutputStream output=new FileOutputStream(destiny+filename);//where to copy the files+filename  
-				   boApplication app=boApplication.currentContext().getApplication();
-				   HashSet<String> languageMap=app.getAllLanguages();
-				   String[] obj=new String[10];					
-					String object=filename;
-
-				//////////
-				//search and copy for interface attributes used by the object
-				Iterator it=languageMap.iterator();
-				while(it.hasNext()){
-				String[] intermedia =it.next().toString().split("=");
-				obj=object.split("_"+intermedia[0]);
-				object=obj[0];//class name
-				}try{
-				 boDefHandler objHandler=boDefHandler.getBoDefinition(object);
-				 if(objHandler!=null)
-				 if(objHandler.getName()!=null)
-				 if(objHandler.getImplements()!=null){//checks for interfaces
-				String[] objInterfaces=objHandler.getImplements();//load used interfaces
-			
-					for (int y=0 ; y<objInterfaces.length;y++)
-				if (objInterfaces[y]!=null)
-				{		
-				  int i =0 ; 
-				   while (i < refdef.length){		//checks for the used interface				
-						boDefHandler[] usedInterfaces =	refdef[i].getBoInterfaces();						
-						if (usedInterfaces.length>0){					
-						if (usedInterfaces.length!=-1 && usedInterfaces.length!=0){				
-							int j=0;	
-							String interfaceJaUsada=null;
-						while (j<usedInterfaces.length){
-							if(objInterfaces.length == usedInterfaces.length)
-								for (int z=0;z<objInterfaces.length;z++)
-							if (objInterfaces[z].equals(usedInterfaces[j].getName())){
-								 if (interfaceJaUsada!=null)
-									if (fileName.contains(interfaceJaUsada)){//substitui o nome da ultima interface pelo da actual
-											fileName=fileName.replace(interfaceJaUsada,usedInterfaces[j].getName());
-								       properties.load(new FileInputStream(fileName));
-								      }
-											if (fileName.contains(refdef[i].getName()))
-										{				
-									   fileName=fileName.replace(refdef[i].getName(),usedInterfaces[j].getName());//gets the interface file to copy
-									
-										interfaceJaUsada=usedInterfaces[j].getName();//guarda para ser substituido na proxima
-									properties.load(new FileInputStream(fileName));
-									//input.close();
-						
-									/**	while (e.hasMoreElements())
-									System.out.println(e.nextElement());
-									boolean first=true;
-							     		String toWrite;
-							     		byte[] bu=new byte[1024];
-									while ((len = input.read(bu)) > 0)
-									{  
-										if (first){
-										 first=false;
-										 toWrite=new String(bu);//
-										 String[] str=toWrite.split("\r\n");//split to get each line
-										 for (int z=2;z<str.length-1;z++){//does not copy interfaces label and description
-											 Properties nextLine=new Properties();
-											 String key=(String)str[z];
-											 if(!str[z+1].isEmpty()){
-												 nextLine.put(key, str[z+1]);
-											 Enumeration<Object> keys=nextLine.keys();
-											 
-											 while (keys.hasMoreElements()){
-												
-												 String element1=(String) keys.nextElement();
-													 String element2 =(String) nextLine.get(element1);
-													 element1="\n "+element1;
-													 element2 ="\n"+element2;										
-													 byte[] keyByte =element1.getBytes();
-													 byte[] myByteArray =element2.getBytes();				
-													output.write(keyByte);
-												    output.write(myByteArray);
-											 }}else{
-												 if (key!=null && key!="")
-												 output.write(key.getBytes());												 
-											 }								 
-											 z++;
-										 }}
-										else{
-									
-									   output.write(bu, 0, len);
-										}
-										}**/
-										
-								}																	
-						}j++;}
-						}}
-						i++;}				
-					}}}
-				finally{
-					
-					
-					///////
-				p_builderProgress.addCurrentTaskProgress();
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": "+filename);
-				p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": " + filename);
-			
-				 //copy object translation file
-				properties.load(new FileInputStream(translationsToCopyList[in])); 
-				     properties.store(output,null);
-	//input.close();
-				output.close();}
-			} catch (IOException e) {
-
-			}}
-			
+			for (File langfile:translationsToCopyList)
+			{
+				File deployedLangFile=new File(boConfig.getDeploymentDir()+langfile.getName());
+				if (!deployedLangFile.exists() || ( 
+						deployedLangFile.exists() && deployedLangFile.lastModified()<langfile.lastModified()))
+				{
+					p_builderProgress.addCurrentTaskProgress();
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": "+langfile.getName());
+					p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": " + langfile.getName());
+					IOUtils.copy(langfile, deployedLangFile);	
+				}
+			}
 			/////////////////////////////////////////////////////////////////////
-
+			
+			
 			// Build Database Objects
 			if (p_builderOptions.getBuildDatabase()) {
 				buildDataBaseObjects(repository, defs, objectInterf, lovFiles,

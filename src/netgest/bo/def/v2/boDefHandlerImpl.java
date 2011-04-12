@@ -240,6 +240,11 @@ public class boDefHandlerImpl extends boDefHandler {
 		return ret;
 	}
 	
+	public static void resetLanguages()
+	{
+		p_appLanguage.clear();
+	}
+	
 	
 	/**
 	 * Read all the properties files, from languages
