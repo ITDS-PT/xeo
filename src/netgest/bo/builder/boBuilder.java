@@ -1404,14 +1404,6 @@ public class boBuilder {
 
 				// Fill the array with class BOUI
 			}
-			p_builderProgress
-					.appendInfoLog(MessageLocalizer.getMessage("REDOING_NORMAL_VIEWS_FOR_EBO_CLSREG_AND_EBO_PACKAGE"));
-			specialView = new boBuildDB(p_eboctx);
-			specialView.createInheritViews(boDefHandler
-					.getBoDefinition("Ebo_ClsReg"));
-			specialView = new boBuildDB(p_eboctx);
-			specialView.createInheritViews(boDefHandler
-					.getBoDefinition("Ebo_Package"));
 
 			// construção das Lov's
 			p_builderProgress.addOverallProgress();
@@ -1504,13 +1496,29 @@ public class boBuilder {
 
 		} finally {
 			if (myTrans) {
-				if (ok)
+				if (ok) {
 					p_eboctx.commitContainerTransaction();
-				else
+					p_eboctx.beginContainerTransaction();
+					try {
+						p_builderProgress
+						.appendInfoLog("Redoing Normal Views for:'Ebo_ClsReg' and 'Ebo_Package'");
+						boBuildDB specialView = new boBuildDB(p_eboctx);
+						specialView.createInheritViews(boDefHandler
+								.getBoDefinition("Ebo_ClsReg"));
+						specialView = new boBuildDB(p_eboctx);
+						specialView.createInheritViews(boDefHandler
+								.getBoDefinition("Ebo_Package"));
+					}
+					finally {
+						p_eboctx.commitContainerTransaction();
+					}
+					
+					
+				} else {
 					p_eboctx.rollbackContainerTransaction();
+				}
 			}
 		}
-
 	}
 
 	private void createLanguages() throws boRuntimeException{
