@@ -974,6 +974,7 @@ public class QLParser  {
          		if (currClause.indexOf(".")==-1)
          		{
                  	//Trying to get objdef
+         			boDefHandler thisobjdef=null;
          			String selstm="SELECT ";
          			String objname=null;
          			if (strQuery.toUpperCase().startsWith(selstm)) 
@@ -981,55 +982,66 @@ public class QLParser  {
          				objname=strQuery.substring(strQuery.toUpperCase().indexOf(selstm)+selstm.length(),strQuery.length());
          				objname= objname.replaceAll("^\\s+", "");
          				objname=objname.replaceAll("\\s+$", "");
-         				objname=objname.substring(0, objname.indexOf(" "));        				
-         			}
-         			if (objname!=null)
-         			{
-         				boDefHandler thisobjdef=boDefHandler.getBoDefinition(objname);
-         				if (thisobjdef!=null)
+         				objname=objname.substring(0, objname.indexOf(" "));  
+         				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
+         				//trying to get from FROM
+         				if (thisobjdef==null)
          				{
- 			        		boDefAttribute attdef=thisobjdef.getAttributeRef(currClause);
- 			        		//Only for ObjectAttribute and excluding attributes with more than one type
- 			        		if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
- 			        				&& attdef.getObjectsName()==null)
- 			        		{
- 			        			String type=attdef.getType();			        			
- 			        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
- 			        			if (currdef!=null)
- 			        			{
- 			        				String cardid=currdef.getCARDID(); 		
- 			        				byte[] cardidbytes=cardid.getBytes();
- 			        				String cardidatt="";
- 			        				Vector cardids= new Vector();
- 			        				boolean append=false;
- 			        				for (int j=0;j<cardidbytes.length;j++)
- 			        				{ 				        				
- 			        					byte currb=cardidbytes[j];
- 			        					if (currb=='[')
- 			        						append=true;
- 			        					if (currb==']')
- 			        					{	
- 			        						if (cardidatt.indexOf(".")==-1)
- 			        							cardids.add(cardidatt);
- 			        						append=false;
- 			        						cardidatt="";
- 			        					}
- 			        					if (append && !(currb=='['))
- 			        						cardidatt+=(char)currb;       					
- 			        				}
- 			        				if (cardids.size()>0)
- 			        				{
- 			        					for (int j=0;j<cardids.size();j++)
- 			        					{
- 			        						neworderby+=currClause+"."+cardids.get(j)+",";
- 			        					}
- 			        				}
- 			        				else neworderby+=currClause+",";
- 			        			}
- 			        		}
- 			        		else neworderby+=currClause+",";			        			
+         					String fromstm=" FROM ";
+         					if(strQuery.toUpperCase().indexOf(fromstm)>-1)
+         					{
+         						objname=strQuery.substring(strQuery.toUpperCase().indexOf(fromstm)+fromstm.length(),strQuery.length());
+                 				objname= objname.replaceAll("^\\s+", "");
+                 				objname=objname.replaceAll("\\s+$", "");
+                 				objname=objname.substring(0, objname.indexOf(" "));
+                 				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
+         					}
          				}
          			}
+     				if (thisobjdef!=null)
+     				{
+		        		boDefAttribute attdef=thisobjdef.getAttributeRef(currClause);
+		        		//Only for ObjectAttribute and excluding attributes with more than one type
+		        		if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
+		        				&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
+		        		{
+		        			String type=attdef.getType();			        			
+		        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
+		        			if (currdef!=null)
+		        			{
+		        				String cardid=currdef.getCARDID(); 		
+		        				byte[] cardidbytes=cardid.getBytes();
+		        				String cardidatt="";
+		        				Vector cardids= new Vector();
+		        				boolean append=false;
+		        				for (int j=0;j<cardidbytes.length;j++)
+		        				{ 				        				
+		        					byte currb=cardidbytes[j];
+		        					if (currb=='[')
+		        						append=true;
+		        					if (currb==']')
+		        					{	
+		        						if (cardidatt.indexOf(".")==-1)
+		        							cardids.add(cardidatt);
+		        						append=false;
+		        						cardidatt="";
+		        					}
+		        					if (append && !(currb=='['))
+		        						cardidatt+=(char)currb;       					
+		        				}
+		        				if (cardids.size()>0)
+		        				{
+		        					for (int j=0;j<cardids.size();j++)
+		        					{
+		        						neworderby+=currClause+"."+cardids.get(j)+",";
+		        					}
+		        				}
+		        				else neworderby+=currClause+",";
+		        			}
+		        		}
+		        		else neworderby+=currClause+",";			        			
+     				}
+     			
          		}
          		else neworderby+=currClause+",";
          	}
