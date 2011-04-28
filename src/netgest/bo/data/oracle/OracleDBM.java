@@ -51,6 +51,12 @@ public class OracleDBM
     {
         "T", "F", "IDX", "PK", "UN", "FK", "PCK", "V"
     };
+    
+    /**
+     * Class that implements the Database driver for MS SQL Server 
+     */
+    public static final String SQLSERVER_IMPL = "netgest.bo.data.sqlserver.SqlServerDriver";
+    
     private EboContext p_ctx;
     private ResultSet p_rs;
     private static Hashtable p_connectionCache = new Hashtable();

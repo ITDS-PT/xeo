@@ -58,6 +58,16 @@ public class boApplicationConfig {
 										// default encoding
 	private boolean p_developerMode = true;
 
+	/**
+	 * The class that implements access to the SYS datasource
+	 */
+	private String p_sysDataSourceName;
+	
+	/**
+	 * The class that implements access to the DATA datasource 
+	 */
+	private String p_dataDataSourceName;
+	
 	// Conversor de documentos
 	public String p_macrosws = "";
 	public String p_convertws = "";
@@ -682,6 +692,24 @@ public class boApplicationConfig {
 			// ----------------------------------------------------------
 			// -------------------------------------------------------
 			// -------------------------------------------------------
+			
+			//Process the DataSources
+			XMLElement root = (XMLElement) xmldoc.getDocumentElement();
+			XMLElement nds = (XMLElement) root.selectSingleNode("DataSources");
+			NodeList ldrivers = nds.selectNodes("DataSource");
+            int nd = ldrivers.getLength();
+            
+            for (int i = 0; i < nd; i++)
+            {
+                XMLElement xnodeDs = (XMLElement) ldrivers.item(i);
+                String name = xnodeDs.getAttribute("name");
+                if (name.equalsIgnoreCase("SYS"))
+                	p_sysDataSourceName = xnodeDs.selectSingleNode("Driver").
+                		getFirstChild().getNodeValue();
+                if (name.equalsIgnoreCase("DATA"))
+                	p_dataDataSourceName = xnodeDs.selectSingleNode("Driver").
+                		getFirstChild().getNodeValue();
+            }
 
 		} catch (Exception e) {
 			String[] emsg = { configFile };
@@ -1080,6 +1108,29 @@ public class boApplicationConfig {
 				.toArray(new boApplicationLoggerConfig[loggersArray.size()]);
 	}
 
+	/**
+	 * 
+	 * Retrieves the class name for the SYS Data Source
+	 * 
+	 * 
+	 * @return The name of the class that implements access to the SYS
+	 * data source
+	 */
+	public String getSysDataSourceClassName(){
+		return p_sysDataSourceName;
+	}
+	
+	/**
+	 * 
+	 * Retrieves the class name for the DATA Data Source
+	 * 
+	 * @return The name of the class that implements access to the DATA
+	 * data source
+	 */
+	public String getDataDataSourceClassName(){
+		return p_dataDataSourceName;
+	}
+	
 	public String getConvertImagesEndPoint() {
 		return p_convertws;
 	}

@@ -11,8 +11,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import netgest.bo.data.sqlserver.SqlServerDriver;
+import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
+import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.boApplication;
@@ -150,8 +151,8 @@ public class BasiciFile implements iFile  {
 
 		if (ctx!=null)
 		{
-			Driver driverBd = ctx.getDataBaseDriver();
-			if (driverBd instanceof SqlServerDriver) {
+			String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+			if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
 				sql.append("SELECT ID,FILENAME,DATALENGTH(BINDATA) FROM ");
 			}
 			else 
@@ -259,7 +260,8 @@ public class BasiciFile implements iFile  {
 				EboContext ctx = boApplication.currentContext().getEboContext();
 				if (ctx!=null)
 				{
-					if (ctx.getDataBaseDriver() instanceof SqlServerDriver) {
+					String dsName = boConfig.getApplicationConfig().getDataDataSourceClassName();
+					if (dsName.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
 						fLen = is.available();
 					}
 				}
