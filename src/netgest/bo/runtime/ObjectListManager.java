@@ -23,6 +23,12 @@ public class ObjectListManager {
 	public static boObjectList list(EboContext ctx, String boql) {
 		return boObjectList.list(ctx, boql);
 	}
+	
+	public static boObjectList list(EboContext ctx, String boql,
+			boolean cache, Object[] boqlargs) {
+			return boObjectList.list(ctx,boql,cache,boqlargs);
+			
+	}
 
 	/**
 	 * Devolve um boObjectList em resultado do boql.
@@ -168,6 +174,8 @@ public class ObjectListManager {
 		return null;
 	}
 
+	
+	
 	public static boObjectList listOnlyUsingAlias(EboContext ctx,
 			String objName, int page, int pagesize, String orderby,
 			String fulltext, String[] letter_filter) {

@@ -298,6 +298,8 @@ public class boObjectList extends boPoolable {
 		return list(ctx, a_boui, 1, boObjectList.PAGESIZE_DEFAULT, "");
 	}
 
+	
+	
 	public static boObjectList list(EboContext ctx, long[] boui, int page,
 			int pagesize, String orderby) throws boRuntimeException {
 		boObject _parent = boObject.getBoManager().loadObject(ctx, boui[0]);
@@ -310,6 +312,7 @@ public class boObjectList extends boPoolable {
 		return list(ctx, boql, 1, boObjectList.PAGESIZE_DEFAULT, "");
 	}
 
+	
 	/**
 	 * Devolve um boObjectList em resultado do boql.
 	 * 
@@ -348,7 +351,7 @@ public class boObjectList extends boPoolable {
 		return list(ctx, boql, boqlargs, 1, boObjectList.PAGESIZE_DEFAULT, "",
 				useSecurity);
 	}
-
+	
 	public static boObjectList listWFirstRows(EboContext ctx, String boql,
 			Object[] boqlargs, boolean useSecurity) {
 		return listWFirstRows(ctx, boql, boqlargs, 1,
@@ -454,6 +457,27 @@ public class boObjectList extends boPoolable {
 		boObjectList toReturn;
 		toReturn = getObjectList(ctx, boql, null, page, pagesize, orderby, "",
 				null, null, boObjectList.FORMAT_MANY, useSecurity, cache, false);
+		return toReturn;
+	}
+	
+	/**
+	 * 
+	 * Creates a boObjectList from a given query, using a set of arguments
+	 * without or without cache
+	 * 
+	 * @param ctx The EboContext to keep the cache
+	 * @param boql The BOQL expression
+	 * @param cache Whether or not to use cache
+	 * @param boqlargs The arguments for the query
+	 * 
+	 * @return
+	 */
+	public static boObjectList list(EboContext ctx, String boql,
+			boolean cache, Object[] boqlargs) {
+		
+		boObjectList toReturn;
+		toReturn = getObjectList(ctx, boql, null, 1, boObjectList.PAGESIZE_DEFAULT, null, "",
+				null, null, boObjectList.FORMAT_MANY, true, cache, false);
 		return toReturn;
 	}
 
