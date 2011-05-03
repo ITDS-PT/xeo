@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
@@ -52,8 +52,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import bsh.This;
 
 public class boDefHandlerImpl extends boDefHandler {
 	// logger
@@ -262,12 +260,15 @@ public class boDefHandlerImpl extends boDefHandler {
 			try
 			{
 				Properties prop = new Properties();
-				FileInputStream fis = new FileInputStream(file);
-				InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+				InputStream fis = new FileInputStream(file);
+				InputStreamReader isr = new InputStreamReader(fis);
 				prop.load(isr);
 				p_appLanguage.put(file.getName(), prop);
+				
+				
 			}
 			catch (IOException e){
+				e.printStackTrace();
 				if (logger.isFinestEnabled())
 					logger.finest("Error reading " + file.getName());
 			}
