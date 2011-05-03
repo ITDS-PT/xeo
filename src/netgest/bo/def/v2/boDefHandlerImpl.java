@@ -261,7 +261,7 @@ public class boDefHandlerImpl extends boDefHandler {
 			{
 				Properties prop = new Properties();
 				InputStream fis = new FileInputStream(file);
-				InputStreamReader isr = new InputStreamReader(fis);
+				InputStreamReader isr = new InputStreamReader(fis,"UTF-8");
 				prop.load(isr);
 				p_appLanguage.put(file.getName(), prop);
 				
