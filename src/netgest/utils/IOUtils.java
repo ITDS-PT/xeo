@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Properties;
 
 import netgest.bo.localizations.MessageLocalizer;
 
@@ -60,6 +62,34 @@ public final class IOUtils
         dest.setLastModified(src.lastModified());
         return dest;
     }
+    
+    public static final File copyProperties(File src, File dest)
+    {
+        try
+        {
+        	
+        	if( !dest.getParentFile().exists() ) {
+        		dest.getParentFile().mkdirs();
+        	}
+        	
+        	Properties prop = new Properties();
+			InputStream fis = new FileInputStream(src);
+			InputStreamReader isr = new InputStreamReader(fis,"UTF-8");
+			prop.load(isr);
+			prop.store(new FileOutputStream(dest), null);
+		}
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_COPY_FILE")+e.getClass().getName() + '\n' + e.getMessage() );
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(MessageLocalizer.getMessage("CANNOT_COPY_FILE")+e.getClass().getName() + '\n' + e.getMessage() );
+        }
+        dest.setLastModified(src.lastModified());
+        return dest;
+    }
+    
     
     public static byte[] copyByte(InputStream fis) throws IOException
     {

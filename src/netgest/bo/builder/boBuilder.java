@@ -866,7 +866,7 @@ public class boBuilder {
 					p_builderProgress.addCurrentTaskProgress();
 					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": "+langfile.getName());
 					p_builderProgress.setCurrentTaskName(MessageLocalizer.getMessage("COPYING_TRANSLATION_FILE")+": " + langfile.getName());
-					IOUtils.copy(langfile, deployedLangFile);	
+					IOUtils.copyProperties(langfile, deployedLangFile);	
 				}
 			}
 			/////////////////////////////////////////////////////////////////////
