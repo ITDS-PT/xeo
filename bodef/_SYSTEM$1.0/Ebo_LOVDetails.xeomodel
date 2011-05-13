@@ -34,20 +34,6 @@
 	<events/>
 	<fwdObjects/>
 	<attributes>
-		<attributeText name="id">
-			<len>50</len>
-			<label>id</label>
-			<tooltip/>
-			<database>
-				<fieldname>ID</fieldname>
-				<unique>true</unique>
-				<indexfull>true</indexfull>
-				<indexed>false</indexed>
-				<tabled>false</tabled>
-				<constraint>true</constraint>
-				<binding>true</binding>
-			</database>
-		</attributeText>
 		<attributeText name="description">
 			<len>200</len>
 			<label>Descrição</label>
