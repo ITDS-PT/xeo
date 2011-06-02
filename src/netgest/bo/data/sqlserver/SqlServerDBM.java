@@ -496,7 +496,7 @@ public class SqlServerDBM extends OracleDBM {
 			if (!existsIndex(p_ctx, schemaName, "SYS_IM_EBO_TEMPLATE")) {
 				StringBuffer dml = new StringBuffer();
 				String name = p_ctx.getBoSession().getRepository().getName();
-				// Comentado para rever - Lu�s
+				// Comentado para rever - Luï¿½s
 				/*
 				 * dml.append("create index ")
 				 * .append("SYS_IM_EBO_TEMPLATE on ").append(schemaName).append(
@@ -1343,44 +1343,8 @@ public class SqlServerDBM extends OracleDBM {
 
 						String exp = node.getString("EXPRESSION");
 
-						if (exp.indexOf(',') > -1) {
-							String[] cols = exp.split(",");
-
-							for (int i = 0; i < cols.length; i++) {
-
-								if ("BOUI".equalsIgnoreCase(cols[i])
-										|| cols[i].endsWith("$")) {
-									dml = "alter table "
-											+ node.getString("TABLENAME")
-											+ " alter column " + cols[i]
-											+ " bigint not null; ";
-								} else {
-
-									dml = "alter table "
-											+ node.getString("TABLENAME")
-											+ " alter column " + cols[i]
-											+ " float not null; ";
-								}
-								executeDDL(dml, node.getString("SCHEMA"));
-							}
-
-						} else {
-
-							if ((exp.toUpperCase().indexOf("BOUI") > -1)
-									|| (exp.indexOf('$') > -1)) {
-								dml = "alter table "
-										+ node.getString("TABLENAME")
-										+ " alter column " + exp
-										+ " bigint not null; ";
-							} else {
-								dml = "alter table "
-										+ node.getString("TABLENAME")
-										+ " alter column " + exp
-										+ " float not null; ";
-							}
-
-							executeDDL(dml, node.getString("SCHEMA"));
-						}
+						String[] cols = exp.split(",");
+						makeColumnsNotNull(cndef, cols, node.getString("TABLENAME"),node.getString("SCHEMA"));
 
 						dml = "alter table " + node.getString("TABLENAME")
 								+ " add primary key ("
@@ -1532,6 +1496,55 @@ public class SqlServerDBM extends OracleDBM {
 		}
 	}
 
+	private void makeColumnsNotNull(Connection cn,String[] cols, String tablename,String schema) throws SQLException
+	{
+		String dml="";
+		PreparedStatement pstmcol=null;
+		ResultSet rs=null;
+		try
+		{
+			for (int i = 0; i < cols.length; i++) {
+	
+				if ("BOUI".equalsIgnoreCase(cols[i])
+						|| cols[i].endsWith("$")) {
+					dml = "alter table "
+							+ tablename
+							+ " alter column " + cols[i]
+							+ " bigint not null; ";
+				} else {
+					pstmcol = cn
+					.prepareStatement("select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE from INFORMATION_SCHEMA.COLUMNS "
+							+ "where  TABLE_SCHEMA=user AND upper(TABLE_NAME)=? and upper(COLUMN_NAME)=?");
+					
+					pstmcol.setString(1, tablename);
+					pstmcol.setString(2, cols[i]);
+					rs=pstmcol.executeQuery();
+					
+					String coltype="float";
+					String colsize="";
+					if (rs.next())
+					{
+						coltype=rs.getString(2);
+						colsize=rs.getString(3); 
+						if (colsize!=null && !colsize.equals("") && !colsize.toUpperCase().equals("NULL"))
+							coltype+="("+colsize+")";
+					}
+					rs.close();
+					pstmcol.close();
+					dml = "alter table "
+							+ tablename
+							+ " alter column " + cols[i]
+							+ " "+coltype+" not null; ";
+				}
+				executeDDL(dml, schema);
+			}
+		}
+		finally
+		{
+			if (pstmcol!=null) pstmcol.close();
+		}
+	}
+	
 	private void updateDictionaryTable(ResultSet node, String modo) {
 		try {
 			String repName = p_ctx.getBoSession().getRepository().getName();
@@ -1801,9 +1814,9 @@ public class SqlServerDBM extends OracleDBM {
 
 		String str2WorkAround = "alter table EBO_REFERENCES add constraint FK_EBO_REFERENCES_BOUI foreign key (REFBOUI$) references EBO_REGISTRY(BOUI)";
 
-		// martelada para criar a fk correctamente, se não o sqlserver n cria fk
+		// martelada para criar a fk correctamente, se nÃ£o o sqlserver n cria fk
 		// para a tabela EBO_REFERENCES
-		// referente à EBO_REGISTRY
+		// referente Ã  EBO_REGISTRY
 		if (str2WorkAround.equals(dml)) {
 			dml = "alter table EBO_REFERENCES add constraint FK_EBO_REFERENCES_BOUI foreign key (REFBOUI$) references EBO_REGISTRY(UI$)";
 		}
@@ -1826,7 +1839,7 @@ public class SqlServerDBM extends OracleDBM {
 						+ " - " + e.getMessage());
 				int error = e.getErrorCode();
 				if (e.getErrorCode() == 2261) {
-					// ignora: tentou colocar uma unique key que já existe com
+					// ignora: tentou colocar uma unique key que jÃ¡ existe com
 					// nome diferente
 				} else {
 					throw new SQLException(MessageLocalizer.getMessage("ERROR_EXECUTING_DDL")+":"

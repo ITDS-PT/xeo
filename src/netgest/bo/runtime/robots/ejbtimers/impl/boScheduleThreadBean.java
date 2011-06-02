@@ -99,7 +99,7 @@ public class boScheduleThreadBean
         }
         catch(Exception e)
         {
-            logger.warn(LoggerMessageLocalizer.getMessage("UNEXPECTED_ERROR_EXECUTING_EJBTIMER")+" - "+(String)timer.getInfo());
+            logger.warn(LoggerMessageLocalizer.getMessage("	")+" - "+(String)timer.getInfo());
             timer.cancel();
         }
         finally {

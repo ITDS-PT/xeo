@@ -340,10 +340,15 @@ public class boApplication
           p_boagentscontroller = new boAgentsControler( this );
           p_boagentscontroller.start();  // Em vez de run tem que set start ( Para iniciar a Thread ) 
         }
-        else
+        else if (this.getApplicationConfig().getThreadsType().equalsIgnoreCase("ejbTimers"))
         {
           p_boagentscontroller = new boAgentsControllerEjbTimer(this);
           p_boagentscontroller.start();
+        }
+        else
+        {
+        	p_boagentscontroller = new boAgentsControllerQuartz(this);
+            p_boagentscontroller.start();
         }
     }
 
