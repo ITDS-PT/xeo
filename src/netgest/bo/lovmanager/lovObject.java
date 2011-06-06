@@ -33,11 +33,9 @@ public class lovObject {
 	private String p_name = "";
 	private String p_language = null;
 	//////////
-	static EboContext ctxt;
-
+	
 	public lovObject(EboContext ctx, String name, String[] onlyThisValues)
 			throws boRuntimeException {
-		ctxt=ctx;
 		
 		p_name = name;
 		boObject lov;
@@ -497,10 +495,12 @@ public class lovObject {
 		boObject lov;	
 		String usedLanguage=null;
 		String label;
-			lov = boObject.getBoManager().loadObject(ctxt, "Ebo_LOV",
-					"name='" + lovName + "'");	
-			AttributeHandler fileName=lov.getAttribute("xeolovfile");
-			if (fileName!=null){
+		EboContext ctx = boApplication.currentContext().getEboContext();
+		if (ctx != null){
+		lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV",
+				"name='" + lovName + "'");	
+		AttributeHandler fileName=lov.getAttribute("xeolovfile");
+		if (fileName!=null){
 				
 				boApplication app = boApplication
 						.getApplicationFromStaticContext("XEO");
@@ -519,15 +519,20 @@ public class lovObject {
 						.getLanguagesMap();
 				
 			
-		if (usedLanguage != null
-				&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
-						+ ".properties")) {
-			Properties prop = map.get(fileName + "_"
-					+ usedLanguage.toUpperCase() + ".properties");
-			label = prop.getProperty(lovName+"."+value);
-		} else {
+			if (usedLanguage != null
+					&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
+							+ ".properties")) {
+				Properties prop = map.get(fileName + "_"
+						+ usedLanguage.toUpperCase() + ".properties");
+				label = prop.getProperty(lovName+"."+value);
+			} else {
+				label = defaultDescription;
+			}
+		}
+		else
 			label = defaultDescription;
-		}}else
+		}
+		else
 			label = defaultDescription;
 
 		return label;
