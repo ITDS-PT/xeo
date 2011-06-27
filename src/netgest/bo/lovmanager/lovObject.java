@@ -453,12 +453,14 @@ public class lovObject {
 	 *            The code of the
 	 * 
 	 * @return A string with the description of the given code
+	 * 
+	 * @throws boRuntimeException If the description could not be loaded from database 
 	 */
-	public String getDescriptionByCode(String code) {
+	public String getDescriptionByCode(String code) throws boRuntimeException {
 		beforeFirst();
 		while (next()) {
 			if (getCode().equals(code))
-				return getCode();
+					return getDescription();
 		}
 		return null;
 	}
