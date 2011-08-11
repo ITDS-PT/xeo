@@ -225,28 +225,8 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
      * returns the label of the attribute in the current language
      */
     public String getLabel()
-    {
-    	defHandler = getBoDefHandler();
-		language = defHandler.getBoLanguage();
-		nome = defHandler.getName();
-		AttributeName =this.getName();
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		
-		
-	  String label=	boDefHandlerImpl.getTranslation(nome, p_label,METHOD_PROPERTY, language,AttributeName,"label");
-		return label;
+    {    			
+		return boDefHandlerImpl.getTranslation(getBoDefHandler().getBoName(), p_label,METHOD_PROPERTY, this.getName(),"label");
     }
 
     public boDefXeoCode getHiddenWhen()

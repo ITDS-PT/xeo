@@ -27,6 +27,7 @@ import netgest.bo.def.boDefClsState;
 import netgest.bo.def.boDefDatabaseObject;
 import netgest.bo.def.boDefForwardObject;
 import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefInterface;
 import netgest.bo.def.boDefMethod;
 import netgest.bo.def.boDefOPL;
 import netgest.bo.def.boDefViewer;
@@ -919,10 +920,7 @@ public class boDefHandlerImpl extends boDefHandler {
 	 * 
 	 */
 	public String getLabel() {		
-		language=p_local_language;
-		nome = this.getName();	
-	    String label=	boDefHandlerImpl.getTranslation(nome, p_label,null, language,null,"label");
-	    return label;		
+		return boDefHandlerImpl.getTranslation(this.getName(), p_label,null, null,"label");	    	
 	}
 
 	public String getModifyProtocol() {
@@ -945,28 +943,8 @@ public class boDefHandlerImpl extends boDefHandler {
 		return p_versioning;
 	}
 
-	public String getDescription() {
-		nome = this.getName();		
-		
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		else
-			language=p_local_language;
-		
-	    String description=	boDefHandlerImpl.getTranslation(nome, p_description,null, language,null,"description");
-	
-		return description;
+	public String getDescription() {		
+		return boDefHandlerImpl.getTranslation(this.getName(), p_description,null, null,"description");
 	}
 
 	public String getCARDID() {
@@ -1655,33 +1633,63 @@ public class boDefHandlerImpl extends boDefHandler {
 	 * @return(String)label, description or tooltip in the desired language, or the default value
 	 * in case a suitable translation does not exist
 	 */
-public static String getTranslation(String className, String defaultValue, String type, String language,String attribute, String whichText)
-{	
-	boApplication app = boApplication
-			.getApplicationFromStaticContext("XEO");
-	String usedLanguage = app.getApplicationLanguage();
-			if(boApplication.currentContext() != null)
-				if(boApplication.currentContext().getEboContext() != null)
-				if(boApplication.currentContext().getEboContext().getBoSession() != null)
-			{
-				boSessionUser user=boApplication.currentContext().getEboContext().getBoSession().getUser();
-				if(user.getLanguage()!=null && user.getLanguage()!="")
+	public static String getTranslation(String className, String defaultValue, String type,String attribute, String whichText)
+	{	
+		String toRet=null;
+		boApplication app = boApplication
+				.getApplicationFromStaticContext("XEO");
+		
+		String usedLanguage = app.getApplicationLanguage();
+	
+		if(boApplication.currentContext() != null)
+			if(boApplication.currentContext().getEboContext() != null)
+			if(boApplication.currentContext().getEboContext().getBoSession() != null)
+		{
+			boSessionUser user=boApplication.currentContext().getEboContext().getBoSession().getUser();
+			if(user.getLanguage()!=null && !user.getLanguage().equals(""))
 				usedLanguage = user.getLanguage();
-			}	
+		}	
+				
 		HashMap<String,Properties> map = boDefHandlerImpl.getLanguagesMap();
-		if (usedLanguage != null && map.containsKey(className+"_"+usedLanguage.toUpperCase()+".properties")){
-			Properties prop = map.get(className+"_"+usedLanguage.toUpperCase()+".properties");
+		
+		if (usedLanguage != null && map.containsKey(className+"_"+usedLanguage+".properties")){
+			Properties prop = map.get(className+"_"+usedLanguage+".properties");
 			if (type!=null){
 				if(prop.getProperty(type + "." + attribute + "." + whichText)!=null)
-					if(prop.getProperty(type + "." + attribute + "." + whichText)!="")	
-						return prop.getProperty(type + "." + attribute + "." + whichText);			
-			}else if(prop.getProperty(whichText)!="")
+					if(prop.getProperty(type + "." + attribute + "." + whichText).equals(""))	
+						toRet=prop.getProperty(type + "." + attribute + "." + whichText);			
+			}else if(!prop.getProperty(whichText).equals(""))
 				if(prop.getProperty(whichText)!=null)
-				return prop.getProperty(whichText);
+					toRet=prop.getProperty(whichText);
 		
 		}
-			return defaultValue;			
-}
+		if (toRet==null || toRet.equals(""))
+		{
+			//getSuper
+			boDefHandler currentbo= boDefHandlerImpl.getBoDefinition(className);
+			if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals(""))
+			{
+				toRet=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
+			}
+			//Interfaces
+			if (toRet==null || toRet.equals(""))
+			{
+				for (String interf:currentbo.getImplements())
+				{
+					boDefInterface interfimpl=boDefInterfaceImpl.getInterfaceDefinition(interf);
+					toRet=getTranslation(interfimpl.getName(), defaultValue, type, attribute, whichText);
+					if (toRet!=null && !toRet.equals(""))
+						break;
+				}
+			}
+			if (toRet==null || toRet.equals(""))				
+				return defaultValue;
+			else
+				return toRet;
+		}
+		else
+			return toRet;
+	}
 
 	public ngtXMLHandler getXmlNode() {
 		return xmlNode;

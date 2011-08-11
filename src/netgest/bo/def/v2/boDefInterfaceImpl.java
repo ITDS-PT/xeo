@@ -148,51 +148,11 @@ public class boDefInterfaceImpl extends boDefHandlerImpl implements boDefInterfa
      * 
      * 
      */
-    public String getLabel(){
-    	String language = this.getBoLanguage();
-		String nome =this.getBoName();
-				
-		String lab=p_implName;
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		
-		
-		 String label=boDefHandlerImpl.getTranslation(nome, lab,null, language,null,"label");
-		
-		 return label;  	
+    public String getLabel(){						
+		 return boDefHandlerImpl.getTranslation(this.getBoName(), p_implName,null,null,"label");  	
     }
     public String getDescription(){
-    	String language = this.getBoDefaultLanguage();
-		String nome =this.getBoName();
-		String AttributeName =this.getName();
-		String defaultValue=this.p_implName;
-		String ATTRIBUTE_PROPERTY="description";
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-	  String label=	boDefHandlerImpl.getTranslation(nome, defaultValue, ATTRIBUTE_PROPERTY, language,AttributeName,"description");
-		return label;  	
+	   return boDefHandlerImpl.getTranslation(this.getBoName(), this.p_implName, "description", this.getName(),"description");
     }
     ///////////////////
     

@@ -777,31 +777,8 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 	
 	
 
-	public String getLabel() {
-		
-		defHandler = getBoDefHandler();
-	    language = defHandler.getBoLanguage();
-		nome = defHandler.getName();
-		AttributeName =this.getName();
-		
-		
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		
-		String label;	
-	        label=	boDefHandlerImpl.getTranslation(nome, p_label, ATTRIBUTE_PROPERTY, language,AttributeName,"label");
-		return label;
+	public String getLabel() {		
+		return boDefHandlerImpl.getTranslation(getBoDefHandler().getName(), p_label, ATTRIBUTE_PROPERTY, this.getName(),"label");
 	}
 			
 			/////////////////////////////
@@ -871,54 +848,14 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 	 * returns the description of the current attribute in the current language
 	 */
 	
-	public String getDescription() {
-		defHandler = getBoDefHandler();
-		language = defHandler.getBoLanguage();
-		nome = defHandler.getName();
-		AttributeName =this.getName();
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		
-		String description=	boDefHandlerImpl.getTranslation(nome, p_description, ATTRIBUTE_PROPERTY, language,AttributeName,"description");				
-		return description;
+	public String getDescription() {		
+		return boDefHandlerImpl.getTranslation(getBoDefHandler().getName(), p_description, ATTRIBUTE_PROPERTY, this.getName(),"description");
 	}
 	/**
 	 * returns the tooltip of the current attribute in the current language
 	 */
-	public String getTooltip() {
-		defHandler = getBoDefHandler();
-		language = defHandler.getBoLanguage();
-		nome = defHandler.getName();
-		AttributeName =this.getName();
-		
-		if (boApplication.currentContext() != null)
-		{
-			boContext ctx = boApplication.currentContext();
-			if (ctx.getEboContext() != null){
-				boSession session = ctx.getEboContext().getBoSession();
-				if (session != null){
-					boSessionUser boUser = session.getUser();
-					if(boUser.getLanguage()!=null);{			
-						language=boUser.getLanguage();			
-					}	
-				}
-			}
-		}
-		
-	  String tooltip=	boDefHandlerImpl.getTranslation(nome, p_tooltip, ATTRIBUTE_PROPERTY, language,AttributeName,"tooltip");
-		
-		return tooltip;
+	public String getTooltip() {		
+		return boDefHandlerImpl.getTranslation(getBoDefHandler().getName(), p_tooltip, ATTRIBUTE_PROPERTY, this.getName(),"tooltip");
 	}
 
 	public String getReferencedObjectName() {
