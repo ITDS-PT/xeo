@@ -296,6 +296,13 @@ public abstract class boDefHandler implements boDef
     
     public abstract boolean getBoIsSubBo();
     
+    /**
+     * 
+     * Retrieves the name of the XEO Model that is being extended
+     * by the current XEO Model
+     * 
+     * @return The name of the XEO Model or null
+     */
     public abstract String getBoSuperBo();
 
     public abstract String getBoVersion();
