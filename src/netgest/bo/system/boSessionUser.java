@@ -1,6 +1,9 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * @Company Enlace3
@@ -18,6 +21,8 @@ public class boSessionUser
     String srName;
     String email;
     String notify;
+    private String themeName = "";
+    private Map<String,String> themeFiles = new HashMap<String, String>();
     int securityLevel;
     long[] groups;
     long[] queues;
@@ -120,9 +125,45 @@ public class boSessionUser
     	language=lang;
     }
 
+    /**
+     * 
+     * Retrieves the Theme name for the user
+     * 
+     * @return The name of the theme
+     */
+    public String getThemeName(){
+    	return themeName;
+    }
 
+    /**
+     * 
+     * Sets the session theme name
+     * 
+     * @param theme
+     */
+    public void setTheme(String theme){
+    	this.themeName = theme;
+    }
+    
+    /**
+     * 
+     * Retrieves the list of files to include in this theme
+     * 
+     * @return A map of id -> filePath
+     */
+    public Map<String,String> getThemeFiles(){
+    	return themeFiles;
+    }
 
-
-
+    /**
+     * 
+     * Sets the list of files to include in this theme
+     * 
+     * @param files
+     */
+    public void setThemeFiles(Map<String,String> files){
+    	themeFiles = files;
+    }
+    
 
 }

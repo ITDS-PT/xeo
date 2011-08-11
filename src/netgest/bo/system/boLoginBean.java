@@ -1,7 +1,9 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.ejb.SessionBean;
@@ -11,13 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.RepositoryConfig;
-import netgest.bo.def.boDefHandler;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.ObjectListManager;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.login.boMD5Login;
+import netgest.bo.xeomodels.system.Theme;
+import netgest.bo.xeomodels.system.ThemeIncludes;
 import netgest.io.jcr.ECMRepositoryConnection;
 import netgest.utils.MD5Utils;
 
@@ -87,6 +91,42 @@ public class boLoginBean implements SessionBean  {
             }
             else
             	user.language =null;
+            
+            //If the user has a selected theme, choose that theme
+            if (perf.getAttribute("theme") != null && !"".equalsIgnoreCase(perf.getAttribute("theme").getValueString())){
+            	boObject current = perf.getAttribute("theme").getObject();
+            	user.setTheme(current.getAttribute(Theme.NAME).getValueString());
+            	
+            	/*bridgeHandler filesIncludeHandler = current.getBridge(Theme.FILES);
+            	Map<String,String> files = new HashMap<String, String>();
+            	filesIncludeHandler.beforeFirst();
+            	while(filesIncludeHandler.next()){
+            		boObject currentFileInclude = filesIncludeHandler.getObject();
+            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
+            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
+            		files.put(id, path);
+            	}
+            	user.setThemeFiles(files);*/
+            	
+            }
+            //If the user does not have a theme, try to select the default theme 
+            else{
+            	boObjectList list = ObjectListManager.list(ctx, "select Theme where defaultTheme = '1'");
+            	list.beforeFirst();
+            	list.next();
+            	boObject defaultTheme = list.getObject();
+            	user.setTheme(defaultTheme.getAttribute(Theme.NAME).getValueString());
+            	bridgeHandler filesIncludeHandler = defaultTheme.getBridge(Theme.FILES);
+            	Map<String,String> files = new HashMap<String, String>();
+            	filesIncludeHandler.beforeFirst();
+            	while(filesIncludeHandler.next()){
+            		boObject currentFileInclude = filesIncludeHandler.getObject();
+            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
+            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
+            		files.put(id, path);
+            	}	
+            	user.setThemeFiles(files);
+            }
             
             user.userName = perf.getAttribute("username").getValueString();
             user.boui = perfboui;
