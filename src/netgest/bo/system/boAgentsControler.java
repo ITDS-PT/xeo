@@ -57,7 +57,8 @@ public class boAgentsControler extends Thread implements IboAgentsController
     {
         try
         {
-
+        	System.out.print("started!");
+        	Thread.sleep(30000);
             while( !isInterrupted() && checkXeo() )
             {
                 String[] threads_name = p_boapp.getApplicationConfig().getThreadsName();
@@ -189,7 +190,7 @@ public class boAgentsControler extends Thread implements IboAgentsController
             final InitialContext ic = new InitialContext();
             ic.lookup("boLogin");  // Test if OC4J is up and running;
         }
-        catch( NamingException e )
+        catch( Throwable e )
         {
             ret = false;
         }

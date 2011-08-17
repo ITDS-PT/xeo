@@ -85,9 +85,9 @@ public class Logger {
 	 */
 	public void log( LoggerLevel level, String message, Throwable t, Object... messageArgs ) {
 		if( isLoggable( level ) ) {
-			if( message != null && messageArgs != null )
+			if( message != null && (messageArgs != null && messageArgs.length > 0 ) ) {
 				message = format( message, messageArgs );
-			
+			}
 			internalLogger.log( level.getLevel(), message, t );
 		}
 	}
@@ -442,10 +442,15 @@ public class Logger {
 	 * @return the string
 	 */
 	private static final String format( String message, Object... args ) {
-		StringBuilder sb = new StringBuilder();
-		Formatter f = new Formatter( sb, Locale.getDefault() );
-		f.format( message , args );
-		return sb.toString();
+		try {
+			StringBuilder sb = new StringBuilder();
+			Formatter f = new Formatter( sb, Locale.getDefault() );
+			f.format( message , args );
+			return sb.toString();
+		}
+		catch( Throwable e ) {
+			return message;
+		}
 	}
 	
 	

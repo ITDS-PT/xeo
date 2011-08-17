@@ -17,6 +17,7 @@ import netgest.bo.data.ReaderAdapter;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
+import netgest.system.spy.XEOSpyConnection;
 
 
 /**
@@ -31,6 +32,8 @@ public class OracleDriver implements Driver {
 	private String p_ddlds;
     private String p_dmlds;
     private String p_name;
+    
+    private static final boolean spyConnections = false; 
 
     /**
      *
@@ -75,6 +78,10 @@ public class OracleDriver implements Driver {
             try
             {
                 ret = getDataSource(dataSource).getConnection(username, password);
+                
+                if( spyConnections )
+                	ret = new XEOSpyConnection(ret);
+                
                 // IMBR
                 // ret.setAutoCommit(false);
                 return ret;
@@ -106,6 +113,8 @@ public class OracleDriver implements Driver {
             try
             {
                 ret = getDataSource(dataSource).getConnection();
+                if( spyConnections )
+                	ret = new XEOSpyConnection(ret);
                 // IMBR
 //                ret.setAutoCommit(false);
 

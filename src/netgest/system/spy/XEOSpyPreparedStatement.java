@@ -74,7 +74,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
         long timeI = System.currentTimeMillis();
         boolean aux = prepStmtPassthru.execute();
         long timeF = System.currentTimeMillis() - timeI;
-        if(timeF > 3000){
+        if(timeF > 5000){
             writeToLog(timeF, preparedQuery);
         }
         return aux;
@@ -85,8 +85,8 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
         String s = getQueryFromPreparedStatement();
         ResultSet rs = new XEOSpyResultSet(prepStmtPassthru.executeQuery(), this, preparedQuery, s);
         long timeF = System.currentTimeMillis() - timeI;
-        if(timeF > 3000){
-            writeToLog(timeF, s);
+        if(timeF > 5000){
+    		writeToLog(timeF, s);
         }
         rsList.add(rs);
         return rs;
@@ -96,7 +96,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
         long timeI = System.currentTimeMillis();
         int aux = prepStmtPassthru.executeUpdate();
         long timeF = System.currentTimeMillis() - timeI;
-        if(timeF > 3000){
+        if(timeF > 5000){
             writeToLog(timeF, preparedQuery);
         }
         return aux;
@@ -360,7 +360,7 @@ public class XEOSpyPreparedStatement extends XEOSpyStatement implements Prepared
         return preparedQuery;
     }
 
-    private static void writeToLog(long time, String query){
+    protected static void writeToLog(long time, String query){
         logger.warn(LoggerMessageLocalizer.getMessage("DELAYED_QUERY")+" (" + (float)(Math.round((float)(time)/100f))/10f +"s): " + query);
     }
 

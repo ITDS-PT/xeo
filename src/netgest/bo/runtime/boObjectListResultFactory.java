@@ -57,19 +57,22 @@ public class boObjectListResultFactory  {
         Object[] sqlargs,String orderby,int page,int pagesize,String fulltext,
         String[] letter_filter,String userQuery,boolean useSecurity) 
     {
-    	
+//        long init = System.currentTimeMillis();
         ArrayList args = argumentsToArrayList( sqlargs );
         if( args == null )
         {
             args = new ArrayList();
         }
-    	String sql_to_execute = composeSqlQuery(ctx, type, boql, args, orderby, fulltext, letter_filter, userQuery, useSecurity);
+
+        String sql_to_execute = composeSqlQuery(ctx, type, boql, args, orderby, fulltext, letter_filter, userQuery, useSecurity);
         
         DataSet        dr=null;
         if( sql_to_execute.indexOf("Ocustomer") != -1 )
             sql_to_execute   = sql_to_execute.replaceAll( "SELECT  Ocustomer.\"BOUI\"","SELECT  \\*" );
-        dr = DataManager.executeNativeQuery( ctx, "DATA", sql_to_execute, page, pagesize, args );
 
+//        System.out.println( "boObjectList.getResultSet" + (System.currentTimeMillis()-init) );
+        dr = DataManager.executeNativeQuery( ctx, "DATA", sql_to_execute, page, pagesize, args );
+        
         return new DataResultSet( dr );
     }
 
@@ -209,7 +212,7 @@ public class boObjectListResultFactory  {
                 XEOQLModifier qm = new XEOQLModifier( sb.toString(), args );
             	String wp = qm.getWherePart();
             	
-            	
+            	/*
                 switch( dutl.getQueryLimitStatementPosition() ) {
                 	case DriverUtils.QUERY_LIMIT_ON_END_OF_STATEMENT:
                 		onEnd = dutl.getQueryLimitStatement( 5000 );
@@ -219,14 +222,23 @@ public class boObjectListResultFactory  {
                 		break;
                 	case DriverUtils.QUERY_LIMIT_ON_WHERE_CLAUSE:
                 		//TODO: On where clause only suports Oracle sintaxe;
-                    	if( wp.length() > 0 ) {
-                    		wp += " AND [rownum] < 5000";
-                    	} else {
-                    		wp += " [rownum] < 5000";
-                    	}
+                		if( sb.toString().trim().startsWith("{") ) {
+	                    	if( wp.length() > 0 ) {
+	                    		wp += " AND rownum < 5000";
+	                    	} else {
+	                    		wp += " rownum < 5000";
+	                    	}
+                		}
+                		else {
+	                    	if( wp.length() > 0 ) {
+	                    		wp += " AND [rownum] < 5000";
+	                    	} else {
+	                    		wp += " [rownum] < 5000";
+	                    	}
+                		}
                 		break;
                 }
-            	
+            	*/
             	String objAtt = orderby;
             	String uOrderBy = orderby.toUpperCase();
         		if ( uOrderBy.endsWith(" DESC") ) {
@@ -306,7 +318,14 @@ public class boObjectListResultFactory  {
             }
         	
         	String sql = composeSqlQuery(ctx, TYPE_BOQL, boql, args, "", fulltext, letter_filter, userQuery, useSecurity);
-            sql = "SELECT COUNT(*) FROM ("+sql+") SQL_COUNT";
+        	
+        	XEOQLModifier ql = new XEOQLModifier(sql, args);
+        	ql.setFieldsPart( "COUNT(*)" );
+        	if( ql.getFieldsPartParameters() != null ) {
+        		ql.getFieldsPartParameters().clear();
+        	}
+        	args.clear();
+            sql = ql.toBOQL( args );
             cn = ctx.getConnectionData();
             pstm = cn.prepareStatement(sql);
 

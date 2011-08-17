@@ -13,17 +13,36 @@ import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
+import netgest.bo.system.boLoginBean;
+import netgest.bo.system.boLoginException;
+import netgest.bo.system.boSession;
 
 public class XEOPreferenceStore implements PreferenceStore {
 	
 	private static final Logger logger = Logger.getLogger(XEOPreferenceStore.class);
+	
+	private static boolean UPDATED_MSG = false;
 	
 	private static final Object parseValue( boObject pobj ) throws boRuntimeException {
 		String value;
 		String type;
 		
 		type	 = pobj.getAttribute("valueType").getValueString();
-		value 	= pobj.getAttribute("value").getValueString();
+		try {
+			if( "1".equals(pobj.getAttribute("isLob").getValueString()) ) {
+				value 	= pobj.getAttribute("clobValue").getValueString();
+			}
+			else {
+				value 	= pobj.getAttribute("value").getValueString();
+			}
+		}
+		catch( Exception e ) {
+			if( !UPDATED_MSG ) {
+				UPDATED_MSG = true;
+				logger.severe( "The object PreferenceStore is out of date (Definition or Database Tables). See error stack for details.",e );
+			}
+			value 	= pobj.getAttribute("value").getValueString();
+		}
 		
 		if( "java.lang.String".equals( type ) ) {
 			return value;
@@ -82,28 +101,50 @@ public class XEOPreferenceStore implements PreferenceStore {
 		String query;
 		query = getQuery( p, args );
 		
+		boolean localContext = false;
+		boSession session = null;
 		
 		EboContext ctx = boApplication.currentContext().getEboContext();
-		if( ctx != null ) {
-			try {
-				boObjectList list = boObjectList.list(ctx, query,
-						args.toArray(), 1, 10000, false);
+		try {
+			if( ctx == null ) {
+				localContext = true;
+				session = boApplication.getApplicationFromStaticContext("XEO")
+					.boLogin("SYSUSER",  boLoginBean.getSystemKey() );
+				ctx = session.createRequestContext(null, null, null);
+			}
 
-				while (list.next()) {
-					ret = true;
-					boObject pobj = list.getObject();
-
-					p.values.put(pobj.getAttribute("key").getValueString(),
-							parseValue(pobj));
-
+			if( ctx != null ) {
+				try {
+					boObjectList list = boObjectList.list(ctx, query,
+							args.toArray(), 1, 10000, false);
+	
+					while (list.next()) {
+						ret = true;
+						boObject pobj = list.getObject();
+	
+						p.values.put(pobj.getAttribute("key").getValueString(),
+								parseValue(pobj));
+	
+					}
+				} catch (Exception e) {
+					logger.severe(LoggerMessageLocalizer.getMessage("ERROR_LOADING_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("CAUSED_BY")+":", e, p.getName() );
+					ret = false;
 				}
-			} catch (Exception e) {
-				logger.severe(LoggerMessageLocalizer.getMessage("ERROR_LOADING_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("CAUSED_BY")+":", e, p.getName() );
-				ret = false;
+			}
+			else {
+				logger.severe(LoggerMessageLocalizer.getMessage("FAILED_TO_LOAD_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("THERE_IS_NO_EBOCONTEXT_ASSOCIATED_TOTHIS_THREAD"), p.getName() );
 			}
 		}
-		else {
-			logger.severe(LoggerMessageLocalizer.getMessage("FAILED_TO_LOAD_PREFERENCES")+" [%s]. "+LoggerMessageLocalizer.getMessage("THERE_IS_NO_EBOCONTEXT_ASSOCIATED_TOTHIS_THREAD"), p.getName() );
+		catch( boLoginException e ) {
+			throw new RuntimeException("Failed to login as SYSUSER loading preference [" + p.getName() + "]!");
+		}
+		finally {
+			if ( localContext ) {
+				if( ctx != null )
+					ctx.close();
+				if( session != null )
+					session.closeSession();
+			}
 		}
 		return ret;
 	}
@@ -142,30 +183,59 @@ public class XEOPreferenceStore implements PreferenceStore {
 						
 						if( p.containsPreference( key ) ) {
 							// Update
-							o.getAttribute("valueType").setValueString( p.getValueType(key) );
-							o.getAttribute("value").setValueString( encodeValue(p, key) );
-							o.update();
+							try {
+								o.getAttribute("valueType").setValueString( p.getValueType(key) );
+								
+								String encodedValue = encodeValue(p, key);
+								if( encodedValue != null && encodedValue.getBytes("UTF-8").length >= 3900 ) {
+									o.getAttribute("isLob").setValueString( "1" );	
+									o.getAttribute("clobValue").setValueString( encodedValue );	
+									o.getAttribute("value").setValueString( null );	
+								}
+								else {
+									o.getAttribute("isLob").setValueString( "0" );	
+									o.getAttribute("clobValue").setValueString( null );	
+									o.getAttribute("value").setValueString( encodedValue );	
+								}
+								o.update();
+							}
+							catch( Exception e ) {
+								e.printStackTrace();
+							};
 						}
 						else {
 							// Delete
 							o.destroy();
 						}
 					}
-					
 					Iterator<String> it = p.getKeys();
 					while( it.hasNext() ) {
 						key = it.next();
 						if( !savedPrefs.containsKey( key ) ) {
-							boObject obj = boObject.getBoManager().createObject(ctx, "PreferenceStore");
-							obj.getAttribute("name").setValueString( p.getName() );
-							obj.getAttribute("key").setValueString( key );
-							obj.getAttribute("contextKey").setValueString( p.getCustomContext() );
-							obj.getAttribute("user").setValueString( p.getUser() );
-							obj.getAttribute("profile").setValueString( p.getProfile() );
-							obj.getAttribute("preferenceType").setValueString( null );
-							obj.getAttribute("valueType").setValueString( p.getValueType( key ) );
-							obj.getAttribute("value").setValueString( encodeValue(p, key) );
-							obj.update();
+							try {
+								boObject obj = boObject.getBoManager().createObject(ctx, "PreferenceStore");
+								obj.getAttribute("name").setValueString( p.getName() );
+								obj.getAttribute("key").setValueString( key );
+								obj.getAttribute("contextKey").setValueString( p.getCustomContext() );
+								obj.getAttribute("user").setValueString( p.getUser() );
+								obj.getAttribute("profile").setValueString( p.getProfile() );
+								obj.getAttribute("preferenceType").setValueString( null );
+								obj.getAttribute("valueType").setValueString( p.getValueType( key ) );
+								
+								String encodedValue = encodeValue(p, key);
+								if( encodedValue != null && encodedValue.getBytes("UTF-8").length >= 3900 ) {
+									obj.getAttribute("isLob").setValueString( "1" );	
+									obj.getAttribute("clobValue").setValueString( encodedValue );	
+									obj.getAttribute("value").setValueString( null );	
+								}
+								else {
+									obj.getAttribute("isLob").setValueString( "0" );	
+									obj.getAttribute("clobValue").setValueString( null );	
+									obj.getAttribute("value").setValueString( encodedValue );	
+								}
+								obj.update();
+							}
+							catch( Exception e ) {};
 						}
 					}
 					commit = true;
@@ -230,6 +300,7 @@ public class XEOPreferenceStore implements PreferenceStore {
 		else {
 			sqlQuery.append( " AND contextKey is NULL" );
 		}
+		sqlQuery.append( " AND 0 < " + System.currentTimeMillis() );
 		return sqlQuery.toString();
 	}
 }

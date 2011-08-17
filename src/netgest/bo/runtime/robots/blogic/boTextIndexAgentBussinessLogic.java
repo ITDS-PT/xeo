@@ -82,22 +82,17 @@ public class boTextIndexAgentBussinessLogic
               long init = System.currentTimeMillis();
               int counter = 0; 
               itens = queue.pop( ctx, cn, 100 );
-              ctx.close();
-              cn = null;
-              ctx = null;
+              
+              if( itens != null )
+            	  boObject.getBoManager().preLoadObjects( ctx, itens );
+              
               while( itens != null && counter < itens.length )
               {
                   try
                   {
-                          if (ctx==null)ctx = session.createRequestContext(null,null,null);
-                          if( cn == null )
-                          {
-                              cn = ctx.getConnectionData();
-                          }                          
-                          boObject.getBoManager().preLoadObjects( ctx, itens );
+                	  	  boolean ok = false;
                           ctx.beginContainerTransaction();
                           long startTime = System.currentTimeMillis();
-                          boolean commit = false;
                           try
                           {
                               wasupdated = true;
@@ -112,26 +107,40 @@ public class boTextIndexAgentBussinessLogic
                                   textIndex.getAttribute("uiClass").setValueString( name );
                                   textIndex.update();
                                   ctx.clearObjectInTransaction();
+                                  ok = true;
                               }
                           }
                           catch (boRuntimeException e)
                           {
+                        	  ctx.rollbackContainerTransaction();
+                        	  ctx.beginContainerTransaction();
                               if ( e.getErrorCode().equals("BO-3015") )
                               {
                                   boObject textIndex = boObject.getBoManager().loadObject( ctx, "SELECT Ebo_TextIndex WHERE UI=?",new Object[] { new Long( itens[counter] )});
                                   if(textIndex.exists()) 
                                   {
-                                      textIndex.destroy();
+                                	  try {
+                                		  textIndex.destroy();
+                                	  }
+                                	  catch( Exception ex1 ) {
+                                		  ctx.rollbackContainerTransaction();
+                                		  ctx.beginContainerTransaction();
+                                	  };
                                   }
                               }
                               else
                               {
-                                  throw e;
+                        		  ctx.rollbackContainerTransaction();
+                        		  ctx.beginContainerTransaction();
                               }
                           }
-
-                          workTime = System.currentTimeMillis()-startTime;                                                                
-                          queue.markAsProcessed( cn, itens[ counter ], 1, null );
+                          workTime = System.currentTimeMillis()-startTime;      
+                          if( ok ) {
+                        	  queue.markAsProcessed( cn, itens[ counter ], 1, null );
+                          } else {
+                        	  queue.markAsProcessed( cn, itens[ counter ], 9, "Erro" );
+                          }
+                        	  
                           ctx.commitContainerTransaction();
                           counter++;
 
@@ -163,7 +172,7 @@ public class boTextIndexAgentBussinessLogic
                             ctx.rollbackContainerTransaction();
                           }
                       }
-                      throw e;
+//                      throw e;
                   }
                   finally
                   {
@@ -182,13 +191,9 @@ public class boTextIndexAgentBussinessLogic
                         counter = 0;
                         itens = queue.pop( ctx, cn, 100 );
                     }
-                    ctx.close();
-                    ctx.releaseAllObjects();
-                    cn.close();
-                    ctx=null;
-                    cn=null;
                   }
               }
+              ctx.releaseAllObjects();
               if( itens != null && itens.length > 0 ) 
               {
                   logger.finer(  LoggerMessageLocalizer.getMessage("TEXTINDEXER_TOOK")+" ["+ (System.currentTimeMillis()-init) +" ms] "+LoggerMessageLocalizer.getMessage("INDEXING")+" [" + itens.length + "] itens...");

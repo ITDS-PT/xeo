@@ -324,7 +324,10 @@ public class QLParser  {
 */    
   public boolean isObjectExtended()
   {
-    return prod().getExt();
+	  if( this.objDef != null ) {
+		  return false;
+	  }
+	  return prod().getExt();
   }
 
 /**
@@ -448,7 +451,7 @@ public class QLParser  {
 		  return this.objDef;
 	  }
 	  else
-      return prod().getObjectDef();
+		  return prod().getObjectDef();
   }
 
     private QLProducer prod()
@@ -997,7 +1000,10 @@ public class QLParser  {
                  				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
          					}
          				}
+         				else neworderby+=currClause+",";         				
          			}
+         			else neworderby+=currClause+",";
+         			
      				if (thisobjdef!=null)
      				{
 		        		boDefAttribute attdef=thisobjdef.getAttributeRef(currClause);
@@ -1041,7 +1047,6 @@ public class QLParser  {
 		        		}
 		        		else neworderby+=currClause+",";			        			
      				}
-     			
          		}
          		else neworderby+=currClause+",";
          	}

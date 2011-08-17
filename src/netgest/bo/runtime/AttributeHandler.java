@@ -161,10 +161,14 @@ public abstract class AttributeHandler implements boIEvents
 				e.printStackTrace();
 			}			
 		}
-    	else {
+    	else if ( newVal != null ) {
     		//update file
     		p_valueIFileECM.updateFile(newVal);    		
     	}
+    	else {
+    		p_valueIFileECM = null;
+    	}
+		
     	return newVal;    	
     }
     

@@ -7,7 +7,7 @@
 		<implements/>
 		<database/>
 		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
+		<textIndex active="false" appendChilds="false" deep="1">
 			<process/>
 		</textIndex>
 		<description>uiListBar</description>
@@ -49,9 +49,16 @@
 			<len>255</len>
 		</attributeText>
 		<attributeText name="value">
-			<label>Tipo</label>
+			<label>Value</label>
 			<len>4000</len>
 		</attributeText>
+		<attributeBoolean name="isLob">
+			<label>Is Clob</label>
+		</attributeBoolean>
+		<attributeLongText name="clobValue">
+			<label>Value</label>
+			<len>4000</len>
+		</attributeLongText>
 	</attributes>
 	<viewers/>
 </xeoModel>

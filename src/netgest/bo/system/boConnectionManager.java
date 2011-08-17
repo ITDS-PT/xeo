@@ -3,12 +3,11 @@ package netgest.bo.system;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.naming.InitialContext;
-
 import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
@@ -19,9 +18,7 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
-import netgest.bo.system.Logger;
 
 
 /**
@@ -57,6 +54,8 @@ public class boConnectionManager
     private EboContext p_ctx;
 
     private Driver p_sysdriver;
+    
+    private Throwable transactionStack;
 
     public static final boolean toSpy = false;
 //    public int callTimes = 0;
@@ -175,8 +174,15 @@ public class boConnectionManager
                     e.printStackTrace();
                 }
             }
+            try {
+    			if (transactionStack != null && isContainerTransactionActive()) {
+    				logger.warn( "Transaction not commited/rollbacked!!!!!! The transaction was created on: ", transactionStack  );
+//    				rollbackContainerTransaction();
+    			}
+    		} catch (boRuntimeException e) {
+    			logger.warn("Error forcing rollback", e);
+    		}
         }
-
         p_connections = null;
     }
 
@@ -230,7 +236,8 @@ public class boConnectionManager
                 UserTransaction ut = (UserTransaction) ic.lookup("java:comp/UserTransaction");
                 if (ut.getStatus() == Status.STATUS_NO_TRANSACTION)
                 {
-                    ut.begin();
+                	transactionStack = new Throwable();
+                	ut.begin();
                     p_isInContainerTrans = true;
                 }
                 p_ctx.beginTransaction();
@@ -298,7 +305,7 @@ public class boConnectionManager
             final InitialContext ic = new InitialContext();
             UserTransaction ut = (UserTransaction) ic.lookup("java:comp/UserTransaction");
 
-            if (p_isInContainerTrans)
+            if (p_isInContainerTrans || ut.getStatus() == Status.STATUS_ACTIVE )
             {
                 if (ut.getStatus() == Status.STATUS_MARKED_ROLLBACK)
                 {
@@ -310,7 +317,17 @@ public class boConnectionManager
                     try
                     {
                         boObject[] objects = p_ctx.getObjectsInTransaction();
-                        boTextIndexAgentBussinessLogic.addToQueue(objects);
+                        
+                        // Remove references to objects that doesn't belong to
+                        // the current transaction, maybe added in a previous commit
+                        // rollback
+                        ArrayList<boObject> objectsList = new ArrayList<boObject>();
+                        for( boObject o : objects ) {
+                        	if( o != null && o.getEboContext() != null ) {
+                        		objectsList.add( o );
+                        	}
+                        }
+                        boTextIndexAgentBussinessLogic.addToQueue( objectsList.toArray( new boObject[ objectsList.size() ] )   );
                         p_ctx.endTransaction();
 
                         for (int i = 0; i < objects.length; i++)

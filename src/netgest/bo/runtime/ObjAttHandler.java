@@ -326,7 +326,19 @@ public abstract class ObjAttHandler extends AttributeHandler {
         		return boObject.getBoManager().loadObject(  getEboContext(), key.getBoui() );
         		
         	}
-            return this.getValueLong() == 0 ? null : getParent().getObject(this.getValueLong());
+        	try {
+        		return this.getValueLong() == 0 ? null : getParent().getObject(this.getValueLong());
+        	}
+        	catch( boRuntimeException e ) {
+        		throw new boRuntimeException( getParent(), "ObjAttHandler.getObject", "BO-3300", e, 
+        				new String[] { 
+        					getName(), 
+        					getParent().getName(),
+        					Long.toString( getParent().getBoui() ),
+        					Long.toString( this.getValueLong() )
+        				} 
+        		);
+        	}
         }
         else
         {
@@ -551,18 +563,18 @@ public abstract class ObjAttHandler extends AttributeHandler {
 
             } 
             
-            if ( oldvalue != null && getDefAttribute().getSetParent()!=boDefAttribute.SET_PARENT_NO && !getName().equals("PARENT") ) 
-            {
-                boObject objOld = null;
-                if ( oldvalue != null && oldvalue.longValue() != 0 )
-            {
+            if ( oldvalue != null && oldvalue.longValue() != 0 ) { 
+	            if ( getDefAttribute().getSetParent()!=boDefAttribute.SET_PARENT_NO && !getName().equals("PARENT") ) 
+	            {
+	            	boObject objOld;
                     objOld = getParent().getObject( oldvalue.longValue() );
+                    if( objOld != null ) {
+		                if ( !getDefAttribute().getChildIsOrphan() || ( getDefAttribute().getSetParent()==boDefAttribute.SET_PARENT_YES ) || !objOld.getBoDefinition().getBoCanBeOrphan() )
+		                {
+		                    objOld.removeParent( getParent() , getDefAttribute().getChildIsOrphan()  );
+		                }
+                    }
                 }
-                if ( !getDefAttribute().getChildIsOrphan() || ( getDefAttribute().getSetParent()==boDefAttribute.SET_PARENT_YES ) || (objOld != null && !objOld.getBoDefinition().getBoCanBeOrphan() ) )
-                {
-                    objOld.removeParent( getParent() , getDefAttribute().getChildIsOrphan()  );
-                } 
-
             }         
     }    
 }

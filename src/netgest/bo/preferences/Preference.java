@@ -26,27 +26,38 @@ public class Preference {
 	}
 	
 	public String getString( String key ) {
-		if( containsPreference( key ) ) {
-			try {
-				return (String)values.get( key );
-			} catch (ClassCastException e) {
-				return null;
+		String ret = System.getProperty( this.name + "." + key );
+		if( ret == null ) {
+			if( containsPreference( key ) ) {
+				try {
+					return (String)values.get( key );
+				} catch (ClassCastException e) {
+					return null;
+				}
+			}
+			if( parent != null ) {
+				return parent.getString(key);
 			}
 		}
-		if( parent != null )
-			return parent.getString(key);
-		
-		return null;
+		return ret;
 	}
 	
 	public void setString( String key, String value ) {
 		values.put( key, value);
 	}
 
-	public long getLong( String name ) {
+	public long getLong( String key ) {
+		String ret = System.getProperty( this.name + "." + key );
+		if( ret != null ) {
+			try {
+				return Long.valueOf( ret );
+			} catch (Exception e) {
+				return 0;
+			}
+		}
 		try {
 			return (Long)values.get( name );
-		} catch (ClassCastException e) {
+		} catch (Exception e) {
 			return 0;
 		}
 	}
@@ -55,9 +66,17 @@ public class Preference {
 		values.put( name, value );
 	}
 
-	public boolean getBoolean( String name ) {
+	public boolean getBoolean( String key ) {
+		String ret = System.getProperty( this.name + "." + key );
+		if( ret != null ) {
+			try {
+				return Boolean.valueOf( ret );
+			} catch (Exception e) {
+				return false;
+			}
+		}
 		try {
-			return (Boolean)values.get( name );
+			return false;
 		} catch (ClassCastException e) {
 			return false;
 		}
@@ -67,7 +86,15 @@ public class Preference {
 		values.put( name, value );
 	}
 	
-	public double getDouble( String name ) {
+	public double getDouble( String key ) {
+		String ret = System.getProperty( this.name + "." + key );
+		if( ret != null ) {
+			try {
+				return Double.valueOf( ret );
+			} catch (Exception e) {
+				return 0;
+			}
+		}
 		try {
 			return (Double)values.get( name );
 		} catch (ClassCastException e) {
@@ -136,6 +163,14 @@ public class Preference {
 
 	public Iterator<Object> getValues() {
 		return this.values.values().iterator();
+	}
+
+	public void put(String key, Object value ) {
+		this.values.put(key, value);
+	}
+
+	public Object get(String key ) {
+		return this.values.get(key);
 	}
 	
 	public boolean savePreference() {

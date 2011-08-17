@@ -2061,22 +2061,25 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 else
                 {
                     rollBackTransaction(ctx);
-                	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
-                    for (int i = 0; i < iFilesAttributes.size(); i++)
-                    {
-                    	//Retrieve the current attribute handler
-                    	AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
-                    	if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
-                    	{
-                    			iFile currentFile = currHandler.getValueiFile();
-                    			try {
-                    				iFileTransactionManager.rollbackIFile(currentFile.getId(), currentFile, bobj.getEboContext());
-								} catch (iFileException e) {
-									throw new boRuntimeException2(e);
+                	try {
+	                	List iFilesAttributes = bobj.getAttributes(boDefAttribute.VALUE_IFILELINK);
+	                    for (int i = 0; i < iFilesAttributes.size(); i++)
+	                    {
+								//Retrieve the current attribute handler
+								AttributeHandler currHandler = (AttributeHandler) iFilesAttributes.get(i);
+								if (currHandler.getDefAttribute().getECMDocumentDefinitions() != null)
+								{
+										iFile currentFile = currHandler.getValueiFile();
+										try {
+											iFileTransactionManager.rollbackIFile(currentFile.getId(), currentFile, bobj.getEboContext());
+										} catch (iFileException e) {
+											//throw new boRuntimeException2(e);
+										}
 								}
-                    	}
-                    }
-
+	                    }
+					} catch (Exception e) {
+						logger.severe("Error Rolliback files boManagerBean [" + e.getMessage() + "]");
+					}
                 }
             }
       //  }
@@ -2516,32 +2519,34 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 {
                     boReferencesManager.referenceHandler refh = (boReferencesManager.referenceHandler)remrefs.get( i );
                     long cboui = refh.attributeValue.longValue();
-
-                    boObject refobj = boObject.getBoManager().getObjectInContext( obj.getEboContext(), cboui );
-
-                    String classname;
-
-                    if( refobj == null )
-                    {
-                        classname = boObject.getBoManager().getClassNameFromBOUI( obj.getEboContext(), cboui );
-                    }
-                    else
-                    {
-                        classname = refobj.getName();
-                    }
-
-                    if( classname != null )
-                    {
-                        boDefHandler refdef = boDefHandler.getBoDefinition( classname );
-                        if (
-                            !( refh.attributeDef.getChildIsOrphan() || refdef.getBoCanBeOrphan())
-                            &&
-                            ( refobj==null || (refobj != null && refobj.exists() ) )
-                           )
-                        {
-
-                            queue.add( cboui, boObjectUpdateQueue.MODE_DESTROY_FORCED );
-                        }
+                    
+                    if( cboui != 0 ) {
+	                    boObject refobj = boObject.getBoManager().getObjectInContext( obj.getEboContext(), cboui );
+	
+	                    String classname;
+	
+	                    if( refobj == null )
+	                    {
+	                        classname = boObject.getBoManager().getClassNameFromBOUI( obj.getEboContext(), cboui );
+	                    }
+	                    else
+	                    {
+	                        classname = refobj.getName();
+	                    }
+	
+	                    if( classname != null )
+	                    {
+	                        boDefHandler refdef = boDefHandler.getBoDefinition( classname );
+	                        if (
+	                            !( refh.attributeDef.getChildIsOrphan() || refdef.getBoCanBeOrphan())
+	                            &&
+	                            ( refobj==null || (refobj != null && refobj.exists() ) )
+	                           )
+	                        {
+	
+	                            queue.add( cboui, boObjectUpdateQueue.MODE_DESTROY_FORCED );
+	                        }
+	                    }
                     }
                 }
             }
@@ -2823,7 +2828,9 @@ public class boManagerBean implements SessionBean, boManagerLocal
             
             if( !ctx.getConnectionManager().isInOnlyDatabaseTransaction() )
             {
-              if (ut.getStatus() == Status.STATUS_NO_TRANSACTION )
+            	int status = ut.getStatus();
+            	
+              if (status == Status.STATUS_NO_TRANSACTION )
               {
                   ctx.beginTransaction();
                   my_trans = true;
@@ -2998,7 +3005,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                         {
                             if( ctx.getConnectionManager().getAutoMarkForRollback() )
                             {
-                                ut.setRollbackOnly();
+                            	ut.setRollbackOnly();
                             }
                         }
                     }

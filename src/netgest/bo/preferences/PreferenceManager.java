@@ -27,19 +27,20 @@ public class PreferenceManager {
 		p.loadPreference();		
 		if( currentContext != null ) {
 			p = createPreference(name, null, null, currentContext, p);
+			p.loadPreference();
 		}
 		return p;
 	}
 
 	public Preference getProfilePreference( String name, String profileName, String customContext ) {
 		Preference p;
-		p = getFromCache(profileCache, profileName + contextKey(customContext), name );
+		p = getFromCache(profileCache, name + profileName + contextKey(customContext), name );
 		if( p == null ) {
 			p = createPreference( name, profileName, profileName, customContext, 
 					getSystemPreference( name, customContext )				
 				);
 			p.loadPreference();
-			putInCache(profileCache, profileName + contextKey( customContext ), p);
+			putInCache(profileCache, name + profileName + contextKey( customContext ), p);
 		}
 		return p;
 	}
@@ -50,13 +51,13 @@ public class PreferenceManager {
 
 	public Preference getUserPreference( String name, String userName, String customContext ) {
 		Preference p;
-		p = getFromCache( userCache, userName + contextKey(customContext), name);
+		p = getFromCache( userCache, name + userName + contextKey(customContext), name);
 		if( p == null ) {
 			p = createPreference( name, userName, null, customContext, 
 				getSystemPreference( name, customContext )				
 			);
 			p.loadPreference();
-			putInCache(userCache, userName + contextKey( customContext ), p);
+			putInCache(userCache, name + userName + contextKey( customContext ), p);
 		}
 		return p;
 	}
@@ -67,13 +68,13 @@ public class PreferenceManager {
 
 	public Preference getUserPreferenceInProfile( String name, String userName, String profileName, String customContext ) {
 		Preference p;
-		p = getFromCache( userProfileCache, userName+profileName+contextKey(customContext), name);
+		p = getFromCache( userProfileCache, name + userName + profileName+contextKey(customContext), name);
 		if( p == null ) {
 			p = createPreference( name, userName, null, customContext, 
 						getProfilePreference(name, profileName, customContext )				
 				);
 			p.loadPreference();
-			putInCache(userCache, userName+profileName+contextKey( customContext ), p);
+			putInCache(userCache, name + userName+profileName+contextKey( customContext ), p);
 		}
 		return p;
 	}

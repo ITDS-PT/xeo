@@ -1281,7 +1281,7 @@ public class boObjectList extends boPoolable {
 						if( fieldsPart.length() > 1 ) {
 							fieldsPart += ",";
 						}
-						fieldsPart += "[(" + field.getSqlExpression() + ") AS " + field.getSqlAlias() + "]";
+						fieldsPart += "[(" + field.getSqlExpression() + ") AS \"" + field.getSqlAlias() + "\"]";
 					}
 					ql.setFieldsPart( fieldsPart );
 					List<Object> l_sqlargsList = new ArrayList<Object>();
@@ -1599,6 +1599,14 @@ public class boObjectList extends boPoolable {
 		return ret;
 	}
 
+	public void setSql( String sql ) {
+		this.p_sql = sql;
+	}
+
+	public void setBoQl( String boql ) {
+		this.p_boql = boql;
+	}
+	
 	
 	/**
 	 * 
@@ -1608,7 +1616,10 @@ public class boObjectList extends boPoolable {
 	 */
 	public int getRowCount() {
 		checkLazyResult();
-		return p_resultset.getRowCount();
+		if( p_resultset != null ) {
+			return p_resultset.getRowCount();
+		}
+		return 0;
 	}
 
 	/**
@@ -1620,12 +1631,31 @@ public class boObjectList extends boPoolable {
 	public long getRecordCount() {
 		if (p_qlp != null) {
 			if (p_nrrecords == Long.MIN_VALUE) {
+				
+				Object[] qArgs;
+				ArrayList parList = new ArrayList();
+				if (p_userqueryargs != null) {
+					if (this.p_sqlargs != null)
+						parList.addAll(Arrays.asList(this.p_sqlargs));
+
+					parList.addAll(Arrays.asList(this.p_userqueryargs));
+	
+					qArgs = parList.toArray();
+				} else {
+					qArgs = this.p_sqlargs;
+				}
+				
+				if( qArgs == null ) {
+					qArgs = new Object[0];
+				}
+				
+				
 				if ( p_legacydatamanager != null ) {
 					p_nrrecords = p_legacydatamanager.getRecordCountByBOQL(
 							getEboContext(), 
 							this, 
 							p_boql, 
-							p_sqlargs, 
+							qArgs, 
 							p_fulltext, 
 							p_letter_filter, 
 							p_userQuery, 
@@ -1634,22 +1664,6 @@ public class boObjectList extends boPoolable {
 				}
 				else 
 				{
-					Object[] qArgs;
-					ArrayList parList = new ArrayList();
-					if (p_userqueryargs != null) {
-						if (this.p_sqlargs != null)
-							parList.addAll(Arrays.asList(this.p_sqlargs));
-	
-						parList.addAll(Arrays.asList(this.p_userqueryargs));
-		
-						qArgs = parList.toArray();
-					} else {
-						qArgs = this.p_sqlargs;
-					}
-					
-					if( qArgs == null ) {
-						qArgs = new Object[0];
-					}
 					
 					String boql;
 					
@@ -1928,12 +1942,12 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void poolObjectPassivate() {
-	
 		this.p_container = null;
 		// p_vl = false;
-		p_resultset = null;
+		if( p_boql != null || p_sql != null ) {
+			p_resultset = null;
+		}
 		p_filter = null;
-
 	}
 
 	public void inserRow(long boui) {

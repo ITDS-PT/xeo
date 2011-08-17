@@ -2,7 +2,6 @@ package netgest.bo.utils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,6 +27,7 @@ public class XEOQLModifier {
 	
 	private List fieldsPartParameters = new ArrayList(0);
 	private List wherePartParameters = new ArrayList(0);
+	private List fromPartParameters = new ArrayList(0);
 	private List groupByPartParameters = new ArrayList(0);
 	private List orderByPartParameters = new ArrayList(0);
 	
@@ -99,7 +99,7 @@ public class XEOQLModifier {
 	        	} else if ( "from".equals( word ) ) {
 	        		
 	        		posBuffer = sbFromPart;
-	        		posParam  = null;
+	        		posParam  = fromPartParameters;
 	        		
 	        	} else if ( "where".equals( word ) ) {
 	        		// N�o tr�s clausula from... a parte dos fields s�o o nome do objecto
@@ -397,6 +397,10 @@ public class XEOQLModifier {
 				retBOQL.append(' ');
 			}
 			retBOQL.append( this.objectPart );
+			
+			if(this.fromPartParameters != null ) {
+				listOfParametersToFill.addAll( this.fromPartParameters );
+			}
 		}
 		
 		if( this.wherePart.length() > 0 ) {

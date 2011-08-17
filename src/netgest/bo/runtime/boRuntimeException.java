@@ -126,7 +126,9 @@ public class boRuntimeException extends Exception {
             p_errors.put("BO-3210",MessageLocalizer.getMessage("ERROR_DELETING_OBJECT_NOT_ENOUGH_PERMISSIONS"));
             p_errors.put("BO-3220",MessageLocalizer.getMessage("ERROR_READING_OBJECT_NOT_ENOUGH_PERMISSIONS"));
             p_errors.put("BO-3230",MessageLocalizer.getMessage("ERROR_NOT_ENOUGH_PERMISSIONS"));
-        
+            
+            p_errors.put("BO-3300","Object reference error. The attribute [:1] on the object [:2](:3) has a invalid boui [:4]");
+            
             // ERRORS for WORKFLOW
             p_errors.put("WKFL-000",MessageLocalizer.getMessage("UPDATING_WF"));
             p_errors.put("WKFL-001",MessageLocalizer.getMessage("CANNOT_CHANGE_STATE_FROM_TO"));

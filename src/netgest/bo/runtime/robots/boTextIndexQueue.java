@@ -83,22 +83,24 @@ public class boTextIndexQueue
         ArrayList list = new ArrayList();
         for (int i = 0; i < objects.length ; i++) 
         {
-           if ( ( !isTextIndex(objects[i].getBoDefinition()) &&
-                 ((objects[i].getBoDefinition().isTextIndexActive() && objects[i].getBoDefinition().getBoCanBeOrphan()) 
-                 ||
-                     (objects[i].getBoDefinition().isTextIndexActive() )
-                    ) 
-              ))
-           {
-              
-              Long xboui = new Long( objects[i].getBoui());
-              
-              list.add( xboui );
-              //p_objects.put( xboui, objects[i] );
-
-              p_rebuild = true;
-              
-           }
+        	if( objects [i] != null ) {
+	           if ( ( !isTextIndex(objects[i].getBoDefinition()) &&
+	                 ((objects[i].getBoDefinition().isTextIndexActive() && objects[i].getBoDefinition().getBoCanBeOrphan()) 
+	                 ||
+	                     (objects[i].getBoDefinition().isTextIndexActive() )
+	                    ) 
+	              ))
+	           {
+	              
+	              Long xboui = new Long( objects[i].getBoui());
+	              
+	              list.add( xboui );
+	              //p_objects.put( xboui, objects[i] );
+	
+	              p_rebuild = true;
+	              
+	           }
+        	}
         }
         
         if( list.size() > 0 )
@@ -137,7 +139,9 @@ public class boTextIndexQueue
             		limitOnWhere = " AND " + dutl.getQueryLimitStatement( 120 );
             		break;
             }
-            pstm        = cn.prepareStatement( "select " + limitOnSelect + " boui from ebo_textindex_queue where state = 0 " + limitOnWhere + " order by ENQUEUETIME " + limitOnEnd );
+            String sql = "select " + limitOnSelect + " distinct boui,(select min(ENQUEUETIME) from ebo_textindex_queue q where q1.boui=q.boui )" + 
+            			 "	from ebo_textindex_queue q1 where state = 0  " + limitOnWhere + " order by 2 " + limitOnEnd ;
+            pstm        = cn.prepareStatement( sql );
             rslt        = pstm.executeQuery();
             while( rslt.next() )
             {

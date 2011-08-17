@@ -2,7 +2,6 @@
 package netgest.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import netgest.bo.localizations.MessageLocalizer;
 
@@ -20,6 +19,8 @@ public final class StringUtils
      * @return 
      * @param string
      */
+	
+	
     public static final boolean isEmpty( String string )
     {
         return string == null || string.length() == 0 || string.trim().length() == 0;
@@ -125,13 +126,15 @@ public final class StringUtils
     }
     return vv;
   }
+  
+  /*
  public static String replacestr(String strstr,String toReplace,String replaceStr) {
     String straux=strstr;
     String strRemain=strstr;
     int fL=strstr.length();
 
     int iIdx=strstr.indexOf(toReplace);
-    if (iIdx!=-1)
+    while (iIdx!=-1)
     {
         straux=strstr.substring(0,iIdx)+replaceStr;
         strRemain=strstr.substring(iIdx+toReplace.length(),fL);
@@ -140,6 +143,28 @@ public final class StringUtils
     }
     return straux;
  }
+ */
+ 
+ public static String replacestr(String target, String from, String to) {   
+	  //   target is the original string
+	  //   from   is the string to be replaced
+	  //   to     is the string which will used to replace
+	  //  returns a new String!
+	  int start = target.indexOf(from);
+	  if (start == -1) return target;
+	  int lf = from.length();
+	  char [] targetChars = target.toCharArray();
+	  StringBuffer buffer = new StringBuffer();
+	  int copyFrom = 0;
+	  while (start != -1) {
+	    buffer.append (targetChars, copyFrom, start - copyFrom);
+	    buffer.append (to);
+	    copyFrom = start + lf;
+	    start = target.indexOf (from, copyFrom);
+	  }
+	  buffer.append (targetChars, copyFrom, targetChars.length - copyFrom);
+	  return buffer.toString();
+ } 
 
   public static String padl(String xstring,int nrchars,String padstr) {
     while (xstring.length() < nrchars ) {
@@ -322,6 +347,10 @@ public final class StringUtils
     {
 //        System.out.println(Arrays.binarySearch(CHAR_TO_RPLC, 'ó'));
 //        System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
+        //System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
+		String s = StringUtils.replacestr("João Paulo Paulo Carreira Paulo", "Paulo", "Paulo1" );
+		System.out.println( s );
+    	
         System.out.println(StringUtils.smsReplaceChars(MessageLocalizer.getMessage("WE_APPRECIATE_PHONE_CONTACT")));
     }
 }

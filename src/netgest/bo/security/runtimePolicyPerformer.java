@@ -124,9 +124,7 @@ public class runtimePolicyPerformer
         i=0;
         
         int groupIndex=0;
-        long[] xgroups = new long[ 500 ];
-        
-         
+        long[] xgroups = new long[ 2000 ];
         
       //  String xsql="select g.boui from ebo_group g,ebo_group$childgroups ch where "+
       //  " g.Boui = ch.EBO_GROUP$0(+) "+
@@ -223,10 +221,10 @@ public class runtimePolicyPerformer
             }
         }
         finally {
-        	if( pr != null )
-        		pr.close();
         	if( rslt != null )
         		rslt.close();
+        	if( pr != null )
+        		pr.close();
         }
     	return groupIndex;
     }

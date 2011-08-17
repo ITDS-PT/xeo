@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
@@ -35,6 +34,8 @@ public class PrintQueueJobEvents
             }
             
             object.getAttribute("progress").setValueString( printed + " de " + object.getAttribute("pages").getValueLong() );
+            rslt.close();
+            pstm.close();
             
         }
         catch (SQLException e)
@@ -52,20 +53,20 @@ public class PrintQueueJobEvents
         // DEBUG
         if(queueJob != null)
         {
-            logger.finest(LoggerMessageLocalizer.getMessage("QUEUE_JOB_BOUI")+": " + String.valueOf(queueJob.getBoui()));
+            logger.finest("Queue Job BOUI: " + String.valueOf(queueJob.getBoui()));
             
             if(queueJob.getAttribute("printQueue").getObject() != null)
             {
-                logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE")+" -> BOUI: " + String.valueOf(queueJob.getAttribute("printQueue").getObject().getBoui()));
-                logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE")+" -> Attribute id: " + queueJob.getAttribute("printQueue").getObject().getAttribute( "id" ).getValueString());
+                logger.finest("Attribute printQueue -> BOUI: " + String.valueOf(queueJob.getAttribute("printQueue").getObject().getBoui()));
+                logger.finest("Attribute printQueue -> Attribute id: " + queueJob.getAttribute("printQueue").getObject().getAttribute( "id" ).getValueString());
                 
                 queueFolder = PrintJob.getQueueFolder( queueJob.getEboContext(), queueJob.getAttribute("printQueue").getObject().getAttribute("id").getValueString(), queueJob.getBoui());
             }
             else
-                logger.finest(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE_IS_NULL"));
+                logger.finest("Attribute printQueue is NULL.");
         }
         else
-            logger.finest(LoggerMessageLocalizer.getMessage("QUEUE_JOB_IS_NULL"));
+            logger.finest("Queue Job is NULL.");
         // DEBUG
         
         boObjectList queueItems = boObjectList.list( queueJob.getEboContext(), "select PrintQueueJobItem where job = ? ", new Object[] { new Long( queueJob.getBoui() ) },1,99999, false);
@@ -86,19 +87,19 @@ public class PrintQueueJobEvents
             {
                 if(queueJob != null)
                 {
-                    logger.severe(LoggerMessageLocalizer.getMessage("EXCEPTION_OCCURED_ON_ONBEFOREDESTROY")+": ");
-                    logger.severe(LoggerMessageLocalizer.getMessage("QUEUE_JOB_BOUI")+": " + String.valueOf(queueJob.getBoui()));
+                    logger.severe("EXCEPTION OCCURED ON onBeforeDestroy : ");
+                    logger.severe("Queue Job BOUI: " + String.valueOf(queueJob.getBoui()));
                     
                     if(queueJob.getAttribute("printQueue").getObject() != null)
                     {
-                        logger.severe(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE")+" -> BOUI: " + String.valueOf(queueJob.getAttribute("printQueue").getObject().getBoui()));
-                        logger.severe(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE")+" -> "+LoggerMessageLocalizer.getMessage("ATTRIBUTE_ID")+": " + queueJob.getAttribute("printQueue").getObject().getAttribute( "id" ).getValueString());
+                        logger.severe("Attribute printQueue -> BOUI: " + String.valueOf(queueJob.getAttribute("printQueue").getObject().getBoui()));
+                        logger.severe("Attribute printQueue -> Attribute id: " + queueJob.getAttribute("printQueue").getObject().getAttribute( "id" ).getValueString());
                     }
                     else
-                        logger.severe(LoggerMessageLocalizer.getMessage("ATTRIBUTE_PRINTQUEUE_IS_NULL"));
+                        logger.severe("Attribute printQueue is NULL.");
                 }
                 else
-                    logger.severe(LoggerMessageLocalizer.getMessage("QUEUE_JOB_IS_NULL"));
+                    logger.severe("Queue Job is NULL.");
                 
                 logger.severe( ex );
             }

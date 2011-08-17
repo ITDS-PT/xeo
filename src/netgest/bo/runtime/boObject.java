@@ -1576,7 +1576,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
         AttributeHandler toRet = null;
 
         toRet = this.p_attributes.get(attributeName);
-        if( toRet != null ) {
+        if( toRet == null ) {
             Matcher m = ATT_BRIDGE_PATTERN.matcher( attributeName );
             if ( m.find() ) {
             	String bridgeName = m.group(1);

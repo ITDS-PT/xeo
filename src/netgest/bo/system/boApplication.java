@@ -2,9 +2,15 @@
 package netgest.bo.system;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.WeakHashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.ejb.CreateException;
 import javax.naming.NamingException;
@@ -59,6 +65,7 @@ public class boApplication
 	private static Logger logger;
 	
     private static boApplication XEO_APPLICATION;
+    private static boolean		 p_xeoHomeIsTemporary = false;
 
     private static 	WeakHashMap     applicationThreadsContext = new WeakHashMap();
     
@@ -66,6 +73,7 @@ public class boApplication
     public static final String XEO_ROBOT     	= "XEO_ROBOT";
     public static final String XEO_SYSTEM    	= "XEO_SYSTEM";
     private static final String XEO_WORKPLACE   = "SYSTEM";
+    
     
     /**
      *
@@ -122,54 +130,83 @@ public class boApplication
             if (XEO_APPLICATION == null)
             {
             	synchronized (Object.class) {
-	                String appConfigPath = System.getProperty("netgest.home");
-	                
-	                if( appConfigPath == null ) {
-	                	appConfigPath = System.getProperty("xeo.home");
-	                }
-	                if( appConfigPath == null ) {
-	                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
-	                	if( u != null && u.getFile() != null ) {
-		                	File file = new File(u.getFile());
-		                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
-		                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
-		                	if( xeoHome1.exists() ) {
-		                		appConfigPath = homeFolder.getAbsolutePath();
-		                	}
-		                	homeFolder = homeFolder.getParentFile();
-		                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
-		                	if( xeoHome1.exists() ) {
-		                		appConfigPath = homeFolder.getAbsolutePath();
-		                	}
-	                	}
-	                }
-	                if( appConfigPath != null ) {
-		                if( !appConfigPath.endsWith( "/" ) && !appConfigPath.endsWith( "\\" ) )
-		                {
-		                    appConfigPath += File.separator;
+            		
+                    if (XEO_APPLICATION == null)
+                    {
+            		
+		                String appConfigPath = System.getProperty("netgest.home");
+		                
+		                if( appConfigPath == null ) {
+		                	appConfigPath = System.getProperty("xeo.home");
 		                }
-		                System.setProperty( "xeo.home" , appConfigPath );
-		                System.setProperty( "netgest.home" , appConfigPath );
-		                
-		                appConfigPath += "boconfig.xml"; 
-		                
-		                if( new File(appConfigPath).exists() ) {
-		                	try {
+		                if( appConfigPath == null ) {
+		                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
+		                	if( u != null && u.getFile() != null ) {
+			                	File file = new File(u.getFile());
+			                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
+			                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+			                	if( xeoHome1.exists() ) {
+			                		appConfigPath = homeFolder.getAbsolutePath();
+			                	}
+			                	homeFolder = homeFolder.getParentFile();
+			                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+			                	if( xeoHome1.exists() ) {
+			                		appConfigPath = homeFolder.getAbsolutePath();
+			                	}
+		                	}
+		                }
+		                if( appConfigPath != null ) {
+			                if( !appConfigPath.endsWith( "/" ) && !appConfigPath.endsWith( "\\" ) )
+			                {
+			                    appConfigPath += File.separator;
+			                }
+			                System.setProperty( "xeo.home" , appConfigPath );
+			                System.setProperty( "netgest.home" , appConfigPath );
+			                
+			                appConfigPath += "boconfig.xml"; 
+			                
+			                if( new File(appConfigPath).exists() ) {
+			                	try {
+					                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
+					                XEO_APPLICATION.initializeApplication();
+					                logger.config( "XEO Initialized from config file [%s]", appConfigPath );
+			                	}
+			                	catch( Throwable e ) {
+				                	System.err.println("-----------------------------------------------------------------------------------");
+				                	System.err.println("Failed to Initialize XEO. Error occurred loading configuration!");
+				                	e.printStackTrace();
+				                	System.err.println("-----------------------------------------------------------------------------------");
+			                	}
+			                }
+			                else {
+			                	System.err.println("-----------------------------------------------------------------------------------");
+			                	System.err.println("Failed to Initialize XEO. boconfig.xml not found at: [" + appConfigPath + "]!");
+			                	System.err.println("-----------------------------------------------------------------------------------");
+			                }
+		                }
+		                else {
+		                	// Try to create xeoHome based on zip File
+		                	String homeFromZip = initializeFromZipFile();
+		                	if( homeFromZip != null ) {
+		                		if( !homeFromZip.endsWith("/") && !homeFromZip.endsWith("\\") ) {
+		                			homeFromZip += File.separator;
+		                		}
+		                		appConfigPath = homeFromZip + "boconfig.xml";
+	
+		                		System.setProperty( "xeo.home" , appConfigPath );
+				                System.setProperty( "netgest.home" , appConfigPath );
+		                		
 				                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 				                XEO_APPLICATION.initializeApplication();
 				                logger.config( "XEO Initialized from config file" +" [%s]", appConfigPath );
+		                		
 		                	}
-		                	catch( Throwable e ) {
+		                	else {
 			                	System.err.println("-----------------------------------------------------------------------------------");
-			                	System.err.println("Failed to Initialize XEO. Error occurred loading configuration!");
-			                	e.printStackTrace();
+			                	System.err.println("Failed to Initialize XEO. boconfig.xml not found!");
+			                	System.err.println("System property xeo.home not specified or WEB-INF/classes/xeo.home file is missing and there is no xeoapp.zip in the classpath!");
 			                	System.err.println("-----------------------------------------------------------------------------------");
 		                	}
-		                }
-		                else {
-		                	System.err.println("-----------------------------------------------------------------------------------");
-		                	System.err.println("Failed to Initialize XEO. boconfig.xml not found at"+" [" + appConfigPath + "]!");
-		                	System.err.println("-----------------------------------------------------------------------------------");
 		                }
 	                }
 	                else {
@@ -184,6 +221,102 @@ public class boApplication
     	}
         return null;
     }
+    
+    
+    public void shutDown() {
+    	suspendAgents();
+    	shutDownLoggers();
+    	releaseClassLoader();
+    	XEO_APPLICATION = null;
+    	
+    	if( boApplication.p_xeoHomeIsTemporary ) {
+    		// Delete temporary home;
+    		String home = getApplicationConfig().getNgtHome();
+    		File fileHome = new File( home );
+    		deleteFolder( fileHome );
+    		fileHome.delete();
+    	}
+    }
+    
+    private void deleteFolder( File folder ) {
+    	File[] files = folder.listFiles();
+    	for( File file : files ) {
+    		if( file.isDirectory() ) {
+    			deleteFolder( file );
+    		}
+    		file.delete();
+    	}
+    }
+    
+    
+    private static String initializeFromZipFile() {
+    	
+		try {
+			InputStream xeoappInput = boApplication.class.getClassLoader().getResourceAsStream("xeoapp.zip");
+			if( xeoappInput != null ) {
+				
+				// Check if is JBOSS.. if is use tmp of JBOSS
+				File   tmpDir      = null;
+				String jbossTmpDir = System.getProperty("jboss.server.temp.dir");
+				
+				if( jbossTmpDir != null ) {
+					// Use the system tmpdir;
+					tmpDir = File.createTempFile("xeoHomeDeploy", "", new File(jbossTmpDir) );
+					tmpDir.delete();
+					tmpDir.mkdirs();
+				}
+				else {
+					tmpDir = File.createTempFile("xeoHomeDeploy", "" );
+					tmpDir.delete();
+					tmpDir.mkdirs();
+				}
+				 
+				extractZipFiles( tmpDir.getAbsolutePath() + File.separator, xeoappInput);
+				xeoappInput.close();
+				
+				p_xeoHomeIsTemporary = true;
+				
+				return tmpDir.getAbsolutePath();
+			}
+		} catch (IOException e) {
+			// Ignore
+		}
+		
+		return null;
+    }
+    
+    private static void extractZipFiles( String destinationDir, InputStream xeoAppZip ) throws IOException {
+    	byte[] buf = new byte[8192];
+        ZipInputStream zipinputstream = null;
+        ZipEntry zipentry;
+        zipinputstream = new ZipInputStream( xeoAppZip );
+        zipentry = zipinputstream.getNextEntry();
+        while (zipentry != null) 
+        { 
+            //for each entry to be extracted
+            String entryName = zipentry.getName();
+            int n;
+            
+            File outFile = new File( destinationDir + entryName );
+            
+            
+            if( zipentry.isDirectory() ) {
+            	outFile.mkdirs();
+            }
+            else {
+                FileOutputStream fileoutputstream;
+                fileoutputstream = new FileOutputStream( outFile );             
+                while ( (n = zipinputstream.read(buf) ) > -1)
+                    fileoutputstream.write(buf, 0, n);
+                fileoutputstream.close();
+            }
+            zipinputstream.closeEntry();
+            zipentry = zipinputstream.getNextEntry();
+
+        }
+        zipinputstream.close();
+    }
+
 /**
  * 
  * @return(String) 
@@ -235,6 +368,16 @@ public class boApplication
     	boApplicationLoggerConfig.applyConfig( getApplicationConfig().getLoggersConfig() );
     	logger = Logger.getLogger( boApplication.class );
     }
+    
+    public void shutDownLoggers() {
+    	try {
+    		boApplicationLoggerConfig.shutDownLoggers( getApplicationConfig().getLoggersConfig() );
+    	}
+    	catch( Exception e ) {
+    		e.printStackTrace();
+    	}
+    }
+    
 
     public void addAContextToThread( )
     {
@@ -331,20 +474,31 @@ public class boApplication
 
     public synchronized void startAgents()
     {
-        if( p_boagentscontroller != null ) 
-        {
-            suspendAgents();
-        }
-        if (this.getApplicationConfig().getThreadsType().equalsIgnoreCase("userThreads"))
-        {
-          p_boagentscontroller = new boAgentsControler( this );
-          p_boagentscontroller.start();  // Em vez de run tem que set start ( Para iniciar a Thread ) 
-        }
-        else
-        {
-          p_boagentscontroller = new boAgentsControllerEjbTimer(this);
-          p_boagentscontroller.start();
-        }
+    	// Reads a system property to check if
+    	// Threads should be started
+    	Properties p = System.getProperties();
+    	if( !p.containsKey("xeo.threads.enable") 
+    			|| 
+    		Boolean.valueOf( p.getProperty("xeo.threads.enable") ) ) 
+    	{
+	        if( p_boagentscontroller != null ) 
+	        {
+	            suspendAgents();
+	        }
+	        if (this.getApplicationConfig().getThreadsType().equalsIgnoreCase("userThreads"))
+	        {
+	          p_boagentscontroller = new boAgentsControler( this );
+	          p_boagentscontroller.start();  // Em vez de run tem que set start ( Para iniciar a Thread ) 
+	        }
+	        else
+	        {
+	          p_boagentscontroller = new boAgentsControllerEjbTimer(this);
+	          p_boagentscontroller.start();
+	        }
+    	}
+    	else {
+        	logger.config("XEO Threads are disabled by System property 'xeo.threads.enable=false'");
+    	}
     }
 
     public synchronized void suspendAgents()

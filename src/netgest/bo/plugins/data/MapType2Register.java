@@ -276,15 +276,16 @@ public class MapType2Register implements boSchedule
                                 {
                                     pstmRegistry.executeBatch();
                                     pstmInsert.executeBatch();
+                                    
+                                    pstmRegistry.close();
+                                    pstmInsert.close();
+                                    
                                     ctx.commitContainerTransaction();
     //                                boTextIndexAgent.addToQueue( regBouis, def.getName() );
                                     regBouis = new ArrayList();
                                     ctx.beginContainerTransaction();
                                     counter = 0;
 
-                                    pstmRegistry.close();
-                                    pstmInsert.close();
-                                    
                                     Connection tcn1 = ctx.getConnectionData();
                                     pstmRegistry = tcn1.prepareStatement( regsql.toString() );
                                     pstmInsert   = tcn1.prepareStatement( inslocsql.toString() );
@@ -534,16 +535,16 @@ public class MapType2Register implements boSchedule
                                 
                                 if( counter > 0 )
                                 {
-                                    int[] x = pstmUpd.executeBatch();
-                                    
+                                    pstmUpd.executeBatch();
+                                    pstmUpd.close();
                                     ctx.commitContainerTransaction();
                                     logger.finest(LoggerMessageLocalizer.getMessage("COMMITTING")+" [ "+totalcounter+" ] "+LoggerMessageLocalizer.getMessage("AVERAGED_REGISTRY_IS")+" ["+
                                                     (System.currentTimeMillis()-initTime) / totalcounter
                                                     +"] ms" 
                                                 );
-    
                                 }
-    
+                                if( !pstmUpd.isClosed() )
+                                	pstmUpd.close();
                             }
     
     
@@ -622,15 +623,10 @@ public class MapType2Register implements boSchedule
                         catch (Exception ex)  
                         {
                             ex.printStackTrace();
-                            ctx.rollbackContainerTransaction();
                             throw new RuntimeException( ex );
                         }   
                         finally 
                         {
-                            ctx.rollbackContainerTransaction();
-                            MapType2DataManager.unFlagThread( MapType2DataManager.FLAG_MAPTYPE2_DISABLEEVENTS );
-                            MapType2DataManager.unFlagThread( MapType2DataManager.FLAG_MAPTYPE2_DISABLEWRITERS );
-                            
                             try
                             {
                                 if( pstmRegistry != null )  pstmRegistry.close();
@@ -638,10 +634,10 @@ public class MapType2Register implements boSchedule
                                 if( pstmExternal != null )  pstmExternal.close();
                                 if( rsltExternal != null )  rsltExternal.close();
                             }
-                            catch (Exception e)
-                            {
-                                
-                            }
+                            catch (Exception e){}
+                            ctx.rollbackContainerTransaction();
+                            MapType2DataManager.unFlagThread( MapType2DataManager.FLAG_MAPTYPE2_DISABLEEVENTS );
+                            MapType2DataManager.unFlagThread( MapType2DataManager.FLAG_MAPTYPE2_DISABLEWRITERS );
                         }
                     }
                 }

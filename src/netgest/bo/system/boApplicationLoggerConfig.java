@@ -119,7 +119,20 @@ public class boApplicationLoggerConfig {
 		ConsoleProperties = consoleProperties;
 	}
 	
-    public static void applyConfig(boApplicationLoggerConfig[] logConfig ) {
+    public static void shutDownLoggers(boApplicationLoggerConfig[] logConfig ) {
+    	if( logConfig != null ) {
+	    	for( int i=0; i < logConfig.length; i++ ) {
+	    		if( logConfig[i].isActive() ) {
+		    		String domainClasses = logConfig[i].getForClasses();
+		    		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( domainClasses, Logger.loggerFactory );
+		    		logger.removeAllAppenders();
+	    		}
+	    	}
+    	}
+    }
+
+	
+	public static void applyConfig(boApplicationLoggerConfig[] logConfig ) {
     	if( logConfig != null ) {
 	    	for( int i=0; i < logConfig.length; i++ ) {
 	    		

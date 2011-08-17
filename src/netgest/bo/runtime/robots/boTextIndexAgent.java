@@ -65,8 +65,7 @@ public class boTextIndexAgent extends Thread
             {
                 boTextIndexAgentBussinessLogic logic = new boTextIndexAgentBussinessLogic(p_app);
                 long workTime=logic.execute();
-                               
-                totalWorkTime += workTime;
+                totalWorkTime = WAIT_TIME - 1000;
                 if( workTime < WAIT_TIME )
                 {
                     long sleeptime = (WAIT_TIME - workTime)/2;

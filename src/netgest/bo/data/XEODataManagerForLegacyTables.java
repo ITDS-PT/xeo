@@ -41,11 +41,11 @@ public class XEODataManagerForLegacyTables implements IXEODataManager {
 		
 		String sql = qp.toSql( boql, ctx );
 		if( userQuery!=null && userQuery.length() > 0 ) {
-			sql = "select * from (" + sql + ") AS SQL_QUERY where " + userQuery;
+			sql = "select * from (" + sql + ") SQL_QUERY where " + userQuery;
 		}
 		
 		if( orderBy != null && orderBy.length() > 0 ) {
-			sql = "select * from (" + sql + ") AS SQL_QUERY ORDER BY " + orderBy;
+			sql = "select * from (" + sql + ") SQL_QUERY ORDER BY " + orderBy;
 		}
 		
 		boDefHandler qdef = qp.getObjectDef();

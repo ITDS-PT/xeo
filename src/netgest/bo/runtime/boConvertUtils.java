@@ -494,7 +494,7 @@ public class boConvertUtils
         if (attr.getDefAttribute().getECMDocumentDefinitions() != null){
         	if (attr.p_valueIFileECM != null)
         		return attr.p_valueIFileECM;
-        	else{
+        	else if ( value != null && value.length() > 0 ) {
         		
         		boDefDocument ecmDef = attr.getDefAttribute().getECMDocumentDefinitions();
             	iFileConnector con = null;

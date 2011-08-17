@@ -53,49 +53,51 @@ public class XEOSpyConnection implements java.sql.Connection {
 
     public void close() throws SQLException 
     {
-        passthru.close();
-        Iterator it=psList.iterator();
-        XEOSpyPreparedStatement xeoPs=null;
-        while(it.hasNext() )
-        {
-            xeoPs=(XEOSpyPreparedStatement)it.next();
-            if( !xeoPs.isClosed() ){
-                xeoPs.close();                
-                logger.warn("------------------------------------------------");
-                logger.warn(LoggerMessageLocalizer.getMessage("THE_PREPAREDSTATEMENT_WAS_NOT_CLOSED")+": " + xeoPs.getQuery() );
-                xeoPs.printStackTrace();
-                logger.warn("------------------------------------------------");
-            }
-        }
-        
-        XEOSpyStatement xeoSt=null;
-        it=stList.iterator();
-        while(it.hasNext() ){
-            xeoSt=(XEOSpyStatement)it.next();
-            if( !xeoSt.isClosed() ){
-                xeoSt.close();                
-                logger.warn("------------------------------------------------");
-                logger.warn(LoggerMessageLocalizer.getMessage("THE_STATEMENT_WAS_NOT_CLOSED")+": " + xeoSt.getQuery() );
-                xeoSt.printStackTrace();
-                logger.warn("------------------------------------------------");
-            }
-        }
-        
-        XEOSpyCallableStatement xeoCa=null;
-        it=callabList.iterator();
-        while(it.hasNext() ){
-            xeoCa=(XEOSpyCallableStatement)it.next();
-            if( !xeoCa.isClosed() ){
-                xeoCa.close();                
-                logger.warn("------------------------------------------------");
-                logger.warn(LoggerMessageLocalizer.getMessage("THE_CALLABLESTATEMENT_WAS_NOT_CLOSED")+": " + xeoCa.getQuery() );
-                xeoCa.printStackTrace();
-                logger.warn("------------------------------------------------");
-            }
-        }
-        close = true;
-        connections.remove( this );
-        passthru = null;
+        if( passthru != null ) {
+	        passthru.close();
+	        Iterator it=psList.iterator();
+	        XEOSpyPreparedStatement xeoPs=null;
+	        while(it.hasNext() )
+	        {
+	            xeoPs=(XEOSpyPreparedStatement)it.next();
+	            if( !xeoPs.isClosed() ){
+	                xeoPs.close();                
+	                logger.warn("------------------------------------------------");
+	                logger.warn(LoggerMessageLocalizer.getMessage("THE_PREPAREDSTATEMENT_WAS_NOT_CLOSED")+": " + xeoPs.getQuery() );
+	                xeoPs.printStackTrace();
+	                logger.warn("------------------------------------------------");
+	            }
+	        }
+	        
+	        XEOSpyStatement xeoSt=null;
+	        it=stList.iterator();
+	        while(it.hasNext() ){
+	            xeoSt=(XEOSpyStatement)it.next();
+	            if( !xeoSt.isClosed() ){
+	                xeoSt.close();                
+	                logger.warn("------------------------------------------------");
+	                logger.warn(LoggerMessageLocalizer.getMessage("THE_STATEMENT_WAS_NOT_CLOSED")+": " + xeoSt.getQuery() );
+	                xeoSt.printStackTrace();
+	                logger.warn("------------------------------------------------");
+	            }
+	        }
+	        
+	        XEOSpyCallableStatement xeoCa=null;
+	        it=callabList.iterator();
+	        while(it.hasNext() ){
+	            xeoCa=(XEOSpyCallableStatement)it.next();
+	            if( !xeoCa.isClosed() ){
+	                xeoCa.close();                
+	                logger.warn("------------------------------------------------");
+	                logger.warn(LoggerMessageLocalizer.getMessage("THE_CALLABLESTATEMENT_WAS_NOT_CLOSED")+": " + xeoCa.getQuery() );
+	                xeoCa.printStackTrace();
+	                logger.warn("------------------------------------------------");
+	            }
+	        }
+	        close = true;
+	        connections.remove( this );
+	        passthru = null;
+	    }
     }
 
     public int getId() {

@@ -172,8 +172,13 @@ public class queryBuilderHelper
                         while (lovObj.next())
                         {
                             lov += "<item><description>";
-                            if(lovObj.getDescription() != null && lovObj.getDescription().trim().length() > 0)
-                                lov += lovObj.getDescription() ;
+                            if(lovObj.getDescription() != null && lovObj.getDescription().trim().length() > 0) {
+                            	String description = lovObj.getDescription();
+                            	description = description.replaceAll("&", "&amp;");
+                            	description = description.replaceAll("<", "&lt;");
+                            	description = description.replaceAll(">", "&gt;");
+                            	lov += description;
+                            }
                             else
                                 lov += "(sem descricao)";
                             lov += "</description>";
@@ -243,7 +248,11 @@ public class queryBuilderHelper
                 attributesStr.append(" type='" + charType + "' >");
 
                 attributesStr.append("<label>");
-                attributesStr.append(prefixLabel + attr.getLabel());
+                String label = attr.getLabel();
+                label = label.replaceAll("&", "&amp;");
+                label = label.replaceAll("<", "&lt;");
+                label = label.replaceAll(">", "&gt;");
+                attributesStr.append(prefixLabel + label);
                 attributesStr.append("</label>");
 
                 attributesStr.append("<level>");

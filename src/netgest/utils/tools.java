@@ -69,19 +69,21 @@ public class tools extends Object {
   }
   */
   public static String replacestr(String strstr,String toReplace,String replaceStr) {
-    String straux=strstr;
-    String strRemain=strstr;
-    int fL=strstr.length();
-
-    int iIdx=strstr.indexOf(toReplace);
-    if (iIdx!=-1)
-    {
-        straux=strstr.substring(0,iIdx)+replaceStr;
-        strRemain=strstr.substring(iIdx+toReplace.length(),fL);
-        if (strRemain.indexOf(toReplace)!=-1) straux+=replacestr(strRemain,toReplace,replaceStr);
-        else straux+=strRemain;
-    }
-    return straux;
+//    String straux=strstr;
+//    String strRemain=strstr;
+//    int fL=strstr.length();
+//
+//    int iIdx=strstr.indexOf(toReplace);
+//    if (iIdx!=-1)
+//    {
+//        straux=strstr.substring(0,iIdx)+replaceStr;
+//        strRemain=strstr.substring(iIdx+toReplace.length(),fL);
+//        if (strRemain.indexOf(toReplace)!=-1) straux+=replacestr(strRemain,toReplace,replaceStr);
+//        else straux+=strRemain;
+//    }
+//    return straux;
+	  
+	  return StringUtils.replacestr(strstr, toReplace, replaceStr);
  }
 
   public static String padl(String xstring,int nrchars,String padstr) {

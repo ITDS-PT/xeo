@@ -9,7 +9,11 @@ import netgest.utils.StringEncrypter;
 public class boEncrypter 
 {
 
-    private static final String ENCRIPT_PRFX = "{CIFRADO}";
+  private static final String ENCRIPT_PRFX = "{CIFRADO}";
+  
+  public static void main(String[] args) throws Exception {
+	  System.out.println( staticDecrypt("0C03AFC0A30B71C72AC3DF32A403FDF080C9E8C20AED7C57") );
+  }
 
   public boEncrypter()
   {

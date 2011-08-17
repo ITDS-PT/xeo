@@ -592,26 +592,40 @@ public class DeployFilter implements Filter
         {
         	
             HttpServletRequest  hrequest  = (HttpServletRequest)request;
-    
-            // Object o objecto que representa o pedido
-            KnownPath kpath = getKnownPath( hrequest );
             
-            // Check if the URL was already forwared
-            if( request.getAttribute( forwaredKey ) == null && kpath.resourceType != TYPE_WEB_FILE )
-            {
-                
-                // Tenta fazer o foward para um ficheiro XEO
-                // Devolve true/false. true se o pedido foi reenviado para outro endereço.
-                if( srcDir != null && !fowardToXeoFile( kpath, hrequest, response ) )
-                {
-            		chain.doFilter( request , response);
-                }
+            String servletPath = hrequest.getServletPath();
+            if( servletPath.indexOf("/.xeodeploy/") != -1 && servletPath.endsWith(".jsp") ) {
+            	HttpServletResponse  hresponse  = (HttpServletResponse)response;
+            	String s = hrequest.getRequestURI();
+            	s = s.replaceFirst( "/\\.xeodeploy/" , "/" );
+            	
+            	String qs = hrequest.getQueryString();
+            	if( qs != null && qs.length() > 0 ) {
+            		s += "?" + qs;
+            	}
+            	hresponse.sendRedirect( s );
             }
-            else
-            {
-                // O pedido é do tipo WEB_FILE então não verifica nada e deixa o servidor
-                // continuar normalmente
-                chain.doFilter( request , response);
+            else {
+	            // Object o objecto que representa o pedido
+	            KnownPath kpath = getKnownPath( hrequest );
+	            
+	            // Check if the URL was already forwared
+	            if( request.getAttribute( forwaredKey ) == null && kpath.resourceType != TYPE_WEB_FILE )
+	            {
+	                
+	                // Tenta fazer o foward para um ficheiro XEO
+	                // Devolve true/false. true se o pedido foi reenviado para outro endereço.
+	                if( srcDir != null && !fowardToXeoFile( kpath, hrequest, response ) )
+	                {
+	            		chain.doFilter( request , response);
+	                }
+	            }
+	            else
+	            {
+	                // O pedido é do tipo WEB_FILE então não verifica nada e deixa o servidor
+	                // continuar normalmente
+	                chain.doFilter( request , response);
+	            }
             }
         }
         else

@@ -61,7 +61,7 @@ public class CleanDirectory
         
         long time = System.currentTimeMillis();
         
-        for (int i = 0; i < files.length; i++) 
+        for (int i = 0;files != null && i < files.length; i++) 
         {
             if( time - files[i].lastModified() > (259200000) )
             {
