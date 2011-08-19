@@ -114,18 +114,20 @@ public class boLoginBean implements SessionBean  {
             	boObjectList list = ObjectListManager.list(ctx, "select Theme where defaultTheme = '1'");
             	list.beforeFirst();
             	list.next();
-            	boObject defaultTheme = list.getObject();
-            	user.setTheme(defaultTheme.getAttribute(Theme.NAME).getValueString());
-            	bridgeHandler filesIncludeHandler = defaultTheme.getBridge(Theme.FILES);
-            	Map<String,String> files = new HashMap<String, String>();
-            	filesIncludeHandler.beforeFirst();
-            	while(filesIncludeHandler.next()){
-            		boObject currentFileInclude = filesIncludeHandler.getObject();
-            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
-            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
-            		files.put(id, path);
-            	}	
-            	user.setThemeFiles(files);
+            	if( list.next() ) {
+	            	boObject defaultTheme = list.getObject();
+	            	user.setTheme(defaultTheme.getAttribute(Theme.NAME).getValueString());
+	            	bridgeHandler filesIncludeHandler = defaultTheme.getBridge(Theme.FILES);
+	            	Map<String,String> files = new HashMap<String, String>();
+	            	filesIncludeHandler.beforeFirst();
+	            	while(filesIncludeHandler.next()){
+	            		boObject currentFileInclude = filesIncludeHandler.getObject();
+	            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
+	            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
+	            		files.put(id, path);
+	            	}	
+	            	user.setThemeFiles(files);
+            	}
             }
             
             user.userName = perf.getAttribute("username").getValueString();
@@ -205,8 +207,6 @@ public class boLoginBean implements SessionBean  {
     public boSession boLogin( boApplication app, String repository ,String clientName, String username , long time, long timeCheck, HttpServletRequest request ) throws boLoginException 
     {
         boSession toReturn=null;
-        Properties prop=app.getApplicationConfig().getAuthentication();
-        String authclass=prop.getProperty("authclass");
         LoginManager p_loginmanager=null;
         EboContext ctx=null;
         try

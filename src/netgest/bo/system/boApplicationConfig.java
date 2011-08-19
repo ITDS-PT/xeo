@@ -735,41 +735,43 @@ public class boApplicationConfig {
 			 * */
 			if (xmldoc.selectNodes("//themes")!=null){
 				NodeList nodeL = xmldoc.selectNodes("//themes");
-				NodeList children = nodeL.item(0).getChildNodes();
-				for (int i = 0; i < children.getLength(); i++) {
-					
-					XMLElement currentTheme = (XMLElement) children.item(i);
-					String themeName = currentTheme.getAttribute("name");
-					String themeDescription = currentTheme.getAttribute("description");
-					String themeIsActive = currentTheme.getAttribute("default");
-					boolean themeIsActiveBol = false;
-					if (themeIsActive != null)
-						themeIsActiveBol = Boolean.parseBoolean(themeIsActive);
-					
-					NodeList nl = currentTheme.getChildNodes();
-					XeoUserThemeFile[] filesToInclude = new XeoUserThemeFile[0];
-					if (nl != null){
-						XMLElement files = (XMLElement) nl.item(0);
-						if (files != null){
-							NodeList invidiualFiles = files.getChildNodes();
-							filesToInclude = new XeoUserThemeFile[invidiualFiles.getLength()];
-							for (int k = 0; k < invidiualFiles.getLength(); k++){
-								
-								//<file path='' description='' id=''></file>
-								XMLElement fileInclude = (XMLElement) invidiualFiles.item(k);
-								String path = fileInclude.getAttribute("path");
-								String description = fileInclude.getAttribute("description");
-								String id = fileInclude.getAttribute("id");
-								XeoUserThemeFile finalFile = new XeoUserThemeFile(path, description, id);
-								filesToInclude[k] = finalFile;
+				if( nodeL.getLength() > 0 ) {
+					NodeList children = nodeL.item(0).getChildNodes();
+					for (int i = 0; i < children.getLength(); i++) {
+						
+						XMLElement currentTheme = (XMLElement) children.item(i);
+						String themeName = currentTheme.getAttribute("name");
+						String themeDescription = currentTheme.getAttribute("description");
+						String themeIsActive = currentTheme.getAttribute("default");
+						boolean themeIsActiveBol = false;
+						if (themeIsActive != null)
+							themeIsActiveBol = Boolean.parseBoolean(themeIsActive);
+						
+						NodeList nl = currentTheme.getChildNodes();
+						XeoUserThemeFile[] filesToInclude = new XeoUserThemeFile[0];
+						if (nl != null){
+							XMLElement files = (XMLElement) nl.item(0);
+							if (files != null){
+								NodeList invidiualFiles = files.getChildNodes();
+								filesToInclude = new XeoUserThemeFile[invidiualFiles.getLength()];
+								for (int k = 0; k < invidiualFiles.getLength(); k++){
+									
+									//<file path='' description='' id=''></file>
+									XMLElement fileInclude = (XMLElement) invidiualFiles.item(k);
+									String path = fileInclude.getAttribute("path");
+									String description = fileInclude.getAttribute("description");
+									String id = fileInclude.getAttribute("id");
+									XeoUserThemeFile finalFile = new XeoUserThemeFile(path, description, id);
+									filesToInclude[k] = finalFile;
+								}
 							}
 						}
+						
+						XeoUserTheme theme = new XeoUserTheme(themeName, themeDescription, themeIsActiveBol, filesToInclude);
+						p_themes.put(theme.getName(), theme);
+						if (themeIsActiveBol)
+							p_defaultTheme = theme;
 					}
-					
-					XeoUserTheme theme = new XeoUserTheme(themeName, themeDescription, themeIsActiveBol, filesToInclude);
-					p_themes.put(theme.getName(), theme);
-					if (themeIsActiveBol)
-						p_defaultTheme = theme;
 				}
 			}
 			

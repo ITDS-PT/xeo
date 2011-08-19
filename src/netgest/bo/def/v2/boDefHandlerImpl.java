@@ -1666,26 +1666,31 @@ public class boDefHandlerImpl extends boDefHandler {
 		if (toRet==null || toRet.equals(""))
 		{
 			//getSuper
-			boDefHandler currentbo= boDefHandlerImpl.getBoDefinition(className);
-			if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals(""))
-			{
-				toRet=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
-			}
-			//Interfaces
-			if (toRet==null || toRet.equals(""))
-			{
-				for (String interf:currentbo.getImplements())
+			boDefHandler currentbo = boDefHandlerImpl.getBoDefinition(className);
+			if( currentbo != null ) {
+				if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals(""))
 				{
-					boDefInterface interfimpl=boDefInterfaceImpl.getInterfaceDefinition(interf);
-					toRet=getTranslation(interfimpl.getName(), defaultValue, type, attribute, whichText);
-					if (toRet!=null && !toRet.equals(""))
-						break;
+					toRet=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
 				}
+				//Interfaces
+				if (toRet==null || toRet.equals(""))
+				{
+					for (String interf:currentbo.getImplements())
+					{
+						boDefInterface interfimpl=boDefInterfaceImpl.getInterfaceDefinition(interf);
+						toRet=getTranslation(interfimpl.getName(), defaultValue, type, attribute, whichText);
+						if (toRet!=null && !toRet.equals(""))
+							break;
+					}
+				}
+				if (toRet==null || toRet.equals(""))				
+					return defaultValue;
+				else
+					return toRet;
 			}
-			if (toRet==null || toRet.equals(""))				
+			else {
 				return defaultValue;
-			else
-				return toRet;
+			}
 		}
 		else
 			return toRet;
