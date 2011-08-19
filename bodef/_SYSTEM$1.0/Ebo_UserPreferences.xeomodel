@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" mastertable="" extends="" version="1.0" type="object" name="Ebo_UserPreferences">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>User Preferences</description>
+        <cardID>[owner]</cardID>
+        <label>User Preferences</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeObject name="owner">
+            <label>Utilizador</label>
+            <description>Utilizador</description>
+            <tooltip>Utilizador</tooltip>
+            <type>object.Ebo_Perf</type>
+            <objects/>
+            <setParent>false</setParent>
+            <renderAsLov>false</renderAsLov>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required language=""/>
+            <formula language=""/>
+            <defaultValue language=""/>
+            <valid language=""/>
+            <disableWhen language=""/>
+            <hiddenWhen language=""/>
+            <onChangeSubmit language=""/>
+            <orphanRelation>true</orphanRelation>
+        </attributeObject>
+        <attributeObjectCollection name="favorites">
+            <label>Favoritos</label>
+            <description></description>
+            <tooltip></tooltip>
+            <type>object.Ebo_FavoriteViewer</type>
+            <objects/>
+            <setParent>false</setParent>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required language=""/>
+            <valid language=""/>
+            <disableWhen language=""/>
+            <hiddenWhen language=""/>
+            <onChangeSubmit language=""/>
+            <orphanRelation>false</orphanRelation>
+        </attributeObjectCollection>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+			</forms>
+            <categories/>
+        </viewer>
+    </viewers>
+</xeoModel>
