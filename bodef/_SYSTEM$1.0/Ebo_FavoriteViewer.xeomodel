@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="false" mastertable="" extends="" version="1.0" type="object" name="Ebo_FavoriteViewer">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="true">
+            <process/>
+        </textIndex>
+        <description>Favorite</description>
+        <cardID>[typeObject] [targetBoui]</cardID>
+        <label>Favorite</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeObject name="targetBouiObj">
+            <label>Objecto</label>
+            <description></description>
+            <tooltip></tooltip>
+            <type>object.boObject</type>
+            <objects/>
+            <setParent>false</setParent>
+            <renderAsLov>false</renderAsLov>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required language=""/>
+            <onChangeSubmit language=""/>
+            <orphanRelation>true</orphanRelation>
+        </attributeObject>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+			</forms>
+            <categories/>
+        </viewer>
+    </viewers>
+</xeoModel>
