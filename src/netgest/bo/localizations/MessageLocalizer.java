@@ -1,11 +1,12 @@
 package netgest.bo.localizations;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import netgest.bo.runtime.EboContext;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
@@ -19,6 +20,7 @@ import netgest.bo.system.boSessionUser;
  */
 public class MessageLocalizer {
 	
+	private static final Logger logger = Logger.getLogger(MessageLocalizer.class);
 	
 	/**
 	 * 
@@ -27,45 +29,51 @@ public class MessageLocalizer {
 	 * @return(String) the exception message
 	 */
 public static String getMessage(String whichMessage){
-		String language;
-		Properties properties= new Properties();
-	String message = null;
+	String language;
+	Properties properties= new Properties();
+	String message = "";
 	language=getLanguage();
 	if (language.length()>2){
 		language=language.substring(0, 1);
 	}
-	File file;	
-	String local=("C:\\xeostudio_novo\\workspace\\xeo_v3_core\\src\\netgest\\bo\\localizations\\"+"MessageLocalizer_");
-	
-	try {
-		String s=("MessageLocalizer_"+language+".properties");
-		if( MessageLocalizer.class.getResourceAsStream(s)!=null)
-		properties.load( MessageLocalizer.class.getResourceAsStream(s));	
-		//file=new File(local+language+".properties");
-		//properties.load(new FileInputStream(file));
-		if (properties.getProperty(whichMessage)!=null)
-		message=properties.getProperty(whichMessage);
-		else{
-			
-		 s=("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
-		properties.load( MessageLocalizer.class.getResourceAsStream(s));	
-		message=properties.getProperty(whichMessage);
+	language = language.toUpperCase();
+	try{
+		try {
+			String s=("MessageLocalizer_"+language+".properties");
+			final InputStream resource = MessageLocalizer.class.getResourceAsStream(s); 
+			if( resource != null){
+				properties.load( MessageLocalizer.class.getResourceAsStream(s));
+				if (properties.getProperty(whichMessage)!=null)
+					message=properties.getProperty(whichMessage);
+				else{
+					s = ("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
+					final InputStream defaultResource = MessageLocalizer.class.getResourceAsStream(s);
+					if (defaultResource != null){
+						properties.load(defaultResource);	
+						message=properties.getProperty(whichMessage);
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {		
+			logger.warn(e);
+		} catch (IOException e) {		
+			logger.warn(e);
+		}	
+		if("".equalsIgnoreCase(message)){
+			String s=("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
+			try{
+				properties.load( MessageLocalizer.class.getResourceAsStream(s));
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}	
+				message=properties.getProperty(whichMessage);
 		}
-	} catch (FileNotFoundException e) {		
-		e.printStackTrace();
-	} catch (IOException e) {		
-		e.printStackTrace();
-	}	
-	if(message==null){
-	 String s=("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
-	try {
-		properties.load( MessageLocalizer.class.getResourceAsStream(s));
-	} catch (IOException e) {
-		
-		e.printStackTrace();
-	}	
-	message=properties.getProperty(whichMessage);
-		}
+	}
+	catch (Throwable t){
+		//NullPointer exceptions and such should not halt execution
+		logger.warn(t);
+	}
 	
 	return message;
 }

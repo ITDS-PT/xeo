@@ -2,9 +2,11 @@ package netgest.bo.localizations;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import netgest.bo.runtime.EboContext;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
@@ -19,6 +21,9 @@ import netgest.bo.system.boSessionUser;
  * 
  */
 public class LoggerMessageLocalizer {
+	
+	public static final Logger logger = Logger.getLogger(LoggerMessageLocalizer.class);
+	
 	/**
 	 * gets the message in the user language, if possible else gets the message
 	 * in the default application language
@@ -34,13 +39,16 @@ public class LoggerMessageLocalizer {
 		if (language.length() > 2) {
 			language = language.substring(0, 1);
 		}
+		//Language is never null from getLanguage()
+		language = language.toUpperCase();
+		try{
 		try {
+			
 			String s = ("LoggerMessageLocalizer_" + language + ".properties");
-			if (LoggerMessageLocalizer.class.getResourceAsStream(s) != null)
-				properties.load(LoggerMessageLocalizer.class
-						.getResourceAsStream(s));
-			// file=new File(local+language+".properties");
-			// properties.load(new FileInputStream(file));
+			InputStream stream = LoggerMessageLocalizer.class.getResourceAsStream(s);
+			if (stream != null)
+				properties.load(stream);
+			
 			if (properties.getProperty(whichMessage) != null)
 				message = properties.getProperty(whichMessage);
 			else {
@@ -48,29 +56,39 @@ public class LoggerMessageLocalizer {
 				s = ("LoggerMessageLocalizer_"
 						+ boApplication.getDefaultApplication()
 								.getApplicationLanguage() + ".properties");
-				properties.load(LoggerMessageLocalizer.class
-						.getResourceAsStream(s));
-				message = properties.getProperty(whichMessage);
+				InputStream applicationLangStream = LoggerMessageLocalizer.class
+					.getResourceAsStream(s); 
+				if (applicationLangStream != null){
+					properties.load(applicationLangStream);
+					message = properties.getProperty(whichMessage);
+				}
+				
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 		if (message == null) {
 			String s = ("LoggerMessageLocalizer_"
 					+ boApplication.getDefaultApplication()
 							.getApplicationLanguage() + ".properties");
 			try {
-				properties.load(LoggerMessageLocalizer.class
-						.getResourceAsStream(s));
+				InputStream stream = LoggerMessageLocalizer.class
+				.getResourceAsStream(s);
+				if (stream != null){
+					properties.load(stream);
+					message = properties.getProperty(whichMessage);
+				}
 			} catch (IOException e) {
-
-				e.printStackTrace();
+				logger.warn(e);
 			}
-			message = properties.getProperty(whichMessage);
 		}
-
+		}
+		catch (Throwable t){
+			logger.warn(t);
+			//NullPointer exceptions and such should not halt the execution
+		}
 		return message;
 	}
 
