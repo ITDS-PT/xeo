@@ -317,9 +317,13 @@ public class PostGreDriver implements Driver {
     	boolean toRet=true;
     	PreparedStatement ps=null;
     	ResultSet rs=null;
+    	String schema=boRepository.getDefaultSchemaName(boApplication.getDefaultApplication());
     	try {
     		ps=cn.prepareStatement("select 1");
     		rs=ps.executeQuery();
+    		ps.close();
+    		ps=cn.prepareStatement("set search_path to "+schema);
+            ps.execute();
 		} catch (SQLException e) {
 			toRet=false;
 		}
