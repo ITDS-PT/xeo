@@ -51,5 +51,7 @@ public interface Driver
     
     public String getDatabaseTimeConstant();
     
+    public boolean validateConnection(Connection cn);
+    
     
 }

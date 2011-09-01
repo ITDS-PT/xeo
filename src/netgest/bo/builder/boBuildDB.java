@@ -1945,8 +1945,7 @@ public class boBuildDB
             ? p_repository.getParentRepository().getName() : null;
         String schemaName = p_repository.getSchemaName();
         StringBuffer sb = new StringBuffer();
-
-        if(!doneMigration(this.p_eboctx) || isCleanInstallation(this.p_eboctx))
+        if( !doneMigration(this.p_eboctx) || isCleanInstallation(this.p_eboctx))
         {
             sb.append("SELECT ")
               .append("\"ID\" AS \"ID\",\"FILENAME\" AS \"FILENAME\",\"BINDATA\" AS \"BINDATA\" FROM DBFS_FILE");
@@ -2781,7 +2780,7 @@ public class boBuildDB
                 {
                     xsql.append(" WHERE ");
                     haveWhere = true;
-                    xsql.append("\"DEPLOYED\" = 1");
+                    xsql.append("\"DEPLOYED\" = '1'");
                     putAnd = true;
                 }
             }
@@ -2995,12 +2994,12 @@ public class boBuildDB
                             {
                                 if( putwhere )
                                 {
-                                    sb.append("\n\t\t WHERE \"DEPLOYED\" = 1");
+                                    sb.append("\n\t\t WHERE \"DEPLOYED\" = '1'");
                                     putwhere = false;
                                 }
                                 else
                                 {
-                                    sb.append(" and \"DEPLOYED\" = 1");
+                                    sb.append(" and \"DEPLOYED\" = '1'");
                                 }
                             }
                         }
@@ -5493,7 +5492,13 @@ public class boBuildDB
         }
         catch (SQLException e)
         {
-            //ignore
+            e.printStackTrace();
+            try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         finally
         {
@@ -5522,7 +5527,10 @@ public class boBuildDB
             pstm = context.getConnectionData().prepareStatement("SELECT COUNT(*) FROM dbfs_file");
             r = pstm.executeQuery();
             r.next();
-            count = r.getInt(1);
+            if (r.getObject(1) instanceof Long)
+            	count = new Long(r.getLong(1)).intValue();
+            else
+            	count = r.getInt(1);
             if(count == 0)
             {
                 result = true;

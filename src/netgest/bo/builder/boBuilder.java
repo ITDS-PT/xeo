@@ -1060,19 +1060,6 @@ public class boBuilder {
 		// Create transaction
 		boolean myTrans = !p_eboctx.getConnectionManager()
 				.isContainerTransactionActive();
-		if (myTrans) {
-			try {
-				p_eboctx.beginContainerTransaction();
-				final InitialContext ic = new InitialContext();
-				UserTransaction ut = (UserTransaction) ic
-						.lookup("java:comp/UserTransaction");
-				ut.setTransactionTimeout(6000000);
-			} catch (NamingException e) {
-				throw new RuntimeException(e);
-			} catch (SystemException e) {
-				throw new RuntimeException(e);
-			}
-		}
 
 		boolean ok = false;
 
@@ -1291,7 +1278,22 @@ public class boBuilder {
 				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
 				deployfile.setLastModified(scriptFile.lastModified());
 			}
-
+			p_eboctx.close();			
+			p_eboctx = boApplication.getDefaultApplication().createContext(p_eboctx.getBoSession());
+			if (myTrans) {
+				try {
+					p_eboctx.beginContainerTransaction();
+					final InitialContext ic = new InitialContext();
+					UserTransaction ut = (UserTransaction) ic
+							.lookup("java:comp/UserTransaction");
+					ut.setTransactionTimeout(6000000);
+				} catch (NamingException e) {
+					throw new RuntimeException(e);
+				} catch (SystemException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			
 			p_builderProgress.addOverallProgress();
 			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_PACKAGES"));
 
@@ -1390,7 +1392,7 @@ public class boBuilder {
 									+ (String) htdeploypackage.get(defs[i]
 											.getBoName()) + "'");
 
-					if (pack != null) {
+					if (pack != null && pack.exists()) {
 						clsreg.getAttribute("xeopackage").setValueLong(
 								pack.bo_boui);
 					}
@@ -1609,8 +1611,8 @@ public class boBuilder {
 			File[] file = repository.getXMLFilesFromDefinition();
 			ArrayList packages = repository.getPackages();
 			String name;
-			StringBuffer sbClsrg = new StringBuffer(" where ");
-			StringBuffer sbPack = new StringBuffer(" where ");
+			StringBuffer sbClsrg = new StringBuffer("");
+			StringBuffer sbPack = new StringBuffer("");
 			boObject pack = null;
 			boolean first = true;
 			boolean intf = false;
@@ -1627,7 +1629,7 @@ public class boBuilder {
 //								"Ebo_ClsReg", "NAME='" + name + "'");
 					if (clsRegList.next()) {
 						if (first) {
-							sbClsrg.append(" boui = ").append(
+							sbClsrg.append(" where boui = ").append(
 									clsRegList.getCurrentBoui());
 							first = false;
 						} else {
@@ -1645,7 +1647,7 @@ public class boBuilder {
 							"NAME='" + (String) packages.get(i) + "'");
 					if (pack.exists()) {
 						if (first) {
-							sbPack.append(" boui = ").append(pack.getBoui());
+							sbPack.append(" where boui = ").append(pack.getBoui());
 							first = false;
 						} else {
 							sbPack.append(" or boui = ").append(pack.getBoui());

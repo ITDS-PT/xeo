@@ -1,5 +1,5 @@
 /*Enconding=UTF-8*/
-package netgest.bo.data.oracle;
+package netgest.bo.data.postgre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +15,11 @@ import netgest.bo.data.Driver;
 import netgest.bo.data.DriverUtils;
 import netgest.bo.data.ReaderAdapter;
 import netgest.bo.data.WriterAdapter;
+import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
-import netgest.system.spy.XEOSpyConnection;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boRepository;
 
 
 /**
@@ -27,30 +29,28 @@ import netgest.system.spy.XEOSpyConnection;
  * @version 1.0
  * @since
  */
-public class OracleDriver implements Driver {
+public class PostGreDriver implements Driver {
 
 	private String p_ddlds;
     private String p_dmlds;
     private String p_name;
     
-    private static final boolean spyConnections = false; 
-
     /**
      *
      * @since
      */
-    public OracleDriver()
+    public PostGreDriver()
     {
     }
 
     public ReaderAdapter createReaderAdapter(EboContext ctx)
     {
-        return new OracleReaderAdapter(p_dmlds);
+        return new PostGreReaderAdapter(p_dmlds);
     }
 
     public WriterAdapter createWriterAdapter(EboContext ctx)
     {
-        return new OracleWriterAdapter(p_dmlds);
+        return new PostGreWriterAdapter(p_dmlds);
     }
 
     public void initializeDriver(String name, String dmlDataSource,
@@ -63,7 +63,7 @@ public class OracleDriver implements Driver {
 
     public DriverUtils getDriverUtils()
     {
-        return new OracleUtils(p_dmlds);
+        return new PostGreUtils(p_dmlds);
     }
 
     private Connection getConnection(String dataSource, String username,
@@ -72,22 +72,32 @@ public class OracleDriver implements Driver {
         final int retrycount = 5;
         int retries = 0;
         Connection ret = null;
-
+        PreparedStatement ps = null;
+        String schema=boRepository.getDefaultSchemaName(boApplication.getDefaultApplication());
         while (ret == null)
         {
             try
             {
                 ret = getDataSource(dataSource).getConnection(username, password);
-                
-                if( spyConnections )
-                	ret = new XEOSpyConnection(ret);
-                
+                if (!validateConnection(ret))
+               	 ret.rollback();
                 // IMBR
-                // ret.setAutoCommit(false);
+                 if (ret.getAutoCommit()) ret.setAutoCommit(false);
+                 ps=ret.prepareStatement("set search_path to "+schema);
+                 ps.execute();
+                 ps.close();                
                 return ret;
             }
             catch (SQLException e)
             {
+
+            	if (ps!=null)
+					try {
+						ps.close();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 if (retries >= retrycount)
                 {
                     throw new RuntimeException(MessageLocalizer.getMessage("FAILED_TO_CREATE_CONNECTION")+
@@ -102,26 +112,36 @@ public class OracleDriver implements Driver {
         return ret;
     }
 
-    private static final Connection getConnection(String dataSource)
+    private  final Connection getConnection(String dataSource)
     {
         final int retrycount = 5;
         int retries = 0;
         Connection ret = null;
-
+        PreparedStatement ps = null;
+        String schema=boRepository.getDefaultSchemaName(boApplication.getDefaultApplication());
         while (ret == null)
         {
             try
             {
-                ret = getDataSource(dataSource).getConnection();
-                if( spyConnections )
-                	ret = new XEOSpyConnection(ret);
+                ret = getDataSource(dataSource).getConnection(); 
+                if (!validateConnection(ret))
+               	 ret.rollback();
                 // IMBR
-//                ret.setAutoCommit(false);
-
+                if (ret.getAutoCommit()) ret.setAutoCommit(false);                                
+                ps=ret.prepareStatement("set search_path to "+schema);
+                ps.execute();
+                ps.close();
                 return ret;
             }
             catch (SQLException e)
             {
+            	if (ps!=null)
+					try {
+						ps.close();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 ret = null;
                 if (retries >= retrycount) 
                 {
@@ -154,11 +174,11 @@ public class OracleDriver implements Driver {
 
     public Connection getDedicatedConnection()
     {
-       Connection cn=null;
+       Connection cn=null;       
         try
         {
             cn = getConnection(p_ddlds);
-            cn.setAutoCommit(false);
+            if (cn.getAutoCommit()) cn.setAutoCommit(false);
         }
         catch (SQLException e) {
             System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABLE_AUTOCOMIT"));
@@ -177,7 +197,7 @@ public class OracleDriver implements Driver {
         try
         {
             cn = getConnection(p_ddlds, username, password);
-            cn.setAutoCommit(false);
+            if (cn.getAutoCommit()) cn.setAutoCommit(false);
         }
         catch (SQLException e) {
             System.out.println(MessageLocalizer.getMessage("FAILED_TO_OBTAIN_DEDICATED_CONNECTION_OR_DISABLE_AUTOCOMIT"));
@@ -192,7 +212,7 @@ public class OracleDriver implements Driver {
 
     public OracleDBM getDBM()
     {
-        return new OracleDBM();
+        return new PostGreDBM();
     }
 
     public String getName()
@@ -217,25 +237,17 @@ public class OracleDriver implements Driver {
     public long getDBSequence(EboContext ctx, String seqname, int dsType, int operation) {
 	try {
 		Connection cn;
-		switch( dsType ) {
-			case Driver.SEQUENCE_SYSTEMDS:
-				cn = ctx.getConnectionSystem();
-				break;
-			default:
-				cn = ctx.getConnectionData();
-				break;
-		}
-		
-		if (cn.getAutoCommit()==true) 
+		cn = ctx.getDedicatedConnectionData();
+		if (cn.getAutoCommit()) 
 			cn.setAutoCommit(false);
   
 		long ret = 0;
 			
 		String sql;
 		if( operation == SEQUENCE_NEXTVAL )
-			sql = "SELECT "+seqname+".nextval FROM DUAL";
+			sql = "SELECT  nextval('"+seqname+"')";
 		else
-			sql = "SELECT "+seqname+".currval FROM DUAL";
+			sql = "SELECT last_value from "+seqname;
 				
   
 		  PreparedStatement pstm = null;
@@ -246,69 +258,80 @@ public class OracleDriver implements Driver {
 			
 			      rslt.close();
 			      pstm.close();
+			      cn.close();
 			      return ret; 
 			  }
 			  else {
 			  	rslt.close();
-			  	pstm.close();
+			  	pstm.close();			  	
 			  	throw(new SQLException(MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" ["+seqname+"]"));
 			  }
 		  } 
 		  catch (SQLException e) 
 		  {
+			  cn.rollback();
+			  cn.close();
 			  if(e.getMessage().indexOf("08002")==-1) {
 				  pstm.close();     
 				  Connection cnded = null;
 				  try {
-					  switch( dsType ) {
-						case Driver.SEQUENCE_SYSTEMDS:
-							cnded = ctx.getConnectionManager().getSystemDedicatedConnection();
-							break;
-						default:
-							cnded = ctx.getDedicatedConnectionData();
-							break;
-				      }
-					  cnded = ctx.getDedicatedConnectionData();
-					  pstm = cnded.prepareStatement("CREATE SEQUENCE "+seqname+" CACHE 20 NOCYCLE ORDER");
+					  cnded = ctx.getDedicatedConnectionData();	
+					  pstm = cnded.prepareStatement("CREATE SEQUENCE "+seqname+" CACHE 20 NO CYCLE");
 					  pstm.execute();
+					  cnded.commit();
 					  pstm.close();
+					  ResultSet rslt = (pstm=cnded.prepareStatement(sql)).executeQuery();
+					  if(rslt.next()) {
+					      ret = rslt.getLong(1);
+					      rslt.close();
+					      pstm.close();
+					      return ret;
+					  }
+					  else {
+					      rslt.close();
+					      pstm.close();
+					      throw(new SQLException(MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" ["+seqname+"]"));
+					  }					  
 				  }
+				  
 				  finally {
+					  if (cn!=null) cn.close();
 					  if( cnded != null ) 
 						  cnded.close();
 				  }
 			  }
-			  if( operation == Driver.SEQUENCE_NEXTVAL ) {
-				  pstm = cn.prepareStatement("SELECT "+seqname+".nextval FROM DUAL");
-				  pstm.execute();
-			      pstm.close();
-			  }
-			  ResultSet rslt = (pstm=cn.prepareStatement(sql)).executeQuery();
-			  if(rslt.next()) {
-			      ret = rslt.getLong(1);
-			      //cn.commit();
-			      rslt.close();
-			      pstm.close();
-			      return ret;
-			  }
-			  else {
-			      rslt.close();
-			      pstm.close();
-			      throw(new SQLException(MessageLocalizer.getMessage("ERROR_OBTAINING_SEQUENCE")+" ["+seqname+"]"));
-			  }
 		  }
+		  if (cn!=null) cn.close();
+		  return ret;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
     }
 
     public String getDatabaseTimeConstant() {
-		return "SYSDATE";
+		return "NOW()";
 	}
-    
+      
     public boolean validateConnection(Connection cn)
     {
-    	return true;
+    	boolean toRet=true;
+    	PreparedStatement ps=null;
+    	ResultSet rs=null;
+    	try {
+    		ps=cn.prepareStatement("select 1");
+    		rs=ps.executeQuery();
+		} catch (SQLException e) {
+			toRet=false;
+		}
+    	finally{
+    		try {
+	    		if (rs!=null) rs.close();					
+	    		if (ps!=null) ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
+    	return toRet;
     }
-
 }

@@ -14,6 +14,7 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
+import netgest.bo.data.postgre.PostGreUtils;
 import netgest.bo.def.*;
 import netgest.bo.*;
 import netgest.bo.system.*;
@@ -938,10 +939,17 @@ public class QLParser  {
         this.ctx = xeboctx;
         this.tokenizeStr();
         this.sec = sec;
+        String toRet=null;
         if(textQuery !=null && this.textQuery.length() > 1)
-          return run();
-        else
-          return null;
+        {
+          toRet=run();
+          Object driver=boApplication.getDefaultApplication().getDriverManager().getDriver("DATA");
+          if (driver instanceof netgest.bo.data.postgre.PostGreDriver)
+          {
+        	  toRet=PostGreUtils.prepareSQLForPostGres(toRet);
+          }
+        }
+        return toRet;    
     }
     
     private String parseCardId(String strQuery,String orby)

@@ -1,5 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.io;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-
 import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
 import netgest.bo.data.oracle.OracleDBM;
@@ -154,7 +154,7 @@ public class BasiciFile implements iFile  {
 			String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
 			if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
 				sql.append("SELECT ID,FILENAME,DATALENGTH(BINDATA) FROM ");
-			}
+			}			
 			else 
 				sql.append("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
 		}
@@ -261,7 +261,7 @@ public class BasiciFile implements iFile  {
 				if (ctx!=null)
 				{
 					String dsName = boConfig.getApplicationConfig().getDataDataSourceClassName();
-					if (dsName.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
+					if (dsName.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL )|| dsName.toUpperCase().indexOf("POSTGRE")>-1){
 						fLen = is.available();
 					}
 				}
@@ -311,10 +311,26 @@ public class BasiciFile implements iFile  {
                 pstm = cn.prepareStatement("SELECT BINDATA FROM "+provider.p_dbfs_table_file+" WHERE ID=?");
                 pstm.setLong(1,this.fileId);
                 rslt = pstm.executeQuery();
+                InputStream is=null;
                 if(rslt.next()) 
                 {
-                    blob = rslt.getBlob(1);
-                    result = new BasicInputStream(blob.getBinaryStream(),cn);
+                	String dsName = boConfig.getApplicationConfig().getDataDataSourceClassName();
+					if (dsName.toUpperCase().indexOf("POSTGRE")>-1){
+						 byte[] imgBytes = rslt.getBytes(1);
+						 
+						 is= new ByteArrayInputStream(imgBytes);
+					}
+					else
+						is = rslt.getBlob(1).getBinaryStream();
+					
+					
+                    result = new BasicInputStream(is,cn);
+                    try {
+						is.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
                 else
                 {

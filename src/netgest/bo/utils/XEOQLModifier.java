@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import netgest.bo.data.postgre.PostGreUtils;
+import netgest.bo.system.boApplication;
+
 public class XEOQLModifier {
 
     private static final String patterns = "(order|group)[\\s+]by|\\/\\*\\+|\\*\\/|\\/\\*|\\{\\{|\\}\\}|[\\.\\,\\(\\)\\[\\]=<>!\\+\\-\\*/'\\n\\t\\?]|[a-zA-Z_$0-9]++|\\w++|\\W";
@@ -425,8 +428,14 @@ public class XEOQLModifier {
 		
 		if( this.afterOrderBy != null ) 
 			retBOQL.append(' ').append( afterOrderBy );
+		String toRet=retBOQL.toString();
 		
-		return retBOQL.toString();
+		Object driver=boApplication.getDefaultApplication().getDriverManager().getDriver("DATA");
+        if (driver instanceof netgest.bo.data.postgre.PostGreDriver)
+        {
+       	  toRet=PostGreUtils.prepareSQLForPostGres(toRet.toString());
+        }
+		return toRet;
 	}
 	
 	private class QLField {

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import netgest.bo.boConfig;
 import netgest.bo.impl.Ebo_TextIndexImpl;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
@@ -134,6 +135,18 @@ public class boTextIndexAgentBussinessLogic
                         		  ctx.beginContainerTransaction();
                               }
                           }
+                          //PostGres Workaround
+                          //Database Connection isClosed 
+                          //PostGres throws error
+                          //Should be fixed in XEO Core code                        
+                          if (boConfig.getApplicationConfig().
+                        		  getDataDataSourceClassName().toUpperCase().indexOf("POSTGRE")>-1)
+                          {
+                        	  cn.close();
+                        	  cn=ctx.getConnectionData();  
+                          }
+                          	
+                          
                           workTime = System.currentTimeMillis()-startTime;      
                           if( ok ) {
                         	  queue.markAsProcessed( cn, itens[ counter ], 1, null );
@@ -189,6 +202,18 @@ public class boTextIndexAgentBussinessLogic
                         }
                         init = System.currentTimeMillis();
                         counter = 0;
+                        
+                        //PostGres Workaround
+                        //Database Connection isClosed 
+                        //PostGres throws error
+                        //Should be fixed in XEO Core code                        
+                        if (boConfig.getApplicationConfig().
+                      		  getDataDataSourceClassName().toUpperCase().indexOf("POSTGRE")>-1)
+                        {
+                      	  cn.close();
+                      	  cn=ctx.getConnectionData();  
+                        }
+
                         itens = queue.pop( ctx, cn, 100 );
                     }
                   }

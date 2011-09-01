@@ -152,6 +152,15 @@ public class boConnectionManager
         {
             throw new RuntimeException(MessageLocalizer.getMessage("ERROR_RETRIEVING_OR_CLOSING_A_CONNECTION_FROM_DRIVER")+".\n" + e.getMessage());
         }
+       
+        //PostGre
+        if (!p_bosession.getRepository().getDefDriver().validateConnection(retcn))
+			try {
+				retcn.rollback();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         return retcn;
     }
 

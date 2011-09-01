@@ -278,5 +278,10 @@ public class MysqlDriver implements Driver
     public String getDatabaseTimeConstant() {
 		return "NOW()";
 	}
+    
+    public boolean validateConnection(Connection cn)
+    {
+    	return true;
+    }
 	
 }

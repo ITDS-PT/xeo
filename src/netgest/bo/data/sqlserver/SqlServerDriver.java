@@ -470,4 +470,9 @@ public class SqlServerDriver implements Driver {
 
 	}
 
+    public boolean validateConnection(Connection cn)
+    {
+    	return true;
+    }
+
 }

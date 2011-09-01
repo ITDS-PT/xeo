@@ -250,7 +250,16 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
 
     public final String getString(int columnIndex)
     {
-        return (String)getValue( columnIndex , DataTypes.VARCHAR , false );
+    	//POSTGRES WORKAROUND
+    	String toRet=null;
+    	try 
+    	{
+    		toRet=(String)getValue( columnIndex , DataTypes.VARCHAR , false );
+    	}
+    	catch (ClassCastException e)
+    	{
+    	}
+        return toRet;
     }
 
     public final BigDecimal getBigDecimal(String columnName)
@@ -302,7 +311,14 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
     }
     public final int getInt( int columnIndex )
     {
-        return ((BigDecimal)getValue( columnIndex , DataTypes.NUMERIC , true )).intValue();
+    	//PostGres Workaround
+    	
+    	if (getValue( columnIndex , DataTypes.NUMERIC , true ) instanceof Long)
+    	{
+    		return ((Long)getValue( columnIndex , DataTypes.NUMERIC , true )).intValue();
+    	}
+    	else
+    		return ((BigDecimal)getValue( columnIndex , DataTypes.NUMERIC , true )).intValue();
     }
 
     public final long getLong( String columnName )
