@@ -29,6 +29,7 @@ import javax.naming.InitialContext;
 import netgest.bo.boConfig;
 import netgest.bo.boDataSource;
 import netgest.bo.builder.boBuildDB;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
@@ -581,63 +582,66 @@ public class OracleDBM
     }
 
     public void createSpecialTables(String schemaName)
-        throws SQLException, boRuntimeException
-    {
-        String parentName = "default";
-
-        if (!existsTable(p_ctx, schemaName, "NGTDIC"))
-        {
-            createNgtdic(schemaName);
-        }
-
-        if (!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX"))
-        {
-            createTableIndex(schemaName);
-        }
-
-        try
-        {
-            executeDDL("begin ctx_ddl.create_preference('xeo_lexer','BASIC_LEXER'); end;",
-                p_ctx.getBoSession().getRepository().getName());
-        }
-        catch (Exception e)
-        {
-            //ignorar erro quando já existe
-        }
-        try
-        {
-            executeDDL("begin ctx_ddl.set_attribute('xeo_lexer','BASE_LETTER','YES'); end;",
-                p_ctx.getBoSession().getRepository().getName());
-        }
-        catch (Exception e)
-        {
-            //ignorar erro quando já existe
-        }
-
-        try
-        {
-            if (!existsIndex(p_ctx, schemaName, "SYS_IM_EBO_TEXTINDEX"))
-            {
-                createIndexForTableIndex(schemaName);
-            }
-        }
-        catch (Exception e)
-        {
-            //ignorar erro quando já existe
-        }
-
-
-        try
-        {
-            createTextIndexJobAndProc();
-        }
-        catch (Exception e)
-        {
-            //ignorar erro quando já existe
-        }
-
-
-    }
+    throws SQLException, boRuntimeException
+	{
+	    String parentName = "default";
+	
+	    if (!existsTable(p_ctx, schemaName, "NGTDIC"))
+	    {
+	        createNgtdic(schemaName);
+	    }
+	
+	   
+	    if (boDefHandler.getBoDefinition("Ebo_TextIndex").getDataBaseManagerManageTables() && 
+	    		!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX"))
+	    {
+	        createTableIndex(schemaName);
+	    }
+	
+	    try
+	    {
+	        executeDDL("begin ctx_ddl.create_preference('xeo_lexer','BASIC_LEXER'); end;",
+	            p_ctx.getBoSession().getRepository().getName());
+	    }
+	    catch (Exception e)
+	    {
+	        //ignorar erro quando já existe
+	    }
+	    try
+	    {
+	        executeDDL("begin ctx_ddl.set_attribute('xeo_lexer','BASE_LETTER','YES'); end;",
+	            p_ctx.getBoSession().getRepository().getName());
+	    }
+	    catch (Exception e)
+	    {
+	        //ignorar erro quando já existe
+	    }
+	
+	    if (boDefHandler.getBoDefinition("Ebo_TextIndex").getDataBaseManagerManageTables()) {
+	        try
+	        {
+	            if (!existsIndex(p_ctx, schemaName, "SYS_IM_EBO_TEXTINDEX"))
+	            {
+	                createIndexForTableIndex(schemaName);
+	            }
+	        }
+	        catch (Exception e)
+	        {
+	            //ignorar erro quando já existe
+	        }
+	   
+	        try
+	        {
+	            createTextIndexJobAndProc();
+	        }
+	        catch (Exception e)
+	        {
+	            //ignorar erro quando já existe
+	        }
+	    
+	    }
+	    
+	}
 
     public void createEbo_TemplateIndex(EboContext p_ctx, String schemaName )
     {
