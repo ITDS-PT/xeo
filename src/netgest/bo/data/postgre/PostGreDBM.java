@@ -30,6 +30,7 @@ import netgest.bo.boConfig;
 import netgest.bo.boDataSource;
 import netgest.bo.builder.boBuildDB;
 import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
@@ -568,24 +569,27 @@ public class PostGreDBM extends OracleDBM
             createNgtdic(schemaName);
         }
 
-        if (!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX"))
-        {
-            createTableIndex(schemaName);
-        }
+        if (boDefHandler.getBoDefinition("Ebo_TextIndex").getDataBaseManagerManageTables()) {
+        	
+        	if (!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX"))
+        	{
+        		createTableIndex(schemaName);
+        	}
 
-        try
-        {
-            if (!existsIndex(p_ctx, schemaName, "SYS_IM_EBO_TEXTINDEX"))
-            {
-                createIndexForTableIndex(schemaName);
-            }
+        	try
+        	{
+        		if (!existsIndex(p_ctx, schemaName, "SYS_IM_EBO_TEXTINDEX"))
+        		{
+        			createIndexForTableIndex(schemaName);
+        		}
+        	}
+        	catch (Exception e)
+        	{
+        		//ignorar erro quando já existe
+        	}
+       
         }
-        catch (Exception e)
-        {
-            //ignorar erro quando já existe
-        }
-
-
+        
     }
 
     public void createEbo_TemplateIndex(EboContext p_ctx, String schemaName )
