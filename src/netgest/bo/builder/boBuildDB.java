@@ -2125,12 +2125,12 @@ public class boBuildDB
 
         generateScripts(true);
 
-        // Create Ebo_Template Index
-        OracleDBM dbm = p_repository.getDriver().getDBM();
-        dbm.createEbo_TemplateIndex( p_eboctx, p_repository.getSchemaName() );
-        dbm.close();
-
-
+        if(boDefHandler.getBoDefinition("Ebo_Template").getDataBaseManagerManageTables()) {
+            // Create Ebo_Template Index
+            OracleDBM dbm = p_repository.getDriver().getDBM();
+            dbm.createEbo_TemplateIndex( p_eboctx, p_repository.getSchemaName() );
+            dbm.close();
+        }
     }
 
     public static String[] getInterfaceTables(boDefHandler def)
