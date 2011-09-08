@@ -1236,20 +1236,25 @@ public class boBuilder {
 				while (oIt.hasNext()) {
 					try {
 						mandInterface = (String) oIt.next();
-						p_builderProgress
-								.appendInfoLog(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
-										+ mandInterface + "'");
-						///////////
-						p_builderProgress.addCurrentTaskProgress();
-						p_builderProgress
-						.setCurrentTaskName(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
-								+ mandInterface + "'");
+									
+						if(boDefHandler.getInterfaceDefinition(mandInterface).getDataBaseManagerManageViews()) {
+
+							p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
+									+ mandInterface + "'");
+							///////////
+							p_builderProgress.addCurrentTaskProgress();
+							p_builderProgress
+							.setCurrentTaskName(MessageLocalizer.getMessage("BUILDING_MANDATORY_INTERFACE_VIEW_FOR")+":'"
+									+ mandInterface + "'");
+
+
+							boBuildDB bdb = new boBuildDB(p_eboctx);
+							bdb.createInheritViewsForMandatoryInterfaces(
+									mandInterface, (ArrayList) objectInterf
+									.get(mandInterface));
+						}
 						
-						//////////
-						boBuildDB bdb = new boBuildDB(p_eboctx);
-						bdb.createInheritViewsForMandatoryInterfaces(
-								mandInterface, (ArrayList) objectInterf
-										.get(mandInterface));
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
@@ -1832,6 +1837,9 @@ public class boBuilder {
 	public void buildAttributes(boDefHandler bodef, boObject clsreg)
 			throws boRuntimeException {
 		try {
+			System.out.println("______________1____________________"+bodef.getName());
+			System.out.println("_______________2___________________"+clsreg.getName());
+			
 			bridgeHandler bridge = clsreg.getBridge("attributes");
 			boObject attribute = null;
 			boDefAttribute[] a_att;
@@ -1914,7 +1922,10 @@ public class boBuilder {
 					bridge.remove();
 				}
 			}
-		} catch (boException e) {
+		} catch (Throwable e) {
+		
+			System.out.println("____________3______________________"+bodef.getName());
+			e.printStackTrace();
 			// throw(e);
 		}
 	}
