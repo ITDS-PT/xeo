@@ -135,5 +135,11 @@ public interface boDefInterface
      * @return A list of XEO Model names
      */
     public HashSet<boDefHandler> getAllObjectDefHandlersImplementingInterface();
+    
+    public abstract boolean getDataBaseManagerManageTables();
+
+    public abstract boolean getDataBaseManagerManageViews();
+
+    public abstract boolean getDataBaseManagerXeoCompatible();
 
 }
