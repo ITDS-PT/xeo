@@ -28,6 +28,7 @@ import netgest.bo.boConfig;
 import netgest.bo.boDataSource;
 import netgest.bo.builder.boBuildDB;
 import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
@@ -479,7 +480,8 @@ public class SqlServerDBM extends OracleDBM {
 			createNgtdic(schemaName);
 		}
 
-		if (!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX")) {
+		if (boDefHandler.getBoDefinition("Ebo_TextIndex").getDataBaseManagerManageTables() && 
+				!existsTable(p_ctx, schemaName, "EBO_TEXTINDEX")) {
 			createTableIndex(schemaName);
 		}
 
