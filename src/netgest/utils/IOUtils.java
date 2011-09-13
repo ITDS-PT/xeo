@@ -34,6 +34,9 @@ public final class IOUtils
     }
     public static final File copy(File src, File dest)
     {
+    	assert src != null : "Source file cannot be null";
+    	assert dest != null : "Destination file cannot be null";
+    	
         int br;
         byte[] buff = new byte[8096];
         try
