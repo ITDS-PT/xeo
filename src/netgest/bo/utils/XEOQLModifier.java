@@ -430,11 +430,6 @@ public class XEOQLModifier {
 			retBOQL.append(' ').append( afterOrderBy );
 		String toRet=retBOQL.toString();
 		
-		Object driver=boApplication.getDefaultApplication().getDriverManager().getDriver("DATA");
-        if (driver instanceof netgest.bo.data.postgre.PostGreDriver)
-        {
-       	  toRet=PostGreUtils.prepareSQLForPostGres(toRet.toString());
-        }
 		return toRet;
 	}
 	
