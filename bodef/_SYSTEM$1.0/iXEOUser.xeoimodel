@@ -211,6 +211,27 @@
             <onChangeSubmit></onChangeSubmit>
             <orphanRelation>true</orphanRelation>
         </attributeObject>
+        <attributeObject name="theme">
+            <label>Tema</label>
+            <description>Tema</description>
+            <tooltip>Tema</tooltip>
+            <type>object.Theme</type>
+            <objects/>
+            <setParent>false</setParent>
+            <renderAsLov>false</renderAsLov>
+            <database>
+                <unique>false</unique>
+                <indexfull>true</indexfull>
+                <indexed>false</indexed>
+                <tabled>false</tabled>
+                <constraint>false</constraint>
+                <binding>true</binding>
+            </database>
+            <events/>
+            <required></required>
+            <onChangeSubmit></onChangeSubmit>
+            <orphanRelation></orphanRelation>
+        </attributeObject>
     </attributes>
     <viewers>
         <viewer name="general">
