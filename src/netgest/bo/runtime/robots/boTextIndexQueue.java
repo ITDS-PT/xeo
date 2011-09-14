@@ -139,7 +139,9 @@ public class boTextIndexQueue
             		limitOnWhere = " AND " + dutl.getQueryLimitStatement( 120 );
             		break;
             }
-            pstm        = cn.prepareStatement( "select " + limitOnSelect + " boui from ebo_textindex_queue where state = 0 " + limitOnWhere + " order by ENQUEUETIME " + limitOnEnd );
+            String sql = "select " + limitOnSelect + " distinct boui,(select min(ENQUEUETIME) from ebo_textindex_queue q where q1.boui=q.boui )" + 
+            			 "	from ebo_textindex_queue q1 where state = 0  AND  ROWNUM <=  120 order by 2 " + limitOnEnd ;
+            pstm        = cn.prepareStatement( sql );
             rslt        = pstm.executeQuery();
             while( rslt.next() )
             {
