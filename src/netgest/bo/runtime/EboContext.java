@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import java.util.Vector;
 import javax.naming.InitialContext;
@@ -51,7 +52,7 @@ public class EboContext extends boPoolable implements Cloneable
     private String p_url;
     private boConnectionManager p_connman;
     private boApplication p_app;
-    public ArrayList ObjectsInContext = new ArrayList();
+    public List<String> ObjectsInContext = new ArrayList<String>();
     private boThread p_thread;
     private boolean isInTransaction = false;
     private  Vector p_poolowners = new Vector(1);
