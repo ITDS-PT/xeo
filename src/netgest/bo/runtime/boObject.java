@@ -2079,18 +2079,47 @@ public abstract class boObject extends boObjectContainer implements Serializable
         return names;
     }
 
+    /**
+     * 
+     * Retrieves the handler that sets/gets the parameters
+     * 
+     * @return The {@link ParametersHandler} for this instance
+     */
     public ParametersHandler getParametersHandler() {
         return p_parameters;
     }
 
+    /**
+     * 
+     * Retrieves an array with all parameter names for this instance.
+     * If you want the respective values, see the {@link #getParametersValues()}
+     * 
+     * @return An array with the parameters
+     */
     public String[] getParametersNames() {
         return p_parameters.getParametersNames();
     }
 
+    /**
+     * 
+     * Retrieves all parameter values for this instance (without their associated
+     * names, see the {@link #getParametersNames()} method on how
+     * to get the respective parameter names
+     * 
+     * @return An array with all the parameter values of this object
+     */
     public String[] getParametersValues() {
         return p_parameters.getParametersValues();
     }
 
+    /**
+     * 
+     * Retrieves a given parameter value of this instance
+     * 
+     * @param parametername The name of the parameter
+     * 
+     * @return The parameter value
+     */
     public String getParameter(String parametername) {
         String ret = p_parameters.getParameter(parametername);
 
@@ -2101,15 +2130,37 @@ public abstract class boObject extends boObjectContainer implements Serializable
         return ret;
     }
 
+    /**
+     * 
+     * Sets a parameter for this particular instance. You can use parameters to 
+     * flag an instance with usefull information
+     * 
+     * @param parametername The name of the parameter
+     * @param parametervalue The value of the parameter 
+     */
     public void setParameter(String parametername, String parametervalue) {
         p_parameters.setParameter(parametername, parametervalue);
     }
 
+    /**
+     * 
+     * Sets an array of parameters of this particular instance.
+     * see {@link boObject#setParameter(String, String)}
+     * 
+     * @param parametersnames The parameter names
+     * @param parametersvalues The parameter value
+     */
     public void setParameters(String[] parametersnames,
         String[] parametersvalues) {
         p_parameters.setParameters(parametersnames, parametersvalues);
     }
 
+    /**
+     * 
+     * Removes a parameter from this instance
+     * 
+     * @param parname The parameter name
+     */
     public void removeParameter(String parname) {
         p_parameters.removeParameter(parname);
     }
