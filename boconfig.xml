@@ -91,6 +91,40 @@
     		</language>
     	</availableLanguages>
     </languages>
+     <themes>
+    	<theme name='blue' description='Default Blue Theme' >
+    	</theme>
+    	<theme name='gray' description='Gray Theme'>
+    		<files>
+    			<file path='extjs/resources/css/xtheme-gray.css' description='Gray Theme' id='css_gray'></file>
+    		</files>
+    	</theme>
+    	<theme name='slate' description='Slate Theme' default='true'>
+    		<files>
+    			<file path='extjs/resources/css/xtheme-slate.css' description='Slate Theme' id='css_slate'></file>
+    		</files>
+    	</theme>
+    	<theme name='green' description='Green Theme'>
+    		<files>
+    			<file path='themes/css/xtheme-green.css' description='Green Theme' id='css_green'></file>
+    		</files>
+    	</theme>
+    	<theme name='olive' description='Olive Theme'>
+    		<files>
+    			<file path='themes/css/xtheme-olive.css' description='Olive Theme' id='css_olive'></file>
+    		</files>
+    	</theme>
+    	<theme name='pink' description='Pink Theme'>
+    		<files>
+    			<file path='themes/css/xtheme-pink.css' description='Pink Theme' id='css_pink'></file>
+    		</files>
+    	</theme>
+    	<theme name='purple' description='Purple Theme'>
+    		<files>
+    			<file path='themes/css/xtheme-purple.css' description='Purple Theme' id='css_purple'></file>
+    		</files>
+    	</theme>
+    </themes>
 	<win32Client>
 		<version>0.9.1</version>
 		<name>xeoWin32Client.jar</name>
