@@ -1008,9 +1008,9 @@ public class QLParser  {
                  				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
          					}
          				}
-         				else neworderby+=currClause+",";         				
+//         				else neworderby+=currClause+",";         				
          			}
-         			else neworderby+=currClause+",";
+         			else neworderby+=currClause+" " + direction + ",";
          			
      				if (thisobjdef!=null)
      				{
@@ -1047,22 +1047,22 @@ public class QLParser  {
 		        				{
 		        					for (int j=0;j<cardids.size();j++)
 		        					{
-		        						neworderby+=currClause+"."+cardids.get(j)+",";
+		        						neworderby+=currClause+"."+cardids.get(j)+" " + direction +",";
 		        					}
 		        				}
 		        				else neworderby+=currClause+",";
 		        			}
 		        		}
-		        		else neworderby+=currClause+",";			        			
+		        		else neworderby+=currClause+" " + direction + ",";			        			
      				}
          		}
-         		else neworderby+=currClause+",";
+         		else neworderby+=currClause+" " + direction + ",";
          	}
          	if (!neworderby.equals(orby))
          	{
          		//remove last ,
          		neworderby=neworderby.substring(0,neworderby.length()-1);
-         		strQuery=strQuery.substring(0,lastindexofoby)+neworderby+" "+direction;
+         		strQuery=strQuery.substring(0,lastindexofoby)+neworderby;
          	}         	
          }
          return strQuery;
