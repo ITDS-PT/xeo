@@ -92,14 +92,14 @@
     	</availableLanguages>
     </languages>
      <themes>
-    	<theme name='blue' description='Default Blue Theme' >
+    	<theme name='blue' description='Default Blue Theme' default='true'>
     	</theme>
     	<theme name='gray' description='Gray Theme'>
     		<files>
     			<file path='extjs/resources/css/xtheme-gray.css' description='Gray Theme' id='css_gray'></file>
     		</files>
     	</theme>
-    	<theme name='slate' description='Slate Theme' default='true'>
+    	<theme name='slate' description='Slate Theme' >
     		<files>
     			<file path='extjs/resources/css/xtheme-slate.css' description='Slate Theme' id='css_slate'></file>
     		</files>
