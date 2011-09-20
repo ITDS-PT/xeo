@@ -42,14 +42,14 @@ public static String getMessage(String whichMessage){
 			String s=("MessageLocalizer_"+language+".properties");
 			final InputStream resource = MessageLocalizer.class.getResourceAsStream(s); 
 			if( resource != null){
-				properties.load( MessageLocalizer.class.getResourceAsStream(s));
+				properties = PropertiesUtils.readUtf8Properties(MessageLocalizer.class.getResourceAsStream(s));
 				if (properties.getProperty(whichMessage)!=null)
 					message=properties.getProperty(whichMessage);
 				else{
 					s = ("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
 					final InputStream defaultResource = MessageLocalizer.class.getResourceAsStream(s);
 					if (defaultResource != null){
-						properties.load(defaultResource);	
+						properties = PropertiesUtils.readUtf8Properties(defaultResource);	
 						message=properties.getProperty(whichMessage);
 					}
 				}
@@ -62,7 +62,7 @@ public static String getMessage(String whichMessage){
 		if("".equalsIgnoreCase(message)){
 			String s=("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
 			try{
-				properties.load( MessageLocalizer.class.getResourceAsStream(s));
+				properties = PropertiesUtils.readUtf8Properties(MessageLocalizer.class.getResourceAsStream(s));
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
