@@ -140,7 +140,7 @@ public class boTextIndexQueue
             		break;
             }
             String sql = "select " + limitOnSelect + " distinct boui,(select min(ENQUEUETIME) from ebo_textindex_queue q where q1.boui=q.boui )" + 
-            			 "	from ebo_textindex_queue q1 where state = 0  AND  ROWNUM <=  120 order by 2 " + limitOnEnd ;
+            			 "	from ebo_textindex_queue q1 where state = 0 "+limitOnWhere+" order by 2 " + limitOnEnd ;
             pstm        = cn.prepareStatement( sql );
             rslt        = pstm.executeQuery();
             while( rslt.next() )
