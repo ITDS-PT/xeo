@@ -14,7 +14,6 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
-import netgest.bo.data.postgre.PostGreUtils;
 import netgest.bo.def.*;
 import netgest.bo.*;
 import netgest.bo.system.*;
@@ -932,7 +931,8 @@ public class QLParser  {
             strQuery= strQuery.replaceAll("MYSENDMESSAGES",xgroups );
         }
         
-        strQuery=parseCardId(strQuery," ORDER BY ");
+        strQuery = QLOrderAndGroupByCardID.parseOrderByCardID(strQuery);
+        strQuery = QLOrderAndGroupByCardID.parseGroupByCardID(strQuery);
        
         
         this.textQuery = strQuery;
@@ -943,130 +943,11 @@ public class QLParser  {
         if(textQuery !=null && this.textQuery.length() > 1)
         {
           toRet=run();
-          Object driver=boApplication.getDefaultApplication().getDriverManager().getDriver("DATA");
-          if (driver instanceof netgest.bo.data.postgre.PostGreDriver)
-          {
-        	  toRet=PostGreUtils.prepareSQLForPostGres(toRet);
-          }
         }
+
         return toRet;    
     }
     
-    private String parseCardId(String strQuery,String orby)
-    {
-        //Parse Object Attributes Card id's
-        //Assumes order by to be the last clause in xeoql
-    	 int lastindexofoby=strQuery.toUpperCase().lastIndexOf(orby);
-         if (lastindexofoby>-1)
-         {
-         	String oby=strQuery.substring(strQuery.toUpperCase().lastIndexOf(orby)+orby.length(),strQuery.length());
-         	String direction="";
-         	if (oby.trim().toUpperCase().endsWith("DESC"))
-         	{
-         		direction="DESC";
-         	}
-         	else if (oby.trim().toUpperCase().endsWith("ASC"))
-         	{
-         		direction="ASC";
-         	}
-         	if (!direction.equals(""))
-         	{
-         		oby=oby.substring(0,oby.toUpperCase().lastIndexOf(direction));
-         	}
-         	Vector obyclauses=tools.Split(oby, ",");
-         	String neworderby=orby;
-         	for (int i=0;i<obyclauses.size();i++)
-         	{
-         		String currClause=(String)obyclauses.get(i);
-         		currClause=currClause.replaceAll("^\\s+", "");
-         		currClause=currClause.replaceAll("\\s+$", "");
-         		//Only first level
-         		//May change in the future
-         		if (currClause.indexOf(".")==-1)
-         		{
-                 	//Trying to get objdef
-         			boDefHandler thisobjdef=null;
-         			String selstm="SELECT ";
-         			String objname=null;
-         			if (strQuery.toUpperCase().startsWith(selstm)) 
-         			{
-         				objname=strQuery.substring(strQuery.toUpperCase().indexOf(selstm)+selstm.length(),strQuery.length());
-         				objname= objname.replaceAll("^\\s+", "");
-         				objname=objname.replaceAll("\\s+$", "");
-         				objname=objname.substring(0, objname.indexOf(" "));  
-         				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
-         				//trying to get from FROM
-         				if (thisobjdef==null)
-         				{
-         					String fromstm=" FROM ";
-         					if(strQuery.toUpperCase().indexOf(fromstm)>-1)
-         					{
-         						objname=strQuery.substring(strQuery.toUpperCase().indexOf(fromstm)+fromstm.length(),strQuery.length());
-                 				objname= objname.replaceAll("^\\s+", "");
-                 				objname=objname.replaceAll("\\s+$", "");
-                 				objname=objname.substring(0, objname.indexOf(" "));
-                 				if (objname!=null) thisobjdef=boDefHandler.getBoDefinition(objname);
-         					}
-         				}
-//         				else neworderby+=currClause+",";         				
-         			}
-         			else neworderby+=currClause+" " + direction + ",";
-         			
-     				if (thisobjdef!=null)
-     				{
-		        		boDefAttribute attdef=thisobjdef.getAttributeRef(currClause);
-		        		//Only for ObjectAttribute and excluding attributes with more than one type
-		        		if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
-		        				&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
-		        		{
-		        			String type=attdef.getType();			        			
-		        			boDefHandler currdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
-		        			if (currdef!=null)
-		        			{
-		        				String cardid=currdef.getCARDID(); 		
-		        				byte[] cardidbytes=cardid.getBytes();
-		        				String cardidatt="";
-		        				Vector cardids= new Vector();
-		        				boolean append=false;
-		        				for (int j=0;j<cardidbytes.length;j++)
-		        				{ 				        				
-		        					byte currb=cardidbytes[j];
-		        					if (currb=='[')
-		        						append=true;
-		        					if (currb==']')
-		        					{	
-		        						if (cardidatt.indexOf(".")==-1)
-		        							cardids.add(cardidatt);
-		        						append=false;
-		        						cardidatt="";
-		        					}
-		        					if (append && !(currb=='['))
-		        						cardidatt+=(char)currb;       					
-		        				}
-		        				if (cardids.size()>0)
-		        				{
-		        					for (int j=0;j<cardids.size();j++)
-		        					{
-		        						neworderby+=currClause+"."+cardids.get(j)+" " + direction +",";
-		        					}
-		        				}
-		        				else neworderby+=currClause+",";
-		        			}
-		        		}
-		        		else neworderby+=currClause+" " + direction + ",";			        			
-     				}
-         		}
-         		else neworderby+=currClause+" " + direction + ",";
-         	}
-         	if (!neworderby.equals(orby))
-         	{
-         		//remove last ,
-         		neworderby=neworderby.substring(0,neworderby.length()-1);
-         		strQuery=strQuery.substring(0,lastindexofoby)+neworderby;
-         	}         	
-         }
-         return strQuery;
-    }
     //divide a query em elementos lógicos e reconhecivies armazenando-os num vector decorando ainda as posições 
     //em que elas aparecem para posterior identificação dos erros
     private void tokenizeStr(){
