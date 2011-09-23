@@ -113,7 +113,14 @@ public class boDefHandlerImpl extends boDefHandler {
 	private String p_description;
 	private String p_cardId;
 
+	/**
+	 * The language declared in the XEO Model
+	 */
 	private String p_local_language;
+	/**
+	 * The default language of the application
+	 */
+	private String p_default_system_language;
 	private boolean p_versioning;
 
 	private String[] p_castTo;
@@ -412,8 +419,8 @@ public class boDefHandlerImpl extends boDefHandler {
 
 			ngtXMLHandler localNode = xnode.getChildNode("locale");
 			boApplicationConfig b=boApplication.currentContext().getApplication().getApplicationConfig();
-			p_local_language = b.getLanguage();
-				localNode.getAttribute("language");
+			p_local_language = 	localNode.getAttribute("language");
+			p_default_system_language = b.getLanguage();
 
 			// DATABASE
 			xnode = xmlNode.getChildNode("general");
