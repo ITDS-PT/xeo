@@ -214,12 +214,23 @@ public abstract class boDefHandler implements boDef
 
     public abstract boDefAttribute getAttributeRef(String attributeName, boolean viewExtendedObject);
     
+    /**
+     * 
+     * Retrieves the language declared in the Model
+     * 
+     * @return A string with the language (EN, PT, ect..)
+     */
     public abstract String getBoLanguage();
 
     public abstract String getBoBirthPlace();
 
     public abstract String getBoName();
 
+    /**
+     * Retrieves the default language in the application
+     * 
+     * @return A string with the language (EN, PT, etc..)
+     */
     public abstract String getBoDefaultLanguage();
 
     public abstract String getLabel();
