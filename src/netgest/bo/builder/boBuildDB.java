@@ -559,6 +559,10 @@ public class boBuildDB
                                     addForeignKey( catt, tablename );
                                 }
                             }
+                        } else{
+                        	logger.warn("XEO Model %s has a relation with %s (through attribute %s). %s doesn't exist",
+                        			bodef.getName(),catt.getReferencedObjectName(),catt.getName(),catt.getReferencedObjectName());
+                        	
                         }
                     }
 
