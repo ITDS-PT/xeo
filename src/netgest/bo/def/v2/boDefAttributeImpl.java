@@ -225,11 +225,22 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 
 			p_setparent = GeneralParseUtils.parseSetParent(getChildNodeText(
 					"setParent", null));
-
-			p_minOccurs = GenericParseUtils.parseInt(getChildNodeText(
-					"minOccurs", "0"));
-			p_maxOccurs = GenericParseUtils.parseIntOrN(getChildNodeText(
-					"maxOccurs", "1"));
+			
+			//If we have an object collection 
+			if (p_declaredType.equalsIgnoreCase(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION)){
+				String minOccursExists = getChildNodeText("minOccurs", "0");
+				String maxOccursExists = getChildNodeText("maxOccurs", "N");
+				p_minOccurs = GenericParseUtils.parseInt(minOccursExists);
+				p_maxOccurs = GenericParseUtils.parseIntOrN(maxOccursExists);
+			} else{
+				p_minOccurs = GenericParseUtils.parseInt(getChildNodeText(
+						"minOccurs", "0"));
+				p_maxOccurs = GenericParseUtils.parseIntOrN(getChildNodeText(
+						"maxOccurs", "1"));
+			}
+			
+			
+			
 			p_runtimeMaxOccurs = GenericParseUtils
 					.parseIntOrN(getChildNodeText("runtimeMaxOccurs", String
 							.valueOf(p_maxOccurs)));
