@@ -2308,6 +2308,15 @@ public class boBuilder {
 		bodef.refresh();
 	}
 
+	/**
+	 * 
+	 * Creates the System Attributes (PARENT, BOUI, CLASSNAME, etc...)
+	 * For the a given XEO Model
+	 * 
+	 * @param repository
+	 * @param bodef The definition of the model
+	 * @param objectInterfaceMap
+	 */
 	public static final void fillSystemAttributes(boBuildRepository repository,
 			boDefHandler bodef, Hashtable objectInterfaceMap) {
 
