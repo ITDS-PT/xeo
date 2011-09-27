@@ -33,7 +33,7 @@ public class QLOrderAndGroupByCardID {
 	        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
 	        	    
 	        	    if (cardids!=null)        	    
-		        	    {
+		        	{
 		        		String direction=getDirection(currclause);
 		        		String neworderby="";
 		        		asObjAtt = true;
@@ -96,8 +96,7 @@ public class QLOrderAndGroupByCardID {
         	if (!asObjAtt)
         	    return strQuery;
         	else
-        	{
-        	    
+        	{        	    
         	    return qlmod.toBOQL(dummy);
         	}
 		}
@@ -117,18 +116,19 @@ public class QLOrderAndGroupByCardID {
 		    boolean append=false;
 		    for (int j=0;j<cardidbytes.length;j++)
 		    { 				        				
-			byte currb=cardidbytes[j];
-			if (currb=='[')
-			    append=true;
-			if (currb==']')
-			{	
-			    if (cardidatt.indexOf(".")==-1)
-				cardids.add(cardidatt);
-			    append=false;
-			    cardidatt="";
-			}
-			if (append && !(currb=='['))
-			    cardidatt+=(char)currb;       					
+				byte currb=cardidbytes[j];
+				if (currb=='[')
+				    append=true;
+				if (currb==']')
+				{	
+				    if (cardidatt.indexOf(".")==-1)
+				    	cardids.add(cardidatt);
+				    
+				    append=false;
+				    cardidatt="";
+				}
+				if (append && !(currb=='['))
+				    cardidatt+=(char)currb;       					
 		    }
 		    toRet = new String[cardids.size()];				
 		    cardids.toArray(toRet);
@@ -158,7 +158,7 @@ public class QLOrderAndGroupByCardID {
 		
 			    //Only for ObjectAttribute and excluding attributes with more than one type
 			    if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
-			    		&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
+			    	&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
 			    {
 					String type=attdef.getType();			        			
 					objdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
