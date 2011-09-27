@@ -28,21 +28,21 @@ public class QLOrderAndGroupByCardID {
 	        	{
 	        	    String att=currclause.trim();
 	        	    if (att.indexOf(" ")>-1)
-	        		att=att.substring(0,att.indexOf(" "));
+	        	    	att=att.substring(0,att.indexOf(" "));
 	        	    
 	        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
 	        	    
 	        	    if (cardids!=null)        	    
-	        	    {
-	        		String direction=getDirection(currclause);
-	        		String neworderby="";
-	        		asObjAtt = true;
-	        		for (String attcardid:cardids)
-	        		{
-	        		    neworderby+=att+"."+attcardid+" "+direction+",";
-	        		}
-	        		neworderby = neworderby.substring(0,neworderby.lastIndexOf(","));
-	        		orderby=tools.replacestr(orderby, currclause, neworderby);
+		        	    {
+		        		String direction=getDirection(currclause);
+		        		String neworderby="";
+		        		asObjAtt = true;
+		        		for (String attcardid:cardids)
+		        		{
+		        		    neworderby+=att+"."+attcardid+" "+direction+",";
+		        		}
+		        		neworderby = neworderby.substring(0,neworderby.lastIndexOf(","));
+		        		orderby=tools.replacestr(orderby, currclause, neworderby);
 	        	    }
 	        	}
 	        	
@@ -61,26 +61,26 @@ public class QLOrderAndGroupByCardID {
     {	
 		if (strQuery.toUpperCase().indexOf("GROUP BY")>-1 && strQuery.toUpperCase().indexOf("ORDER BY")>-1)
 		{
-	        	boolean asObjAtt=false;
-	        	ArrayList<String> dummy=new ArrayList<String>();
-	        	dummy.add("");
-	        	
-	        	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
-	        	String groupby=qlmod.getGroupByPart();
-	        	
-	        	//Inspect Group by Fields
-	        	Vector<String> gbyclauses=tools.Split(groupby, ",");
-	        	
-	        	for (String currclause:gbyclauses)
-	        	{
-	        	    String att=currclause.trim();
-	        	    if (att.indexOf(" ")>-1)
-	        		att=att.substring(0,att.indexOf(" "));
-	        	    
-	        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
-	        	    
-	        	    if (cardids!=null)        	    
-	        	    {
+        	boolean asObjAtt=false;
+        	ArrayList<String> dummy=new ArrayList<String>();
+        	dummy.add("");
+        	
+        	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
+        	String groupby=qlmod.getGroupByPart();
+        	
+        	//Inspect Group by Fields
+        	Vector<String> gbyclauses=tools.Split(groupby, ",");
+        	
+        	for (String currclause:gbyclauses)
+        	{
+        	    String att=currclause.trim();
+        	    if (att.indexOf(" ")>-1)
+        	    	att=att.substring(0,att.indexOf(" "));
+        	    
+        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
+        	    
+        	    if (cardids!=null)        	    
+        	    {
 	        		String direction=getDirection(qlmod.getOrderByPart());
 	        		String neworderby="";
 	        		asObjAtt = true;
@@ -90,16 +90,16 @@ public class QLOrderAndGroupByCardID {
 	        		}
 	        		neworderby = neworderby.substring(0,neworderby.lastIndexOf(","));     		        		        		
 	        		qlmod.setOrderByPart(neworderby);
-	        	    }
-	        	}
-	        	
-	        	if (!asObjAtt)
-	        	    return strQuery;
-	        	else
-	        	{
-	        	    
-	        	    return qlmod.toBOQL(dummy);
-	        	}
+        	    }
+        	}
+        	
+        	if (!asObjAtt)
+        	    return strQuery;
+        	else
+        	{
+        	    
+        	    return qlmod.toBOQL(dummy);
+        	}
 		}
 		else return strQuery;
     }
@@ -158,11 +158,11 @@ public class QLOrderAndGroupByCardID {
 		
 			    //Only for ObjectAttribute and excluding attributes with more than one type
 			    if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
-				&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
+			    		&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
 			    {
-				String type=attdef.getType();			        			
-				objdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
-				if (i==(atts.size()-1))bodef=objdef;
+					String type=attdef.getType();			        			
+					objdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
+					if (i==(atts.size()-1))bodef=objdef;
 			    }
 			}
 		}
