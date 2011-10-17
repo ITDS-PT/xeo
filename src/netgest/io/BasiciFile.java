@@ -147,18 +147,13 @@ public class BasiciFile implements iFile  {
         ResultSet rslt = null;      
         
         StringBuffer sql = new StringBuffer();
-		EboContext ctx = boApplication.currentContext().getEboContext();
 
-		if (ctx!=null)
-		{
-			String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
-			if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
-				sql.append("SELECT ID,FILENAME,DATALENGTH(BINDATA) FROM ");
-			}			
-			else 
-				sql.append("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
-		}
-		else
+		
+		String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+		if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)){
+			sql.append("SELECT ID,FILENAME,DATALENGTH(BINDATA) FROM ");
+		}			
+		else 
 			sql.append("SELECT ID,FILENAME,LENGTH(BINDATA) FROM ");
 
         
