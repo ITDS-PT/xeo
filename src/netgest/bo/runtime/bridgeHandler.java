@@ -39,6 +39,7 @@ import netgest.bo.security.securityRights;
         private boObject        p_parent;
         private boDefAttribute  p_defatt;
         private List         	p_rows = new ArrayList();
+        private Boolean			p_disabled = null;
         
         public bridgeHandler(String name,DataResultSet data, String childfield, boObject parent ) {
             super(parent.getEboContext(),
@@ -575,9 +576,16 @@ import netgest.bo.security.securityRights;
         }
         return ret;
     }
-    public boolean disableWhen() throws boRuntimeException
-    {
-        boolean ret = false;
+    
+    /**
+     * Calculates the rule in the XEOModel
+     * 
+     * @return True if the attribute is disabled and false otherwise
+     * 
+     * @throws boRuntimeException
+     */
+    private boolean disableWhenRule() throws boRuntimeException{
+    	boolean ret = false;
         boDefXeoCode code = p_defatt.getDisableWhen();
         if( code != null )
         {
@@ -596,6 +604,39 @@ import netgest.bo.security.securityRights;
         }
         return ret;
     }
+    
+    
+    /**
+     * 
+     * Whether or not the bridge should be disabled
+     * 
+     * @return
+     * 
+     * @throws boRuntimeException
+     */
+    public boolean disableWhen() throws boRuntimeException
+    {
+    	if (p_disabled != null)
+    		return p_disabled || disableWhenRule();
+    	else
+    		return disableWhenRule();
+    }
+    
+    
+    /**
+     * Disables this bridge
+     */
+    public void setDisabled(){
+    	p_disabled = Boolean.TRUE;
+    }
+    
+    /**
+     * Enables this bridge
+     */
+    public void setEnabled(){
+    	p_disabled = Boolean.FALSE;
+    }
+    
     public boolean hiddenWhen() throws boRuntimeException
     {
         boolean ret = false;
