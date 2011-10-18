@@ -105,14 +105,15 @@ public class PostGreUtils  implements DriverUtils
     }    
     
 	public String fnSysDateTime() {
-		return "SYSDATE";
+		return "NOW()";
 	}
 	public String fnSysTimestamp() {
 		return "CURRENT_TIMESTAMP";
 	}
 
 	public String fnTruncateDate(String exprString) {
-		return new StringBuffer("TRUNC(").append( exprString ).append( ")" ).toString();
+		return new StringBuffer("DATE_TRUNC('microseconds',").append(exprString).append(
+		")").toString();
 	}
 	
 	public String getQueryLimitStatement(int rows) {
