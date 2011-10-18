@@ -15,8 +15,8 @@ public class QLOrderAndGroupByCardID {
 		if (strQuery.toUpperCase().indexOf("ORDER BY")>-1)
 		{
 	        	boolean asObjAtt=false;
-	        	ArrayList<String> dummy=new ArrayList<String>();
-	        	dummy.add("");
+	        	ArrayList<String> dummy=new ArrayList<String>(0);
+	        	//dummy.add("");
 	        	
 	        	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
 	        	String orderby=qlmod.getOrderByPart();
@@ -62,8 +62,8 @@ public class QLOrderAndGroupByCardID {
 		if (strQuery.toUpperCase().indexOf("GROUP BY")>-1 && strQuery.toUpperCase().indexOf("ORDER BY")>-1)
 		{
         	boolean asObjAtt=false;
-        	ArrayList<String> dummy=new ArrayList<String>();
-        	dummy.add("");
+        	ArrayList<String> dummy=new ArrayList<String>(0);
+        	//dummy.add("");
         	
         	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
         	String groupby=qlmod.getGroupByPart();
