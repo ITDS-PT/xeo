@@ -340,8 +340,16 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 				updateClobs(ctx, dataRow, clobs);
 			}
 		} catch (SQLException e) {
-			throw new WriterException(WriterException.UNKNOWN_EXECEPTION, e
-					.getMessage(), e);
+			int errorCode = e.getErrorCode();
+        	
+        	switch (errorCode){
+        	case 119: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	case 120: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+                    e.getMessage(), e);
+        	}
 		}
 
 		return ret;
@@ -569,8 +577,16 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 				updateClobs(ctx, dataRow, clobs);
 			}
 		} catch (SQLException e) {
-			throw new WriterException(WriterException.UNKNOWN_EXECEPTION, e
-					.getMessage(), e);
+			int errorCode = e.getErrorCode();
+        	
+        	switch (errorCode){
+        	case 119: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	case 120: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+                    e.getMessage(), e);
+        	}
 		}
 
 		return ret;

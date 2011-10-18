@@ -380,8 +380,13 @@ public class MysqlWriterAdapter implements WriterAdapter {
         }
         catch (SQLException e)
         {
-            throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-                e.getMessage(), e);
+        	int errorCode = e.getErrorCode();
+        	switch (errorCode){
+        	case 1022: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+                    e.getMessage(), e);
+        	}
         }
 
         return ret;
@@ -583,8 +588,13 @@ public class MysqlWriterAdapter implements WriterAdapter {
         }
         catch (SQLException e)
         {
-            throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-                e.getMessage(), e);
+        	int errorCode = e.getErrorCode();
+        	switch (errorCode){
+        	case 1022: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+                    e.getMessage(), e);
+        	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+                    e.getMessage(), e);
+        	}
         }
 
         return ret;

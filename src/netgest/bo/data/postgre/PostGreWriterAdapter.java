@@ -396,8 +396,13 @@ public class PostGreWriterAdapter implements WriterAdapter
         }
         catch (SQLException e)
         {
-            throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-                e.getMessage(), e);
+        	String error = e.getSQLState();
+        	if ("23505".equalsIgnoreCase(error))
+        		throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+        				e.getMessage(), e);
+        	else
+        		throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+        				e.getMessage(), e);
         }
 
         return ret;
@@ -601,8 +606,13 @@ public class PostGreWriterAdapter implements WriterAdapter
         }
         catch (SQLException e)
         {
-            throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
-                e.getMessage(), e);
+        	String error = e.getSQLState();
+        	if ("23505".equalsIgnoreCase(error))
+        		throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
+        				e.getMessage(), e);
+        	else
+        		throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+        				e.getMessage(), e);
         }
 
         return ret;
