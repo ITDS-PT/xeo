@@ -585,7 +585,7 @@ public class PostGreDBM extends OracleDBM
         	}
         	catch (Exception e)
         	{
-        		//ignorar erro quando já existe
+        		//ignorar erro quando jÃ¡ existe
         	}
        
         }
@@ -817,10 +817,9 @@ public class PostGreDBM extends OracleDBM
             cn = ctx.getDedicatedConnectionData();
             pstm = cn.prepareStatement(
                     "select count(*) from information_schema.tables where table_name=? and table_schema=? " +
-                    "and table_catalog=? and table_type='BASE TABLE'");
+                    "and table_type='BASE TABLE'");
             pstm.setString(1, tableName.toLowerCase());
             pstm.setString(2, schemaName.toLowerCase());
-            pstm.setString(3, schemaName.toLowerCase());
             rslt = pstm.executeQuery();
 
             if (rslt.next())
@@ -970,11 +969,10 @@ public class PostGreDBM extends OracleDBM
                 boolean fldexi = false;
                 PreparedStatement pstm = cn.prepareStatement(
                         "select column_name,udt_name,character_maximum_length,numeric_precision,numeric_scale from information_schema.columns" +
-                        "  where table_name=? and column_name=? and table_catalog=? and table_schema=?");
+                        "  where table_name=? and column_name=? and table_schema=?");
                 pstm.setString(1, node.getString("TABLENAME").toLowerCase());
                 pstm.setString(2, node.getString("OBJECTNAME").toLowerCase());
                 pstm.setString(3, schema);
-                pstm.setString(4, schema);
 
                 ResultSet rslt = pstm.executeQuery();
 
@@ -1060,13 +1058,11 @@ public class PostGreDBM extends OracleDBM
                     " AND rc.unique_constraint_name = ccu.constraint_name"+
                     " WHERE tc.table_name = ?"+
                     " AND kcu.column_name = ?"+
-                    " and tc.table_catalog=?"+
                     " and tc.table_schema=?";
                     PreparedStatement pstmrelc = cn.prepareStatement(sql);
                     pstmrelc.setString(1, node.getString("TABLENAME").toLowerCase());
                     pstmrelc.setString(2, node.getString("OBJECTNAME").toLowerCase());
                     pstmrelc.setString(3, schema);
-                    pstmrelc.setString(4, schema);
 
                     ResultSet rsltrelc = pstmrelc.executeQuery();
 
@@ -1165,10 +1161,9 @@ public class PostGreDBM extends OracleDBM
                 String viewText=null;
                 PreparedStatement pstmrelc = cn.prepareStatement(
                         "SELECT view_definition FROM information_schema.views WHERE table_name=? " +
-                        "and table_catalog=? and table_schema=?");
+                        "and table_schema=?");
                 pstmrelc.setString(1, node.getString("OBJECTNAME").toLowerCase());
                 pstmrelc.setString(2, schema.toLowerCase());
-                pstmrelc.setString(3, schema.toLowerCase());
                 ResultSet rsltrelc = pstmrelc.executeQuery();
                 boolean exists = false;
 
@@ -1266,13 +1261,11 @@ public class PostGreDBM extends OracleDBM
                 " AND rc.unique_constraint_name = ccu.constraint_name"+
                 " WHERE tc.table_name = ?"+
                 " AND tc.constraint_name = ?"+
-                " and tc.table_catalog=?"+
                 " and tc.table_schema=? order by ordinal_position";
                 PreparedStatement pstm = cn.prepareStatement(sql);
                 pstm.setString(1, node.getString("TABLENAME").toLowerCase());
                 pstm.setString(2, node.getString("OBJECTNAME").toLowerCase());
                 pstm.setString(3, schema.toLowerCase());
-                pstm.setString(4, schema.toLowerCase());
 
                 boolean isunique = objecttype.startsWith("UN");
                 ResultSet rslt = pstm.executeQuery();
@@ -1314,14 +1307,12 @@ public class PostGreDBM extends OracleDBM
                     " AND rc.unique_constraint_schema = ccu.constraint_schema"+
                     " AND rc.unique_constraint_name = ccu.constraint_name"+
                     " WHERE ccu.constraint_name = ?"+
-                    " and tc.table_catalog=?"+
                     " and tc.table_schema=?";
                     
                     PreparedStatement pstmrefs = cn.prepareStatement(
                            sql);
                     pstmrefs.setString(1, node.getString("OBJECTNAME").toLowerCase());
                     pstmrefs.setString(2, schema.toLowerCase());
-                    pstmrefs.setString(3, schema.toLowerCase());
 
                     ResultSet rsltrefs = pstmrefs.executeQuery();
 
@@ -1363,14 +1354,12 @@ public class PostGreDBM extends OracleDBM
                     " AND rc.unique_constraint_name = ccu.constraint_name"+
                     " WHERE tc.table_name=? and "+
                     "kcu.column_name in ("+insql+")"+
-                    " and tc.table_catalog=?"+
                     " and tc.table_schema=?";
                     
                     pstmrefs = cn.prepareStatement(
                             sql);
                     pstmrefs.setString(1, node.getString("TABLENAME").toLowerCase());
                     pstmrefs.setString(2, schema.toLowerCase());
-                    pstmrefs.setString(3, schema.toLowerCase());
                     rsltrefs = pstmrefs.executeQuery();
 
                     while (rsltrefs.next())
@@ -1443,7 +1432,6 @@ public class PostGreDBM extends OracleDBM
                 " AND rc.unique_constraint_name = ccu.constraint_name"+
                 " WHERE tc.constraint_name=?"+
                 " and tc.table_name=?"+
-                " and tc.table_catalog=?"+
                 " and tc.table_schema=? order by ordinal_position";
                 
                 PreparedStatement pstm = cn.prepareStatement(
@@ -1451,7 +1439,6 @@ public class PostGreDBM extends OracleDBM
                 pstm.setString(1, node.getString("OBJECTNAME").toLowerCase());
                 pstm.setString(2, node.getString("TABLENAME").toLowerCase());
                 pstm.setString(3, schema.toLowerCase());
-                pstm.setString(4, schema.toLowerCase());
                 //pstm.setString(3, node.getString("TABLEREFERENCE"));
 
                 ResultSet rslt = pstm.executeQuery();
@@ -1537,7 +1524,6 @@ public class PostGreDBM extends OracleDBM
                     " AND rc.unique_constraint_name = ccu.constraint_name"+
                     " WHERE tc.constraint_name=?"+
                     " and tc.table_name=?"+
-                    " and tc.table_catalog=?"+
                     " and tc.table_schema=? and tc.constraint_type='UNIQUE'";
                     
                     pstm = cn.prepareStatement(
@@ -1545,7 +1531,6 @@ public class PostGreDBM extends OracleDBM
                     pstm.setString(1, node.getString("OBJECTNAME").toLowerCase());
                     pstm.setString(2, node.getString("TABLENAME").toLowerCase());
                     pstm.setString(3, schema.toLowerCase());
-                    pstm.setString(4, schema.toLowerCase());
                     rslt = pstm.executeQuery();
 
                     while (rslt.next())
@@ -1996,7 +1981,7 @@ public class PostGreDBM extends OracleDBM
                 int error = e.getErrorCode();
                 if(e.getErrorCode() == 2261)
                 {
-                    //ignora: tentou colocar uma unique key que já existe com nome diferente
+                    //ignora: tentou colocar uma unique key que jÃ¡ existe com nome diferente
                 }
                 else
                 {
