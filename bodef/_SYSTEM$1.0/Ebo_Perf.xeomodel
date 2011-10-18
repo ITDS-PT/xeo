@@ -50,7 +50,7 @@ return (super.onBeforeSave( event ) &amp;&amp; netgest.bo.events.MailAccountEven
         <event name="onBeforeDestroy">
             <body language="JAVA">try
 {
-	netgest.bo.runtime.boObjectList list = netgest.bo.runtime.boObjectList.list(this.getEboContext(), "select Ebo_Alias where boui = " + this.getBoui());
+	netgest.bo.runtime.boObjectList list = netgest.bo.runtime.boObjectList.list(this.getEboContext(), "select Ebo_Alias where ui = " + this.getBoui());
 	ArrayList r = new ArrayList();
 	while(list.next())
 	{
