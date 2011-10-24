@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by enlace3 (enlace3) --><xeoLov name="Ebo_Document">
+   <General bo_class="abstract" public="no" nacionalityDefault="pt">
+      <classextends/>
+      <cls_version_control>yes</cls_version_control>
+      <cls_majorVersion>1</cls_majorVersion>
+      <cls_minorVersion>0</cls_minorVersion>
+      <deploy_information>
+         <deployDate/>
+         <delete_data/>
+      </deploy_information>
+      <active_information>
+         <ActiveDate/>
+         <delete_menor_major_versions/>
+         <delete_menor_minor_versions/>
+      </active_information>
+      <description/>
+      <label>
+         <pt/>
+         <en-us/>
+      </label>
+   </General>
+   <Lov name="documentType" retainValues="No">
+      <description>
+         <pt>Lov referente aos tipos de Documentos</pt>
+         <en-us>Document type  options parameters</en-us>
+      </description>
+      <details>
+         <item>
+            <value>AC</value>
+            <label>Acta</label>
+         </item>
+         <item>
+            <value>AU</value>
+            <label>Autos</label>
+         </item>
+         <item>
+            <value>AV</value>
+            <label>Aviso</label>
+         </item>
+         <item>
+            <value>C</value>
+            <label>Carta</label>
+         </item>
+         <item>
+            <value>CA</value>
+            <label>Carta Reg.c/Aviso Re</label>
+         </item>
+         <item>
+            <value>CC</value>
+            <label>Circular</label>
+         </item>
+         <item>
+            <value>CF</value>
+            <label>Certificado</label>
+         </item>
+         <item>
+            <value>CR</value>
+            <label>Carta Registada</label>
+         </item>
+         <item>
+            <value>CT</value>
+            <label>Contrato</label>
+         </item>
+         <item>
+            <value>D</value>
+            <label>Disquete</label>
+         </item>
+         <item>
+            <value>DE</value>
+            <label>Declaração</label>
+         </item>
+         <item>
+            <value>DL</value>
+            <label>Projecto Decreto-Lei</label>
+         </item>
+         <item>
+            <value>DP</value>
+            <label>Despacho</label>
+         </item>
+         <item>
+            <value>DR</value>
+            <label>Pro.Dec.Regulamentar</label>
+         </item>
+         <item>
+            <value>ENV</value>
+            <label>Envelope</label>
+         </item>
+         <item>
+            <value>F</value>
+            <label>Factura</label>
+         </item>
+         <item>
+            <value>FO</value>
+            <label>Formulário</label>
+         </item>
+         <item>
+            <value>FX</value>
+            <label>Fax</label>
+         </item>
+         <item>
+            <value>GP</value>
+            <label>Guia de Pagamento</label>
+         </item>
+         <item>
+            <value>GR</value>
+            <label>Guia de Remessa</label>
+         </item>
+         <item>
+            <value>H</value>
+            <label>Cheque</label>
+         </item>
+         <item>
+            <value>I</value>
+            <label>Informação</label>
+         </item>
+         <item>
+            <value>IQ</value>
+            <label>Inquérito</label>
+         </item>
+         <item>
+            <value>LC</value>
+            <label>Licença</label>
+         </item>
+         <item>
+            <value>LI</value>
+            <label>Listagem</label>
+         </item>
+         <item>
+            <value>M</value>
+            <label>Mail</label>
+         </item>
+         <item>
+            <value>MR</value>
+            <label>Memorando</label>
+         </item>
+         <item>
+            <value>MS</value>
+            <label>Mensagem de Serviço</label>
+         </item>
+         <item>
+            <value>NC</value>
+            <label>Nota de Crédito</label>
+         </item>
+         <item>
+            <value>NE</value>
+            <label>Nota de Encomenda</label>
+         </item>
+         <item>
+            <value>NI</value>
+            <label>Nota Interna</label>
+         </item>
+         <item>
+            <value>O</value>
+            <label>Ofício</label>
+         </item>
+         <item>
+            <value>OS</value>
+            <label>Ordem Serviço</label>
+         </item>
+         <item>
+            <value>OU</value>
+            <label>Outra(s)</label>
+         </item>
+         <item>
+            <value>P</value>
+            <label>Publicação</label>
+         </item>
+         <item>
+            <value>PC</value>
+            <label>Processo Contra-Ordenação</label>
+         </item>
+         <item>
+            <value>PD</value>
+            <label>Proposta de Deliberação</label>
+         </item>
+         <item>
+            <value>PI</value>
+            <label>Pedido de Intervenção </label>
+         </item>
+         <item>
+            <value>PP</value>
+            <label>Processo / Pasta</label>
+         </item>
+         <item>
+            <value>PR</value>
+            <label>Projecto de Portaria </label>
+         </item>
+         <item>
+            <value>Q</value>
+            <label>Questionário</label>
+         </item>
+         <item>
+            <value>R</value>
+            <label>Recibo </label>
+         </item>
+         <item>
+            <value>RE</value>
+            <label>Relatório</label>
+         </item>
+         <item>
+            <value>RQ</value>
+            <label>Requerimento</label>
+         </item>
+         <item>
+            <value>T</value>
+            <label>Telecópia</label>
+         </item>
+         <item>
+            <value>TX</value>
+            <label>Telex </label>
+         </item>
+         <item>
+            <value>V</value>
+            <label>Vale</label>
+         </item>
+         <item>
+            <value>II</value>
+            <label>Informação Interna</label>
+         </item>
+      </details>
+   </Lov>
+   <Lov name="arquive" retainValues="No">
+      <description>
+         <pt>Lov referente aos parametros de Aquivo</pt>
+         <en-us>Arquive options parameters</en-us>
+      </description>
+      <details>
+         <item>
+            <value>2</value>
+            <label>Local</label>
+         </item>
+         <item>
+            <value>3</value>
+            <label>Geral</label>
+         </item>
+      </details>
+   </Lov>
+</xeoLov>
