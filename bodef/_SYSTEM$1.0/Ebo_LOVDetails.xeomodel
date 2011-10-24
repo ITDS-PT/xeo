@@ -36,7 +36,7 @@
 	<attributes>
 		<attributeText name="description">
 			<len>200</len>
-			<label>Descrição</label>
+			<label>DescriÃ§Ã£o</label>
 			<tooltip/>
 		</attributeText>
 		<attributeText name="value">
