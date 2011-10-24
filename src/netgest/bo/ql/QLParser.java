@@ -14,6 +14,7 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.security.*;
 import netgest.utils.*;
+import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.def.*;
 import netgest.bo.*;
 import netgest.bo.system.*;
@@ -2045,8 +2046,12 @@ public class QLParser  {
     {
         if(sb.length() == 0) sb.append("(");
         else sb.append(" OR ");
-        //sb.append("OEbo_TextIndex.uiclass = '").append(cNames.get(i)).append("'");
-        sb.append("Ebo_TextIndex.uiclass = '").append(cNames.get(i)).append("'"); //SQLServer
+
+        String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+        if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL))
+        	sb.append("Ebo_TextIndex.uiclass = '").append(cNames.get(i)).append("'"); //SQLServer
+        else
+        	sb.append("OEbo_TextIndex.uiclass = '").append(cNames.get(i)).append("'");
     }
     if(sb.length() > 0) sb.append(")");
     return sb.toString(); 
