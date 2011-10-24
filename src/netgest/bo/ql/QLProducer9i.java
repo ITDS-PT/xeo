@@ -117,11 +117,15 @@ public class QLProducer9i extends QLProducer {
                         //    fromC += " INNER JOIN " + s + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
                         //else
                             //joinRules.add(parent_tab+"."+att.getName()+"$="+s+".BOUI(+)");
-                        fromC += " LEFT OUTER JOIN " + s + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
+                    	
+                    	//Avoids inclusion of already relationed tables and database error.
+                    	if (fromC.indexOf(" LEFT OUTER JOIN " + s)==-1)
+                    		fromC += " LEFT OUTER JOIN " + s + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
                         break;
                     }
                     case boDefAttribute.RELATION_1_TO_N:
                     {   //midtable terá o valor da tabela que faz a relação entre os dois objectos
+                    	
                         midtable = boDefHandler.getBoDefinition(parent).getAttributeRef(att.getName()).getBridge().getBoMasterTable();
                         String attlig = ".BOUI)";
                         if(nodePai.getParent()!=null && !((Boolean)((Triple)nodePai.getUserObject()).getSecond()).booleanValue())
@@ -210,7 +214,7 @@ public class QLProducer9i extends QLProducer {
             node = (DefaultMutableTreeNode)fromTree.get(i);
             midtable = (String)node.getUserObject();   
             //fromC += ", " +  midtable;
-            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX"))
+            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX") || midtable.equalsIgnoreCase("OEBO_TEXTINDEX"))
               fromC += " INNER JOIN "+midtable+" ON("+midtable+".UI$="+base_tab+".BOUI)";
             else
               fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"BOUI="+base_tab+".BOUI)";

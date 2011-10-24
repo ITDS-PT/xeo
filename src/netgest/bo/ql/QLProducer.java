@@ -643,8 +643,7 @@ public abstract class QLProducer  {
             node = (DefaultMutableTreeNode)fromTree.get(i);
             midtable = (String)node.getUserObject();   
             fromC += ", " +  midtable;
-            //if(midtable.equalsIgnoreCase("OEBO_TEXTINDEX"))
-            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX")) //SQLServer
+            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX") || midtable.equalsIgnoreCase("OEBO_TEXTINDEX")) //SQLServer
               joinRules.add(base_tab+".BOUI="+midtable+".UI$(+)");
             else
               joinRules.add(base_tab+".BOUI="+midtable+".BOUI(+)");
