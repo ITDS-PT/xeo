@@ -192,7 +192,7 @@ public class XEOQLModifier {
 	
 	private void setParameter( List posParamList ) {
 		try {
-			if (posParamList.size() > 0)
+			if( this.originalQLParameters != null && this.originalQLParameters.size() > 0 )
 				posParamList.add( this.originalQLParameters.get( this.paramIdx++ ) );
 		}
 		catch( Exception e ) {
@@ -230,7 +230,6 @@ public class XEOQLModifier {
 		while( m.find() ) {
         	g = skipQuotedOrComment( original, m, getGroupFromOriginal(original, m) ).toString();
         	if( "?".equals( g ) ) {
-        		if (posParamList.size() > 0)
         		setParameter( posParamList );
         	}
         	else if( g.equals( endSeq ) ) {
