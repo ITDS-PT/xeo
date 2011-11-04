@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import netgest.bo.data.postgre.PostGreUtils;
-import netgest.bo.system.boApplication;
-
 public class XEOQLModifier {
 
     private static final String patterns = "(order|group)[\\s+]by|\\/\\*\\+|\\*\\/|\\/\\*|\\{\\{|\\}\\}|[\\.\\,\\(\\)\\[\\]=<>!\\+\\-\\*/'\\n\\t\\?]|[a-zA-Z_$0-9]++|\\w++|\\W";
