@@ -330,6 +330,32 @@ public class boObjectList extends boPoolable {
 		return list(ctx, boql, 1, boObjectList.PAGESIZE_DEFAULT, "",
 				useSecurity, cache);
 	}
+	
+	/**
+	 * 
+	 * @param ctx The context for the queries
+	 * @param boql The query to execute
+	 * @param args The query arguments
+	 * @param useCache If cache should be used
+	 * @param useSecurity If security should be used
+	 * 
+	 * @return The list of instances
+	 */
+	public static boObjectList list(EboContext ctx, String boql, Object[] args, boolean useCache, boolean useSecurity){
+		boObjectList toReturn;
+		toReturn = getObjectList(ctx, boql, args, 1, boObjectList.PAGESIZE_DEFAULT, "", "",
+				null, null, boObjectList.FORMAT_MANY, useSecurity, useCache, false);
+		return toReturn;
+	}
+	
+	public static boObjectList list(EboContext ctx, String boql, Object[] args, int page, int pageSize, String orderBy, String fullText,
+			String[] letter_filter, String userQuery, boolean useSecurity, boolean useCache){
+		
+		boObjectList toReturn;
+		toReturn = getObjectList(ctx, boql, args, page, pageSize, orderBy, fullText,
+				letter_filter, userQuery, boObjectList.FORMAT_MANY, useSecurity, useCache, false);
+		return toReturn;
+	}
 
 	public static boObjectList listWFirstRows(EboContext ctx, String boql,
 			boolean useSecurity, boolean cache) {

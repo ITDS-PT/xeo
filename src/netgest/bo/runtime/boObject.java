@@ -940,6 +940,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
             p_atterrors = new Hashtable(1);
         }
 		setHaveAttributeErrors(true);
+		att.setInvalid(message);
         p_atterrors.put(att, message);
     }
 
@@ -1089,6 +1090,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 		                this.addErrorMessage(att, att.getErrorMessage());
 		                ret = false;
 		            } else if (!att.validate()) {
+		            	this.addErrorMessage(att, att.getErrorMessage());
 		                ret = false;
 		            }
 		        }

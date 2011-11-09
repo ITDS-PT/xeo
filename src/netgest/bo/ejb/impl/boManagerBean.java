@@ -938,7 +938,8 @@ public class boManagerBean implements SessionBean, boManagerLocal
 
         return ret;
     }
-
+    
+    
     public boObject loadObject(EboContext ctx, String boql, Object[] sqlargs)
         throws boRuntimeException
     {
@@ -1346,14 +1347,28 @@ public class boManagerBean implements SessionBean, boManagerLocal
         return ret;
     }
 
+    public boObject loadObject(EboContext ctx, long boui) throws boRuntimeException {
+    	return loadObject(ctx, boui, true);
+    }
 
-    public boObject loadObject(EboContext ctx, long boui)
+    /**
+     * 
+     * Loads an object (optionally uses cache)
+     * 
+     * @param ctx The context to load the object to
+     * @param boui The boui to load
+     * @param useCache If the object cache should be used
+     * 
+     * @return
+     * 
+     * @throws boRuntimeException
+     * 
+     */
+    public boObject loadObject(EboContext ctx, long boui, boolean useCache)
         throws boRuntimeException
     {
-//        try
-        {
-            long mili;
-            if (DEBUG > 0)
+            long mili = 0;
+            if (logger.isFinestEnabled())
             {
                 mili= System.currentTimeMillis();
             }
@@ -1364,8 +1379,13 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     ".loadObject(EboContext,long)", "BO-3018", null, "" + boui);
             }
 
-            boObject ret = (boObject) ctx.getApplication().getMemoryArchive().getPoolManager().getObject(ctx,
+            
+            boObject ret = null;
+            
+            if (useCache){
+            	ret = (boObject) ctx.getApplication().getMemoryArchive().getPoolManager().getObject(ctx,
                     "BOOBJECT:BOUI[" + boui + "]:");
+            }
 
             if ((boui == 0) || (ret == null))
             {
@@ -1393,7 +1413,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
             	} else {
 	                ret = loadObject(ctx, getClassNameFromBOUI(ctx, boui) , boui);
 	
-	                if (DEBUG > 0)
+	                if (logger.isFinestEnabled())
 	                {
 	                    logger.finest(LoggerMessageLocalizer.getMessage("BOBJ_LOAD_BOUI")+" [" + getClassNameFromBOUI(ctx, boui) + "/" + boui +
 	                        "]:" + (System.currentTimeMillis() - mili));
@@ -1412,13 +1432,6 @@ public class boManagerBean implements SessionBean, boManagerLocal
             }
 
             return ret;
-        }
-/*        catch (Exception e)
-        {
-            e.printStackTrace();
-            e=e;
-            throw new RuntimeException(e);
-        }*/
     }
 
     public String getClassNameFromBOUI(EboContext ctx, long boui)
