@@ -127,7 +127,8 @@ public class SqlServerUtils implements DriverUtils {
 				if (sb.length() > 0) {
 					sb.append(' ');
 				}
-				sb.append("&").append(tokens[i]);
+				sb.append(tokens[i]);
+				if (i<tokens.length-1)sb.append("&");
 			}
 		}
 		return sb.toString();
