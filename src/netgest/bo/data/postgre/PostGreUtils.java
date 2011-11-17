@@ -315,14 +315,14 @@ public class PostGreUtils  implements DriverUtils
 	            for (int i=0;i<tokens.length;i++)
 	            {
 	            	String currToken=tokens[i];   
-	            	if (i!=indexofMinCount)
-	            		dml+=currToken+(i==(tokens.length-1)?"":"UNION ALL");
+	            	//if (i!=indexofMinCount)
+	            	dml+=currToken+(i==(tokens.length-1)?"":"UNION ALL");
 	            }        		           
         	}
         }
         return dml;
     }
-	
+    
     private static int countNulls(String text)
     {
     	int toRet=text.split("NULL").length;    	    	    	
