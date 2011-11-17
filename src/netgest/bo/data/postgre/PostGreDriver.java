@@ -88,7 +88,7 @@ public class PostGreDriver implements Driver {
                  ps=ret.prepareStatement("set search_path to "+schema);
                  ps.execute();
                  ps.close();                
-                return ret;
+                 return new PostGresConnection(ret);
             }
             catch (SQLException e)
             {
@@ -133,7 +133,7 @@ public class PostGreDriver implements Driver {
                 ps=ret.prepareStatement("set search_path to "+schema);
                 ps.execute();
                 ps.close();
-                return ret;
+                return new PostGresConnection(ret);
             }
             catch (SQLException e)
             {
