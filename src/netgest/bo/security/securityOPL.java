@@ -33,6 +33,16 @@ public class securityOPL
         String[] readKeys = os.getReadKeyAttributes();
         String[] fullKeys = os.getFullControlKeyAttributes();
         String[] writeKeys = os.getWriteKeyAttributes();
+
+        //Keys for the attributes cannot be null, create the empty array
+        if (readKeys == null)
+        	readKeys = new String[0];
+        if (deleteKeys == null)
+        	deleteKeys = new String[0];
+        if (writeKeys== null)
+        	writeKeys = new String[0];
+        if (fullKeys == null)
+        	fullKeys = new String[0];
         
         // Keys nos
         String[] executeKeysMethods = os.getMethodsExecuteKeys();
