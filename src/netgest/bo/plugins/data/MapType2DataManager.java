@@ -261,6 +261,7 @@ public class MapType2DataManager implements IDataManager
                             int idx = localAttributes.indexOf( attName );
                             if ( objLocKeys[idx] != null )
                             {
+                            	boolean removed = false;
                                 for (int k=0 ; k < objLocKeys[idx].length ; k++ ) 
                                 { 
                                     if( objLocKeys[idx][k] != null )
@@ -269,13 +270,16 @@ public class MapType2DataManager implements IDataManager
                                         {
                                             mapLocAttributes.add( objLocKeys[idx][k].toUpperCase() );
                                             mapRemAttributes.add( objLocKeys[idx][k].toUpperCase() );
+                                            limit++;
                                         }
+                                        limit--;
+                                        removed = true;
                                         mapLocAttributes.remove( i );
                                         mapRemAttributes.remove( i );
-                                        limit--;
-                                        i--;
                                     }
                                 }
+                                if( removed )
+                                	i--;
                             }
                         }
                     }
