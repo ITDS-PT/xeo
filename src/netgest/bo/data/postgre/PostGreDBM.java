@@ -1181,6 +1181,13 @@ public class PostGreDBM extends OracleDBM
                     String vExpression = node.getString("EXPRESSION");
                     if( !vExpression.toLowerCase().equals( viewText ) )
                     {
+                    	if (exists)
+                    	{
+	                    	dml = "DROP VIEW \"" +
+	                        node.getString("OBJECTNAME");
+	                    	executeDDL(dml, node.getString("SCHEMA"));
+                    	}
+                    	
                         dml = "CREATE OR REPLACE VIEW \"" +
                             node.getString("OBJECTNAME") + "\" AS \n" +
                             vExpression;

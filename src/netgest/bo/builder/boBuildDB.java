@@ -1967,8 +1967,7 @@ public class boBuildDB
               .append("\"FILENAME\" AS \"FILENAME\",\"DATECREATE\" AS \"DATECREATE\",\"USERCREATE\"")
               .append(" AS \"USERCREATE\",\"DATEMODIFIED\" AS \"DATEMODIFIED\",\"ID\" AS \"ID\",\"PARENT_ID\"")
               .append(" AS \"PARENT_ID\",\"TYPE\" AS \"TYPE\",\"ACTIVE\" AS \"ACTIVE\",\"STATUS\" AS \"STATUS\", ")
-              .append("\"STATUSUSER\" AS \"STATUSUSER\", '" + actualRepositoryName +
-                "' AS \"SYS_ORIGIN\" FROM DBFS_FILE ");
+              .append("\"STATUSUSER\" AS \"STATUSUSER\", \"SYS_ORIGIN\" AS \"SYS_ORIGIN\" FROM DBFS_FILE ");
 
             if (schemaParent != null)
             {
@@ -1978,8 +1977,7 @@ public class boBuildDB
                   .append("\"FILENAME\" AS \"FILENAME\",\"DATECREATE\" AS \"DATECREATE\",\"USERCREATE\"")
                   .append(" AS \"USERCREATE\",\"DATEMODIFIED\" AS \"DATEMODIFIED\",\"ID\" AS \"ID\",\"PARENT_ID\"")
                   .append(" AS \"PARENT_ID\",\"TYPE\" AS \"TYPE\",\"ACTIVE\" AS \"ACTIVE\",\"STATUS\" AS \"STATUS\", ")
-                  .append("\"STATUSUSER\" AS \"STATUSUSER\", '" + schemaParentName +
-                    "' AS \"SYS_ORIGIN\" FROM ").append(schemaParent).append(".DBFS_FILE");
+                  .append("\"STATUSUSER\" AS \"STATUSUSER\", \"SYS_ORIGIN\" AS \"SYS_ORIGIN\" FROM ").append(schemaParent).append(".DBFS_FILE");
             }
         }
         addView("O" + "DBFS_FILE", MessageLocalizer.getMessage("SYSTEM_TABLE_UNION")+" [DBFS_FILE]",
@@ -2017,8 +2015,7 @@ public class boBuildDB
           .append("\"SYS_ICN\" AS \"SYS_ICN\",\"SYS_USER\" AS \"SYS_USER\", ")
           .append("\"SYS_DTSAVE\" AS \"SYS_DTSAVE\",\"SYS_DTCREATE\" AS \"SYS_DTCREATE\", ")
           .append("\"BOUI\" AS \"BOUI\",\"ATTRIBUTE\" AS \"ATTRIBUTE\",\"REFBOUI$\"")
-          .append(" AS \"REFBOUI$\"").append(", '" + actualRepositoryName +
-            "' AS \"SYS_ORIGIN\" FROM EBO_REFERENCES");
+          .append(" AS \"REFBOUI$\"").append(", \"SYS_ORIGIN\" AS \"SYS_ORIGIN\" FROM EBO_REFERENCES");
 
         //EBO_REFERENCES VIEW
         if (schemaParent != null)
@@ -2028,7 +2025,7 @@ public class boBuildDB
               .append("\"SYS_DTSAVE\" AS \"SYS_DTSAVE\",\"SYS_DTCREATE\" AS \"SYS_DTCREATE\", ")
               .append("\"BOUI\" AS \"BOUI\",\"ATTRIBUTE\" AS \"ATTRIBUTE\",\"REFBOUI$\"")
               .append(" AS \"REFBOUI$\"")
-              .append(", '" + schemaParentName + "' AS \"SYS_ORIGIN\" FROM ")
+              .append(", \"SYS_ORIGIN\" AS \"SYS_ORIGIN\" FROM ")
               .append(schemaParent).append(".EBO_REFERENCES");
         }
 
@@ -2584,8 +2581,7 @@ public class boBuildDB
                 if ("SYS_ORIGIN".equals(calias))
                 {
                     //juntar o tipo da view
-                    sb.append("'" + actualRepositoryName +
-                        "' AS \"SYS_ORIGIN\"");
+                    sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                 }
                 else if (tfields.get(i) == null)
                 {
@@ -2758,8 +2754,7 @@ public class boBuildDB
                 if ("SYS_ORIGIN".equals(calias))
                 {
                     //juntar o tipo da view
-                    sb.append("'" + actualRepositoryName +
-                        "' AS \"SYS_ORIGIN\"");
+                    sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                 }
                 else if (tfields.get(i) == null)
                 {
@@ -2968,8 +2963,7 @@ public class boBuildDB
                     if ("SYS_ORIGIN".equals(xatts[z]))
                     {
                         //juntar o tipo da view
-                        sb.append("'" + actualRepositoryName +
-                            "' AS \"SYS_ORIGIN\"");
+                        sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                     }
                     else
                     {
@@ -3213,10 +3207,8 @@ public class boBuildDB
                     if ("SYS_ORIGIN".equals(xatts[z]))
                     {
                         //juntar o tipo da view
-                        sb.append("'" + actualRepositoryName +
-                            "' AS \"SYS_ORIGIN\"");
-                        sbparentView.append("'" + schemaParent +
-                            "' AS \"SYS_ORIGIN\"");
+                        sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
+                        sbparentView.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                     }
                     else
                     {
@@ -4499,7 +4491,7 @@ public class boBuildDB
                     if ("SYS_ORIGIN".equals(xatts[z]))
                     {
                         //juntar o tipo da view
-                        sb.append("'" + schemaParent + "' AS \"SYS_ORIGIN\"");
+                        sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                     }
                     else
                     {
@@ -4880,10 +4872,8 @@ public class boBuildDB
                     if ("SYS_ORIGIN".equals(calias))
                     {
                         //juntar o tipo da view
-                        sb.append("'" + actualRepositoryName +
-                            "' AS \"SYS_ORIGIN\"");
-                        parentView.append("'" + schemaParent +
-                            "' AS \"SYS_ORIGIN\"");
+                        sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
+                        parentView.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                     }
                     else
                     {
@@ -5101,7 +5091,7 @@ public class boBuildDB
                     if ("SYS_ORIGIN".equals(calias))
                     {
                         //juntar o tipo da view
-                        sb.append("'" + schemaParent + "' AS \"SYS_ORIGIN\"");
+                        sb.append("\"SYS_ORIGIN\" AS \"SYS_ORIGIN\"");
                     }
                     else
                     {
