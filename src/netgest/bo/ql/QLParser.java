@@ -2078,7 +2078,11 @@ public class QLParser  {
       else
       {
           String res;
-          prod().setRootFrom("Ebo_TextIndex");
+          String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+          if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL))
+        	  prod().setRootFrom("Ebo_TextIndex");
+          else
+        	  prod().setRootFrom("OEbo_TextIndex");
           res = textIndexUiClass(prod().selObj.getName()) + " AND ";
           if(actualObj.equalsIgnoreCase(textObj))
           {
