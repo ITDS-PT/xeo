@@ -13,6 +13,7 @@ import java.util.zip.CRC32;
 
 import javax.naming.InitialContext;
 
+import netgest.bo.boConfig;
 import netgest.bo.boException;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
@@ -2585,7 +2586,29 @@ public class boBuildDB
                 }
                 else if (tfields.get(i) == null)
                 {
-                    sb.append("NULL AS ").append('"').append(calias).append('"');
+                	boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
+                	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+                    if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
+                    {
+                    	boDefAttribute atts[]=currObj.getAttributesDef();
+                    	
+                    	for (int j=0;j<atts.length;j++)
+                    	{
+                    		String name=atts[j].getName();
+                    		if (name.equalsIgnoreCase(calias))
+                    		{
+                    			String toAppend="NULL";
+                    			
+                    			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
+                    				toAppend="0";
+                    			
+                    				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                    		}
+                    	}
+                    	
+                    }                    	
+                    else
+                    	sb.append("NULL AS ").append('"').append(calias).append('"');
                 }
                 else
                 {
@@ -2758,7 +2781,30 @@ public class boBuildDB
                 }
                 else if (tfields.get(i) == null)
                 {
-                    sb.append("NULL AS ").append('"').append(calias).append('"');
+                	
+                	boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
+                	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+                    if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
+                    {
+                    	boDefAttribute atts[]=currObj.getAttributesDef();
+                    	
+                    	for (int j=0;j<atts.length;j++)
+                    	{
+                    		String name=atts[j].getName();
+                    		if (name.equalsIgnoreCase(calias))
+                    		{
+                    			String toAppend="NULL";
+                    			
+                    			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
+                    				toAppend="0";
+                    			
+                    				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                    		}
+                    	}
+                    	
+                    }                    	
+                    else
+                    	sb.append("NULL AS ").append('"').append(calias).append('"');
                 }
                 else
                 {
@@ -4863,9 +4909,35 @@ public class boBuildDB
 
                 if (tfields.get(i) == null)
                 {
-                    sb.append("NULL AS ").append('"').append(calias).append('"');
-                    parentView.append("NULL AS ").append('"').append(calias)
-                              .append('"');
+                	boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
+                	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+                    if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
+                    {
+                    	boDefAttribute atts[]=currObj.getAttributesDef();
+                    	
+                    	for (int j=0;j<atts.length;j++)
+                    	{
+                    		String name=atts[j].getName();
+                    		if (name.equalsIgnoreCase(calias))
+                    		{
+                    			String toAppend="NULL";
+                    			
+                    			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
+                    				toAppend="0";
+                    			
+                    				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                    				parentView.append(toAppend+" AS ").append('"').append(calias)
+                                    .append('"');
+                    		}
+                    	}
+                    	
+                    }                    	
+                    else
+                    {
+                    	sb.append("NULL AS ").append('"').append(calias).append('"');
+                    	parentView.append("NULL AS ").append('"').append(calias)
+                        .append('"');
+                    }
                 }
                 else
                 {
@@ -5084,7 +5156,31 @@ public class boBuildDB
 
                 if (tfields.get(i) == null)
                 {
-                    sb.append("NULL AS ").append('"').append(calias).append('"');
+                	boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
+                	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+                    if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
+                    {
+                    	boDefAttribute atts[]=currObj.getAttributesDef();
+                    	
+                    	for (int j=0;j<atts.length;j++)
+                    	{
+                    		String name=atts[j].getName();
+                    		if (name.equalsIgnoreCase(calias))
+                    		{
+                    			String toAppend="NULL";
+                    			
+                    			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
+                    				toAppend="0";
+                    			
+                    				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                    		}
+                    	}
+                    	
+                    }                    	
+                    else
+                    {
+                    	sb.append("NULL AS ").append('"').append(calias).append('"');
+                    }
                 }
                 else
                 {

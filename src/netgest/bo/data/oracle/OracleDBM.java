@@ -58,6 +58,8 @@ public class OracleDBM
      */
     public static final String SQLSERVER_IMPL = "netgest.bo.data.sqlserver.SqlServerDriver";
     
+    public static final String POSTGRES_IMPL = "netgest.bo.data.postgre.PostGreDriver";
+    
     private EboContext p_ctx;
     private ResultSet p_rs;
     private static Hashtable p_connectionCache = new Hashtable();
