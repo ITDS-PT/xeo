@@ -1184,7 +1184,7 @@ public class PostGreDBM extends OracleDBM
                     	if (exists)
                     	{
 	                    	dml = "DROP VIEW \"" +
-	                        node.getString("OBJECTNAME");
+	                        node.getString("OBJECTNAME")+"\"";
 	                    	executeDDL(dml, node.getString("SCHEMA"));
                     	}
                     	
