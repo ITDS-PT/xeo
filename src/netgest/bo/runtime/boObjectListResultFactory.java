@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
+
+import netgest.bo.boConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataSet;
 import netgest.bo.data.DriverUtils;
 import netgest.bo.data.ObjectDataManager;
+import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefInterface;
@@ -391,9 +394,13 @@ public class boObjectListResultFactory  {
             }
             
             sqlTextIndex.append( "SELECT ")
-            .append( limitOnSelect  )
-            //.append("ui$,uiclass from OEbo_TextIndex where " );
-            .append("ui$,uiclass from Ebo_TextIndex where " ); //SQLServer apenas permite queries à tabela 
+            .append( limitOnSelect  );
+            
+            String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+            	if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL))
+            		sqlTextIndex.append("ui$,uiclass from Ebo_TextIndex where " ); //SQLServer apenas permite queries à tabela
+           	else
+            		sqlTextIndex.append("ui$,uiclass from OEbo_TextIndex where " );
             
             String textIndexUiclasses = QLParser.textIndexUiClass(bodef.getName());
             if(textIndexUiclasses != null && textIndexUiclasses.length() > 0)
