@@ -1,13 +1,15 @@
 /*Enconding=UTF-8*/
 
 package netgest.bo.ql;
-import java.util.*;
+import java.util.Vector;
+
 import javax.swing.tree.DefaultMutableTreeNode;
-import netgest.bo.runtime.*;
-import netgest.utils.*;
-import netgest.bo.def.*;
-import netgest.bo.*;
-import netgest.bo.security.*;
+
+import netgest.bo.boConfig;
+import netgest.bo.data.oracle.OracleDBM;
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.runtime.EboContext;
 /**
  *  Classe derivada do QLProducer especifica para a versão 9i da Oracle
  * 
@@ -209,17 +211,27 @@ public class QLProducer9i extends QLProducer {
             node = node.getNextNode();  //próximo nó
         }
         
-        for(int i = 1; i < fromTree.size(); i++)
-        {
-            node = (DefaultMutableTreeNode)fromTree.get(i);
-            midtable = (String)node.getUserObject();   
-            //fromC += ", " +  midtable;
-            if(midtable.equalsIgnoreCase("EBO_TEXTINDEX") || midtable.equalsIgnoreCase("OEBO_TEXTINDEX"))
-              fromC += " INNER JOIN "+midtable+" ON("+midtable+".UI$="+base_tab+".BOUI)";
-            else
-              fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"BOUI="+base_tab+".BOUI)";
-        }
-        fromC += " ";       //um espacinho para não ficar tudo ligado :)
+        for (int i = 1; i < fromTree.size(); i++) {
+            node = (DefaultMutableTreeNode) fromTree.get(i);
+            midtable = (String) node.getUserObject();
+            // fromC += ", " + midtable;
+            if (midtable.equalsIgnoreCase("EBO_TEXTINDEX")
+                       || midtable.equalsIgnoreCase("OEBO_TEXTINDEX")) {
+
+                  String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+                  if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)) {
+                       fromC += " INNER JOIN " + midtable + " ON(" + midtable + ".UI$=" + base_tab + ".BOUI)";
+                  } else {
+                       fromC += " INNER JOIN o" + midtable + " ON(o" + midtable + ".UI$=" + base_tab + ".BOUI)";
+                  }
+
+            } else {
+                  fromC += " LEFT OUTER JOIN " + midtable + " ON(" + midtable
+                             + "." + "BOUI=" + base_tab + ".BOUI)";
+            }
+      }
+      fromC += " "; // um espacinho para não ficar tudo ligado :)
+
         
     }
     
