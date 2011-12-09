@@ -28,7 +28,7 @@ public class MessageLocalizer {
 	 * @param whichMessage
 	 * @return(String) the exception message
 	 */
-public static String getMessage(String whichMessage){
+	public static String getMessage(String whichMessage){
 	String language;
 	Properties properties= new Properties();
 	String message = "";
