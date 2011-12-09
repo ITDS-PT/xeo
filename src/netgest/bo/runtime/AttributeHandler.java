@@ -18,6 +18,7 @@ import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.localized.JSPMessages;
 import netgest.bo.security.securityRights;
 import netgest.bo.system.Logger;
@@ -155,16 +156,21 @@ public abstract class AttributeHandler implements boIEvents
     		try {
 				//get the old file
 				this.p_valueIFileECM = con.getIFile(this.getValueString());
-				//update it
-				p_valueIFileECM.updateFile(newVal);   
+				if (p_valueIFileECM != null){
+					//update it
+					p_valueIFileECM.updateFile(newVal);
+				}
+				else
+					p_valueIFileECM = newVal;
 			} catch (iFileException e) {
 				e.printStackTrace();
 			}			
 		}
     	else if ( newVal != null ) {
     		//update file
-    		p_valueIFileECM.updateFile(newVal);    		
-    	}
+    		p_valueIFileECM.updateFile(newVal);
+    		p_valueIFileECM = newVal;
+     	}
     	else {
     		p_valueIFileECM = null;
     	}
@@ -627,15 +633,12 @@ public abstract class AttributeHandler implements boIEvents
                 return true;
             }
 
-       // boolean ret= true;
-       // if ( this.p_isvalid )
-       // {
-//            if( this.p_isRequired && ( this.getValueObject() == null || this.getValueString().length() == 0 ) )
             boolean req = required();
+            //Check for required
             if(req && ( this.getValueObject() == null || this.getValueString().length() == 0 ) )
             {
-                this.setInvalid( JSPMessages.getString("AttributeHandler.1")+"["+this.getParent().getName() + "." + this.getName()+"]." );
-              //  ret = false;
+                this.setInvalid( MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED") );
+                this.getParent().addErrorMessage(this, MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED"));
             }
             else
             {
@@ -721,12 +724,9 @@ public abstract class AttributeHandler implements boIEvents
 
             }
 
-       // }
-      //  else
-      //  {
-      //      ret = false;
-      //  }
-      //  return ret;
+      //Check any valid rule that may exist 
+      p_isvalid = validate();      
+            
       return this.p_isvalid;
 
     }
@@ -1039,6 +1039,8 @@ public abstract class AttributeHandler implements boIEvents
                 }
             }
         }
+        if (!p_isvalid)
+        	return false;
         return ret;
     }
     public boolean required() throws boRuntimeException
