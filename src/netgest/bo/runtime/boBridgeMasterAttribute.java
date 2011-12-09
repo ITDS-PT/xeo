@@ -194,8 +194,13 @@ public class boBridgeMasterAttribute extends AttributeHandler {
     }
     
     public void setValueObject(Object value, byte type) throws boRuntimeException
-    {        
-        this.setValueString((String)value, type);
+    {   
+    	if (value != null){     
+    		this.setValueString(value.toString(), type);
+    	} else
+    		this.setValueString((String)value, type);
+    
+    	//this.setValueString((String)value, type);
     }
     
     public void setValueObject(Object value) throws boRuntimeException 
