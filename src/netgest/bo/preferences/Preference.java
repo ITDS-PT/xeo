@@ -165,6 +165,14 @@ public class Preference {
 		return this.values.values().iterator();
 	}
 
+	/**
+	 * 
+	 * Put a new value in the preference given the key
+	 * 
+	 * @param key The key
+	 * @param value The value (must a serialzed object as a string) although the parameter
+	 * takes an Object you must pass a string
+	 */
 	public void put(String key, Object value ) {
 		this.values.put(key, value);
 	}
