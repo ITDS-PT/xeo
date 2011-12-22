@@ -32,7 +32,7 @@ public class QLOrderAndGroupByCardID {
 	        	    
 	        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
 	        	    
-	        	    if (cardids!=null)        	    
+	        	    if (cardids!=null && cardids.length > 0)        	    
 		        	{
 		        		String direction=getDirection(currclause);
 		        		String neworderby="";
@@ -79,7 +79,7 @@ public class QLOrderAndGroupByCardID {
         	    
         	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
         	    
-        	    if (cardids!=null)        	    
+        	    if (cardids!=null && cardids.length > 0)        	    
         	    {
 	        		String direction=getDirection(qlmod.getOrderByPart());
 	        		String neworderby="";
