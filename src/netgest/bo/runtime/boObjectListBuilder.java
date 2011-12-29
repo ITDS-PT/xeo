@@ -1,5 +1,7 @@
 package netgest.bo.runtime;
 
+import java.util.ArrayList;
+
 /**
  * 
  * Implements the builder pattern to create instances
@@ -11,6 +13,9 @@ package netgest.bo.runtime;
  *
  */
 public class boObjectListBuilder {
+
+	
+
 
 	/**
 	 * The context for the query
@@ -26,6 +31,11 @@ public class boObjectListBuilder {
 	 * The query arguments
 	 */
 	private Object[] args;
+	
+	/**
+	 * Individual Arguments
+	 */
+	private ArrayList<Object> individualArguments = new ArrayList<Object>();
 	
 	/**
 	 * Whether to use cache or not
@@ -134,6 +144,17 @@ public class boObjectListBuilder {
 		return this;
 	}
 	
+	/**
+	 * 
+	 * Adds a single arguments
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public boObjectListBuilder arg(Object value){
+		this.individualArguments.add(value);
+		return this;
+	}
 	
 	/**
 	 * 
@@ -142,22 +163,86 @@ public class boObjectListBuilder {
 	 * @return
 	 */
 	public boObjectList build(){
-		return boObjectList.list(ctx, boql,args,page,pageSize,orderBy,"",null,null,useSecurity,useCache);
+		return boObjectList.list(ctx, boql,getArgs(),page,pageSize,orderBy,"",null,null,useSecurity,useCache);
 	}
 
-	
-	public static void main(String[] args){
-		EboContext ctx = null;
-		Object[] arguments = new Object[]{"arg1","arg2"};
-		
-		boObjectList list = new boObjectListBuilder(ctx, "select Objecto").build();
-		
-		boObjectList list2 = new boObjectListBuilder(ctx, "select Objecto").pageSize(3).cache(false).build();
-		
-		boObjectList list3 = new boObjectListBuilder(ctx, "select Objecto").cache(false).args(arguments).security(false).build();
-		
-		boObjectList list4 = new boObjectListBuilder(ctx, "select Objecto").cache(false).args(arguments).security(false).pageSize(3).page(2).build();
-		
+	/**
+	 *  Retrieve the EboContext associated 
+	 * 
+	 * @return
+	 */
+	public EboContext getCtx() {
+		return ctx;
+	}
+
+	/**
+	 * 
+	 * Retrieve the boql expression
+	 * 
+	 * @return
+	 */
+	public String getBoql() {
+		return boql;
+	}
+
+	/**
+	 * 
+	 * Retrieve the list of arguments
+	 * 
+	 * @return
+	 */
+	public Object[] getArgs() {
+		//FIXME: Merge both
+		return args;
+	}
+
+	/**
+	 * 
+	 * Whether cache is being used (defaults to true)
+	 * 
+	 * @return
+	 */
+	public boolean isUseCache() {
+		return useCache;
+	}
+
+	/**
+	 * Whether security is being used in the query (defaults to true)
+	 * 
+	 * @return
+	 */
+	public boolean isUseSecurity() {
+		return useSecurity;
+	}
+
+	/**
+	 * 
+	 * The page number to position the result (defaults to 1 - first page)
+	 * 
+	 * @return
+	 */
+	public int getPage() {
+		return page;
+	}
+
+	/**
+	 * 
+	 * The page size for the query (defaults to 50)
+	 * 
+	 * @return
+	 */
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	/**
+	 * 
+	 * The order by string (defaults to empty string)
+	 * 
+	 * @return
+	 */
+	public String getOrderBy() {
+		return orderBy;
 	}
 	
 }
