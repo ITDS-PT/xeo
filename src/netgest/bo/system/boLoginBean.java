@@ -94,19 +94,22 @@ public class boLoginBean implements SessionBean  {
             
             //If the user has a selected theme, choose that theme
             if (perf.getAttribute("theme") != null && !"".equalsIgnoreCase(perf.getAttribute("theme").getValueString())){
-            	boObject current = perf.getAttribute("theme").getObject();
-            	user.setTheme(current.getAttribute(Theme.NAME).getValueString());
             	
-            	/*bridgeHandler filesIncludeHandler = current.getBridge(Theme.FILES);
-            	Map<String,String> files = new HashMap<String, String>();
-            	filesIncludeHandler.beforeFirst();
-            	while(filesIncludeHandler.next()){
-            		boObject currentFileInclude = filesIncludeHandler.getObject();
-            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
-            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
-            		files.put(id, path);
-            	}
-            	user.setThemeFiles(files);*/
+            		boObject current = perf.getAttribute("theme").getObject();
+	            	user.setTheme(current.getAttribute(Theme.NAME).getValueString());
+	            	
+	            	bridgeHandler filesIncludeHandler = current.getBridge(Theme.FILES);
+	            	if (filesIncludeHandler != null){
+		            	Map<String,String> files = new HashMap<String, String>();
+		            	filesIncludeHandler.beforeFirst();
+		            	while(filesIncludeHandler.next()){
+		            		boObject currentFileInclude = filesIncludeHandler.getObject();
+		            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
+		            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
+		            		files.put(id, path);
+		            	}
+		            	user.setThemeFiles(files);
+	            	}
             	
             }
             //If the user does not have a theme, try to select the default theme 
