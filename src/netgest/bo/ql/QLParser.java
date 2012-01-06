@@ -2517,6 +2517,14 @@ public class QLParser  {
                     else
                     {
                       String s2 = lookCurrentWord();
+                    //POSTGRES Problem with date_trunc
+                      while (s2.equals(":") || s2.equalsIgnoreCase("TIMESTAMP"))
+                      {
+                    	  r2.setMessage(r2.getMessage()+s2);
+                    	  incConsumer();
+                    	  s2=lookCurrentWord();                    	  
+                      }
+                    //END POSTGRES Problem with date_trunc
                       if(s2.equalsIgnoreCase(")"))
                       {
                           incConsumer();
