@@ -2859,4 +2859,17 @@ public class OracleDBM
     }
     
     
+    /**
+     * 
+     * Used to eliminate dependent views (introduced because of PostGre which is the only one
+     * to implement it currently, other DBMs don't do nothing on this method
+     * 
+     * @param ctx The EboContext for the queries
+     * @param objects The objects that were changed and may need the views removed
+     * @param mainInterface The list of interfaces associated that may need to be deleted
+     */
+    public void eliminateDependentViews(EboContext ctx, boDefHandler[] objects, Object[] mainInterface) throws SQLException {
+    	
+    }
+    
 }

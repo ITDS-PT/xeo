@@ -1071,8 +1071,23 @@ public class boBuilder {
 
 				// build ngtdic e index
 				buildSpecialTables(p_eboctx, repository.getSchemaName());
-
+				
+			} 
+			
+			//DROP ALL VIEWS DEPENDENT FROM defs & objectInterf
+			//Adicionar metodo ao Class OracleDBM, só no 
+			//TODO: Procurar regra para criar nome da View getMasterTable e getPhysicalTable()
+			OracleDBM dbm = this.p_eboctx.getDataBaseDriver().getDBM();
+			try {
+				dbm.eliminateDependentViews(p_eboctx,defs, objectInterf.keySet().toArray());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				throw new boRuntimeException("", "Could not Delete views", e1);
+				
 			}
+			//objectInterf é: Map<String,ArrayList<String>> Com interface + lista de tabelas que a compõe;
+			
+			
 
 			Hashtable buildedobjects = new Hashtable();
 			buildedobjects.clear();

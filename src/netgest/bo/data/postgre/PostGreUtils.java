@@ -113,7 +113,7 @@ public class PostGreUtils  implements DriverUtils
 
 	public String fnTruncateDate(String exprString) {
 		return new StringBuffer("DATE_TRUNC('microseconds',").append(exprString).append(
-		")").toString();
+		"::timestamp)").toString();
 	}
 	
 	public String getQueryLimitStatement(int rows) {

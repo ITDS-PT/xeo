@@ -4,8 +4,6 @@ package netgest.bo.data.postgre;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-
 import java.sql.CallableStatement;
 import java.sql.Clob;
 import java.sql.Connection;
@@ -13,14 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -35,13 +31,10 @@ import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boRepository;
-
-import netgest.utils.DataUtils;
 import netgest.utils.StringUtils;
-
-import netgest.bo.system.Logger;
 
 public class PostGreDBM extends OracleDBM
 {
@@ -1181,14 +1174,7 @@ public class PostGreDBM extends OracleDBM
                     String vExpression = node.getString("EXPRESSION");
                     if( !vExpression.toLowerCase().equals( viewText ) )
                     {
-                    	if (exists)
-                    	{
-	                    	dml = "DROP VIEW \"" +
-	                        node.getString("OBJECTNAME")+"\"";
-	                    	executeDDL(dml, node.getString("SCHEMA"));
-                    	}
-                    	
-                        dml = "CREATE OR REPLACE VIEW \"" +
+                    	dml = "CREATE OR REPLACE VIEW \"" +
                             node.getString("OBJECTNAME") + "\" AS \n" +
                             vExpression;
                         executeDDL(dml, node.getString("SCHEMA"));
@@ -2877,6 +2863,50 @@ public class PostGreDBM extends OracleDBM
            throw new SQLException("Macrofield ["+macrofield+"] "+MessageLocalizer.getMessage("DOESNT_EXIST"));
         }
         return ret;
+    }
+    
+    @Override
+    public void eliminateDependentViews(EboContext ctx, boDefHandler[] objects, Object[] interfaceMain) throws SQLException {
+    	
+    	//String schemaName = ctx.getBoSession().getRepository().getName();
+    	String schemaName = ctx.getBoSession().getRepository().getName();
+    	Connection cn  = getRepositoryConnection(ctx.getApplication(),schemaName, 1);
+    	PreparedStatement findViewPreparedStatement = 
+    		cn.prepareStatement("select count(*) as total from pg_catalog.pg_class where relkind = 'v' and relname = ?");
+    	//Drop all views from objects about to be created
+    	for (boDefHandler def: objects){
+    		//Check if the view O + objectName exists
+    		findViewPreparedStatement.setString(1, "o"+def.getName().toLowerCase());
+    		ResultSet rsCountView = findViewPreparedStatement.executeQuery();
+    		if (rsCountView.next() && rsCountView.getInt("total") == 1){
+    			Statement dropViewSt = cn.createStatement();
+    			dropViewSt.execute("DROP VIEW \"" +  "o"+def.getName().toLowerCase() +"\" CASCADE");
+    			if (logger.isFineEnabled())
+    				logger.fine("Dropped view o%s",def.getName());
+    		}
+            //Check if the view OE + objectName exists and drop if needed
+    		findViewPreparedStatement.setString(1, "oe"+def.getName().toLowerCase());
+    		ResultSet rsCountViewExtended = findViewPreparedStatement.executeQuery();
+    		if (rsCountViewExtended.next() && rsCountViewExtended.getInt("total") == 1){
+    			Statement dropViewSt = cn.createStatement();
+    			dropViewSt.execute("DROP VIEW \"" +  "oe"+def.getName().toLowerCase() +"\" CASCADE");
+    			if (logger.isFineEnabled())
+    				logger.fine("Dropped view oe%s",def.getName());
+    		}
+    	}
+    	
+    	//Drop alls views related to the main interface
+    	for (Object curr : interfaceMain){
+	    	findViewPreparedStatement.setString(1, curr.toString());
+			ResultSet rsCountView = findViewPreparedStatement.executeQuery();
+			if (rsCountView.next() && rsCountView.getInt("total") == 1){
+				Statement dropViewSt = cn.createStatement();
+    			dropViewSt.execute("DROP VIEW \"" +  interfaceMain +"\" CASCADE");
+    			if (logger.isFineEnabled())
+    				logger.fine("Dropped view %s",interfaceMain);
+			}
+    	}
+    	
     }
     
     

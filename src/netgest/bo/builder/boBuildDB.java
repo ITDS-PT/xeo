@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.zip.CRC32;
 
@@ -2586,17 +2587,29 @@ public class boBuildDB
                 }
                 else if (tfields.get(i) == null)
                 {
-                	boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
+                	//boDefHandler currObj=boDefHandler.getBoDefinition(ctable);
                 	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
-                    if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
+                	if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
                     {
-                    	boDefAttribute atts[]=currObj.getAttributesDef();
-                    	
+                		ArrayList<String> lst = new ArrayList<String>(tables);
+                		lst.add(mandInterface);
+                		COLUMN_DATATYPE type = findColumnDataType(p_eboctx, lst, calias);
+                		String toAppend="NULL";
+                		if (COLUMN_DATATYPE.NUMERIC == type){
+                			toAppend="0";
+                			sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                		} else {
+                			sb.append("NULL AS ").append('"').append(calias).append('"');
+                		}
+                		
+                    	/*boDefAttribute atts[]=currObj.getAttributesDef();
+                    	boolean found=false;
                     	for (int j=0;j<atts.length;j++)
                     	{
                     		String name=atts[j].getName();
                     		if (name.equalsIgnoreCase(calias))
                     		{
+                    			found=true;
                     			String toAppend="NULL";
                     			
                     			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
@@ -2605,6 +2618,7 @@ public class boBuildDB
                     				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
                     		}
                     	}
+                    	if(!found)sb.append("NULL AS ").append('"').append(calias).append('"');*/
                     	
                     }                    	
                     else
@@ -2642,6 +2656,93 @@ public class boBuildDB
                 "] "+MessageLocalizer.getMessage("AND_ALL_CHILD_OBJECTS_ALL_CHILD_FIELDS_ARE_INCLUDED"),
             finalquery.toString());
     }
+    
+    
+    /**
+     * Enum representing column data types
+     *
+     */
+    private enum COLUMN_DATATYPE {
+    	NUMERIC,
+    	STRING,
+    	DATE,
+    	UNKNOWN
+    }
+    
+    /**
+     * 
+     * Queries the database metadata to find the datatype of a given column of a table
+     * 
+     * @param ctx The context (to fetch a connection)
+     * @param tables The name of the tables that may contain the column
+     * @param columnName The name of the column to query the data type
+     * 
+     * @return The column's data type
+     */
+    private COLUMN_DATATYPE findColumnDataType(EboContext ctx, ArrayList<String> tables, String columnName){
+    	Connection cn = ctx.getConnectionData();
+    	PreparedStatement pstm = null;
+    	ResultSet rslt = null;
+    	try {
+    		for (Iterator<String> it = tables.iterator(); it.hasNext(); ){
+				String sql = "select udt_name from information_schema.columns where table_name = ? and column_name = ?";
+				pstm = cn.prepareStatement(sql);
+				String tblName = it.next().toLowerCase();
+				pstm.setString(1, tblName);
+				pstm.setString(2, columnName.toLowerCase());
+				rslt = pstm.executeQuery();
+				//System.out.println(sql+ "-> " + tblName + " " + columnName);
+				if (rslt.next()){
+					String result = rslt.getString(1);
+					if (result.equalsIgnoreCase("numeric"))
+						return COLUMN_DATATYPE.NUMERIC;
+					else if (result.equalsIgnoreCase("varchar"))
+						return COLUMN_DATATYPE.STRING;
+					else if (result.equalsIgnoreCase("timestamp"))
+						return COLUMN_DATATYPE.DATE;
+				} 
+    		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeDatabaseResources(cn, pstm, rslt);			
+		}
+		return COLUMN_DATATYPE.UNKNOWN;
+    }
+    
+    /**
+     * 
+     * Attemps to close database resources
+     * 
+     * @param conn A JDBC connection
+     * @param p A JDBC prepared statement
+     * @param rs A JDBC result set
+     */
+    private void closeDatabaseResources(final Connection conn, final PreparedStatement p, final ResultSet rs){
+    	if (rs != null){
+    		try {
+				rs.close();
+			} catch (SQLException e) {
+				/* Ignore exception */
+			}
+    	}
+    	if (p != null){
+    		try {
+				p.close();
+			} catch (SQLException e) {
+				/* Ignore exception */
+			}
+    	}
+    	if (conn != null){
+    		try {
+				conn.close();
+			} catch (SQLException e) {
+				/* Ignore exception */
+			}
+    	}
+    }
+     
+    
     public void createExtendedViews(boDefHandler def)
     {
         createExtendedViews(def, false);
