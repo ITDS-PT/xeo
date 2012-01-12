@@ -468,5 +468,10 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     {
         return p_parentAtt;
     }
+
+	@Override
+	public String getPathToIcon() {
+		return "";
+	}
     
 }

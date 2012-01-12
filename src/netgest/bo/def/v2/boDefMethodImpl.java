@@ -29,6 +29,7 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     private boolean 		 p_overwrite = false;
     private boolean 		 p_menu = false;
     private boolean 		 p_toolbar = false;
+    private String			 p_icon = "";
     
     private String  		 p_label;
     
@@ -100,7 +101,9 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
             p_requiredtrans = GenericParseUtils.parseBoolean( getAttribute("requiredTransaction") );
             p_openDoc       = GenericParseUtils.parseBoolean( getAttribute("openDoc") );
             p_toObject      = super.getAttribute("toObject");
+            
             p_label         = super.getChildNodeText( "Label", p_name );
+            p_icon         = super.getChildNodeText( "icon", "" );
 
             if (xnode != null)
             {
@@ -335,4 +338,9 @@ public class boDefMethodImpl extends ngtXMLHandler implements boDefMethod
     {
         return p_parentAtt;
     }
+    
+    @Override
+	public String getPathToIcon() {
+		return p_icon;
+	}
 }
