@@ -44,6 +44,7 @@ import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.bo.transformers.CastInterface;
 import netgest.bo.utils.SchemaUtils;
+import netgest.utils.StringUtils;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
@@ -1642,65 +1643,73 @@ public class boDefHandlerImpl extends boDefHandler {
 	 */
 	public static String getTranslation(String className, String defaultValue, String type,String attribute, String whichText)
 	{	
-		String toRet=null;
+		if (StringUtils.isEmpty(className) || StringUtils.isEmpty(type) || StringUtils.isEmpty(attribute))
+			return defaultValue;
+		
+		String translatedMessage = null;
 		boApplication app = boApplication
 				.getApplicationFromStaticContext("XEO");
 		
-		String usedLanguage = app.getApplicationLanguage();
+		String applicationLanguage = app.getApplicationLanguage();
+		String userLanguage = getUserLanguageFromContext();
+		if (!StringUtils.isEmpty(userLanguage))
+			applicationLanguage = userLanguage;
+			
+		HashMap<String,Properties> translationsMap = boDefHandlerImpl.getLanguagesMap();
+		String objectPropertiesFilename = className+"_"+applicationLanguage+".properties";
+		
+		if (translationsMap.containsKey(objectPropertiesFilename)){
+			Properties prop = translationsMap.get(objectPropertiesFilename);
+			if (type!=null){
+				String propertyToRetrieve = type + "." + attribute + "." + whichText;
+				String retrievedMessage = prop.getProperty(propertyToRetrieve);
+				if(!StringUtils.isEmpty(retrievedMessage)){
+					translatedMessage = retrievedMessage;
+				}
+			} else if( !prop.getProperty( whichText ).equals( "" ) ){
+				if(prop.getProperty( whichText )!=null)
+					translatedMessage = prop.getProperty( whichText );
+			}
+		}
+		
+		
+		if (StringUtils.isEmpty(translatedMessage))
+		{
+			//getSuper
+			boDefHandler currentbo = boDefHandlerImpl.getBoDefinition(className);
+			if( currentbo != null ) {
+				if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals("")){
+					translatedMessage=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
+				}
+				//Interfaces
+				if (StringUtils.isEmpty(translatedMessage))
+				{
+					for (String interf:currentbo.getImplements())
+					{
+						boDefInterface interfimpl = boDefInterfaceImpl.getInterfaceDefinition(interf);
+						translatedMessage = getTranslation( interfimpl.getName(), defaultValue, type, attribute, whichText );
+						if (!StringUtils.isEmpty(translatedMessage))
+							return translatedMessage;
+					}
+				}
+			}
+		}
+		
+		if (!StringUtils.isEmpty(translatedMessage))
+			return translatedMessage;
+		return defaultValue;
+	}
 	
+	private static String getUserLanguageFromContext(){
 		if(boApplication.currentContext() != null)
 			if(boApplication.currentContext().getEboContext() != null)
 			if(boApplication.currentContext().getEboContext().getBoSession() != null)
 		{
 			boSessionUser user=boApplication.currentContext().getEboContext().getBoSession().getUser();
 			if(user.getLanguage()!=null && !user.getLanguage().equals(""))
-				usedLanguage = user.getLanguage();
-		}	
-				
-		HashMap<String,Properties> map = boDefHandlerImpl.getLanguagesMap();
-		
-		if (usedLanguage != null && map.containsKey(className+"_"+usedLanguage+".properties")){
-			Properties prop = map.get(className+"_"+usedLanguage+".properties");
-			if (type!=null){
-				if(prop.getProperty(type + "." + attribute + "." + whichText)!=null)
-					if(prop.getProperty(type + "." + attribute + "." + whichText).equals(""))	
-						toRet=prop.getProperty(type + "." + attribute + "." + whichText);			
-			}else if(!prop.getProperty(whichText).equals(""))
-				if(prop.getProperty(whichText)!=null)
-					toRet=prop.getProperty(whichText);
-		
+				return user.getLanguage();
 		}
-		if (toRet==null || toRet.equals(""))
-		{
-			//getSuper
-			boDefHandler currentbo = boDefHandlerImpl.getBoDefinition(className);
-			if( currentbo != null ) {
-				if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals(""))
-				{
-					toRet=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
-				}
-				//Interfaces
-				if (toRet==null || toRet.equals(""))
-				{
-					for (String interf:currentbo.getImplements())
-					{
-						boDefInterface interfimpl=boDefInterfaceImpl.getInterfaceDefinition(interf);
-						toRet=getTranslation(interfimpl.getName(), defaultValue, type, attribute, whichText);
-						if (toRet!=null && !toRet.equals(""))
-							break;
-					}
-				}
-				if (toRet==null || toRet.equals(""))				
-					return defaultValue;
-				else
-					return toRet;
-			}
-			else {
-				return defaultValue;
-			}
-		}
-		else
-			return toRet;
+		return "";
 	}
 
 	public ngtXMLHandler getXmlNode() {
