@@ -2,41 +2,15 @@
 package netgest.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.runtime.*;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boRuntimeException;
 
 public class MD5Utils  {
-    public static void main(String[] args) {
-//        long l = 1107962368935l;
-//        System.out.println(getCheckTime(l));
-//        Calendar c = Calendar.getInstance();
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss.SSS");
-//        System.out.println(formatter.format(c.getTime()));
-//        System.out.println(getCheckTime(c.getTimeInMillis()));
-//        c.add(Calendar.SECOND, 5);
-//        System.out.println(formatter.format(c.getTime()));
-//        System.out.println(c.toString());
-//        System.out.println(getCheckTime(c.getTimeInMillis()));
-//        System.out.println(toHexMD5("icp0120"));
-//        try
-//        {
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            String username;
-//    
-//            byte bytes[] = md.digest("icp0120".getBytes());
-//            System.out.print(ClassUtils.byteArrayToHexString(bytes));
-//        }
-//        catch (NoSuchAlgorithmException e)
-//        {
-//            
-//        }
-        
-    }
 
     public static final String toHexMD5(byte[] toencode) {
         if(toencode==null) throw new NullPointerException(MessageLocalizer.getMessage("STRING_TO_ENCODE_CANNOT_BE_NULL"));
