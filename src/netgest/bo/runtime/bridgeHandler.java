@@ -1,17 +1,10 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
-import java.io.Serializable;
 import java.math.BigDecimal;
-
 import java.sql.SQLException;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import netgest.bo.data.DataResultSet;
 import netgest.bo.data.DataRow;
@@ -21,6 +14,7 @@ import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.security.securityRights;
+import netgest.bo.system.Logger;
 
 	/**
      * 
@@ -40,6 +34,8 @@ import netgest.bo.security.securityRights;
         private boDefAttribute  p_defatt;
         private List         	p_rows = new ArrayList();
         private Boolean			p_disabled = null;
+        
+        private static final Logger logger = Logger.getLogger(bridgeHandler.class);
         
         public bridgeHandler(String name,DataResultSet data, String childfield, boObject parent ) {
             super(parent.getEboContext(),
@@ -304,47 +300,65 @@ import netgest.bo.security.securityRights;
             return p_defatt;
         }
         public boolean valid()
-        { //throws boRuntimeException {
-        //    try {
-              //  int rec = this.p_data.getRow();
-                
-//                if(p_vl) 
-//                {
-//                    this.p_data.last();
-//                    this.p_data.deleteRow();
-//                    p_vl = false;
-//                }
-/*                String xval;
-                boolean ok=true;
-                this.p_data.beforeFirst();
-                while((!ok || this.p_data.next()) && !this.p_data.isAfterLast() ) {
-                    ok = true;
-                    for (int i = 0; i < this.p_data.getColumnCount(); i++)  {
-                        if(!this.p_data.getColumnName(i+1).equalsIgnoreCase(p_fatherfield)) {
-                            if(!((xval=this.p_data.getString(1+i))==null || xval.length()==0)) {
-                                ok = false;
-                                break;
-                            }
-                        }
-                    }
-//                    if(!this.getObject().exists()){
-//                        ok=true;
-//                        this.p_data.deleteRow();
-//                    } else {
-//                        ok = true;
-//                    }
-                }
-                this.p_data.absolute(rec);*/
-                return true;
-//            } catch (SQLException e) {
-//                throw new boRuntimeException(this.getClass().getName(),"XXXX",e);
-//            }
+        { 
+        	boDefAttribute bridgeDefinition = getDefAttribute();
+        	
+        	int maxElementsInBridge = bridgeDefinition.getMaxOccurs();
+        	int minElementsInBridge = bridgeDefinition.getMinOccurs();
+        	
+        	boolean needsToVerify = (maxElementsInBridge < Integer.MAX_VALUE || minElementsInBridge > 0);
+        	if (needsToVerify){
+        		long elementCounter = getRecordCount();
+        		//Decide which name to use in error message
+        		String targetObjectLabelToUse = "";
+        		String relationTargetObjName = bridgeDefinition.getReferencedObjectName();
+        		
+        		if ("boObject".equals(relationTargetObjName)){
+        			targetObjectLabelToUse = " elements";
+        		} else
+        			targetObjectLabelToUse = boDefHandler.getBoDefinition(relationTargetObjName).getLabel();
+        		
+        		//Check both situations
+        		if (elementCounter < minElementsInBridge){
+        			
+        			String errorMessage = MessageLocalizer.getMessage(
+        					"BRIDGE_LESS_THAN_MINIMUM",
+        					minElementsInBridge,
+        					targetObjectLabelToUse);
+        			
+        			boBridgeMasterAttribute att = new boBridgeMasterAttribute(getParent(), bridgeDefinition);
+        			this.getParent().addErrorMessage(att,errorMessage);
+                    return false;
+        		} else if (elementCounter > maxElementsInBridge){
+        			
+        			String errorMessage = MessageLocalizer.getMessage(
+        					"BRIDGE_MORE_THAN_MAXIMUM",
+        					maxElementsInBridge,
+        					targetObjectLabelToUse);
+        			
+        			boBridgeMasterAttribute att = new boBridgeMasterAttribute(getParent(), bridgeDefinition);
+        			this.getParent().addErrorMessage(att,errorMessage);
+                    return false;
+        		}
+        	}
+        	return true;
+        }
+        
+        /**
+         * 
+         * Check if the bridge has reached the maximum number of elements 
+         * 
+         * @return True if the {@link #getRecordCount()} >= bridge max occurs
+         */
+        public boolean hasMaxElements(){
+        	boDefAttribute bridgeDefinition = getDefAttribute();
+        	int maxElementsInBridge = bridgeDefinition.getMaxOccurs();
+        	if (getRecordCount() >= maxElementsInBridge){
+        		return true;
+        	}
+        	return false;
         }
 
-//        public String getMyOwner() {
-//            // TODO:  Override this netgest.bo.runtime.boObjectList method
-//            return boPoolManager.getMyOwner( getParent() );
-//        }
         public boolean isEmpty()
         {
             return this.getRowCount()==0; 
@@ -411,33 +425,6 @@ import netgest.bo.security.securityRights;
                 refreshLineAttributes( Math.min( row + 1, crow + 1 ) );
                 
 
-//                Object xx = p_lineatts.get( crow );
-//                
-//                boolean ascend =  crow > row;
-//                
-//                int max = Math.max( crow , row );
-//                int i;
-//                for (i = Math.min( row , crow ) ; i < max ; i++ )
-//                {
-//                    if( ascend )
-//                    {
-//                        p_lineatts.set( max - (i - row) , p_lineatts.get( max - ( i - row )  - 1 ) );
-//                    }
-//                    else 
-//                    {
-//                        p_lineatts.set( i , p_lineatts.get( i+1 ) );
-//                    }
-//                    
-//                    refreshLineAttributes( ascend ? max - (i - row) : i );
-//                }
-//                if( ascend )
-//                {
-//                    p_lineatts.set( row , xx );
-//                }
-//                else
-//                {
-//                    p_lineatts.set( i , xx );
-//                }
                 
                 att.onAfterChangeOrder(new boEvent( this , AttributeHandler.EVENT_BEFORE_CHANGEORDER , new Integer( crow + 1 ) , new Integer( row + 1 ) ) );
             }
@@ -451,15 +438,6 @@ import netgest.bo.security.securityRights;
             rows( i ).refreshLineAttributes( i );
         }
         
-//        boAttributesArray newlineatt = new boAttributesArray();
-//        Enumeration enum2 = ( ( boAttributesArray )p_lineatts.get( row ) ).elements();
-//        while( enum2.hasMoreElements() )
-//        {
-//            boIBridgeAttribute batt =  ( boIBridgeAttribute )enum2.nextElement();
-//            batt.setLine( row + 1 );
-//            newlineatt.add( (AttributeHandler)batt );
-//        }
-//        p_lineatts.set( row , newlineatt );
     }
     
     
@@ -821,48 +799,10 @@ import netgest.bo.security.securityRights;
         return ret;
     }
 
-//    public boObject getObject(boolean modeEditTemplate) throws boRuntimeException
-//    {
-//        boObject ret = super.getObject( modeEditTemplate );
-//        if( ret != null )
-//        {
-//            ret.setParentBridgeRow( rows( this.getRow() ) );
-//            getParent().getThread().add( new BigDecimal( this.getParent().getBoui()), new BigDecimal( ret.getBoui() ) );
-//        }
-//        return ret;
-//    }
     
     public boBridgeIterator iterator()
     {
         return new boBridgeIterator( this );
     }
 
-//    public synchronized void refreshBridgeData() throws boRuntimeException
-//    {
-//        // TODO:  Override this netgest.bo.runtime.boObjectList method
-//        try
-//        {
-//            int pos = p_data.getRow();
-//            p_data.beforeFirst();
-//            while( p_data.next() )
-//            {
-//                if( p_lineatts.size() < p_data.getRow() )
-//                {
-//                    this.addLine();
-//                }
-//            }
-//            while( p_lineatts.size() > p_data.getRowCount() )
-//            {
-//                p_lineatts.remove( p_data.getRowCount() );
-//            }
-//            p_data.absolute( pos );
-//        }
-//        catch (SQLException e)
-//        {
-//            throw new RuntimeException("Error refreshing bridge data in ["+p_parent.getName()+"."+this.getName()+"]\n"
-//                                        +e.getClass().getName()+"\n"
-//                                        +e.getMessage()
-//                                      );            
-//        }
-//    }
 }
