@@ -21,6 +21,7 @@ public class StringEncrypter
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
 	public static final String DES_ENCRYPTION_SCHEME = "DES";
 	public static final String			DEFAULT_ENCRYPTION_KEY	= "CHAVE POR DEFEITO";
+	public static final int 	STRING_REQUIRED_SIZE = 24;
 	
 	private KeySpec				keySpec;
 	private SecretKeyFactory	keyFactory;
@@ -39,7 +40,7 @@ public class StringEncrypter
 
 		if ( encryptionKey == null )
 				throw new IllegalArgumentException( MessageLocalizer.getMessage("ENCHYPTION_KEY_WAS_NULL") );
-		if ( encryptionKey.trim().length() < 24 )
+		if ( encryptionKey.trim().length() < STRING_REQUIRED_SIZE )
 				throw new IllegalArgumentException(
 						MessageLocalizer.getMessage("ENCHYPTION_KEY_WAS_LESS_THAN_24_CHARACTERS"));
 
