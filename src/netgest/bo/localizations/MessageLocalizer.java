@@ -13,12 +13,12 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
+import netgest.utils.StringUtils;
 /**
  * Class that loads the exception messages from the properties file
  * in the current language
  * 
- * @author ngrosskopf
- *
+ * 
  */
 public class MessageLocalizer {
 	
@@ -32,10 +32,11 @@ public class MessageLocalizer {
 	
 	/**
 	 * 
-	 * Retrieve a message
+	 * Retrieve a localized message
 	 * 
-	 * @param whichMessage
-	 * @return(String) the exception message
+	 * @param whichMessage The identifier of the message
+	 * 
+	 * @return the localized message
 	 */
 	public static String getMessage(String whichMessage, Object... args){
 		String language;
@@ -126,8 +127,8 @@ public class MessageLocalizer {
 					 }
 				}
 		}
-		if(language==null||language=="")
-			language=boApplication.getDefaultApplication().getApplicationLanguage();
+		if( StringUtils.isEmpty( language ))
+			language = boApplication.getDefaultApplication().getApplicationLanguage();
 		return language;
 	}
 }
