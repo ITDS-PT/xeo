@@ -15,22 +15,28 @@ public final class StringUtils
 {
 
     /**
-     * Retorna se uma String está a null ou vazia ou só com espaços
-     * @return 
-     * @param string
+     * Checks whether
+     * 
+     * @return True if the string is empty or null and false otherwise
+     * @param string The string to check
      */
-	
-	
-    public static final boolean isEmpty( String string )
+	public static final boolean isEmpty( String string )
     {
         return string == null || string.length() == 0 || string.trim().length() == 0;
     }
     
-    public static String upper(Object v1)
+    /**
+     * 
+     * Return an upper case String of the original
+     * 
+     * @return An upper case string or null for the null argument
+     * 
+     */
+    public static String upper(Object original)
     {
-        if(v1 != null)
+        if(original != null)
         {
-            return v1.toString().toUpperCase();
+            return original.toString().toUpperCase();
         }
         return null;
     }
@@ -40,6 +46,13 @@ public final class StringUtils
         return v1 == null;
     }
     
+    /**
+     * 
+     * Return an lower case String of the original
+     * 
+     * @return A lower case string or null for the null argument
+     * 
+     */
     public static String lower(Object v1)
     {
         if(v1 != null)
@@ -51,8 +64,8 @@ public final class StringUtils
     
     public static final String[] parseArguments( String type )
     {
-        ArrayList args = new ArrayList();
-        StringBuffer word = new StringBuffer();
+        ArrayList<String> args = new ArrayList<String>();
+        StringBuilder word = new StringBuilder();
         byte deep=0;
         for (int i = 0; i < type.length(); i++) 
         {
@@ -88,63 +101,63 @@ public final class StringUtils
         }
         return (String[])args.toArray( new String[ args.size() ] );
     }
-    public static final boolean isLiteral( String arg )
+    /**
+     * 
+     * Checks whether the parameter is a string starts with
+     * a quote (single or double) 
+     * 
+     * @return True if the string starts with quote and false otherwise
+     */
+    public static final boolean isLiteral( String stringToCheck )
     {
         return (
-                    arg.trim().startsWith("\"") && arg.trim().startsWith("\"")
+                    stringToCheck.trim().startsWith("\"") && stringToCheck.trim().startsWith("\"")
                     ||
-                    arg.trim().startsWith("'") && arg.trim().startsWith("'")
+                    stringToCheck.trim().startsWith("'") && stringToCheck.trim().startsWith("'")
                );
     }
     
-    public static final String removeQuotes( String arg )
+    /**
+     * Return a string without quotes
+     * 
+     * @param stringToClean The string to remove the quotes
+     * 
+     * @return A clean string
+     */
+    public static final String removeQuotes( String stringToClean )
     {
-        if( isLiteral( arg ) )
+        if( isLiteral( stringToClean ) )
         {
-            arg = arg.trim();
-            return arg.substring(1,arg.length()-1);
+            stringToClean = stringToClean.trim();
+            return stringToClean.substring(1,stringToClean.length()-1);
         }
         else
         {
-            throw new IllegalArgumentException(MessageLocalizer.getMessage("CANNOT_REMOVE_QUOTES_FROM_A_NOT_LITERAL_EXPRESSION")+" ["+arg+"]");
+            throw new IllegalArgumentException(MessageLocalizer.getMessage("CANNOT_REMOVE_QUOTES_FROM_A_NOT_LITERAL_EXPRESSION")+" ["+stringToClean+"]");
         }
     }
      
-/******************* FROM tools.java *************************/
+    /******************* FROM tools.java *************************/
 
-  public static int countStr(String strstr,String toCount) {
-    int vv=0;
-    if(strstr!= null) {
-        int fL=toCount.length();
-        int iIdx=strstr.indexOf(toCount);
-        while (iIdx!=-1)
+ /**
+  * Count the number of times a string occurs inside another string
+ */
+public static int countStr(String originalToCheck,String toCount) {
+    int count = 0;
+    if( originalToCheck != null ) {
+        int countWordSize = toCount.length();
+        int indexOfWord = originalToCheck.indexOf( toCount );
+        while ( indexOfWord != -1 )
         {
-          vv++;
-          strstr=strstr.substring((iIdx+fL),strstr.length());
-          iIdx=strstr.indexOf(toCount);
+          count++;
+          originalToCheck = originalToCheck.substring( ( indexOfWord+countWordSize), originalToCheck.length() );
+          indexOfWord = originalToCheck.indexOf( toCount );
         }
     }
-    return vv;
+    return count;
   }
   
-  /*
- public static String replacestr(String strstr,String toReplace,String replaceStr) {
-    String straux=strstr;
-    String strRemain=strstr;
-    int fL=strstr.length();
-
-    int iIdx=strstr.indexOf(toReplace);
-    while (iIdx!=-1)
-    {
-        straux=strstr.substring(0,iIdx)+replaceStr;
-        strRemain=strstr.substring(iIdx+toReplace.length(),fL);
-        if (strRemain.indexOf(toReplace)!=-1) straux+=replacestr(strRemain,toReplace,replaceStr);
-        else straux+=strRemain;
-    }
-    return straux;
- }
- */
- 
+  
  public static String replacestr(String target, String from, String to) {   
 	  //   target is the original string
 	  //   from   is the string to be replaced
@@ -166,26 +179,57 @@ public final class StringUtils
 	  return buffer.toString();
  } 
 
-  public static String padl(String xstring,int nrchars,String padstr) {
-    while (xstring.length() < nrchars ) {
-        xstring = padstr+xstring;
+  /**
+   * 
+   * Adds left padding to a string (nchars * padString)
+   * 
+   * @param stringToAddPad The string to pad
+   * @param nchars The size of the string after padding
+   * @param padString The pad character/string to add
+   * 
+   * @return A string with the padding added
+   */
+ public static String padl(String stringToAddPad,int nchars,String padString) {
+    while (stringToAddPad.length() < nchars ) {
+        stringToAddPad = padString+stringToAddPad;
     }
-    if (xstring.length() > nrchars) xstring = xstring.substring(0,nrchars);
-    return xstring;
+    if (stringToAddPad.length() > nchars) 
+    	stringToAddPad = stringToAddPad.substring(0,nchars);
+    return stringToAddPad;
   }
 
-  public static String padr(String xstring,int nrchars,String padstr) {
-    while (xstring.length() < nrchars ) {
-        xstring += padstr;
+ /**
+  * 
+  * Adds right padding to a string (nchars * padString) 
+  * 
+  * @param stringToAddPad The string to pad
+  * @param nchars The size of the string after padding
+  * @param padString The pad character to add
+  * 
+  * @return A string with the padding added
+  */
+  public static String padr(String stringToAddPad,int nchars,String padString) {
+    while (stringToAddPad.length() < nchars ) {
+        stringToAddPad += padString;
     }
-    if (xstring.length() > nrchars) xstring = xstring.substring(0,nrchars);
-    return xstring;
+    if (stringToAddPad.length() > nchars) 
+    	stringToAddPad = stringToAddPad.substring(0,nchars);
+    return stringToAddPad;
   }
 
-  public static String putSlash(String straux)
+ /**
+  * 
+  * Adds a slash to the end of the string if it does not have one
+  * 
+ * @param stringToAddSlash The string to add the slash
+ * @return A string with the slash added
+ */
+public static String putSlash(String stringToAddSlash)
   {
-    if (straux.lastIndexOf("/")==straux.length()-1)return straux;
-    else return straux+="/";
+    if ( stringToAddSlash.lastIndexOf("/") == stringToAddSlash.length()-1 )
+    	return stringToAddSlash;
+    else 
+    	return stringToAddSlash+="/";
   }  
 
  public static String fromStringToHex(String myString)
@@ -233,10 +277,19 @@ public final class StringUtils
     else return -1;
   }
   
-     public static final String smsReplaceChars( String in )
+     /**
+      * 
+      * Replace characters to place in a SMS message (replacing characters such 
+      * as 'á' and 'à' with 'a'
+      * 
+     * @param in 
+     * 
+     * @return A string with the caracters replaced
+     */
+    public static final String smsReplaceChars( String in )
     {
         char aux;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < in.length(); i++) 
         {
             aux = in.charAt(i);
@@ -333,7 +386,7 @@ public final class StringUtils
                 case '~':
                 case '^':
                 case '¨':
-                    //ignorar este caracter poupando um espaço
+                    //Ignore these characters, saving one space
                    break;
 
                 default:
@@ -343,14 +396,5 @@ public final class StringUtils
         return sb.toString();
     }
     
-    public static void main(String[] args) throws Exception
-    {
-//        System.out.println(Arrays.binarySearch(CHAR_TO_RPLC, 'ó'));
-//        System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
-        //System.out.println(StringUtils.smsReplaceChars("Agradecemos contacto telefó"));
-		String s = StringUtils.replacestr("João Paulo Paulo Carreira Paulo", "Paulo", "Paulo1" );
-		System.out.println( s );
-    	
-        System.out.println(StringUtils.smsReplaceChars(MessageLocalizer.getMessage("WE_APPRECIATE_PHONE_CONTACT")));
-    }
+    
 }
