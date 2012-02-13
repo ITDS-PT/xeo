@@ -13,6 +13,8 @@ public abstract class boPoolable implements Cloneable
     protected ArrayList owners = new ArrayList(1);
     protected Object[]	keys = null;		
     protected	boolean 	isWeak = false;
+    protected	long 	lastUsedTime = System.currentTimeMillis();
+    
     
     /**
      * Constructor for boPoolable Object
@@ -172,4 +174,5 @@ public abstract class boPoolable implements Cloneable
         eboContext=null;
         return ret;
     }
+    
 }
