@@ -76,10 +76,14 @@ public class Preference {
 			}
 		}
 		try {
-			return false;
+			Object value = values.get(key);
+			if (value != null){
+				return Boolean.valueOf(value.toString());
+			}
 		} catch (ClassCastException e) {
 			return false;
 		}
+		return false;
 	}
 	
 	public void setLong( String name, long value ) {
