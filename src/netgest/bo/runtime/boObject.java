@@ -1078,7 +1078,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
 		        boolean ret = true;
 		
 		        while (br.hasMoreElements()) {
-		            ret = ret && ((bridgeHandler) br.nextElement()).valid();
+		        	bridgeHandler h = (bridgeHandler) br.nextElement();
+		            ret = h.valid() && ret;
 		        }
 		
 		        br = this.getAttributes().elements();
