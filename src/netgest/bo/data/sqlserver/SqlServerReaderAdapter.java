@@ -4,6 +4,7 @@
 package netgest.bo.data.sqlserver;
 
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -138,8 +139,17 @@ public class SqlServerReaderAdapter implements ReaderAdapter {
 						case Types.NUMERIC:
 						case Types.TINYINT:
 						case Types.REAL:
-							row.fetchColumn(columnIdx[z], activeRslt
-									.getBigDecimal(z));
+							
+							// Fix the scale of the number
+							// SQL Server allways give a scale for FLOAT/REAL even when the number are full integer 
+							BigDecimal dec = activeRslt
+								.getBigDecimal(z);
+							if( dec != null && dec.precision()>0 ) {
+								if( dec.longValue()==dec.doubleValue() )
+									dec = dec.setScale(0);
+							}
+							
+							row.fetchColumn(columnIdx[z], dec );
 							break;
 
 						case Types.TIMESTAMP:
