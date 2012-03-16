@@ -59,6 +59,8 @@ public class SqlServerDBM extends OracleDBM {
 	private PreparedStatement p_activeUpdateClobPstm;
 	private PreparedStatement p_activeDeletePstm;
 
+	private static String dbname=null;
+	
 	public SqlServerDBM() {
 	}
 
@@ -260,8 +262,8 @@ public class SqlServerDBM extends OracleDBM {
 
 				PreparedStatement pstm = cn
 						.prepareStatement("select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE from INFORMATION_SCHEMA.COLUMNS where "
-								+ "TABLE_SCHEMA=? AND upper(TABLE_NAME)=?");
-				pstm.setString(1, schema);
+								+ "upper(TABLE_CATALOG)=? AND upper(TABLE_NAME)=?");
+				pstm.setString(1, getDBName(cn));
 				pstm.setString(2, tables[i]);
 
 				ResultSet rslt = pstm.executeQuery();
@@ -325,9 +327,9 @@ public class SqlServerDBM extends OracleDBM {
 				ResultSet rsltdic = pstmdic.executeQuery();
 
 				PreparedStatement pstmf = cn
-						.prepareStatement("select count(*) from INFORMATION_SCHEMA.COLUMNS where upper(TABLE_NAME)=? and upper(COLUMN_NAME)=? AND TABLE_SCHEMA=?");
+						.prepareStatement("select count(*) from INFORMATION_SCHEMA.COLUMNS where upper(TABLE_NAME)=? and upper(COLUMN_NAME)=? AND upper(TABLE_CATALOG)=?");
 				PreparedStatement pstmt = cn
-						.prepareStatement("select count(*) from INFORMATION_SCHEMA.TABLES where upper(TABLE_NAME)=? AND TABLE_SCHEMA=?");
+						.prepareStatement("select count(*) from INFORMATION_SCHEMA.TABLES where upper(TABLE_NAME)=? AND upper(TABLE_CATALOG)=?");
 
 				while (rsltdic.next()) {
 					String xobjname = rsltdic.getString("OBJECTNAME");
@@ -336,7 +338,7 @@ public class SqlServerDBM extends OracleDBM {
 					if (rsltdic.getString("OBJECTTYPE").equals("F")) {
 						pstmf.setString(1, rsltdic.getString("TABLENAME"));
 						pstmf.setString(2, rsltdic.getString("OBJECTNAME"));
-						pstmf.setString(3, schema);
+						pstmf.setString(3, getDBName(cn));
 
 						ResultSet rsltf = pstmf.executeQuery();
 
@@ -437,40 +439,6 @@ public class SqlServerDBM extends OracleDBM {
 	public void createSchema(String schemaName, String pass,
 			String objController, long boui) throws SQLException,
 			boRuntimeException {
-		try {
-			String dml = null;
-			String parentName = "default";
-			String usingSchema = p_ctx.getBoSession().getRepository()
-					.getSchemaName();
-			String creationScript = null;
-			boolean regist = false;
-
-			if (!existsSchema(p_ctx, schemaName)) {
-				creationScript = " USER " + schemaName + " IDENTIFIED BY "
-						+ pass;
-				creationScript += (" DEFAULT TABLESPACE " + TABLESPACE_NAME
-						+ " QUOTA unlimited ON " + TABLESPACE_NAME);
-				executeDDL(creationScript, p_ctx.getBoSession().getRepository()
-						.getName());
-				regist = true;
-			}
-
-			// GRANT
-			dml = "GRANT connect,ctxapp, dba to " + schemaName;
-			executeDDL(dml, p_ctx.getBoSession().getRepository().getName());
-
-			// escreve no boconfig
-			if (boConfig.getConfigRepository(schemaName) == null) {
-				boDataSource bds = new boDataSource(schemaName, schemaName,
-						schemaName, schemaName, "", "", parentName);
-				bds.writeTo();
-			}
-
-			// register schema
-			registerSchema(schemaName, objController, boui, creationScript,
-					usingSchema);
-		} finally {
-		}
 	}
 
 	public void createSpecialTables(String schemaName) throws SQLException,
@@ -574,26 +542,7 @@ public class SqlServerDBM extends OracleDBM {
 		}
 	}
 
-	private static final Timestamp toTimestamp(String value) {
-		Timestamp toRet = null;
-
-		try {
-			if (value != null) {
-				// dd-mm-yyyy hh24:mi:ss
-				SimpleDateFormat df = new SimpleDateFormat(
-						"dd-mm-yyyy HH:mm:ss");
-				Date auxDate = df.parse(value);
-				toRet = new Timestamp(auxDate.getTime());
-			}
-		} catch (ParseException e) {
-			// ignore
-		}
-
-		return toRet;
-	}
-
 	private void createSequencesTablesAndFunc(final String schemaName) {
-		String name = p_ctx.getBoSession().getRepository().getName();
 
 		PreparedStatement pstm = null;
 		ResultSet rslt = null;
@@ -601,8 +550,8 @@ public class SqlServerDBM extends OracleDBM {
 			pstm = p_ctx
 					.getConnectionData()
 					.prepareStatement(
-							"select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA=? and upper(TABLE_NAME)='SYS_SEQUENCES'");
-			pstm.setString(1, schemaName);
+							"select * from INFORMATION_SCHEMA.TABLES where upper(TABLE_CATALOG)=? and upper(TABLE_NAME)='SYS_SEQUENCES'");
+			pstm.setString(1, getDBName(p_ctx.getConnectionData()));
 			rslt = pstm.executeQuery();
 			if (!rslt.next()) {
 				createSequencesTable(schemaName);
@@ -860,8 +809,8 @@ public class SqlServerDBM extends OracleDBM {
 				cn.setAutoCommit(false);
 			}
 			pstm = cn
-					.prepareStatement("select count(*) from information_schema.tables where TABLE_SCHEMA=? AND TABLE_NAME=?");
-			pstm.setString(1, schemaName);
+					.prepareStatement("select count(*) from information_schema.tables where upper(TABLE_CATALOG)=? AND TABLE_NAME=?");
+			pstm.setString(1, getDBName(cn));
 			pstm.setString(2, tableName.toUpperCase());
 			rslt = pstm.executeQuery();
 
@@ -918,8 +867,9 @@ public class SqlServerDBM extends OracleDBM {
 
 			if (objecttype.equalsIgnoreCase("T")) {
 				PreparedStatement pstm = cn
-						.prepareStatement("select count(*) from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA=user AND upper(TABLE_NAME)=?");
-				pstm.setString(1, node.getString("OBJECTNAME"));
+						.prepareStatement("select count(*) from INFORMATION_SCHEMA.TABLES where upper(TABLE_CATALOG)=? AND upper(TABLE_NAME)=?");
+				pstm.setString(1, getDBName(cn));
+				pstm.setString(2, node.getString("OBJECTNAME"));
 
 				ResultSet rslt = pstm.executeQuery();
 				rslt.next();
@@ -978,9 +928,10 @@ public class SqlServerDBM extends OracleDBM {
 				boolean fldexi = false;
 				PreparedStatement pstm = cn
 						.prepareStatement("select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE from INFORMATION_SCHEMA.COLUMNS "
-								+ "where  TABLE_SCHEMA=user AND upper(TABLE_NAME)=? and upper(COLUMN_NAME)=?");
-				pstm.setString(1, node.getString("TABLENAME"));
-				pstm.setString(2, node.getString("OBJECTNAME"));
+								+ "where upper(TABLE_CATALOG)=? AND upper(TABLE_NAME)=? and upper(COLUMN_NAME)=?");
+				pstm.setString(1, getDBName(cn));
+				pstm.setString(2, node.getString("TABLENAME"));
+				pstm.setString(3, node.getString("OBJECTNAME"));
 
 				ResultSet rslt = pstm.executeQuery();
 
@@ -1043,9 +994,10 @@ public class SqlServerDBM extends OracleDBM {
 					PreparedStatement pstmrelc = cn
 							.prepareStatement("SELECT A.CONSTRAINT_NAME, B.COLUMN_KEY FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE A, INFORMATION_SCHEMA.COLUMNS B WHERE "
 									+ "A.TABLE_SCHEMA=B.TABLE_SCHEMA AND A.TABLE_NAME=B.TABLE_NAME AND A.COLUMN_NAME=B.COLUMN_NAME AND upper(A.TABLE_NAME)=? AND upper(A.COLUMN_NAME)=?"
-									+ "AND TABLE_SCHEMA=user");
+									+ "AND upper(TABLE_CATALOG)=?");
 					pstmrelc.setString(1, node.getString("TABLENAME"));
 					pstmrelc.setString(2, node.getString("OBJECTNAME"));
+					pstmrelc.setString(2, getDBName(cn));
 
 					ResultSet rsltrelc = pstmrelc.executeQuery();
 
@@ -1138,8 +1090,9 @@ public class SqlServerDBM extends OracleDBM {
 			if (objecttype.equalsIgnoreCase("V")) {
 				String viewText = null;
 				PreparedStatement pstmrelc = cn
-						.prepareStatement("SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE upper(TABLE_NAME)=? AND TABLE_SCHEMA=user");
+						.prepareStatement("SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE upper(TABLE_NAME)=? AND upper(TABLE_CATALOG)=?");
 				pstmrelc.setString(1, node.getString("OBJECTNAME"));
+				pstmrelc.setString(2, getDBName(cn));
 
 				ResultSet rsltrelc = pstmrelc.executeQuery();
 				boolean exists = false;
@@ -1168,8 +1121,9 @@ public class SqlServerDBM extends OracleDBM {
 						executeDDL(dml, node.getString("SCHEMA"));
 
 						pstmrelc = cn
-								.prepareStatement("SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE upper(TABLE_NAME)=? AND TABLE_SCHEMA=user");
+								.prepareStatement("SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE upper(TABLE_NAME)=? AND upper(TABLE_CATALOG)=?");
 						pstmrelc.setString(1, node.getString("OBJECTNAME"));
+						pstmrelc.setString(2, getDBName(cn));
 						rsltrelc = pstmrelc.executeQuery();
 						if (rsltrelc.next()) {
 							node.updateString("EXPRESSION", rsltrelc
@@ -1231,10 +1185,11 @@ public class SqlServerDBM extends OracleDBM {
 			if (objecttype.startsWith("PK") || objecttype.startsWith("UN")) {
 				PreparedStatement pstm = cn
 						.prepareStatement("select COLUMN_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE where upper(table_name)=? and upper(constraint_name) =? "
-								+ "AND TABLE_SCHEMA=user "
+								+ "AND upper(TABLE_CATALOG)=? "
 								+ "ORDER BY ORDINAL_POSITION");
 				pstm.setString(1, node.getString("TABLENAME"));
 				pstm.setString(2, node.getString("OBJECTNAME"));
+				pstm.setString(3, getDBName(cn));
 
 				boolean isunique = objecttype.startsWith("UN");
 				ResultSet rslt = pstm.executeQuery();
@@ -1272,8 +1227,9 @@ public class SqlServerDBM extends OracleDBM {
 				{
 
 					PreparedStatement pstmrefs = cn
-							.prepareStatement("select constraint_name,table_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE upper(constraint_name)=? AND TABLE_SCHEMA=user");
+							.prepareStatement("select constraint_name,table_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE upper(constraint_name)=? AND upper(TABLE_CATALOG)=?");
 					pstmrefs.setString(1, node.getString("OBJECTNAME"));
+					pstmrefs.setString(2, getDBName(cn));
 
 					ResultSet rsltrefs = pstmrefs.executeQuery();
 
@@ -1300,9 +1256,10 @@ public class SqlServerDBM extends OracleDBM {
 									.replaceAll(",", "\\',\\'") + "'";
 
 					pstmrefs = cn
-							.prepareStatement("select constraint_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA=user AND upper(table_name)=? and column_name in ("
+							.prepareStatement("select constraint_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE upper(TABLE_CATALOG)=? AND upper(table_name)=? and column_name in ("
 									+ insql + ")");
-					pstmrefs.setString(1, node.getString("TABLENAME"));
+					pstmrefs.setString(1, getDBName(cn));
+					pstmrefs.setString(2, node.getString("TABLENAME"));
 					rsltrefs = pstmrefs.executeQuery();
 
 					while (rsltrefs.next()) {
@@ -1360,9 +1317,10 @@ public class SqlServerDBM extends OracleDBM {
 			if (objecttype.startsWith("FK")) {
 
 				PreparedStatement pstm = cn
-						.prepareStatement("select column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_SCHEMA=user AND upper(constraint_name)=? and upper(table_name)=? order by ordinal_position");
-				pstm.setString(1, node.getString("OBJECTNAME"));
-				pstm.setString(2, node.getString("TABLENAME"));
+						.prepareStatement("select column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE where upper(TABLE_CATALOG)=? AND upper(constraint_name)=? and upper(table_name)=? order by ordinal_position");
+				pstm.setString(1, getDBName(cn));
+				pstm.setString(2, node.getString("OBJECTNAME"));
+				pstm.setString(3, node.getString("TABLENAME"));
 				// pstm.setString(3, node.getString("TABLEREFERENCE"));
 
 				ResultSet rslt = pstm.executeQuery();
@@ -1516,10 +1474,11 @@ public class SqlServerDBM extends OracleDBM {
 				} else {
 					pstmcol = cn
 					.prepareStatement("select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE from INFORMATION_SCHEMA.COLUMNS "
-							+ "where  TABLE_SCHEMA=user AND upper(TABLE_NAME)=? and upper(COLUMN_NAME)=?");
+							+ "where upper(TABLE_CATALOG)=? AND upper(TABLE_NAME)=? and upper(COLUMN_NAME)=?");
 					
-					pstmcol.setString(1, tablename);
-					pstmcol.setString(2, cols[i]);
+					pstmcol.setString(1, getDBName(cn));
+					pstmcol.setString(2, tablename);
+					pstmcol.setString(3, cols[i]);
 					rs=pstmcol.executeQuery();
 					
 					String coltype="float";
@@ -1779,28 +1738,6 @@ public class SqlServerDBM extends OracleDBM {
 				String strclob = node.getString(((Integer) clobs.get(y))
 						.intValue());
 				clob.setString(1, strclob);
-				// clob.free();
-				// CLOB clob = (CLOB) clobrslt.getClob(y + 1);
-				// clob.open(CLOB.MODE_READWRITE);
-				//
-				// Writer wr = clob.getCharacterOutputStream();
-				// String strclob = node.getString(((Integer)
-				// clobs.get(y)).intValue());
-				// int chunksize = clob.getChunkSize();
-				// int offset = 0;
-				// int endoffset;
-				// int chunks = 1;
-				//
-				// while (offset < strclob.length())
-				// {
-				// endoffset = Math.min(chunksize * chunks, strclob.length());
-				// chunks++;
-				// wr.write(strclob.substring(offset, endoffset));
-				// offset = endoffset;
-				// }
-				//
-				// wr.flush();
-				// clob.close();
 			}
 
 			clobrslt.close();
@@ -1938,226 +1875,22 @@ public class SqlServerDBM extends OracleDBM {
 		}
 	}
 
-	// public void RegisterViewFields(String viewname, String schema)
-	// throws SQLException
-	// {
-	// Connection cn = null;
-	// Connection cndef = null;
-	//
-	// try
-	// {
-	// String prefix = "";
-	//
-	// if (schema.equals("DEF"))
-	// {
-	// prefix = "NGD_";
-	// }
-	// else if (schema.equals("SYS"))
-	// {
-	// prefix = "SYS_";
-	// }
-	//
-	// String vt = prefix + viewname;
-	// cndef = this.getRepositoryConnection(p_ctx.getApplication(),
-	// schema, 2);
-	//
-	// cn = this.getRepositoryConnection(p_ctx.getApplication(), schema, 1);
-	//
-	// PreparedStatement pstm2 = cndef.prepareStatement(
-	// "DELETE FROM NGTDIC WHERE TABLENAME=? and objecttype='F'");
-	// pstm2.setString(1, viewname);
-	// pstm2.executeUpdate();
-	// pstm2.close();
-	//
-	// PreparedStatement pstm = cn.prepareStatement(
-	// "select COLUMN_NAME,data_type,DATA_LENGTH,DATA_PRECISION,DATA_SCALE from user_tab_columns where table_name=?");
-	// pstm.setString(1, viewname);
-	//
-	// ResultSet rslt = pstm.executeQuery();
-	//
-	// while (rslt.next())
-	// {
-	// String fname = rslt.getString(1);
-	// String fnamesql = "\"" + fname + "\"";
-	//
-	// if (!rslt.getString(2).equals("UNDEFINED"))
-	// {
-	// String ftype = DataUtils.getNgtFieldTypeFromDDL(rslt.getString(
-	// 2));
-	// String fldsize = ftype.equals("N")
-	// ? (rslt.getString(4) +
-	// ((rslt.getInt(5) > 0) ? ("," + rslt.getInt(5)) : ""))
-	// : rslt.getString(3);
-	//
-	// if (ftype.equals("D"))
-	// {
-	// fldsize = "10";
-	// }
-	//
-	// pstm2 = cndef.prepareStatement(
-	// "INSERT INTO NGTDIC (SCHEMA,OBJECTNAME,OBJECTTYPE,FIELDTYPE,FIELDSIZE,TABLENAME) VALUES ("
-	// +
-	// "?,?,?,?,?,?)");
-	// pstm2.setString(1, schema);
-	// pstm2.setString(2, fname);
-	// pstm2.setString(3, "F");
-	// pstm2.setString(4, ftype);
-	// pstm2.setString(5, fldsize);
-	// pstm2.setString(6, viewname);
-	// pstm2.executeUpdate();
-	// pstm2.close();
-	// }
-	// }
-	//
-	// rslt.close();
-	// pstm.close();
-	// }
-	// catch (Exception e)
-	// {
-	// e.printStackTrace();
-	// throw new SQLException(e.getMessage());
-	// }
-	// finally
-	// {
-	// }
-	// }
 
 	public boolean existsSchema(String newSchemaName) throws SQLException {
-		Connection cndef = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-
-		try {
-			cndef = this.getRepositoryConnection(p_ctx.getApplication(),
-					"default", 2);
-
-			pstm = cndef
-					.prepareStatement("SELECT 1 FROM NGTDIC WHERE TABLENAME=? and objecttype='S'");
-			pstm.setString(1, newSchemaName.toUpperCase());
-			rs = pstm.executeQuery();
-
-			if (rs.next()) {
-				return true;
-			}
-
-			return false;
-		} catch (Exception e) {
-			throw new SQLException(e.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception e) {
-					// ignore
-				}
-			}
-
-			if (pstm != null) {
-				try {
-					pstm.close();
-				} catch (Exception e) {
-					// ignore
-				}
-			}
-		}
+		//NOT USED ON SQLSERVER
+		return false;
 	}
 
 	public void registerSchema(String newSchemaName, String objectControlller,
 			long boui, String expression, String schema) throws SQLException {
-		Connection cndef = null;
-		PreparedStatement pstm = null;
-
-		try {
-			cndef = this.getRepositoryConnection(p_ctx.getApplication(),
-					"default", 2); // this.getSchemaConnection("DEF");
-
-			String friendlyName = "Schema created by object ["
-					+ objectControlller + "] with boui [" + boui + "]";
-
-			pstm = cndef
-					.prepareStatement("DELETE FROM NGTDIC WHERE TABLENAME=? and objecttype='S'");
-			pstm.setString(1, newSchemaName);
-			pstm.executeUpdate();
-			pstm.close();
-
-			pstm = cndef
-					.prepareStatement("INSERT INTO NGTDIC (\"SCHEMA\",OBJECTNAME,OBJECTTYPE,TABLENAME, "
-							+ "FRIENDLYNAME, EXPRESSION) VALUES ("
-							+ "?,?,?,?,?,?)");
-			pstm.setString(1, schema);
-			pstm.setString(2, newSchemaName);
-			pstm.setString(3, "S");
-			pstm.setString(4, newSchemaName);
-			pstm.setString(5, friendlyName);
-			pstm.setString(6, expression);
-			pstm.executeUpdate();
-			pstm.close();
-			cndef.commit();
-		} catch (Exception e) {
-			cndef.rollback();
-			e.printStackTrace();
-			throw new SQLException(e.getMessage());
-		} finally {
-			if (pstm != null) {
-				try {
-					pstm.close();
-				} catch (Exception e) {
-					// ignore
-				}
-			}
-		}
+		//NOT USED ON SQLSERVER
 	}
 
 	public static boolean existsSchema(EboContext p_eboctx, String schemaName)
 			throws boRuntimeException {
-		Connection cn = null;
-		boolean ret = false;
-		PreparedStatement pstm = null;
-		ResultSet rslt = null;
-
-		try {
-			cn = p_eboctx.getDedicatedConnectionData();
-
-			pstm = cn
-					.prepareStatement("SELECT 1 from ALL_USERS WHERE USERNAME=?");
-			pstm.setString(1, schemaName.toUpperCase());
-			rslt = pstm.executeQuery();
-
-			if (rslt.next()) {
-				return true;
-			}
-
-			rslt.close();
-			pstm.close();
-		} catch (Exception e) {
-			throw new boRuntimeException("boBuildDB.existsSchema", "BO-1304", e);
-		} finally {
-			try {
-				if (pstm != null) {
-					pstm.close();
-				}
-			} catch (Exception e) {
-				// ignore
-			}
-
-			try {
-				if (rslt != null) {
-					rslt.close();
-				}
-			} catch (Exception e) {
-				// ignore
-			}
-
-			try {
-				if (cn != null) {
-					cn.close();
-				}
-			} catch (Exception e) {
-				// ignore
-			}
-		}
-
-		return ret;
+		
+		//NOT USED ON SQLSERVER
+		return false;
 	}
 
 	public static boolean renameTable(EboContext p_eboctx, String srcTableName,
@@ -2177,8 +1910,10 @@ public class SqlServerDBM extends OracleDBM {
 			cndef = p_eboctx.getConnectionDef(); // ((DataSource)ic.lookup(p_eboctx.getSysUser().getConnectionStringdef()+"_nojta")).getConnection();
 
 			PreparedStatement pstm = cn
-					.prepareStatement("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_NAME)=? AND TABLE_SCHEMA=user");
+					.prepareStatement("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_NAME)=? AND upper(TABLE_CATALOG)=?");
 			pstm.setString(1, srcTableName);
+			pstm.setString(2, getDBName(cn));
+			
 
 			ResultSet rslt = pstm.executeQuery();
 
@@ -2235,335 +1970,6 @@ public class SqlServerDBM extends OracleDBM {
 		return ret;
 	}
 
-	public static boolean tableExistsAndHaveQuery(EboContext p_eboctx,
-			String tablename, String query) throws boRuntimeException {
-		boolean ret = false;
-
-		try {
-			Connection cn = p_eboctx.getConnectionData();
-			PreparedStatement pstm = cn
-					.prepareStatement("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_NAME)=? AND TABLE_SCHEMA=user");
-			pstm.setString(1, tablename);
-
-			ResultSet rslt = pstm.executeQuery();
-
-			if (rslt.next()) {
-				ret = true;
-			}
-
-			if (ret) {
-				if ((query != null) && (query.length() > 0)) {
-					PreparedStatement pstm2 = cn
-							.prepareStatement("SELECT COUNT(*) FROM "
-									+ tablename + " WHERE " + query);
-					ResultSet rslt2 = pstm2.executeQuery();
-
-					while (rslt2.next()) {
-						ret = rslt2.getLong(1) > 0;
-					}
-
-					rslt2.close();
-					pstm2.close();
-				}
-			}
-
-			rslt.close();
-			pstm.close();
-		} catch (Exception e) {
-			throw new boRuntimeException("dbmagf.tableExists", "BO-1304", e);
-		} finally {
-		}
-
-		return ret;
-	}
-
-	public static boolean renameTableToBackupName(EboContext p_eboctx,
-			String srcTableName) throws boRuntimeException {
-		Connection cn = null;
-		boolean ret = false;
-
-		try {
-			if (tableExistsAndHaveQuery(p_eboctx, srcTableName, null)) {
-				int sec = 0;
-				String newtable = boBuildDB.encodeObjectName("BK"
-						+ StringUtils.padl(0 + "", 2, "0")
-						+ srcTableName.toUpperCase());
-
-				while (tableExistsAndHaveQuery(p_eboctx, newtable, null)
-						&& (sec < 100)) {
-					newtable = boBuildDB.encodeObjectName("BK"
-							+ StringUtils.padl(sec + "", 2, "0")
-							+ srcTableName.toUpperCase());
-					sec++;
-
-					if (sec == 100) {
-						throw new RuntimeException(MessageLocalizer.getMessage("PLEASE_DELETE_BACKLUPO_FILES_CANNOT_CREATE_NEW"));
-					}
-				}
-
-				logger.finest("---  "+LoggerMessageLocalizer.getMessage("RENAMING_TABLE_FROM")+"  [" + srcTableName
-						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
-				ret = renameTable(p_eboctx, srcTableName, newtable);
-				logger.finest("---  "+LoggerMessageLocalizer.getMessage("END_RENAMING_TABLE_FROM")+" [" + srcTableName
-						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
-			}
-		} catch (boRuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new boRuntimeException("boBuildDB.moveTable", "BO-1304", e);
-		} finally {
-			try {
-				cn.close();
-			} catch (Exception e) {
-			}
-		}
-
-		return ret;
-	}
-
-	public static boolean createBackupTable(EboContext p_eboctx,
-			String srcTableName) throws boRuntimeException {
-		Connection cn = null;
-		boolean ret = false;
-
-		try {
-			if (tableExistsAndHaveQuery(p_eboctx, srcTableName, null)) {
-				int sec = 0;
-				String newtable = boBuildDB.encodeObjectName("BK"
-						+ StringUtils.padl(sec + "", 2, "0")
-						+ srcTableName.toUpperCase());
-
-				while (tableExistsAndHaveQuery(p_eboctx, newtable, null)
-						&& (sec < 100)) {
-					sec++;
-
-					if (sec == 100) {
-						throw new RuntimeException(MessageLocalizer.getMessage("PLEASE_DELETE_BACKLUPO_FILES_CANNOT_CREATE_NEW"));
-					}
-
-					newtable = boBuildDB.encodeObjectName("BK"
-							+ StringUtils.padl(sec + "", 2, "0")
-							+ srcTableName.toUpperCase());
-				}
-
-				logger.finest("---  "+LoggerMessageLocalizer.getMessage("CREATING_A_BACKUP_OF")+" [" + srcTableName
-						+ "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + newtable + "]");
-				ret = copyDataToNewTable(p_eboctx, srcTableName, newtable,
-						null, false, 0);
-
-				// logger.finest("---  END BACKUP OF ["+srcTableName+"] TO ["+newtable+"]");
-			}
-		} catch (boRuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new boRuntimeException("boBuildDB.moveTable", "BO-1304", e);
-		} finally {
-			try {
-				cn.close();
-			} catch (Exception e) {
-			}
-		}
-
-		return ret;
-	}
-
-	public static boolean copyDataToNewTable(EboContext p_eboctx,
-			String srcTableName, String destTableName, String where,
-			boolean log, int mode) throws boRuntimeException {
-		srcTableName = srcTableName.toUpperCase();
-		destTableName = destTableName.toUpperCase();
-
-		Connection cn = null;
-		Connection cndef = null;
-		boolean ret = false;
-
-		try {
-			boolean srcexists = false;
-			boolean destexists = false;
-			final InitialContext ic = new InitialContext();
-
-			cn = p_eboctx.getConnectionData(); // ((DataSource)ic.lookup(p_eboctx.getSysUser().getConnectionString()+"_nojta")).getConnection();
-			cndef = p_eboctx.getConnectionDef(); // ((DataSource)ic.lookup(p_eboctx.getSysUser().getConnectionStringdef()+"_nojta")).getConnection();
-
-			PreparedStatement pstm = cn
-					.prepareStatement("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_NAME)=?  AND TABLE_SCHEMA=user");
-			pstm.setString(1, srcTableName);
-
-			ResultSet rslt = pstm.executeQuery();
-
-			if (rslt.next()) {
-				srcexists = true;
-			}
-
-			rslt.close();
-			pstm.setString(1, destTableName);
-			rslt = pstm.executeQuery();
-
-			if (rslt.next()) {
-				destexists = true;
-			}
-
-			if (!destexists) {
-				rslt.close();
-				pstm.close();
-				pstm = cn
-						.prepareStatement("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS WHERE upper(TABLE_NAME)=? AND TABLE_SCHEMA=user");
-				pstm.setString(1, destTableName);
-				rslt = pstm.executeQuery();
-
-				if (rslt.next()) {
-					CallableStatement cstm = cn.prepareCall("DROP VIEW "
-							+ destTableName);
-					cstm.execute();
-					cstm.close();
-				}
-			}
-
-			rslt.close();
-			pstm.close();
-
-			if (srcexists && !destexists) {
-				if (log) {
-					logger.finest(LoggerMessageLocalizer.getMessage("CREATING_AND_COPY_DATA_FROM")+" ["
-							+ srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" [" + destTableName + "]");
-				}
-
-				CallableStatement cstm = cn
-						.prepareCall("CREATE TABLE "
-								+ destTableName
-								+ " AS SELECT * FROM "
-								+ srcTableName
-								+ " "
-								+ (((where != null) && (where.length() > 0)) ? (" WHERE " + where)
-										: ""));
-				cstm.execute();
-				cstm.close();
-
-				if (log) {
-					logger.finest(LoggerMessageLocalizer.getMessage("UPDATING_NGTDIC"));
-				}
-
-				// if( log ) dbmagf.loadTableFromDB( new String[] {
-				// destTableName } , "DATA", cndef , cn );
-				cn.commit();
-				ret = true;
-			} else if (srcexists && destexists) {
-				if (log) {
-					logger.finest(LoggerMessageLocalizer.getMessage("COPY_DATA_FROM")+" [" + srcTableName + "] "+LoggerMessageLocalizer.getMessage("TO")+" ["
-							+ destTableName + "]");
-				}
-
-				PreparedStatement pstm2 = cn
-						.prepareStatement("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE upper(TABLE_NAME) = ? AND TABLE_SCHEMA=user");
-				pstm2.setString(1, destTableName);
-
-				ResultSet rslt2 = pstm2.executeQuery();
-				StringBuffer fields = new StringBuffer();
-				PreparedStatement pstm3 = cn
-						.prepareStatement("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE upper(TABLE_NAME) = ? and upper(COLUMN_NAME)=? AND TABLE_SCHEMA=user");
-
-				while (rslt2.next()) {
-					pstm3.setString(1, srcTableName);
-					pstm3.setString(2, rslt2.getString(1));
-
-					ResultSet rslt3 = pstm3.executeQuery();
-
-					if (rslt3.next()) {
-						if (fields.length() > 0) {
-							fields.append(',');
-						}
-
-						fields.append('"').append(rslt2.getString(1)).append(
-								'"');
-					}
-
-					rslt3.close();
-				}
-
-				pstm3.close();
-				rslt2.close();
-				pstm2.close();
-
-				// boolean srchavedata = tableExistsAndHaveQuery( p_eboctx,
-				// srcTableName, where );
-				// boolean desthavedata = tableExistsAndHaveQuery( p_eboctx,
-				// destTableName, where );
-				// if( desthavedata && srchavedata )
-				// {
-				// if( log )
-				// logger.finest("Deleting destination table rows with query " +
-				// where );
-				// CallableStatement cstm =
-				// cn.prepareCall("DELETE "+destTableName
-				// +(where!=null&&where.length()>0?" WHERE " + where:""));
-				// int recs = cstm.executeUpdate();
-				// cstm.close();
-				// if( log ) logger.finest("["+recs+"] deleted.");
-				// }
-				CallableStatement cstm;
-				int recs = 0;
-
-				if ((mode == 0) || (mode == 1)) {
-					cstm = cn
-							.prepareCall("INSERT INTO "
-									+ destTableName
-									+ "( "
-									+ fields.toString()
-									+ " ) ( SELECT "
-									+ fields.toString()
-									+ " FROM "
-									+ srcTableName
-									+ " "
-									+ (((where != null) && (where.length() > 0)) ? (" WHERE " + where)
-											: "") + ")");
-					recs = cstm.executeUpdate();
-					cstm.close();
-
-					if (log) {
-						logger.finest(LoggerMessageLocalizer.getMessage("DONE")+" [" + recs + "] "+LoggerMessageLocalizer.getMessage("RECORDS_COPIED"));
-					}
-				}
-
-				// if( mode == 0 || mode == 2 )
-				// {
-				// if( log ) logger.finest("Deleting moved records");
-				// cstm =
-				// cn.prepareCall("delete "+srcTableName+" "+(where!=null&&where.length()>0?" WHERE "
-				// + where:""));
-				// recs = cstm.executeUpdate();
-				// cstm.close();
-				// if( log )
-				// logger.finest("done. ["+recs+"] deleted from "+srcTableName);
-				// }
-				// if( log ) dbmagf.loadTableFromDB( new String[] {
-				// destTableName } , "DATA", cndef , cn );
-				cn.commit();
-
-				ret = true;
-			}
-		} catch (Exception e) {
-			try {
-				cn.rollback();
-			} catch (Exception z) {
-				throw new boRuntimeException("boBuildDB.moveTable", "BO-1304",
-						z);
-			}
-
-			throw new boRuntimeException("boBuildDB.moveTable", "BO-1304", e);
-		} finally {
-			try {
-				cn.close();
-			} catch (Exception e) {
-			}
-
-			try {
-				cndef.close();
-			} catch (Exception e) {
-			}
-		}
-
-		return ret;
-	}
 
 	public static final String getNgtFieldTypeFromDDL(String oft)
 			throws SQLException {
@@ -2696,5 +2102,40 @@ public class SqlServerDBM extends OracleDBM {
 			loggerError = true;
 		}
 
+	}
+	
+	private static String getDBName(Connection cn)
+	{
+		PreparedStatement pstm = null;
+		ResultSet rslt = null;
+		try
+		{
+			
+			if (dbname==null || dbname.equals(""))
+			{	
+				pstm = cn
+						.prepareStatement("SELECT DB_NAME() AS DataBaseName");
+	
+				rslt = pstm.executeQuery();		
+				if (rslt.next())
+					dbname=rslt.getString(1).toUpperCase();
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally {
+			try 
+			{
+				if (rslt!=null) rslt.close();
+				if (pstm!=null) pstm.close();
+			} 
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return dbname;		
 	}
 }
