@@ -1,6 +1,10 @@
 package netgest.bo.data.mysql;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
 
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataSetMetaData;
@@ -132,5 +136,53 @@ public class MysqlUtils implements DriverUtils {
 			}
 		}
 		return sb.toString();
+	}
+	
+	@Override
+	public String getSumForAggregate(String aggregateField) {
+		return "''' ,IFNULL(sum(" + aggregateField + "),0),'''";
+	}
+	
+	@Override	
+	public String getAvgForAggregate(String aggregateField) {
+		return "''' ,round(IFNULL(avg(" + aggregateField
+									+ "),0),2),'''";
+	}
+	@Override
+	
+	public String getMinForAggregate(String aggregateField) {
+		return "''' ,IFNULL(min(" + aggregateField + "),0),'''";
+	}
+	@Override
+
+	public String getMaxForAggregate(String aggregateField) {
+		return "''' ,IFNULL(max(" + aggregateField + "),0),'''";
+	}
+	
+	@Override
+	public String getAggregateExpression(String aggregateFieldId,
+			String aggregateFieldDesc, String sum, String avg, String min,
+			String max) {
+		try {
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + URLEncoder.encode(aggregateFieldDesc.replaceAll("€", "&euro;"), "UTF-8")
+			+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+			+ min + ", SMAX: " + max + "}' ";
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + aggregateFieldId
+			+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+			+ min + ", SMAX: " + max + "}' ";
+		}
+	}
+	
+	@Override
+	public String getAggregateConcatenation() {
+		return ", ',' ,";
+	}
+
+	@Override
+	public String getConcatFunction(String aggregateFields)
+	{
+		return "concat("+aggregateFields+")";
 	}
 }

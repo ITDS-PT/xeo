@@ -44,4 +44,18 @@ public interface DriverUtils
 	
 	public String arranjeFulltextSearchText(String fulltext);
 	
+	public String getSumForAggregate(String aggregateField);
+	
+	public String getMinForAggregate(String aggregateField);
+	
+	public String getMaxForAggregate(String aggregateField);
+	
+	public String getAvgForAggregate(String aggregateField);
+	
+	public String getAggregateExpression(String aggregateFieldID,String aggregateFieldDesc,String sum,String avg,String min,String max);
+	
+	public String getAggregateConcatenation();
+	
+	public String getConcatFunction(String aggregateFields); 
+	
 }

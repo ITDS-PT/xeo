@@ -1,5 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data.oracle;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -270,10 +272,49 @@ public class OracleUtils  implements DriverUtils
 		}
 		return toRet;
 	}
-		
 	
+	@Override
+	public String getSumForAggregate(String aggregateField) {
+		return "''' || NVL(SUM (" + aggregateField + "),0) || '''";
+	}
 	
+	@Override
+	public String getAvgForAggregate(String aggregateField) {
+		return "''' || round(NVL(AVG (" + aggregateField
+			+ "),0),2) || '''";
+	}
+	@Override
+	public String getMinForAggregate(String aggregateField) {
+		return "''' || NVL(MIN (" + aggregateField + "),0) || '''";
+	}
 	
+	@Override
+	public String getMaxForAggregate(String aggregateField) {
+		return "''' || NVL(MAX (" + aggregateField + "),0) || '''";
+	}
 	
+	@Override
+	public String getAggregateExpression(String aggregateFieldId,
+			String aggregateFieldDesc, String sum, String avg, String min,
+			String max) {
+		try {
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + URLEncoder.encode(aggregateFieldDesc.replaceAll("€", "&euro;"), "UTF-8")
+				+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+				+ min + ", SMAX: " + max + "}' ";
+		} catch (UnsupportedEncodingException e) {
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + aggregateFieldId
+				+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+				+ min + ", SMAX: " + max + "}' ";
+		}
+	}
+	@Override
+	public String getAggregateConcatenation() {
+		return " || ',' || ";
+	}
 
+	@Override
+	public String getConcatFunction(String aggregateFields)
+	{
+		return aggregateFields;
+	}
 }

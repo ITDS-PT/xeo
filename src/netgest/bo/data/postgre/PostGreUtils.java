@@ -1,5 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data.postgre;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -328,4 +330,49 @@ public class PostGreUtils  implements DriverUtils
     	int toRet=text.split("NULL").length;    	    	    	
     	return toRet;
     }
+	
+    @Override
+	public String getSumForAggregate(String aggregateField) {
+		return "''' || coalesce(SUM (" + aggregateField + "),0) || '''";
+	}
+	
+	@Override
+	public String getAvgForAggregate(String aggregateField) {
+		return "''' || round(coalesce(AVG (" + aggregateField
+			+ "),0),2) || '''";
+	}
+	@Override
+	public String getMinForAggregate(String aggregateField) {
+		return "''' || coalesce(MIN (" + aggregateField + "),0) || '''";
+	}
+	
+	@Override
+	public String getMaxForAggregate(String aggregateField) {
+		return "''' || coalesce(MAX (" + aggregateField + "),0) || '''";
+	}
+	
+	@Override
+	public String getAggregateExpression(String aggregateFieldId,
+			String aggregateFieldDesc, String sum, String avg, String min,
+			String max) {
+		try {
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + URLEncoder.encode(aggregateFieldDesc.replaceAll("€", "&euro;"), "UTF-8")
+				+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+				+ min + ", SMAX: " + max + "}' ";
+		} catch (UnsupportedEncodingException e) {
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + aggregateFieldId
+				+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
+				+ min + ", SMAX: " + max + "}' ";
+		}
+	}
+	@Override
+	public String getAggregateConcatenation() {
+		return " || ',' || ";
+	}
+
+	@Override
+	public String getConcatFunction(String aggregateFields)
+	{
+		return aggregateFields;
+	}
 }
