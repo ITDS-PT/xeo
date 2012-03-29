@@ -343,10 +343,6 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 			int errorCode = e.getErrorCode();
         	
         	switch (errorCode){
-        	case 119: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
-        	case 120: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
         	case 2627: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
                     e.getMessage(), e);
         	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
