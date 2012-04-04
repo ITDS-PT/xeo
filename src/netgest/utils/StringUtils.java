@@ -15,7 +15,7 @@ public final class StringUtils
 {
 
     /**
-     * Checks whether
+     * Checks whether the string is empty or null
      * 
      * @return True if the string is empty or null and false otherwise
      * @param string The string to check
@@ -24,6 +24,18 @@ public final class StringUtils
     {
         return string == null || string.length() == 0 || string.trim().length() == 0;
     }
+	
+	/**
+	 * 
+	 * Checks if the string has a value (is not null, neither is an empty string)
+	 * 
+	 * @param toCheck The string to check
+	 * 
+	 * @return True if the string is not null and has at least one character
+	 */
+	public static final boolean hasValue( String toCheck ){
+		return !isEmpty(toCheck);
+	}
     
     /**
      * 
