@@ -24,6 +24,7 @@ import netgest.bo.xeomodels.system.Theme;
 import netgest.bo.xeomodels.system.ThemeIncludes;
 import netgest.io.jcr.ECMRepositoryConnection;
 import netgest.utils.MD5Utils;
+import netgest.utils.StringUtils;
 
 public class boLoginBean implements SessionBean  {
 
@@ -54,38 +55,38 @@ public class boLoginBean implements SessionBean  {
     }
     public boSession boLogin( boApplication app, String repository ,String clientName, String username , String password , HttpServletRequest request ) throws boLoginException 
     {
-        boSession toReturn=null;
-        Properties prop=app.getApplicationConfig().getAuthentication();
-        String authclass=prop.getProperty("authclass");
-        LoginManager p_loginmanager=null;
-        EboContext ctx=null;
+        boSession toReturn = null;
+        Properties prop = app.getApplicationConfig().getAuthentication();
+        String authclass = prop.getProperty("authclass");
+        LoginManager p_loginmanager = null;
+        EboContext ctx = null;
         try
         {
 //          String repos=boConfig.getDefaultRepository();
           if(username.equals("SYSTEM"))  return boLoginSystem( password , repository, app, request );
           
           //Loads the login class to use for authentication if not defined it loads the default one
-          if (authclass!=null && !authclass.equals(""))
-           p_loginmanager  = (LoginManager)Class.forName(authclass).newInstance();            
+          if ( !StringUtils.isEmpty( authclass ) )
+        	  p_loginmanager  = (LoginManager)Class.forName(authclass).newInstance();            
           else
-           p_loginmanager  = new netgest.bo.system.login.boDefaultLogin();               
+        	  p_loginmanager  = new netgest.bo.system.login.boDefaultLogin();               
            
-          long perfboui=p_loginmanager.boLogin( app, repository, username,password,request);
-          if (perfboui!=0)
-          {
-            boSession session = boLoginSystem(SystemKey,repository, app, request);
-            ctx = session.createRequestContext(null,null,null);            
-            boObject perf=boObject.getBoManager().loadObject(ctx,perfboui);
+          long perfboui = p_loginmanager.boLogin( app, repository, username,password,request );
+          if ( perfboui != 0 ){
+            boSession session = boLoginSystem( SystemKey, repository, app, request );
+            ctx = session.createRequestContext( null, null, null );            
+            boObject perf = boObject.getBoManager().loadObject( ctx, perfboui );
    
-            
             boSessionUser user = new boSessionUser( );      
+            
+            
             
             if(perf.getAttribute("user_language")!=null  && perf.getAttribute("user_language").getValueString() != "")
             {
 	            user.language = perf.getAttribute("user_language").toString();
 	            
-	            long lang = Long.valueOf(user.language);
-	            boObject perfLang=boObject.getBoManager().loadObject(ctx,lang);
+	            long languageObjectBoui = Long.valueOf( user.language );
+	            boObject perfLang = boObject.getBoManager().loadObject( ctx, languageObjectBoui );
 	            
 	            user.language = perfLang.getAttribute("code").toString(); 
             }

@@ -30,16 +30,7 @@
             </javascriptToRun>
             <assinature return="void"/>
             <body language="JAVA">
-				if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) {
-					if(!"".equals(this.password.getValue()))
-                    {
-                        this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
-                    }
-                    else
-                    {
-                        this.password.setValue(null);
-                    }
-				}
+				netgest.bo.models.UserOperations.processPass(this);
 				super.update();
 				</body>
         </method>

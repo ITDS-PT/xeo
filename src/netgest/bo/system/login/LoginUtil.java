@@ -5,6 +5,9 @@ import java.util.Date;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.*;
 import netgest.bo.system.*;
+import netgest.bo.utils.boEncrypter;
+import netgest.utils.StringEncrypter;
+import netgest.utils.StringUtils;
 
 /**
  * 
@@ -69,4 +72,30 @@ public class LoginUtil
     {
         log(session, "in");
     }
+    
+    
+    /**
+     * 
+     * Encrypts a password (padds/trim it to 24 chars if the password if not that size) 
+     * 
+     * @param password The password to encrypt
+     * @return A string with the encrypted password, or the empty string if the encode cannot be done
+     * 
+     * 
+     */
+    public static String encryptPassword(String password) {
+    	int passLength = password.length(); 
+    	int requiredSize = StringEncrypter.STRING_REQUIRED_SIZE;
+    	if ( passLength > requiredSize ){
+    		password = password.substring( 0, requiredSize - 1 );
+    	}
+    	String validPassword = StringUtils.padr( password, requiredSize, "0" );
+    	try {
+			return boEncrypter.staticEncrypt(validPassword);
+		} catch (boRuntimeException e) {
+			logger.warn("Could not encrypt the password", e);
+		}
+		return "";
+    }
+    
 }

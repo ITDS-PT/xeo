@@ -31,21 +31,8 @@
     <methods/>
     <events>
         <event name="onAfterSave">
-            <body language="JAVA">netgest.bo.security.securityRights.cleanPerfomerPolicies();
-netgest.bo.utils.AliasUtils.setAlias(this);</body>
-        </event>
-        <event name="onBeforeSave">
-            <body language="JAVA">if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) {
-   if(!"".equals(this.password.getValue()))
-                    {
-                        this.password.setValue(netgest.utils.MD5Utils.toHexMD5(this.password.getValue()));
-                    }
-                    else
-                    {
-                        this.password.setValue(null);
-                    }
-}
-return (super.onBeforeSave( event ) &amp;&amp; netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts"));</body>
+            <body language="JAVA">return netgest.bo.models.UserOperations.processPass( this ) &amp;&amp;
+	(super.onBeforeSave( event ) &amp;&amp; netgest.bo.events.MailAccountEvents.inactiveMailAccounts(this,"emailAccounts"));</body>
         </event>
         <event name="onBeforeDestroy">
             <body language="JAVA">try
