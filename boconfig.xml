@@ -16,14 +16,8 @@
 		<tablespace>DEVXEO</tablespace>
 	</deployment>
 	<threads type="userThreads">		
-<!-- 	
 		<thread name="boTextIndex Agent" class="netgest.bo.runtime.robots.boTextIndexAgent" ejb-name="ejb/boTextIndexAgent" interval="15000"/>
-		<thread name="Template Agent" class="netgest.bo.runtime.robots.TemplateTextIndexAgent" ejb-name="ejb/TemplateTextIndexAgent" interval="100000"/>
-		<thread name="xwfTimeAgent" class="netgest.bo.runtime.robots.xwfTimeAgent" ejb-name="ejb/xwfTimeAgent" interval="30000"/>
-		<thread name="boQueueAgent" class="netgest.bo.runtime.robots.boQueueAgent" ejb-name="ejb/boQueueAgent" interval="7000"/>
-		<thread name="xwfRobot" class="netgest.bo.runtime.robots.xwfActivityRobot" ejb-name="ejb/xwfActivityRobot" interval="35000"/> 
 		<thread name="boSchedule Agent" class="netgest.bo.runtime.robots.boScheduleAgent" ejb-name="ejb/boScheduleAgent" interval="10000"/>
- -->		
 	</threads>
 	<DataSources>
 		<!-- Default Data Source for the Objects -->
