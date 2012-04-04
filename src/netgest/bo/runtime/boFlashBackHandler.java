@@ -87,7 +87,7 @@ public class boFlashBackHandler
 	    		 
 	    		AttributeHandler attHandler = (AttributeHandler) listOfAttributes.nextElement();
 	    		String attributeType = attHandler.getDefAttribute().getAtributeDeclaredType();
-	    		if (!attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION) && current.getDataRow().getFlashBackRow() != null)
+	    		if (!boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION.equalsIgnoreCase(attributeType) && current.getDataRow().getFlashBackRow() != null)
 	    			this.setAttributeValueFlashBack(attHandler);
 	    	}
 	    	
@@ -179,22 +179,22 @@ public class boFlashBackHandler
     	//Find the type of attribute and set the value
     	try
     	{
-	    	if (attributeType.equals(boDefAttribute.ATTRIBUTE_TEXT))
+	    	if (boDefAttribute.ATTRIBUTE_TEXT.equals(attributeType))
 	    	{
 	    		String val = flashBackRow.getString(attName);
 	    		changed.setValueString(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATE))
+	    	else if (boDefAttribute.ATTRIBUTE_DATE.equals(attributeType))
 	    	{
 	    		Date val = flashBackRow.getDate(attName);
 	    		changed.setValueDate(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DATETIME))
+	    	else if (boDefAttribute.ATTRIBUTE_DATETIME.equals(attributeType))
 	    	{
 	    		Date val = flashBackRow.getDate(attName);
 	    		changed.setValueDate(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_BOOLEAN))
+	    	else if (boDefAttribute.ATTRIBUTE_BOOLEAN.equals(attributeType))
 	    	{
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
 	    		if (val != null)
@@ -205,31 +205,31 @@ public class boFlashBackHandler
 		    			changed.setValueBoolean(new Boolean(false));
 	    		}
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_OBJECT))
+	    	else if (boDefAttribute.ATTRIBUTE_OBJECT.equals(attributeType))
 	    	{
 	    		String columName = changed.getDefAttribute().getDbName();
 	    		Object val = flashBackRow.getObject(columName);
 	    		changed.setValueObject(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_LONGTEXT))
+	    	else if (boDefAttribute.ATTRIBUTE_LONGTEXT.equals(attributeType))
 	    	{
 	    		String val = flashBackRow.getString(attName);
 	    		if (val != null)
 	    			changed.setValueString(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_DURATION))
+	    	else if (boDefAttribute.ATTRIBUTE_DURATION.equals(attributeType))
 	    	{
 	    		Date val = flashBackRow.getDate(attName);
 	    		if (val != null)
 	    			changed.setValueDate(val);
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_SEQUENCE))
+	    	else if (boDefAttribute.ATTRIBUTE_SEQUENCE.equals(attributeType))
 	    	{
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
 	    		if (val != null)
 	    			changed.setValueLong(val.longValue());
 	    	}
-	    	else if (attributeType.equals(boDefAttribute.ATTRIBUTE_CURRENCY))
+	    	else if (boDefAttribute.ATTRIBUTE_CURRENCY.equals(attributeType))
 	    	{
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
 	    		if (val != null)
@@ -264,13 +264,15 @@ public class boFlashBackHandler
     	{
     		//Percorrer todos os atributos do objecto clonado
     		AttributeHandler attHandler = (AttributeHandler) listOfAttributes.nextElement();
-    		if (!attHandler.getDefAttribute().getAtributeDeclaredType().equalsIgnoreCase(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION))
+    		if (!boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION.equalsIgnoreCase(attHandler.getDefAttribute().getAtributeDeclaredType())
+    			&& !(boDefAttribute.TYPE_STATEATTRIBUTE == attHandler.getDefAttribute().getAtributeType()) 	)
     		{	
 	    		AttributeHandler flashBackHandler = flashBack.getAttribute(attHandler.getName());
 	    		
 	    		String newValue;
 				try 
 				{
+					//FIXME: Attribute State
 					newValue = attHandler.getValueString();
 					String oldValue = flashBackHandler.getValueString();
 					//The BOUI is always different so it cannot enter the list
