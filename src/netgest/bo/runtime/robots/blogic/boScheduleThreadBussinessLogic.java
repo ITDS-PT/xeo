@@ -71,27 +71,27 @@ public class boScheduleThreadBussinessLogic
           
           //Executa o agendamento com o utilizador definido no mesmo
           
-          boObject performer=p_schedule.getAttribute("performer").getObject();
+          boObject performer = p_schedule.getAttribute( "performer" ).getObject();
           if (performer!=null)
-            session = p_app.boLogin( performer.getAttribute("username").getValueString(), boLoginBean.getSystemKey(),p_app.getDefaultRepositoryName() );
+            session = p_app.boLogin( performer.getAttribute( "username" ).getValueString(), boLoginBean.getSystemKey(),p_app.getDefaultRepositoryName() );
           else
             session = p_app.boLogin( "SYSTEM", boLoginBean.getSystemKey(),p_app.getDefaultRepositoryName() );
           
           ctx = session.createRequestContext( null,null,null );
           
-          startTime=ScheduleCalcNextRun.getActualSynchonizedDate(ctx);
+          startTime = ScheduleCalcNextRun.getActualSynchonizedDate( ctx );
           
           logger.finest( LoggerMessageLocalizer.getMessage("STARTING_SCHEDULE_CONNECTION_HASH")  + ctx.getConnectionData().hashCode() );
           
           try
           {
-              String classname =  p_schedule.getAttribute("javaclass").getValueString();
+              String classname =  p_schedule.getAttribute( "javaclass" ).getValueString();
               boSchedule itemsched = (boSchedule)Class.forName( classname ).newInstance();
               
-              itemsched.setParameter(p_schedule.getAttribute("parameters").getValueString());
+              itemsched.setParameter( p_schedule.getAttribute( "parameters" ).getValueString() );
               ok = itemsched.doWork( ctx, p_schedule );
               
-              logger.finest(p_scheduleDescription + " "+LoggerMessageLocalizer.getMessage("FINISHED_WITHOUT_ERRORS"));
+              logger.finest( p_scheduleDescription + " "+LoggerMessageLocalizer.getMessage("FINISHED_WITHOUT_ERRORS"));
               
           }
           finally
