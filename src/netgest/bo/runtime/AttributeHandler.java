@@ -725,7 +725,7 @@ public abstract class AttributeHandler implements boIEvents
             }
 
       //Check any valid rule that may exist 
-      p_isvalid = validate();      
+      p_isvalid = p_isvalid && validate();
             
       return this.p_isvalid;
 
