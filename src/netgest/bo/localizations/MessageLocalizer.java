@@ -103,32 +103,37 @@ public class MessageLocalizer {
 	 * The user language if not null, else the default application language
 	 * 
 	 */
-	private static String getLanguage(){
-		String language;
-		boApplication boApp = boApplication.currentContext().getApplication();
-		language = boApp.getApplicationLanguage();
-		if(boApp.getSessions()!=null){
-		
-			boContext boctx;
-			EboContext ctx;
-			boSession session;
-			boSessionUser user;
+	private static String getLanguage() {
+		String language="";
+		boApplication boApp = null;
+		if (boApplication.currentContext()!=null)
+		{
+			boApp = boApplication.currentContext().getApplication();
+			language = boApp.getApplicationLanguage();
+						
+			boContext boctx=null;
+			EboContext ctx=null;
+			boSession session=null;
+			boSessionUser user=null;
 			boctx = boApplication.currentContext();
-				if (boApp.getSessions().getActiveSessions().length > 0)
-					 if(boctx != null){
-						 ctx = boctx.getEboContext();
-						  if(ctx != null){
-							  session = ctx.getBoSession();
-							  if(session != null){
-								  user = session.getUser();
-								  if(user.getLanguage() != null)
-									  language = user.getLanguage();
-							  }
-					 }
+			if (boctx != null) {
+				ctx = boctx.getEboContext();
+				if (ctx != null) {
+					session = ctx.getBoSession();
+					if (session != null) {
+						user = session.getUser();
+						if (user.getLanguage() != null)
+							language = user.getLanguage();
+					}
 				}
+			}
 		}
-		if( StringUtils.isEmpty( language ))
-			language = boApplication.getDefaultApplication().getApplicationLanguage();
+		else
+		{
+			if (StringUtils.isEmpty(language))
+				language = boApplication.getDefaultApplication()
+						.getApplicationLanguage();
+		}
 		return language;
 	}
 }

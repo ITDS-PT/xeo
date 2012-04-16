@@ -28,7 +28,7 @@ public class boSessions
         p_app = app;
     }
 
-    public boSession[] getActiveSessions()
+    public synchronized boSession[] getActiveSessions()
     {
         boSession[] sessions = ( boSession[] ) p_activeSessions.values().toArray(
                 new boSession[p_activeSessions.size()]

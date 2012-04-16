@@ -100,42 +100,38 @@ public class LoggerMessageLocalizer {
 	 */
 	private static String getLanguage() {
 		String language = "";
-		boApplication boApp = boApplication.currentContext().getApplication();
-		language = boApp.getApplicationLanguage();
-		if (boApp.getSessions() != null) {
-
-		boContext boctx;
-		EboContext ctx;
-		boSession session;
-		boSessionUser user;
-		boctx = boApplication.currentContext();
+		boApplication boApp =null;
 		
-			if (boApp.getSessions().getActiveSessions().length > 0)
-				 if(boctx != null){
-					 ctx = boctx.getEboContext();
-					  if(ctx != null){
-						  session = ctx.getBoSession();
-						  if(session != null){
-							  user = session.getUser();
-							  if(user.getLanguage() != null)
-								  language = user.getLanguage();
-						  }
-				 }
+		if (boApplication.currentContext()!=null)
+		{
+			boApp = boApplication.currentContext().getApplication();
+			
+			language = boApp.getApplicationLanguage();
+			boContext boctx;
+			EboContext ctx;
+			boSession session;
+			boSessionUser user;
+			boctx = boApplication.currentContext();
+
+			if (boctx != null) {
+				ctx = boctx.getEboContext();
+				if (ctx != null) {
+					session = ctx.getBoSession();
+					if (session != null) {
+						user = session.getUser();
+						if (user.getLanguage() != null)
+							language = user.getLanguage();
+					}
+				}
 			}
 
 		}
-		/**
-		 * if (!boApplication.currentContext().getEboContext().getBoSession().
-		 * getUser().getLanguage().equals(""))
-		 * if(boApplication.currentContext().
-		 * getEboContext().getBoSession().getUser().getLanguage()!=null)
-		 * language
-		 * =boApplication.currentContext().getEboContext().getBoSession()
-		 * .getUser().getLanguage();
-		 */
-		if (language == null || language == "")
-			language = boApplication.getDefaultApplication()
-					.getApplicationLanguage();
+		else
+		{
+			if (language == null || language == "")
+				language = boApplication.getDefaultApplication()
+						.getApplicationLanguage();
+		}
 
 		return language;
 	}
