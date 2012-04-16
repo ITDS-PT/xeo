@@ -86,6 +86,18 @@ public class boObjectListBuilder {
 	}
 	
 	/**
+	 *
+	 * Set the arguments through varargs
+	 *  
+	 * @param args the Arguments
+	 * 
+	 * */
+	public boObjectListBuilder argsList(Object... args){
+		this.args = args;
+		return this;
+	}
+	
+	/**
 	 * 
 	 * Set the page number (defaults to 1)
 	 * 
@@ -131,6 +143,8 @@ public class boObjectListBuilder {
 		this.useSecurity = security;
 		return this;
 	}
+	
+	
 	
 	/**
 	 * 
@@ -192,9 +206,26 @@ public class boObjectListBuilder {
 	 * @return
 	 */
 	public Object[] getArgs() {
-		//FIXME: Merge both
-		return args;
+		
+		if (this.individualArguments.size() == 0)
+			return args;
+		if (this.args.length == 0)
+			return individualArguments.toArray();
+		
+		Object[] totalArgs = new Object[this.individualArguments.size() + this.args.length];
+		int k = 0;
+		for (Object curr : args){
+			totalArgs[k] = curr;
+			k++;
+		}
+		for (Object curr : individualArguments){
+			totalArgs[k] = curr;
+			k++;
+		}
+		
+		return totalArgs;
 	}
+	
 
 	/**
 	 * 
