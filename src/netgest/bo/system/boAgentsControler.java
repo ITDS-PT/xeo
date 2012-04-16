@@ -57,8 +57,8 @@ public class boAgentsControler extends Thread implements IboAgentsController
     {
         try
         {
-        	System.out.print("started!");
-        	Thread.sleep(30000);
+        	logger.config("boAgents Controller started");
+        	Thread.sleep(3000); //was 30.000
             while( !isInterrupted() && checkXeo() )
             {
                 String[] threads_name = p_boapp.getApplicationConfig().getThreadsName();

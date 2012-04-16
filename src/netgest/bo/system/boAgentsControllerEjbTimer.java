@@ -17,6 +17,7 @@ import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimer;
 import netgest.bo.runtime.robots.ejbtimers.xeoEJBTimerHome;
+import netgest.utils.StringUtils;
 
 public class boAgentsControllerEjbTimer implements IboAgentsController
 {
@@ -83,9 +84,10 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
         String ejbName=p_boapp.getApplicationConfig().getThreadsEjbName()[id_idx];
         String interval=p_boapp.getApplicationConfig().getThreadsInterval()[id_idx];
         long l_interval = 0;
-        if (interval!=null && !interval.equals(""))  l_interval=new Long(interval).longValue();
-        
-        if (name!=null && !name.equals("") && ejbName!=null && !ejbName.equals(""))
+        if ( interval != null && !interval.equals( "" ) ) 
+        	l_interval = new Long( interval ).longValue();
+        if ( !StringUtils.isEmpty( name ) && !StringUtils.isEmpty( ejbName ) )
+        //if ( name != null && !name.equals( "" ) && ejbName != null && !ejbName.equals( "" ) )
         {
             try
             {
@@ -105,16 +107,16 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
                 this.activeEJBTimers.put(name,timerejb);
             }
             catch (NamingException e) {
-                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_LOOKING_UP_TO_XEO_EJBTIMER")+" ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_LOOKING_UP_TO_XEO_EJBTIMER")+" ["+name+"]",e);
             }
             catch (CreateException e) {
-                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_CREATING_XEO_EJBTIMER")+" ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_CREATING_XEO_EJBTIMER")+" ["+name+"]",e);
             }
             catch (RemoteException e) {
-                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_EXECUTING_XEO_EJBTIMER")+" ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_EXECUTING_XEO_EJBTIMER")+" ["+name+"]",e);
             }   
             catch (RemoveException e) {
-                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REMOVING_XEO_EJBTIMER")+" ["+name+"]");
+                logger.warn(LoggerMessageLocalizer.getMessage("ERROR_REMOVING_XEO_EJBTIMER")+" ["+name+"]",e);
             }               
         }
         
