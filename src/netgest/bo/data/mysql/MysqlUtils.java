@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
-
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.DataTypes;
