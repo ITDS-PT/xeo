@@ -30,7 +30,7 @@ public class boObjectListBuilder {
 	/**
 	 * The query arguments
 	 */
-	private Object[] args;
+	private Object[] args = new Object[0];
 	
 	/**
 	 * Individual Arguments
