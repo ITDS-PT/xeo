@@ -54,6 +54,7 @@ import netgest.bo.presentation.render.elements.ExplorerServer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boObjectListBuilder;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.Logger;
@@ -1552,10 +1553,10 @@ public class boBuilder {
 	 */
 	private void createThemes(){
 		
-		Map<String,XeoUserTheme> themes=p_bcfg.getThemes();
+		Map<String,XeoUserTheme> themes = p_bcfg.getThemes();
 		String themeName;
 		XeoUserTheme currentTheme;
-		Iterator<String> it= themes.keySet().iterator();
+		Iterator<String> it = themes.keySet().iterator();
 		boObject obj;
 		while (it.hasNext()){
 			
@@ -1563,30 +1564,30 @@ public class boBuilder {
 			currentTheme= themes.get(themeName);
 			String name = currentTheme.getName();
 			//Try to find if the Theme already exists
-			boObjectList pack = boObjectList.list(p_eboctx,
-					"SELECT Theme WHERE name = '" + name +"'",true,false);
+			boObjectList pack = new boObjectListBuilder(p_eboctx, "select Theme where name = ?").arg( name ).cache(false).build();
 			if (pack.isEmpty()){	
 				
 				try {
 					//Create the theme and included files
-					obj=boObject.getBoManager().createObject(p_eboctx,Theme.THEME_MODEL);
+					obj = boObject.getBoManager().createObject( p_eboctx , Theme.THEME_MODEL );
 					
-					obj.getAttribute(Theme.NAME).setValueString(currentTheme.getName());
-					obj.getAttribute(Theme.DESCRIPTION).setValueString(currentTheme.getDescription());
-					obj.getAttribute(Theme.DEFAULT_THEME).setValueBoolean(currentTheme.getActive());
+					obj.getAttribute( Theme.NAME ).setValueString( currentTheme.getName() );
+					obj.getAttribute( Theme.DESCRIPTION ).setValueString( currentTheme.getDescription() );
+					obj.getAttribute( Theme.DEFAULT_THEME ).setValueBoolean( currentTheme.getActive() );
 					
-					bridgeHandler filesOfTheme = obj.getBridge(Theme.FILES);
+					bridgeHandler filesOfTheme = obj.getBridge( Theme.FILES );
 					XeoUserThemeFile[] files = currentTheme.getFiles();
 					for (XeoUserThemeFile f : files){
-						boObject fileToInclude = filesOfTheme.addNewObject(ThemeIncludes.THEME_INCLUDES_MODEL);
-						fileToInclude.getAttribute(ThemeIncludes.ID).setValueString(f.getId());
-						fileToInclude.getAttribute(ThemeIncludes.DESCRIPTION).setValueString(f.getDescription());
-						fileToInclude.getAttribute(ThemeIncludes.FILEPATH).setValueString(f.getPath());
+						boObject fileToInclude = filesOfTheme.addNewObject( ThemeIncludes.THEME_INCLUDES_MODEL );
+						fileToInclude.getAttribute( ThemeIncludes.ID ).setValueString( f.getId() );
+						fileToInclude.getAttribute( ThemeIncludes.DESCRIPTION ).setValueString( f.getDescription() );
+						fileToInclude.getAttribute( ThemeIncludes.FILEPATH ).setValueString( f.getPath() );
 					}
 					obj.update();
+					this.p_builderProgress.appendInfoLog("Created Theme " + currentTheme.getName() );
+					
 				} catch (boRuntimeException e) {
 					logger.severe("Could not create instance theme " + name,e);
-					
 				}
 				
 			}
@@ -1601,26 +1602,21 @@ public class boBuilder {
 	 * @throws boRuntimeException
 	 */
 	private void createLanguages() throws boRuntimeException{
-		HashSet<XeoApplicationLanguage> languages=p_bcfg.getAllLanguages();
-		XeoApplicationLanguage apl;
-		Iterator it=languages.iterator();
-		boObject obj;
+		HashSet<XeoApplicationLanguage> languages = p_bcfg.getAllLanguages();
+		XeoApplicationLanguage apl = null;
+		Iterator<XeoApplicationLanguage> it = languages.iterator();
+		
 		while (it.hasNext()){
 			
-			apl=(XeoApplicationLanguage)it.next();
-	
-		boObjectList pack = boObjectList.list(p_eboctx,
-				"SELECT XeoApplicationLanguage WHERE code = '" + apl.code + "'");
-		if (pack.isEmpty()){		
-			obj=boObject.getBoManager().createObject(p_eboctx,"XeoApplicationLanguage");
-			//System.out.println(apl.code);
-			obj.getAttribute("code").setValueString(apl.code);
-			obj.getAttribute("description").setValueString(apl.description);
-			//System.out.println(apl.code);
-			obj.update();
-			
-		}
-		
+			apl = it.next();
+			boObjectList pack = boObjectList.list(p_eboctx,
+					"SELECT XeoApplicationLanguage WHERE code = '" + apl.getCode() + "'");
+			if (pack.isEmpty()){
+				boObject obj = boObject.getBoManager().createObject( p_eboctx , "XeoApplicationLanguage" );
+				obj.getAttribute( "code" ).setValueString( apl.getCode() );
+				obj.getAttribute( "description" ).setValueString( apl.getDescription() );
+				obj.update();
+			}
 		}
 	}
 	
