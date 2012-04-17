@@ -11,11 +11,11 @@ public class XeoApplicationLanguage {
 	/**
 	 * A representation of the language (PT, PT_BR, EN, EN_UK)
 	 */
-	public String code;
+	private String code;
 	/**
 	 * A description of the language
 	 */
-	public String description;
+	private String description;
 	
 	
 	/**
@@ -27,5 +27,14 @@ public class XeoApplicationLanguage {
 	public XeoApplicationLanguage(String cod, String des){
 		this.code=cod;
 		this.description=des;
+	}
+	
+	public String getCode(){
+		return new String(code);
+	}
+	
+	
+	public String getDescription(){
+		return new String(description);
 	}
 }

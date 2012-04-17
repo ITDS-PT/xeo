@@ -38,6 +38,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class boApplicationConfig {
+	
+	private static final Logger logger = Logger.getLogger(boApplicationConfig.class);
+	
 	private XMLDocument xmldoc = null;
 	private String p_definitiondir;
 	private String p_uiDefinitiondir;
@@ -152,7 +155,7 @@ public class boApplicationConfig {
 		Iterator it=p_languages.iterator();
 		while(it.hasNext()){
 			applL=(XeoApplicationLanguage) it.next();
-			hs.add((String) applL.code);
+			hs.add((String) applL.getCode());
 		}
 		return hs;
 	}
@@ -680,7 +683,7 @@ public class boApplicationConfig {
 				NodeList nodeL = xmldoc.selectNodes("//languages");
 				XMLNode nodex = (XMLNode) nodeL.item(0);
 				if (nodex==null){
-					System.err.println("The language has to be configured in the boconfig.xml!!!");
+					logger.config("The language should be configured in boconfig.xml! Assuming PT as default");
 					prop.put("language", "PT");
 				}
 				else{
@@ -707,7 +710,7 @@ public class boApplicationConfig {
 					boolean in=false;
 					while (itter.hasNext()){
 						XeoApplicationLanguage xeoAL=(XeoApplicationLanguage) itter.next();					
-						if (xeoAL.code.equals(apl.code))
+						if (xeoAL.getCode().equals(apl.getCode()))
 							in=true;
 					}
 						if(in==false)			
