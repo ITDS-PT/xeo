@@ -150,17 +150,28 @@ public class boClassCompiler  {
     }      
       private String getClassPath(String beginpath, String classpath)
       {
-          File xeoLib = new File(beginpath);          
-          File[] libs = xeoLib.listFiles();
-          for (int i=0; i<libs.length; i++) {
-            
-            if (libs[i].isDirectory())
-              classpath+=  File.pathSeparator + this.getClassPath(libs[i].getAbsolutePath(),classpath);
-            else if (libs[i].getAbsolutePath().indexOf(".jar")!=-1 || 
-                     libs[i].getAbsolutePath().indexOf(".zip")!=-1 ||  
-                     libs[i].getAbsolutePath().indexOf(".class")!=-1)
-             classpath+= File.pathSeparator + libs[i].getAbsolutePath().replaceAll("\\s","\\\\");
-          }
+    	  String[] beginPaths = beginpath.split( File.pathSeparator ); 
+		  for( String path : beginPaths ) {
+	          File xeoLib = new File(path);
+	          File[] libs = xeoLib.listFiles();
+	          for (int i=0;libs != null && i<libs.length; i++) {
+	            if (libs[i].isDirectory()) {
+	            	if( classpath != null && classpath.length() > 0 )
+	            		classpath +=  File.pathSeparator;
+	            	
+	              classpath +=  this.getClassPath(libs[i].getAbsolutePath(),classpath);
+	            }
+	            else if (libs[i].getAbsolutePath().indexOf(".jar")!=-1 || 
+	                     libs[i].getAbsolutePath().indexOf(".zip")!=-1 ||  
+	                     libs[i].getAbsolutePath().indexOf(".class")!=-1) {
+	            	
+	            	if( classpath != null && classpath.length() > 0 )
+	            		classpath +=  File.pathSeparator;
+	            	
+	            	classpath += libs[i].getAbsolutePath().replaceAll("\\s","\\\\");
+	            }
+	          }
+		  }
           return classpath;
       }
       
