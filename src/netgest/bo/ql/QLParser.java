@@ -1170,17 +1170,20 @@ public class QLParser  {
     {
         ResultQL res = S(false); //chamar S onde se comaça a analisar a query
         if(res.failed())    //caso falhe enviamos msg de erro
-           throw new boqlParserException("QLParser", "XEO.QL", new Exception(res.getMessage()+errorSpot()));
+           throw new boqlParserException("QLParser", "XEO.QL", new Exception(res.getMessage()+errorSpot()), res.getMessage(), errorSpot());
         else
             if(numPar > 0 || subQueries > 0)    //se o utilizador esquecer de fechar parentêses    
-                throw new boqlParserException("QLParser", "XEO.QL", new Exception(EXPRE_ERR3+errorSpot()));
+                throw new boqlParserException("QLParser", "XEO.QL", new Exception(EXPRE_ERR3+errorSpot()), MessageLocalizer.getMessage("EXPRE_ERR3"), errorSpot());
             else
                if(endOfQuery()) //se está tudo correcto e todos os tokens foram consumidos podemos devolver o resultado
                {    sucess=true;
                     return res.getMessage();
                }
-               else
-                    throw new boqlParserException("QLParser", "XEO.QL", new Exception(MessageLocalizer.getMessage("UNEXPECTED_CHAR_QUERY_SHOULD_BE_OVER_CORRECT_SO_FAR")+errorSpot()));
+               else{
+            	   String message = MessageLocalizer.getMessage("UNEXPECTED_CHAR_QUERY_SHOULD_BE_OVER_CORRECT_SO_FAR");
+            	   String errorSpot = errorSpot();
+                    throw new boqlParserException("QLParser", "XEO.QL", new Exception(message + errorSpot), message ,errorSpot);
+               }
   }
   
   //função que sistematiza a remoção de produtores
@@ -2184,7 +2187,7 @@ public class QLParser  {
         if(s.equalsIgnoreCase(OPWx_IS))//como o operador IS pode ter o NOT entre si e a palavra NULL tem de ser tratado diferentemente
         {
             if(incConsumer())
-                return new ResultQL(2, EXPRE_ERR1);    
+                return new ResultQL(2, MessageLocalizer.getMessage("EXPRE_ERR1"));    
             ResultQL r0 = NOT();//detectar a existência do modificador NOT
             String snot="";
             if(r0.success())
