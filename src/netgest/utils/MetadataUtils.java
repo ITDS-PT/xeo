@@ -69,7 +69,7 @@ public class MetadataUtils {
 	 * 
 	 */
 	public static boolean isDateTime( boDefAttribute attributeMetadata ){
-		return boDefAttribute.ATTRIBUTE_TEXT.equalsIgnoreCase( attributeMetadata.getAtributeDeclaredType() );
+		return boDefAttribute.ATTRIBUTE_DATETIME.equalsIgnoreCase( attributeMetadata.getAtributeDeclaredType() );
 	}
 	
 	/**
