@@ -1171,6 +1171,10 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 	public String getBridgeFilter() {
 		return null;
 	}
+	
+	public String toString(){
+		return getName();
+	}
 
 	@Override
 	public boDefDocument getECMDocumentDefinitions() {
