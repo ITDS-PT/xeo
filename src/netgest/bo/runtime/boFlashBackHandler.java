@@ -297,6 +297,56 @@ public class boFlashBackHandler
     
     /**
      * 
+     * Retrieves a map with the non-bridge-attributes that have different values in the
+     * object and its flash back object
+     * 
+     * @return A map with the list of attribute which have a different value of the
+     * one stored in the database
+     */
+    public HashMap<String, ObjectAttributeValuePair> getAttributeDiferenceByName()
+    {
+    	HashMap<String, ObjectAttributeValuePair> result = new HashMap<String, ObjectAttributeValuePair>();
+    	
+    	//Get All non bridgge
+    	boAttributesArray arrayAtts = this.current.getAttributes();
+    	Enumeration listOfAttributes = arrayAtts.elements();
+    	
+    	while (listOfAttributes.hasMoreElements())
+    	{
+    		//Percorrer todos os atributos do objecto clonado
+    		AttributeHandler attHandler = (AttributeHandler) listOfAttributes.nextElement();
+    		if (!boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION.equalsIgnoreCase(attHandler.getDefAttribute().getAtributeDeclaredType())
+    			&& !(boDefAttribute.TYPE_STATEATTRIBUTE == attHandler.getDefAttribute().getAtributeType()) 	)
+    		{	
+	    		AttributeHandler flashBackHandler = flashBack.getAttribute(attHandler.getName());
+	    		
+	    		String newValue;
+				try 
+				{
+					//FIXME: Attribute State
+					newValue = attHandler.getValueString();
+					String oldValue = flashBackHandler.getValueString();
+					//The BOUI is always different so it cannot enter the list
+					if (!isSystemAttribute(attHandler.getName()))
+					{
+						if (!newValue.equalsIgnoreCase(oldValue))
+			    		{
+							result.put(attHandler.getName(), new ObjectAttributeValuePair(oldValue, newValue, attHandler.getName()));
+			    		}
+					}
+				} 
+				catch (boRuntimeException e) 
+				{
+					//Continue to the next attribute
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	return result;
+    }
+    
+    /**
+     * 
      * Checks if a given attribute name is a system attribute
      * 
      * @param name
