@@ -39,7 +39,7 @@ import org.w3c.dom.NodeList;
 
 public class boApplicationConfig {
 	
-	private static final Logger logger = Logger.getLogger(boApplicationConfig.class);
+	//private static final Logger logger = Logger.getLogger(boApplicationConfig.class);
 	
 	private XMLDocument xmldoc = null;
 	private String p_definitiondir;
@@ -683,7 +683,7 @@ public class boApplicationConfig {
 				NodeList nodeL = xmldoc.selectNodes("//languages");
 				XMLNode nodex = (XMLNode) nodeL.item(0);
 				if (nodex==null){
-					logger.config("The language should be configured in boconfig.xml! Assuming PT as default");
+					System.out.println("The language should be configured in boconfig.xml! Assuming PT as default");
 					prop.put("language", "PT");
 				}
 				else{
