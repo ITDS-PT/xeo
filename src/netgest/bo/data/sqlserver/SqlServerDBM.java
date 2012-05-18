@@ -1349,7 +1349,7 @@ public class SqlServerDBM extends OracleDBM {
 							+ " add constraint " + node.getString("OBJECTNAME")
 							+ " foreign key (" + node.getString("EXPRESSION")
 							+ ") references "
-							+ node.getString("TABLEREFERENCE") + "(BOUI)";
+							+ node.getString("TABLEREFERENCE") + "(" + node.getString("FIELDREFERENCE") + ")";
 					executeDDL(dml, node.getString("SCHEMA"));
 				}
 			}
@@ -1750,15 +1750,6 @@ public class SqlServerDBM extends OracleDBM {
 
 	public void executeDDL(String dml, String schema) throws SQLException {
 		dml += "\n";
-
-		String str2WorkAround = "alter table EBO_REFERENCES add constraint FK_EBO_REFERENCES_BOUI foreign key (REFBOUI$) references EBO_REGISTRY(BOUI)";
-
-		// martelada para criar a fk correctamente, se nÃ£o o sqlserver n cria fk
-		// para a tabela EBO_REFERENCES
-		// referente Ã  EBO_REGISTRY
-		if (str2WorkAround.equals(dml)) {
-			dml = "alter table EBO_REFERENCES add constraint FK_EBO_REFERENCES_BOUI foreign key (REFBOUI$) references EBO_REGISTRY(UI$)";
-		}
 
 		CallableStatement csm = null;
 		boolean hasError = false;
