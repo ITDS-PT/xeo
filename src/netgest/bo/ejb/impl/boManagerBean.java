@@ -1921,12 +1921,22 @@ public class boManagerBean implements SessionBean, boManagerLocal
                                 pstm.close();
 
                                 int errorCode = e.getErrorCode( );
+                                //TODO: SQLState for the Constraint error is 23000 for MySQL, Oracle and SQLServer
+                                //we should consider changing to sql state instead of vendor specific getErrorCode()
                                 switch (errorCode)
                                 {
-                                    case 2292:  // Referenced constrainr error code
-                                        {
-                                           throw new boRuntimeException(bobj,"ObjectDataManager.updateObjectData(boObject)","BO-3023",e);
-                                        }
+                                    case 2292:  // Referenced constraint error code, Oracle
+                                    {
+                                    	throw new boRuntimeException(bobj,"ObjectDataManager.updateObjectData(boObject)","BO-3023",e);
+                                    }
+                                    case 547:  // Referenced constraint error code, SQLServer
+                                    {
+                                    	throw new boRuntimeException(bobj,"ObjectDataManager.updateObjectData(boObject)","BO-3023",e);
+                                    }   
+                                    case 1451 : // Referenced constraint error code, MySQL
+                                    {
+                                    	throw new boRuntimeException(bobj,"ObjectDataManager.updateObjectData(boObject)","BO-3023",e);
+                                    }
                                     default:
                                         throw new boRuntimeException(bobj,"ObjectDataManager.updateObjectData(boObject)","BO-3055",e);
                                 }
