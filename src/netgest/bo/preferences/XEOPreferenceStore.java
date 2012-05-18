@@ -1,5 +1,6 @@
 package netgest.bo.preferences;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +23,8 @@ public class XEOPreferenceStore implements PreferenceStore {
 	private static final Logger logger = Logger.getLogger(XEOPreferenceStore.class);
 	
 	private static boolean UPDATED_MSG = false;
+	
+	private static BigDecimal SYSUSER_BOUI = null;
 	
 	private static final Object parseValue( boObject pobj ) throws boRuntimeException {
 		String value;
@@ -214,6 +217,10 @@ public class XEOPreferenceStore implements PreferenceStore {
 						if( !savedPrefs.containsKey( key ) ) {
 							try {
 								boObject obj = boObject.getBoManager().createObject(ctx, "PreferenceStore");
+								
+								// Evitar de gravar o utilizador corrente quando 
+								// se modifica a preference store. (Quando este é o objecto a ser editado, dá erro)
+								obj.getAttribute("CREATOR").setValueObject( getSysUserBoui( ctx ) );
 								obj.getAttribute("name").setValueString( p.getName() );
 								obj.getAttribute("key").setValueString( key );
 								obj.getAttribute("contextKey").setValueString( p.getCustomContext() );
@@ -303,4 +310,15 @@ public class XEOPreferenceStore implements PreferenceStore {
 		sqlQuery.append( " AND 0 < " + System.currentTimeMillis() );
 		return sqlQuery.toString();
 	}
+	
+	private static final BigDecimal getSysUserBoui( EboContext ctx ) {
+		if( SYSUSER_BOUI == null ) {
+			boObjectList list = boObjectList.list(ctx, "select iXEOUser where username='SYSUSER'");
+			if(list.next()) {
+				SYSUSER_BOUI = BigDecimal.valueOf( list.getCurrentBoui() );
+			}
+		}
+		return SYSUSER_BOUI;
+	}
+	
 }

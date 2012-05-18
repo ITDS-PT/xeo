@@ -27,11 +27,13 @@ public class LovUtils {
 		Map<String,String> result = new LinkedHashMap<String, String>();
 		try {
 			lovObject lov = LovManager.getLovObject( ctx, lovName );
-			lov.beforeFirst();
-			while (lov.next()){
-				result.put(lov.getCode(), lov.getDescription());
+			if( lov != null ) {
+				lov.beforeFirst();
+				while (lov.next()){
+					result.put(lov.getCode(), lov.getDescription());
+				}
 			}
-		} catch ( boRuntimeException e ) {
+		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
 		return result;

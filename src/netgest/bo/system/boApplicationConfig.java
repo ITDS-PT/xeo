@@ -1,7 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
-import java.awt.geom.CubicCurve2D;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import netgest.bo.boConfigRepository;
@@ -39,7 +41,17 @@ import org.w3c.dom.NodeList;
 
 public class boApplicationConfig {
 	
-	//private static final Logger logger = Logger.getLogger(boApplicationConfig.class);
+	
+	private static final Logger logger =  Logger.getLogger( boApplication.class.toString() );
+		//Logger.getLogger(boApplicationConfig.class); 
+		//O logger do XEO não pode ser usado no boCondig.
+
+	static {
+		ConsoleHandler h = new ConsoleHandler();
+		h.setLevel( Level.CONFIG );
+		logger.setLevel( Level.CONFIG );
+		logger.addHandler( h ); // A a default logger to the console, for config messages;
+	}
 	
 	private XMLDocument xmldoc = null;
 	private String p_definitiondir;
@@ -683,7 +695,7 @@ public class boApplicationConfig {
 				NodeList nodeL = xmldoc.selectNodes("//languages");
 				XMLNode nodex = (XMLNode) nodeL.item(0);
 				if (nodex==null){
-					System.out.println("The language should be configured in boconfig.xml! Assuming PT as default");
+					logger.config("The language should be configured in boconfig.xml! Assuming PT as default");
 					prop.put("language", "PT");
 				}
 				else{
