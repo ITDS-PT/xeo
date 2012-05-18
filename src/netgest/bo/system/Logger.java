@@ -398,6 +398,7 @@ public class Logger {
 	
 	/**
 	 * Gets the logger for a package or class name.
+	 * NOTE: SideEffect -> Tries to initialize the XEO Application
 	 * 
 	 * @param name the package or class name
 	 * 
@@ -410,6 +411,7 @@ public class Logger {
 	
 	/**
 	 * Gets the logger with localized messages.
+	 * NOTE: SideEffect -> Tries to initialize the XEO Application
 	 * 
 	 * @param name the name
 	 * @param bundleName the bundle localized bundle for the message
@@ -423,6 +425,7 @@ public class Logger {
 	
 	/**
 	 * Gets the logger for a class
+	 * NOTE: SideEffect -> Tries to initialize the XEO Application 
 	 * 
 	 * @param clazz the class
 	 * 
