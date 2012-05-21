@@ -41,6 +41,10 @@ public class boFlashBackHandler
 	 */
 	boObject flashBack;
 	
+	public boObject getFlashBack() {
+		return flashBack;
+	}
+	
 	/**
 	 * 
 	 * Public constructor
