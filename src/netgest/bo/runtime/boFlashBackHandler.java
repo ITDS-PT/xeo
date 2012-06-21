@@ -239,6 +239,12 @@ public class boFlashBackHandler
 	    		if (val != null)
 	    			changed.setValueLong(val.longValue());
 	    	}
+	    	else if (boDefAttribute.ATTRIBUTE_NUMBER.equals(attributeType))
+	    	{
+	    		Object val = flashBackRow.getObject(attName);
+	    		if (val != null)
+	    			changed.setValueObject(val);
+	    	}
     	} catch (DataException e){
     		//This means that a given column could not be found in FlashBack
     		//probably someone changed the boObject and is trying to render differences with something that
