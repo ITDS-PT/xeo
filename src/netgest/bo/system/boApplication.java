@@ -33,6 +33,9 @@ import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.utils.XeoApplicationLanguage;
+import netgest.utils.StringUtils;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -56,6 +59,12 @@ import netgest.bo.utils.XeoApplicationLanguage;
 public class boApplication
 {
 	
+	public static final String BOCONFIG_XML = "boconfig.xml";
+
+	public static final String XEO_HOME = "xeo.home";
+
+	public static final String NETGEST_HOME = "netgest.home";
+
 	/**
 	 * Whether the application is in development mode or not
 	 * (default is false)
@@ -69,10 +78,13 @@ public class boApplication
 
     private static 	WeakHashMap     applicationThreadsContext = new WeakHashMap();
     
-    public static final String XEO_WEBCLIENT 	= "XEO_WEBCLIENT";
-    public static final String XEO_ROBOT     	= "XEO_ROBOT";
-    public static final String XEO_SYSTEM    	= "XEO_SYSTEM";
-    private static final String XEO_WORKPLACE   = "SYSTEM";
+    public static final String XEO_WEBCLIENT 			= "XEO_WEBCLIENT";
+    public static final String XEO_ROBOT     			= "XEO_ROBOT";
+    public static final String XEO_SYSTEM    			= "XEO_SYSTEM";
+    private static final String XEO_WORKPLACE   		= "SYSTEM";
+    public static final String XEO_CORE_VERSION_FILE 	= "xeocore.ver";
+    
+    
     
     
     /**
@@ -134,22 +146,22 @@ public class boApplication
                     if (XEO_APPLICATION == null)
                     {
             		
-		                String appConfigPath = System.getProperty("netgest.home");
+		                String appConfigPath = System.getProperty(NETGEST_HOME);
 		                
 		                if( appConfigPath == null ) {
-		                	appConfigPath = System.getProperty("xeo.home");
+		                	appConfigPath = System.getProperty(XEO_HOME);
 		                }
 		                if( appConfigPath == null ) {
-		                	URL u = Thread.currentThread().getContextClassLoader().getResource( "xeo.home" );
+		                	URL u = Thread.currentThread().getContextClassLoader().getResource( XEO_HOME );
 		                	if( u != null && u.getFile() != null ) {
 			                	File file = new File(u.getFile());
 			                	File homeFolder = file.getParentFile().getParentFile().getParentFile().getParentFile();
-			                	File xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+			                	File xeoHome1 = new File( homeFolder + File.separator + BOCONFIG_XML ); 
 			                	if( xeoHome1.exists() ) {
 			                		appConfigPath = homeFolder.getAbsolutePath();
 			                	}
 			                	homeFolder = homeFolder.getParentFile();
-			                	xeoHome1 = new File( homeFolder + File.separator + "boconfig.xml" ); 
+			                	xeoHome1 = new File( homeFolder + File.separator + BOCONFIG_XML ); 
 			                	if( xeoHome1.exists() ) {
 			                		appConfigPath = homeFolder.getAbsolutePath();
 			                	}
@@ -160,10 +172,10 @@ public class boApplication
 			                {
 			                    appConfigPath += File.separator;
 			                }
-			                System.setProperty( "xeo.home" , appConfigPath );
-			                System.setProperty( "netgest.home" , appConfigPath );
+			                System.setProperty( XEO_HOME , appConfigPath );
+			                System.setProperty( NETGEST_HOME , appConfigPath );
 			                
-			                appConfigPath += "boconfig.xml"; 
+			                appConfigPath += BOCONFIG_XML; 
 			                
 			                if( new File(appConfigPath).exists() ) {
 			                	try {
@@ -191,10 +203,10 @@ public class boApplication
 		                		if( !homeFromZip.endsWith("/") && !homeFromZip.endsWith("\\") ) {
 		                			homeFromZip += File.separator;
 		                		}
-		                		appConfigPath = homeFromZip + "boconfig.xml";
+		                		appConfigPath = homeFromZip + BOCONFIG_XML;
 	
-		                		System.setProperty( "xeo.home" , appConfigPath );
-				                System.setProperty( "netgest.home" , appConfigPath );
+		                		System.setProperty( XEO_HOME , appConfigPath );
+				                System.setProperty( NETGEST_HOME , appConfigPath );
 		                		
 				                XEO_APPLICATION = new boApplication( "XEO", new boApplicationConfig( appConfigPath ) );
 				                XEO_APPLICATION.initializeApplication();
@@ -568,7 +580,6 @@ public class boApplication
 
     public String getDefaultRepositoryName()
     {
-//        return "claim_2110214";
         return "default";
     }
 
@@ -592,24 +603,11 @@ public class boApplication
     public boSession boLogin(String username, String password, String repository, String clientName , HttpServletRequest request)
         throws boLoginException
     {
-//        try
-//        {
-            if( repository == null )
-            {
+            if( repository == null ){
                 repository = "default";
             } 
-            //boLoginLocal login = (boLoginLocal) ((boLoginLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boLoginLocal")).create();
             boLoginBean login = new boLoginBean();
             return login.boLogin( this, repository, clientName, username, password, request);
-//        }
-//        catch (NamingException e)
-//        {
-//            throw new RuntimeException(e.getMessage());
-//        }
-//        catch (CreateException e)
-//        {
-//            throw new RuntimeException(e.getMessage());
-//        }
     }
     public boSession boLogin(String username, long time, long timeCheck, String repository, String clientName , HttpServletRequest request)
         throws boLoginException
@@ -742,6 +740,28 @@ public class boApplication
 	
 	public boManagerLocal getSecureObjectManager() throws boRuntimeException{
 			return boObject.getBoSecurityManager();
+	}
+	
+	private static final String NULL_BUILD = "";
+	
+	private String builder = NULL_BUILD;
+	
+	public String getBuildVersion(){
+		if (builder == NULL_BUILD){
+			String filePath = System.getProperty(NETGEST_HOME);
+			if (StringUtils.isEmpty( filePath ))
+				filePath = System.getProperty( XEO_HOME );
+			
+			File xeoCoreVersion = new File(filePath  + File.separator + XEO_CORE_VERSION_FILE);
+			if (xeoCoreVersion.exists()){
+				try {
+					builder = FileUtils.readFileToString( xeoCoreVersion );
+				} catch ( IOException e ) {
+					logger.warn( "Could not read the file " + XEO_CORE_VERSION_FILE, e );
+				}
+			}
+		}
+		return builder;
 	}
 
 	/**
