@@ -13,9 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -25,7 +22,6 @@ import java.util.Vector;
 import javax.naming.InitialContext;
 
 import netgest.bo.boConfig;
-import netgest.bo.boDataSource;
 import netgest.bo.builder.boBuildDB;
 import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.def.boDefHandler;
@@ -37,7 +33,6 @@ import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
 import netgest.bo.system.boRepository;
-import netgest.utils.StringUtils;
 
 /**
  * @author vcardoso
@@ -615,19 +610,20 @@ public class SqlServerDBM extends OracleDBM {
 				.append("DECLARE @cur_val bigint, @seq_inc int, @soma bigint, @seq_max bigint, @seq_cycle tinyint, \n");
 		sb.append("@seq_min int \n");
 
-		sb
-				.append("SET @cur_val=(SELECT sequence_cur_value FROM sys_sequences WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_inc=(SELECT sequence_increment FROM sys_sequences WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_max=(SELECT sequence_max_value FROM sys_sequences WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_cycle=(SELECT sequence_cycle FROM sys_sequences WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_min=(SELECT sequence_min_value FROM sys_sequences WHERE sequence_name = @seq_name) \n");
-
 		sb.append("BEGIN TRY \n");
 		sb.append("BEGIN TRANSACTION; \n");
+		
+		sb
+				.append("SET @cur_val=(SELECT sequence_cur_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
+		sb
+				.append("SET @seq_inc=(SELECT sequence_increment FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
+		sb
+				.append("SET @seq_max=(SELECT sequence_max_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
+		sb
+				.append("SET @seq_cycle=(SELECT sequence_cycle FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
+		sb
+				.append("SET @seq_min=(SELECT sequence_min_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
+
 
 		sb.append("IF @cur_val IS NOT NULL \n");
 		sb.append("begin \n");
