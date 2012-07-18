@@ -295,26 +295,12 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
     /* Static methods to Create a new Instance of Object */
     public static boManagerLocal getBoManager() throws boRuntimeException {
-//        try {
-            //return ((boManagerLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boManagerLocal")).create();
             return new boManagerBean();
-//        } catch (NamingException e) {
-//            throw new boRuntimeException2(e.getMessage());
-//        } catch (CreateException e) {
-//            throw new boRuntimeException2(e.getMessage());
-//        }
     }
 
     public static boManagerLocal getBoSecurityManager()
         throws boRuntimeException {
             return new boSecurityManagerBean();
-//        try {
-//            return ((boManagerLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boSecurityManagerLocal")).create();
-//        } catch (NamingException e) {
-//            throw new boRuntimeException2(e.getMessage());
-//        } catch (CreateException e) {
-//            throw new boRuntimeException2(e.getMessage());
-//        }
     }
 
     // End of static methods;
@@ -942,6 +928,19 @@ public abstract class boObject extends boObjectContainer implements Serializable
 		setHaveAttributeErrors(true);
 		att.setInvalid(message);
         p_atterrors.put(att, message);
+    }
+    
+    
+    /**
+     * 
+     * Adds an error message associated to an attribute
+     * 
+     * @param att The bridge to associated the error message
+     * @param message The error message
+     */
+    public void addErrorMessage(bridgeHandler att, String message) {
+        AttributeHandler handler = this.getAttribute( att.getAttributeName() );
+        addErrorMessage( handler, message );
     }
 
     public void addErrorMessage(String errormessage) {
