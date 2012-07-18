@@ -43,8 +43,14 @@ public class boApplicationConfig {
 	
 	
 	private static final Logger logger =  Logger.getLogger( boApplication.class.toString() );
-		//Logger.getLogger(boApplicationConfig.class); 
-		//O logger do XEO não pode ser usado no boCondig.
+	//Logger.getLogger(boApplicationConfig.class);
+	/*
+	 * XEO Logger cannot be used in boconfig because it depends on the application being
+	 * initialized. The application is only initialized after processing the boconfig
+	 * file, as such it cannot be used here
+	 * 
+	 * **/
+		
 
 	static {
 		ConsoleHandler h = new ConsoleHandler();
