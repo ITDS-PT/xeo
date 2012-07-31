@@ -37,6 +37,10 @@ import netgest.bo.system.Logger;
         
         private static final Logger logger = Logger.getLogger(bridgeHandler.class);
         
+        protected bridgeHandler(){
+        	
+        }
+        
         public bridgeHandler(String name,DataResultSet data, String childfield, boObject parent ) {
             super(parent.getEboContext(),
                     data,
@@ -341,7 +345,22 @@ import netgest.bo.system.Logger;
                     return false;
         		}
         	}
+        	boolean required = getRequired();
+        	if (required){
+        		if (getRecordCount() == 0){
+        			this.getParent().addErrorMessage(this, MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED"));
+        		}
+        	}
         	return true;
+        }
+        
+        private boolean getRequired(){
+        	try {
+				return required();
+			} catch ( boRuntimeException e ) {
+				e.printStackTrace();
+			}
+        	return false;
         }
         
         /**
