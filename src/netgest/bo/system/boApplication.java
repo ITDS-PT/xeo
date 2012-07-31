@@ -33,9 +33,8 @@ import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.utils.XeoApplicationLanguage;
+import netgest.utils.IOUtils;
 import netgest.utils.StringUtils;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -755,7 +754,7 @@ public class boApplication
 			File xeoCoreVersion = new File(filePath  + File.separator + XEO_CORE_VERSION_FILE);
 			if (xeoCoreVersion.exists()){
 				try {
-					builder = FileUtils.readFileToString( xeoCoreVersion );
+					builder = IOUtils.readFileAsString( xeoCoreVersion );
 				} catch ( IOException e ) {
 					logger.warn( "Could not read the file " + XEO_CORE_VERSION_FILE, e );
 				}

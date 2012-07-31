@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.utils;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -123,5 +125,27 @@ public final class IOUtils
         {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static String readFileAsString(File file) throws IOException {
+    	 {
+    		 DataInputStream in = null;
+    		 StringBuilder buffer = new StringBuilder(300);
+    		 try{
+	    		  FileInputStream fstream = new FileInputStream(file);
+	    		  in = new DataInputStream(fstream);
+	    		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	    		  String strLine = "";
+	    		  //Read File Line By Line
+	    		  while ((strLine = br.readLine()) != null)   {
+	    		    buffer.append( strLine );
+	    		  }
+    		 }finally {
+	    		  if (in != null)
+	    			  in.close();
+    		 }
+    		  
+    		  return buffer.toString();
+    	  }
     }
 }
