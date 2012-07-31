@@ -39,8 +39,6 @@ import netgest.bo.runtime.boRuntimeException2;
 import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
-import netgest.bo.system.boContext;
-import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
 import netgest.bo.transformers.CastInterface;
 import netgest.bo.utils.SchemaUtils;
@@ -1643,7 +1641,7 @@ public class boDefHandlerImpl extends boDefHandler {
 	 */
 	public static String getTranslation(String className, String defaultValue, String type,String attribute, String whichText)
 	{	
-		if (StringUtils.isEmpty(className) || StringUtils.isEmpty(type) || StringUtils.isEmpty(attribute))
+		if (StringUtils.isEmpty(className))
 			return defaultValue;
 		
 		String translatedMessage = null;
@@ -1660,15 +1658,14 @@ public class boDefHandlerImpl extends boDefHandler {
 		
 		if (translationsMap.containsKey(objectPropertiesFilename)){
 			Properties prop = translationsMap.get(objectPropertiesFilename);
-			if (type!=null){
+			if (type!=null && attribute != null){
 				String propertyToRetrieve = type + "." + attribute + "." + whichText;
 				String retrievedMessage = prop.getProperty(propertyToRetrieve);
 				if(!StringUtils.isEmpty(retrievedMessage)){
 					translatedMessage = retrievedMessage;
 				}
-			} else if( !prop.getProperty( whichText ).equals( "" ) ){
-				if(prop.getProperty( whichText )!=null)
-					translatedMessage = prop.getProperty( whichText );
+			} else if( !StringUtils.isEmpty( prop.getProperty( whichText ) ) ){
+				translatedMessage = prop.getProperty( whichText );
 			}
 		}
 		
