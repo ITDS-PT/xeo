@@ -20,12 +20,11 @@ import netgest.bo.runtime.sorter.AttributeSorter;
 import netgest.bo.runtime.sorter.CardidSorter;
 import netgest.bo.runtime.sorter.ClassSorter;
 import netgest.bo.runtime.sorter.SorterNode;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boPoolable;
+import netgest.bo.utils.XEOQLModifier;
 import netgest.utils.ExpressionParser;
 import netgest.utils.ParametersHandler;
-
-import netgest.bo.system.Logger;
-import netgest.bo.utils.XEOQLModifier;
 
 public class boObjectList extends boPoolable {
 
@@ -189,6 +188,10 @@ public class boObjectList extends boPoolable {
 	// } catch (SQLException e) {throw new RuntimeException(e.getMessage());}
 	// refreshData();
 	// }
+	
+	protected boObjectList(){
+		
+	}
 
 	protected boObjectList(EboContext ctx, DataResultSet data, boObject parent,
 			boDefHandler refobjdef, String fieldname, String attname,
@@ -2536,5 +2539,7 @@ public class boObjectList extends boPoolable {
 	public SqlField[] getSqlFields() {
 		return this.p_sqlfields;
 	}
+
+	
 	
 }
