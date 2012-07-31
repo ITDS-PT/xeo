@@ -19,7 +19,6 @@ import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.localized.JSPMessages;
 import netgest.bo.security.securityRights;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
@@ -426,6 +425,7 @@ public abstract class AttributeHandler implements boIEvents
     }
     public void setValid() {
         p_isvalid=true;
+        p_invalidreason = null;
     }
 
     public void setDisabled(){
