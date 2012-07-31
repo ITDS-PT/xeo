@@ -20,6 +20,7 @@ import netgest.bo.runtime.bridgeHandler;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSessionUser;
+import netgest.utils.StringUtils;
 
 import com.ibm.regex.Match;
 import com.ibm.regex.RegularExpression;
@@ -388,12 +389,14 @@ public class lovObject {
 	}
 
 	public String getCode() {
-		if ((p_pointer == -1) || (p_pointer >= p_count)) {
+		if (invalidIndex()) {
 			return null;
 		}
 
 		return (String) p_lov_cod.get(p_pointer);
 	}
+	
+	 
 
 	/**
 	 * 
@@ -403,31 +406,63 @@ public class lovObject {
 	 */
 	public String getDescription() throws boRuntimeException {
 		
+		if (isUserInSession()){
+			boSessionUser boUser = getSessionUser();
+			String language = getLanguage();
+			if (userHasApplicationLanguage( boUser, language )) 
+			{
+				if (invalidIndex()) {
+					return null;
+				}
+				return (String) p_lov_description.get(p_pointer);
+			}
+			else {
+				String description = getTranslation(p_name, (String) p_lov_cod
+						.get(p_pointer), (String) p_lov_description.get(p_pointer));
+
+				return description;
+			}
+		}
+		
+		if (invalidIndex()) {
+			return null;
+		}
+		return (String) p_lov_description.get(p_pointer);
+		
+	}
+
+	protected boolean invalidIndex() {
+		return (p_pointer == -1) || (p_pointer >= p_count);
+	}
+
+	private boSessionUser getSessionUser() {
 		boContext bctx = boApplication.currentContext();
 		if (bctx != null){
 			EboContext ctx = bctx.getEboContext();
 			if (ctx != null){
 				boSessionUser boUser = ctx.getSysUser();
-				String language = getLanguage();
-				if (boUser.getLanguage() != null && boUser.getLanguage().equals(language)) 
-				{
-					if ((p_pointer == -1) || (p_pointer >= p_count)) {
-						return null;
-					}
-					return (String) p_lov_description.get(p_pointer);
-				}
-				else {
-					String description = getTranslation(p_name, (String) p_lov_cod
-							.get(p_pointer), (String) p_lov_description.get(p_pointer));
-
-					return description;
-				}
+				if (boUser != null)
+					return boUser;
 			}
 		}
-		if ((p_pointer == -1) || (p_pointer >= p_count)) {
-			return null;
+		return null;
+	}
+
+	protected boolean userHasApplicationLanguage( boSessionUser boUser, String language ) {
+		return boUser.getLanguage() != null && boUser.getLanguage().equals(language);
+	}
+	
+	protected boolean isUserInSession(){
+		boContext bctx = boApplication.currentContext();
+		if (bctx != null){
+			EboContext ctx = bctx.getEboContext();
+			if (ctx != null){
+				boSessionUser boUser = ctx.getSysUser();
+				if (boUser != null)
+					return true;
+			}
 		}
-		return (String) p_lov_description.get(p_pointer);
+		return false;
 	}
 
 	public long getLovBoui() {
@@ -506,30 +541,34 @@ public class lovObject {
 				
 				boApplication app = boApplication
 						.getApplicationFromStaticContext("XEO");
-				 usedLanguage = app.getApplicationLanguage();
+				usedLanguage = app.getApplicationLanguage();
 				if(boApplication.currentContext()!=null)
 					if(boApplication.currentContext().getEboContext()!=null)
 						if(boApplication.currentContext().getEboContext().getBoSession()!=null)
 				{
-				boSessionUser user = boApplication.currentContext().getEboContext()
-						.getBoSession().getUser();
-				if (user.getLanguage() != null && user.getLanguage() != "")
-					usedLanguage = user.getLanguage();
+					boSessionUser user = boApplication.currentContext().getEboContext()
+							.getBoSession().getUser();
+					if (user.getLanguage() != null && user.getLanguage() != "")
+						usedLanguage = user.getLanguage();
+					}
+					
+					HashMap<String, Properties> map = boDefHandlerImpl
+							.getLanguagesMap();
+					
+				
+				if (usedLanguage != null
+						&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
+								+ ".properties")) {
+					
+					Properties prop = map.get(fileName + "_"
+							+ usedLanguage.toUpperCase() + ".properties");
+					
+					label = prop.getProperty(lovName+"."+value);
+					if (StringUtils.isEmpty( label ))
+						label = defaultDescription;
+				} else {
+					label = defaultDescription;
 				}
-				
-				HashMap<String, Properties> map = boDefHandlerImpl
-						.getLanguagesMap();
-				
-			
-			if (usedLanguage != null
-					&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
-							+ ".properties")) {
-				Properties prop = map.get(fileName + "_"
-						+ usedLanguage.toUpperCase() + ".properties");
-				label = prop.getProperty(lovName+"."+value);
-			} else {
-				label = defaultDescription;
-			}
 		}
 		else
 			label = defaultDescription;
