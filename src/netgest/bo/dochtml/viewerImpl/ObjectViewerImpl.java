@@ -4,20 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.message.PostInformation;
-import netgest.bo.ql.QLParser;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
-
-import netgest.utils.*;
 import netgest.bo.system.Logger;
+import netgest.utils.ngtXMLHandler;
+
 import org.w3c.dom.Element;
 
 /**
@@ -150,7 +148,7 @@ public class ObjectViewerImpl implements ObjectViewer
         if( xC.toString().trim().length() < 1 && !ctxObj.exists() )
         {
             xC.setLength(0);
-            xC.append(Messages.getString("OBJECT_NEW") + " " + ctxObj.getBoDefinition().getLabel() );
+            xC.append(MessageLocalizer.getMessage( "OBJECT_NEW" ) + " " + ctxObj.getBoDefinition().getLabel() );
         }
         else
         {
