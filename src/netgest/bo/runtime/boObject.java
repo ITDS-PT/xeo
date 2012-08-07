@@ -708,7 +708,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 if (list != null) {
                     while (list.hasMoreElements()) {
                         AttributeHandler att = (AttributeHandler) list.nextElement();
-                        errors.append(att.getDefAttribute().getDescription() +
+                        errors.append(att.getDefAttribute().getLabel() +
                             " : " + this.getAttributeErrors().get(att));
                     }
                 }
