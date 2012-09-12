@@ -339,8 +339,7 @@ import netgest.bo.system.Logger;
         					maxElementsInBridge,
         					targetObjectLabelToUse);
         			
-        			boBridgeMasterAttribute att = new boBridgeMasterAttribute(getParent(), bridgeDefinition);
-        			this.getParent().addErrorMessage(att,errorMessage);
+        			this.getParent().addErrorMessage(this,errorMessage);
                     return false;
         		}
         	}
