@@ -208,11 +208,10 @@ public class SqlServerDriver implements Driver {
 							+ ctx.getBoSession().getRepository()
 									.getSchemaName() + ".nextval( ? ) }";
 					cs = cn.prepareCall(query);
-					cs.registerOutParameter(1, java.sql.Types.INTEGER);
+					cs.registerOutParameter(1, java.sql.Types.BIGINT);
 					cs.setString(2, seqname);
 					cs.execute();
 					ret = cs.getLong(1);
-					// sql = "SELECT " + seqname + ".nextval FROM DUAL";
 					seqNextVal = true;
 				} catch (Exception e) {
 					error = true;
@@ -241,7 +240,7 @@ public class SqlServerDriver implements Driver {
 			if (!seqNextVal) {
 
 				PreparedStatement pstm = null;
-				boolean erro = false;
+				error = false;
 				try {
 					ResultSet rslt = (pstm = cn.prepareStatement(sql))
 							.executeQuery();
@@ -258,36 +257,7 @@ public class SqlServerDriver implements Driver {
 								+ seqname + "]"));
 					}
 				} catch (SQLException e) {
-					erro = true;
-					if (e.getMessage().indexOf("08002") == -1) {
-						pstm.close();
-						Connection cnded = null;
-						try {
-							switch (dsType) {
-							case Driver.SEQUENCE_SYSTEMDS:
-								cnded = ctx.getConnectionManager()
-										.getSystemDedicatedConnection();
-								break;
-							default:
-								cnded = ctx.getDedicatedConnectionData();
-								break;
-							}
-							cnded = ctx.getDedicatedConnectionData();
-							pstm = cnded.prepareStatement("CREATE SEQUENCE "
-									+ seqname + " CACHE 20 NOCYCLE ORDER");
-							pstm.execute();
-							pstm.close();
-						} finally {
-							if (cnded != null)
-								cnded.close();
-						}
-					}
-					if (operation == Driver.SEQUENCE_NEXTVAL) {
-						pstm = cn.prepareStatement("SELECT " + seqname
-								+ ".nextval FROM DUAL");
-						pstm.execute();
-						pstm.close();
-					}
+					error = true;
 					ResultSet rslt = (pstm = cn.prepareStatement(sql))
 							.executeQuery();
 					if (rslt.next()) {
@@ -304,7 +274,7 @@ public class SqlServerDriver implements Driver {
 					}
 				} finally {
 					if (cn != null && dsType==Driver.SEQUENCE_SYSTEMDS) {
-						if (!erro) {
+						if (!error) {
 							cn.commit();
 						} else {
 							cn.rollback();

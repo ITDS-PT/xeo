@@ -588,12 +588,7 @@ public class SqlServerDBM extends OracleDBM {
 				.append(newSchemaName)
 				.append(".SYS_SEQUENCES ( ")
 				.append("  \"sequence_name\" varchar(100)  NOT NULL, ")
-				.append("  \"sequence_increment\" int DEFAULT 1, ")
-				.append("  \"sequence_min_value\" int DEFAULT 1, ")
-				.append(
-						"  \"sequence_max_value\" bigint DEFAULT 1844674407370955161, ")
 				.append("  \"sequence_cur_value\" bigint DEFAULT 1, ").append(
-						"  \"sequence_cycle\" tinyint DEFAULT 0, ").append(
 						"  PRIMARY KEY (\"sequence_name\") ").append(" ); ");
 		executeDDL(dml.toString(), name);
 	}
@@ -607,47 +602,24 @@ public class SqlServerDBM extends OracleDBM {
 		sb.append("AS  \n");
 		sb.append("BEGIN  \n");
 		sb
-				.append("DECLARE @cur_val bigint, @seq_inc int, @soma bigint, @seq_max bigint, @seq_cycle tinyint, \n");
-		sb.append("@seq_min int \n");
+				.append("DECLARE @cur_val bigint \n");
 
 		sb.append("BEGIN TRY \n");
 		sb.append("BEGIN TRANSACTION; \n");
 		
 		sb
-				.append("SET @cur_val=(SELECT sequence_cur_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_inc=(SELECT sequence_increment FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_max=(SELECT sequence_max_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_cycle=(SELECT sequence_cycle FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
-		sb
-				.append("SET @seq_min=(SELECT sequence_min_value FROM sys_sequences WITH(rowlock, xlock, holdlock) WHERE sequence_name = @seq_name) \n");
-
+				.append("SET @cur_val=(SELECT sequence_cur_value FROM sys_sequences WHERE sequence_name = @seq_name)  \n");
 
 		sb.append("IF @cur_val IS NOT NULL \n");
 		sb.append("begin \n");
 
-		sb.append("set @soma = @seq_inc + @cur_val \n");
-
-		sb.append("if @soma > @seq_max \n");
-		sb.append("begin \n");
-		sb.append("if @seq_cycle = 1 \n");
-		sb.append("set @cur_val = @seq_min \n");
-		sb.append("else  \n");
-		sb.append("set @cur_val = null \n");
-		sb.append("end \n");
-		sb.append("else \n");
-		sb.append("set @cur_val = @soma \n");
-
 		sb
-				.append("UPDATE sys_sequences SET sequence_cur_value = @cur_val WHERE sequence_name = @seq_name \n");
+				.append("UPDATE sys_sequences SET sequence_cur_value = sequence_cur_value + 1,@cur_val = sequence_cur_value + 1 WHERE sequence_name = @seq_name \n");
 		sb.append("end; \n");
 		sb.append("ELSE \n");
 		sb.append("begin \n");
-		sb.append("SET @cur_val = 1; \n");
 		sb
-				.append("insert into sys_sequences (sequence_name,sequence_cur_value) values (@seq_name,@cur_val) \n");
+				.append("insert into sys_sequences (sequence_name,sequence_cur_value) values (@seq_name,1) \n");
 		sb.append("end \n");
 
 		sb.append("COMMIT TRANSACTION; \n");

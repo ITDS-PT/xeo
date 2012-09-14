@@ -305,18 +305,9 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 							p_activeInsertPstm.setObject(pstmpos, value, meta
 									.getColumnType(colidx));
 						}
-					} else {
-
-						if (doesColHaveUniqueIndex(conn, p_fulltablename, meta
-								.getColumnName(colidx))) {
-
-							p_activeInsertPstm.setObject(pstmpos, String
-									.valueOf(System.currentTimeMillis()), meta
-									.getColumnType(colidx));
-						} else {
-							p_activeInsertPstm.setNull(pstmpos, meta
-									.getColumnType(colidx));
-						}
+					} else {						
+						p_activeInsertPstm.setNull(pstmpos, meta
+							.getColumnType(colidx));
 					}
 				} else {
 					if (clobs == null) {
@@ -565,7 +556,7 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 			ret = p_activeUpdatePstm.executeUpdate() > 0;
 
 			if (!ret) {
-				ret = checkICN(ctx, dataRow);
+        		ret = checkICN(ctx, dataRow);
 			} else if ((p_icnFields != null) && (p_icnFields.length > 0)) {
 				dataRow.updateLong(p_icnFields[0], dataRow
 						.getLong(p_icnFields[0]) + 1);
