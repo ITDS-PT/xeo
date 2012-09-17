@@ -305,7 +305,7 @@ public class DefaultDataManager
             }
 
             rowsUpdated = DataManager.updateDataSet(object.getEboContext(),
-                    object.getDataSet(), isForDestroy);
+                    object.getDataSet(), isForDestroy, object.isCheckICN() );
         }
         catch (WriterException e)
         {

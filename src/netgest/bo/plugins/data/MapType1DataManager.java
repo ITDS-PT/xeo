@@ -318,7 +318,7 @@ public class MapType1DataManager implements IDataManager
                                     pstm.close();
                                     try
                                     {
-                                        DataManager.updateDataSet(ctx, dtattoupd, false);
+                                        DataManager.updateDataSet(ctx, dtattoupd, false,true);
                                         commit = true;
                                     }
                                     catch (Exception e)

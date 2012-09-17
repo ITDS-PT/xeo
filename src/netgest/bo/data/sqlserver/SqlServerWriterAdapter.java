@@ -458,7 +458,7 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 		}
 	}
 
-	public boolean updateRow(EboContext ctx, DataRow dataRow)
+	public boolean updateRow(EboContext ctx, DataRow dataRow, boolean checkICN)
 			throws WriterException {
 		checkColumns(dataRow);
 
@@ -556,7 +556,10 @@ public class SqlServerWriterAdapter implements WriterAdapter {
 			ret = p_activeUpdatePstm.executeUpdate() > 0;
 
 			if (!ret) {
-        		ret = checkICN(ctx, dataRow);
+				if (checkICN)
+            		ret = checkICN(ctx, dataRow);
+            	else
+            		ret = true;
 			} else if ((p_icnFields != null) && (p_icnFields.length > 0)) {
 				dataRow.updateLong(p_icnFields[0], dataRow
 						.getLong(p_icnFields[0]) + 1);

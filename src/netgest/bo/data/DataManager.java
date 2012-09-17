@@ -163,13 +163,13 @@ public class DataManager
     }
 
     public static final int updateDataSet(EboContext ctx, DataSet dataSet,
-        boolean forDelete) throws WriterException
+        boolean forDelete, boolean checkICN) throws WriterException
     {
-        return updateDataSet(ctx, dataSet, forDelete, 0);
+        return updateDataSet(ctx, dataSet, forDelete, 0, checkICN);
     }
 
     private static int updateDataSet(EboContext ctx, DataSet dataSet,
-        boolean forDelete, int rows) throws WriterException
+        boolean forDelete, int rows, boolean checkICN) throws WriterException
     {
         DataSetWriteRelation[] relations = (DataSetWriteRelation[]) dataSet.p_relation.getWriteRelations();
         if( relations != null )
@@ -225,7 +225,7 @@ public class DataManager
                                 if ((child.getDeletedRowsCount() > 0) ||
                                         (child.getRowCount() > 0))
                                 {
-                                    updateDataSet(ctx, child, true, rows);
+                                    updateDataSet(ctx, child, true, rows, checkICN);
                                 }
                             }
                         }
@@ -288,7 +288,7 @@ public class DataManager
 //                                    logger.finest("UPDATING ROW IN [" +
 //                                        relations[z].getObjectName() + "]");
 //    
-                                    if (!wa[z].updateRow(ctx, row))
+                                    if (!wa[z].updateRow(ctx, row,checkICN))
                                     {
                                         throw new DataException("0000",
                                         		MessageLocalizer.getMessage("INVALID_STATE_OF_THE_DATA_EXPECTED_ROW_DOESNT_EXIST"));
@@ -303,7 +303,7 @@ public class DataManager
                                 (childDataSet != null) &&
                                 (z < childDataSet.length); z++)
                         {
-                            updateDataSet(ctx, childDataSet[z], false, rows);
+                            updateDataSet(ctx, childDataSet[z], false, rows,checkICN);
                         }
                     }
                 }

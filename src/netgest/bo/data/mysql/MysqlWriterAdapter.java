@@ -452,7 +452,7 @@ public class MysqlWriterAdapter implements WriterAdapter {
         }
     }
 
-    public boolean updateRow(EboContext ctx, DataRow dataRow)
+    public boolean updateRow(EboContext ctx, DataRow dataRow, boolean checkICN)
         throws WriterException
     {
         checkColumns(dataRow);
@@ -573,7 +573,10 @@ public class MysqlWriterAdapter implements WriterAdapter {
 
             if (!ret)
             {
-                ret = checkICN(ctx, dataRow);
+            	if (checkICN)
+            		ret = checkICN(ctx, dataRow);
+            	else
+            		ret = true;
             }
             else if ((p_icnFields != null) && (p_icnFields.length > 0))
             {

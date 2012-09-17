@@ -162,6 +162,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
     protected ArrayList p_eventListeners = null;
 	
 	private boolean  myTransaction = false;
+	
+	private boolean checkICN=true;
 
 	//logger
     private static Logger logger = Logger.getLogger("netgest.bo.runtime.boObject");
@@ -583,6 +585,21 @@ public abstract class boObject extends boObjectContainer implements Serializable
     }
 
 
+    public void updateNoCheckICN() throws boRuntimeException {
+    	this.checkICN = false;
+    	try
+    	{
+    		update(true,false);
+    		this.checkICN = true;
+    	}
+    	//Always leave the object with checkICN
+    	catch (boRuntimeException e)
+    	{
+    		this.checkICN = true;
+    		throw e;
+    	}
+    }
+    
     public void update() throws boRuntimeException {
         update(true, false);
     }
@@ -2271,7 +2288,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
 	                    b.getRslt().updateLong("CHILD$", performer.longValue());
 	                    b.getRslt().insertRow();
 	                    DataManager.updateDataSet(getEboContext(),
-	                        b.getRslt().getDataSet(), false);
+	                        b.getRslt().getDataSet(), false,this.checkICN);
 	                    getEboContext().commitContainerTransaction();
 	                    b.refreshBridgeData();
 	
@@ -2316,7 +2333,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
                     //b.remove();
                     b.getRslt().deleteRow();
                     DataManager.updateDataSet(getEboContext(),
-                        b.getRslt().getDataSet(), false);
+                        b.getRslt().getDataSet(), false,this.checkICN);
                     getEboContext().getConnectionData().commit();
                     b.refreshBridgeData();
 
@@ -4187,5 +4204,14 @@ public abstract class boObject extends boObjectContainer implements Serializable
   public boolean isMyTransaction()
   {
     return myTransaction;
+  }
+
+  public boolean isCheckICN() {
+	return checkICN;
+  }
+	
+  public void setCheckICN(boolean checkICN) {
+	this.checkICN = checkICN;
   }   
+  
 }

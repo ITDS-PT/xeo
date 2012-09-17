@@ -1748,7 +1748,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                             finally {
                             	bobj.setUpdateMode( boObject.MODE_DESTROY );
                             }
-                        	DataManager.updateDataSet(bobj.getEboContext(), (DataSet)bobj.getDataSet(), false);
+                        	DataManager.updateDataSet(bobj.getEboContext(), (DataSet)bobj.getDataSet(), false,bobj.isCheckICN());
                         }
                         else {
                         	IXEODataManager dm = ctx.getApplication().getXEODataManager( bobj.getBoDefinition() );
