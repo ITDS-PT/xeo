@@ -957,6 +957,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
      */
     public void addErrorMessage(bridgeHandler att, String message) {
     	boBridgeMasterAttribute bridgeMaster = new boBridgeMasterAttribute( this, att.getDefAttribute() );
+    	bridgeMaster.setInvalid( message );
         addErrorMessage( bridgeMaster, message );
     }
 
@@ -4213,5 +4214,4 @@ public abstract class boObject extends boObjectContainer implements Serializable
   public void setCheckICN(boolean checkICN) {
 	this.checkICN = checkICN;
   }   
-  
 }
