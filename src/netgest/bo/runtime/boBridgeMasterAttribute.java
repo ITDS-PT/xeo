@@ -3,8 +3,9 @@ package netgest.bo.runtime;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import netgest.bo.def.*;
-import netgest.utils.*;
+
+import netgest.bo.def.boDefAttribute;
+import netgest.utils.ClassUtils;
 
 public class boBridgeMasterAttribute extends AttributeHandler {
     
@@ -156,6 +157,16 @@ public class boBridgeMasterAttribute extends AttributeHandler {
         setValueObject(value, AttributeHandler.INPUT_FROM_USER);   
     }
     
+    @Override
+    public  boolean valid() throws boRuntimeException {
+    	bridgeHandler bridge = getParent().getBridge(getName());
+    	if (!bridge.valid()){
+    		setInvalid( bridge.getErrorMessage() );
+    		return false;
+    	}
+        return true;
+    }
+    
 //override
     public  boolean validate() throws boRuntimeException {
         // Overridden on generated objects
@@ -194,4 +205,23 @@ public class boBridgeMasterAttribute extends AttributeHandler {
         // Overridden on generated objects
         return ((bridgeHandler)getParent().getBridge(getName())).formula();
     } 
+    
+    @Override
+    public boolean equals(Object other){
+    	if (other instanceof boBridgeMasterAttribute){
+    		boBridgeMasterAttribute otherBridge = (boBridgeMasterAttribute) other;
+    		if (otherBridge.getParent() == this.getParent()){
+    			if (otherBridge.getDefAttribute().getName().equalsIgnoreCase( this.getDefAttribute().getName() )){
+    					return true;
+    			}
+    		}
+    		
+    	}return false;
+    		
+    }
+    
+    @Override
+    public int hashCode(){
+    	return (int) getParent().getBoui() * getDefAttribute().getName().hashCode();
+    }
 }

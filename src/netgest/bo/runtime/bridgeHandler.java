@@ -293,6 +293,13 @@ import netgest.bo.system.Logger;
             }
         }
         
+        private String currentError;
+        
+        //Package private, for boBridgeMasterAttribute
+        protected String getErrorMessage(){
+        	return currentError;
+        }
+        
 
         public boolean hasRights() throws boRuntimeException
         {
@@ -331,7 +338,8 @@ import netgest.bo.system.Logger;
         					targetObjectLabelToUse);
         			
         			this.getParent().addErrorMessage(this,errorMessage);
-                    return false;
+        			currentError = errorMessage;
+        			return false;
         		} else if (elementCounter > maxElementsInBridge){
         			
         			String errorMessage = MessageLocalizer.getMessage(
@@ -340,6 +348,7 @@ import netgest.bo.system.Logger;
         					targetObjectLabelToUse);
         			
         			this.getParent().addErrorMessage(this,errorMessage);
+        			currentError = errorMessage; 
                     return false;
         		}
         	}
