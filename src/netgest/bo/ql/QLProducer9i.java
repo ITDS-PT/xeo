@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 
 package netgest.bo.ql;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -16,7 +17,10 @@ import netgest.bo.runtime.EboContext;
 */
 public class QLProducer9i extends QLProducer {
 
-
+	
+	private ArrayList tablesused = new ArrayList();
+	private int tabN = 0;
+	
     /**Construtor por defeito que realiza todas as inicializaçõe necessárias*/
     private QLProducer9i ()
     {
@@ -75,6 +79,8 @@ public class QLProducer9i extends QLProducer {
         }
         if(node!=null)
             node = node.getNextNode();  //próximo nó
+        
+        tablesused.add(base_tab);
         while(node!=null)
         {
             needWhere=true; //se temos mais nós isto irá significar a necessidade de termos clausula WHERE 
@@ -122,55 +128,58 @@ public class QLProducer9i extends QLProducer {
                     	
                     	//Avoids inclusion of already relationed tables and database error.
                     	if (fromC.indexOf(" LEFT OUTER JOIN " + s)==-1)
-                    		fromC += " LEFT OUTER JOIN " + s + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
+                    	{                    		
+                    		fromC += " LEFT OUTER JOIN " + getTableAlias(s) + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
+                    	}
                         break;
                     }
                     case boDefAttribute.RELATION_1_TO_N:
                     {   //midtable terá o valor da tabela que faz a relação entre os dois objectos
                     	
                         midtable = boDefHandler.getBoDefinition(parent).getAttributeRef(att.getName()).getBridge().getBoMasterTable();
+                        
                         String attlig = ".BOUI)";
                         if(nodePai.getParent()!=null && !((Boolean)((Triple)nodePai.getUserObject()).getSecond()).booleanValue())
                           attlig = ".CHILD$)";   
                         if(fromC!=null)           
                           if(inn)
-                            fromC += " INNER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " INNER JOIN "+ getTableAlias(midtable) +" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                           else
-                            fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " LEFT OUTER JOIN "+ getTableAlias(midtable) +" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                         else
-                            fromC = "FROM "+midtable;
+                            fromC = "FROM "+getTableAlias(midtable);
                         //adicionar a condição de join com outer join
                         if(((Boolean)att_t.getSecond()).booleanValue())
-                        {    
+                        {                           	
                                 if(fromC!=null)
-                                    fromC += " INNER JOIN " + s + " ON("+midtable+"."+"CHILD$="+s+".BOUI)";
+                                    fromC += " INNER JOIN " + getTableAlias(s) + " ON("+midtable+"."+"CHILD$="+s+".BOUI)";
                                 else
-                                    fromC = "FROM "+s;
-                                
+                                    fromC = "FROM "+getTableAlias(s);                                
                         }
                         break;
                     }
                     
                     case boDefAttribute.RELATION_1_TO_N_WBRIDGE:
                     {   //midtable terá o valor da tabela que faz a relação entre os dois objectos
-                        midtable = boDefHandler.getBoDefinition(parent).getAttributeRef(att.getName()).getBridge().getBoMasterTable();
+                        midtable = boDefHandler.getBoDefinition(parent).getAttributeRef(att.getName()).getBridge().getBoMasterTable();            
+                        
                         String attlig = ".BOUI)";
                         if(nodePai.getParent()!=null && !((Boolean)((Triple)nodePai.getUserObject()).getSecond()).booleanValue())
                           attlig = ".CHILD$)";   
                         if(fromC!=null)           
                           if(inn)
-                            fromC += " INNER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " INNER JOIN "+getTableAlias(midtable)+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                           else
-                            fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " LEFT OUTER JOIN "+getTableAlias(midtable)+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                         else
-                            fromC = "FROM "+midtable;
+                            fromC = "FROM "+getTableAlias(midtable);
                             
                         if(((Boolean)att_t.getSecond()).booleanValue())
-                        {    
+                        {    	                    		
                                 if(fromC!=null)
-                                    fromC += " INNER JOIN " + s + " ON("+midtable+"."+"CHILD$="+s+".BOUI)";
+                                    fromC += " INNER JOIN " + getTableAlias(s) + " ON("+midtable+"."+"CHILD$="+s+".BOUI)";
                                 else
-                                    fromC = "FROM "+s;
+                                    fromC = "FROM "+getTableAlias(s);
                                 
                         }
                         break;
@@ -178,26 +187,26 @@ public class QLProducer9i extends QLProducer {
                     
                     case boDefAttribute.RELATION_MULTI_VALUES:
                     {   
-                        midtable = att.getTableName();
                         midtable = boDefHandler.getBoDefinition(parent).getAttributeRef(att.getName()).getBridge().getBoMasterTable();
+                        
                         String attlig = ".BOUI)";
                         if(nodePai.getParent()!=null && !((Boolean)((Triple)nodePai.getUserObject()).getSecond()).booleanValue())
                           attlig = ".CHILD$)";
                         if(fromC!=null)           
                           if(inn)
-                            fromC += " INNER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " INNER JOIN "+getTableAlias(midtable)+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                           else
-                            fromC += " LEFT OUTER JOIN "+midtable+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
+                            fromC += " LEFT OUTER JOIN "+getTableAlias(midtable)+" ON("+midtable+"."+"PARENT$="+parent_tab+attlig;
                         else
-                            fromC = "FROM "+midtable;
+                            fromC = "FROM "+getTableAlias(midtable);
                           
                         if(((Boolean)att_t.getSecond()).booleanValue())
                         {    
+                        	
                                 if(fromC!=null)
-                                    fromC += " INNER JOIN " + s + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
+                                    fromC += " INNER JOIN " + getTableAlias(s) + " ON("+parent_tab+"."+att.getName()+"$="+s+".BOUI)";
                                 else
-                                    fromC = "FROM "+s;
-                                
+                                    fromC = "FROM "+getTableAlias(s);                               
                         }
                         
                         break;
@@ -244,5 +253,42 @@ public class QLProducer9i extends QLProducer {
       return s;
     }
     
+    
+    
+	//Problem with objects that have a relation to itself
+	//when you need to do an operation on that relation (ex: ORDER)                    		
+
+    
+    /**Função auxiliar que permite verificar se uma tabela já está a ser utilizada
+     * na query, existem if's que usam esta função e no caso de ser true
+     * então devem criar um alias para a tabela (função seguinte)
+     * @param table     nome da tabela a verificar
+     * @return      verdadeiro se encontrar
+     * */
+    private boolean isTableInUse(String table)
+    {
+    	boolean toRet=false;  	
+    	for (int i=0;i<tablesused.size();i++)
+    	{
+    		String usedTable=(String)tablesused.get(i);
+    		if (table.equalsIgnoreCase(usedTable))
+    		{
+    			toRet=true;
+    			break;
+    		}
+    	} 	
+    	return toRet;
+    }
+    
+    private String getTableAlias(String table)
+    {
+    	String tabname=table;   	
+  
+		if (isTableInUse(table))
+			tabname=table + " " + table + (tabN++);
+		tablesused.add(table);
+    	
+    	return tabname;
+    }
     
 }   
