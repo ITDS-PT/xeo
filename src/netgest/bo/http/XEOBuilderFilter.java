@@ -133,37 +133,35 @@ public class XEOBuilderFilter implements Filter {
 	
 	private void partialBuild()
 	{
-		 running=true;
-		 boBuilderOptions	buildOptions = new boBuilderOptions();
+		boBuilderOptions	buildOptions = new boBuilderOptions();
 		 boBuilderProgress builderProgress = new boBuilderProgress();
-		 boApplication bapp = boApplication
-			.getApplicationFromStaticContext("XEO");
-		 bapp.suspendAgents();
-		 boSession session = null;
-		try {
-			session = bapp.boLogin("SYSTEM", boLoginBean
-				.getSystemKey());
-		} catch (boLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 EboContext ctx = session.createRequestContext(null, null, null);	
-		 buildOptions.setBuildDatabase(true);
-		 buildOptions.setIntegrateWithXEOStudioBuilder(true);
-		 buildOptions.setGenerateAndCompileJava(false);
-		 buildOptions.setBuildWorkplaces(true);
-		 buildOptions.setMarkDeployedObjects(true);
-		 try {
+		try 
+		{
+			running=true;
+			boApplication bapp = boApplication
+				.getApplicationFromStaticContext("XEO");
+			bapp.suspendAgents();
+			boSession session = null;
+				session = bapp.boLogin("SYSTEM", boLoginBean
+					.getSystemKey());
+			EboContext ctx = session.createRequestContext(null, null, null);	
+			buildOptions.setBuildDatabase(true);
+			buildOptions.setIntegrateWithXEOStudioBuilder(true);
+			buildOptions.setGenerateAndCompileJava(false);
+			buildOptions.setBuildWorkplaces(true);
+			buildOptions.setMarkDeployedObjects(true);
 			System.out.println(MessageLocalizer.getMessage("XEO_STUDIO_PARTIAL_BUILD_STARTED"));
 			boBuilder.buildAll( ctx, buildOptions, builderProgress );
 			System.out.println(MessageLocalizer.getMessage("OK"));
-			running=false;
 		} catch (Exception e) {	
 			e.printStackTrace();
 			System.out.println(builderProgress.getLog());
 			buildSucess=false;
-			running=false;
-		} 
+		}
+		finally
+		{
+			running = false;
+		}
 	}
 	
 	public boolean isValidRequestForFullBuild()
