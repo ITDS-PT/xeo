@@ -104,7 +104,7 @@ public class boDefaultLogin implements LoginManager
 		catch (SQLException e) {
 			throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);
 		} finally {
-			closeDatabaseResources(null, loginStmt, null);
+			closeDatabaseResources(null, loginStmt, rslt);
 		}
   		
   		if (canLogin)
