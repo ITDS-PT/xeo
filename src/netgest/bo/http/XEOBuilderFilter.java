@@ -18,7 +18,6 @@ import netgest.bo.builder.boBuilderProgress;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boLoginBean;
@@ -39,6 +38,7 @@ public class XEOBuilderFilter implements Filter {
 	boolean buildSucess=true;
 	HttpServletRequest request;
 	HttpServletResponse response;
+	private String loginPage = "Login.xvw";
 	
 	public void destroy() {
 
@@ -101,6 +101,9 @@ public class XEOBuilderFilter implements Filter {
 	}
 
 	public void init(FilterConfig config) throws ServletException {
+		
+		if( config.getInitParameter("LoginPage") != null )
+			this.loginPage = config.getInitParameter("LoginPage");
 		
 		String xeodev=System.getProperty("xeo.development");
 		String alogin=System.getProperty("xeo.autologin");
@@ -168,7 +171,8 @@ public class XEOBuilderFilter implements Filter {
 	{		 
 		 boolean toRet=false;
 		 if (request.getRequestURL().toString().indexOf("Login.xvw")>-1 ||
-				 request.getRequestURL().toString().indexOf("login.jsp")>-1) 
+				 request.getRequestURL().toString().indexOf("login.jsp")>-1 ||
+				 request.getRequestURL().toString().indexOf(this.loginPage)>-1) 
 			 toRet=true;
 		 return toRet;
 	}
