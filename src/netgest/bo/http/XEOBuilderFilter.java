@@ -55,7 +55,6 @@ public class XEOBuilderFilter implements Filter {
 			 EboContext ctx = null;
 			 boApplication bapp = boApplication
 						.getApplicationFromStaticContext("XEO");
-					 bapp.suspendAgents();
 					try {
 						session = bapp.boLogin(autologinUser, boLoginBean
 							.getSystemKey());
