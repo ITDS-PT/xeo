@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.CRC32;
 
-import netgest.bo.data.*;
+import netgest.bo.data.DataException;
+import netgest.bo.data.DataSetMetaData;
+import netgest.bo.data.DataTypes;
+import netgest.bo.data.DriverUtils;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 
@@ -200,7 +202,7 @@ public class PostGreUtils  implements DriverUtils
 			x = x.replaceAll("@", "{@}");
 			x = x.replaceAll("#", "{#}");
 			x = x.replaceAll("\\*", "{*}");
-			x = x.replaceAll("\\$", "{$}");
+			x = x.replaceAll("\\$", "{\\$}");
 			x = x.replaceAll("\\\\", "{\\\\\\\\}");
 			x = x.replaceAll("_", "{_}");
 			x = x.replaceAll("\\[", "{[}");
