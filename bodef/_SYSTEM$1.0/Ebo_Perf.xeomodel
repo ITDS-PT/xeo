@@ -13,21 +13,7 @@
         <label>Funcionário</label>
     </general> 
     <opl active="false"/>
-    <states>
-        <state name="state">
-            <label>state</label>
-            <options>
-                <option value="0" name="Inactive" active="true">
-                    <label>Inactivo</label>
-                    <subStates/>
-                </option>
-                <option value="1" name="active" active="true">
-                    <label>Activo</label>
-                    <subStates/>
-                </option>
-            </options>
-        </state>
-    </states>
+    <states/>
     <methods/>
     <events>
         <event name="onAfterSave">
@@ -61,6 +47,11 @@ return false;</body>
     <attributes>
         <attributeText name="id">
             <label>Código</label>
+            <tooltip></tooltip>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="state">
+            <label>Estado</label>
             <tooltip></tooltip>
             <len>50</len>
         </attributeText>
