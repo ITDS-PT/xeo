@@ -1758,6 +1758,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
     }
 
     public void revertToSaved() throws boRuntimeException {
+    	getBridges().clear(); //Clear the existing bridge elements from the context
+    	//So that loading will get only the saved values
         this.load(this.getBoui());
     }
 
