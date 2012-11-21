@@ -36,9 +36,8 @@ import netgest.bo.plugins.IDataBuilderDB;
 import netgest.bo.plugins.IDataPlugin;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.system.boRepository;
-
 import netgest.bo.system.Logger;
+import netgest.bo.system.boRepository;
 
 public class boBuildDB
 {
@@ -2888,19 +2887,24 @@ public class boBuildDB
                     if (database.equalsIgnoreCase(OracleDBM.POSTGRES_IMPL))
                     {
                     	boDefAttribute atts[]=currObj.getAttributesDef();
-                    	
+                    	boolean found = false;
                     	for (int j=0;j<atts.length;j++)
                     	{
                     		String name=atts[j].getName();
                     		if (name.equalsIgnoreCase(calias))
                     		{
+                    			found = true;
                     			String toAppend="NULL";
                     			
                     			if (atts[j].getValueType()==boDefAttribute.VALUE_NUMBER)
                     				toAppend="0";
                     			
-                    				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
+                				sb.append(toAppend+" AS ").append('"').append(calias).append('"');
                     		}
+                    	}
+                    	if (!found){
+                    		String toAppend="NULL";
+                    		sb.append(toAppend+" AS ").append('"').append(calias).append('"');
                     	}
                     	
                     }                    	
