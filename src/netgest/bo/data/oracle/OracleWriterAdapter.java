@@ -1,16 +1,12 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data.oracle;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import java.math.BigDecimal;
-
 import java.sql.Clob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 
 import netgest.bo.data.DataException;
@@ -19,10 +15,10 @@ import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.WriterException;
+import netgest.bo.data.constraints.UniqueContraintViolationReporter;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
-
 import netgest.bo.system.Logger;
 
 
@@ -397,8 +393,7 @@ public class OracleWriterAdapter implements WriterAdapter
         	int errorCode = e.getErrorCode();
         	
         	switch (errorCode){
-        	case 1: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
+        	case 1: reportUniqueContraintViolation( ctx.getDedicatedConnectionData(), e );
         	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
                     e.getMessage(), e);
         	}
@@ -609,8 +604,8 @@ public class OracleWriterAdapter implements WriterAdapter
         	int errorCode = e.getErrorCode();
         	
         	switch (errorCode){
-        	case 1: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
+        	case 1: 
+        		reportUniqueContraintViolation( ctx.getDedicatedConnectionData(), e );
         	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
                     e.getMessage(), e);
         	}
@@ -620,134 +615,20 @@ public class OracleWriterAdapter implements WriterAdapter
         return ret;
     }
 
-    //    public boolean incrementalUpdate( EboContext ctx,  DataRow dataRow, long localIcn, long dbIcn ) throws WriterException
-    //    {
-    //        DataRow newRow = dataRow;
-    //        DataRow oldRow = dataRow.getFlashBackRow();
-    //        Hashtable newvalues = new Hashtable();
-    //        Hashtable oldvalues = new Hashtable();
-    //        DataSetMetaData meta = dataRow.getDataSet().getMetaData();
-    //        
-    //        DataSet dataBase = dataRow.getDataSet().cloneFromDataBase( ctx );
-    //        
-    //        
-    //        if( oldRow != null )
-    //        {
-    //            for (int i = 1; i <= meta.getColumnCount() ; i++) 
-    //            {
-    //                String columnName = meta.getColumnName( i );
-    //                boolean isreservedfld = columnName.equals("SYS_ICN") || columnName.equals("SYS_USER") || columnName.equals("SYS_DTCREATE") || columnName.equals("SYS_DTSAVE"); 
-    //                if ( isreservedfld || !compareObject( newRow.getObject( i ), oldRow.getObject( i ) ) )
-    //                {
-    //                    if ( !meta.getColumnClassName( i ).equals("netgest.bo.data.DataClob") )
-    //                    {
-    //                        newvalues.put( columnName, newRow.getObject( i ) );
-    //                    }
-    //                    else
-    //                    {
-    //                        throw new WriterException( WriterException.CONCURRENCY_FAILED, "Local ICN is ["+localIcn+"] and remote icn is ["+dbIcn+" and incremental update cannot be completed]");
-    //                    }
-    //                    if( !isreservedfld )
-    //                    {
-    //                        Object value = oldRow.getObject( i );
-    //                        if( value != null )
-    //                        {
-    //                            if ( !meta.getColumnClassName( i ).equals("netgest.bo.data.DataClob") )
-    //                            {
-    //                                oldvalues.put( columnName, value );
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            String jello="";
-    //        }
-    //        if( oldvalues.size() > 0 )
-    //        {
-    //            StringBuffer sb = new StringBuffer("UPDATE ")
-    //            .append(p_fulltablename)
-    //            .append(" SET ");
-    //            
-    //            ArrayList sqlArguments = new ArrayList(); 
-    //            
-    //            Enumeration nvalenum = newvalues.keys();
-    //            boolean first=true;
-    //            while( nvalenum.hasMoreElements() )
-    //            {
-    //                if( !first )
-    //                {
-    //                    sb.append(',').append(' ');
-    //                }
-    //                else
-    //                {
-    //                    first = false;
-    //                }
-    //                String field = (String)nvalenum.nextElement();
-    //                sb
-    //                .append('"')
-    //                .append( field )
-    //                .append('"')
-    //                .append(" = ? ");
-    //                sqlArguments.add( newvalues.get( field ) );
-    //            }
-    //            first = true;
-    //            sb.append(" WHERE ");
-    //            Enumeration oldvalenum = oldvalues.keys();
-    //            
-    //            first=true;
-    //            while( oldvalenum.hasMoreElements() )
-    //            {
-    //                if( !first )
-    //                { 
-    //                    sb.append(" AND ");
-    //                }
-    //                else
-    //                {
-    //                    first = false;
-    //                }
-    //                String field = (String)oldvalenum.nextElement();
-    //                sb
-    //                .append('"')
-    //                .append( field )
-    //                .append('"')
-    //                .append(" = ?"); //.append( oldvalues.get( field ) ).append('\'');
-    //                sqlArguments.add( oldvalues.get( field ) );
-    //            }
-    //            try
-    //            {
-    //                sb.append(" AND ").append(getWhereKey( oldRow, false ) );
-    //                PreparedStatement pstm = ctx.getConnectionData().prepareStatement( sb.toString() );
-    //                int i;
-    //                for (i = 0; i < sqlArguments.size(); i++) 
-    //                {
-    //                    Object value = sqlArguments.get( i );
-    //                    pstm.setObject( i + 1, value );
-    //                }
-    //                setPreparedStatement( oldRow, pstm, i + 1 );
-    //                int rows = pstm.executeUpdate();
-    //                if( rows == 0 )
-    //                {
-    //                    throw new WriterException( WriterException.CONCURRENCY_FAILED, "Local ICN is ["+localIcn+"] and remote icn is ["+dbIcn+" and incremental update cannot be completed]");
-    //                }
-    //                
-    //            }
-    //            catch (SQLException e)
-    //            {
-    //                int errorCode = e.getErrorCode( );
-    //                switch (errorCode)
-    //                {
-    //                    case 2292:  // Referenced constrainr error code
-    //                        throw new WriterException(WriterException.REFERENCED_CONTRAINTS,e.getMessage(),e);
-    //                    default:
-    //                        throw new WriterException(WriterException.UNKNOWN_EXECEPTION,e.getMessage(),e);
-    //                }
-    //            }
-    //        }
-    //        return true;
-    //    }
+    private void reportUniqueContraintViolation( Connection c, SQLException e ) throws WriterException {
+    	
+    	String selectColumnsOfUniqueConstraint = "SELECT cc.column_name COLUMN_NAME "+
+    	        "FROM all_constraints c " + 
+    	        "JOIN all_cons_columns cc ON (c.owner = cc.owner " +
+                    " AND c.constraint_name = cc.constraint_name) " +
+    	       "WHERE c.constraint_name = ? " ;
+    	
+    	String patternFindUniqueContraintName = "\\.(.*?)\\)";
+    		new UniqueContraintViolationReporter( patternFindUniqueContraintName, selectColumnsOfUniqueConstraint )
+				.reportUniqueContraint( c, e );
+		
+	}
+
     public boolean deleteRow(EboContext ctx, DataRow dataRow)
         throws WriterException
     {

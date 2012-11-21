@@ -1,13 +1,15 @@
 /*Enconding=UTF-8*/
 package netgest.bo.runtime;
-import java.util.*;
-import netgest.utils.*;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
+import netgest.utils.StringUtils;
 
 public class boRuntimeException extends Exception {
     //logger
@@ -18,40 +20,50 @@ public class boRuntimeException extends Exception {
     private Throwable p_baseexception;
     private String p_code;
     private boObject p_srcobj;
+    private List<String> p_attributeNames; 
+    
+    public boRuntimeException(String src , String code , List<String> attributeNames , Throwable base ) {
+    	super();
+    	init( src, code, null, null, attributeNames );
+    }
     
     public boRuntimeException(String src,String code,Throwable base) {
     	super( base );
-        init(src,code,base,(String[])null);
+        init(src,code,base,(String[])null,null);
     }
     public boRuntimeException(String src,String code,Throwable base,String[] args) {
     	super( base );
-        init(src,code,base,args);
+        init(src,code,base,args, null);
     }
     public boRuntimeException(String src,String code,Throwable base,String args) {
     	super( base );
         String[] x= {args};
-        init(src,code,base,x);
+        init(src,code,base,x, null);
     }    
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base) {
     	super( base );
         p_srcobj=srcobject;
-        init(src,code,base,(String[])null);
+        init(src,code,base,(String[])null, null);
     }
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base,String[] args) {
     	super( base );
         p_srcobj=srcobject;
-        init(src,code,base,args);
+        init(src,code,base,args,null);
     }
     public boRuntimeException(boObject srcobject,String src,String code,Throwable base,String args) {
     	super( base );
         String[] x= {args};
         p_srcobj=srcobject;
-        init(src,code,base,x);
+        init(src,code,base,x,null);
     }
     
-    private void init(String src,String code,Throwable base,String[] args) {
+    private void init(String src,String code,Throwable base,String[] args, List<String> attNames) {
         if(p_errors == null ) initErrorCodes();
         p_code = code;
+        if (attNames == null)
+        	p_attributeNames = new LinkedList<String>();
+        else
+        	p_attributeNames = attNames;
         p_baseexception = base;
         String xmsg = (String)p_errors.get(code);
         p_message = src+":"+code+":"+(xmsg!=null? xmsg:"")+(base!=null? "\n"+MessageLocalizer.getMessage("BASE_ERROR")+":"+base.getMessage():"");
@@ -139,28 +151,24 @@ public class boRuntimeException extends Exception {
     }
 
     public void printStackTrace() {
-        // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
         logger.severe(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"), this);
         super.printStackTrace();
     }
 
     public void printStackTrace(PrintStream s) {
-        // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
         s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"));
         super.printStackTrace(s);
     }
 
     public void printStackTrace(PrintWriter s) {
-        // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace(s);
         s.println(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"));
         super.printStackTrace(s);
     }
 
     public String getMessage() {
-        // TODO:  Override this java.lang.Throwable method
         return this.p_message;
     }
     public String getErrorCode() {
@@ -169,5 +177,9 @@ public class boRuntimeException extends Exception {
     public boObject getSrcObject() 
     {
         return p_srcobj;            
+    }
+    
+    public List<String> getAttributeNames(){
+    	return p_attributeNames;
     }
 }

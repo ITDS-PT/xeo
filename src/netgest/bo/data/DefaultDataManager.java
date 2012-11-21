@@ -1,30 +1,21 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 import java.math.BigDecimal;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-import netgest.bo.data.DataSetRelations;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefBridge;
 import netgest.bo.def.boDefHandler;
-import netgest.bo.ql.QLParser;
+import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
-import netgest.bo.system.boRepository;
 import netgest.bo.system.Logger;
-import netgest.bo.localizations.LoggerMessageLocalizer;
-import netgest.bo.plugins.IDataManager;
+import netgest.bo.system.boRepository;
 
 public class DefaultDataManager
 {
@@ -337,8 +328,13 @@ public class DefaultDataManager
             }
             else if (e.getType() == WriterException.UNIQUE_KEY_VIOLATED)
             {
-                throw new boRuntimeException(object,
-                    "ObjectDataManager.updateObjectData(boObject)", "BO-3054", e);
+            	if (e.getFields().isEmpty()){
+            		throw new boRuntimeException(object,
+            				"ObjectDataManager.updateObjectData(boObject)", "BO-3054", e);
+            	}
+            	else{ 
+            		throw new boRuntimeException("ObjectDataManager.updateObjectData(boObject)", "BO-3054", e.getFields(), e );
+            	}		
             }
             else
             {

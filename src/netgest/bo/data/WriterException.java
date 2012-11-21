@@ -1,6 +1,9 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import netgest.bo.localizations.MessageLocalizer;
 
 /**
@@ -37,10 +40,19 @@ public class WriterException extends Exception
      
      private Throwable p_cause;
      private byte      p_type;
+	private List<String> p_fields = new LinkedList<String>();
      
-    public WriterException(byte type, String message, Throwable exception )
+	
+	public WriterException(byte type, String message, Throwable exception, List<String> field )
     {
         super( descriptions[type] + "\n" + message, exception  );
+        p_type = type;
+        p_fields = field;
+    }
+	
+    public WriterException(byte type, String message, Throwable exception )
+    {
+        this( type, message, exception, new LinkedList<String>() );
         p_type = type;
     }
     public WriterException(byte type, String message )
@@ -64,5 +76,9 @@ public class WriterException extends Exception
     public byte getType()
     {
         return p_type;
+    }
+    
+    public List<String> getFields(){
+    	return p_fields;
     }
 }

@@ -2,12 +2,11 @@ package netgest.bo.data.mysql;
 
 import java.math.BigDecimal;
 import java.sql.Clob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import netgest.bo.system.Logger;
 
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataRow;
@@ -15,9 +14,11 @@ import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.WriterAdapter;
 import netgest.bo.data.WriterException;
+import netgest.bo.data.constraints.UniqueContraintViolationReporter;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.system.Logger;
 
 public class MysqlWriterAdapter implements WriterAdapter {
 
@@ -382,9 +383,9 @@ public class MysqlWriterAdapter implements WriterAdapter {
         {
         	int errorCode = e.getErrorCode();
         	switch (errorCode){
-        	case 1022: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
-        	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
+        	case 1062: 
+        			reportUniqueContraintViolation( ctx.getDedicatedConnectionData(), e );
+			default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
                     e.getMessage(), e);
         	}
         }
@@ -392,7 +393,18 @@ public class MysqlWriterAdapter implements WriterAdapter {
         return ret;
     }
 
-    private final void updateClobs(EboContext ctx, DataRow dataRow,
+    private void reportUniqueContraintViolation( Connection c, SQLException e ) throws WriterException {
+
+    	String selectColumnsOfUniqueConstraint = "SELECT COLUMN_NAME FROM information_schema.statistics " +
+    			" WHERE index_name = ?" ;
+        	
+		String patternFindUniqueContraintName = "'.*'.*'(.*?)'";
+		new UniqueContraintViolationReporter( patternFindUniqueContraintName, selectColumnsOfUniqueConstraint )
+    				.reportUniqueContraint( c, e );
+		
+	}
+
+	private final void updateClobs(EboContext ctx, DataRow dataRow,
         ArrayList clobs) throws SQLException, WriterException
     {
         try
@@ -593,8 +605,7 @@ public class MysqlWriterAdapter implements WriterAdapter {
         {
         	int errorCode = e.getErrorCode();
         	switch (errorCode){
-        	case 1022: throw new WriterException(WriterException.UNIQUE_KEY_VIOLATED,
-                    e.getMessage(), e);
+        	case 1062: reportUniqueContraintViolation( ctx.getDedicatedConnectionData(), e );
         	default: throw new WriterException(WriterException.UNKNOWN_EXECEPTION,
                     e.getMessage(), e);
         	}
