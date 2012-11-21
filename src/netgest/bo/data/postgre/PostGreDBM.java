@@ -39,7 +39,7 @@ import netgest.utils.StringUtils;
 public class PostGreDBM extends OracleDBM
 {
     //logger
-    private static Logger logger = Logger.getLogger("netgest.bo.data.oracle.OracleDBM");
+    private static Logger logger = Logger.getLogger("netgest.bo.data.postgre.PostGreDBM");
 
     private final static String TABLESPACE_NAME = boConfig.getTableSpace();
     public static String[] OBJECTTYPEORDER =
