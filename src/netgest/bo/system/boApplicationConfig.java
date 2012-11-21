@@ -195,8 +195,6 @@ public class boApplicationConfig {
 		return p_defaultTheme;
 	}
 	
-	/////////////////////////
-	
 	
 	public boApplicationConfig(String home) {
 		p_ecmRepositories = new HashMap<String, RepositoryConfig>();
