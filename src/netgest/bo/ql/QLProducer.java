@@ -5,15 +5,17 @@ package netgest.bo.ql;
 
 
 
-import java.util.*;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefDatabaseObject;
+import netgest.bo.def.boDefHandler;
 import netgest.bo.ql.V2.IQLObjectAttribute;
-import netgest.bo.runtime.*;
-import netgest.utils.*;
-import netgest.bo.def.*;
-import netgest.bo.*;
-import netgest.bo.security.*;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.security.securityRights;
 
 /**
  * 

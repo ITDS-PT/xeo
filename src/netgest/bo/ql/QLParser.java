@@ -1,25 +1,35 @@
 /*Enconding=UTF-8*/
 package netgest.bo.ql;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
-import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.runtime.*;
-import netgest.bo.security.*;
-import netgest.utils.*;
+import netgest.bo.boConfig;
 import netgest.bo.data.oracle.OracleDBM;
-import netgest.bo.def.*;
-import netgest.bo.*;
-import netgest.bo.system.*;
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefBridge;
+import netgest.bo.def.boDefClsState;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefInterface;
+import netgest.bo.def.boDefViewer;
+import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.security.securityRights;
+import netgest.bo.system.boSession;
 import netgest.bo.xep.Xep;
-import java.util.regex.*;
+import netgest.utils.ClassUtils;
+import netgest.utils.ngtXMLHandler;
 
 /**
  *
