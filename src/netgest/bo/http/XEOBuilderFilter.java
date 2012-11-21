@@ -69,10 +69,8 @@ public class XEOBuilderFilter implements Filter {
 								session.setPerformerIProfileBoui(Long.toString(profile.getBoui()));
 						}
 					} catch (boLoginException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (boRuntimeException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	
 					finally {
@@ -115,9 +113,10 @@ public class XEOBuilderFilter implements Filter {
 			developmentMode=true;
 			boApplication.getDefaultApplication().setDevelopmentMode(true);								
 		}
-		if ((alogin!=null && (alogin.equalsIgnoreCase("true") ||
-				alogin.equalsIgnoreCase("yes"))) || this.autologinUser!=null){
-			this.autologin = true;							
+		
+		//Set autoLogin
+		if (alogin != null && (alogin.equalsIgnoreCase("true") || alogin.equalsIgnoreCase("yes")) ){
+			this.autologin = true;
 		}
 
 	}
@@ -128,7 +127,6 @@ public class XEOBuilderFilter implements Filter {
 				running=true;
 				response.sendRedirect("builderDevelopment.jsp");			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
