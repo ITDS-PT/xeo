@@ -1,31 +1,30 @@
 package netgest.bo.runtime.robots.ejbtimers.impl;
 
-import javax.ejb.*;
-
+import javax.ejb.EJBException;
+import javax.ejb.SessionBean;
+import javax.ejb.SessionContext;
+import javax.ejb.TimedObject;
+import javax.ejb.Timer;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
 import javax.rmi.PortableRemoteObject;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.robots.blogic.boScheduleAgentBussinessLogic;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.system.boSession;
-import netgest.bo.system.boLoginException;
-import netgest.bo.system.boApplication;
-import netgest.bo.system.boLoginBean;
-
+import netgest.bo.runtime.robots.blogic.boScheduleAgentBussinessLogic;
 import netgest.bo.runtime.robots.ejbtimers.XEOTimedObject;
 import netgest.bo.runtime.robots.ejbtimers.XEOTimedObjectWrapper;
 import netgest.bo.runtime.robots.ejbtimers.boScheduleThreadEJBHome;
 import netgest.bo.runtime.robots.ejbtimers.boScheduleThreadEJBLocalHome;
-import netgest.bo.system.boLoginLocalHome;
-
-
 import netgest.bo.system.Logger;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boLoginBean;
+import netgest.bo.system.boLoginException;
+import netgest.bo.system.boLoginLocalHome;
+import netgest.bo.system.boSession;
 
 public class boScheduleAgentBean extends XEOTimedObjectWrapper
     implements SessionBean, TimedObject
@@ -64,7 +63,9 @@ public class boScheduleAgentBean extends XEOTimedObjectWrapper
     
     
     public void start(String name) {
-        super.start(name,_context);
+    	super.start(name,_context);
+    	resetEboSchedules();
+    	
     }
 
     public void suspend(String name) {
@@ -117,6 +118,9 @@ public class boScheduleAgentBean extends XEOTimedObjectWrapper
         return (boScheduleThreadEJBLocalHome) context.lookup( "java:comp/env/ejb/boScheduleThreadLocal" );
     }
     
+    /**
+     * Set all "active" schedules to inactive so that they can be restarted 
+     */
     private void resetEboSchedules() {
         EboContext ctx = null;
         boSession session = null;
