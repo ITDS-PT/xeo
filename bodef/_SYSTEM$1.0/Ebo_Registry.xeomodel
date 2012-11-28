@@ -5,12 +5,7 @@
    <general name="Ebo_Registry" type="object" version="1.0" extends="" orphan="true" multiparent="false" extendsJavaClass="">
       <locale language="pt" country="PT" variant=""/>
       <implements/>
-      <database>
-         <object id="" type="index">
-            <label></label>
-            <expression></expression>
-         </object>
-      </database>
+      <database />
       <versioning active="false"/>
       <textIndex active="true" appendChilds="false" deep="1">
          <process/>
