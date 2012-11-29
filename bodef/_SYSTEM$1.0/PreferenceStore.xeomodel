@@ -1,64 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2009 (http://www.altova.com) by jcarreira (itds) -->
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:21 BST 2006-->
-<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\projects_eclipse\XEOStudio\XEOStudio\xeocore\xeoModel.xsd">
-	<general name="PreferenceStore" type="object" version="1.0" extends="" mastertable="" orphan="true" multiparent="false" extendsJavaClass="">
-		<locale language="pt" country="PT" variant=""/>
-		<implements/>
-		<database/>
-		<versioning active="false"/>
-		<textIndex active="false" appendChilds="false" deep="1">
-			<process/>
-		</textIndex>
-		<description>uiListBar</description>
-		<cardID>[description],[name] </cardID>
-		<label>Lista de Opções</label>
-	</general>
-	<opl active="false"/>
-	<states/>
-	<methods/>
-	<events/>
-	<fwdObjects/>
-	<attributes>
-		<attributeText name="name">
-			<label>Nome</label>
-			<len>255</len>
-		</attributeText>
-		<attributeText name="key">
-			<label>Chave</label>
-			<len>255</len>
-		</attributeText>
-		<attributeText name="contextKey">
-			<label>Chave de Contexto</label>
-			<len>64</len>
-		</attributeText>
-		<attributeText name="user">
-			<label>Utilizador</label>
-			<len>50</len>
-		</attributeText>
-		<attributeText name="profile">
-			<label>Utilizador</label>
-			<len>50</len>
-		</attributeText>
-		<attributeText name="preferenceType">
-			<label>Tipo de Preferencia</label>
-			<len>255</len>
-		</attributeText>
-		<attributeText name="valueType">
-			<label>Tipo</label>
-			<len>255</len>
-		</attributeText>
-		<attributeText name="value">
-			<label>Value</label>
-			<len>4000</len>
-		</attributeText>
-		<attributeBoolean name="isLob">
-			<label>Is Clob</label>
-		</attributeBoolean>
-		<attributeLongText name="clobValue">
-			<label>Value</label>
-			<len>4000</len>
-		</attributeLongText>
-	</attributes>
-	<viewers/>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general extendsJavaClass="" multiparent="false" orphan="true" mastertable="" extends="" version="1.0" type="object" name="PreferenceStore">
+        <locale variant="" country="PT" language="pt"/>
+        <implements/>
+        <database>
+            <object id="PREFERENCE_STORE_NAME_IDX" type="index">
+                <label>PREFERENCE_STORE_NAME_IDX</label>
+                <expression>NAME, "USER", PROFILE, CONTEXTKEY</expression>
+            </object>
+        </database>
+        <versioning active="false"/>
+        <textIndex deep="1" appendChilds="false" active="false">
+            <process/>
+        </textIndex>
+        <description>uiListBar</description>
+        <cardID>[description],[name] </cardID>
+        <label>Lista de Opções</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods/>
+    <events/>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="name">
+            <label>Nome</label>
+            <len>255</len>
+        </attributeText>
+        <attributeText name="key">
+            <label>Chave</label>
+            <len>255</len>
+        </attributeText>
+        <attributeText name="contextKey">
+            <label>Chave de Contexto</label>
+            <len>64</len>
+        </attributeText>
+        <attributeText name="user">
+            <label>Utilizador</label>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="profile">
+            <label>Utilizador</label>
+            <len>50</len>
+        </attributeText>
+        <attributeText name="preferenceType">
+            <label>Tipo de Preferencia</label>
+            <len>255</len>
+        </attributeText>
+        <attributeText name="valueType">
+            <label>Tipo</label>
+            <len>255</len>
+        </attributeText>
+        <attributeText name="value">
+            <label>Value</label>
+            <len>4000</len>
+        </attributeText>
+        <attributeBoolean name="isLob">
+            <label>Is Clob</label>
+        </attributeBoolean>
+        <attributeLongText name="clobValue">
+            <label>Value</label>
+            <len>4000</len>
+        </attributeLongText>
+    </attributes>
+    <viewers/>
 </xeoModel>
