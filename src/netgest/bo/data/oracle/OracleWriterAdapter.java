@@ -488,7 +488,7 @@ public class OracleWriterAdapter implements WriterAdapter
 
                 insSql1.append('"').append(p_externalAttributes[i]).append('"')
                        .append("=?");
-                insSql1.append(" WHERE ").append(getWhereKey(dataRow, true));
+                insSql1.append(" WHERE ").append(getWhereKey(dataRow, checkICN));
 
                 p_activeUpdatePstm = ctx.getConnectionData().prepareStatement(insSql1.toString());
             }
