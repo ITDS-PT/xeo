@@ -151,6 +151,7 @@ public class boRuntimeException extends Exception {
     }
 
     public void printStackTrace() {
+        // TODO:  Override this java.lang.Throwable method
         if(p_baseexception!=null) p_baseexception.printStackTrace();
         logger.severe(LoggerMessageLocalizer.getMessage("NEXTED_EXCEPTION_IS"), this);
         super.printStackTrace();
