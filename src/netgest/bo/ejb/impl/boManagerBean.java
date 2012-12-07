@@ -201,8 +201,8 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 auxDef = boDefHandler.getBoDefinition(className);
                 if ( !columnName.equalsIgnoreCase("PARENT")  )
                 {
-                    if (!auxDef.getBoCanBeOrphan() &&
-                            !auxDef.getBoHaveMultiParent())
+                    if (!obj.getAttribute(columnName).getDefAttribute().getChildIsOrphan() &&
+                            !auxDef.getBoHaveMultiParent() )
                     {
                         nameArray.add(columnName);
                     }
