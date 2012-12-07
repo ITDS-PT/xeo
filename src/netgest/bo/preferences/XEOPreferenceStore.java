@@ -257,11 +257,6 @@ public class XEOPreferenceStore implements PreferenceStore {
 							ctx.rollbackContainerTransaction();
 						}
 					}
-					else {
-						if( !commit ) {
-							ctx.getConnectionManager().setContainerTransactionForRollback();
-						}
-					}
 				}
 			}
 			else {
