@@ -796,8 +796,16 @@ public abstract class QLProducer  {
             if(pos >= 0)
               ref_s = ref.substring(0,pos);
           }
-          if(!groupRules.contains(ref_s))
-            groupRules.add(ref_s);
+          
+          if(!groupRules.contains(ref_s)) {
+        	  // Só copia se a coluna a ordenar não for um indice de coluna
+        	  try {
+        		  Integer.parseInt( ref_s );
+        	  }
+        	  catch( NumberFormatException e ) {
+        		  groupRules.add(ref_s);
+        	  }
+          }
         }
 
     }
