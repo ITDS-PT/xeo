@@ -1301,221 +1301,228 @@ public class boBuilder {
 			}
 			p_eboctx.close();			
 			p_eboctx = boApplication.getDefaultApplication().createContext(p_eboctx.getBoSession());
-			if (myTrans) {
-				try {
-					p_eboctx.beginContainerTransaction();
-					final InitialContext ic = new InitialContext();
-					UserTransaction ut = (UserTransaction) ic
-							.lookup("java:comp/UserTransaction");
-					ut.setTransactionTimeout(6000000);
-				} catch (NamingException e) {
-					throw new RuntimeException(e);
-				} catch (SystemException e) {
-					throw new RuntimeException(e);
-				}
-			}
 			
-			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_PACKAGES"));
-
-			p_builderProgress.setCurrentTasks(repository.getPackages().size());
-			for (short i = 0; i < repository.getPackages().size(); i++) {
-
-				String packagename = (String) repository.getPackages().get(i);
-
-				p_builderProgress.setCurrentTaskName(packagename);
-
-				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_PACKAGE_IN_EBO_PACKAGE")+":'"
-								+ packagename + "'");
-
-				boObject pack = null;
-
-				try {
-					pack = boObject.getBoManager().loadObject(p_eboctx,
-							"Ebo_Package", "NAME='" + packagename + "'");
-				} catch (boRuntimeException e) {
-					p_builderProgress.appendErrorLog(e);
-				}
-
-				try {
-					if ((pack == null) || !pack.exists()) {
-						pack = boObject.getBoManager().createObject(p_eboctx,
-								"Ebo_Package");
+			try {
+				p_eboctx.setModeBatch();
+				if (myTrans) {
+					try {
+						p_eboctx.beginContainerTransaction();
+						final InitialContext ic = new InitialContext();
+						UserTransaction ut = (UserTransaction) ic
+								.lookup("java:comp/UserTransaction");
+						ut.setTransactionTimeout(6000000);
+					} catch (NamingException e) {
+						throw new RuntimeException(e);
+					} catch (SystemException e) {
+						throw new RuntimeException(e);
 					}
-
-					pack.getAttribute("name").setValueString(packagename);
-					if (pack.getAttribute("deployed") != null) {
-						pack.getAttribute("deployed").setValueString("1");
+				}
+				
+				p_builderProgress.addOverallProgress();
+				p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_PACKAGES"));
+	
+				p_builderProgress.setCurrentTasks(repository.getPackages().size());
+				for (short i = 0; i < repository.getPackages().size(); i++) {
+	
+					String packagename = (String) repository.getPackages().get(i);
+	
+					p_builderProgress.setCurrentTaskName(packagename);
+	
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_PACKAGE_IN_EBO_PACKAGE")+":'"
+									+ packagename + "'");
+	
+					boObject pack = null;
+	
+					try {
+						pack = boObject.getBoManager().loadObject(p_eboctx,
+								"Ebo_Package", "NAME='" + packagename + "'");
+					} catch (boRuntimeException e) {
+						p_builderProgress.appendErrorLog(e);
 					}
-					pack.update();
-				} catch (Exception e) {
-					p_builderProgress.appendErrorLog(e);
-					throw new boRuntimeException("", e.getMessage(), null);
-				}
-				p_builderProgress.addCurrentTaskProgress();
-			}
-
-			// Register classes in Ebo_ClsReg
-			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_XEO_MODELS"));
-
-			p_builderProgress.setCurrentTasks(defs.length);
-			for (short i = 0; i < defs.length; i++) {
-				if (i % 20 == 0) {
-					p_eboctx.getApplication().getMemoryArchive()
-							.getPoolManager().realeaseAllObjects(
-									p_eboctx.poolUniqueId());
-				}
-
-				p_builderProgress.setCurrentTaskName(defs[i].getLabel() + " ("
-						+ defs[i].getName() + ")");
-				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_CLASSES_IN_EBO_CLSREG")+":'"
-								+ defs[i].getBoName() + "'");
-
-				boObject clsreg = null;
-
-				try {
-					clsreg = boObject.getBoManager().loadObject(p_eboctx,
-							"Ebo_ClsReg", "NAME='" + defs[i].getBoName() + "'");
-				} catch (boRuntimeException e) {
-					p_builderProgress.appendErrorLog(e);
-				}
-
-				if ((clsreg == null) || !clsreg.exists()) {
-					clsreg = boObject.getBoManager().createObject(p_eboctx,
-							"Ebo_ClsReg");
-				}
-
-				String xml = clsreg.getAttribute("xmlsource").getValueString();
-				String newXml = ngtXMLUtils.getXML((XMLDocument) boDefHandler
-						.getBoDefinition(defs[i].getBoName()).getNode()
-						.getOwnerDocument());
-				if (!xml.equals(newXml)) {
-					clsreg.getAttribute("name").setValueString(
-							defs[i].getBoName());
-					clsreg.getAttribute("description").setValueString(
-							defs[i].getDescription());
-					clsreg.getAttribute("label").setValueString(
-							defs[i].getLabel());
-					clsreg.getAttribute("xmlsource").setValueString(newXml);
-					clsreg.getAttribute("phisicaltable").setValueString(
-							defs[i].getBoPhisicalMasterTable());
-					if (clsreg.getAttribute("deployed") != null) {
-						clsreg.getAttribute("deployed").setValueString("1");
+	
+					try {
+						if ((pack == null) || !pack.exists()) {
+							pack = boObject.getBoManager().createObject(p_eboctx,
+									"Ebo_Package");
+						}
+	
+						pack.getAttribute("name").setValueString(packagename);
+						if (pack.getAttribute("deployed") != null) {
+							pack.getAttribute("deployed").setValueString("1");
+						}
+						pack.update();
+					} catch (Exception e) {
+						p_builderProgress.appendErrorLog(e);
+						throw new boRuntimeException("", e.getMessage(), null);
 					}
-
-					boObject pack = boObject.getBoManager().loadObject(
-							p_eboctx,
-							"Ebo_Package",
-							"NAME='"
-									+ (String) htdeploypackage.get(defs[i]
-											.getBoName()) + "'");
-
-					if (pack != null && pack.exists()) {
-						clsreg.getAttribute("xeopackage").setValueLong(
-								pack.bo_boui);
-					}
-
-					buildAttributes(boDefHandler.getBoDefinition(defs[i]
-							.getName()), clsreg);
-					buildMethods(boDefHandler
-							.getBoDefinition(defs[i].getName()), clsreg);
-
-					clsreg.update();
+					p_builderProgress.addCurrentTaskProgress();
 				}
-				p_builderProgress.addCurrentTaskProgress();
-
-				// Fill the array with class BOUI
-			}
-
-			// construção das Lov's
-			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATING_UPDATING_LOVS"));
-
-			p_builderProgress.setCurrentTasks(lovFiles.size());
-			for (int i = 0; i < lovFiles.size(); i++) {
-				int j = ((Integer) lovFiles.get(i)).intValue();
-				String name = bofiles[j].getName().substring(
-						0,
-						bofiles[j].getName().toLowerCase().indexOf(
-								boBuilder.TYPE_LOV));
-
-				p_builderProgress.setCurrentTaskName(name);
-
-				File deployfile = new File(p_bcfg.getDeploymentDir() + name
-						+ boBuilder.TYPE_LOV);
-
-				IOUtils.copy(bofiles[j], deployfile);
-
-				deployfile.setLastModified(bofiles[j].lastModified() - 600);
-
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_LOVOBJECTHANDLER")+":'"
-						+ name + "'");
-
-				buildLov(name);
-
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
-
-				deployfile.setLastModified(bofiles[j].lastModified());
-
-				p_builderProgress.addCurrentTaskProgress();
-			}
-
-			// construção das WSD's
-			for (int i = 0; i < wsdFiles.size(); i++) {
-				int j = ((Integer) wsdFiles.get(i)).intValue();
-				String name = bofiles[j].getName().substring(0,
-						bofiles[j].getName().toLowerCase().indexOf(TYPE_WSD));
-				File deployfile = new File(p_bcfg.getDeploymentDir() + name
-						+ boBuilder.TYPE_WSD);
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_WSD")+":'" + name + "'");
-
-				IOUtils.copy(bofiles[j], deployfile);
-				deployfile.setLastModified(bofiles[j].lastModified());
-			}
-
-			// Set package descriptions
-			setPackagesDescription(p_eboctx);
-
-			// Create System Users and Groups
-			createSystemUsersandGroups(p_eboctx);
-			
-			//Create the Languages
-			 createLanguages();
-			
-			//Create the user Themes
-			 createThemes();
-			
-			p_builderProgress.addOverallProgress();
-			p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_USER_WORKPLACES"));
-			if (p_builderOptions.getRemoveUserWorkplaces()) {
+	
+				// Register classes in Ebo_ClsReg
+				p_builderProgress.addOverallProgress();
+				p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REGISTERING_XEO_MODELS"));
+	
+				p_builderProgress.setCurrentTasks(defs.length);
+				for (short i = 0; i < defs.length; i++) {
+					if (i % 20 == 0) {
+						p_eboctx.getApplication().getMemoryArchive()
+								.getPoolManager().realeaseAllObjects(
+										p_eboctx.poolUniqueId());
+					}
+	
+					p_builderProgress.setCurrentTaskName(defs[i].getLabel() + " ("
+							+ defs[i].getName() + ")");
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("REGISTERING_CLASSES_IN_EBO_CLSREG")+":'"
+									+ defs[i].getBoName() + "'");
+	
+					boObject clsreg = null;
+	
+					try {
+						clsreg = boObject.getBoManager().loadObject(p_eboctx,
+								"Ebo_ClsReg", "NAME='" + defs[i].getBoName() + "'");
+					} catch (boRuntimeException e) {
+						p_builderProgress.appendErrorLog(e);
+					}
+	
+					if ((clsreg == null) || !clsreg.exists()) {
+						clsreg = boObject.getBoManager().createObject(p_eboctx,
+								"Ebo_ClsReg");
+					}
+	
+					String xml = clsreg.getAttribute("xmlsource").getValueString();
+					String newXml = ngtXMLUtils.getXML((XMLDocument) boDefHandler
+							.getBoDefinition(defs[i].getBoName()).getNode()
+							.getOwnerDocument());
+					if (!xml.equals(newXml)) {
+						clsreg.getAttribute("name").setValueString(
+								defs[i].getBoName());
+						clsreg.getAttribute("description").setValueString(
+								defs[i].getDescription());
+						clsreg.getAttribute("label").setValueString(
+								defs[i].getLabel());
+						clsreg.getAttribute("xmlsource").setValueString(newXml);
+						clsreg.getAttribute("phisicaltable").setValueString(
+								defs[i].getBoPhisicalMasterTable());
+						if (clsreg.getAttribute("deployed") != null) {
+							clsreg.getAttribute("deployed").setValueString("1");
+						}
+	
+						boObject pack = boObject.getBoManager().loadObject(
+								p_eboctx,
+								"Ebo_Package",
+								"NAME='"
+										+ (String) htdeploypackage.get(defs[i]
+												.getBoName()) + "'");
+	
+						if (pack != null && pack.exists()) {
+							clsreg.getAttribute("xeopackage").setValueLong(
+									pack.bo_boui);
+						}
+	
+						buildAttributes(boDefHandler.getBoDefinition(defs[i]
+								.getName()), clsreg);
+						buildMethods(boDefHandler
+								.getBoDefinition(defs[i].getName()), clsreg);
+	
+						clsreg.update();
+					}
+					p_builderProgress.addCurrentTaskProgress();
+	
+					// Fill the array with class BOUI
+				}
+	
+				// construção das Lov's
+				p_builderProgress.addOverallProgress();
+				p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("CREATING_UPDATING_LOVS"));
+	
+				p_builderProgress.setCurrentTasks(lovFiles.size());
+				for (int i = 0; i < lovFiles.size(); i++) {
+					int j = ((Integer) lovFiles.get(i)).intValue();
+					String name = bofiles[j].getName().substring(
+							0,
+							bofiles[j].getName().toLowerCase().indexOf(
+									boBuilder.TYPE_LOV));
+	
+					p_builderProgress.setCurrentTaskName(name);
+	
+					File deployfile = new File(p_bcfg.getDeploymentDir() + name
+							+ boBuilder.TYPE_LOV);
+	
+					IOUtils.copy(bofiles[j], deployfile);
+	
+					deployfile.setLastModified(bofiles[j].lastModified() - 600);
+	
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_LOVOBJECTHANDLER")+":'"
+							+ name + "'");
+	
+					buildLov(name);
+	
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END"));
+	
+					deployfile.setLastModified(bofiles[j].lastModified());
+	
+					p_builderProgress.addCurrentTaskProgress();
+				}
+	
+				// construção das WSD's
+				for (int i = 0; i < wsdFiles.size(); i++) {
+					int j = ((Integer) wsdFiles.get(i)).intValue();
+					String name = bofiles[j].getName().substring(0,
+							bofiles[j].getName().toLowerCase().indexOf(TYPE_WSD));
+					File deployfile = new File(p_bcfg.getDeploymentDir() + name
+							+ boBuilder.TYPE_WSD);
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("BUILDING_WSD")+":'" + name + "'");
+	
+					IOUtils.copy(bofiles[j], deployfile);
+					deployfile.setLastModified(bofiles[j].lastModified());
+				}
+	
+				// Set package descriptions
+				setPackagesDescription(p_eboctx);
+	
+				// Create System Users and Groups
+				createSystemUsersandGroups(p_eboctx);
+				
+				//Create the Languages
+				 createLanguages();
+				
+				//Create the user Themes
+				 createThemes();
+				
+				p_builderProgress.addOverallProgress();
+				p_builderProgress.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_USER_WORKPLACES"));
+				if (p_builderOptions.getRemoveUserWorkplaces()) {
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("STARTING_REMOVING_USER_WORKPLACES"));
+					removeUserWorkPlaces(p_eboctx);
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("ENDED_REMOVING_USER_WORKPLACES"));
+				}
+	
+				p_builderProgress.addOverallProgress();
 				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("STARTING_REMOVING_USER_WORKPLACES"));
-				removeUserWorkPlaces(p_eboctx);
+						.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_DEFAULT_WORKPLACES"));
+				if (p_builderOptions.getBuildWorkplaces()) {
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("STARTING_REBUILD_DEFAULT_WORKPLACES"));
+					buildWorkPlaceDefault(p_eboctx);
+					p_builderProgress
+							.appendInfoLog(MessageLocalizer.getMessage("ENDED_REBUILD_DEFAUT_WORKPLACES"));
+				}
+	
+				p_builderProgress.addOverallProgress();
 				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("ENDED_REMOVING_USER_WORKPLACES"));
+						.setOverallTaskName(MessageLocalizer.getMessage("MARKING_OBJECTS_AS_DEPLOYED"));
+				if (p_builderOptions.getMarkDeployedObjects()) {
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("MARKING_DEPLOYED_OBJECTS"));
+					setDeployedObjects();
+					p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END_MARK_DEPLOYED_OBJECTS"));
+				}
 			}
-
-			p_builderProgress.addOverallProgress();
-			p_builderProgress
-					.setOverallTaskName(MessageLocalizer.getMessage("REMOVING_DEFAULT_WORKPLACES"));
-			if (p_builderOptions.getBuildWorkplaces()) {
-				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("STARTING_REBUILD_DEFAULT_WORKPLACES"));
-				buildWorkPlaceDefault(p_eboctx);
-				p_builderProgress
-						.appendInfoLog(MessageLocalizer.getMessage("ENDED_REBUILD_DEFAUT_WORKPLACES"));
-			}
-
-			p_builderProgress.addOverallProgress();
-			p_builderProgress
-					.setOverallTaskName(MessageLocalizer.getMessage("MARKING_OBJECTS_AS_DEPLOYED"));
-			if (p_builderOptions.getMarkDeployedObjects()) {
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("MARKING_DEPLOYED_OBJECTS"));
-				setDeployedObjects();
-				p_builderProgress.appendInfoLog(MessageLocalizer.getMessage("END_MARK_DEPLOYED_OBJECTS"));
+			finally {
+				p_eboctx.setModeBatchOff();
 			}
 
 			ok = true;
