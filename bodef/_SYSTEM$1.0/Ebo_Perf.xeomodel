@@ -50,11 +50,11 @@ return false;</body>
             <tooltip></tooltip>
             <len>50</len>
         </attributeText>
-        <attributeText name="state">
+        <attributeNumber name="state">
             <label>Estado</label>
             <tooltip></tooltip>
             <len>50</len>
-        </attributeText>
+        </attributeNumber>
         <attributeText name="username">
             <label>Utilizador</label>
             <tooltip></tooltip>
