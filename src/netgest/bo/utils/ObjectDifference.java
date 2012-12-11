@@ -8,11 +8,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import netgest.bo.def.boDefAttribute;
+import netgest.bo.lovmanager.LovManager;
+import netgest.bo.lovmanager.lovObject;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.boAttributesArray;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.utils.StringUtils;
 
 
 /**
@@ -79,7 +82,8 @@ public class ObjectDifference
     	{
     		//Percorrer todos os atributos do objecto clonado
     		AttributeHandler attHandler = (AttributeHandler) listOfAttributes.nextElement();
-    		if (!attHandler.getDefAttribute().getAtributeDeclaredType().equalsIgnoreCase(boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION))
+    		if (!boDefAttribute.ATTRIBUTE_OBJECTCOLLECTION
+    				.equalsIgnoreCase( attHandler.getDefAttribute().getAtributeDeclaredType()))
     		{	
 	    		AttributeHandler flashBackHandler = toCompareObject.getAttribute(attHandler.getName());
 	    		
@@ -88,6 +92,23 @@ public class ObjectDifference
 				{
 					newValue = attHandler.getValueString();
 					String oldValue = flashBackHandler.getValueString();
+					
+					if (boDefAttribute.ATTRIBUTE_OBJECT.equalsIgnoreCase( attHandler.getDefAttribute().getAtributeDeclaredType() )){
+						boObject newObject = attHandler.getObject();
+						if (newObject != null)
+							newValue = newObject.getTextCARDID().toString();
+						boObject oldObject = flashBackHandler.getObject();
+						if (oldObject != null)
+							oldValue = oldObject.getTextCARDID().toString();
+					}
+					
+					if (StringUtils.hasValue( attHandler.getDefAttribute().getLOVName() ) ){
+						lovObject obj = LovManager.getLovObject( baseObject.getEboContext()	, attHandler.getDefAttribute().getLOVName() );
+						if (StringUtils.hasValue( newValue ))
+							newValue = obj.getDescriptionByCode( newValue );
+						if (StringUtils.hasValue( oldValue ))
+							oldValue = obj.getDescriptionByCode( oldValue );
+					}
 		    		
 					//The BOUI is always different so it cannot enter the list
 					if (isAttributeValidForDifference(attHandler.getName()))
