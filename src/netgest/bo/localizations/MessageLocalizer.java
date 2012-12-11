@@ -134,6 +134,6 @@ public class MessageLocalizer {
 				language = boApplication.getDefaultApplication()
 						.getApplicationLanguage();
 		}
-		return language;
+		return language != null ? language : "";
 	}
 }
