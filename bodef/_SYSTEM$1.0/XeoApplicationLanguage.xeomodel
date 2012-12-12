@@ -32,8 +32,7 @@
                 <binding>true</binding>
             </database>
             <events/>
-            <required></required>
-            <onChangeSubmit></onChangeSubmit>
+            <required language="BOOLEAN">true</required>
         </attributeText>
         <attributeText name="description">
             <label>Descrição</label>
