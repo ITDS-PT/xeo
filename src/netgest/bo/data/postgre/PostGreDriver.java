@@ -1,8 +1,6 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data.postgre;
 
-import netgest.bo.data.postgre.jdbc.PostGresConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -111,7 +109,7 @@ public class PostGreDriver implements Driver {
             retries++;
         }
 
-        return new PostGresConnection(ret);
+        return ret;
     }
 
     private  final Connection getConnection(String dataSource)
@@ -156,7 +154,7 @@ public class PostGreDriver implements Driver {
             retries++;
         }
 
-        return new PostGresConnection(ret);
+        return ret;
     }
 
     private static final DataSource getDataSource(String dataSourceName)
