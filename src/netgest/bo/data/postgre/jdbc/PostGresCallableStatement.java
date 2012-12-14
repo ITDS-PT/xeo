@@ -34,6 +34,7 @@ public class PostGresCallableStatement  extends PostGresPreparedStatement implem
 	
 	public PostGresCallableStatement(CallableStatement cstm)
 	{
+		// Teste git
 		super(cstm);
 		this.cstm = cstm;
 	}
