@@ -356,6 +356,8 @@ import netgest.bo.system.Logger;
         	if (required){
         		if (getRecordCount() == 0){
         			this.getParent().addErrorMessage(this, MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED"));
+        			this.currentError = MessageLocalizer.getMessage("ATTRIBUTE_REQUIRED");
+        			return false;
         		}
         	}
         	return true;
