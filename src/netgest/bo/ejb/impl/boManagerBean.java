@@ -3173,7 +3173,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     {
                         if ( !refs[i].attributeDef.getReferencedObjectDef().getBoCanBeOrphan() )
                         {
-                            boolean found = false;
+                        	boolean found = false;
                         // bouisToDestroy.add( refs[i].object_boui  );
                             bouisToDestroy.add( refs[i].object_refBoui  );
                         }
