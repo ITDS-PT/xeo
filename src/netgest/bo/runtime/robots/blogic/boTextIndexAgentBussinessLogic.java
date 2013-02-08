@@ -84,8 +84,14 @@ public class boTextIndexAgentBussinessLogic
               int counter = 0; 
               itens = queue.pop( ctx, cn, 100 );
               
-              if( itens != null )
-            	  boObject.getBoManager().preLoadObjects( ctx, itens );
+              if( itens != null ){
+            	  try{
+            		  boObject.getBoManager().preLoadObjects( ctx, itens );
+            	  } catch (Throwable e){
+            		  logger.warn( "Could not load the list of bouis " + itens + " because of exception", e );
+            		  //Ignore exception
+            	  }
+              }
               
               while( itens != null && counter < itens.length )
               {
@@ -177,7 +183,8 @@ public class boTextIndexAgentBussinessLogic
                           e.printStackTrace( pw );
                           try
                           {
-                            queue.markAsProcessed( cn, itens[0],9, cw.toString() );
+                            queue.markAsProcessed( cn, itens[counter],9, cw.toString() );
+                            counter++;
                             ctx.commitContainerTransaction();
                           }
                           catch (Exception ex1)

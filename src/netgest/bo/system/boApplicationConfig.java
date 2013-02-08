@@ -24,6 +24,7 @@ import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.presentation.render.Browser;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.config.RenderKit;
 import netgest.bo.utils.XeoApplicationLanguage;
 import netgest.bo.utils.XeoUserTheme;
 import netgest.bo.utils.XeoUserThemeFile;
@@ -124,6 +125,16 @@ public class boApplicationConfig {
 	 * The default theme
 	 */
 	private XeoUserTheme p_defaultTheme = null;
+	
+	/**
+	 * List of available renderKits and respective ThemeClasses
+	 */
+	private Map<String,RenderKit> renderKits = null;
+	
+	/**
+	 * The default renderKit to use
+	 */
+	private String defaultRenderKit = null; 
 
 	private String[] p_threadsName;
 	private String[] p_threadsClass;
@@ -814,11 +825,41 @@ public class boApplicationConfig {
                 		getFirstChild().getNodeValue();
             }
 
+		
+		
+		parseRenderKits();
+		
 		} catch (Exception e) {
 			String[] emsg = { configFile };
 			throw new boException("netgest.bo.builder._init()", "BO-1202", e,
 					emsg);
 		}
+	}
+
+	protected void parseRenderKits() throws XSLException {
+		//Start processing the available RenderKits
+		/*
+		 * <renderKits>
+		 *   <renderKit id='XEOHTML' themeClass='path.to.class.that.implements.XUITheme'>
+    	 * </renderKits>
+		 * 
+		 * */
+		if (xmldoc.selectNodes("//renderKits")!=null){
+			if (renderKits == null) renderKits = new HashMap< String , RenderKit >();
+			NodeList nodeL = xmldoc.selectNodes("//renderKits");
+			if( nodeL.getLength() > 0 ) {
+				String defaultId = ((XMLElement)nodeL.item(0)).getAttribute( "default" );
+				this.defaultRenderKit = defaultId;
+				NodeList children = nodeL.item(0).getChildNodes();
+				for (int i = 0; i < children.getLength(); i++) {
+					
+					XMLElement currentTheme = (XMLElement) children.item(i);
+					String renderKitId = currentTheme.getAttribute("id");
+					String themeClass = currentTheme.getAttribute("themeClass");
+					renderKits.put( renderKitId, new RenderKit( renderKitId , themeClass ) );
+				}
+			}
+		} //End Procesing RenderKits
 	}
 
 	public Properties getAuthentication() {
@@ -1236,5 +1277,13 @@ public class boApplicationConfig {
 	
 	public String getConvertImagesEndPoint() {
 		return p_convertws;
+	}
+	
+	public Map<String,RenderKit> getRenderKits(){
+		return renderKits;
+	}
+	
+	public String getDefaultRenderKit(){
+		return defaultRenderKit;
 	}
 }
