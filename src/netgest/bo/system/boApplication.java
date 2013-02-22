@@ -263,7 +263,7 @@ public class boApplication
     private static String initializeFromZipFile() {
     	
 		try {
-			InputStream xeoappInput = boApplication.class.getClassLoader().getResourceAsStream("xeoapp.zip");
+			InputStream xeoappInput = Thread.currentThread().getContextClassLoader().getResourceAsStream("xeoapp.zip");
 			if( xeoappInput != null ) {
 				
 				// Check if is JBOSS.. if is use tmp of JBOSS
@@ -427,8 +427,11 @@ public class boApplication
         boContext context = ((boContext)applicationThreadsContext.get( Thread.currentThread() ));
         if( context == null )
         {
+        	if (getApplicationFromStaticContext("XEO")!=null) {
             getApplicationFromStaticContext("XEO").addContextToThread( Thread.currentThread() );;
             context = ((boContext)applicationThreadsContext.get( Thread.currentThread() ));
+
+        	}
         }
         return context;
     }
