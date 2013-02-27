@@ -29,6 +29,13 @@ public class FSiFile implements iFile {
         p_file = new File(f,"");
         p_uri = uri;
     }
+    
+    public FSiFile(File f) {
+        p_fs = null;
+        p_file = new File(f,"");
+        p_uri = null;
+    }
+    
     public FSiFile(FSiFileProvider fs,String pathname,String uri) {
         p_fs = fs;
         p_file = new File(pathname);
