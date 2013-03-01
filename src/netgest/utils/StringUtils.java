@@ -36,6 +36,17 @@ public final class StringUtils
 	public static final boolean hasValue( String toCheck ){
 		return !isEmpty(toCheck);
 	}
+	
+	/**
+	 * 
+	 * Escapes single quotes in a String
+	 * 
+	 * @param toEscape A string to escape
+	 * @return The string with single quotes escaped
+	 */
+	public static final String escapeSingleQuotes(String toEscape){
+		return toEscape.replace( "'" , "\\'" );
+	}
     
     /**
      * 
