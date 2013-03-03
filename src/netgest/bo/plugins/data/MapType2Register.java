@@ -543,7 +543,7 @@ public class MapType2Register implements boSchedule
                                                     +"] ms" 
                                                 );
                                 }
-                                if( !pstmUpd.isClosed() )
+                                if( pstmUpd != null )
                                 	pstmUpd.close();
                             }
     
