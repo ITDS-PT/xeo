@@ -218,6 +218,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 					"minDecimals", "0"));
 			p_label = getChildNodeText("label", p_name);
 			p_valueType = GeneralParseUtils.parseValueType(p_type);
+			p_tooltip = getChildNodeText("tooltip", "");
 
 			// Object Specific attributes
 			if (p_attType == TYPE_OBJECTATTRIBUTE)
