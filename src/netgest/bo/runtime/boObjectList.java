@@ -1808,7 +1808,7 @@ public class boObjectList extends boPoolable {
 	}
 
 	public void nextPage() {
-		if (p_page < getPages()) {
+		if (haveMorePages()){
 			p_page++;
 			refreshData();
 		}
