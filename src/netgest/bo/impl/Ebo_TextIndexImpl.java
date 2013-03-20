@@ -138,6 +138,17 @@ public abstract class Ebo_TextIndexImpl extends boObject {
 
 	private void processObject(boObject bobj, int maxDeep, int deep) throws boRuntimeException
 	{
+		
+		if (bobj == null) {
+			logger.severe("Object is null ... do nothing");
+			return;
+		}
+
+		if (bobj.getAllAttributes() == null) {
+			logger.severe("Get all attributes is null ... do nothing");
+			return;
+		}
+		
 		Enumeration oEnum = bobj.getAllAttributes().elements();
 		while(oEnum.hasMoreElements()) {
 			AttributeHandler att = (AttributeHandler)oEnum.nextElement();
@@ -258,6 +269,14 @@ public abstract class Ebo_TextIndexImpl extends boObject {
                                     else
                                     {
                                     	if( maxDeep > 1 && deep < maxDeep ) {
+                                    		
+                                    		if (att.getObject() == null) {
+												logger.severe("boObject ["
+												        + bobj.getBoui()
+												        + "] and att ["
+												        + att.getName() + "]");
+											}
+                                    		
                                     		processObject( att.getObject(), maxDeep, deep + 1 );
                                     	}
                                     	else {

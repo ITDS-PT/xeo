@@ -187,20 +187,44 @@ public class XEOPreferenceStore implements PreferenceStore {
 						if( p.containsPreference( key ) ) {
 							// Update
 							try {
-								o.getAttribute("valueType").setValueString( p.getValueType(key) );
-								
 								String encodedValue = encodeValue(p, key);
-								if( encodedValue != null && encodedValue.getBytes("UTF-8").length >= 3900 ) {
-									o.getAttribute("isLob").setValueString( "1" );	
-									o.getAttribute("clobValue").setValueString( encodedValue );	
-									o.getAttribute("value").setValueString( null );	
+								String valueType = o.getAttribute("valueType").getValueString();
+								String value     = 
+									o.getAttribute("value").getValueObject() == null?
+											o.getAttribute("clobValue").getValueString():
+											o.getAttribute("value").getValueString();
+																			
+								boolean changed = false;
+								if( value == null && encodedValue != null ) {
+									changed = encodedValue.length()>0?true:false;
 								}
-								else {
-									o.getAttribute("isLob").setValueString( "0" );	
-									o.getAttribute("clobValue").setValueString( null );	
-									o.getAttribute("value").setValueString( encodedValue );	
+								else if( value != null && encodedValue == null ) {
+									changed = value.length()>0?true:false;
 								}
-								o.update();
+								else if( value == null && encodedValue == null ) {
+								}
+								else if( value.length()==0 && encodedValue.length()==0 ) {
+								}
+								else if( !value.equals( encodedValue ) ) {
+									changed = true;
+								}
+									
+								if( changed || (encodedValue != null && !valueType.equals( p.getValueType(key))))				
+								{
+									o.getAttribute("valueType").setValueString( p.getValueType(key) );
+									
+									if( encodedValue != null && encodedValue.getBytes("UTF-8").length >= 3900 ) {
+										o.getAttribute("isLob").setValueString( "1" );	
+										o.getAttribute("clobValue").setValueString( encodedValue );	
+										o.getAttribute("value").setValueString( null );	
+									}
+									else {
+										o.getAttribute("isLob").setValueString( "0" );	
+										o.getAttribute("clobValue").setValueString( null );	
+										o.getAttribute("value").setValueString( encodedValue );	
+									}
+									o.update();
+								}
 							}
 							catch( Exception e ) {
 								e.printStackTrace();
@@ -255,6 +279,10 @@ public class XEOPreferenceStore implements PreferenceStore {
 						}
 						else {
 							ctx.rollbackContainerTransaction();
+						}
+					}else {
+						if( !commit ) {
+							ctx.getConnectionManager().setContainerTransactionForRollback();
 						}
 					}
 				}
