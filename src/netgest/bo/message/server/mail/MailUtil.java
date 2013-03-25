@@ -47,6 +47,7 @@ import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.utils.CleanDirectory;
 import netgest.utils.ClassUtils;
 import netgest.utils.ConvertUTF7;
+import netgest.utils.IOUtils;
 import netgest.utils.TempFile;
 
 import netgest.bo.system.Logger;
@@ -55,6 +56,8 @@ import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
 import org.bouncycastle.jce.provider.*;
 import org.bouncycastle.mail.smime.SMIMESigned;
+
+import com.sun.mail.imap.IMAPNestedMessage;
 
 
 /**
@@ -388,10 +391,12 @@ public class MailUtil
             {
                 mailmsg.setReadError(true);
 
-                if (!getContentAfterError((Multipart) mp, mailmsg))
-                {
-//                    getContentAfterError(p, mailmsg);
-                }
+                if (mp != null && mp instanceof IMAPNestedMessage) {
+					getContentAfterError((IMAPNestedMessage) mp, mailmsg);
+				} else if (mp != null && mp instanceof Multipart) {
+					getContentAfterError((Multipart) mp, mailmsg);
+					// getContentAfterError(p, mailmsg);
+				}
             }
             String auxStr = contenttype.toLowerCase();
 
@@ -482,7 +487,15 @@ public class MailUtil
                 {
                     mailmsg.setContentHTML(getContext(mp));
                 }
-            }
+			} else if (auxStr.indexOf("message/rfc822") != -1) {
+				if (mailmsg.getContent() != null) {
+					String aStr = mailmsg.getContent()
+							+ ClassUtils.textToHtml(getContext(mp));
+					mailmsg.setContent(aStr);
+				} else {
+					mailmsg.setContent(ClassUtils.textToHtml(getContext(mp)));
+				}
+			}
         }
          catch (Exception e)
         {
@@ -596,6 +609,56 @@ public class MailUtil
             return mp.toString();
         }
     }
+    
+    public static boolean getContentAfterError(IMAPNestedMessage mp,
+			MailMessage mailmsg) {
+		FileOutputStream out = null;
+		try {
+			// se for uma mensagem de email dentro de outra mensagem
+			Integer attachnum = new Integer(mailmsg.getAttach().length + 1);
+			File tempFile = createTempFile("error", "txt");
+			// out = new FileOutputStream(tempFile);
+			InputStream is = mp.getInputStream();
+
+			int available = is.available();
+			if (available > 0) {
+				IOUtils.copy(is, tempFile);
+
+				// out.close();
+
+				Attach att = new Attach("error.txt",
+						tempFile.getAbsolutePath(), attachnum.toString(), true,
+						false);
+				att.setInlineID("");
+				mailmsg.addAttach(att);
+			}
+		} catch (FileNotFoundException e) {
+			logger.warn("", e);
+
+			return false;
+		} catch (IOException e) {
+			logger.warn("", e);
+
+			return false;
+		} catch (MessagingException e) {
+			logger.warn("", e);
+
+			return false;
+		} catch (Exception e) {
+			logger.warn("", e);
+
+			return false;
+		} finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
+		}
+
+		return true;
+	}
 
     public static boolean getContentAfterError(Multipart mp, MailMessage mailmsg)
     {
