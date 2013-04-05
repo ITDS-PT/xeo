@@ -3,6 +3,7 @@ package netgest.bo.data.postgre;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -376,5 +377,22 @@ public class PostGreUtils  implements DriverUtils
 	public String getConcatFunction(String aggregateFields)
 	{
 		return aggregateFields;
+	}
+	@Override
+	public String concatColumnsWithSeparator(List< String > columns,
+			String separator) {
+		//PostGres uses the same || operator as Oracle. A concat functions exists since PostGres 9.1+
+		StringBuilder b = new StringBuilder();
+		int length = columns.size();
+		for (int k = 0 ; k < length ; k++){
+			b.append( columns.get( k ) );
+			if ( ( k + 1 ) < length ){
+				b.append(" || ");
+				b.append(separator);
+				b.append(" || ");
+			}
+		}
+		
+		return b.toString();
 	}
 }
