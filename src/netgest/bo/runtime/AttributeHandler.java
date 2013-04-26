@@ -23,7 +23,7 @@ import netgest.bo.security.securityRights;
 import netgest.bo.system.Logger;
 import netgest.io.iFile;
 import netgest.io.iFileConnector;
-import netgest.io.iFileException;
+import netgest.io.iFilePermissionDenied;
 
 /**
  *
@@ -143,32 +143,19 @@ public abstract class AttributeHandler implements boIEvents
 		iFileConnector con = boConfig.getApplicationConfig().
 				getFileRepositoryConfiguration(repName).getConnector(this);
 	
-		if("".equals(this.getValueString()) || this.getValueString()==null) {
-    		try {
+		if ( newVal != null ) {
+			try {
 				//create the new file
-				this.p_valueIFileECM = con.getIFile(newVal.getURI());
-			} catch (iFileException e) {
-				e.printStackTrace();
-			}			
-		}
-		else if(this.getValueString()!=null && this.p_valueIFileECM==null) {
-    		try {
-				//get the old file
-				this.p_valueIFileECM = con.getIFile(this.getValueString());
-				if (p_valueIFileECM != null){
-					//update it
-					p_valueIFileECM.updateFile(newVal);
-				}
-				else
-					p_valueIFileECM = newVal;
-			} catch (iFileException e) {
-				e.printStackTrace();
-			}			
-		}
-    	else if ( newVal != null ) {
-    		//update file
-    		p_valueIFileECM.updateFile(newVal);
-    		p_valueIFileECM = newVal;
+				iFile file = con.createIFileInContext( newVal.getName() , this ) ;
+				file.setBinaryStream( newVal.getInputStream() );
+				this.p_valueIFileECM = file;
+			} catch ( iFilePermissionDenied e ) {
+				logger.warn( "Permissio denied in Attribute %s of object %s with boui %d", 
+						this.getName(), 
+						this.getParent().getTextCARDID().toString(),
+						this.getParent().getBoui()
+				);
+			}
      	}
     	else {
     		p_valueIFileECM = null;
@@ -494,7 +481,6 @@ public abstract class AttributeHandler implements boIEvents
 
     public boolean getRecommend()
     {
-        //TODO:Implement with code
         //return p_isRecomended;
         return false;
     }

@@ -3,19 +3,15 @@
  */
 package netgest.io;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Session;
 
-import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
-import netgest.bo.configUtils.RepositoryConfig;
-import netgest.bo.system.boApplication;
+import netgest.bo.runtime.AttributeHandler;
 import netgest.io.metadata.MetadataConnector;
 import netgest.io.metadata.iMetadataConnector;
 import netgest.io.metadata.iSearchParameter;
@@ -79,6 +75,18 @@ public interface iFileConnector
 	 */
 	public iFile createIFile(String filename, boolean isFolder, boolean inTransaction) throws iFileException;
 	
+	
+	
+	/**
+	 * 
+	 * Create an iFile in text context of an object's attribute
+	 * 
+	 * @param filename The name of the file
+	 * @param context The context (object attribute) for the file
+	 * 
+	 * @return The iFile
+	 */
+	public iFile createIFileInContext(String filename, AttributeHandler context);
 	
 	/**
 	 * 

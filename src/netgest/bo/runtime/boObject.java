@@ -4123,10 +4123,12 @@ public abstract class boObject extends boObjectContainer implements Serializable
         			
         			if (currentFile != null && 
         				currentFile.save(currHandler.getEboContext()) &&
-        				currentFile.exists()){
+        				currentFile.exists() &&
+        				currentFile.inTransaction())
+        			{
         					currHandler.setValueString(currentFile.getURI());
         					iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
-        				}
+        			}
         				
         			
 				}catch (iFileException e) {

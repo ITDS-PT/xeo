@@ -3,23 +3,30 @@
  */
 package netgest.io.jcr;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.InvalidQueryException;
 import javax.jcr.query.Query;
 
+import org.apache.jackrabbit.commons.JcrUtils;
+
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.FileNodeConfig;
 import netgest.bo.configUtils.FolderNodeConfig;
 import netgest.bo.configUtils.MetadataNodeConfig;
 import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.runtime.AttributeHandler;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boApplication;
 import netgest.io.iFile;
 import netgest.io.iFileConnector;
@@ -37,31 +44,38 @@ import netgest.io.metadata.iSearchParameter.LOGICAL_OPERATOR;
  */
 public class FileConnector implements iFileConnector {
 
+	static final Logger logger = Logger.getLogger( FileConnector.class );
+	
 	/**
 	 * A string representing the order by 
 	 */
-	private static final String ORDERBY = " order by jcr:score descending";
+	protected static final String ORDERBY = " order by jcr:score descending";
+	
+	/**
+	 * Flag to mark files as in a transaction
+	 */
+	protected static final boolean IN_TRANSACTION = true;
 	
 	/**
 	 * Represents a connector a given JCR Repository
 	 */
-	private Session p_sessionJCR;
+	protected Session p_sessionJCR;
 	/**
 	 * Represents the configuration of file nodes in a JCR repository
 	 */
-	private FileNodeConfig p_fileConfig;
+	protected FileNodeConfig p_fileConfig;
 	/**
 	 * Represents the configuration of metadata nodes in a JCR Repository
 	 */
-	private Map<String,MetadataNodeConfig> p_metaConfig;
+	protected Map<String,MetadataNodeConfig> p_metaConfig;
 	/**
 	 * Represents the configuration of folder nodes in a JCR repository
 	 */
-	private FolderNodeConfig p_folderConfig;
+	protected FolderNodeConfig p_folderConfig;
 	/**
 	 * A reference to the {@link iMetadataConnector} for this JCR repository
 	 */
-	private MetadataConnector p_metadataConnector; 
+	protected MetadataConnector p_metadataConnector; 
 	
 	/**
 	 * Public constructor with no arguments
@@ -96,8 +110,8 @@ public class FileConnector implements iFileConnector {
 	@Override
 	public iFile createIFile(String fileName, String identifier,
 			boolean isFolder, boolean inTransaction) throws iFileException{
-		//FIXME: Falta usar o intransaction
-		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, identifier);
+		String newFilename = createFolderIfNecessary( fileName, null );
+		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, newFilename, inTransaction);
 		
 	}
 
@@ -107,8 +121,8 @@ public class FileConnector implements iFileConnector {
 	 */
 	@Override
 	public iFile createIFile(String filename, boolean isFolder, boolean inTransaction) throws iFileException{
-		//FIXME: Falta usar o intransaction
-		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, filename);
+		String newFilename = createFolderIfNecessary( filename, null );
+		return new FileJCR(null, p_fileConfig, p_folderConfig, p_sessionJCR, p_metaConfig, isFolder, newFilename, inTransaction);
 	}
 
 	/* (non-Javadoc)
@@ -130,7 +144,9 @@ public class FileConnector implements iFileConnector {
 						p_sessionJCR, //The session with the repository
 						p_metaConfig, 
 						isFolder, 
-						fileID);
+						fileID,
+						IN_TRANSACTION
+						);
 			}
 			
 			if (fileID.startsWith("/"))
@@ -147,7 +163,8 @@ public class FileConnector implements iFileConnector {
 					p_sessionJCR, //The session with the repository
 					p_metaConfig, 
 					isFolder, 
-					fileID);
+					fileID,
+					IN_TRANSACTION);
 		}  catch (RepositoryException e) {
 			return null;
 		}
@@ -193,7 +210,6 @@ public class FileConnector implements iFileConnector {
 			String queryExecute = jcrXpathQuery.toString();
 			if (!query.contains("order by"))
 				query += ORDERBY;
-			@SuppressWarnings("deprecation")
 			Query q = p_sessionJCR.getWorkspace().getQueryManager().createQuery(queryExecute, Query.XPATH);
 			
 			FileList fl = new FileList(q,p_fileConfig.getRepositoryConfiguration().getName(),3);
@@ -246,7 +262,6 @@ public class FileConnector implements iFileConnector {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean deleteIFile(String fileID) throws iFilePermissionDenied,
 			iFileException {
@@ -269,6 +284,77 @@ public class FileConnector implements iFileConnector {
 		return p_metadataConnector;
 	}
 	
+	
+	/**
+	 * 
+	 * Override method if necessary to implement specific folder creating strategies
+	 * 
+	 * @param filename The name of that we want to put in a folder
+	 * @param handler The context in which this file was created
+	 * 
+	 * @return The full path to the file to be created (folder created + filename)
+	 */
+	protected String createFolderIfNecessary(String filename, AttributeHandler handler){
+		Timestamp time = new Timestamp( System.currentTimeMillis() );
+		String path = createPathFromTime( time ); 
+		if ( mkdirs( path ) )
+			return path + "/" + filename;
+		else
+			return filename;
+	}
+	
+	/**
+	 * 
+	 * Create the nodes up to the repository final path
+	 * 
+	 * @param path
+	 * @return
+	 */
+	protected boolean mkdirs(String path){
+		
+		try {
+			JcrUtils.getOrCreateByPath( path , p_folderConfig.getNodeType() , p_sessionJCR );
+//			Node current = p_sessionJCR.getRootNode();
+//			String[] parts = path.split("/");
+//			// Iterate through all minus the last (the one we want to create)
+//			String name = "";
+//			for (int k = 0; k < parts.length; k++) {
+//				name = parts[k];
+//				if (name.length() > 0) {
+//					try{
+//						current = current.getNode(name);
+//					} catch (PathNotFoundException e){
+//						logger.config( "Creating %s in %s" , name , path);
+//						current.addNode(name, p_folderConfig.getNodeType());
+//					}
+//				}
+//			}
+			
+			// If we reach the last node, create it
+			return true;
+
+		} catch (RepositoryException e) {
+			logger.warn( "Could not create %s path in repository" , e, path );
+			return false;
+		}
+	}
+	
+	String createPathFromTime(Timestamp time){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime( time );
+		int year = cal.get( Calendar.YEAR );
+		int month = cal.get( Calendar.MONTH );
+		int day = cal.get( Calendar.DAY_OF_MONTH );
+		int hour = cal.get( Calendar.HOUR_OF_DAY );
+		int minute = cal.get( Calendar.MINUTE );
+		return "/" + year + "/" +  month + "/" + day + "/" + hour + "/" + minute;
+	}
+
+	@Override
+	public iFile createIFileInContext(String filename, AttributeHandler context) {
+		String fileNameWithPath = createFolderIfNecessary( filename , context );
+		return new FileJCR( null , p_fileConfig , p_folderConfig , p_sessionJCR , p_metaConfig , false , fileNameWithPath , true );
+	}
 	
 
 }
