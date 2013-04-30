@@ -2539,6 +2539,14 @@ public class boObjectList extends boPoolable {
 	public SqlField[] getSqlFields() {
 		return this.p_sqlfields;
 	}
+	
+	public static boObjectListBuilder builder(String boql){
+		return new boObjectListBuilder( boql );
+	}
+	
+	public static boObjectListBuilder builder(EboContext ctx, String boql){
+		return new boObjectListBuilder( ctx, boql );
+	}
 
 	
 	
