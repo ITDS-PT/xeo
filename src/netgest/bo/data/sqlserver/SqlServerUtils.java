@@ -200,4 +200,9 @@ public class SqlServerUtils implements DriverUtils {
 		return b.toString();
 		
 	}
+	
+	@Override
+	public String getSelectTimeQuery() {
+		return "SELECT CURRENT_TIMESTAMP";
+	}
 }

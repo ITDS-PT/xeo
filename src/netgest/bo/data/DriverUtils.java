@@ -61,5 +61,7 @@ public interface DriverUtils
 	public String getConcatFunction(String aggregateFields); 
 	
 	public String concatColumnsWithSeparator(List<String> columns, String separator);
+
+	public String getSelectTimeQuery();
 	
 }

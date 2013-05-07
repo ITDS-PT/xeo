@@ -337,6 +337,10 @@ public class OracleUtils  implements DriverUtils
 		
 		return b.toString();
 	}
+	@Override
+	public String getSelectTimeQuery() {
+		return "SELECT CURRENT_TIMESTAMP FROM DUAL";
+	}
 	
 	
 }
