@@ -719,7 +719,15 @@ public abstract class boObject extends boObjectContainer implements Serializable
         } else {
             StringBuffer errors = new StringBuffer();
 
-            if (this.getAttributeErrors() != null) {
+            ArrayList<?> objectErrors = this.getObjectErrors();
+            if (objectErrors != null){
+            	for (int k = 0 ; k < objectErrors.size(); k++){
+            		errors.append( objectErrors.get( k ) );
+            	}
+            }
+            
+            Hashtable<?,?> attributeErrors = this.getAttributeErrors();
+            if (attributeErrors != null) {
                 Enumeration list = this.getAttributeErrors().keys();
 
                 if (list != null) {
@@ -4115,10 +4123,12 @@ public abstract class boObject extends boObjectContainer implements Serializable
         			
         			if (currentFile != null && 
         				currentFile.save(currHandler.getEboContext()) &&
-        				currentFile.exists()){
+        				currentFile.exists() &&
+        				currentFile.inTransaction())
+        			{
         					currHandler.setValueString(currentFile.getURI());
         					iFileTransactionManager.registerIFile(currentFile, connectorClass, getEboContext());
-        				}
+        			}
         				
         			
 				}catch (iFileException e) {

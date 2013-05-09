@@ -363,6 +363,16 @@ public class boApplication
     	return getApplicationFromStaticContext("XEO");
     }
     
+    /**
+     * 
+     * Retrieves the default application (same as invoking {@link boApplication#getDefaultApplication()}
+     * 
+     * @return The {@link boApplication} instance
+     */
+    public static boApplication getXEO(){
+    	return getApplicationFromStaticContext("XEO");
+    }
+    
     
     public void initializeApplication()
     {

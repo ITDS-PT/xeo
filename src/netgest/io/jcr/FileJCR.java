@@ -17,16 +17,23 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.jcr.AccessDeniedException;
+import javax.jcr.InvalidItemStateException;
+import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.PropertyType;
+import javax.jcr.ReferentialIntegrityException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.version.VersionException;
 
 import netgest.bo.boConfig;
 import netgest.bo.configUtils.ChildNodeConfig;
@@ -106,7 +113,7 @@ public class FileJCR implements iFile {
 	/**
 	 * If the iFile is in transaction or not
 	 */
-	private boolean p_inTransaction = false;
+	private boolean p_inTransaction = true;
 	/**
 	 * The List of files to delete in case of a rollback 
 	 */
@@ -117,26 +124,25 @@ public class FileJCR implements iFile {
 	 */
 	private Vector<String> p_filesToCommit;
 	
+	
 	/**
 	 * 
 	 * Protected constructor for a {@link FileJCR} because only an instance of
 	 * {@link FileConnector} can create new instances of a {@link FileJCR}
 	 * 
-	 * @param node
-	 *            The node representing this File (can be null if the node
-	 *            doesn't exist)
-	 * @param configFile
-	 *            Configuration Information for files in the current repository
-	 * @param configFolder
-	 *            Configuration information for folders in the current
-	 *            repository
-	 * @param session
-	 *            A session with the Repository FIXME: Javadoc for parameters
+	 * @param node The node representing the file
+	 * @param configFile The filenode configurations
+	 * @param configFolder The folder node configurations
+	 * @param session Session acess to the repository
+	 * @param metadata The metadata coniguation
+	 * @param isFolder Whether this is a folder or not
+	 * @param path The path
+	 * @param inTransaction If the file is in transaction
 	 */
 	protected FileJCR(Node node, FileNodeConfig configFile,
 			FolderNodeConfig configFolder, Session session,
 			Map<String, MetadataNodeConfig> metadata, boolean isFolder,
-			String path) {
+			String path, boolean inTransaction) {
 		this.p_node = node;
 		this.p_fileNodeConfig = configFile;
 		this.p_folderNodeConfig = configFolder;
@@ -149,12 +155,19 @@ public class FileJCR implements iFile {
 		// Create the default metadata item
 		this.p_metadata.put(DEFAULT_METADATA, createDefaultItem());
 		this.p_childrenFiles = null;
-		p_inTransaction = false;
+		p_inTransaction = inTransaction;
 		this.p_filesToCommit = new Vector<String>();
 		this.p_filesToDeleteOnRollBack = new Vector<String>();
 		
 	}
 	
+	/**
+	 * 
+	 * Create a new file from a node and use repository configurations
+	 * 
+	 * @param node
+	 * @param repositoryName
+	 */
 	protected FileJCR(Node node, String repositoryName){
 		
 		try {
@@ -297,7 +310,6 @@ public class FileJCR implements iFile {
 		throw new RuntimeException(MessageLocalizer.getMessage("NO_DEFAULT_METADATANODE_CONFIGURATION"));
 	}
 	
-		@SuppressWarnings("deprecation")
 	private void createMetadataItemPropertyFromJCRProperty(iMetadataItem item,
 			Property prop) throws RepositoryException {
 
@@ -416,18 +428,12 @@ public class FileJCR implements iFile {
 	 * 
 	 * @see netgest.io.iFile#delete()
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean delete() throws iFilePermissionDenied {
 		if (exists()) {
 			try {
-				Node parent = p_node.getParent();
 				p_node.remove();
-				if (parent != null)
-					parent.save();
-				else
-					p_session.save();
-
+				p_session.save();
 			} catch (RepositoryException e) {
 				throw new iFilePermissionDenied(e);
 			}
@@ -606,7 +612,6 @@ public class FileJCR implements iFile {
 	 * 
 	 * @see netgest.io.iFile#getInputStream()
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public InputStream getInputStream() throws iFilePermissionDenied {
 		String binProp = p_fileNodeConfig.getBinaryPropertyName();
@@ -654,7 +659,6 @@ public class FileJCR implements iFile {
 	 *            The binary property
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	private InputStream getRecursiveInputStream(ChildNodeConfig config,
 			String pathParent, String binProp) {
 
@@ -808,7 +812,7 @@ public class FileJCR implements iFile {
 					return new FileJCR(p_node.getParent(), p_fileNodeConfig,
 							p_folderNodeConfig, p_session,
 							p_metadataDefinition, true, // isFolder
-							path);
+							path, p_inTransaction);
 				}
 			}
 		} catch (Exception e) {
@@ -1142,7 +1146,7 @@ public class FileJCR implements iFile {
 							iFile toAdd = new FileJCR(currentFile,
 									p_fileNodeConfig, p_folderNodeConfig,
 									p_session, p_metadataDefinition, isFolder,
-									currentFile.getPath());
+									currentFile.getPath(), p_inTransaction);
 							filesReturn.add(toAdd);
 						}
 					}
@@ -1197,12 +1201,17 @@ public class FileJCR implements iFile {
 			for (int k = 0; k < parts.length - 1; k++) {
 				name = parts[k];
 				if (name.length() > 0) {
-					current = current.getNode(name);
+					try{
+						current = current.getNode(name);
+					} catch (PathNotFoundException e){
+						logger.config( "Creating %s in %s" , name , path);
+						current.addNode(name, p_folderNodeConfig.getNodeType());
+					}
 				}
 			}
 
 			// If we reach the last node, create it
-			current.addNode(name, p_folderNodeConfig.getNodeType());
+			current.addNode(parts[parts.length-1], p_folderNodeConfig.getNodeType());
 			return true;
 
 		} catch (RepositoryException e) {
@@ -1389,7 +1398,6 @@ public class FileJCR implements iFile {
 		return p_node;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean save(EboContext ctx) {
 		boolean result = false;
@@ -1410,16 +1418,8 @@ public class FileJCR implements iFile {
 				// Save any metadata items
 				saveMetadataItems();
 
-				p_node.save();
+				p_session.save();
 				
-				// Save the Node (by saving the parent)
-				/*if (p_node.getParent() != null) {
-					Node parent = p_node.getParent();
-					//parent.save();
-					p_node.save();
-					result = true;
-				}*/
-
 			} else { // Create the new iFile
 
 				if (isDirectory()) { // If we have a folder we must create the
@@ -1427,10 +1427,9 @@ public class FileJCR implements iFile {
 					if (this.mkdirs()) {
 						// Save metadata items
 						saveMetadataItems();
-						// Save ther folder to the repository, then create the
+						// Save the folder to the repository, then create the
 						// files
-						Node parent = getParentNode(p_path);
-						parent.save();
+						p_session.save();
 
 						// Save the files
 						iFile[] files = this.listFiles();
@@ -1464,7 +1463,7 @@ public class FileJCR implements iFile {
 
 						//printNode(p_node);
 						
-						parent.save();
+						p_session.save();
 
 						result = true;
 					}
@@ -1472,11 +1471,11 @@ public class FileJCR implements iFile {
 			}
 
 		} catch (RepositoryException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (iFilePermissionDenied e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (iFileException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return result;
 	}
@@ -1526,16 +1525,8 @@ public class FileJCR implements iFile {
 	 *            The node to set the property with the value retrieved from the
 	 *            {@link iMetadataProperty}
 	 */
-	@SuppressWarnings("deprecation")
 	private void setPropertyValueFromMetadata(iMetadataProperty prop, Node node) {
 		try {
-			
-			/*if (node.getProperty(prop.getPropertyIdentifier()).getType() == PropertyType.NAME)
-			{
-				System.out.println("----- "+prop.getPropertyIdentifier());
-				return;
-			}*/
-				
 			
 			if (prop.getMetadataType() == iMetadataProperty.METADATA_TYPE.BOOLEAN.name())
 				node.setProperty(prop.getPropertyIdentifier(), prop.getValueBoolean());
@@ -1643,10 +1634,14 @@ public class FileJCR implements iFile {
 							p_node.setProperty(currItem.getID(), metaItemNode);
 						}
 						else
-							currItem.save();
+							p_session.save();
 					} catch (RepositoryException e) {
 						e.printStackTrace();
-						currItem.save();
+						try {
+							p_session.save();
+						} catch ( RepositoryException e1 ) {
+							e1.printStackTrace();
+						}
 					}
 				}
 				else{
@@ -1963,8 +1958,7 @@ public class FileJCR implements iFile {
 
 	@Override
 	public void rollback(EboContext ctx) {
-		// TODO Auto-generated method stub
-		
+		//
 	}
 	
 	
@@ -1972,7 +1966,7 @@ public class FileJCR implements iFile {
 		if (id.startsWith("/"))
 			id = id.substring(1);
 		if (id.endsWith("/"))
-			id = id.substring(0, id.length() -1 );
+			id = id.substring(0, id.length() - 1 );
 	
 		return id;
 	}

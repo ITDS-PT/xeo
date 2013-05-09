@@ -1,6 +1,8 @@
 /*Enconding=UTF-8*/
 package netgest.bo.data;
 import java.util.ArrayList;
+import java.util.List;
+
 import netgest.bo.runtime.EboContext;
 
 /**
@@ -57,5 +59,9 @@ public interface DriverUtils
 	public String getAggregateConcatenation();
 	
 	public String getConcatFunction(String aggregateFields); 
+	
+	public String concatColumnsWithSeparator(List<String> columns, String separator);
+
+	public String getSelectTimeQuery();
 	
 }

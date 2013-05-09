@@ -6,6 +6,7 @@ package netgest.bo.data.sqlserver;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataSetMetaData;
@@ -179,5 +180,29 @@ public class SqlServerUtils implements DriverUtils {
 	public String getConcatFunction(String aggregateFields)
 	{
 		return aggregateFields;
+	}
+
+	@Override
+	public String concatColumnsWithSeparator(List< String > columns,
+			String separator) {
+
+		StringBuilder b = new StringBuilder();
+		int length = columns.size();
+		for (int k = 0 ; k < length ; k++){
+			b.append( columns.get( k ) );
+			if ( ( k + 1 ) < length ){
+				b.append(" + ");
+				b.append(separator);
+				b.append(" + ");
+			}
+		}
+		
+		return b.toString();
+		
+	}
+	
+	@Override
+	public String getSelectTimeQuery() {
+		return "SELECT CURRENT_TIMESTAMP";
 	}
 }

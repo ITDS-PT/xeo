@@ -473,8 +473,10 @@ public class lovObject {
 		boolean toRet = false;
 		beforeFirst();
 		while (next()) {
-			if (getCode().equals(code))
+			if (getCode().equals(code)) {
 				toRet = true;
+				break;
+			}
 		}
 		return toRet;
 	}
@@ -504,8 +506,10 @@ public class lovObject {
 		boolean toRet = false;
 		beforeFirst();
 		while (next()) {
-			if (getDescription().equals(description))
+			if (getDescription().equals(description)) {
 				toRet = true;
+				break;
+			}
 		}
 		return toRet;
 	}

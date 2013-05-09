@@ -160,21 +160,11 @@ public class boSession implements Serializable {
     }
     public void closeSession()
     {
-        if(p_user != null && p_user.boui > 0)
-        {
-//            try
-//            {
-//                EboContext ctx = null;
-//                ctx = createRequestContext(null, null, null);
-//                LoginUtil.logout(ctx, getPerformerBoui(), new Date(), p_repos.getName(), p_iprofileBoui);
-//                ctx.close();
-//            }
-//            catch (Exception e)
-//            {
-//                logger.severe("",e);
-//            }
-        }
         p_app.getSessions().removeSession( this );
+        for (String key : this.p_ecmRepositories.keySet()){
+        	Session session = p_ecmRepositories.get( key );
+        	session.logout();
+        }
     }
     
     public java.util.Date getCreatedTime()

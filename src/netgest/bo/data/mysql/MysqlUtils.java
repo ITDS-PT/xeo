@@ -3,6 +3,7 @@ package netgest.bo.data.mysql;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import netgest.bo.data.DataException;
 import netgest.bo.data.DataSetMetaData;
@@ -182,5 +183,38 @@ public class MysqlUtils implements DriverUtils {
 	public String getConcatFunction(String aggregateFields)
 	{
 		return "concat("+aggregateFields+")";
+	}
+	@Override
+	public String concatColumnsWithSeparator(List< String > columns,
+			String separator) {
+		
+		StringBuilder b = new StringBuilder();
+		int length = columns.size();
+		
+		if (length == 0)
+			return "";
+		
+		if (length == 1)
+			return columns.get( 0 );
+		
+		b.append( "CONCAT_WS(");
+		b.append(separator);
+		b.append(",");
+		
+		for (int k = 0 ; k < length ; k++){
+			b.append(columns.get( k ));
+			if ( ( k + 1 ) < length ){
+				b.append(",");
+			}
+		}
+		
+		b.append(")");
+		
+		return b.toString();
+	}
+	
+	@Override
+	public String getSelectTimeQuery() {
+		return "SELECT CURRENT_TIMESTAMP";
 	}
 }

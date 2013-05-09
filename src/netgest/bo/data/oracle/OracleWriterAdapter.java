@@ -565,20 +565,21 @@ public class OracleWriterAdapter implements WriterAdapter
                         dataRow.getObject(p_parentFields[z]));
                 }
             }
-
-            for (byte z = 0; (p_icnFields != null) && (z < p_icnFields.length);
-                    z++)
-            {
-                pstmpos++;
-
-                Object value = dataRow.getObject(p_icnFields[z]);
-
-                if (value != null)
-                {
-                    p_activeUpdatePstm.setObject(pstmpos, value);
-                }
+            if (checkICN) {
+	            for (byte z = 0; (p_icnFields != null) && (z < p_icnFields.length);
+	                    z++)
+	            {
+	                pstmpos++;
+	
+	                Object value = dataRow.getObject(p_icnFields[z]);
+	
+	                if (value != null)
+	                {
+	                    p_activeUpdatePstm.setObject(pstmpos, value);
+	                }
+	            }	            
             }
-
+            
             ret = p_activeUpdatePstm.executeUpdate() > 0;
 
             if (!ret)

@@ -2,6 +2,8 @@ package netgest.bo.runtime;
 
 import java.util.ArrayList;
 
+import netgest.bo.system.boApplication;
+
 /**
  * 
  * Implements the builder pattern to create instances
@@ -63,6 +65,11 @@ public class boObjectListBuilder {
 	private String orderBy = "";
 	
 	/**
+	 * FullText query
+	 */
+	private String fullText = "";
+	
+	/**
 	 * 
 	 * Creates a boObjectListBuilder with a context and boql expression
 	 * 
@@ -71,6 +78,17 @@ public class boObjectListBuilder {
 	 */
 	public boObjectListBuilder(EboContext ctx, String boql){
 		this.ctx = ctx;
+		this.boql = boql;
+	}
+	
+	/**
+	 * 
+	 * Creates a boObjectListBuilder in the default context with a boql expression
+	 * 
+	 * @param boql The boql expression
+	 */
+	public boObjectListBuilder(String boql){
+		this.ctx = boApplication.currentContext().getEboContext();
 		this.boql = boql;
 	}
 	
@@ -160,6 +178,18 @@ public class boObjectListBuilder {
 	
 	/**
 	 * 
+	 * Sets the fulltext parameter
+	 * 
+	 * @param fullText
+	 * @return
+	 */
+	public boObjectListBuilder fullText(String fullText){
+		this.fullText = fullText;
+		return this;
+	}
+	
+	/**
+	 * 
 	 * Adds a single arguments
 	 * 
 	 * @param value
@@ -177,7 +207,17 @@ public class boObjectListBuilder {
 	 * @return
 	 */
 	public boObjectList build(){
-		return boObjectList.list(ctx, boql,getArgs(),page,pageSize,orderBy,"",null,null,useSecurity,useCache);
+		return boObjectList.list(getCtx()
+			,boql
+			,getArgs()
+			,getPage()
+			,getPageSize()
+			,getOrderBy()
+			,getFullText()
+			,null
+			,null
+			,useSecurity
+			,useCache);
 	}
 
 	/**
@@ -186,6 +226,8 @@ public class boObjectListBuilder {
 	 * @return
 	 */
 	public EboContext getCtx() {
+		if (ctx == null)
+			ctx = boApplication.currentContext().getEboContext();
 		return ctx;
 	}
 
@@ -197,6 +239,10 @@ public class boObjectListBuilder {
 	 */
 	public String getBoql() {
 		return boql;
+	}
+	
+	public String getFullText(){
+		return fullText;
 	}
 
 	/**
@@ -215,11 +261,19 @@ public class boObjectListBuilder {
 		Object[] totalArgs = new Object[this.individualArguments.size() + this.args.length];
 		int k = 0;
 		for (Object curr : args){
-			totalArgs[k] = curr;
+			if (curr instanceof boObject){
+				totalArgs[k] = ((boObject)curr).getBoui();
+			} else {
+				totalArgs[k] = curr;
+			}
 			k++;
 		}
 		for (Object curr : individualArguments){
-			totalArgs[k] = curr;
+			if (curr instanceof boObject){
+				totalArgs[k] = ((boObject)curr).getBoui();
+			} else {
+				totalArgs[k] = curr;
+			}
 			k++;
 		}
 		

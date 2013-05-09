@@ -2,6 +2,7 @@ package netgest.bo.def.v2;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefDataTypeMapping;
 import netgest.bo.localizations.MessageLocalizer;
+import netgest.utils.StringUtils;
 import netgest.utils.ngtXMLHandler;
 
 public class GeneralParseUtils 
@@ -37,6 +38,9 @@ public class GeneralParseUtils
             String      language = xml.getAttribute("language","BOL");
             String[]    depends  = null;
     
+            if ( StringUtils.isEmpty( code ) )
+            	return null;
+            
             ngtXMLHandler dep = xml.getChildNode( "depends" );
             if( dep != null )
             {
