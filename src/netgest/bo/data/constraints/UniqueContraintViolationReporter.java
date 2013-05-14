@@ -51,7 +51,10 @@ public class UniqueContraintViolationReporter {
 					set = st.getResultSet();
 					
 					while (set.next()){
-						columnNames.add( set.getString( "COLUMN_NAME" ) );
+						String columnName = set.getString( "COLUMN_NAME" );
+						if (columnName.endsWith( "$" ))
+							columnName = columnName.substring( 0 , columnName.length() - 1 );
+						columnNames.add( columnName );
 					}
 				}
 			} catch ( SQLException e1 ) {
