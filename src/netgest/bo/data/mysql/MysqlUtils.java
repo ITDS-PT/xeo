@@ -202,7 +202,7 @@ public class MysqlUtils implements DriverUtils {
 		b.append(",");
 		
 		for (int k = 0 ; k < length ; k++){
-			b.append(columns.get( k ));
+			b.append(String.format("UPPER(%s)",columns.get( k )));
 			if ( ( k + 1 ) < length ){
 				b.append(",");
 			}

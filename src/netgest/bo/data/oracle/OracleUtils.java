@@ -327,7 +327,7 @@ public class OracleUtils  implements DriverUtils
 		StringBuilder b = new StringBuilder();
 		int length = columns.size();
 		for (int k = 0 ; k < length ; k++){
-			b.append( columns.get( k ) );
+			b.append( String.format( "UPPER(%s)", columns.get( k ) ) );
 			if ( ( k + 1 ) < length ){
 				b.append(" || ");
 				b.append(separator);
