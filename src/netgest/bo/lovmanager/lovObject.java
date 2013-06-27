@@ -430,6 +430,16 @@ public class lovObject {
 		return (String) p_lov_description.get(p_pointer);
 		
 	}
+	
+	/**
+	 * 
+	 * Returns the description for the code, without any attempt to translate
+	 * 
+	 * @return The description associated to the code
+	 */
+	public String getRawDescription(){
+		return (String) p_lov_description.get(p_pointer);
+	}
 
 	protected boolean invalidIndex() {
 		return (p_pointer == -1) || (p_pointer >= p_count);
@@ -506,11 +516,22 @@ public class lovObject {
 		boolean toRet = false;
 		beforeFirst();
 		while (next()) {
-			if (getDescription().equals(description)) {
+			if (p_lov_description.get(p_pointer).equals(description)) {
 				toRet = true;
 				break;
 			}
 		}
+		if (!toRet){
+			beforeFirst();
+			while (next()){
+				String translatedDescription = getTranslation( p_name , getCode() , "" );
+				if (translatedDescription.equals( description )){
+					toRet = true;
+					break;
+				}
+			}
+		}
+		
 		return toRet;
 	}
 
