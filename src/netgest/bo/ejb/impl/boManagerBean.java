@@ -22,22 +22,19 @@ import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
-import netgest.bo.boConfig;
 import netgest.bo.boException;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.builder.boBuilderProgress;
-import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.IXEODataManager;
-import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.data.KeyReference;
 import netgest.bo.data.ObjectDataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.def.boDefAttribute;
-import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.ejb.boManagerLocal;
@@ -66,18 +63,16 @@ import netgest.bo.runtime.cacheBouis;
 import netgest.bo.runtime.robots.ObjectMap;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 import netgest.bo.security.securityOPL;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boCompilerClassLoader;
 import netgest.bo.system.boLoginLocalHome;
 import netgest.bo.system.boPoolable;
 import netgest.bo.system.boRepository;
 import netgest.bo.utils.boVersioning;
-import netgest.utils.DataUtils;
-
-import netgest.bo.system.Logger;
 import netgest.io.iFile;
 import netgest.io.iFileException;
-import netgest.io.iFilePermissionDenied;
 import netgest.io.iFileTransactionManager;
+import netgest.utils.DataUtils;
 
 public class boManagerBean implements SessionBean, boManagerLocal
 {
@@ -187,10 +182,12 @@ public class boManagerBean implements SessionBean, boManagerLocal
         for (int i = 1; i <= dmd.getColumnCount(); i++)
         {
             columnName = attributeName(obj, dmd.getColumnName(i));
-
-            if ((columnName != null) &&
-                    obj.getAttribute(columnName).isObject() &&
-                    (obj.getAttribute(columnName).getValueObject() != null))
+            AttributeHandler attribute = obj.getAttribute(columnName);
+            Object attributeValue = attribute.getValueObject();
+            if ( (columnName != null) &&
+                    attribute.isObject() &&
+                    (attributeValue != null) && 
+                    (Long.valueOf( attributeValue.toString() ) > 0) )
             {
 //                auxDef = obj.getAttribute(columnName).getDefAttribute()
 //                            .getReferencedObjectDef();
