@@ -129,7 +129,7 @@ public class boApplicationConfig {
 	/**
 	 * List of available renderKits and respective ThemeClasses
 	 */
-	private Map<String,RenderKit> renderKits = null;
+	private Map<String,RenderKit> renderKits = new HashMap< String , RenderKit >();
 	
 	/**
 	 * The default renderKit to use

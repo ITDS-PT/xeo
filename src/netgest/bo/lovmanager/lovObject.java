@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import netgest.bo.def.v2.boDefHandlerImpl;
 import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.models.Ebo_LOV;
 import netgest.bo.runtime.AttributeHandler;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
@@ -430,6 +431,16 @@ public class lovObject {
 		return (String) p_lov_description.get(p_pointer);
 		
 	}
+	
+	/**
+	 * 
+	 * Returns the description for the code, without any attempt to translate
+	 * 
+	 * @return The description associated to the code
+	 */
+	public String getRawDescription(){
+		return (String) p_lov_description.get(p_pointer);
+	}
 
 	protected boolean invalidIndex() {
 		return (p_pointer == -1) || (p_pointer >= p_count);
@@ -506,11 +517,22 @@ public class lovObject {
 		boolean toRet = false;
 		beforeFirst();
 		while (next()) {
-			if (getDescription().equals(description)) {
+			if (p_lov_description.get(p_pointer).equals(description)) {
 				toRet = true;
 				break;
 			}
 		}
+		if (!toRet){
+			beforeFirst();
+			while (next()){
+				String translatedDescription = getTranslation( p_name , getCode() , "" );
+				if (translatedDescription.equals( description )){
+					toRet = true;
+					break;
+				}
+			}
+		}
+		
 		return toRet;
 	}
 
@@ -521,6 +543,10 @@ public class lovObject {
 		p_language=lang;
 	}
 
+	
+	public static String getTranslation(String lovName, String value, String defaultDescription) throws boRuntimeException {
+		return getTranslation( lovName , value , defaultDescription , "" );
+	}
 	/**
 	 * 
 	 * @param lovName
@@ -532,55 +558,51 @@ public class lovObject {
 	 */
 
 	public static String getTranslation(String lovName, String value,
-			String defaultDescription) throws boRuntimeException {		
-		boObject lov;	
-		String usedLanguage=null;
-		String label;
+			String defaultDescription, String language) throws boRuntimeException {		
+			
+		String usedLanguage = "";
+		String label = "";
 		EboContext ctx = boApplication.currentContext().getEboContext();
 		if (ctx != null){
-		lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV",
-				"name='" + lovName + "'");	
-		AttributeHandler fileName=lov.getAttribute("xeolovfile");
-		if (fileName!=null){
-				
-				boApplication app = boApplication
-						.getApplicationFromStaticContext("XEO");
+			boObject lov = boObject.getBoManager().loadObject(ctx, Ebo_LOV.MODEL_NAME,"name=?", new Object[]{lovName});	
+			AttributeHandler fileName = lov.getAttribute(Ebo_LOV.XEO_LOV_FILE);
+			if (fileName!=null){
+
+				boApplication app = boApplication.getXEO();
 				usedLanguage = app.getApplicationLanguage();
-				if(boApplication.currentContext()!=null)
-					if(boApplication.currentContext().getEboContext()!=null)
-						if(boApplication.currentContext().getEboContext().getBoSession()!=null)
-				{
-					boSessionUser user = boApplication.currentContext().getEboContext()
-							.getBoSession().getUser();
-					if (user.getLanguage() != null && user.getLanguage() != "")
+				if(	ctx.getBoSession()!=null){
+					boSessionUser user = ctx.getBoSession().getUser();
+					if (StringUtils.hasValue( user.getLanguage() ) )
 						usedLanguage = user.getLanguage();
-					}
-					
-					HashMap<String, Properties> map = boDefHandlerImpl
-							.getLanguagesMap();
-					
+				}
 				
-				if (usedLanguage != null
-						&& map.containsKey(fileName + "_" + usedLanguage.toUpperCase()
-								+ ".properties")) {
-					
-					Properties prop = map.get(fileName + "_"
-							+ usedLanguage.toUpperCase() + ".properties");
-					
+				if (StringUtils.hasValue( language ))
+					usedLanguage = language;
+
+				HashMap<String, Properties> map = boDefHandlerImpl.getLanguagesMap();
+				String translationsFile = fileName.getValueString() + "_" + usedLanguage.toUpperCase()+ ".properties";
+				
+				if (translationIsAvailable( usedLanguage , map , translationsFile )) {
+					Properties prop = map.get(translationsFile);
 					label = prop.getProperty(lovName+"."+value);
 					if (StringUtils.isEmpty( label ))
 						label = defaultDescription;
 				} else {
 					label = defaultDescription;
 				}
-		}
-		else
-			label = defaultDescription;
+			}
+			else
+				label = defaultDescription;
 		}
 		else
 			label = defaultDescription;
 
 		return label;
+	}
+
+	private static boolean translationIsAvailable(String usedLanguage,
+			HashMap< String , Properties > map, String translationsFile) {
+		return usedLanguage != null && map.containsKey(translationsFile);
 	}
 
 }
