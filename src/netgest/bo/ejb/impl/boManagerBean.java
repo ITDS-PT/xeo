@@ -3280,62 +3280,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     norphan.destroyForce();
                 }
 
-
-                /*
-                StringBuffer xsql= new StringBuffer("SELECT  FROM " +  ebo_referencesFullTableName + " WHERE REFBOUI$= ? ");
-                for (int i = 0; i < oToDestroy.length ; i++)
-                {
-                         xsql.append(" and boui!= ? ");
-                }
-
-                PreparedStatement pstm = ctx.getConnectionData()
-                                            .prepareStatement( xsql.toString() );
-
-                // ATENÇÃO : se alguma coisa falhar tem que se fazer o rollback ao objecto ..
-
-                if ( !bobj.getBoDefinition().getBoCanBeOrphan() )
-                {
-
-                    Long[] oToDestroy = buildDestroyQueue( ctx, bobj ).getObjectsToRemove();
-
-
-                    StringBuffer xsql= new StringBuffer("SELECT COUNT(*) FROM " +  ebo_referencesFullTableName + " WHERE REFBOUI$= ? ");
-
-                    for (int i = 0; i < oToDestroy.length ; i++)
-                    {
-                        xsql.append(" and boui!= ? ");
-                    }
-
-                    PreparedStatement pstm = ctx.getConnectionData()
-                                                .prepareStatement( xsql.toString() );
-
-                    pstm.setLong(1, currentboui);
-
-                    for (int i = 0; i < oToDestroy.length ; i++)
-                    {
-                        pstm.setLong(i+2, oToDestroy[i].longValue() );
-                    }
-
-                    ResultSet rslt = pstm.executeQuery();
-                    rslt.next();
-                    long xr=rslt.getLong(1);
-
-                    canUpdate = xr == 0;
-
-                    if( !canUpdate )
-                    {
-                        logger.warn( "Object "+bobj.getName()+":"+currentboui+" not deleted,still have references"  );
-
-
-                    }
-                    rslt.close();
-                    pstm.close();
-                }
-                */
-
-
-
-                    dook = true;
+                dook = true;
 
 
                 bobj.p_exists = false;
