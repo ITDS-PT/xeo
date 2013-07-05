@@ -182,31 +182,29 @@ public class boManagerBean implements SessionBean, boManagerLocal
         for (int i = 1; i <= dmd.getColumnCount(); i++)
         {
             columnName = attributeName(obj, dmd.getColumnName(i));
-            AttributeHandler attribute = obj.getAttribute(columnName);
-            Object attributeValue = attribute.getValueObject();
-            if ( (columnName != null) &&
-                    attribute.isObject() &&
-                    (attributeValue != null) && 
-                    (Long.valueOf( attributeValue.toString() ) > 0) )
-            {
-//                auxDef = obj.getAttribute(columnName).getDefAttribute()
-//                            .getReferencedObjectDef();
-//                String className = auxDef.getName();
-                long boui = ((BigDecimal)obj.getAttribute(columnName).getValueObject()).longValue();
-                String className = getClassNameFromBOUI(obj.getEboContext(),
-                                        boui);
-                auxDef = boDefHandler.getBoDefinition(className);
-                if ( !columnName.equalsIgnoreCase("PARENT")  )
-                {
-                    if (!obj.getAttribute(columnName).getDefAttribute().getChildIsOrphan() &&
-                            !auxDef.getBoHaveMultiParent() )
-                    {
-                        nameArray.add(columnName);
-                    }
-                }
+            if (columnName != null){
+            	AttributeHandler attribute = obj.getAttribute(columnName);
+            	Object attributeValue = attribute.getValueObject();
+            	if ( attribute.isObject() &&
+            			(attributeValue != null) && 
+            			(Long.valueOf( attributeValue.toString() ) > 0) )
+            	{
+            		long boui = ((BigDecimal)obj.getAttribute(columnName).getValueObject()).longValue();
+            		String className = getClassNameFromBOUI(obj.getEboContext(),
+            				boui);
+            		auxDef = boDefHandler.getBoDefinition(className);
+            		if ( !columnName.equalsIgnoreCase("PARENT")  )
+            		{
+            			if (!obj.getAttribute(columnName).getDefAttribute().getChildIsOrphan() &&
+            					!auxDef.getBoHaveMultiParent() )
+            			{
+            				nameArray.add(columnName);
+            			}
+            		}
 
 
 
+            	}
             }
         }
 
