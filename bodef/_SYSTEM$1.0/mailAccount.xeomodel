@@ -1,27 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2006 U (http://www.altova.com) by fcamara (ITDS) -->
-<!--Ficheiro xeoModel v2 convertido em:Tue May 30 16:02:19 BST 2006-->
-<xeoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="../../xeoModel.xsd">
-	<general name="mailAccount" type="object" version="1.0" extends="" mastertable="recipient" orphan="true" multiparent="false" extendsJavaClass="">
-		<locale language="pt" country="PT" variant=""/>
-		<implements/>
-		<database/>
-		<versioning active="false"/>
-		<textIndex active="true" appendChilds="false" deep="1">
-			<process/>
-		</textIndex>
-		<description>mailAccount</description>
-		<cardID>[description] </cardID>
-		<label>Conta de Correio</label>
-	</general>
-	<opl active="false"/>
-	<states/>
-	<methods/>
-	<events>
-		<event name="onBeforeSave">
-			<body language="JAVA"><![CDATA[
-			if(this.password.getValue()!=null && this.password.getValue().length() < 20) 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xeoModel xsi:noNamespaceSchemaLocation="../../xeoModel.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <general name="mailAccount" type="object" version="1.0" extends="" mastertable="recipient" orphan="true" multiparent="false" extendsJavaClass="">
+        <locale language="pt" country="PT" variant=""/>
+        <implements/>
+        <database/>
+        <versioning active="false"/>
+        <textIndex active="true" appendChilds="false" deep="1">
+            <process/>
+        </textIndex>
+        <description>mailAccount</description>
+        <cardID>[name] </cardID>
+        <label>Conta de Correio</label>
+    </general>
+    <opl active="false"/>
+    <states/>
+    <methods/>
+    <events>
+        <event name="onBeforeSave">
+            <body language="JAVA">
+			if(this.password.getValue()!=null &amp;&amp; this.password.getValue().length() &lt; 20) 
 			{
 				if(!"".equals(this.password.getValue()))
 				{	
@@ -34,204 +31,204 @@
 			} 			
 			
 			return netgest.bo.system.boMail.addFolderInBox(this);
-			]]></body>
-		</event>
-	</events>
-	<fwdObjects/>
-	<attributes>
-		<attributeText name="username">
-			<len>100</len>
-			<label>Utilizador</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="password">
-			<len>100</len>
-			<label>Password</label>
-			<tooltip/>
-		</attributeText>
-		<attributeNumber name="mailprotocol">
-			<len>0</len>
-			<grouping>false</grouping>
-			<decimals>0</decimals>
-			<minDecimals>0</minDecimals>
-			<label>Protocolo</label>
-			<tooltip/>
-			<lov name="protocol" retainValues="false"/>
-		</attributeNumber>
-		<attributeText name="receivehost">
-			<len>3000</len>
-			<label>Servidor (a Receber)</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="lastmessageid">
-			<len>3000</len>
-			<label>Id da última mensagem recebida</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="smtphost">
-			<len>3000</len>
-			<label>Servidor (a Enviar)</label>
-			<tooltip/>
-		</attributeText>
-		<attributeLongText name="footprint">
-			<label>Rodapé dos Emails a Enviar</label>
-			<editor>HTML</editor>
-			<tooltip/>
-		</attributeLongText>
-		<attributeBoolean name="deletemessages">
-			<label>Apagar mensagens no Servidor</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-			<required language="BOL">true</required>
-		</attributeBoolean>
-		<attributeBoolean name="includeinbox">
-			<label>Incluir pasta Inbox</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-			<required language="BOL">true</required>
-		</attributeBoolean>
-		<attributeObjectCollection name="folder">
-			<type>object.mailAccount_folder</type>
-			<label>Pasta</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeBoolean name="processonlyXEOMessages">
-			<label>Receber apenas emails XEO</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-			<required language="BOL">true</required>
-		</attributeBoolean>
-		<attributeBoolean name="active">
-			<label>Activo</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-		</attributeBoolean>
-		<attributeBoolean name="fax">
-			<label>Conta de Fax</label>
-			<renderAsCheck>false</renderAsCheck>
-			<tooltip/>
-		</attributeBoolean>
-		<attributeObjectCollection name="spam">
-			<type>object.garbageController</type>
-			<label>Spam Email's</label>
-			<renderAsLov>false</renderAsLov>
-			<tooltip/>
-			<maxOccurs>N</maxOccurs>
-			<minOccurs>0</minOccurs>
-			<objectFilter/>
-			<bridge>
-				<attributes/>
-			</bridge>
-		</attributeObjectCollection>
-		<attributeText name="notifica">
-			<len>4000</len>
-			<label/>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="name">
-			<len>100</len>
-			<label>Nome</label>
-			<tooltip/>
-			<required language="BOL">true</required>
-		</attributeText>
-		<attributeText name="email">
-			<len>250</len>
-			<label>Email</label>
-			<tooltip/>
-		</attributeText>
-		<attributeText name="faxAddress" >
-			<len>250</len>
-			<label>Fax</label>
-			<tooltip/>
-		</attributeText>
-	</attributes>
-	<viewers>
-		<viewer name="general">
-			<forms>
-				<form name="edit" template="std">
-					<areas>
-						<area bo_node="settings" name="area_settings" label="Geral" order="1">
-							<panel>
-								<tab bo_node="settings" name="tab_settings" label="Identificação da Conta de Correio" order="20">
-									<section showlabel="no" name="section_mails" height="220px" order="20">
-										<rows>
-											<row>
-												<cell>
-													<attribute showlabel="yes">name</attribute>
+			</body>
+        </event>
+    </events>
+    <fwdObjects/>
+    <attributes>
+        <attributeText name="username">
+            <label>Utilizador</label>
+            <tooltip></tooltip>
+            <len>100</len>
+        </attributeText>
+        <attributeText name="password">
+            <label>Password</label>
+            <tooltip></tooltip>
+            <len>100</len>
+        </attributeText>
+        <attributeNumber name="mailprotocol">
+            <label>Protocolo</label>
+            <tooltip></tooltip>
+            <len>0</len>
+            <grouping>false</grouping>
+            <decimals>0</decimals>
+            <minDecimals>0</minDecimals>
+            <lov name="protocol" retainValues="false"/>
+        </attributeNumber>
+        <attributeText name="receivehost">
+            <label>Servidor (a Receber)</label>
+            <tooltip></tooltip>
+            <len>3000</len>
+        </attributeText>
+        <attributeText name="lastmessageid">
+            <label>Id da última mensagem recebida</label>
+            <tooltip></tooltip>
+            <len>3000</len>
+        </attributeText>
+        <attributeText name="smtphost">
+            <label>Servidor (a Enviar)</label>
+            <tooltip></tooltip>
+            <len>3000</len>
+        </attributeText>
+        <attributeLongText name="footprint">
+            <label>Rodapé dos Emails a Enviar</label>
+            <tooltip></tooltip>
+            <editor>HTML</editor>
+        </attributeLongText>
+        <attributeBoolean name="deletemessages">
+            <label>Apagar mensagens no Servidor</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+            <required language="BOL">true</required>
+        </attributeBoolean>
+        <attributeBoolean name="includeinbox">
+            <label>Incluir pasta Inbox</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+            <required language="BOL">true</required>
+        </attributeBoolean>
+        <attributeObjectCollection name="folder">
+            <label>Pasta</label>
+            <tooltip></tooltip>
+            <type>object.mailAccount_folder</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeBoolean name="processonlyXEOMessages">
+            <label>Receber apenas emails XEO</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+            <required language="BOL">true</required>
+        </attributeBoolean>
+        <attributeBoolean name="active">
+            <label>Activo</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+        <attributeBoolean name="fax">
+            <label>Conta de Fax</label>
+            <tooltip></tooltip>
+            <renderAsCheck>false</renderAsCheck>
+        </attributeBoolean>
+        <attributeObjectCollection name="spam">
+            <label>Spam Email's</label>
+            <tooltip></tooltip>
+            <type>object.garbageController</type>
+            <objectFilter/>
+            <bridge>
+                <attributes/>
+            </bridge>
+            <renderAsLov>false</renderAsLov>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>N</maxOccurs>
+        </attributeObjectCollection>
+        <attributeText name="notifica">
+            <label></label>
+            <tooltip></tooltip>
+            <len>4000</len>
+        </attributeText>
+        <attributeText name="name">
+            <label>Nome</label>
+            <tooltip></tooltip>
+            <len>100</len>
+            <required language="BOL">true</required>
+        </attributeText>
+        <attributeText name="email">
+            <label>Email</label>
+            <tooltip></tooltip>
+            <len>250</len>
+        </attributeText>
+        <attributeText name="faxAddress">
+            <label>Fax</label>
+            <tooltip></tooltip>
+            <len>250</len>
+        </attributeText>
+    </attributes>
+    <viewers>
+        <viewer name="general">
+            <forms>
+                <form name="edit" template="std">
+                    <areas>
+                        <area bo_node="settings" label="Geral" name="area_settings" order="1">
+                            <panel>
+                                <tab bo_node="settings" label="Identificação da Conta de Correio" name="tab_settings" order="20">
+                                    <section height="220px" name="section_mails" order="20" showlabel="no">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">name</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">email</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">email</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">faxAddress</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">faxAddress</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">username</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">username</attribute>
 												</cell>
-												<cell>
-													<tag showlabel="yes" reserveLabelSpace="yes" relatedAttribute="password" class="netgest.bo.dochtml.viewerImpl.AttributesFieldRenderPassword"/>
-												</cell>
-											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">smtphost</attribute>
+                                                <cell>
+                                                    <tag class="netgest.bo.dochtml.viewerImpl.AttributesFieldRenderPassword" relatedAttribute="password" reserveLabelSpace="yes" showlabel="yes"/>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">receivehost</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">smtphost</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">mailprotocol</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">receivehost</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">includeinbox</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">mailprotocol</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">deletemessages</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">includeinbox</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">processonlyXEOMessages</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">deletemessages</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">active</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">processonlyXEOMessages</attribute>
 												</cell>
 											</row>
-											<row>
-												<cell>
-													<attribute showlabel="yes">fax</attribute>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">active</attribute>
+												</cell>
+											</row>
+                                            <row>
+                                                <cell>
+                                                    <attribute showlabel="yes">fax</attribute>
 												</cell>
 											</row>
 										</rows>
 									</section>
-									<section showlabel="yes" name="section_notifica" label="Notificar E-Mail's" height="120px" order="40">
-										<rows>
-											<row>
-												<cell>
-													<attribute showlabel="no" height="100%">notifica</attribute>
+                                    <section height="120px" label="Notificar E-Mail's" name="section_notifica" order="40" showlabel="yes">
+                                        <rows>
+                                            <row>
+                                                <cell>
+                                                    <attribute height="100%" showlabel="no">notifica</attribute>
 												</cell>
 											</row>
 										</rows>
@@ -239,54 +236,54 @@
 								</tab>
 							</panel>
 						</area>
-						<area label="node.label" bo_node="folder" order="9">
-							<panel>
-								<tab bo_node="" label="Pastas">
-									<div width="100%" height="100%">folder.list</div>
+                        <area bo_node="folder" label="node.label" order="9">
+                            <panel>
+                                <tab bo_node="" label="Pastas">
+                                    <div height="100%" width="100%">folder.list</div>
 								</tab>
 							</panel>
 						</area>
-						<area label="Spam" bo_node="folder" order="10">
-							<panel>
-								<tab bo_node="" label="Spam Email's">
-									<div width="100%" height="100%">spam.list</div>
+                        <area bo_node="folder" label="Spam" order="10">
+                            <panel>
+                                <tab bo_node="" label="Spam Email's">
+                                    <div height="100%" width="100%">spam.list</div>
 								</tab>
 							</panel>
 						</area>
 					</areas>
 				</form>
-				<form name="list" formtype="List">
-					<grid bo_node="" name="list_mailAccounts" template="std">
-						<cols>
-							<col width="100">
-								<attribute>name</attribute>
+                <form formtype="List" name="list">
+                    <grid bo_node="" name="list_mailAccounts" template="std">
+                        <cols>
+                            <col width="100">
+                                <attribute>name</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
-				<form name="folder_list" formtype="List" forBridge="folder">
-					<grid forBridge="folder" name="folder.list" edit_inLine="yes" template="std" bo_node="">
-						<cols>
-							<col width="200">
-								<attribute>folder</attribute>
+                <form forBridge="folder" formtype="List" name="folder_list">
+                    <grid bo_node="" edit_inLine="yes" forBridge="folder" name="folder.list" template="std">
+                        <cols>
+                            <col width="200">
+                                <attribute>folder</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
-				<form name="spam_list" formtype="List" forBridge="spam">
-					<grid forBridge="spam" name="spam.list" edit_inLine="yes" template="std" bo_node="">
-						<cols>
-							<col width="200">
-								<attribute>email</attribute>
+                <form forBridge="spam" formtype="List" name="spam_list">
+                    <grid bo_node="" edit_inLine="yes" forBridge="spam" name="spam.list" template="std">
+                        <cols>
+                            <col width="200">
+                                <attribute>email</attribute>
 							</col>
-							<col width="100">
-								<attribute>server</attribute>
+                            <col width="100">
+                                <attribute>server</attribute>
 							</col>
 						</cols>
 					</grid>
 				</form>
 			</forms>
-			<categories/>
-		</viewer>
-	</viewers>
+            <categories/>
+        </viewer>
+    </viewers>
 </xeoModel>
