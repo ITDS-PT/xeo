@@ -964,9 +964,9 @@ public abstract class boObject extends boObjectContainer implements Serializable
      * @param message The error message
      */
     public void addErrorMessage(bridgeHandler att, String message) {
-    	boBridgeMasterAttribute bridgeMaster = new boBridgeMasterAttribute( this, att.getDefAttribute() );
-    	bridgeMaster.setInvalid( message );
-        addErrorMessage( bridgeMaster, message );
+    	AttributeHandler bridge = getAttribute( att.getAttributeName() );
+    	bridge.setInvalid( message );
+        addErrorMessage( bridge, message );
     }
 
     public void addErrorMessage(String errormessage) {

@@ -22,22 +22,19 @@ import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
-import netgest.bo.boConfig;
 import netgest.bo.boException;
 import netgest.bo.builder.boBuilder;
 import netgest.bo.builder.boBuilderOptions;
 import netgest.bo.builder.boBuilderProgress;
-import netgest.bo.configUtils.RepositoryConfig;
 import netgest.bo.data.DataManager;
 import netgest.bo.data.DataRow;
 import netgest.bo.data.DataSet;
 import netgest.bo.data.DataSetMetaData;
 import netgest.bo.data.IXEODataManager;
-import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.data.KeyReference;
 import netgest.bo.data.ObjectDataManager;
+import netgest.bo.data.XEODataManagerKey;
 import netgest.bo.def.boDefAttribute;
-import netgest.bo.def.boDefDocument;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.dochtml.docHTML;
 import netgest.bo.ejb.boManagerLocal;
@@ -66,18 +63,16 @@ import netgest.bo.runtime.cacheBouis;
 import netgest.bo.runtime.robots.ObjectMap;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 import netgest.bo.security.securityOPL;
+import netgest.bo.system.Logger;
 import netgest.bo.system.boCompilerClassLoader;
 import netgest.bo.system.boLoginLocalHome;
 import netgest.bo.system.boPoolable;
 import netgest.bo.system.boRepository;
 import netgest.bo.utils.boVersioning;
-import netgest.utils.DataUtils;
-
-import netgest.bo.system.Logger;
 import netgest.io.iFile;
 import netgest.io.iFileException;
-import netgest.io.iFilePermissionDenied;
 import netgest.io.iFileTransactionManager;
+import netgest.utils.DataUtils;
 
 public class boManagerBean implements SessionBean, boManagerLocal
 {
@@ -187,29 +182,29 @@ public class boManagerBean implements SessionBean, boManagerLocal
         for (int i = 1; i <= dmd.getColumnCount(); i++)
         {
             columnName = attributeName(obj, dmd.getColumnName(i));
-
-            if ((columnName != null) &&
-                    obj.getAttribute(columnName).isObject() &&
-                    (obj.getAttribute(columnName).getValueObject() != null))
-            {
-//                auxDef = obj.getAttribute(columnName).getDefAttribute()
-//                            .getReferencedObjectDef();
-//                String className = auxDef.getName();
-                long boui = ((BigDecimal)obj.getAttribute(columnName).getValueObject()).longValue();
-                String className = getClassNameFromBOUI(obj.getEboContext(),
-                                        boui);
-                auxDef = boDefHandler.getBoDefinition(className);
-                if ( !columnName.equalsIgnoreCase("PARENT")  )
-                {
-                    if (!obj.getAttribute(columnName).getDefAttribute().getChildIsOrphan() &&
-                            !auxDef.getBoHaveMultiParent() )
-                    {
-                        nameArray.add(columnName);
-                    }
-                }
-
+            if (columnName != null){
+            	AttributeHandler attribute = obj.getAttribute(columnName);
+            	Object attributeValue = attribute.getValueObject();
+            	if ( attribute.isObject() &&
+            			(attributeValue != null) && 
+            			(Long.valueOf( attributeValue.toString() ) > 0) )
+            	{
+            		long boui = ((BigDecimal)obj.getAttribute(columnName).getValueObject()).longValue();
+            		String className = getClassNameFromBOUI(obj.getEboContext(),
+            				boui);
+            		auxDef = boDefHandler.getBoDefinition(className);
+            		if ( !columnName.equalsIgnoreCase("PARENT")  )
+            		{
+            			if (!obj.getAttribute(columnName).getDefAttribute().getChildIsOrphan() &&
+            					!auxDef.getBoHaveMultiParent() )
+            			{
+            				nameArray.add(columnName);
+            			}
+            		}
 
 
+
+            	}
             }
         }
 
@@ -3283,62 +3278,7 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     norphan.destroyForce();
                 }
 
-
-                /*
-                StringBuffer xsql= new StringBuffer("SELECT  FROM " +  ebo_referencesFullTableName + " WHERE REFBOUI$= ? ");
-                for (int i = 0; i < oToDestroy.length ; i++)
-                {
-                         xsql.append(" and boui!= ? ");
-                }
-
-                PreparedStatement pstm = ctx.getConnectionData()
-                                            .prepareStatement( xsql.toString() );
-
-                // ATENÇÃO : se alguma coisa falhar tem que se fazer o rollback ao objecto ..
-
-                if ( !bobj.getBoDefinition().getBoCanBeOrphan() )
-                {
-
-                    Long[] oToDestroy = buildDestroyQueue( ctx, bobj ).getObjectsToRemove();
-
-
-                    StringBuffer xsql= new StringBuffer("SELECT COUNT(*) FROM " +  ebo_referencesFullTableName + " WHERE REFBOUI$= ? ");
-
-                    for (int i = 0; i < oToDestroy.length ; i++)
-                    {
-                        xsql.append(" and boui!= ? ");
-                    }
-
-                    PreparedStatement pstm = ctx.getConnectionData()
-                                                .prepareStatement( xsql.toString() );
-
-                    pstm.setLong(1, currentboui);
-
-                    for (int i = 0; i < oToDestroy.length ; i++)
-                    {
-                        pstm.setLong(i+2, oToDestroy[i].longValue() );
-                    }
-
-                    ResultSet rslt = pstm.executeQuery();
-                    rslt.next();
-                    long xr=rslt.getLong(1);
-
-                    canUpdate = xr == 0;
-
-                    if( !canUpdate )
-                    {
-                        logger.warn( "Object "+bobj.getName()+":"+currentboui+" not deleted,still have references"  );
-
-
-                    }
-                    rslt.close();
-                    pstm.close();
-                }
-                */
-
-
-
-                    dook = true;
+                dook = true;
 
 
                 bobj.p_exists = false;

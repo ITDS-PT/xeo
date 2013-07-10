@@ -251,9 +251,8 @@ public class BasiciFile implements iFile  {
                 pstm = cn.prepareStatement("UPDATE " + this.provider.p_dbfs_table_file+"" +
                 		" SET BINDATA=? WHERE ID=?");
                 
-				int fLen = Integer.MAX_VALUE;
-				EboContext ctx = boApplication.currentContext().getEboContext();
-				if (ctx!=null)
+				int fLen = Integer.MAX_VALUE;				
+				if (boApplication.currentContext()!=null)
 				{
 					String dsName = boConfig.getApplicationConfig().getDataDataSourceClassName();
 					if (dsName.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL )|| dsName.toUpperCase().indexOf("POSTGRE")>-1){
