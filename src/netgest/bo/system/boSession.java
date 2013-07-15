@@ -88,6 +88,15 @@ public class boSession implements Serializable {
         p_lastactivity = p_createdon; 
     }
     
+    /**
+     * 
+     * Creates a new EboContext without associated request, response or pagecontext
+     * 
+     * @return a new ebo context ( don't forget to close the context when it's no longer needed )
+     */
+    public EboContext createEboContext(){
+    	return createRequestContext( null , null , null );
+    }
     
     public EboContext createRequestContext( HttpServletRequest request, HttpServletResponse response, PageContext pagecontext ) 
     {
