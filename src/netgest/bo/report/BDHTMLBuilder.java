@@ -1,6 +1,9 @@
 /*Enconding=UTF-8*/
 package netgest.bo.report;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import netgest.bo.localizations.MessageLocalizer;
@@ -63,8 +66,7 @@ public class BDHTMLBuilder
     
     public String generate()
     {
-        String lastTable = null;
-        ArrayList rSameTable = new ArrayList();
+        Map<String,ArrayList<Object>> tablesToGenerate = new LinkedHashMap<String,ArrayList<Object>>();
         StringBuffer index = new StringBuffer();
         StringBuffer html = new StringBuffer();
         StringBuffer toReturn = new StringBuffer();
@@ -76,35 +78,30 @@ public class BDHTMLBuilder
         .append("</head>\n")
         .append("<body>\n");
        
-        if (objList.size() == 1) {
-        	rSameTable.clear();
-        	rSameTable.add(objList.get(0));
-        	generateTableHtml(rSameTable, objList, html, index);
-        } else {
-        	for(int i = 0; i < objList.size(); i++)
-        	{
-        		if(lastTable == null)
-        		{
-        			lastTable = ((XMLObject)objList.get(i)).getTableName();
-        			rSameTable.clear();
-        		}
-        		if(((XMLObject)objList.get(i)).getTableName().equals(lastTable))
-        		{
-        			rSameTable.add(objList.get(i));
-        		}
-        		else
-        		{
-        			generateTableHtml(rSameTable, objList, html, index);
-        			lastTable = ((XMLObject)objList.get(i)).getTableName();
-        			rSameTable.clear();
-        			rSameTable.add(objList.get(i));
-        		}
-
+        for(int i = 0; i < objList.size(); i++) {
+        	String tableName=((XMLObject)objList.get(i)).getTableName();
+        	if (tablesToGenerate.get(tableName)==null) {
+        		ArrayList<Object> objects=new ArrayList<Object>();
+        		objects.add(objList.get(i));
+        		tablesToGenerate.put(tableName, objects);
         	}
+        	else {
+        		ArrayList<Object> objects = tablesToGenerate.get(tableName);
+        		objects.add(objList.get(i));
+        		tablesToGenerate.put(tableName, objects);
+        	}
+    	}
+        
+        if (objList.size()>0) {
+        	
+        	Iterator<ArrayList<Object>> it=tablesToGenerate.values().iterator();
+        	while (it.hasNext()) {
+        		generateTableHtml(it.next(), objList, html, index);
+        	}        	        	
         }
-       
-        if (objList.size() == 0)
+        else
         	toReturn.append(MessageLocalizer.getMessage("NO_OBJECTS_WHERE_FOUND"));
+        
         toReturn.append(index)
         .append(html)
         .append("</body>\n")
