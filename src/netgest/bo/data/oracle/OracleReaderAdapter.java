@@ -258,7 +258,10 @@ public class OracleReaderAdapter implements ReaderAdapter
                     columnClassName[i] = "java.sql.Timestamp";
                     columnType[i] = DataTypes.TIMESTAMP;
                 }
-                else if (className.equals("oracle.sql.CLOB") || className.equals("java.sql.Clob"))
+                else if (className.equals("oracle.sql.CLOB")
+                		|| className.equals("oracle.jdbc.OracleClob")
+                		|| className.equals("java.sql.Clob")
+                		)
                 {
                     columnClassName[i] = "netgest.bo.data.DataClob";
                     columnType[i] = DataTypes.CLOB;
