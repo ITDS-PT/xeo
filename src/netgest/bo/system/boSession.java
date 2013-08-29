@@ -1,5 +1,13 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.system.locale.LocaleFormatter;
+import netgest.bo.system.locale.LocaleSettings;
+import netgest.bo.system.locale.XEOLocaleProvider;
+import netgest.bo.system.login.LocalePreferenceSerialization;
+import netgest.bo.system.login.LoginUtil;
+
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -7,16 +15,13 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import javax.jcr.Session;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
-
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boObject;
-import netgest.bo.system.login.LoginUtil;
 public class boSession implements Serializable {
 
     private static Logger logger = Logger.getLogger("netgest.bo.system.boSession");
@@ -41,7 +46,7 @@ public class boSession implements Serializable {
     
     private Hashtable           p_objects;
     
-    private static ThreadLocal threadLocale = new ThreadLocal();
+    private static ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
     
     //
     private String p_language="pt";
@@ -50,6 +55,13 @@ public class boSession implements Serializable {
      * A map of sessions with each repository
      */
     private HashMap<String,Session> p_ecmRepositories;
+
+	/**
+	 * The locale associated with the current session
+	 */
+	private Locale locale;
+	
+	private TimeZone timeZone;
     
     protected boSession( String id, boSessionUser user, String rep , String clientName, boApplication app, 
         String remoteAddr, String remoteHost, String remoteUser, String remoteSessionId  )
@@ -86,6 +98,8 @@ public class boSession implements Serializable {
     {
         p_createdon = System.currentTimeMillis();
         p_lastactivity = p_createdon; 
+        this.locale = this.p_user.getLocale();
+        this.timeZone = this.p_user.getTimeZone();
     }
     
     /**
@@ -115,6 +129,23 @@ public class boSession implements Serializable {
     public long getPerformerBoui() 
     {
         return p_user.boui;
+    }
+    
+    /**
+     * Loads the user locale settings
+     * 
+     * This method was placed here because it loads a preference (if a preference 
+     * is loaded during login it would cause  an infinite loop because prefences also make
+     * a login if one does not exist as is the case when you're doing the first login
+     */
+    public void loadUserLocaleSettings() {
+    	String username = p_user.getUserName();
+    	LocaleSettings settings = LocalePreferenceSerialization.loadFromPreference( username );
+		this.p_user.setLocaleSettings( settings );
+		this.p_user.setLocale( settings.getLocale() );
+		this.p_user.setTimeZone( settings.getTimezone() );
+		this.locale = settings.getLocale();
+		this.timeZone = settings.getTimezone();
     }
      
     public void setPerformerIProfileBoui(String iprofile) 
@@ -197,12 +228,10 @@ public class boSession implements Serializable {
 
     public void poolObjectActivate()
     {
-        // TODO:  Implement this netgest.bo.system.boPoolable abstract method
     }
 
     public void poolObjectPassivate()
     {
-        // TODO:  Implement this netgest.bo.system.boPoolable abstract method
     }
     
     public void setProperty( String name, Object value )
@@ -339,5 +368,47 @@ public class boSession implements Serializable {
     public void setECMRepositorySession(String repositoryName, Session repositorySession){
     	this.p_ecmRepositories.put(repositoryName, repositorySession);
     }
+    
+    
+    public Locale getLocale() {
+    	return this.locale;
+    }
+    
+    public void setLocale(Locale newLocale) {
+    	this.locale = newLocale;
+    	resetFormatter();
+    }
+    
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+		resetFormatter();
+	}
+	
+	public void setLocaleSettings(LocaleSettings setings) {
+		getUser().setLocaleSettings( setings );
+		resetFormatter();
+	}
+	
 
+	private LocaleFormatter formatter;
+	
+	private void resetFormatter() {
+		formatter = null;
+	}
+	
+	private LocaleFormatter getOrCreateFormatter() {
+		if (formatter == null) {
+			formatter = new XEOLocaleProvider( getLocale() , getTimeZone(), getUser().getLocaleSettings() );
+		}
+		return formatter;
+		
+	}
+	
+	public LocaleFormatter getLocaleFormater() {
+		return getOrCreateFormatter();
+	}
+	
 }

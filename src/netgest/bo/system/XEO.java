@@ -9,6 +9,10 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boObjectListBuilder;
 import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.locale.LocaleFormatter;
+
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Facade for the most common operations
@@ -230,6 +234,38 @@ public class XEO {
 	}
 	
 	
+	/**
+	 * 
+	 * Retrieves the current Locale associated with the logged user, or the application 
+	 * default locale
+	 * 
+	 * @return
+	 */
+	public static Locale getCurrentLocale() {
+		return boApplication.currentContext().getLocale(); 
+	}
+	
+	/**
+	 * 
+	 * Retrieves the current Timezone associated with the currently logged user
+	 * or the application default timezone
+	 * 
+	 * @return
+	 */
+	public static TimeZone getCurrentTimeTone() {
+		return boApplication.currentContext().getTimeZone();
+	}
+	
+	/**
+	 * 
+	 * Retrieves the current thread-associated instance of {@link LocaleFormatter}
+	 * which deals with locale aware formatting of dates/numbers  
+	 * 
+	 * @return A {@link LocaleFormatter} instance
+	 */
+	public static LocaleFormatter getLocaleFormatter() {
+		return boApplication.getLocalizationFormatter();
+	}
 	
 	
 }

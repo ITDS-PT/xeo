@@ -1,6 +1,26 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
+import netgest.bo.data.DriverManager;
+import netgest.bo.data.IXEODataManager;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefInterface;
+import netgest.bo.ejb.boManagerLocal;
+import netgest.bo.ejb.impl.boManagerBean;
+import netgest.bo.lovmanager.LovManager;
+import netgest.bo.preferences.PreferenceManager;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.ObjectListManager;
+import netgest.bo.runtime.SecurityManager;
+import netgest.bo.runtime.boContextFactory;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.locale.LocaleFormatter;
+import netgest.bo.utils.XeoApplicationLanguage;
+
+import netgest.utils.IOUtils;
+import netgest.utils.StringUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,24 +37,6 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import netgest.bo.data.DriverManager;
-import netgest.bo.data.IXEODataManager;
-import netgest.bo.def.boDefHandler;
-import netgest.bo.def.boDefInterface;
-import netgest.bo.ejb.boManagerLocal;
-import netgest.bo.ejb.impl.boManagerBean;
-import netgest.bo.lovmanager.LovManager;
-import netgest.bo.preferences.PreferenceManager;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.ObjectListManager;
-import netgest.bo.runtime.SecurityManager;
-import netgest.bo.runtime.boContextFactory;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.utils.XeoApplicationLanguage;
-import netgest.utils.IOUtils;
-import netgest.utils.StringUtils;
 
 /**
  *
@@ -792,8 +794,11 @@ public class boApplication
 	 * perform BOQL (XEOQL) queries and return paginated lists of
 	 * {@link boObject}
 	 * 
+	 * @deprecated See {@link XEO} for loading instances 
+	 * 
 	 * @return An Object List Manager instance
 	 */
+	@Deprecated
 	public ObjectListManager getObjectListManager() {
 		return new ObjectListManager();
 	}
@@ -825,4 +830,11 @@ public class boApplication
 		return new EboContext(session, (HttpServletRequest) null,
 				(HttpServletResponse) null, (ServletContext) null);
 	}
+
+	
+	static LocaleFormatter getLocalizationFormatter() {
+		return currentContext().getLocaleFormater();
+	}
+	
+
 }

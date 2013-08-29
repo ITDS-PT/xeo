@@ -1,15 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.lovmanager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Properties;
-
+import netgest.bo.def.translations.TranslationRetriever;
 import netgest.bo.def.v2.boDefHandlerImpl;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.models.Ebo_LOV;
@@ -18,10 +10,22 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.XEO;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSessionUser;
+
 import netgest.utils.StringUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Properties;
 
 import com.ibm.regex.Match;
 import com.ibm.regex.RegularExpression;
@@ -560,49 +564,29 @@ public class lovObject {
 	public static String getTranslation(String lovName, String value,
 			String defaultDescription, String language) throws boRuntimeException {		
 			
-		String usedLanguage = "";
-		String label = "";
-		EboContext ctx = boApplication.currentContext().getEboContext();
-		if (ctx != null){
-			boObject lov = boObject.getBoManager().loadObject(ctx, Ebo_LOV.MODEL_NAME,"name=?", new Object[]{lovName});	
+			String label = defaultDescription;
+		
+			boObject lov = XEO.loadWithQuery( "select Ebo_LOV where name = ? ", lovName);	
 			AttributeHandler fileName = lov.getAttribute(Ebo_LOV.XEO_LOV_FILE);
 			if (fileName!=null){
 
-				boApplication app = boApplication.getXEO();
-				usedLanguage = app.getApplicationLanguage();
-				if(	ctx.getBoSession()!=null){
-					boSessionUser user = ctx.getBoSession().getUser();
-					if (StringUtils.hasValue( user.getLanguage() ) )
-						usedLanguage = user.getLanguage();
-				}
+				Locale locale = XEO.getCurrentLocale();
+				HashMap<String, Properties> translations = boDefHandlerImpl.getLanguagesMap();
 				
-				if (StringUtils.hasValue( language ))
-					usedLanguage = language;
-
-				HashMap<String, Properties> map = boDefHandlerImpl.getLanguagesMap();
-				String translationsFile = fileName.getValueString() + "_" + usedLanguage.toUpperCase()+ ".properties";
-				
-				if (translationIsAvailable( usedLanguage , map , translationsFile )) {
-					Properties prop = map.get(translationsFile);
+				String propertyFileName = TranslationRetriever.findPropertiesFileNameForLocale( fileName.getValueString() , locale  ); 
+				if (StringUtils.hasValue( propertyFileName )) {
+					Properties prop = translations.get(propertyFileName);
 					label = prop.getProperty(lovName+"."+value);
 					if (StringUtils.isEmpty( label ))
 						label = defaultDescription;
-				} else {
-					label = defaultDescription;
 				}
 			}
 			else
 				label = defaultDescription;
-		}
-		else
-			label = defaultDescription;
-
+		
 		return label;
 	}
 
-	private static boolean translationIsAvailable(String usedLanguage,
-			HashMap< String , Properties > map, String translationsFile) {
-		return usedLanguage != null && map.containsKey(translationsFile);
-	}
+	
 
 }

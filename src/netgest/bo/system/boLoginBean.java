@@ -1,30 +1,23 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
-import java.math.BigDecimal;
-import java.util.HashMap;
+import netgest.bo.boConfig;
+import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.login.boMD5Login;
+
+import netgest.io.jcr.ECMRepositoryConnection;
+import netgest.utils.MD5Utils;
+import netgest.utils.StringUtils;
+
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
 import javax.jcr.Session;
 import javax.servlet.http.HttpServletRequest;
-
-import netgest.bo.boConfig;
-import netgest.bo.configUtils.RepositoryConfig;
-import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.ObjectListManager;
-import netgest.bo.runtime.boObject;
-import netgest.bo.runtime.boObjectList;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.bridgeHandler;
-import netgest.bo.system.login.boMD5Login;
-import netgest.bo.xeomodels.system.Theme;
-import netgest.bo.xeomodels.system.ThemeIncludes;
-import netgest.io.jcr.ECMRepositoryConnection;
-import netgest.utils.MD5Utils;
-import netgest.utils.StringUtils;
 
 public class boLoginBean implements SessionBean  {
 
@@ -62,8 +55,8 @@ public class boLoginBean implements SessionBean  {
         EboContext ctx = null;
         try
         {
-//          String repos=boConfig.getDefaultRepository();
-          if(username.equals("SYSTEM"))  return boLoginSystem( password , repository, app, request );
+          if(username.equals("SYSTEM"))  
+        	  return boLoginSystem( password , repository, app, request );
           
           //Loads the login class to use for authentication if not defined it loads the default one
           if ( !StringUtils.isEmpty( authclass ) )
@@ -74,84 +67,11 @@ public class boLoginBean implements SessionBean  {
           long perfboui = p_loginmanager.boLogin( app, repository, username,password,request );
           if ( perfboui != 0 ){
             boSession session = boLoginSystem( SystemKey, repository, app, request );
-            ctx = session.createRequestContext( null, null, null );            
-            boObject perf = boObject.getBoManager().loadObject( ctx, perfboui );
+            ctx = session.createEboContext();            
+            boObject perf = XEO.load( ctx, perfboui );
    
-            boSessionUser user = new boSessionUser( );      
+            boSessionUser user = new BoUserCreator().create( perf );
             
-            
-            
-            if(perf.getAttribute("user_language")!=null  && perf.getAttribute("user_language").getValueString() != "")
-            {
-	            user.language = perf.getAttribute("user_language").toString();
-	            
-	            long languageObjectBoui = Long.valueOf( user.language );
-	            boObject perfLang = boObject.getBoManager().loadObject( ctx, languageObjectBoui );
-	            
-	            user.language = perfLang.getAttribute("code").toString(); 
-            }
-            else
-            	user.language =null;
-            
-            //If the user has a selected theme, choose that theme
-            if (perf.getAttribute("theme") != null && !"".equalsIgnoreCase(perf.getAttribute("theme").getValueString())){
-            	
-            		boObject current = perf.getAttribute("theme").getObject();
-	            	user.setTheme(current.getAttribute(Theme.NAME).getValueString());
-	            	
-	            	bridgeHandler filesIncludeHandler = current.getBridge(Theme.FILES);
-	            	if (filesIncludeHandler != null){
-		            	Map<String,String> files = new HashMap<String, String>();
-		            	filesIncludeHandler.beforeFirst();
-		            	while(filesIncludeHandler.next()){
-		            		boObject currentFileInclude = filesIncludeHandler.getObject();
-		            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
-		            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
-		            		files.put(id, path);
-		            	}
-		            	user.setThemeFiles(files);
-	            	}
-            	
-            }
-            //If the user does not have a theme, try to select the default theme 
-            else{
-            	boObjectList list = ObjectListManager.list(ctx, "select Theme where defaultTheme = '1'");
-            	list.beforeFirst();
-            	list.next();
-            	if( list.next() ) {
-	            	boObject defaultTheme = list.getObject();
-	            	user.setTheme(defaultTheme.getAttribute(Theme.NAME).getValueString());
-	            	bridgeHandler filesIncludeHandler = defaultTheme.getBridge(Theme.FILES);
-	            	Map<String,String> files = new HashMap<String, String>();
-	            	filesIncludeHandler.beforeFirst();
-	            	while(filesIncludeHandler.next()){
-	            		boObject currentFileInclude = filesIncludeHandler.getObject();
-	            		String id = currentFileInclude.getAttribute(ThemeIncludes.ID).getValueString();
-	            		String path = currentFileInclude.getAttribute(ThemeIncludes.FILEPATH).getValueString();
-	            		files.put(id, path);
-	            	}	
-	            	user.setThemeFiles(files);
-            	}
-            }
-            
-            user.userName = perf.getAttribute("username").getValueString();
-            user.boui = perfboui;
-            user.email = perf.getAttribute("email").getValueString();
-            user.groups = bridgeToArray( perf.getBridge("groups") );
-            if ( user.userName.equals("SYSUSER") )
-            {
-                user.isAdministrator = true;
-            }
-            user.mailboxes = bridgeToArray( perf.getBridge("emailAccounts") );
-            user.name  = perf.getAttribute( "name" ).getValueString();
-            user.notify = perf.getAttribute("notifica").getValueString();
-            user.queues = bridgeToArray( perf.getBridge( "queues" ) );
-            user.roles  = bridgeToArray( perf.getBridge( "roles" ) );
-            if( perf.getAttribute("securityLevel").getValueObject() != null )
-            {
-                user.securityLevel =((BigDecimal)perf.getAttribute("securityLevel").getValueObject()).byteValue();
-            }
-            user.srName = perf.getAttribute("lastname").getValueString();
             
             ctx.close();
             session.closeSession();
@@ -218,38 +138,12 @@ public class boLoginBean implements SessionBean  {
            p_loginmanager  = new boMD5Login();               
            
           long perfboui=p_loginmanager.boLogin( app, repository, username, time, timeCheck, request);
-          if (perfboui!=0)
-          {
-//            boConfigRepository rep = boConfig.getConfigRepository(repos);
+          if (perfboui!=0){
             boSession session = boLoginSystem(SystemKey,repository, app, request);
-            ctx = session.createRequestContext(null,null,null);            
-            boObject perf=boObject.getBoManager().loadObject(ctx,perfboui);
+            ctx = session.createEboContext();     
+            boObject perf = XEO.load( ctx , perfboui );
             
-           
-           
-            boSessionUser user = new boSessionUser( );
-            user.language=perf.getAttribute("language").toString();
-            //boObject perfLang=boObject.getBoManager().loadObject(ctx,user.language);
-            //if (perfLang.getAttribute("value").toString()!=null)
-            //user.language = perfLang.getAttribute("value").toString();
-            
-            //System.out.println(user.language);
-           // System.out.println(perfLang.getAttribute("value").toString());
-            
-            user.userName = perf.getAttribute("username").getValueString();
-            user.boui = perfboui;
-            user.email = perf.getAttribute("email").getValueString();
-            user.groups = bridgeToArray( perf.getBridge("groups") );
-            user.mailboxes = bridgeToArray( perf.getBridge("emailAccounts") );
-            user.name  = perf.getAttribute( "name" ).getValueString();
-            user.notify = perf.getAttribute("notifica").getValueString();
-            user.queues = bridgeToArray( perf.getBridge( "queues" ) );
-            user.roles  = bridgeToArray( perf.getBridge( "roles" ) );
-            if( perf.getAttribute("securityLevel").getValueObject() != null )
-            {
-                user.securityLevel =((BigDecimal)perf.getAttribute("securityLevel").getValueObject()).byteValue();
-            }
-            user.srName = perf.getAttribute("lastname").getValueString();
+            boSessionUser user = new BoUserCreator().create( perf );
 
             ctx.close();
             session.closeSession();
@@ -282,7 +176,6 @@ public class boLoginBean implements SessionBean  {
         boSessionUser user = new boSessionUser();
         
         user.userName = "SYSTEM";
-        
 
         user.email = "system@system.netgest.bo";
         user.boui = 0;
@@ -297,23 +190,5 @@ public class boLoginBean implements SessionBean  {
         return toReturn;
     }
     
-    private static final long[] bridgeToArray( bridgeHandler bridge ) throws boRuntimeException
-    {
-        long[] ret = null;
-        if( !bridge.isEmpty() )
-        {
-            ret = new long[ bridge.getRowCount()];
-            int rec = bridge.getRow();
-            bridge.beforeFirst();
-            
-            while( bridge.next() )
-            {
-                ret[ bridge.getRow() - 1 ] = bridge.getValueLong();
-            }
-            
-            bridge.moveTo( rec );
-        }
-        return ret;
-    }
     
 }

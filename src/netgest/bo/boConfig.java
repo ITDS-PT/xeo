@@ -3,8 +3,11 @@ package netgest.bo;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boApplicationConfig;
-import java.util.Properties;
+import netgest.bo.system.locale.LocaleSettings;
+
 import netgest.utils.ngtXMLHandler;
+
+import java.util.Properties;
 
 public class boConfig
 {
@@ -192,4 +195,8 @@ public class boConfig
     {
         return getApplicationConfig().getVBProgPath();
     }
+    
+    public static LocaleSettings getLocaleSettings() {
+		return getApplicationConfig().getLocaleSettings();
+	}
 }

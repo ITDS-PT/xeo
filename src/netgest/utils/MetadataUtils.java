@@ -53,7 +53,8 @@ public class MetadataUtils {
 	 * 
 	 */
 	public static boolean isNumber( boDefAttribute attributeMetadata ){
-		return boDefAttribute.ATTRIBUTE_NUMBER.equalsIgnoreCase( attributeMetadata.getAtributeDeclaredType() );
+		return boDefAttribute.ATTRIBUTE_NUMBER.equalsIgnoreCase( attributeMetadata.getAtributeDeclaredType() ) ||
+				boDefAttribute.ATTRIBUTE_CURRENCY.equalsIgnoreCase( attributeMetadata.getAtributeDeclaredType() );
 	}
 	
 	/**

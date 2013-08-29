@@ -1,6 +1,23 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
+import netgest.bo.boConfigRepository;
+import netgest.bo.boException;
+import netgest.bo.configUtils.RepositoryConfig;
+import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.presentation.render.Browser;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.system.config.RenderKit;
+import netgest.bo.system.locale.LocaleSettings;
+import netgest.bo.system.locale.Localization;
+import netgest.bo.utils.XeoApplicationLanguage;
+import netgest.bo.utils.XeoUserTheme;
+import netgest.bo.utils.XeoUserThemeFile;
+
+import netgest.utils.StringUtils;
+import netgest.utils.ngtXMLHandler;
+import netgest.utils.ngtXMLUtils;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +28,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
@@ -18,18 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import netgest.bo.boConfigRepository;
-import netgest.bo.boException;
-import netgest.bo.configUtils.RepositoryConfig;
-import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.presentation.render.Browser;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.system.config.RenderKit;
-import netgest.bo.utils.XeoApplicationLanguage;
-import netgest.bo.utils.XeoUserTheme;
-import netgest.bo.utils.XeoUserThemeFile;
-import netgest.utils.ngtXMLHandler;
-import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
@@ -107,10 +113,12 @@ public class boApplicationConfig {
 
 	private Properties p_wordTemplateProp;
 	private Properties p_win32ClientProp;
+	
+	private LocaleSettings localeSettings = LocaleSettings.DEFAULT;
 
 	// languages
 	
-	private Properties prop;//used to store the application language
+	private String defaultLanguage;//used to store the application language
 	/**
 	 * Keeps all languages of the application
 	 */
@@ -170,9 +178,7 @@ public class boApplicationConfig {
 	
 	
 	public String getLanguage() {
-		//boSessionUser bo= boApplication.currentContext().getEboContext().getBoSession().getUser();		
-		String ret = prop.getProperty("language");
-		return ret;
+		return defaultLanguage;
 	}
 	/**
 	 * 
@@ -700,139 +706,156 @@ public class boApplicationConfig {
 				}
 			}
 
-			///////// -------------------------------------------------------
-			// -------------------------------------------------------
-			// Gets the application language and all available languages
 			 
-			prop = new Properties();
-			NodeList nodeList;
-			if (xmldoc.selectNodes("//languages")!=null){
-				NodeList nodeL = xmldoc.selectNodes("//languages");
-				XMLNode nodex = (XMLNode) nodeL.item(0);
-				if (nodex==null){
-					logger.config("The language should be configured in boconfig.xml! Assuming PT as default");
-					prop.put("language", "PT");
-				}
-				else{
-				XMLNode nextNode = (XMLNode) nodex.getFirstChild();	
-				prop.put("language", nextNode.getText());
-				
-				nodeL = (NodeList) xmldoc.selectNodes("//bo-config/languages");
-				Node node = (XMLNode) nodeL.item(0);
-				nodex = (XMLNode) node.getFirstChild();			
-				nodeL = node.getChildNodes();
-				node = nodeL.item(1);			
-				nodeL = (NodeList) node.getChildNodes();
-				for (int i = 0; i < nodeL.getLength(); i++) {	
-					
-					nodex = (XMLNode) nodeL.item(i);
-					nodeList = nodex.getChildNodes();
-					nodex=(XMLNode) nodeList.item(0);
-					String code=nodex.getText();
-					nextNode=(XMLNode) nodeList.item(1);
-					String description=nextNode.getText();
-					XeoApplicationLanguage apl=new XeoApplicationLanguage(code,description);
-					Iterator itter= p_languages.iterator();
-					
-					boolean in=false;
-					while (itter.hasNext()){
-						XeoApplicationLanguage xeoAL=(XeoApplicationLanguage) itter.next();					
-						if (xeoAL.getCode().equals(apl.getCode()))
-							in=true;
-					}
-						if(in==false)			
-					p_languages.add(apl);
-					
-				}}}
-			else{
-				prop.put("language", "PT");		
-				}
-			// ----------------------------------------------------------
-			// -------------------------------------------------------
-			// -------------------------------------------------------
-			
-			
-			//Start processing the available themes
-			/*
-			 * <themes>
-			 *   <theme name='gray' description='Gray Theme'>
-	    	 *	   <files>
-	    	 *		  <file path='resources/css/xtheme-gray.css' description='Gray Theme' id='css_gray'></file>
-	    	 *	   </files>
-	    	 *	  </theme>
-			 * </themes>
-			 * 
-			 * */
-			if (xmldoc.selectNodes("//themes")!=null){
-				NodeList nodeL = xmldoc.selectNodes("//themes");
-				if( nodeL.getLength() > 0 ) {
-					NodeList children = nodeL.item(0).getChildNodes();
-					for (int i = 0; i < children.getLength(); i++) {
-						
-						XMLElement currentTheme = (XMLElement) children.item(i);
-						String themeName = currentTheme.getAttribute("name");
-						String themeDescription = currentTheme.getAttribute("description");
-						String themeIsActive = currentTheme.getAttribute("default");
-						boolean themeIsActiveBol = false;
-						if (themeIsActive != null)
-							themeIsActiveBol = Boolean.parseBoolean(themeIsActive);
-						
-						NodeList nl = currentTheme.getChildNodes();
-						XeoUserThemeFile[] filesToInclude = new XeoUserThemeFile[0];
-						if (nl != null){
-							XMLElement files = (XMLElement) nl.item(0);
-							if (files != null){
-								NodeList invidiualFiles = files.getChildNodes();
-								filesToInclude = new XeoUserThemeFile[invidiualFiles.getLength()];
-								for (int k = 0; k < invidiualFiles.getLength(); k++){
-									
-									//<file path='' description='' id=''></file>
-									XMLElement fileInclude = (XMLElement) invidiualFiles.item(k);
-									String path = fileInclude.getAttribute("path");
-									String description = fileInclude.getAttribute("description");
-									String id = fileInclude.getAttribute("id");
-									XeoUserThemeFile finalFile = new XeoUserThemeFile(path, description, id);
-									filesToInclude[k] = finalFile;
-								}
-							}
-						}
-						
-						XeoUserTheme theme = new XeoUserTheme(themeName, themeDescription, themeIsActiveBol, filesToInclude);
-						p_themes.put(theme.getName(), theme);
-						if (themeIsActiveBol)
-							p_defaultTheme = theme;
-					}
-				}
-			}
-			
-			//End of processing the themes
-			
-			//Process the DataSources
-			XMLElement root = (XMLElement) xmldoc.getDocumentElement();
-			XMLElement nds = (XMLElement) root.selectSingleNode("DataSources");
-			NodeList ldrivers = nds.selectNodes("DataSource");
-            int nd = ldrivers.getLength();
-            
-            for (int i = 0; i < nd; i++)
-            {
-                XMLElement xnodeDs = (XMLElement) ldrivers.item(i);
-                String name = xnodeDs.getAttribute("name");
-                if (name.equalsIgnoreCase("SYS"))
-                	p_sysDataSourceName = xnodeDs.selectSingleNode("Driver").
-                		getFirstChild().getNodeValue();
-                if (name.equalsIgnoreCase("DATA"))
-                	p_dataDataSourceName = xnodeDs.selectSingleNode("Driver").
-                		getFirstChild().getNodeValue();
-            }
-
-		
-		
-		parseRenderKits();
+			parseLanguages();
+			parseLocalizationSettings();
+			parseThemes();
+			parseDataSources();
+            parseRenderKits();
 		
 		} catch (Exception e) {
 			String[] emsg = { configFile };
 			throw new boException("netgest.bo.builder._init()", "BO-1202", e,
 					emsg);
+		}
+	}
+
+	private void parseLocalizationSettings() throws XSLException  {
+		
+		Node localization = xmldoc.selectSingleNode( "//localization" );
+		if (localization != null ) {
+			XMLNode localizationNode = (XMLNode) localization;
+			this.localeSettings = new Localization( localizationNode , logger).getSettings();	
+		} else {
+			LocaleSettings settings = LocaleSettings.DEFAULT;
+			if (StringUtils.hasValue( defaultLanguage ))
+				settings.setLocale( new Locale( defaultLanguage ) );
+			this.localeSettings = settings;
+		}
+			
+		
+	}
+
+	private void parseLanguages() throws XSLException {
+		defaultLanguage = null;
+		NodeList nodeList;
+		if (xmldoc.selectNodes("//languages")!=null){
+			NodeList nodeL = xmldoc.selectNodes("//languages");
+			XMLNode nodex = (XMLNode) nodeL.item(0);
+			if (nodex==null){
+				logger.config("The language should be configured in boconfig.xml! Assuming PT as default");
+				defaultLanguage = "PT";
+			}
+			else{
+			XMLNode nextNode = (XMLNode) nodex.getFirstChild();	
+			defaultLanguage = nextNode.getText();
+			
+			nodeL = (NodeList) xmldoc.selectNodes("//bo-config/languages");
+			Node node = (XMLNode) nodeL.item(0);
+			nodex = (XMLNode) node.getFirstChild();			
+			nodeL = node.getChildNodes();
+			node = nodeL.item(1);			
+			nodeL = (NodeList) node.getChildNodes();
+			for (int i = 0; i < nodeL.getLength(); i++) {	
+				
+				nodex = (XMLNode) nodeL.item(i);
+				nodeList = nodex.getChildNodes();
+				nodex=(XMLNode) nodeList.item(0);
+				String code=nodex.getText();
+				nextNode=(XMLNode) nodeList.item(1);
+				String description=nextNode.getText();
+				XeoApplicationLanguage apl=new XeoApplicationLanguage(code,description);
+				Iterator itter= p_languages.iterator();
+				
+				boolean in=false;
+				while (itter.hasNext()){
+					XeoApplicationLanguage xeoAL=(XeoApplicationLanguage) itter.next();					
+					if (xeoAL.getCode().equals(apl.getCode()))
+						in=true;
+				}
+					if(in==false)			
+				p_languages.add(apl);
+				
+			}}}
+		else{
+			defaultLanguage = "PT";		
+		}
+	}
+
+	private void parseDataSources() throws XSLException {
+		//Process the DataSources
+		XMLElement root = (XMLElement) xmldoc.getDocumentElement();
+		XMLElement nds = (XMLElement) root.selectSingleNode("DataSources");
+		NodeList ldrivers = nds.selectNodes("DataSource");
+		int nd = ldrivers.getLength();
+		
+		for (int i = 0; i < nd; i++)
+		{
+		    XMLElement xnodeDs = (XMLElement) ldrivers.item(i);
+		    String name = xnodeDs.getAttribute("name");
+		    if (name.equalsIgnoreCase("SYS"))
+		    	p_sysDataSourceName = xnodeDs.selectSingleNode("Driver").
+		    		getFirstChild().getNodeValue();
+		    if (name.equalsIgnoreCase("DATA"))
+		    	p_dataDataSourceName = xnodeDs.selectSingleNode("Driver").
+		    		getFirstChild().getNodeValue();
+		}
+	}
+
+	/**
+	 * 
+	 * Start processing the available themes
+	 * 
+	 * <themes>
+	 *   <theme name='gray' description='Gray Theme'>
+	 *	   <files>
+	 *		  <file path='resources/css/xtheme-gray.css' description='Gray Theme' id='css_gray'></file>
+	 *	   </files>
+	 *	  </theme>
+	 * </themes>
+	 * 
+	 * */
+	private void parseThemes() throws XSLException {
+		if (xmldoc.selectNodes("//themes")!=null){
+			NodeList nodeL = xmldoc.selectNodes("//themes");
+			if( nodeL.getLength() > 0 ) {
+				NodeList children = nodeL.item(0).getChildNodes();
+				for (int i = 0; i < children.getLength(); i++) {
+					
+					XMLElement currentTheme = (XMLElement) children.item(i);
+					String themeName = currentTheme.getAttribute("name");
+					String themeDescription = currentTheme.getAttribute("description");
+					String themeIsActive = currentTheme.getAttribute("default");
+					boolean themeIsActiveBol = false;
+					if (themeIsActive != null)
+						themeIsActiveBol = Boolean.parseBoolean(themeIsActive);
+					
+					NodeList nl = currentTheme.getChildNodes();
+					XeoUserThemeFile[] filesToInclude = new XeoUserThemeFile[0];
+					if (nl != null){
+						XMLElement files = (XMLElement) nl.item(0);
+						if (files != null){
+							NodeList invidiualFiles = files.getChildNodes();
+							filesToInclude = new XeoUserThemeFile[invidiualFiles.getLength()];
+							for (int k = 0; k < invidiualFiles.getLength(); k++){
+								
+								//<file path='' description='' id=''></file>
+								XMLElement fileInclude = (XMLElement) invidiualFiles.item(k);
+								String path = fileInclude.getAttribute("path");
+								String description = fileInclude.getAttribute("description");
+								String id = fileInclude.getAttribute("id");
+								XeoUserThemeFile finalFile = new XeoUserThemeFile(path, description, id);
+								filesToInclude[k] = finalFile;
+							}
+						}
+					}
+					
+					XeoUserTheme theme = new XeoUserTheme(themeName, themeDescription, themeIsActiveBol, filesToInclude);
+					p_themes.put(theme.getName(), theme);
+					if (themeIsActiveBol)
+						p_defaultTheme = theme;
+				}
+			}
 		}
 	}
 
@@ -1285,5 +1308,9 @@ public class boApplicationConfig {
 	
 	public String getDefaultRenderKit(){
 		return defaultRenderKit;
+	}
+	
+	public LocaleSettings getLocaleSettings() {
+		return localeSettings;
 	}
 }

@@ -1,8 +1,12 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
+import netgest.bo.system.locale.LocaleSettings;
+
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * 
@@ -30,8 +34,12 @@ public class boSessionUser
     long[] applications;
     long boui;
     long[] mailboxes;
+    Locale userLocale;
+    TimeZone userTimezone;
     
     boolean isAdministrator = false;
+
+	private LocaleSettings localeSettings;
 
     /**
      * 
@@ -122,7 +130,9 @@ public class boSessionUser
         return isAdministrator;
     }
     public void setLanguage(String lang){
-    	language=lang;
+    	if (lang != null) {
+    		language=lang;
+    	}
     }
 
     /**
@@ -165,5 +175,28 @@ public class boSessionUser
     	themeFiles = files;
     }
     
+    void setLocale(Locale newLocale) {
+    	this.userLocale = newLocale;
+    }
+    
+    Locale getLocale() {
+    	return userLocale;
+    }
+    
+    TimeZone getTimeZone() {
+    	return userTimezone;
+    }
+    
+    void setTimeZone(TimeZone newTimeZone) {
+    	this.userTimezone = newTimeZone;
+    }
+    
+    public LocaleSettings getLocaleSettings() {
+    	return this.localeSettings;
+    }
+    
+    void setLocaleSettings(LocaleSettings settings){ 
+    	this.localeSettings = settings;
+    }
 
 }

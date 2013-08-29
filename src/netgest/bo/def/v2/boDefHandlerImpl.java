@@ -1,6 +1,33 @@
 /*Enconding=UTF-8*/
 package netgest.bo.def.v2;
 
+import netgest.bo.boConfig;
+import netgest.bo.builder.boBuildDB;
+import netgest.bo.def.boDefActivity;
+import netgest.bo.def.boDefAttribute;
+import netgest.bo.def.boDefClsEvents;
+import netgest.bo.def.boDefClsState;
+import netgest.bo.def.boDefDatabaseObject;
+import netgest.bo.def.boDefForwardObject;
+import netgest.bo.def.boDefHandler;
+import netgest.bo.def.boDefMethod;
+import netgest.bo.def.boDefOPL;
+import netgest.bo.def.boDefViewer;
+import netgest.bo.def.translations.TranslationRetriever;
+import netgest.bo.impl.Ebo_TextIndexImpl;
+import netgest.bo.localizations.LoggerMessageLocalizer;
+import netgest.bo.localizations.MessageLocalizer;
+import netgest.bo.runtime.boRuntimeException;
+import netgest.bo.runtime.boRuntimeException2;
+import netgest.bo.system.Logger;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boApplicationConfig;
+import netgest.bo.transformers.CastInterface;
+import netgest.bo.utils.SchemaUtils;
+
+import netgest.utils.ngtXMLHandler;
+import netgest.utils.ngtXMLUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -18,33 +45,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-import netgest.bo.boConfig;
-import netgest.bo.builder.boBuildDB;
-import netgest.bo.def.boDefActivity;
-import netgest.bo.def.boDefAttribute;
-import netgest.bo.def.boDefClsEvents;
-import netgest.bo.def.boDefClsState;
-import netgest.bo.def.boDefDatabaseObject;
-import netgest.bo.def.boDefForwardObject;
-import netgest.bo.def.boDefHandler;
-import netgest.bo.def.boDefInterface;
-import netgest.bo.def.boDefMethod;
-import netgest.bo.def.boDefOPL;
-import netgest.bo.def.boDefViewer;
-import netgest.bo.impl.Ebo_TextIndexImpl;
-import netgest.bo.localizations.LoggerMessageLocalizer;
-import netgest.bo.localizations.MessageLocalizer;
-import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.runtime.boRuntimeException2;
-import netgest.bo.system.Logger;
-import netgest.bo.system.boApplication;
-import netgest.bo.system.boApplicationConfig;
-import netgest.bo.system.boSessionUser;
-import netgest.bo.transformers.CastInterface;
-import netgest.bo.utils.SchemaUtils;
-import netgest.utils.StringUtils;
-import netgest.utils.ngtXMLHandler;
-import netgest.utils.ngtXMLUtils;
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLNode;
 
@@ -1639,76 +1639,10 @@ public class boDefHandlerImpl extends boDefHandler {
 	 * @return(String)label, description or tooltip in the desired language, or the default value
 	 * in case a suitable translation does not exist
 	 */
-	public static String getTranslation(String className, String defaultValue, String type,String attribute, String whichText)
-	{	
-		if (StringUtils.isEmpty(className))
-			return defaultValue;
-		
-		String translatedMessage = null;
-		boApplication app = boApplication
-				.getApplicationFromStaticContext("XEO");
-		
-		String applicationLanguage = app.getApplicationLanguage();
-		String userLanguage = getUserLanguageFromContext();
-		if (!StringUtils.isEmpty(userLanguage))
-			applicationLanguage = userLanguage;
-			
-		HashMap<String,Properties> translationsMap = boDefHandlerImpl.getLanguagesMap();
-		String objectPropertiesFilename = className+"_"+applicationLanguage+".properties";
-		
-		if (translationsMap.containsKey(objectPropertiesFilename)){
-			Properties prop = translationsMap.get(objectPropertiesFilename);
-			if (type!=null && attribute != null){
-				String propertyToRetrieve = type + "." + attribute + "." + whichText;
-				String retrievedMessage = prop.getProperty(propertyToRetrieve);
-				if(!StringUtils.isEmpty(retrievedMessage)){
-					translatedMessage = retrievedMessage;
-				}
-			} else if( !StringUtils.isEmpty( prop.getProperty( whichText ) ) ){
-				translatedMessage = prop.getProperty( whichText );
-			}
-		}
-		
-		
-		if (StringUtils.isEmpty(translatedMessage))
-		{
-			//getSuper
-			boDefHandler currentbo = boDefHandlerImpl.getBoDefinition(className);
-			if( currentbo != null ) {
-				if (currentbo.getBoExtendsClass()!=null && !currentbo.getBoExtendsClass().equals("")){
-					translatedMessage=getTranslation(currentbo.getBoExtendsClass(), defaultValue, type, attribute, whichText);
-				}
-				//Interfaces
-				if (StringUtils.isEmpty(translatedMessage))
-				{
-					for (String interf:currentbo.getImplements())
-					{
-						boDefInterface interfimpl = boDefInterfaceImpl.getInterfaceDefinition(interf);
-						translatedMessage = getTranslation( interfimpl.getName(), defaultValue, type, attribute, whichText );
-						if (!StringUtils.isEmpty(translatedMessage))
-							return translatedMessage;
-					}
-				}
-			}
-		}
-		
-		if (!StringUtils.isEmpty(translatedMessage))
-			return translatedMessage;
-		return defaultValue;
+	public static String getTranslation(String className, String defaultValue, String type,String attribute, String whichText){	
+		return TranslationRetriever.translate( className , defaultValue , type , attribute , whichText );
 	}
 	
-	private static String getUserLanguageFromContext(){
-		if(boApplication.currentContext() != null)
-			if(boApplication.currentContext().getEboContext() != null)
-			if(boApplication.currentContext().getEboContext().getBoSession() != null)
-		{
-			boSessionUser user=boApplication.currentContext().getEboContext().getBoSession().getUser();
-			if(user.getLanguage()!=null && !user.getLanguage().equals(""))
-				return user.getLanguage();
-		}
-		return "";
-	}
-
 	public ngtXMLHandler getXmlNode() {
 		return xmlNode;
 	}
