@@ -192,6 +192,8 @@ public class boSessionUser
     }
     
     public LocaleSettings getLocaleSettings() {
+    	if (this.localeSettings == null)
+    		return LocaleSettings.DEFAULT;
     	return this.localeSettings;
     }
     
