@@ -393,7 +393,7 @@ public class boSession implements Serializable {
 	}
 	
 
-	private LocaleFormatter formatter;
+	private  transient LocaleFormatter formatter;
 	
 	private void resetFormatter() {
 		formatter = null;
