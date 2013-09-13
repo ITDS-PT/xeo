@@ -116,11 +116,20 @@ public class boTextIndexAgentBussinessLogic
                                   ctx.clearObjectInTransaction();
                                   ok = true;
                               }
+                              else {
+                                  boObject textIndex = boObject.getBoManager().loadObject( ctx, "SELECT Ebo_TextIndex WHERE UI=?",new Object[] { new Long( itens[counter] )});
+                                  if(textIndex.exists()) 
+                                  {
+                                	  try {
+                                		  textIndex.destroy();
+                                	  }
+                                	  catch( Exception ex1 ) {};
+                                  }
+                                  ok = true;
+                              }
                           }
                           catch (boRuntimeException e)
                           {
-                        	  ctx.rollbackContainerTransaction();
-                        	  ctx.beginContainerTransaction();
                               if ( e.getErrorCode().equals("BO-3015") )
                               {
                                   boObject textIndex = boObject.getBoManager().loadObject( ctx, "SELECT Ebo_TextIndex WHERE UI=?",new Object[] { new Long( itens[counter] )});
@@ -129,11 +138,9 @@ public class boTextIndexAgentBussinessLogic
                                 	  try {
                                 		  textIndex.destroy();
                                 	  }
-                                	  catch( Exception ex1 ) {
-                                		  ctx.rollbackContainerTransaction();
-                                		  ctx.beginContainerTransaction();
-                                	  };
+                                	  catch( Exception ex1 ) {};
                                   }
+                                  ok = true;
                               }
                               else
                               {
@@ -159,8 +166,11 @@ public class boTextIndexAgentBussinessLogic
                           } else {
                         	  queue.markAsProcessed( cn, itens[ counter ], 9, "Erro" );
                           }
-                        	  
+
+                          ctx.clearObjectInTransaction();
+                          
                           ctx.commitContainerTransaction();
+                          
                           counter++;
 
                   }
