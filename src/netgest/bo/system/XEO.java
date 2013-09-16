@@ -34,6 +34,14 @@ public class XEO {
 		return boObject.getBoManager().loadObject( ctx, boql , args );
 	}
 	
+	public static boObject loadWithQuery(String boql) throws boRuntimeException {
+		return boObject.getBoManager().loadObject( getEboContext() , boql );
+	}
+	
+	public static boObject loadWithQuery(EboContext ctx, String boql) throws boRuntimeException {
+		return boObject.getBoManager().loadObject( ctx , boql );
+	}
+	
 	public static boObject load(long boui) throws boRuntimeException {
 		return boObject.getBoManager().loadObject( getEboContext() , boui );
 	}
