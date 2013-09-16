@@ -66,6 +66,7 @@ public interface LocaleFormatter {
      
 	 public DecimalFormat getNumberFormatter();
 	 public DecimalFormat getCurrencyFormatter();
+	 public CurrencyPosition getCurrencyPosition();
 }
 
 

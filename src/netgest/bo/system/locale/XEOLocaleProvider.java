@@ -300,6 +300,11 @@ public class XEOLocaleProvider implements LocaleFormatter {
 		
 	}
 
+	@Override
+	public CurrencyPosition getCurrencyPosition() {
+		return localeSettings.getCurrencyPosition();
+	}
+
 	
 	
 	
