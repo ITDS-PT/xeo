@@ -217,6 +217,19 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
+	<xs:complexType name="ecmRepositoryType">
+		<xs:sequence>
+			<xs:element name="repositoryName" type="xs:string"></xs:element>
+			<xs:element name="canAddFiles" type="xs:boolean"></xs:element>
+			<xs:element name="canAddMetadata" type="xs:boolean"></xs:element>
+			<xs:element name="metadataRequired" type="xs:boolean"></xs:element>
+			<xs:element name="isFolder" type="xs:boolean"></xs:element>
+			<xs:element name="fileNodes" type="xs:string"></xs:element>
+			<xs:element name="folderNodes" type="xs:string"></xs:element>
+			<xs:element name="metadataNodes" type="xs:string"></xs:element>
+			<xs:element name="metadataProperties" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>	
 	<xs:complexType name="xeoLanguageComplex" mixed="true">
 		<xs:attribute name="language" type="xeoLanguageEnum" use="required"/>
 	</xs:complexType>
@@ -830,12 +843,29 @@
 									</xs:documentation>
 								</xs:annotation>
 								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="argument">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Name of the attribute</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="type" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Type (java class) of the attribute</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
 									<xs:attribute name="return" type="xs:string" use="required">
 										<xs:annotation>
 											<xs:documentation>The return type of the method
-												XXXXXXXXXXXXXXXX</xs:documentation>
+												</xs:documentation>
 										</xs:annotation>
 									</xs:attribute>
+									
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="body" type="xeoLanguage">
@@ -1208,6 +1238,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="documentation" minOccurs="0"/>
+			<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0"></xs:element>
 		</xs:all>
 		<xs:attribute name="name" use="required">
 			<xs:simpleType>
@@ -1509,6 +1540,7 @@
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
+					<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0" maxOccurs="1"></xs:element>
 				</xs:all>
 			</xs:restriction>
 		</xs:complexContent>
