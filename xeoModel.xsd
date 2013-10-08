@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2009 (http://www.altova.com) by acruz (EMBRACE) -->
 <!-- Editado por Pedro Rio (prio@itds.pt) in 26 Maio de 2009 -->
-<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" elementFormDefault="unqualified" attributeFormDefault="unqualified" jaxb:version="2.0">
+<xs:schema xmlns:xm="xeoModel" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" elementFormDefault="unqualified" attributeFormDefault="unqualified" 
+jaxb:version="2.0">
 	<!-- XPortal, objectos antigos? XEO_Image.xeomodel No package PORTAL$1.0$PORTLETS-->
 	<xs:annotation>
 		<xs:appinfo>
@@ -94,6 +96,25 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="AttributeEventsEnum">
+	<xs:annotation>
+      <xs:appinfo>
+        <jaxb:typesafeEnumClass>
+            <jaxb:typesafeEnumMember value="onChange" name="onChange" />
+            <jaxb:typesafeEnumMember value="onBeforeGetValue" name="onBeforeGetValue" />
+            <jaxb:typesafeEnumMember value="onBeforeLoadBridge" name="onBeforeLoadBridge" />
+            <jaxb:typesafeEnumMember value="onBeforeAdd" name="onBeforeAdd" />
+            <jaxb:typesafeEnumMember value="onBeforeChange" name="onBeforeChange" />
+            <jaxb:typesafeEnumMember value="onBeforeChangeOrder" name="onBeforeChangeOrder" />
+            <jaxb:typesafeEnumMember value="onAfterAdd" name="onAfterAdd" />
+            <jaxb:typesafeEnumMember value="onAfterChange" name="onAfterChange" />
+            <jaxb:typesafeEnumMember value="onAfterGetValue" name="onAfterGetValue" />
+            <jaxb:typesafeEnumMember value="onAfterLoadBridge" name="onAfterLoadBridge" />
+            <jaxb:typesafeEnumMember value="onAfterChangeOrder" name="onAfterChangeOrder" />
+            <jaxb:typesafeEnumMember value="onBeforeRemove" name="onBeforeRemove" />
+            <jaxb:typesafeEnumMember value="onAfterRemove" name="onAfterRemove" />
+        </jaxb:typesafeEnumClass>
+      </xs:appinfo>
+    </xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="onChange"/>
 			<xs:enumeration value="onBeforeGetValue"/>
@@ -111,6 +132,20 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="ObjectEventsEnum">
+		<xs:annotation>
+      <xs:appinfo>
+        <jaxb:typesafeEnumClass>
+            <jaxb:typesafeEnumMember value="onAfterCreate" name="onAfterCreate" />
+            <jaxb:typesafeEnumMember value="onAfterDestroy" name="onAfterDestroy" />
+            <jaxb:typesafeEnumMember value="onAfterLoad" name="onAfterLoad" />
+            <jaxb:typesafeEnumMember value="onAfterSave" name="onAfterSave" />
+            <jaxb:typesafeEnumMember value="onBeforeCreate" name="onBeforeCreate" />
+            <jaxb:typesafeEnumMember value="onBeforeDestroy" name="onBeforeDestroy" />
+            <jaxb:typesafeEnumMember value="onBeforeLoad" name="onBeforeLoad" />
+            <jaxb:typesafeEnumMember value="onBeforeSave" name="onBeforeSave" />
+        </jaxb:typesafeEnumClass>
+      </xs:appinfo>
+    </xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="onAfterCreate">
 				<xs:annotation>
@@ -229,21 +264,28 @@
 			<xs:element name="metadataNodes" type="xs:string"></xs:element>
 			<xs:element name="metadataProperties" type="xs:string"></xs:element>
 		</xs:sequence>
-	</xs:complexType>	
+	</xs:complexType>
 	<xs:complexType name="xeoLanguageComplex" mixed="true">
 		<xs:attribute name="language" type="xeoLanguageEnum" use="required"/>
+	</xs:complexType>	
+	<xs:complexType name="xeoDepends">
+		<xs:sequence>
+			<xs:element name="depends" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="attribute" type="referenceToAttribute" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
+	
 	<xs:complexType name="xeoLanguageWithDepends" mixed="true">
 		<xs:complexContent mixed="true">
 			<xs:extension base="xeoLanguageComplex">
 				<xs:sequence>
-					<xs:element name="depends" minOccurs="0">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="attribute" type="referenceToAttribute" minOccurs="0" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
+						<xs:element name="depends" minOccurs="0" type="xeoDepends">
+						</xs:element>						
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -843,29 +885,12 @@
 									</xs:documentation>
 								</xs:annotation>
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="argument">
-											<xs:complexType>
-												<xs:attribute name="name" type="xs:string" use="required">
-													<xs:annotation>
-														<xs:documentation>Name of the attribute</xs:documentation>
-													</xs:annotation>
-												</xs:attribute>
-												<xs:attribute name="type" type="xs:string" use="required">
-													<xs:annotation>
-														<xs:documentation>Type (java class) of the attribute</xs:documentation>
-													</xs:annotation>
-												</xs:attribute>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
 									<xs:attribute name="return" type="xs:string" use="required">
 										<xs:annotation>
 											<xs:documentation>The return type of the method
-												</xs:documentation>
+												XXXXXXXXXXXXXXXX</xs:documentation>
 										</xs:annotation>
 									</xs:attribute>
-									
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="body" type="xeoLanguage">
@@ -1220,6 +1245,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+			<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>
 			<xs:element name="orphanRelation" type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
@@ -1238,7 +1264,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="documentation" minOccurs="0"/>
-			<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0"></xs:element>
+			<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0"/>
 		</xs:all>
 		<xs:attribute name="name" use="required">
 			<xs:simpleType>
@@ -1277,6 +1303,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
 			</xs:restriction>
@@ -1305,6 +1332,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1335,6 +1363,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1364,6 +1393,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1396,6 +1426,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1424,6 +1455,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1452,6 +1484,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1480,6 +1513,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1509,6 +1543,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
@@ -1538,9 +1573,10 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
-					<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name='ecmRepository' type='ecmRepositoryType' minOccurs="0" maxOccurs="1"/>
 				</xs:all>
 			</xs:restriction>
 		</xs:complexContent>
@@ -1576,6 +1612,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<xs:element name="orphanRelation" type="xs:boolean" minOccurs="0"/>
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
@@ -1618,6 +1655,7 @@
 					<xs:element name="disableWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="hiddenWhen" type="xeoLanguageWithDepends" minOccurs="0"/>
 					<xs:element name="onChangeSubmit" type="xeoLanguage" minOccurs="0"/>
+					<xs:element name="totalRefresh" type="xeoLanguage" minOccurs="0"/>					
 					<!-- Changed -->
 					<xs:element ref="documentation" minOccurs="0"/>
 				</xs:all>
