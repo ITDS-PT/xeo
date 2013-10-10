@@ -51,7 +51,11 @@ public class boSessionUser
     }
 
     public String getLanguage(){
-    	return language;
+    	if (this.userLocale != null){
+    		return this.userLocale.toString();
+    	} else {
+    		return language;
+    	}
     }
     
     public String getUserName()

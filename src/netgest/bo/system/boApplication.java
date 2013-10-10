@@ -16,6 +16,7 @@ import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.locale.LocaleFormatter;
+import netgest.bo.system.locale.LocaleSettings;
 import netgest.bo.utils.XeoApplicationLanguage;
 
 import netgest.utils.IOUtils;
@@ -336,9 +337,22 @@ public class boApplication
  * used language from the boconfig.xml
  */
      public String getApplicationLanguage(){
-    	 String language;  	
-    		 language=p_config.getLanguage();   	 
-    	return language;   	
+    	 String language = p_config.getLanguage();
+    	 
+    	 LocaleSettings currentLocaleSettings = p_config.getLocaleSettings();
+    	 
+    	 boolean boConfigHasLocaleSettings = true;
+    	 if (currentLocaleSettings == LocaleSettings.DEFAULT)
+    		 boConfigHasLocaleSettings = false;
+    	 
+    	 if (!boConfigHasLocaleSettings){  
+    		 if (StringUtils.hasValue( language ))
+    			 return language;
+    	 } else {
+    		 return currentLocaleSettings.getLocale().toString();
+    	 }
+    	 
+    	 return LocaleSettings.DEFAULT.getLocale().toString();   	
     }
      /**
       * 

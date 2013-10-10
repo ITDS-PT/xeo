@@ -87,7 +87,7 @@ public class Localization {
 	}
 	
 	private void parseTimeZone() throws XSLException {
-		XMLNode timeZone =  (XMLNode ) node.selectSingleNode( "locale" );
+		XMLNode timeZone =  (XMLNode ) node.selectSingleNode( "timezone" );
 		if (timeZone != null) { 
 			String timeZoneXML = timeZone.getText();
 			if (StringUtils.hasValue( timeZoneXML )){

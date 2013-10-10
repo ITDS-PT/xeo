@@ -253,6 +253,10 @@ public class XEO {
 		return boApplication.currentContext().getLocale(); 
 	}
 	
+	public static Locale getUserLocale() {
+		return boApplication.currentContext().getUserLocale();
+	}
+	
 	/**
 	 * 
 	 * Retrieves the current Timezone associated with the currently logged user

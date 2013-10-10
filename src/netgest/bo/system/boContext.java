@@ -56,6 +56,14 @@ public class boContext
         }
     }
     
+    public Locale getUserLocale(){
+    	if (getEboContext() != null) {
+			Locale current = getEboContext().getBoSession().getLocale();
+			return current;
+		}
+    	return null;
+    }
+    
     public Locale getLocale() {
     	
     	if (this.locale == null) {

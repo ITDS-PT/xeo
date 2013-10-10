@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
+import netgest.bo.system.XEO;
 import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
@@ -104,36 +105,6 @@ public class MessageLocalizer {
 	 * 
 	 */
 	private static String getLanguage() {
-		String language="";
-		boApplication boApp = null;
-		if (boApplication.currentContext()!=null)
-		{
-			boApp = boApplication.currentContext().getApplication();
-			language = boApp.getApplicationLanguage();
-						
-			boContext boctx=null;
-			EboContext ctx=null;
-			boSession session=null;
-			boSessionUser user=null;
-			boctx = boApplication.currentContext();
-			if (boctx != null) {
-				ctx = boctx.getEboContext();
-				if (ctx != null) {
-					session = ctx.getBoSession();
-					if (session != null) {
-						user = session.getUser();
-						if (user.getLanguage() != null)
-							language = user.getLanguage();
-					}
-				}
-			}
-		}
-		else
-		{
-			if (StringUtils.isEmpty(language))
-				language = boApplication.getDefaultApplication()
-						.getApplicationLanguage();
-		}
-		return language != null ? language : "";
+		return XEO.getCurrentLocale().toString();
 	}
 }
