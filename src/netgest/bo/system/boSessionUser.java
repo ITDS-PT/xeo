@@ -135,6 +135,7 @@ public class boSessionUser
     }
     public void setLanguage(String lang){
     	if (lang != null) {
+    		userLocale = new Locale(lang);
     		language=lang;
     	}
     }
