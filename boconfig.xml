@@ -12,7 +12,6 @@
 		<obj_templates>.\.templates</obj_templates>
 		<obj_deployjspdir>.\.build\webresources\default\</obj_deployjspdir>
 		<obj_moduleswebdir>.\base_lib\modules_web\</obj_moduleswebdir>
-		<obj_modulesdir>.\lib\</obj_modulesdir>
 		<lib_dir>.\lib\</lib_dir>
 		<tablespace>DEVXEO</tablespace>
 	</deployment>
@@ -73,9 +72,7 @@
 		<dir_prefix>ie</dir_prefix>
 		<theme>0</theme>
 	</browser>
-	<wordTemplate>
-		<path>.\wordTemplates\</path>
-	</wordTemplate>
+	
 	 <languages>
        <ApplicationLanguage>PT</ApplicationLanguage>
     	<availableLanguages>
@@ -123,8 +120,8 @@
     		</files>
     	</theme>
     </themes>
-    <renderKits defaultRenderKit='XEOHTML'>
-    	<renderKit id='XEOJQUERY' themeClass='netgest.bo.xwc.components.classic.theme.JQueryTheme'></theme>
+    <renderKits default='XEOHTML'>
+    	<renderKit id='XEOJQUERY' themeClass='netgest.bo.xwc.components.classic.theme.JQueryTheme'></renderKit>
     </renderKits>
      <localization>
         <decimalSeparator>,</decimalSeparator>
@@ -134,14 +131,17 @@
         <dateFormat>dd/MM/yyyy</dateFormat>
         <timeFormat>HH:mm</timeFormat>
         <locale>pt_PT</locale>
+        <timezone>Europe/Lisbon</timezone>
+        <dateTimeSeparator> </dateTimeSeparator>
          <availableLocales>
         	<locale>pt_PT</locale>
         	<locale>en_US</locale>
         	<locale>es_ES</locale>
         </availableLocales>
-        <timezone>Europe/Lisbon</timezone>
-        <dateTimeSeparator> </dateTimeSeparator>
 	</localization> 
+	<wordTemplate>
+		<path>.\wordTemplates\</path>
+	</wordTemplate>
 	<win32Client>
 		<version>0.9.1</version>
 		<name>xeoWin32Client.jar</name>
