@@ -4,6 +4,7 @@ import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.locale.LocaleSettings;
 import netgest.bo.xeomodels.system.Theme;
 import netgest.bo.xeomodels.system.ThemeIncludes;
 
@@ -78,6 +79,14 @@ class BoUserCreator {
 		}
 	}
 
+	/**
+	 * 
+	 * Sets the user language, does not load the {@link LocaleSettings}
+	 * associated to the user because it can only be done after the login is made
+	 * 
+	 * @param perf
+	 * @throws boRuntimeException
+	 */
 	private void setUserLanguage(boObject perf)
 			throws boRuntimeException {
 		boObject perfLang = perf.getAttribute( "user_language" )

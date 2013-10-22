@@ -1,18 +1,20 @@
 package netgest.bo.system.locale;
 
 
-import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
-
-import netgest.utils.StringUtils;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
+import netgest.utils.StringUtils;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
+
+import org.w3c.dom.NodeList;
 
 public class Localization {
 
@@ -25,16 +27,20 @@ public class Localization {
 	private String dateFormat;
 	private String dateTimeSeparator;
 	private String timeFormat;
+	private List<Locale> availableLocales = new ArrayList<Locale>();
 	
+	private List<String> availableLanguages =  new ArrayList<String>();
+ 	
 	private static final String INVALID = "";
 	
 	private LocaleSettings result; 
 	private XMLNode node;
 	private Logger logger;
 	
-	public Localization(XMLNode mainNode, Logger logger) {
+	public Localization(XMLNode mainNode, Logger logger, List<String> availableLanguages) {
 		this.node = mainNode;
 		this.logger = logger;
+		this.availableLanguages = availableLanguages;
 	}
 	
 	public LocaleSettings getSettings() throws XSLException {
@@ -49,6 +55,7 @@ public class Localization {
 			parseLocale();
 			parseTimeZone();
 			parseDateTimeSeparator();
+			parseAvailableLocales();
 			
 			if (allFieldsAreValid()) {
 				return new LocaleSettings(
@@ -60,7 +67,8 @@ public class Localization {
 						groupSeparator , 
 						decimalSeparator , 
 						currencySymbol , 
-						currencyPosition );
+						currencyPosition,
+						availableLocales );
 			} else {
 				result = LocaleSettings.DEFAULT; 
 			}
@@ -69,6 +77,30 @@ public class Localization {
 		}
 		
 		return result;
+	}
+
+	private void parseAvailableLocales() throws XSLException {
+		XMLNode availableLocalesNode =  (XMLNode ) node.selectSingleNode( "availableLocales" );
+		if (availableLocalesNode != null) {
+			NodeList locales = availableLocalesNode.getChildNodes();
+			for (int i = 0 ; i < locales.getLength() ; i++){
+				XMLNode locale = (XMLNode) locales.item(i);
+				String localeText = locale.getText();
+				Locale newLocale = createLocaleFromString(localeText);
+				this.availableLocales.add(newLocale);
+			}
+
+		} else {
+			if (!availableLanguages.isEmpty()){
+				for (String language : availableLanguages){
+					Locale newLocale = createLocaleFromString( language );
+					this.availableLocales.add(newLocale); 
+				}
+			} else {
+				this.availableLocales = LocaleSettings.DEFAULT.getAvailableLocales();
+			}
+			
+		}
 	}
 
 	private boolean allFieldsAreValid() {
@@ -104,24 +136,28 @@ public class Localization {
 		if (locale != null) {
 			String localeText = locale.getText();
 			if (StringUtils.hasValue( localeText )) {
-				createLocaleFromString( localeText );
+				parseLocaleFromString(localeText);
 			}
 		}
 		else 
 			this.locale = null;
 	}
 
-	private void createLocaleFromString(String localeText) {
+	private void parseLocaleFromString(String localeText) {
+		this.locale = createLocaleFromString(localeText);
+	}
+	
+	public static Locale createLocaleFromString(String localeText) {
+		Locale result = null;
 		String[] localeParts = localeText.split( "_" );
 		if (localeParts.length == 1)
-			this.locale = new Locale( localeParts[0] );
+			result = new Locale( localeParts[0] );
 		else if (localeParts.length == 2) {
-			this.locale = new Locale( localeParts[0], localeParts[1] );
+			result = new Locale( localeParts[0], localeParts[1] );
 		} else if (localeParts.length == 3) {
-			this.locale = new Locale( localeParts[0], localeParts[1], localeParts[2] );
-		} else {
-			this.locale = null;
-		}
+			result = new Locale( localeParts[0], localeParts[1], localeParts[2] );
+		} 
+		return result;
 	}
 
 	private void parseDateTimeSeparator() throws XSLException {

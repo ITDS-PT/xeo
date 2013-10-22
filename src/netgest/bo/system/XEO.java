@@ -1,5 +1,9 @@
 package netgest.bo.system;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import netgest.bo.data.DriverUtils;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.lovmanager.LovManager;
@@ -10,9 +14,6 @@ import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boObjectListBuilder;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.locale.LocaleFormatter;
-
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Facade for the most common operations
@@ -257,6 +258,10 @@ public class XEO {
 		return boApplication.currentContext().getUserLocale();
 	}
 	
+	public static List<Locale> getAvailableLocales(){
+		return boApplication.getXEO().getApplicationConfig().getLocaleSettings().getAvailableLocales();
+	}
+ 	
 	/**
 	 * 
 	 * Retrieves the current Timezone associated with the currently logged user

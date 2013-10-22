@@ -49,7 +49,7 @@ public class boSession implements Serializable {
     private static ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
     
     //
-    private String p_language="pt";
+    private String p_language=XEO.getCurrentLocale().toString();
     
     /**
      * A map of sessions with each repository
@@ -89,8 +89,6 @@ public class boSession implements Serializable {
 	
 	
 	public String getDefaultLanguage(){	
-		p_language=boApplication.getDefaultApplication().getApplicationLanguage();
-		
     	return p_language;
     	
     }
@@ -142,6 +140,7 @@ public class boSession implements Serializable {
     	String username = p_user.getUserName();
     	LocaleSettings settings = LocalePreferenceSerialization.loadFromPreference( username );
 		this.p_user.setLocaleSettings( settings );
+		this.p_user.setLanguage( settings.getLocale().toString() );
 		this.p_user.setLocale( settings.getLocale() );
 		this.p_user.setTimeZone( settings.getTimezone() );
 		this.locale = settings.getLocale();
@@ -201,9 +200,13 @@ public class boSession implements Serializable {
     public void closeSession()
     {
         p_app.getSessions().removeSession( this );
-        for (String key : this.p_ecmRepositories.keySet()){
-        	Session session = p_ecmRepositories.get( key );
-        	session.logout();
+        try{
+	        for (String key : this.p_ecmRepositories.keySet()){
+	        	Session session = p_ecmRepositories.get( key );
+	        	session.logout();
+	        }
+        } finally {
+        	p_ecmRepositories.clear();
         }
     }
     
@@ -323,14 +326,14 @@ public class boSession implements Serializable {
     }
     
     public static Locale getDefaultLocale() {
-    	Locale locale = (Locale)threadLocale.get();
+    	Locale locale = XEO.getUserLocale();
     	if( locale == null ) {
-    		locale = defaultLocale;
+    		return defaultLocale;
     	}
     	return locale;
     }
     
-    static final Locale defaultLocale = new Locale( "pt","PT" );
+    static final Locale defaultLocale = XEO.getCurrentLocale();
     
     public static final ResourceBundle getResourceBundle( String bundleName )
     {

@@ -73,7 +73,8 @@ public class boContext
     	    		return current;
     		}
     	} else {
-    		return this.locale;
+    		if (this.locale != null)
+    			return this.locale;
     	} 
     	
     	return boConfig.getLocaleSettings().getLocale();

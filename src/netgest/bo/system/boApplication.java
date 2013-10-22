@@ -331,11 +331,14 @@ public class boApplication
         zipinputstream.close();
     }
 
-/**
- * 
- * @return(String) 
- * used language from the boconfig.xml
- */
+	/**
+	 * 
+	 * Returns the application's default language
+	 * 
+	 * If there's the new localeSettings xml definition, uses that, if not uses the
+	 * applicationLanguage
+	 * 
+	 */
      public String getApplicationLanguage(){
     	 String language = p_config.getLanguage();
     	 
@@ -354,11 +357,11 @@ public class boApplication
     	 
     	 return LocaleSettings.DEFAULT.getLocale().toString();   	
     }
-     /**
-      * 
-      * @return(HashSet)all Languages
-      */
-     
+	 /**
+	  * 
+	  * @return(HashSet)all Languages
+	  *  
+	  */
     public HashSet<String> getAllLanguages(){
     	HashSet<String> p_languages= p_config.getAvailableLanguages(); 
     	return p_languages;

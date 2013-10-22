@@ -1,11 +1,12 @@
 package netgest.bo.system.locale;
 
-import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
-
-import netgest.utils.StringUtils;
-
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
+import netgest.utils.StringUtils;
 
 public class LocaleSettings {
 
@@ -18,6 +19,8 @@ public class LocaleSettings {
 	public static final String GROUP_SEPARATOR = "."; 
 	public static final Locale LOCALE = new Locale("pt","PT");
 	public static final TimeZone TIMEZONE = TimeZone.getTimeZone( "Europe/Lisbon" ); 
+	public static final List<Locale> AVAILABLE_LOCALES = 
+			Arrays.asList(new Locale("pt","PT"), Locale.ENGLISH, new Locale("es","ES"));
 	
 	
 	public static final LocaleSettings DEFAULT = new LocaleSettings( 
@@ -28,7 +31,10 @@ public class LocaleSettings {
 			, DATE_TIME_SEPARATOR 
 			, GROUP_SEPARATOR 
 			, DECIMAL_SEPARATOR 
-			, CURRENCY_SYMBOL, CURRENCY_POSITION );
+			, CURRENCY_SYMBOL
+			, CURRENCY_POSITION
+			, AVAILABLE_LOCALES
+			);
 	
 	public Locale getLocale() {
 		return locale;
@@ -47,11 +53,12 @@ public class LocaleSettings {
 	private CurrencyPosition currencyPosition;
 	private Locale locale;
 	private TimeZone timeZone;
+	private List<Locale> availableLocales;
 	
 	
 	public LocaleSettings(Locale locale, TimeZone timeZone, String datePattern, String timePattern, String dateTimeSeparator,
 			String groupSeparator, String decimalSeparator,
-			String currencySymbol, CurrencyPosition currencyPosition) {
+			String currencySymbol, CurrencyPosition currencyPosition, List<Locale> availableLocales) {
 		this.locale = locale;
 		this.timeZone = timeZone;
 		this.datePattern = datePattern;
@@ -61,6 +68,7 @@ public class LocaleSettings {
 		this.decimalSeparator = decimalSeparator.charAt( 0 );
 		this.currencySymbol = currencySymbol;
 		this.currencyPosition = currencyPosition;
+		this.availableLocales = availableLocales;
 	}
 
 	public String getDatePattern() {
@@ -110,6 +118,10 @@ public class LocaleSettings {
 	
 	public void setLocale(Locale newLocale) {
 		this.locale = newLocale;
+	}
+	
+	public List<Locale> getAvailableLocales(){
+		return availableLocales;
 	}
 	
 }

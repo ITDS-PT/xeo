@@ -1,5 +1,10 @@
 package netgest.bo.system.login;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import netgest.bo.boConfig;
 import netgest.bo.preferences.Preference;
 import netgest.bo.runtime.EboContext;
@@ -7,9 +12,6 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boSession;
 import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
 import netgest.bo.system.locale.LocaleSettings;
-
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * 
@@ -77,6 +79,8 @@ public class LocalePreferenceSerialization {
 			CurrencyPosition  currencyPosition = CurrencyPosition.
 					fromString( localization.getString( CURRENCY_POSITION ) );
 			
+			List<Locale> locales = new ArrayList<Locale>(); //FiXME
+			
 			LocaleSettings settings = new LocaleSettings( 
 					locale 
 					, timezone 
@@ -86,7 +90,8 @@ public class LocalePreferenceSerialization {
 					, groupSeparator 
 					, decimalSeparator 
 					, currencySymbol 
-					, currencyPosition );
+					, currencyPosition
+					, locales );
 			return settings; 
 		} else {
 			return boConfig.getLocaleSettings();

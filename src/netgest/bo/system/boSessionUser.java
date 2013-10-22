@@ -2,6 +2,7 @@
 package netgest.bo.system;
 
 import netgest.bo.system.locale.LocaleSettings;
+import netgest.bo.system.locale.Localization;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -135,7 +136,7 @@ public class boSessionUser
     }
     public void setLanguage(String lang){
     	if (lang != null) {
-    		userLocale = new Locale(lang);
+    		userLocale = Localization.createLocaleFromString(lang); 
     		language=lang;
     	}
     }

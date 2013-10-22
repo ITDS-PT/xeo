@@ -1,6 +1,23 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
 import netgest.bo.boConfigRepository;
 import netgest.bo.boException;
 import netgest.bo.configUtils.RepositoryConfig;
@@ -13,29 +30,9 @@ import netgest.bo.system.locale.Localization;
 import netgest.bo.utils.XeoApplicationLanguage;
 import netgest.bo.utils.XeoUserTheme;
 import netgest.bo.utils.XeoUserThemeFile;
-
 import netgest.utils.StringUtils;
 import netgest.utils.ngtXMLHandler;
 import netgest.utils.ngtXMLUtils;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
 import oracle.xml.parser.v2.XMLDocument;
 import oracle.xml.parser.v2.XMLElement;
 import oracle.xml.parser.v2.XMLNode;
@@ -180,6 +177,7 @@ public class boApplicationConfig {
 	public String getLanguage() {
 		return defaultLanguage;
 	}
+	
 	/**
 	 * 
 	 * @return (HashSet)all available languages
@@ -707,8 +705,7 @@ public class boApplicationConfig {
 			}
 
 			 
-			parseLanguages();
-			parseLocalizationSettings();
+			parseLanguageSettings();
 			parseThemes();
 			parseDataSources();
             parseRenderKits();
@@ -720,16 +717,25 @@ public class boApplicationConfig {
 		}
 	}
 
+	private void parseLanguageSettings() throws XSLException {
+		parseLanguages();
+		parseLocalizationSettings();
+	}
+
 	private void parseLocalizationSettings() throws XSLException  {
 		
 		Node localization = xmldoc.selectSingleNode( "//localization" );
 		if (localization != null ) {
 			XMLNode localizationNode = (XMLNode) localization;
-			this.localeSettings = new Localization( localizationNode , logger).getSettings();	
+			List<String> languages = new ArrayList<String>();
+			for (XeoApplicationLanguage language : p_languages){
+				languages.add(language.getCode());
+			}
+			this.localeSettings = new Localization( localizationNode , logger, languages).getSettings();	
 		} else {
 			LocaleSettings settings = LocaleSettings.DEFAULT;
 			if (StringUtils.hasValue( defaultLanguage ))
-				settings.setLocale( new Locale( defaultLanguage ) );
+				settings.setLocale( Localization.createLocaleFromString(defaultLanguage) );
 			this.localeSettings = settings;
 		}
 			
