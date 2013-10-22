@@ -1,4 +1,4 @@
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Joao Paulo Carreira (ITDS) -->
+<!-- -->
 <bo-config>
 	<definitiondir>.\bodef\</definitiondir>
 	<uidefinitiondir>.\uidef\default\</uidefinitiondir>
@@ -38,7 +38,10 @@
 		<logger active='true' for='pt,netgest' level='CONFIG' pattern='%d %5p [%t] (%F:%L) - %m%n' >
 			<console active='true'  />
 			<file active='true' logFile='.\log\fileName.log' backupFiles='5' maxSize='50MB' />
-			<email active='false' buffer='50' smtpHost='venus.itds.pt' from='machine@itds.pt' to='jp@itds.pt' cc='' bcc='' subject='ola' />
+			<email active='false' buffer='50' smtpHost='' from='' to='' cc='' bcc='' subject='' />
+		</logger>
+		<logger active='true' for='netgest.bo.xwc.framework' level='FINER' pattern='%d %5p [%t] (%F:%L) - %m%n' >
+			<console active='true'  />
 		</logger>
 	</logConfig>
 	<!-- <authentication active='false'>
@@ -120,6 +123,25 @@
     		</files>
     	</theme>
     </themes>
+    <renderKits defaultRenderKit='XEOHTML'>
+    	<renderKit id='XEOJQUERY' themeClass='netgest.bo.xwc.components.classic.theme.JQueryTheme'></theme>
+    </renderKits>
+     <localization>
+        <decimalSeparator>,</decimalSeparator>
+        <groupSeparator>.</groupSeparator>
+        <currencySymbol>€</currencySymbol>
+        <currencyPosition>right</currencyPosition>
+        <dateFormat>dd/MM/yyyy</dateFormat>
+        <timeFormat>HH:mm</timeFormat>
+        <locale>pt_PT</locale>
+         <availableLocales>
+        	<locale>pt_PT</locale>
+        	<locale>en_US</locale>
+        	<locale>es_ES</locale>
+        </availableLocales>
+        <timezone>Europe/Lisbon</timezone>
+        <dateTimeSeparator> </dateTimeSeparator>
+	</localization> 
 	<win32Client>
 		<version>0.9.1</version>
 		<name>xeoWin32Client.jar</name>
