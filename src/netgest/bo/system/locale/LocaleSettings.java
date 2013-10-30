@@ -18,7 +18,7 @@ public class LocaleSettings {
 	public static final String DATE_TIME_SEPARATOR = " ";
 	public static final String GROUP_SEPARATOR = "."; 
 	public static final Locale LOCALE = new Locale("pt","PT");
-	public static final TimeZone TIMEZONE = TimeZone.getTimeZone( "Europe/Lisbon" ); 
+	public static final TimeZone TIMEZONE = TimeZone.getDefault();
 	public static final List<Locale> AVAILABLE_LOCALES = 
 			Arrays.asList(new Locale("pt","PT"), Locale.ENGLISH, new Locale("es","ES"));
 	

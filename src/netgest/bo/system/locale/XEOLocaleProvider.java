@@ -25,6 +25,7 @@ public class XEOLocaleProvider implements LocaleFormatter {
 	private NumberFormat currencyFormat;
 	private NumberFormat percentageFormat;
 	private ConcurrentMap<DateTimeLengh,DateFormat> dateFormaters;
+	private DateFormat formaterNoTimezone;
 	private ConcurrentMap<DateTimeLengh,DateFormat> timeFormaters;
 	private ConcurrentMap<DateTimeLengh,DateFormat> dateTimeFormaters;
 	private DateFormat hourMinuteFormater;
@@ -38,28 +39,21 @@ public class XEOLocaleProvider implements LocaleFormatter {
 	}
 	
 	private void init() {
-		DateFormat dateFormat = new SimpleDateFormat( localeSettings.getDatePattern() , locale );
-		if (timeZone != null)
-			dateFormat.setTimeZone( timeZone );
+		DateFormat dateFormat = initDateFormat();
 		dateFormaters.put( DateTimeLengh.DEFAULT , dateFormat );
 		
-		dateTimeFormaters = new ConcurrentHashMap< LocaleFormatter.DateTimeLengh , DateFormat >();
-		String dateTimePattern =  localeSettings.getDatePattern()
-				+ localeSettings.getDateTimeSeparator() 
-				+ localeSettings.getTimePattern();
-		DateFormat dateTimeFormat = new SimpleDateFormat( dateTimePattern , locale );
-		if (timeZone != null)
-			dateTimeFormat.setTimeZone( timeZone );
+		formaterNoTimezone = new SimpleDateFormat( localeSettings.getDatePattern() , locale );
+		
+		DateFormat dateTimeFormat = initDateTimeFormatter();
 		dateTimeFormaters.put( DateTimeLengh.DEFAULT , dateTimeFormat );
 		
-		timeFormaters = new ConcurrentHashMap< LocaleFormatter.DateTimeLengh , DateFormat >();
-		DateFormat timeFormat = new SimpleDateFormat( localeSettings.getTimePattern() , locale );
-		if (timeZone != null)
-			timeFormat.setTimeZone( timeZone );
+		DateFormat timeFormat = initTimeFormatter();
 		timeFormaters.put( DateTimeLengh.DEFAULT , timeFormat );
 		
 		String hourMinutePattern = localeSettings.getTimePattern().replace( ":ss" , "" );
 		hourMinuteFormater = new SimpleDateFormat( hourMinutePattern , locale );
+		if (timeZone != null)
+			hourMinuteFormater.setTimeZone(timeZone);
 		
 		if (localeSettings.hasNumberSettings()) {
 			this.numberFormat = getNumberFormatter();
@@ -74,6 +68,32 @@ public class XEOLocaleProvider implements LocaleFormatter {
 			this.currencyFormat = NumberFormat.getCurrencyInstance( locale );
 		}
 		this.percentageFormat = NumberFormat.getPercentInstance( locale );
+	}
+
+	private DateFormat initTimeFormatter() {
+		timeFormaters = new ConcurrentHashMap< LocaleFormatter.DateTimeLengh , DateFormat >();
+		DateFormat timeFormat = new SimpleDateFormat( localeSettings.getTimePattern() , locale );
+		if (timeZone != null)
+			timeFormat.setTimeZone( timeZone );
+		return timeFormat;
+	}
+
+	private DateFormat initDateFormat() {
+		DateFormat dateFormat = new SimpleDateFormat( localeSettings.getDatePattern() , locale );
+		if (timeZone != null)
+			dateFormat.setTimeZone( timeZone );
+		return dateFormat;
+	}
+
+	private DateFormat initDateTimeFormatter() {
+		dateTimeFormaters = new ConcurrentHashMap< LocaleFormatter.DateTimeLengh , DateFormat >();
+		String dateTimePattern =  localeSettings.getDatePattern()
+				+ localeSettings.getDateTimeSeparator() 
+				+ localeSettings.getTimePattern();
+		DateFormat dateTimeFormat = new SimpleDateFormat( dateTimePattern , locale );
+		if (timeZone != null)
+			dateTimeFormat.setTimeZone( timeZone );
+		return dateTimeFormat;
 	}
 
 	
@@ -114,7 +134,8 @@ public class XEOLocaleProvider implements LocaleFormatter {
 
 	@Override
 	public String formatDateTime(Date toFormat) {
-		return dateTimeFormaters.get( DateTimeLengh.DEFAULT ).format( toFormat );
+		DateFormat df = dateTimeFormaters.get( DateTimeLengh.DEFAULT );
+		return df.format( toFormat );
 	}
 
 	@Override
@@ -272,6 +293,7 @@ public class XEOLocaleProvider implements LocaleFormatter {
 			String pattern = getDateFormat( DateTimeLengh.DEFAULT ) 
 					+ " " + getHourMinuteFormat( DateTimeLengh.DEFAULT );
 			dateWithHourMinuteFormatter = new SimpleDateFormat( pattern , locale );
+			dateWithHourMinuteFormatter.setTimeZone(timeZone);
 		}
 		return dateWithHourMinuteFormatter;
 	}
@@ -303,6 +325,11 @@ public class XEOLocaleProvider implements LocaleFormatter {
 	@Override
 	public CurrencyPosition getCurrencyPosition() {
 		return localeSettings.getCurrencyPosition();
+	}
+
+	@Override
+	public Date parseDateWithoutTimezone(String date) throws ParseException {
+		return formaterNoTimezone.parse(date);
 	}
 
 	

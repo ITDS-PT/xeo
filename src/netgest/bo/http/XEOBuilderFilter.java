@@ -58,6 +58,7 @@ public class XEOBuilderFilter implements Filter {
 					try {
 						session = bapp.boLogin(autologinUser, boLoginBean
 							.getSystemKey());
+						session.loadUserLocaleSettings();
 						this.getHttpSession(true).setAttribute("boSession", session);
 						
 						if (this.autologinprofile!=null && !this.autologinprofile.equals(""))

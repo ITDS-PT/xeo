@@ -55,7 +55,8 @@ public interface LocaleFormatter {
 
      public Date parseDate(String date) throws ParseException;
      public Date parseDateHourMinute(String dateWithTime) throws ParseException; 
-     public Date parseDateWithCompleteTime(String dateWithTime) throws ParseException; 
+     public Date parseDateWithCompleteTime(String dateWithTime) throws ParseException;
+     public Date parseDateWithoutTimezone(String date) throws ParseException;
      
      public String getDateFormat(DateTimeLengh length);
      public String getTimeFormat(DateTimeLengh length);
