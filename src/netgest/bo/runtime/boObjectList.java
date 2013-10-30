@@ -135,9 +135,13 @@ public class boObjectList extends boPoolable {
 
 		// boObjectList ret =
 		// (boObjectList)boPoolManager.getObject(ctx,bolistui);
-		boObjectList ret = (boObjectList) ctx.getApplication()
+		boObjectList ret = null;
+		
+		if (cache)  {
+			ret = (boObjectList) ctx.getApplication()
 				.getMemoryArchive().getPoolManager().getObject(ctx, bolistui);
-
+		}
+		
 		if (ret == null) {
 			ret = new boObjectList(ctx, boql, sqlargs, page, pagesize, orderby,
 					fulltext, letter_filter, userQuery, format, useSecurity);
