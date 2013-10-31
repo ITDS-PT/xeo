@@ -56,13 +56,14 @@ public interface LocaleFormatter {
      public Date parseDate(String date) throws ParseException;
      public Date parseDateHourMinute(String dateWithTime) throws ParseException; 
      public Date parseDateWithCompleteTime(String dateWithTime) throws ParseException;
-     public Date parseDateWithoutTimezone(String date) throws ParseException;
+     public Date parseDateDefaultTimezone(String date) throws ParseException;
      
      public String getDateFormat(DateTimeLengh length);
      public String getTimeFormat(DateTimeLengh length);
      public String getHourMinuteFormat(DateTimeLengh default1);
      public char getGroupSeparator();
      public char getDecimalSeparator();
+     public char getDateTimeSeparator();
      public String getCurrencySymbol();
      
 	 public DecimalFormat getNumberFormatter();

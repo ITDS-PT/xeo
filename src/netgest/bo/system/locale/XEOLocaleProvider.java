@@ -90,6 +90,7 @@ public class XEOLocaleProvider implements LocaleFormatter {
 		String dateTimePattern =  localeSettings.getDatePattern()
 				+ localeSettings.getDateTimeSeparator() 
 				+ localeSettings.getTimePattern();
+		
 		DateFormat dateTimeFormat = new SimpleDateFormat( dateTimePattern , locale );
 		if (timeZone != null)
 			dateTimeFormat.setTimeZone( timeZone );
@@ -291,9 +292,10 @@ public class XEOLocaleProvider implements LocaleFormatter {
 	private DateFormat getDateWithHourMinuteFormater() {
 		if (dateWithHourMinuteFormatter == null) {
 			String pattern = getDateFormat( DateTimeLengh.DEFAULT ) 
-					+ " " + getHourMinuteFormat( DateTimeLengh.DEFAULT );
+					+ getDateTimeSeparator() + getHourMinuteFormat( DateTimeLengh.DEFAULT );
 			dateWithHourMinuteFormatter = new SimpleDateFormat( pattern , locale );
-			dateWithHourMinuteFormatter.setTimeZone(timeZone);
+			if (timeZone != null)
+				dateWithHourMinuteFormatter.setTimeZone(timeZone);
 		}
 		return dateWithHourMinuteFormatter;
 	}
@@ -328,8 +330,13 @@ public class XEOLocaleProvider implements LocaleFormatter {
 	}
 
 	@Override
-	public Date parseDateWithoutTimezone(String date) throws ParseException {
+	public Date parseDateDefaultTimezone(String date) throws ParseException {
 		return formaterNoTimezone.parse(date);
+	}
+
+	@Override
+	public char getDateTimeSeparator() {
+		return localeSettings.getDateTimeSeparator().charAt(0);
 	}
 
 	
