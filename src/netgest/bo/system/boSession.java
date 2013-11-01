@@ -142,9 +142,13 @@ public class boSession implements Serializable {
     public void loadUserLocaleSettings() {
     	String username = p_user.getUserName();
     	String oldLanguage = p_user.getLanguage();
-    	String language = null;
-    	Locale locale = null;
     	LocaleSettings settings = LocalePreferenceSerialization.loadFromPreference( username );
+    	
+    	//Load settings from Preference
+    	String language = settings.getLocale().toString();
+    	Locale locale = settings.getLocale();
+    	
+    	//If preference does not exist, check old language settings and keep them
     	if (settings.getType() == Type.FROM_BOCONFIG || settings.getType() == Type.FROM_DEFAULT){
     		if (StringUtils.hasValue(oldLanguage)){
     			language = oldLanguage;
@@ -153,7 +157,7 @@ public class boSession implements Serializable {
     			locale = settings.getLocale();
     			language = settings.getLocale().toString();
     		}
-    	}
+    	} 
     	
 		this.p_user.setLocaleSettings( settings );
 		this.p_user.setLanguage( language );
