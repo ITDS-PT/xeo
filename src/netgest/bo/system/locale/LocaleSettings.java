@@ -22,6 +22,11 @@ public class LocaleSettings {
 	public static final List<Locale> AVAILABLE_LOCALES = 
 			Arrays.asList(new Locale("pt","PT"), Locale.ENGLISH, new Locale("es","ES"));
 	
+	public enum Type{
+		 FROM_PREFERENCE
+		,FROM_BOCONFIG
+		,FROM_DEFAULT
+	}
 	
 	public static final LocaleSettings DEFAULT = new LocaleSettings( 
 			LOCALE
@@ -34,6 +39,7 @@ public class LocaleSettings {
 			, CURRENCY_SYMBOL
 			, CURRENCY_POSITION
 			, AVAILABLE_LOCALES
+			, Type.FROM_DEFAULT
 			);
 	
 	public Locale getLocale() {
@@ -54,11 +60,12 @@ public class LocaleSettings {
 	private Locale locale;
 	private TimeZone timeZone;
 	private List<Locale> availableLocales;
+	private Type type;
 	
 	
 	public LocaleSettings(Locale locale, TimeZone timeZone, String datePattern, String timePattern, String dateTimeSeparator,
 			String groupSeparator, String decimalSeparator,
-			String currencySymbol, CurrencyPosition currencyPosition, List<Locale> availableLocales) {
+			String currencySymbol, CurrencyPosition currencyPosition, List<Locale> availableLocales, Type type) {
 		this.locale = locale;
 		this.timeZone = timeZone;
 		this.datePattern = datePattern;
@@ -69,6 +76,7 @@ public class LocaleSettings {
 		this.currencySymbol = currencySymbol;
 		this.currencyPosition = currencyPosition;
 		this.availableLocales = availableLocales;
+		this.type = type;
 	}
 
 	public String getDatePattern() {
@@ -122,6 +130,10 @@ public class LocaleSettings {
 	
 	public List<Locale> getAvailableLocales(){
 		return availableLocales;
+	}
+	
+	public Type getType(){
+		return type;
 	}
 	
 }

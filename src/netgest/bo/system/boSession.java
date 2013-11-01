@@ -4,9 +4,12 @@ import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.system.locale.LocaleFormatter;
 import netgest.bo.system.locale.LocaleSettings;
+import netgest.bo.system.locale.LocaleSettings.Type;
+import netgest.bo.system.locale.Localization;
 import netgest.bo.system.locale.XEOLocaleProvider;
 import netgest.bo.system.login.LocalePreferenceSerialization;
 import netgest.bo.system.login.LoginUtil;
+import netgest.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.Enumeration;
@@ -133,17 +136,30 @@ public class boSession implements Serializable {
      * Loads the user locale settings
      * 
      * This method was placed here because it loads a preference (if a preference 
-     * is loaded during login it would cause  an infinite loop because prefences also make
+     * is loaded during login it would cause  an infinite loop because preferences also make
      * a login if one does not exist as is the case when you're doing the first login
      */
     public void loadUserLocaleSettings() {
     	String username = p_user.getUserName();
+    	String oldLanguage = p_user.getLanguage();
+    	String language = null;
+    	Locale locale = null;
     	LocaleSettings settings = LocalePreferenceSerialization.loadFromPreference( username );
+    	if (settings.getType() == Type.FROM_BOCONFIG || settings.getType() == Type.FROM_DEFAULT){
+    		if (StringUtils.hasValue(oldLanguage)){
+    			language = oldLanguage;
+    			locale = Localization.createLocaleFromString(language);
+    		} else {
+    			locale = settings.getLocale();
+    			language = settings.getLocale().toString();
+    		}
+    	}
+    	
 		this.p_user.setLocaleSettings( settings );
-		this.p_user.setLanguage( settings.getLocale().toString() );
-		this.p_user.setLocale( settings.getLocale() );
+		this.p_user.setLanguage( language );
+		this.p_user.setLocale( locale );
 		this.p_user.setTimeZone( settings.getTimezone() );
-		this.locale = settings.getLocale();
+		this.locale = locale;
 		this.timeZone = settings.getTimezone();
     }
      

@@ -12,6 +12,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boSession;
 import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
 import netgest.bo.system.locale.LocaleSettings;
+import netgest.bo.system.locale.LocaleSettings.Type;
 
 /**
  * 
@@ -91,7 +92,8 @@ public class LocalePreferenceSerialization {
 					, decimalSeparator 
 					, currencySymbol 
 					, currencyPosition
-					, locales );
+					, locales 
+					, Type.FROM_PREFERENCE);
 			return settings; 
 		} else {
 			return boConfig.getLocaleSettings();

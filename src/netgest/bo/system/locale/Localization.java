@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import netgest.bo.system.locale.LocaleFormatter.CurrencyPosition;
+import netgest.bo.system.locale.LocaleSettings.Type;
 import netgest.utils.StringUtils;
 import oracle.xml.parser.v2.XMLNode;
 import oracle.xml.parser.v2.XSLException;
@@ -68,7 +69,8 @@ public class Localization {
 						decimalSeparator , 
 						currencySymbol , 
 						currencyPosition,
-						availableLocales );
+						availableLocales 
+						, Type.FROM_BOCONFIG);
 			} else {
 				result = LocaleSettings.DEFAULT; 
 			}
