@@ -1131,13 +1131,14 @@ public class boApplicationConfig {
 		ArrayList wkplcs = new ArrayList();
 		File f = new File(p_uiDefinitiondir);
 		File[] files = f.listFiles();
-
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].getName().toUpperCase().endsWith("$WORKPLACE.XML")) {
-				ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils
-						.loadXMLFile(files[i].getAbsolutePath()));
-				String xml = ngtXMLUtils.getXML(wkpXML.getDocument());
-				wkplcs.add(wkpXML);
+		if (files != null){
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].getName().toUpperCase().endsWith("$WORKPLACE.XML")) {
+					ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils
+							.loadXMLFile(files[i].getAbsolutePath()));
+					String xml = ngtXMLUtils.getXML(wkpXML.getDocument());
+					wkplcs.add(wkpXML);
+				}
 			}
 		}
 		p_defaultWorkplaces = (ngtXMLHandler[]) wkplcs
