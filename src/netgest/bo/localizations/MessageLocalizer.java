@@ -14,6 +14,7 @@ import netgest.bo.system.boApplication;
 import netgest.bo.system.boContext;
 import netgest.bo.system.boSession;
 import netgest.bo.system.boSessionUser;
+import netgest.bo.system.locale.XEOLocaleProvider;
 import netgest.utils.StringUtils;
 /**
  * Class that loads the exception messages from the properties file
@@ -43,11 +44,9 @@ public class MessageLocalizer {
 		String language;
 		Properties properties= new Properties();
 		String message = "";
-		language=getLanguage();
-		if (language.length() > 2){
-			language= language.substring(0, 1);
-		}
+		language=truncate2CharsMax(getLanguage());
 		language = language.toUpperCase();
+		String defaultLanguage = boApplication.getXEO().getApplicationLanguage().toUpperCase();
 		try{
 			try {
 				String properttResourceFilename=("MessageLocalizer_"+language+".properties");
@@ -63,7 +62,7 @@ public class MessageLocalizer {
 					if (properties.getProperty(whichMessage)!=null)
 						message=properties.getProperty(whichMessage);
 					else{
-						properttResourceFilename = ("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
+						properttResourceFilename = "MessageLocalizer_"+truncate2CharsMax(defaultLanguage)+".properties";
 						final InputStream defaultResource = MessageLocalizer.class.getResourceAsStream(properttResourceFilename);
 						if (defaultResource != null){
 							Properties defaultProperties = PropertiesUtils.readUtf8Properties(defaultResource);
@@ -78,14 +77,14 @@ public class MessageLocalizer {
 				logger.warn(e);
 			}	
 			if("".equalsIgnoreCase(message)){
-				String s=("MessageLocalizer_"+boApplication.getDefaultApplication().getApplicationLanguage()+".properties");
+				String s=("MessageLocalizer_"+truncate2CharsMax(defaultLanguage)+".properties");
 				try{
 					properties = PropertiesUtils.readUtf8Properties(MessageLocalizer.class.getResourceAsStream(s));
 				} 
 				catch (IOException e) {
-					e.printStackTrace();
+					logger.warn(e);
 				}	
-					message=properties.getProperty(whichMessage);
+				message=properties.getProperty(whichMessage);
 			}
 		}
 		catch (Throwable t){
@@ -98,7 +97,14 @@ public class MessageLocalizer {
 		
 		return message;
 }
-	
+	private static String truncate2CharsMax(String string){
+		if (StringUtils.hasValue(string)){
+			if (string.length() > 1){
+				return string.substring(0, 2);
+			}
+		}
+		return "";
+	}
 	
 	/**
 	 * The user language if not null, else the default application language
