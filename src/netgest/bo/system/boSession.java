@@ -153,10 +153,7 @@ public class boSession implements Serializable {
     		if (StringUtils.hasValue(oldLanguage)){
     			language = oldLanguage;
     			locale = Localization.createLocaleFromString(language);
-    		} else {
-    			locale = settings.getLocale();
-    			language = settings.getLocale().toString();
-    		}
+    		} 
     	} 
     	
 		this.p_user.setLocaleSettings( settings );
