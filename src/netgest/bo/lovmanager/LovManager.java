@@ -10,7 +10,9 @@ import netgest.bo.runtime.boBridgeIterator;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.runtime.bridgeHandler;
+import netgest.bo.system.XEO;
 import netgest.bo.system.boApplication;
+import netgest.utils.StringUtils;
 
 
 public class LovManager
@@ -56,7 +58,7 @@ public class LovManager
         if (toRet == null || (parameters != null && parameters.size() > 0))
         {
             boObject lov;
-            lov = boObject.getBoManager().loadObject(ctx, "Ebo_LOV", "boui=" + lovBoui + "");
+            lov = XEO.loadWithQuery(ctx, "Ebo_LOV", "boui=" + lovBoui + "");
           ///////
             if(lov.getAttribute("lang").getValueString()!=null){
                 
@@ -89,10 +91,10 @@ public class LovManager
                 {
                     lovo = new lovObject(ctx, name, onlyThisvalues);
                 }
-                if (language!="")
-                    lovo.setLanguage(language);
-                    else
-                    	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
+                if (StringUtils.hasValue(language))
+                	lovo.setLanguage(language);
+                else
+                	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
                 
                 
                 p_lovs.put(lovBoui+extrakey, lovo);

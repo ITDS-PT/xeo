@@ -37,19 +37,6 @@ public class XEOQLModifier {
 
 	private int	paramIdx = 0;
 	
-    public static void main( String[] args ) {
-    	
-    	List params = new ArrayList();
-    	
-    	System.out.println( 
-	    	new XEOQLModifier(
-    			"select /*+HELLO WORLD*/ joao,f,m,\"from\",'from' from dual where 1=1 and x in (select 1,'from' from dual) order by 3"
-	    	,
-	    	null
-	    	).toBOQL( params )
-    	);
-    }
-    
 	public XEOQLModifier( String boql, List originalParams ) {
 		String g;
 		String word;
