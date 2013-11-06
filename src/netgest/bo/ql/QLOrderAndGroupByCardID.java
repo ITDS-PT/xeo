@@ -6,17 +6,17 @@ import java.util.Vector;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.utils.XEOQLModifier;
+import netgest.utils.StringUtils;
 import netgest.utils.tools;
 
 public class QLOrderAndGroupByCardID {
     
     public static String parseOrderByCardID(String strQuery)
     {
-		if (strQuery.toUpperCase().indexOf("ORDER BY")>-1)
+ 		if (strQuery.toUpperCase().indexOf("ORDER BY")>-1)
 		{
 	        	boolean asObjAtt=false;
 	        	ArrayList<String> dummy=new ArrayList<String>(0);
-	        	//dummy.add("");
 	        	
 	        	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
 	        	String orderby=qlmod.getOrderByPart();
@@ -24,11 +24,9 @@ public class QLOrderAndGroupByCardID {
 	        	//Inspect order by Fields
 	        	Vector<String> obyclauses=tools.Split(orderby, ",");
 	        	
-	        	for (String currclause:obyclauses)
+	        	for (String currclause : obyclauses)
 	        	{
-	        	    String att=currclause.trim();
-	        	    if (att.indexOf(" ")>-1)
-	        	    	att=att.substring(0,att.indexOf(" "));
+	        	    String att = extractAttributeName(currclause);
 	        	    
 	        	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
 	        	    
@@ -56,6 +54,17 @@ public class QLOrderAndGroupByCardID {
 		}
 		else return strQuery;
     }
+
+	private static String extractAttributeName(String currclause) {
+		String att = currclause.trim();
+		if (att.indexOf(" ")>-1)
+			att=att.substring(0,att.indexOf(" "));
+		if (att.contains("["))
+			att = att.replaceAll("\\[", "");
+		if (att.contains("]"))
+			att = att.replaceAll("\\]", "");
+		return att;
+	}
     
     public static String parseGroupByCardID(String strQuery)
     {	
@@ -63,7 +72,6 @@ public class QLOrderAndGroupByCardID {
 		{
         	boolean asObjAtt=false;
         	ArrayList<String> dummy=new ArrayList<String>(0);
-        	//dummy.add("");
         	
         	XEOQLModifier qlmod=new XEOQLModifier(strQuery, dummy);	
         	String groupby=qlmod.getGroupByPart();
@@ -73,9 +81,7 @@ public class QLOrderAndGroupByCardID {
         	
         	for (String currclause:gbyclauses)
         	{
-        	    String att=currclause.trim();
-        	    if (att.indexOf(" ")>-1)
-        	    	att=att.substring(0,att.indexOf(" "));
+        	    String att = extractAttributeName(currclause);
         	    
         	    String [] cardids=getCardIdAtts(qlmod.getObjectPart(), att);
         	    
@@ -155,19 +161,49 @@ public class QLOrderAndGroupByCardID {
 			{
 			    String currAtt=atts.get(i);
 			    boDefAttribute attdef=objdef.getAttributeRef(currAtt);
-		
-			    //Only for ObjectAttribute and excluding attributes with more than one type
-			    if (attdef!=null && attdef.getAtributeDeclaredType()==boDefAttribute.ATTRIBUTE_OBJECT
-			    	&& (attdef.getObjectsName()==null || attdef.getObjectsName().length==0))
-			    {
-					String type=attdef.getType();			        			
-					objdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
-					if (i==(atts.size()-1))bodef=objdef;
+			    
+			    if (attdef != null){
+			    	//Only for ObjectAttribute and excluding attributes with more than one type
+			    	if (isSingleObjectRelation(attdef)){
+			    		String type=attdef.getType();			        			
+			    		objdef=boDefHandler.getBoDefinition(tools.replacestr(type, "object.", ""));
+			    		if (i==(atts.size()-1))bodef=objdef;
+			    	}
 			    }
 			}
 		}
 		return bodef;
     }
+    
+    private static boolean isSingleObjectRelation(boDefAttribute attributeDefinition){
+    	boolean isObjectAttribute = boDefAttribute.ATTRIBUTE_OBJECT.equalsIgnoreCase(attributeDefinition.getAtributeDeclaredType());
+    	boolean hasMultipleObjects = false;
+    	String[] relationObjects = attributeDefinition.getObjectsName();
+    	hasMultipleObjects = checkMultipleObjectsRelation(attributeDefinition,
+				hasMultipleObjects, relationObjects);
+    		
+    	if (attributeDefinition != null && isObjectAttribute && !hasMultipleObjects){
+    		return true;
+    	}
+    	return false;
+    }
+
+	private static boolean checkMultipleObjectsRelation(
+			boDefAttribute attributeDefinition, boolean hasMultipleObjects,
+			String[] relationObjects) {
+		if (relationObjects != null && relationObjects.length > 0){
+    		if (relationObjects.length > 1)
+    			hasMultipleObjects = true;
+    		String relationObject = relationObjects[0];
+    		String declaredType = attributeDefinition.getReferencedObjectName();
+    		if (StringUtils.hasValue(relationObject)  && StringUtils.hasValue(declaredType)){
+    			if (!relationObject.equalsIgnoreCase(declaredType)){
+    				hasMultipleObjects = true;
+    			}
+    		}
+    	}
+		return hasMultipleObjects;
+	}
     
     private static String getDirection(String clause)
     {
