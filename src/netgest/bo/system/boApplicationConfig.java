@@ -1151,12 +1151,14 @@ public class boApplicationConfig {
 		File f = new File(p_uiDefinitiondir);
 		File[] files = f.listFiles();
 
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].getName().endsWith(".xeoprofiles")) {
-				ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils
-						.loadXMLFile(files[i].getAbsolutePath()));
-				String xml = ngtXMLUtils.getXML(wkpXML.getDocument());
-				wkplcs.add(wkpXML);
+		if (files != null){
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].getName().endsWith(".xeoprofiles")) {
+					ngtXMLHandler wkpXML = new ngtXMLHandler(ngtXMLUtils
+							.loadXMLFile(files[i].getAbsolutePath()));
+					String xml = ngtXMLUtils.getXML(wkpXML.getDocument());
+					wkplcs.add(wkpXML);
+				}
 			}
 		}
 		p_XEOProfiles = (ngtXMLHandler[]) wkplcs
