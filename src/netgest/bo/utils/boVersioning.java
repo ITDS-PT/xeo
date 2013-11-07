@@ -944,6 +944,10 @@ public class boVersioning
                 log.getAttribute("type").setValueString("CHAR");
                 log.getAttribute("value_String").setValueObject(value);
                 break;
+            case boDefAttribute.VALUE_SEQUENCE:
+                log.getAttribute("type").setValueString("NUMBER");
+                log.getAttribute("value_Long").setValueObject(value);
+                break;    
             default:
                 throw new RuntimeException(MessageLocalizer.getMessage("DATA_TYPE_UNABLE_TO_CREATE_HISTORY"));
         }
