@@ -32,6 +32,10 @@ public class MessageLocalizer {
 		return getMessage(message, new Object[0]);
 	}
 	
+	public static String getMessage(String whichMessage, Object... args){
+		return getMessage(whichMessage, "MessageLocalizer_", args);
+	}
+	
 	/**
 	 * 
 	 * Retrieve a localized message
@@ -40,7 +44,7 @@ public class MessageLocalizer {
 	 * 
 	 * @return the localized message
 	 */
-	public static String getMessage(String whichMessage, Object... args){
+	public static String getMessage(String whichMessage, String file, Object... args){
 		String language;
 		Properties properties= new Properties();
 		String message = "";
@@ -49,7 +53,7 @@ public class MessageLocalizer {
 		String defaultLanguage = boApplication.getXEO().getApplicationLanguage().toUpperCase();
 		try{
 			try {
-				String properttResourceFilename=("MessageLocalizer_"+language+".properties");
+				String properttResourceFilename=(file+language+".properties");
 				if (translations.containsKey(properttResourceFilename)){
 					message = translations.get(properttResourceFilename).getProperty(whichMessage);
 				} else {
