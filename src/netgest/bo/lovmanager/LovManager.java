@@ -55,13 +55,10 @@ public class LovManager
         }
 
         lovObject toRet = ( lovObject ) p_lovs.get(lovBoui+extrakey );
-        if (toRet == null || (parameters != null && parameters.size() > 0))
-        {
+        if (toRet == null || (parameters != null && parameters.size() > 0)){
             boObject lov;
-            lov = XEO.loadWithQuery(ctx, "Ebo_LOV", "boui=" + lovBoui + "");
-          ///////
+            lov = XEO.loadWithQuery(ctx, "Ebo_LOV where BOUI = ?" , lovBoui);
             if(lov.getAttribute("lang").getValueString()!=null){
-                
             	language=lov.getAttribute("lang").getValueString();
             }
             if (lov.exists())

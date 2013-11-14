@@ -8,6 +8,7 @@ import netgest.bo.data.DriverUtils;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
+import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
@@ -17,6 +18,10 @@ import netgest.bo.system.locale.LocaleFormatter;
 
 /**
  * Facade for the most common operations
+ */
+/**
+ * @author PedroRio
+ *
  */
 public class XEO {
 	
@@ -283,6 +288,19 @@ public class XEO {
 	public static LocaleFormatter getLocaleFormatter() {
 		return boApplication.getLocalizationFormatter();
 	}
+
+	public static PreferenceManager getPreferenceManager(){
+		return boApplication.getXEO().getPreferencesManager();
+				
+	}
 	
+	/**
+	 * 
+	 * Alias for boApplication.currentContext().getEboContext()
+	 * @return The default EboContext
+	 */
+	public static EboContext getCurrentContext(){
+		return boApplication.currentContext().getEboContext();
+	}
 	
 }
