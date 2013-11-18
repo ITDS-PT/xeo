@@ -38,6 +38,7 @@ public class lovObject {
 	private long p_lovboui = -1;
 	private String p_name = "";
 	private String p_language = null;
+	private String p_file = "";
 	//////////
 	
 	public lovObject(EboContext ctx, String name, String[] onlyThisValues)
@@ -49,7 +50,7 @@ public class lovObject {
 				"name='" + name + "'");
 
 		p_language = lov.getAttribute("lang").getValueString();
-		
+		p_file = lov.getAttribute(Ebo_LOV.XEO_LOV_FILE).getValueString();
 		if (lov.exists()) {
 			p_lovboui = lov.getBoui();
 			bridgeHandler lovdetails = lov.getBridge("details");
@@ -401,7 +402,9 @@ public class lovObject {
 		return (String) p_lov_cod.get(p_pointer);
 	}
 	
-	 
+	 public String getFile(){
+		 return p_file;
+	 }
 
 	/**
 	 * 
@@ -565,15 +568,17 @@ public class lovObject {
 			String defaultDescription, String language) throws boRuntimeException {		
 			
 			String label = defaultDescription;
-		
-			boObject lov = XEO.loadWithQuery( "select Ebo_LOV where name = ? ", lovName);	
-			AttributeHandler fileName = lov.getAttribute(Ebo_LOV.XEO_LOV_FILE);
-			if (fileName!=null){
+	
+			EboContext ctx = boApplication.currentContext().getEboContext();
+			lovObject lov = LovManager.getLovObject(ctx, lovName);
+			
+			String file = lov.getFile();
+			if (StringUtils.hasValue(file)){
 
 				Locale locale = XEO.getCurrentLocale();
 				HashMap<String, Properties> translations = boDefHandlerImpl.getLanguagesMap();
 				
-				String propertyFileName = TranslationRetriever.findPropertiesFileNameForLocale( fileName.getValueString() , locale  ); 
+				String propertyFileName = TranslationRetriever.findPropertiesFileNameForLocale( file , locale  ); 
 				if (StringUtils.hasValue( propertyFileName )) {
 					Properties prop = translations.get(propertyFileName);
 					label = prop.getProperty(lovName+"."+value);
