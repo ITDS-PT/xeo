@@ -24,6 +24,7 @@ import netgest.bo.def.boDefDataTypeMapping;
 import netgest.bo.def.boDefForwardObject;
 import netgest.bo.def.boDefHandler;
 import netgest.bo.def.boDefMethod;
+import netgest.bo.def.boDefObjectFilter;
 import netgest.bo.def.boDefXeoCode;
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
@@ -272,15 +273,14 @@ public class boClassBuilder
         this.parseObjectAttributesCodeJava(bodefDeploy,false,cjc);
         this.parseAttributesCodeJava(bodefDeploy, bodefDeploy.getBoAttributes(),false, null, cjc);
 
-
         srccode = this.parseBridges(bodef,srccode);
         srccode = this.parseObjectAttributes(bodef,srccode,false);
         srccode = this.parseAttributes(bodef, bodef.getBoAttributes(),srccode,false, null);
         srccode = this.parseStandartAttributes(bodef, bodef.getBoAttributes(),srccode,false, null);
         //if(bodef.getBoClsState()!=null) {
-            srccode = this.parseStateAttributes(bodef.getBoClsState(),srccode);
+        srccode = parseStateAttributes(bodef.getBoClsState(),srccode);
         //}
-
+            
         // For each attribute object multi reference
 
         // Build Methods activities and events
@@ -690,6 +690,13 @@ public class boClassBuilder
             sb.append(cjc.getJava());
             sb.append("\n");
 //        }
+            
+        //Object Filter
+        boDefObjectFilter[] filters = att.getObjectFilter();
+        if (filters != null){ 
+        	sb.append(createFilter(att));
+        }
+            
         if( sb.toString().trim().startsWith("null") )
         {
             logger.severe(LoggerMessageLocalizer.getMessage("ERROR_GENERATED_CODE_IS_NULL"));
@@ -698,6 +705,31 @@ public class boClassBuilder
 
     }
 
+    private String createFilter(boDefAttribute attribute){
+    	StringBuilder b = new StringBuilder();
+    	boDefObjectFilter[] filters = attribute.getObjectFilter();
+        if (filters != null){ 
+        	b.append("public String getFilterBOQL_query(String objectName) {");
+        	b.append("try {");
+        	for (boDefObjectFilter filter : filters){
+        		if (filter != null){
+        			String forObject = filter.getForObject();
+        			b.append("this.getParent().getAttribute(\"BOUI\").getValueLong();");
+        			b.append("if (\"" + forObject + "\".equals(objectName)){\n");
+        			String replaced = "";
+        			if (filter.getCondition() != null){
+        				replaced = filter.getCondition().getSource();
+        			}
+        			replaced = replaced.replace("this", "this.getParent()");
+        			b.append(replaced);
+        			b.append("}\n");
+        		}
+        	}
+        	b.append("} catch (Exception e){ return \"\";} return \"\";");
+        	b.append("}");
+        }
+        return b.toString();
+    }
 
     public final void parseObjectAttributesCodeJava(boDef bodef, boDefAttribute[] atts,
         boolean all,boolean bridge, String attBridgeName, CodeJavaConstructor cjc) throws boRuntimeException{
