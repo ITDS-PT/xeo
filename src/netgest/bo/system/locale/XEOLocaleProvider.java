@@ -339,6 +339,11 @@ public class XEOLocaleProvider implements LocaleFormatter {
 		return localeSettings.getDateTimeSeparator().charAt(0);
 	}
 
+	@Override
+	public String formatDateDefaultTimezone(Date dateFormat) {
+		return formaterNoTimezone.format(dateFormat);
+	}
+
 	
 	
 	

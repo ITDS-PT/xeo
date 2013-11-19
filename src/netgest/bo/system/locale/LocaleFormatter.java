@@ -38,6 +38,7 @@ public interface LocaleFormatter {
 			}
 		}
 	 
+	 public String formatDateDefaultTimezone(Date dateFormat);
      public String formatDate(Date toFormat);
      public String formatDate(Date toFormat, DateTimeLengh length);
      
