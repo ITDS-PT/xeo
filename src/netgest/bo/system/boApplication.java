@@ -853,5 +853,15 @@ public class boApplication
 		return currentContext().getLocaleFormater();
 	}
 	
+	public static boolean backwardCompatibilityOn(){
+		String backward = System.getProperty("xeo.backwardCompatibility");
+		if (StringUtils.hasValue(backward)){
+			if (Boolean.valueOf(backward)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 }
