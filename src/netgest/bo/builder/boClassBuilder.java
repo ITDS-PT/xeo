@@ -714,7 +714,6 @@ public class boClassBuilder
         	for (boDefObjectFilter filter : filters){
         		if (filter != null){
         			String forObject = filter.getForObject();
-        			b.append("this.getParent().getAttribute(\"BOUI\").getValueLong();");
         			b.append("if (\"" + forObject + "\".equals(objectName)){\n");
         			String replaced = "";
         			if (filter.getCondition() != null){
