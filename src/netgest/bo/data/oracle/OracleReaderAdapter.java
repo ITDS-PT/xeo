@@ -2,7 +2,6 @@
 package netgest.bo.data.oracle;
 
 import java.io.Reader;
-
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +10,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import netgest.bo.data.DataClob;
 import netgest.bo.data.DataException;
@@ -24,6 +23,8 @@ import netgest.bo.data.DataTypes;
 import netgest.bo.data.ReaderAdapter;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.system.XEO;
+import netgest.bo.system.locale.XEOLocaleProvider;
 
 
 /**
@@ -165,9 +166,22 @@ public class OracleReaderAdapter implements ReaderAdapter
 
                     case Types.TIMESTAMP:
                     case Types.DATE:
-
-                        Timestamp value = activeRslt.getTimestamp(z);
-	                        row.fetchColumn( columnIdx[z], value);
+                    	try {
+                    		Timestamp value = activeRslt.getTimestamp(z);
+                    		row.fetchColumn( columnIdx[z], value);
+                    	} catch (IllegalArgumentException e){
+                    		//In some situations, which cannot be reproduced consistently
+                    		//between different machines, getTimestamp without a Calendar
+                    		//will fail at an internal JVM class (at sun.util.calendar.ZoneInfo.getOffset(ZoneInfo.java:358))
+                    		//This catch is here to try and prevent that error, but the cause remains unknown
+                    		//In the database, the data seems to be correct (example 20/11/2013) but when
+                    		//getObject(int column) is used, the date is in 1913 (with negative number of miliseconds)
+                    		//In upper layers, the number of miliseconds is used to build a new date object
+                    		//and at that time, the date will be correct.
+                    		GregorianCalendar m_cal = new GregorianCalendar(TimeZone.getDefault());
+                    		Timestamp value = activeRslt.getTimestamp(z,m_cal);
+                    		row.fetchColumn( columnIdx[z], value);
+                    	}
 
                         break;
 
