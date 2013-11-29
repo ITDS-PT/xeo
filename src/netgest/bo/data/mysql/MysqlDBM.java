@@ -2910,4 +2910,9 @@ public class MysqlDBM extends OracleDBM {
 
 
     }    
+    
+    @Override
+    public Database getDatabase() {
+    	return Database.MYSQL;
+    }
 }

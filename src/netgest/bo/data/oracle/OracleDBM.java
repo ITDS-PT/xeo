@@ -44,6 +44,15 @@ import netgest.bo.system.Logger;
 
 public class OracleDBM
 {
+	
+	public enum Database {
+		ORACLE,
+		MYSQL,
+		MSSQL,
+		POSTGRES,
+		UNKNOWN
+	}
+	
     //logger
     private static Logger logger = Logger.getLogger("netgest.bo.data.oracle.OracleDBM");
 
@@ -2870,6 +2879,10 @@ public class OracleDBM
      */
     public void eliminateDependentViews(EboContext ctx, boDefHandler[] objects, Object[] mainInterface) throws SQLException {
     	
+    }
+    
+    public Database getDatabase(){
+    	return Database.ORACLE;
     }
     
 }

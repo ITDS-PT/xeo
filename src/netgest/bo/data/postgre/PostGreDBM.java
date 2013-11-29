@@ -2909,5 +2909,10 @@ public class PostGreDBM extends OracleDBM
     	
     }
     
+    @Override
+    public Database getDatabase() {
+    	return Database.POSTGRES;
+    }
+    
     
 }
