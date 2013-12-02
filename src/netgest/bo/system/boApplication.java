@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -853,5 +854,20 @@ public class boApplication
 		return currentContext().getLocaleFormater();
 	}
 	
+	public static boolean backwardCompatibilityOn(){
+		String backward = System.getProperty("xeo.backwardCompatibility");
+		if (StringUtils.hasValue(backward)){
+			if (Boolean.valueOf(backward)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static final AtomicLong requestId = new AtomicLong(0);
+	
+	public static final Long incrementRequestId(){
+		return requestId.incrementAndGet();
+	}
 
 }

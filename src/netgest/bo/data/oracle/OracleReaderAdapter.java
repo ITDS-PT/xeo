@@ -74,6 +74,7 @@ public class OracleReaderAdapter implements ReaderAdapter
 
     private void _executeQuery(EboContext ctx, String query, List arguments,int page,int pagesize)
     {
+    	long init = System.currentTimeMillis();
         try
         {
             if (dmlDs.toUpperCase().indexOf("DEF") > 0)
@@ -110,6 +111,8 @@ public class OracleReaderAdapter implements ReaderAdapter
 
             activeRslt = activePstm.executeQuery();
             activeRsltMetaData = activeRslt.getMetaData();
+            
+            
         }
         catch (SQLException e)
         {
@@ -121,6 +124,17 @@ public class OracleReaderAdapter implements ReaderAdapter
         finally
         {
         }
+        long end = System.currentTimeMillis() - init;
+        StringBuilder b =  new StringBuilder();
+        if (arguments != null){
+        	for (Object c : arguments){
+        		if (c != null){
+        		b.append(c.toString());
+        		b.append(" "); 
+        		}
+        	}}
+        String result =  end + ":" + query + ":" + b.toString();
+        //System.out.println(result);
     }
 
     public boolean fetchRow(DataRow row, int rows)
