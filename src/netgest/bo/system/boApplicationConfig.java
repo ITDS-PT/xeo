@@ -110,6 +110,7 @@ public class boApplicationConfig {
 
 	private Properties p_wordTemplateProp;
 	private Properties p_win32ClientProp;
+	private Properties p_properties = new Properties();
 	
 	private LocaleSettings localeSettings = LocaleSettings.DEFAULT;
 
@@ -709,12 +710,31 @@ public class boApplicationConfig {
 			parseThemes();
 			parseDataSources();
             parseRenderKits();
+            parseProperties();
 		
 		} catch (Exception e) {
 			String[] emsg = { configFile };
 			throw new boException("netgest.bo.builder._init()", "BO-1202", e,
 					emsg);
 		}
+	}
+	
+	private void parseProperties() throws XSLException {
+		if (xmldoc.selectNodes("//properties")!=null){
+			if (renderKits == null) renderKits = new HashMap< String , RenderKit >();
+			NodeList nodeL = xmldoc.selectNodes("//properties");
+			if( nodeL.getLength() > 0 ) {
+				NodeList children = nodeL.item(0).getChildNodes();
+				for (int i = 0; i < children.getLength(); i++) {
+					
+					XMLElement currentProperty = (XMLElement) children.item(i);
+					String name = currentProperty.getAttribute("name");
+					String value = currentProperty.getText();
+					this.p_properties.put(name, value);
+				}
+			}
+		}
+		
 	}
 
 	private void parseLanguageSettings() throws XSLException {

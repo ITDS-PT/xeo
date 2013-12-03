@@ -3570,6 +3570,16 @@ public abstract class boObject extends boObjectContainer implements Serializable
         }
     }
 
+    /**
+     * 
+     * Checks every bridge and objet relation to see if any of those objects depend
+     * on the attribute passed as parameter. They can do it by setting the name of the 
+     * <depends> with the prefix "parent_" and the name of the attribute from the parent 
+     * 
+     * @param attributeName The name of the attribute to check for dependencies
+     * @return true if any of the objects depend on this attribute and false otherwise
+     * 
+     */
     public boolean onChangeSubmitBridge(String attributeName) {
     	if( !getEboContext().isInModeBatch() ) {
 	        try {
@@ -3830,10 +3840,17 @@ public abstract class boObject extends boObjectContainer implements Serializable
                 return true;
             }
         }
-        return onChangeSubmitBridge(attributeName);
+        if (backwardCompatility())
+        	return onChangeSubmitBridge(attributeName);
+        
+        else return false;
     }
 
-    public String[] dependencesFields()
+    private boolean backwardCompatility() {
+		return boApplication.backwardCompatibilityOn();
+	}
+
+	public String[] dependencesFields()
     {
         String[] ret = null;
         if( p_dependencesFields != null )

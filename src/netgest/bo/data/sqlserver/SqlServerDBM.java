@@ -2097,4 +2097,9 @@ public class SqlServerDBM extends OracleDBM {
 		}
 		return dbname;		
 	}
+	
+	@Override
+	public Database getDatabase() {
+		return Database.MSSQL;
+	}
 }

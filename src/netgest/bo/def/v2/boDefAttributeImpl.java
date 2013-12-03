@@ -1137,10 +1137,26 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 
 		// Validation
 		ret = ret && (p_valid == null || !p_valid.needsClass());
+		
+		// Filters
+		ret = ret && (checkObjectFilters());
 
 		ret = !ret;
 
 		return ret;
+	}
+
+	private boolean checkObjectFilters() {
+		boDefObjectFilter[] filters = getObjectFilter();
+		if (filters != null){
+			for (boDefObjectFilter filter : filters){
+				if (filter.getCondition()  != null){
+					if (filter.getCondition().getLanguage() == boDefXeoCode.LANG_JAVA)
+						return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public String className() {
