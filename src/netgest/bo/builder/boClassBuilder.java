@@ -692,10 +692,11 @@ public class boClassBuilder
 //        }
             
         //Object Filter
-        boDefObjectFilter[] filters = att.getObjectFilter();
-        if (filters != null){ 
-        	sb.append(createFilter(att));
-        }
+        //FIXME : At the moment do not compile    
+//        boDefObjectFilter[] filters = att.getObjectFilter();
+//        if (filters != null){ 
+//        	sb.append(createFilter(att));
+//        }
             
         if( sb.toString().trim().startsWith("null") )
         {
@@ -714,6 +715,9 @@ public class boClassBuilder
         	for (boDefObjectFilter filter : filters){
         		if (filter != null){
         			String forObject = filter.getForObject();
+        			if (StringUtils.isEmpty(forObject)){
+        				forObject = attribute.getReferencedObjectName();
+        			}
         			b.append("if (\"" + forObject + "\".equals(objectName)){\n");
         			String replaced = "";
         			if (filter.getCondition() != null){
