@@ -1342,4 +1342,8 @@ public class boApplicationConfig {
 	public LocaleSettings getLocaleSettings() {
 		return localeSettings;
 	}
+	
+	public String getProperty(String name){
+		return this.p_properties.getProperty(name);
+	}
 }
