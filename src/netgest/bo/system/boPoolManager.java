@@ -289,7 +289,7 @@ public class boPoolManager {
 					return null;
 				}
 
-				if (!ret.ownerContext.equals(boctx.poolUniqueId())
+				if (!boctx.poolUniqueId().equals(ret.ownerContext)
 						&& TimeoutContext.containsKey(boctx.poolUniqueId())) {
 					logger.warn("EboContext marked as Timeout, no Wait - "
 							+ key + " USER: "
