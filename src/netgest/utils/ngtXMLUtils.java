@@ -570,7 +570,30 @@ private static String normalize(String s) {
 
    return (str.toString());
 
-} // normalize(String):String
+} 
+
+public static XMLDocument loadXMLPreserveCData(String xmlDoc){
+	try {
+		ByteArrayInputStream cr = new ByteArrayInputStream( xmlDoc.getBytes("UTF-8") );
+		Document xml = parseXMLPreserveCDATA( cr );
+		return (XMLDocument)xml;
+	} 
+	catch (IOException e) { 
+		throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmlDoc+"\n"+"Utils.loadXML");
+	}
+	catch (SAXException e) { 
+		throw new RuntimeException(MessageLocalizer.getMessage("ERROR_IN_THE_XML_PARSING")+"\n"+e.getMessage()+"\n "+MessageLocalizer.getMessage("XML_SOURCE")+":\n"+xmlDoc+"\n"+"Utils.loadXML");
+	}
+
+}
+
+private static final XMLDocument parseXMLPreserveCDATA( InputStream in ) throws XMLParseException, SAXException, IOException {
+	DOMParser parser = new DOMParser();
+	parser.setPreserveWhitespace( Boolean.FALSE );
+	parser.retainCDATASection(Boolean.TRUE);
+	parser.parse( in );
+	return parser.getDocument();
+} 
 
   
 }
