@@ -1172,6 +1172,27 @@ public abstract class AttributeHandler implements boIEvents
         }
         return false;
     }
+    
+    /**
+     * 
+     * Checks whether or not this Attribute has a valid boObject
+     * as a value
+     * 
+     * @return True if the attribute has a valid boObject as value false otherwise
+     */
+    public boolean hasObject() throws boRuntimeException {
+			return this.getValueLong() > 0;
+    }
+    
+    /**
+     * 
+     * Checks whether the value of the attribute is null or not
+     * 
+     * @return True if the value is null and false otherwise
+     */
+    public boolean isValueNull() throws boRuntimeException {
+			return getValueObject() == null;
+    }
 
     
     
