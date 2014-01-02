@@ -32,7 +32,8 @@
 	<classpathentry kind="lib" path="project_lib/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="project_lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="project_lib/jcr-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="project_lib/jackrabbit-jcr-commons-2.6.0.jar"/>
+	<classpathentry kind="lib" path="project_lib/jcr-2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -303,4 +303,36 @@ public class XEO {
 		return boApplication.currentContext().getEboContext();
 	}
 	
+	/**
+	 * Retrieves the boui of the currently logged user
+	 * 
+	 * @return
+	 */
+	public static long getUserBoui(){
+		EboContext ctx = getCurrentContext();
+		if (ctx != null){
+			if (ctx.getBoSession() != null){
+				return ctx.getBoSession().getPerformerBoui();
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * Returns the profile name of the currently logged used
+	 * or empty string if no profile is used or no user is logged
+	 * 
+	 * @return The name of the profile of the currently logged used (empty string
+	 * if none)
+	 */
+	public String getProfileName(){
+		EboContext ctx = getCurrentContext();
+		if (ctx != null){
+			if (ctx.getBoSession() != null){
+				return ctx.getBoSession().getPerformerIProfileName();
+			}
+		}
+		return "";
+	}
+	
 }
