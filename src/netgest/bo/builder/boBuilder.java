@@ -881,6 +881,13 @@ public class boBuilder {
 						wsdFiles, scriptFiles, bofiles, htdeploypackage,
 						builcls1st);
 			}
+			else {
+				// Deploy only datasources
+				for( boDefHandler currDef : defs ) {
+					boBuildDB buildDb = new boBuildDB(p_eboctx,false);
+					buildDb.deployDataSources(repository, currDef);
+				}
+			}
 
 			p_builderProgress.addOverallProgress();
 			this.p_builderProgress

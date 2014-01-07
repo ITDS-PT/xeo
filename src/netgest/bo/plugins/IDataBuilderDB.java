@@ -71,4 +71,6 @@ public interface IDataBuilderDB
     public void     afterInheritViewes( boDefHandler boDef  );
     
     public void     addViewFields( ArrayList flds, boDefHandler boDef  );
+    
+    public void 	deployDataSource(boBuildDB builddb, boBuildRepository repos, boDefHandler def);
 }

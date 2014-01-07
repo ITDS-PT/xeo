@@ -44,7 +44,7 @@ public class MapType2DBBuilder implements IDataBuilderDB
 
     public void beforeDataBaseScripts( boDefHandler boDef)
     {
-        deployDataSource( boDef );
+    	 deployDataSource(p_bdb,p_repository, boDef );
 
         // Cria o campo que serve para saber se o objecto é local ou remoto.
         MapType2Def mapdef = MapType2Def.getDataSourceDefinition( boDef );
@@ -478,13 +478,13 @@ public class MapType2DBBuilder implements IDataBuilderDB
         }
    }
    
-   private final void deployDataSource( boDefHandler objDef)
+   public void deployDataSource(boBuildDB builddb, boBuildRepository repos, boDefHandler objDef)
    {
-        File origFile = p_repository.getDataSourceFile( objDef.getName() );
+        File origFile = repos.getDataSourceFile( objDef.getName() );
         ngtXMLUtils.saveXML(    
                         ngtXMLUtils.loadXMLFile( origFile.getAbsolutePath() )
                         , 
                         boConfig.getDeploymentDir() + objDef.getName() + boBuilder.TYPE_DS 
                     );
-    }
+   }
 }

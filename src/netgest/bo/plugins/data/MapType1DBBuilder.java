@@ -429,7 +429,7 @@ public class MapType1DBBuilder implements IDataBuilderDB
         }
     }
 
-    private static void deployDataSource(boBuildDB builddb, boBuildRepository repos, boDefHandler def)
+    public void deployDataSource(boBuildDB builddb, boBuildRepository repos, boDefHandler def)
     {
 
         MapType1Def allds = netgest.bo.plugins.data.MapType1Def.getUndeployedDataSourceDefinition( repos, def );
@@ -751,6 +751,7 @@ public class MapType1DBBuilder implements IDataBuilderDB
                 boConfig.getDeploymentDir() + def.getName() + boBuilder.TYPE_DS);
         }
     }
+
 
     private Object[] getObjectTableAndLoadExternalAttributes(boDefHandler def)
     {

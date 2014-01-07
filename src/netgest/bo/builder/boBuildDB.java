@@ -87,13 +87,20 @@ public class boBuildDB
 
     public boBuildDB(EboContext eboctx)
     {
+       this(eboctx,true);
+    }
+    
+    public boBuildDB(EboContext eboctx,boolean createDicWks)
+    {
         p_eboctx = eboctx;
         p_repository = new boBuildRepository(eboctx.getBoSession()
                                                    .getRepository());
         actualRepositoryName = p_repository.getName();
         wksdef[0] = p_repository.getName();
-        createDictionaryWks();
+        if (createDicWks)
+        	createDictionaryWks();
     }
+
 
     public boBuildDB(EboContext eboctx, boBuildRepository repository, Hashtable objectInterfaceMap)
     {
@@ -5824,6 +5831,15 @@ public class boBuildDB
         return ret;
     }
 
-
+    public void deployDataSources( boBuildRepository repos, boDefHandler bodef ) {
+        
+    	initializePlugIns( bodef );
+    	if( p_builders != null ) {
+    		for( IDataBuilderDB builderDb: p_builders ) {
+    			builderDb.deployDataSource(this, repos, bodef );
+    		}
+    	}
+    	
+    }
 
 }
