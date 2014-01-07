@@ -3,11 +3,11 @@ package netgest.bo.builder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
-
 import netgest.bo.boConfig;
 
 
@@ -85,25 +85,47 @@ public class boClassCompiler  {
           if (additionalClassPath!=null && !additionalClassPath.equals(""))
         	  classpath+=File.pathSeparator+additionalClassPath;
           
-          if (isWindows)
-        	  classpath="\""+classpath+"\"";
-          
-          String srcs = "";
-          for (int i = 0; i < srccode.length; i++)  {
-              srcs += " " + srccode[i].getAbsolutePath();
-          }
-          String runcmd;
+          ArrayList<String> cmd=new ArrayList<String>();
           String encoding = boConfig.getEncoding();
-          
-          String java_15_option="";
-          
-          java_15_option=" -source 1.4 -target 1.4 ";
-          if(encoding!=null) 
-            runcmd = xjavac+java_15_option+" -encoding "+encoding+" -g -classpath "+classpath+" -sourcepath "+srcdir+" -d "+ outputdir +srcs;
-          else
-            runcmd = xjavac+java_15_option+" -g -classpath "+classpath+" -sourcepath "+srcdir+" -d "+ outputdir +srcs;
 
-          proc = rt.exec(runcmd);
+          if(encoding!=null) {              
+              cmd.add(xjavac);
+              cmd.add("-source");
+              cmd.add("1.4");
+              cmd.add("-target");
+              cmd.add("1.4");
+              cmd.add("-encoding");
+              cmd.add(encoding);
+              cmd.add("-g");
+              cmd.add("-classpath");
+              cmd.add(classpath);
+              cmd.add("-sourcepath");
+              cmd.add(srcdir);
+              cmd.add("-d");
+              cmd.add(outputdir);
+              for (int i = 0; i < srccode.length; i++)  {
+                  cmd.add(srccode[i].getAbsolutePath());
+              }
+          }
+          else {
+              cmd.add(xjavac);              
+              cmd.add("-source");
+              cmd.add("1.4");
+              cmd.add("-target");
+              cmd.add("1.4");
+              cmd.add("-g");
+              cmd.add("-classpath");
+              cmd.add(classpath);
+              cmd.add("-sourcepath");
+              cmd.add(srcdir);
+              cmd.add("-d");
+              cmd.add(outputdir);
+              for (int i = 0; i < srccode.length; i++)  {
+                  cmd.add(srccode[i].getAbsolutePath());
+              }
+          }
+
+          proc = rt.exec(cmd.toArray(new String[cmd.size()]));
 
           InputStream compis = proc.getErrorStream();
           InputStream output = proc.getInputStream();
