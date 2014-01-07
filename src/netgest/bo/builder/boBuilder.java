@@ -3133,6 +3133,25 @@ public class boBuilder {
 				p_builderProgress.appendInfoLog("Ebo_Perf "
 						+ perf.getAttribute("id").getValueString()
 						+ " "+MessageLocalizer.getMessage("ALREADY_EXISTS"));
+			
+			perf = boObject.getBoManager().loadObject(ctx, "Ebo_Perf",
+					"username='PUBLIC'");
+			if (!perf.exists()) {
+				perf = boObject.getBoManager().createObject(ctx, "Ebo_Perf");
+
+				perf.getAttribute("name").setValueString("PUBLIC");
+				perf.getAttribute("id").setValueString("PUBLIC");
+				perf.getAttribute("username").setValueString("PUBLIC");
+				perf.getAttribute("password").setValueString("PUBLIC");
+				perf.update();
+				p_builderProgress
+						.appendInfoLog("Ebo_Perf "
+								+ perf.getAttribute("id").getValueString()
+								+ " "+MessageLocalizer.getMessage("CREATED"));
+			} else
+				p_builderProgress.appendInfoLog("Ebo_Perf "
+						+ perf.getAttribute("id").getValueString()
+						+ " "+MessageLocalizer.getMessage("ALREADY_EXISTS"));
 
 			boObject group = boObject.getBoManager().loadObject(ctx,
 					"Ebo_Group", "name='PUBLIC'");
