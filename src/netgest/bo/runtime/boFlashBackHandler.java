@@ -218,37 +218,37 @@ public class boFlashBackHandler
 	    	else if (boDefAttribute.ATTRIBUTE_LONGTEXT.equals(attributeType))
 	    	{
 	    		String val = flashBackRow.getString(attName);
-	    		if (val != null)
+	    	//	if (val != null)
 	    			changed.setValueString(val);
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_DURATION.equals(attributeType))
 	    	{
 	    		Date val = flashBackRow.getDate(attName);
-	    		if (val != null)
+	    //		if (val != null)
 	    			changed.setValueDate(val);
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_SEQUENCE.equals(attributeType))
 	    	{
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-	    		if (val != null)
+	    //		if (val != null)
 	    			changed.setValueLong(val.longValue());
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_CURRENCY.equals(attributeType))
 	    	{
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-	    		if (val != null)
+	    	//	if (val != null)
 	    			changed.setValueLong(val.longValue());
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_NUMBER.equals(attributeType))
 	    	{
 	    		Object val = flashBackRow.getObject(attName);
-	    		if (val != null)
+	    		//if (val != null)
 	    			changed.setValueObject(val);
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_BINARYDATA.equals(attributeType))
             {
                   Object val = flashBackRow.getObject(attName);
-                  if (val != null)
+               //   if (val != null)
                          changed.setValueObject(val);
             }
     	} catch (DataException e){
