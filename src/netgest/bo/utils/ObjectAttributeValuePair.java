@@ -24,6 +24,10 @@ public class ObjectAttributeValuePair {
     	 * The name of the attribute
     	 */
     	private String attName;
+
+		private String oldDisplayValue;
+
+		private String newDisplayValue;
     	
     	/**
     	 * 
@@ -38,6 +42,25 @@ public class ObjectAttributeValuePair {
     		this.oldVal = oldVal;
     		this.newVal = newVal;
     		this.attName = attName;
+    		this.oldDisplayValue = "";
+    		this.newDisplayValue = "";
+    	}
+    	
+    	/**
+    	 * 
+    	 * Public constructor for a new pair of values
+    	 * 
+    	 * @param oldVal The old value for the attribute
+    	 * @param newVal The new value for the attribute
+    	 * @param attName The name of the attribute
+    	 */
+    	public ObjectAttributeValuePair(String oldVal, String newVal, String oldDisplayValue, String newDisplayValue, String attName)
+    	{
+    		this.oldVal = oldVal;
+    		this.newVal = newVal;
+    		this.attName = attName;
+    		this.oldDisplayValue = oldDisplayValue;
+    		this.newDisplayValue = newDisplayValue;
     	}
 
 		/**
@@ -49,6 +72,16 @@ public class ObjectAttributeValuePair {
 		public String getOldVal() {
 			return oldVal;
 		}
+		
+		/**
+		 * Returns the old (i.e. saved in the database) display value of the attribute
+		 * The display value is used in situations such as objects and lovs
+		 * 
+		 * @return
+		 */
+		public String getOldDisplayValue(){
+			return oldDisplayValue;
+		}
 
 		/**
 		 * 
@@ -58,6 +91,16 @@ public class ObjectAttributeValuePair {
 		 */
 		public String getNewVal() {
 			return newVal;
+		}
+		
+		/**
+		 * Returns the new (i.e. binded in editing) display value of the attribute
+		 * The display value is used in situations such as objects and lovs
+		 * 
+		 * @return
+		 */
+		public String getNewDisplayValue(){
+			return newDisplayValue;
 		}
 
 		/**
