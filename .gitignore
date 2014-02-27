@@ -3,3 +3,5 @@ bin
 /.project
 /.classpath
 /.settings
+/xeo_core_ant.jardesc
+/xeocore.jar
