@@ -195,7 +195,7 @@ public class MysqlUtils implements DriverUtils {
 			return "";
 		
 		if (length == 1)
-			return columns.get( 0 );
+			return String.format("UPPER(%s)",columns.get( 0 ));
 		
 		b.append( "CONCAT_WS(");
 		b.append(separator);
