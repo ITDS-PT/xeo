@@ -608,6 +608,7 @@ public class DataRow extends ParametersHandler implements Serializable, Cloneabl
                             // Error
                             throw new DataException("0000",MessageLocalizer.getMessage("CANNOT_CONVERT_FROM")+" TIMESTAMP "+MessageLocalizer.getMessage("TO")+" ["+dataType+"]");
                     }
+                    break;
                 case DataTypes.BLOB:
                     switch( dataType )
                     {
