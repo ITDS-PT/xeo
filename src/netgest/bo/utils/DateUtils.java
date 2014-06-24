@@ -4,15 +4,13 @@ package netgest.bo.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.Date;
 
 import netgest.bo.runtime.EboContext;
-import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boObject;
+import netgest.bo.runtime.boObjectList;
 
 
 /**
@@ -35,6 +33,7 @@ public class DateUtils
     public static Date getToday()
     {
         Calendar c = Calendar.getInstance();
+        c.clear(c.HOUR_OF_DAY);
         c.clear(c.HOUR);
         c.clear(c.MINUTE);
         c.clear(c.SECOND);
