@@ -4118,8 +4118,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
     /**
      * Para retirar daqui para um nova classe que controla os ficheiros
      */
-    private boolean beforeSaveIFiles() throws boRuntimeException
-    {
+    public boolean beforeSaveIFiles() throws boRuntimeException {
     	//Iterate all file attributes 
         List iFilesAttributes = getAttributes(boDefAttribute.VALUE_IFILELINK);
         for (int i = 0; i < iFilesAttributes.size(); i++)
