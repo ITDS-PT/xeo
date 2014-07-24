@@ -10,6 +10,7 @@ import netgest.bo.lovmanager.LovManager;
 import netgest.bo.lovmanager.lovObject;
 import netgest.bo.preferences.PreferenceManager;
 import netgest.bo.runtime.EboContext;
+import netgest.bo.runtime.XEOListIterator;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boObjectList;
 import netgest.bo.runtime.boObjectListBuilder;
@@ -83,6 +84,16 @@ public class XEO {
 	 */
 	public static boObjectList list(String boql){
 		return boObjectList.list( getEboContext() , boql );
+	}
+	
+	/**
+	 * Returns an iterator for the list
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static XEOListIterator iterator(boObjectList list){
+		return new XEOListIterator( list );
 	}
 	
 	/**

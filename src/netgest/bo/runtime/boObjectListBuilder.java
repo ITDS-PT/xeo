@@ -178,10 +178,9 @@ public class boObjectListBuilder {
 	
 	/**
 	 * 
-	 * Sets the fulltext parameter
+	 * Sets the full text parameter
 	 * 
 	 * @param fullText
-	 * @return
 	 */
 	public boObjectListBuilder fullText(String fullText){
 		this.fullText = fullText;
@@ -193,7 +192,6 @@ public class boObjectListBuilder {
 	 * Adds a single arguments
 	 * 
 	 * @param value
-	 * @return
 	 */
 	public boObjectListBuilder arg(Object value){
 		this.individualArguments.add(value);
@@ -204,7 +202,7 @@ public class boObjectListBuilder {
 	 * 
 	 * Generates a list from the current
 	 * 
-	 * @return
+	 * @return The boObjectList created with the given parameters
 	 */
 	public boObjectList build(){
 		return boObjectList.list(getCtx()
@@ -218,6 +216,17 @@ public class boObjectListBuilder {
 			,null
 			,useSecurity
 			,useCache);
+	}
+	
+	
+	/**
+	 * 
+	 * Generates an iterator based on the current list
+	 * 
+	 * @return A {@link boObjectList} iterator across pages
+ 	 */
+	public XEOListIterator iterator(){
+		return new XEOListIterator(build());
 	}
 
 	/**
@@ -235,7 +244,6 @@ public class boObjectListBuilder {
 	 * 
 	 * Retrieve the boql expression
 	 * 
-	 * @return
 	 */
 	public String getBoql() {
 		return boql;
