@@ -126,15 +126,28 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
     public boolean checkXeo()
     {
         boolean ret = true;
+        InitialContext ic = null;
         try
         {
-            final InitialContext ic = new InitialContext();
+        	ic = new InitialContext();
             ic.lookup("boLogin");  // Test if OC4J is up and running;
             ic.close();
         }
         catch( Exception e )
         {
-            ret = false;
+        	ret = false;
+        	//Fallback with Support for Wildfly 8, JBoss 7 and also OC4J 
+        	String name = "java:comp/env/ejb/boScheduleThread"; 
+        	if (ic != null){
+        		try {
+					ic.lookup( name );
+					ret = true;
+					ic.close();
+				} catch ( Exception e1 ) {
+					ret = false;
+					logger.config( String.format("Could not lookup %s - error was %s", name, e.getMessage() ) );
+				}
+        	}
         }
         return ret && isXEOUpAndRunning();
     }
