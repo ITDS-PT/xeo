@@ -26,6 +26,7 @@ import netgest.bo.system.locale.LocaleFormatter;
  */
 public class XEO {
 	
+	public static final String SYSUSER = "SYSUSER";
 	private static final Logger logger = Logger.getLogger( XEO.class );
 	
 	static EboContext getEboContext(){
@@ -226,7 +227,7 @@ public class XEO {
 	 */
 	public static boSession loginAsSystem() {
 		try {
-			return boApplication.getXEO().boLogin( "SYSUSER" , boLoginBean.getSystemKey() );
+			return boApplication.getXEO().boLogin( SYSUSER , boLoginBean.getSystemKey() );
 		} catch ( boLoginException e ) {
 			logger.warn( "Error when attempting login with SYSUSER", e );
 		}
