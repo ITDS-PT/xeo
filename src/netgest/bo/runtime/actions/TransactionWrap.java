@@ -45,7 +45,7 @@ public abstract class TransactionWrap {
 	 * Implement this method to perform the intended actions
 	 * @param args Arguments passed in the constructor
 	 * */
-	public abstract void doWork(Object... args);
+	public abstract void doWork(Object... args) throws Exception;
 	
 	/**
 	 * Method invoked if the transaction was successfully committed
