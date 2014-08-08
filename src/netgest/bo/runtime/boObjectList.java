@@ -158,7 +158,7 @@ public class boObjectList extends boPoolable {
 			String objectname, long[] bouis, int page, int pagesize,
 			byte format, boolean securityOn) {
 		StringBuffer sb = new StringBuffer();
-		for (byte i = 0; bouis != null && i < bouis.length; i++)
+		for (short i = 0; bouis != null && i < bouis.length; i++)
 			sb.append(bouis[i]).append(",");
 		String bolistui = "BOOBJECTLIST:BOUIS[" + sb + "]:PAGE[" + page
 				+ "]:PAGESIZE[" + pagesize + "]:FORMAT[" + format + "]";
