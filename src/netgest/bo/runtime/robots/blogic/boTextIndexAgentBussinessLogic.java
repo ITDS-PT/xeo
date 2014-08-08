@@ -1,7 +1,7 @@
 package netgest.bo.runtime.robots.blogic;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
-
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -11,13 +11,11 @@ import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
-import netgest.bo.system.boApplication;
-import netgest.bo.system.boLogin;
-import netgest.bo.system.boLoginBean;
-import netgest.bo.system.boLoginException;
-import netgest.bo.system.boSession;
-import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.boTextIndexQueue;
+import netgest.bo.system.Logger;
+import netgest.bo.system.boApplication;
+import netgest.bo.system.boLoginBean;
+import netgest.bo.system.boSession;
 
 
 public class boTextIndexAgentBussinessLogic 
@@ -59,6 +57,7 @@ public class boTextIndexAgentBussinessLogic
         boSession       session = null;
         Connection      cn   = null; 
         long workTime=0;
+        String message = "Erro ";
         try
         {
 //            logger.finest("Starting EboTextIndex schedule agent.....");
@@ -144,8 +143,17 @@ public class boTextIndexAgentBussinessLogic
                               }
                               else
                               {
+                            	  StringWriter w = new StringWriter();
+                            	  PrintWriter     pw = new PrintWriter( w );
+                            	  e.printStackTrace( pw );
+                            	  message = String.format("%s - %s - %s", e.getErrorCode(), e.getMessage(), w.toString() );
+                            	  if (message.length() > 4000){
+                            		  //Prevent message bigger than overflow
+                            		  message = message.substring( 0 , 3950 );
+                            	  }
                         		  ctx.rollbackContainerTransaction();
                         		  ctx.beginContainerTransaction();
+                        		  
                               }
                           }
                           //PostGres Workaround
@@ -164,8 +172,9 @@ public class boTextIndexAgentBussinessLogic
                           if( ok ) {
                         	  queue.markAsProcessed( cn, itens[ counter ], 1, null );
                           } else {
-                        	  queue.markAsProcessed( cn, itens[ counter ], 9, "Erro" );
+                        	  queue.markAsProcessed( cn, itens[ counter ], 9, message );
                           }
+                          message = "";
 
                           ctx.clearObjectInTransaction();
                           
