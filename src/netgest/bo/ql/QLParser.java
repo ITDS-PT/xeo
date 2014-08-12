@@ -2239,7 +2239,7 @@ public class QLParser  {
                     if(incConsumer())
                         return new ResultQL(2, EXPRE_ERR2);//"Incomplete Expression"
                     String s1 = lookCurrentWord();
-                    if(s1.equalsIgnoreCase("("))
+                    if("(".equalsIgnoreCase(s1))
                     {
                         if(incConsumer())
                             return new ResultQL(2, EXPRE_ERR2);//"Incomplete Expression"
@@ -2258,7 +2258,7 @@ public class QLParser  {
                             return r;
                         }
                         s1 = lookCurrentWord();
-                        if(s1.equalsIgnoreCase(")"))    //esperamos que no fim da querie sejam fechados os parênteses
+                        if(")".equalsIgnoreCase(s1))    //esperamos que no fim da querie sejam fechados os parênteses
                         {
                          
                             incConsumer();  //avançar para a proxima palavra
@@ -2279,7 +2279,7 @@ public class QLParser  {
                     if(incConsumer())
                       return new ResultQL(2, STARTS_ERR1);//Incorrect STARTSWITH statement (ex: arg STARTSWITH 'a')
                     String s2 = lookCurrentWord();
-                    if(s2.equalsIgnoreCase("'"))
+                    if("'".equalsIgnoreCase(s2))
                     {
                       if(incConsumer())
                         return new ResultQL(2, STARTS_ERR1);
@@ -2303,7 +2303,7 @@ public class QLParser  {
                   }
                   //Tony
                   //Caso de Excepção para contains entre ()
-                  else if (s.equals(")")  && lookahead(-4).equalsIgnoreCase(OPWH_CONTAIN))
+                  else if (")".equals(s)  && lookahead(-4).equalsIgnoreCase(OPWH_CONTAIN))
                   {
                     incConsumer();
                     return new ResultQL(0);
