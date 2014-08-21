@@ -31,6 +31,10 @@ public class LoggerLevels {
 			new LogLevelForLog4j( org.apache.log4j.Level.WARN, "WARN"), "WARNING"
 		);
 
+	public static final LoggerLevel ERROR = new LoggerLevel( 
+			new LogLevelForLog4j( org.apache.log4j.Level.ERROR, "ERROR"), "ERROR"
+		);
+	
 	public static final LoggerLevel SEVERE = new LoggerLevel( 
 			new LogLevelForLog4j( org.apache.log4j.Level.FATAL, "SEVER"), "SEVERE"
 		);
