@@ -1,11 +1,11 @@
 /*Enconding=UTF-8*/
 package netgest.bo.message.server.mail;
 
-import java.io.*;
-
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
@@ -14,10 +14,8 @@ import java.util.Vector;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-
 import javax.mail.Address;
 import javax.mail.BodyPart;
-import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -34,8 +32,8 @@ import javax.mail.internet.MimeMultipart;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.message.utils.Attach;
-
 import netgest.bo.system.Logger;
+
 import org.bouncycastle.mail.smime.SMIMESigned;
 
 
@@ -761,7 +759,11 @@ public class Mail
             	atemps++;
                 try
                 {
+                	// Required sent date RFC
+                	msg.setSentDate( new Date() );
+                	
                     Transport.send(msg);
+                    
                     errors.add(k, "");
                     break;
                 }
