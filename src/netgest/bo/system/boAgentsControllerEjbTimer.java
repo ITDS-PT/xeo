@@ -211,11 +211,14 @@ public class boAgentsControllerEjbTimer implements IboAgentsController
         try
         {
             xeoEJBTimer activeEJBTimer=(xeoEJBTimer)this.activeEJBTimers.get(name);
-
-            logger.finest(LoggerMessageLocalizer.getMessage("STOPPING_XEO_EJBTIMER")+" ["+ name +"]");
-            activeEJBTimer.suspend(name);    
-            activeEJBTimers.remove(name);
-            logger.finest(LoggerMessageLocalizer.getMessage("STOPPED_XEO_EJBTIMER")+" ["+ name +"]");
+            if (activeEJBTimer != null){ //Prevent exceptions when suspending several times
+            	logger.finest(LoggerMessageLocalizer.getMessage("STOPPING_XEO_EJBTIMER")+" ["+ name +"]");
+	            activeEJBTimer.suspend(name);    
+	            activeEJBTimers.remove(name);
+	            logger.finest(LoggerMessageLocalizer.getMessage("STOPPED_XEO_EJBTIMER")+" ["+ name +"]");
+            } else {
+            	logger.finest(String.format(" Agent [%s] was not alive" , name ) );
+            }
         }
         catch (RemoteException e)
         {
