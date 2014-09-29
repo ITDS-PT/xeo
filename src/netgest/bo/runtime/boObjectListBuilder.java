@@ -261,11 +261,6 @@ public class boObjectListBuilder {
 	 */
 	public Object[] getArgs() {
 		
-		if (this.individualArguments.size() == 0)
-			return args;
-		if (this.args.length == 0)
-			return individualArguments.toArray();
-		
 		Object[] totalArgs = new Object[this.individualArguments.size() + this.args.length];
 		int k = 0;
 		for (Object curr : args){
