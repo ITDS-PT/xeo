@@ -1,25 +1,21 @@
 /*Enconding=UTF-8*/
 package netgest.io;
-import com.oreilly.servlet.MultipartRequest;
-
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-
 import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 
-import netgest.utils.ObjectSorter;
-
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.system.Logger;
+import netgest.utils.ObjectSorter;
+
+import com.oreilly.servlet.MultipartRequest;
 
 
 public class iFileDialogBean {
@@ -533,7 +529,7 @@ public class iFileDialogBean {
                     response.setContentLength(xfsize);
 
                     if (!display)
-                        response.setHeader("Content-Disposition","attachment; filename="+bfilename);
+                        response.setHeader("Content-Disposition","attachment; filename=\""+bfilename+"\"");
 
                     int rb=0;
                     ServletOutputStream so = response.getOutputStream();

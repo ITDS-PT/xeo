@@ -119,22 +119,24 @@ public class SqlServerUtils implements DriverUtils {
 
 	public String arranjeFulltextSearchText(String fulltext) {
 		if (fulltext == null || fulltext.trim().length() == 0)
-			return fulltext;
-
-		fulltext = fulltext.replaceAll("\\p{Punct}", "");
-		fulltext = fulltext.replaceAll("\\s\\s", " ");
-		String[] tokens = fulltext.split(" ");
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < tokens.length; i++) {
-			if (tokens[i].length() > 0) {
-				if (sb.length() > 0) {
-					sb.append(' ');
-				}
-				sb.append(tokens[i]);
-				if (i<tokens.length-1)sb.append("&");
-			}
-		}
-		return sb.toString();
+            return fulltext;
+	    fulltext = fulltext.replaceAll("[\\p{Punct}&&[^\\*]]", "");
+	
+	    fulltext = fulltext.replaceAll("\\s\\s", " ");
+	    String[] tokens = fulltext.split(" ");
+	    StringBuffer sb = new StringBuffer();
+	    for (int i = 0; i < tokens.length; i++) {
+	            if (tokens[i].length() > 0) {
+	                    if (sb.length() > 0) {
+	                            sb.append(' ');
+	                    }
+	                    sb.append("\"");
+	                    sb.append(tokens[i]);
+	                    sb.append("\"");
+	                    if (i<tokens.length-1)sb.append("&");
+	            }
+	    }
+	    return sb.toString();
 	}
 
 	@Override

@@ -4,17 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import netgest.bo.runtime.EboContext;
 import netgest.bo.system.Logger;
 import netgest.bo.system.XEO;
 import netgest.bo.system.boApplication;
-import netgest.bo.system.boContext;
-import netgest.bo.system.boSession;
-import netgest.bo.system.boSessionUser;
-import netgest.bo.system.locale.XEOLocaleProvider;
 import netgest.utils.StringUtils;
 /**
  * Class that loads the exception messages from the properties file
@@ -115,6 +111,10 @@ public class MessageLocalizer {
 	 * 
 	 */
 	private static String getLanguage() {
-		return XEO.getCurrentLocale().toString();
+		try{
+			return XEO.getCurrentLocale().toString();
+		} catch (Exception e ){
+			return Locale.getDefault().toString();
+		}
 	}
 }
