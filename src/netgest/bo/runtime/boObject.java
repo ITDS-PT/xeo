@@ -2345,9 +2345,8 @@ public abstract class boObject extends boObjectContainer implements Serializable
                     b.getRslt().deleteRow();
                     DataManager.updateDataSet(getEboContext(),
                         b.getRslt().getDataSet(), false,this.checkICN);
-                    getEboContext().getConnectionData().commit();
+                    getEboContext().commitContainerTransaction();
                     b.refreshBridgeData();
-
                     cacheBouis.put_userUnReadThisBoui(performer, this.bo_boui);
                 }
             }
