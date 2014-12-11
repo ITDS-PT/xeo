@@ -209,13 +209,19 @@ public class boFlashBackHandler
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_SEQUENCE.equals(attributeType)){
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-	    //		if (val != null)
+	    		if (val != null)
 	    			changed.setValueLong(val.longValue());
+	    		else {
+	    			changed.setValueObject(  null );
+	    		}
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_CURRENCY.equals(attributeType)){
 	    		BigDecimal val = flashBackRow.getBigDecimal(attName);
-	    	//	if (val != null)
+	    		if (val != null)
 	    			changed.setValueLong(val.longValue());
+	    		else {
+	    			changed.setValueObject(  null );
+	    		}
 	    	}
 	    	else if (boDefAttribute.ATTRIBUTE_NUMBER.equals(attributeType)){
 	    		Object val = flashBackRow.getObject(attName);
