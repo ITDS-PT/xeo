@@ -726,11 +726,13 @@ public class boApplicationConfig {
 			if( nodeL.getLength() > 0 ) {
 				NodeList children = nodeL.item(0).getChildNodes();
 				for (int i = 0; i < children.getLength(); i++) {
-					
-					XMLElement currentProperty = (XMLElement) children.item(i);
-					String name = currentProperty.getAttribute("name");
-					String value = currentProperty.getText();
-					this.p_properties.put(name, value);
+					Node node = children.item( i );
+					if (node instanceof XMLElement){
+						XMLElement currentProperty = (XMLElement) children.item(i);
+						String name = currentProperty.getAttribute("name");
+						String value = currentProperty.getText();
+						this.p_properties.put(name, value);
+					}
 				}
 			}
 		}
