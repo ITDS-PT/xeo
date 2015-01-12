@@ -1,6 +1,7 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
@@ -27,19 +28,13 @@ public abstract class boPoolable implements Cloneable
         setEboContext(boctx);
     }
     
-	
-    static class ObjectIdManager {
-    	private static long OBJECTID = 0;
-    	public static synchronized long getNext() {
-    		return OBJECTID++;
-    	}
-    }
+	private static final AtomicLong OBJECTID = new AtomicLong(0);
     
 
     /**
      *  Contains a unique id to identify the object in the pool.
      */
-    private String p_uniqueid = this.getClass().getName() + ":" + ObjectIdManager.getNext();
+    private String p_uniqueid = this.getClass().getName() + ":" + OBJECTID.incrementAndGet();
     
     /**
      *  Flag with state of the Object.
