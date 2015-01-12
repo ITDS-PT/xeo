@@ -340,11 +340,10 @@ public class boScheduleThreadBussinessLogic
                }
                else if (props.every.equals(ScheduleCalcNextRun.WEEKDAYS))
                {
+                  nextrun.add(Calendar.DAY_OF_MONTH,1);
                   int dayOfWeek = nextrun.get(Calendar.DAY_OF_WEEK);
-                  
                   boolean Saturday=(dayOfWeek == Calendar.SATURDAY);
                   boolean Sunday=(dayOfWeek==Calendar.SUNDAY);
-                  nextrun.add(Calendar.DAY_OF_MONTH,1);
                   while (Saturday || Sunday) {
                       nextrun.add(Calendar.DAY_OF_MONTH,1);
                       dayOfWeek=nextrun.get(Calendar.DAY_OF_WEEK);
