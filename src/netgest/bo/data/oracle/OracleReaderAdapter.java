@@ -151,6 +151,7 @@ public class OracleReaderAdapter implements ReaderAdapter
                     switch (type)
                     {
                     case Types.CHAR:
+                    case Types.NVARCHAR:
                     case Types.LONGVARCHAR:
                     case Types.VARCHAR:
                     case Types.DECIMAL:
@@ -214,7 +215,7 @@ public class OracleReaderAdapter implements ReaderAdapter
                         throw new DataException("0000",MessageLocalizer.getMessage("BLOB_NOT_SUPORTED"));
 
                     default:
-                        throw new DataException("0000",MessageLocalizer.getMessage("TYPE")+
+                        throw new DataException("0000","["+meta.getColumnName(z)+"] "+MessageLocalizer.getMessage("TYPE")+
                             " [" + meta.getColumnType(z) +
                             "] "+MessageLocalizer.getMessage("SUPPORED_BY")+" [" + meta.getColumnClassName(z) +
                             "] "+MessageLocalizer.getMessage("NOT_SUPPORTED"));
