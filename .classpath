@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="project_lib/AppXTender.jar"/>
-	<classpathentry kind="lib" path="project_lib/bcmail-jdk14-125.jar"/>
-	<classpathentry kind="lib" path="project_lib/bcpg-jdk14-125.jar"/>
-	<classpathentry kind="lib" path="project_lib/bcprov-jdk14-125.jar"/>
-	<classpathentry kind="lib" path="project_lib/bsh-2.0b1.jar"/>
-	<classpathentry kind="lib" path="project_lib/ConvertImagesStub.jar"/>
-	<classpathentry kind="lib" path="project_lib/cos.jar"/>
-	<classpathentry kind="lib" path="project_lib/java_sql_interfaces_1_6.jar"/>
-	<classpathentry kind="lib" path="project_lib/JimiProClasses.jar"/>
-	<classpathentry kind="lib" path="project_lib/regex4j.jar"/>
-	<classpathentry kind="lib" path="project_lib/timerservice.jar"/>
-	<classpathentry kind="lib" path="project_lib/WordWriter-v2-License.jar"/>
-	<classpathentry kind="lib" path="project_lib/WordWriter-v2.5.2.jar"/>
-	<classpathentry kind="lib" path="project_lib/xeoWin32Client.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/activation.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/adk.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/ejb.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/jms.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/jndi.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/jta.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/mail.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/ojsp.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/servlet.jar"/>
-	<classpathentry kind="lib" path="base_lib/j2ee/soap.jar"/>
-	<classpathentry kind="lib" path="project_lib/xmlparserv2.jar"/>
-	<classpathentry kind="lib" path="project_lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="project_lib/sqljdbc4.jar"/>
-	<classpathentry kind="lib" path="project_lib/postgresql-9.1-901.jdbc4.jar"/>
-	<classpathentry kind="lib" path="project_lib/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/AppXTender.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/bcmail-jdk14-125.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/bcpg-jdk14-125.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/bcprov-jdk14-125.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/bsh-2.0b1.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/ConvertImagesStub.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/cos.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/java_sql_interfaces_1_6.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/JimiProClasses.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/regex4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/timerservice.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/WordWriter-v2-License.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/WordWriter-v2.5.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/xeoWin32Client.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/activation.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/adk.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/ejb.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/jms.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/jndi.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/jta.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/mail.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/ojsp.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/servlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="base_lib/j2ee/soap.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/xmlparserv2.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/log4j-1.2.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/sqljdbc4.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/postgresql-9.1-901.jdbc4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="project_lib/ojdbc14.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="project_lib/jackrabbit-jcr-commons-2.6.0.jar"/>
-	<classpathentry kind="lib" path="project_lib/jcr-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/jackrabbit-jcr-commons-2.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="project_lib/jcr-2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
