@@ -90,6 +90,7 @@ public class boClassCompiler  {
 
           if(encoding!=null) {              
               cmd.add(xjavac);
+              cmd.add("-nowarn");
               cmd.add("-source");
               cmd.add("1.4");
               cmd.add("-target");
@@ -108,7 +109,8 @@ public class boClassCompiler  {
               }
           }
           else {
-              cmd.add(xjavac);              
+              cmd.add(xjavac);   
+              cmd.add("-nowarn");
               cmd.add("-source");
               cmd.add("1.4");
               cmd.add("-target");
