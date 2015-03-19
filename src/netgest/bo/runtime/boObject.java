@@ -3137,29 +3137,34 @@ public abstract class boObject extends boObjectContainer implements Serializable
     {
         return getViewerUtils().getCARDID(cut);
     }
-
+    
+    @Deprecated
     public StringBuffer getCARDIDwLink() throws boRuntimeException
     {
         return getViewerUtils().getCARDIDwLink();
     }
-
+    
+    @Deprecated
     public StringBuffer getCARDIDwLink(boolean doubleEscape) throws boRuntimeException
     {
         return getViewerUtils().getCARDIDwLink( doubleEscape );
     }
-
+    
+    @Deprecated
     public StringBuffer getCARDIDwLink(boolean doubleEscape,String extraParameters )
         throws boRuntimeException
     {
         return getViewerUtils().getCARDIDwLink( doubleEscape, extraParameters );
     }
-
+    
+    @Deprecated
     public StringBuffer getCARDIDwLink(boolean newPage, boolean doubleEscape,String extraParameters )
         throws boRuntimeException
     {
         return getViewerUtils().getCARDIDwLink(newPage, doubleEscape, extraParameters );
     }
 
+    @Deprecated
     public StringBuffer getURL() throws boRuntimeException
     {
         return getViewerUtils().getURL();
@@ -3175,11 +3180,12 @@ public abstract class boObject extends boObjectContainer implements Serializable
         return getViewerUtils().getCARDIDwState();
     }
 
+    @Deprecated
     public StringBuffer getCARDIDwStatewLink() throws boRuntimeException
     {
         return getViewerUtils().getCARDIDwStatewLink();
     }
-
+    
     public StringBuffer getSTATUS() throws boRuntimeException, SQLException
     {
         return getViewerUtils().getSTATUS();
