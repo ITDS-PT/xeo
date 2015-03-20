@@ -161,7 +161,7 @@ public class boClassCompiler  {
 
           String error = rd2.dataReaded;
 
-          if (error.length() > 0) {
+          if (proc.exitValue()!= 0) {
                throw(new RuntimeException(MessageLocalizer.getMessage("ERROR_COMPILING_CLASS")+":\n"+error));
           }
 
