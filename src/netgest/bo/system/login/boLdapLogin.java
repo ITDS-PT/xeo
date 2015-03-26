@@ -1,34 +1,24 @@
 /*Enconding=UTF-8*/
 package netgest.bo.system.login;
-import java.rmi.RemoteException;
-
 import java.util.Properties;
 import java.util.Vector;
-
-import javax.ejb.CreateException;
 
 import javax.naming.AuthenticationException;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
-
 import javax.servlet.http.HttpServletRequest;
 
 import netgest.bo.boConfig;
-import netgest.bo.boConfigRepository;
 import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.ObjAttHandler;
-import netgest.bo.runtime.boContextFactory;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.LoginManager;
 import netgest.bo.system.boApplication;
-import netgest.bo.system.boLogin;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
-import netgest.bo.system.boLoginHome;
 import netgest.bo.system.boSession;
-
 import netgest.utils.Ldap.LdapConnection;
 import netgest.utils.Ldap.LdapUser;
 
@@ -46,7 +36,6 @@ public class boLdapLogin implements LoginManager
   {
     long toReturn=0;
     Properties prop=boConfig.getAuthentication();
-    LoginManager p_loginmanager=null;
     LdapConnection ldapconn=null;
     try
     {
@@ -86,11 +75,7 @@ public class boLdapLogin implements LoginManager
   {
     EboContext ctx=null;
     try
-    {
-      String repos=boConfig.getDefaultRepository();
-      boConfigRepository rep = boConfig.getConfigRepository(repos);
-      boLogin login = (boLogin)((boLoginHome)boContextFactory.getContext().lookup("boLogin")).create();
-//      boSession session = login.boLogin( app,, "SYSTEM", boLoginBean.getSystemKey(), repository );
+    {      
       boSession session = app.boLogin( "SYSTEM", boLoginBean.getSystemKey(), repository );
       ctx = session.createRequestContext(null,null,null);  
       
@@ -145,19 +130,11 @@ public class boLdapLogin implements LoginManager
       session.closeSession();
       
       return newuser.bo_boui;      
-    }
-    catch(CreateException e)
-    {
-      throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);             
-    }    
+    }   
     catch(NamingException e)
     {
       throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);             
     }
-    catch(RemoteException e)
-    {
-      throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);             
-    }    
     catch(boLoginException e)
     {
        throw new boLoginException(boLoginException.UNEXPECTED_ERROR,e);             

@@ -192,7 +192,14 @@ public class boAgentsControler extends Thread implements IboAgentsController
         }
         catch( Throwable e )
         {
-            ret = false;
+    		try {
+    			//Check if is running in Tomcat if so then start agents because XEO is up
+				@SuppressWarnings("unused")
+				Class<?> clazz=Class.forName("org.apache.catalina.util.ServerInfo");
+				ret=true;
+			} catch (ClassNotFoundException e1) {					
+				ret=false;
+			}
         }
         return ret;
     }

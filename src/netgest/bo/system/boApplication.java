@@ -168,6 +168,12 @@ public class boApplication
 			                	if( xeoHome1.exists() ) {
 			                		appConfigPath = homeFolder.getAbsolutePath();
 			                	}
+			                	//Test for Tomcat, in Tomcat xeohome is in war folder
+			                    homeFolder = file.getParentFile().getParentFile().getParentFile();
+			                	xeoHome1 = new File( homeFolder + File.separator + BOCONFIG_XML ); 
+			                	if( xeoHome1.exists() ) {
+			                		appConfigPath = homeFolder.getAbsolutePath();
+			                	}
 		                	}
 		                }
 		                if( appConfigPath != null ) {
@@ -400,9 +406,10 @@ public class boApplication
         p_memoryarchive = new boMemoryArchive(this);
         p_sessions = new boSessions(this);
         p_drivermanager = new netgest.bo.data.DriverManager( this );
-        suspendAgents();
-        startAgents();
         p_preferencesManager = new PreferenceManager();
+        
+        suspendAgents();
+        startAgents();        
     }
     
     public void configureLoggers() {
@@ -644,23 +651,12 @@ public class boApplication
     public boSession boLogin(String username, long time, long timeCheck, String repository, String clientName , HttpServletRequest request)
         throws boLoginException
     {
-        try
+        if( repository == null )
         {
-            if( repository == null )
-            {
-                repository = "default";
-            } 
-            boLoginLocal login = (boLoginLocal) ((boLoginLocalHome) boContextFactory.getContext().lookup("java:comp/env/ejb/boLoginLocal")).create();
-            return login.boLogin( this, repository, clientName, username, time, timeCheck, request);
-        }
-        catch (NamingException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-        catch (CreateException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+            repository = "default";
+        } 
+        boLoginBean login = new boLoginBean();
+        return login.boLogin( this, repository, clientName, username, time, timeCheck, request);                       
     }
     public DriverManager getDriverManager()
     {
