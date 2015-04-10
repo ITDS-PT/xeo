@@ -2959,7 +2959,14 @@ public class boManagerBean implements SessionBean, boManagerLocal
                 
                 boObject[] obj = ctx.getObjectsInTransaction();
                 if( modeBatch ) {
-                    boTextIndexAgentBussinessLogic.addToQueue(obj);
+                	ArrayList<boObject> objectsList = new ArrayList<boObject>();
+                    for( boObject o : obj ) {
+                    	if(o.isChanged()) {
+                    		objectsList.add( o );
+                    	}
+                    }                                              
+                    boTextIndexAgentBussinessLogic.addToQueue(objectsList.toArray(new boObject[objectsList.size()]));
+                    
                 	ctx.clearObjectInTransaction();
                 }
                 
