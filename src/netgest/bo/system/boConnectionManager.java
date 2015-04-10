@@ -332,7 +332,7 @@ public class boConnectionManager
                         // rollback
                         ArrayList<boObject> objectsList = new ArrayList<boObject>();
                         for( boObject o : objects ) {
-                        	if( o != null && o.getEboContext() != null ) {
+                        	if( o != null && o.getEboContext() != null && o.isChanged()  ) {
                         		objectsList.add( o );
                         	}
                         }
@@ -479,7 +479,14 @@ public class boConnectionManager
                 ut.commit();
                 ret = true;
                 boObject[] tobjs = p_ctx.getOnlyDbTransactedObject();
-                boTextIndexAgentBussinessLogic.addToQueue(tobjs);
+                
+                ArrayList<boObject> objectsList = new ArrayList<boObject>();
+                for( boObject o : tobjs ) {
+                	if(o.isChanged()) {
+                		objectsList.add( o );
+                	}
+                }                      
+                boTextIndexAgentBussinessLogic.addToQueue(objectsList.toArray(new boObject[objectsList.size()]));
 
             }
         }

@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJBException;
@@ -2907,7 +2909,14 @@ public class boManagerBean implements SessionBean, boManagerLocal
                     try
                     {
                         boObject[] objects = ctx.getObjectsInTransaction();
-                        boTextIndexAgentBussinessLogic.addToQueue(objects);
+                        ArrayList<boObject> objectsList = new ArrayList<boObject>();
+                        for( boObject o : objects ) {
+                        	if(o.isChanged()) {
+                        		objectsList.add( o );
+                        	}
+                        }                                              
+                        boTextIndexAgentBussinessLogic.addToQueue(objectsList.toArray(new boObject[objectsList.size()]));
+                        
                         if( !ctx.getConnectionManager().isInOnlyDatabaseTransaction() )
                         {
                             ut.commit();
