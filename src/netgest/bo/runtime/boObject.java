@@ -636,6 +636,7 @@ public abstract class boObject extends boObjectContainer implements Serializable
         boolean forceAllInTransaction) throws boRuntimeException {
         boolean cont = true;
 
+        beforeSaveIFiles();
         if ((this.getAttribute("CREATOR") != null) &&
                 (this.getAttribute("CREATOR").getValueObject() == null) &&
                 (this.getAttribute("CREATOR").getInputType() != AttributeHandler.INPUT_FROM_USER) &&
@@ -1855,7 +1856,6 @@ public abstract class boObject extends boObjectContainer implements Serializable
 
     public boolean onBeforeSave(boEvent event) throws boRuntimeException
     {
-        beforeSaveIFiles();
         return true;
     }
 
