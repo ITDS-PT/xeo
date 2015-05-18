@@ -37,28 +37,6 @@
 				super.update();
 				]]></body>
 		</method>
-		<method name="runNow" public="false" menu="true" toolbar="true" requiredTransaction="NotSuported" serverOnly="false" openDoc="false" modeTemplate="true" toObject="">
-			<label>Executar Agora</label>
-			<icon></icon>
-			<javascriptToRun>
-				<viewer name="edit">
-					<before><![CDATA[]]></before>
-					<after><![CDATA[]]></after>
-				</viewer>
-			</javascriptToRun>
-			<assinature return="void"/>
-			<body language="JAVA"><![CDATA[      
-			try {
-          		this.getAttribute("activeStatus").setValueString("1");
-          		this.update();
-				ThreadGroup xeoGroup = new ThreadGroup("XEO Agents");          netgest.bo.runtime.robots.boScheduleThread activity = new netgest.bo.runtime.robots.boScheduleThread(xeoGroup,  "XEO Schedule Thread for "+this.getAttribute("description").getValueString()+"["+this.getBoui()+"]", this.getEboContext().getApplication() );
-          		activity.setSchedule( this );                        
-          		activity.start();
-      		} catch (Exception e) {
-            	e.printStackTrace();
-      		}
-      		]]></body>
-		</method>
 	</methods>
 	<events/>
 	<fwdObjects/>
