@@ -1564,7 +1564,7 @@ public class MapType2DataManager implements IDataManager
                                 ods.getKeys(),
                                 decodeObjKeysToTabKeys( ods, ods.getKeys() ), 
                                 objectKeysValues,
-                                ""
+                                ods.getWhereClause()
                                 );
                     if( retObj != null )
                     {
