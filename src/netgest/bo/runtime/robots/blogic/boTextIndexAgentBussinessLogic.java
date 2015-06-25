@@ -122,7 +122,9 @@ public class boTextIndexAgentBussinessLogic
                                 	  try {
                                 		  textIndex.destroy();
                                 	  }
-                                	  catch( Exception ex1 ) {};
+                                	  catch( Exception ex1 ) {
+                                		  ctx.rollbackContainerTransaction();
+                                	  }
                                   }
                                   ok = true;
                               }
@@ -137,7 +139,9 @@ public class boTextIndexAgentBussinessLogic
                                 	  try {
                                 		  textIndex.destroy();
                                 	  }
-                                	  catch( Exception ex1 ) {};
+                                	  catch( Exception ex1 ) {
+                                		  ctx.rollbackContainerTransaction();
+                                	  }
                                   }
                                   ok = true;
                               }
