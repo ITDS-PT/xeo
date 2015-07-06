@@ -2191,44 +2191,44 @@ public class boBuildDB
         return (String[]) tables.toArray(new String[tables.size()]);
     }
 
-    private final boolean containsMoreThanOneClass(String tableName)
+    private final boolean containsMoreThanOneClass(String currentModel, String tableName)
     {
         boolean ret = false;
-        boolean one = false;
         boDefHandler[] alldef = boDefHandler.getAllBoDefinition();
         for (int i = 0; i < alldef.length; i++)
         {
             if(tableName.equalsIgnoreCase( alldef[i].getBoPhisicalMasterTable() ) )
             {
-                if( one )
-                {
+            	if( !isModelExtensionOf( currentModel, alldef[i].getName() ) ) {
                     ret = true;
                     break;
-                }
-                one = true;
+            	}
             }
         }
         return ret;
     }
+    
+    private final boolean isModelExtensionOf( String model, String modelExtension ) {
+
+    	boDefHandler def;
+    	String currentModel = modelExtension;
+    	
+    	do {
+        	def = boDefHandler.getBoDefinition( currentModel );
+        	currentModel = def.getName();
+        	if( currentModel.equals( model ) ) {
+        		return true;
+        	}
+    	} while( (currentModel = def.getBoSuperBo()) != null );
+    	
+    	return false;
+    	
+    }
 
     private final boolean containsMoreThanOneClass(boDefHandler def)
     {
-        boolean ret = false;
         String tableName = def.getBoPhisicalMasterTable();
-        String objName = def.getName();
-        boDefHandler[] alldef = boDefHandler.getAllBoDefinition();
-        for (int i = 0; i < alldef.length; i++)
-        {
-            if( !objName.equals( alldef[i].getName()) )
-            {
-                if(tableName.equalsIgnoreCase( alldef[i].getBoPhisicalMasterTable() ) )
-                {
-                    ret = true;
-                    break;
-                }
-            }
-        }
-        return ret;
+        return containsMoreThanOneClass(def.getName(),tableName);
     }
 
     public String[] getChildTables(boDefHandler def)
@@ -2943,7 +2943,7 @@ public class boBuildDB
             }
 
             ArrayList classes = (ArrayList) tclasses.get(ctable);
-            if( containsMoreThanOneClass( ctable ) )
+            if( containsMoreThanOneClass( def.getName(), ctable ) )
             {
                 if( classes.size() > 0 )
                 {
@@ -3138,7 +3138,7 @@ public class boBuildDB
                 {
                     if ( tablename.equalsIgnoreCase( getXeoTableName( def ) ) )
                     {
-                        if( containsMoreThanOneClass( tablename ) )
+                        if( containsMoreThanOneClass( def.getName(), tablename ) )
                         {
                             sb.append("\n\t\t WHERE CLASSNAME='")
                               .append(def.getName()).append('\'');
@@ -3166,26 +3166,29 @@ public class boBuildDB
 
                 //boDefHandler[] childsdef = (boDefHandler[]) def.getBoAllSubClasses()
                 //                                               .toArray(new boDefHandler[0]);
-                for (int z = 0; z < childsdef.length; z++)
-                {
-                    if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
-                    {
-                        if (tablename.equalsIgnoreCase( getXeoTableName( childsdef[z] ) ) )
-                        {
-                            if (putwhere)
-                            {
-                                sb.append("\n\t\t WHERE ");
-                                putwhere = false;
-                            }
-                            else
-                            {
-                                sb.append(" OR ");
-                            }
-
-                            sb.append("CLASSNAME='")
-                              .append(childsdef[z].getBoName()).append("'");
-                        }
-                    }
+                
+                if( containsMoreThanOneClass( def.getName(), tablename ) ) {
+	                for (int z = 0; z < childsdef.length; z++)
+	                {
+	                    if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
+	                    {
+	                        if (tablename.equalsIgnoreCase( getXeoTableName( childsdef[z] ) ) )
+	                        {
+	                            if (putwhere)
+	                            {
+	                                sb.append("\n\t\t WHERE ");
+	                                putwhere = false;
+	                            }
+	                            else
+	                            {
+	                                sb.append(" OR ");
+	                            }
+	
+	                            sb.append("CLASSNAME='")
+	                              .append(childsdef[z].getBoName()).append("'");
+	                        }
+	                    }
+	                }
                 }
 
                 unionquerys.add(sb.toString());
@@ -3384,7 +3387,7 @@ public class boBuildDB
                 {
                     if (def.getBoPhisicalMasterTable().equalsIgnoreCase(tablename))
                     {
-                        if( containsMoreThanOneClass( tablename ) )
+                        if( containsMoreThanOneClass( def.getName(), tablename ) )
                         {
                             putwhere = false;
                             sb.append("\n\t\t WHERE CLASSNAME='")
@@ -3397,29 +3400,30 @@ public class boBuildDB
 
                 //boDefHandler[] childsdef = (boDefHandler[]) def.getBoAllSubClasses()
                 //                                               .toArray(new boDefHandler[0]);
-                for (int z = 0; z < childsdef.length; z++)
-                {
-                    if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
+                if( containsMoreThanOneClass(def.getName(), tablename) ) {
+                    for (int z = 0; z < childsdef.length; z++)
                     {
-                        if (childsdef[z].getBoPhisicalMasterTable()
-                                            .equalsIgnoreCase(tablename))
+                        if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
                         {
-                            if (putwhere)
+                            if (childsdef[z].getBoPhisicalMasterTable()
+                                                .equalsIgnoreCase(tablename))
                             {
-                                sb.append("\n\t\t WHERE ");
-                                putwhere = false;
-                            }
-                            else
-                            {
-                                sb.append(" OR ");
-                            }
+                                if (putwhere)
+                                {
+                                    sb.append("\n\t\t WHERE ");
+                                    putwhere = false;
+                                }
+                                else
+                                {
+                                    sb.append(" OR ");
+                                }
 
-                            sb.append("CLASSNAME='")
-                              .append(childsdef[z].getBoName()).append("'");
+                                sb.append("CLASSNAME='")
+                                  .append(childsdef[z].getBoName()).append("'");
+                            }
                         }
                     }
                 }
-
                 unionquerys.add(sb.toString());
             }
 
@@ -4665,69 +4669,74 @@ public class boBuildDB
 
                 if (def.getClassType() == boDefHandler.TYPE_CLASS)
                 {
-                    if (def.getBoPhisicalMasterTable().equalsIgnoreCase(tablename))
-                    {
-                        if (def.getASPMode() != def.ASP_PRIVATE)
-                        {
-                            putwhere = false;
-                            sb.append("\n\t\t WHERE CLASSNAME='")
-                              .append(def.getName()).append('\'');
-                        }
-
-                        if ((def.getASPMode() == def.ASP_PRIVATE) ||
-                                (def.getASPMode() == def.ASP_SEMI_PRIVATE))
-                        {
-                            privateSb = new StringBuffer();
-                            privateSb.append(selectSave).append(" FROM ")
-                                     .append(tablename)
-                                     .append(" WHERE CLASSNAME='")
-                                     .append(def.getName()).append('\'');
-                            privatePart.add(privateSb.toString());
-                        }
-                    }
+                	if( containsMoreThanOneClass(def.getName(), tablename) ) {
+                		if (def.getBoPhisicalMasterTable().equalsIgnoreCase(tablename))
+                		{
+                			if (def.getASPMode() != def.ASP_PRIVATE)
+                			{
+                				putwhere = false;
+                				sb.append("\n\t\t WHERE CLASSNAME='")
+                				.append(def.getName()).append('\'');
+                			}
+                			
+                			if ((def.getASPMode() == def.ASP_PRIVATE) ||
+                					(def.getASPMode() == def.ASP_SEMI_PRIVATE))
+                			{
+                				privateSb = new StringBuffer();
+                				privateSb.append(selectSave).append(" FROM ")
+                				.append(tablename)
+                				.append(" WHERE CLASSNAME='")
+                				.append(def.getName()).append('\'');
+                				privatePart.add(privateSb.toString());
+                			}
+                		}
+                	}
                 }
 
                 boDefHandler[] childsdef = (boDefHandler[]) def.getTreeSubClasses(true);
 
                 //                boDefHandler[] childsdef = (boDefHandler[]) def.getBoAllSubClasses()
                 //                                                               .toArray(new boDefHandler[0]);
-                for (int z = 0; z < childsdef.length; z++)
-                {
-                    if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
-                    {
-                        if (childsdef[z].getBoPhisicalMasterTable()
-                                            .equalsIgnoreCase(tablename))
-                        {
-                            if (childsdef[z].getASPMode() != def.ASP_PRIVATE)
-                            {
-                                if (putwhere)
-                                {
-                                    sb.append("\n\t\t WHERE ");
-                                    putwhere = false;
-                                }
-                                else
-                                {
-                                    sb.append(" OR ");
-                                }
 
-                                sb.append("CLASSNAME='")
-                                  .append(childsdef[z].getBoName()).append("'");
-                            }
-
-                            if ((childsdef[z].getASPMode() == childsdef[z].ASP_PRIVATE) ||
-                                    (childsdef[z].getASPMode() == childsdef[z].ASP_SEMI_PRIVATE))
-                            {
-                                privateSb = new StringBuffer();
-                                privateSb.append(selectSave).append(" FROM ")
-                                         .append(tablename)
-                                         .append(" WHERE CLASSNAME='")
-                                         .append(childsdef[z].getBoName())
-                                         .append('\'');
-                                privatePart.add(privateSb.toString());
-                            }
-                        }
-                    }
-                }
+            	if( containsMoreThanOneClass(def.getName(), tablename) ) {
+	                for (int z = 0; z < childsdef.length; z++)
+	                {
+	                    if (childsdef[z].getClassType() == boDefHandler.TYPE_CLASS)
+	                    {
+	                        if (childsdef[z].getBoPhisicalMasterTable()
+	                                            .equalsIgnoreCase(tablename))
+	                        {
+	                            if (childsdef[z].getASPMode() != def.ASP_PRIVATE)
+	                            {
+	                                if (putwhere)
+	                                {
+	                                    sb.append("\n\t\t WHERE ");
+	                                    putwhere = false;
+	                                }
+	                                else
+	                                {
+	                                    sb.append(" OR ");
+	                                }
+	
+	                                sb.append("CLASSNAME='")
+	                                  .append(childsdef[z].getBoName()).append("'");
+	                            }
+	
+	                            if ((childsdef[z].getASPMode() == childsdef[z].ASP_PRIVATE) ||
+	                                    (childsdef[z].getASPMode() == childsdef[z].ASP_SEMI_PRIVATE))
+	                            {
+	                                privateSb = new StringBuffer();
+	                                privateSb.append(selectSave).append(" FROM ")
+	                                         .append(tablename)
+	                                         .append(" WHERE CLASSNAME='")
+	                                         .append(childsdef[z].getBoName())
+	                                         .append('\'');
+	                                privatePart.add(privateSb.toString());
+	                            }
+	                        }
+	                    }
+	                }
+            	}
 
                 unionquerys.add(sb.toString());
             }
