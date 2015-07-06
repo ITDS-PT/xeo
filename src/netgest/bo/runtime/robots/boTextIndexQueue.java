@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import netgest.bo.boConfig;
 import netgest.bo.data.DriverUtils;
 import netgest.bo.def.*;
 import netgest.bo.runtime.*;
@@ -26,6 +27,8 @@ public class boTextIndexQueue
      */
     //Hashtable  p_objects = new Hashtable();
     boolean    p_rebuild = false;
+
+    private static String boTextIndexQueueQuery=null;
     
     public boTextIndexQueue()
     {
@@ -139,9 +142,20 @@ public class boTextIndexQueue
             		limitOnWhere = " AND " + dutl.getQueryLimitStatement( 120 );
             		break;
             }
-            String sql = "select " + limitOnSelect + " distinct boui,(select min(ENQUEUETIME) from ebo_textindex_queue q where q1.boui=q.boui )" + 
-            			 "	from ebo_textindex_queue q1 where state = 0 "+limitOnWhere+" order by 2 " + limitOnEnd ;
-            pstm        = cn.prepareStatement( sql );
+            
+            //Add the possibility to change the query on the queue on an xeo instance basis (boConfig property)
+            //If no property is present then the default is used
+            if (boTextIndexQueueQuery==null) {
+            	
+	            boTextIndexQueueQuery=boConfig.getApplicationConfig().getProperty("boTextIndexQueueQuery");
+	            
+	            if (boTextIndexQueueQuery==null || boTextIndexQueueQuery.equals("")) {
+	            	boTextIndexQueueQuery = "select " + limitOnSelect + " distinct boui,(select min(ENQUEUETIME) from ebo_textindex_queue q where q1.boui=q.boui )" + 
+	           			 "	from ebo_textindex_queue q1 where state = 0 "+limitOnWhere+" order by 2 " + limitOnEnd ;
+	            }
+            }
+          
+            pstm        = cn.prepareStatement( boTextIndexQueueQuery );
             rslt        = pstm.executeQuery();
             while( rslt.next() )
             {
