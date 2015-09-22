@@ -141,22 +141,22 @@ public class SqlServerUtils implements DriverUtils {
 
 	@Override
 	public String getSumForAggregate(String aggregateField) {
-		return "''' + ISNULL(SUM (" + aggregateField + "),0) + '''";
+		return "''' + CAST(ISNULL(SUM (" + aggregateField + "),0) as varchar) + '''";
 	}
 	
 	@Override
 	public String getAvgForAggregate(String aggregateField) {
-		return "''' + round(ISNULL(AVG (" + aggregateField
-			+ "),0),2) + '''";
+		return "''' + CAST(round(ISNULL(AVG (" + aggregateField
+			+ "),0),2) as varchar) + '''";
 	}
 	@Override
 	public String getMinForAggregate(String aggregateField) {
-		return "''' + ISNULL(MIN (" + aggregateField + "),0) + '''";
+		return "''' + CAST(ISNULL(MIN (" + aggregateField + "),0) as varchar) + '''";
 	}
 	
 	@Override
 	public String getMaxForAggregate(String aggregateField) {
-		return "''' + ISNULL(MAX (" + aggregateField + "),0) + '''";
+		return "''' + CAST(ISNULL(MAX (" + aggregateField + "),0) as varchar) + '''";
 	}
 	
 	@Override
