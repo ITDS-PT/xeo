@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Stack;
+
 import netgest.bo.data.DataManager;
 import netgest.bo.data.Driver;
 import netgest.bo.data.ObjectDataManager;
@@ -22,6 +23,7 @@ import netgest.bo.localizations.MessageLocalizer;
 import netgest.bo.plugins.data.MapType2Def.ObjectDS;
 import netgest.bo.runtime.robots.boTextIndexAgent;
 import netgest.utils.DataUtils;
+import netgest.utils.StringUtils;
 import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.blogic.boTextIndexAgentBussinessLogic;
 
@@ -651,7 +653,9 @@ public class MapType2Register implements boSchedule
         }
         finally
         {
-            CurrentRegisterObjects.remove( def.getName() );
+            if (def!=null && !StringUtils.isEmpty(def.getName())) {
+            	CurrentRegisterObjects.remove( def.getName() );
+            }
         }
         return true;
     }
