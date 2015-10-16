@@ -137,32 +137,32 @@ public class MapType2DBBuilder implements IDataBuilderDB
                 scheduleObj.destroy();
             }
             
-            ctx         = this.p_ctx;
-            schedName   = "MAP_TEXTINDEX_" + boDef.getName();
-            scheduleObj = boObject.getBoManager().loadObject( 
-                                        ctx, 
-                                        "Ebo_Schedule",
-                                        "ID=?",
-                                        new Object[] { schedName }
-                                    );
-                                    
-            if( def.getSyncTextIndex() )
-            {
-                p_bdb.logger.finer(LoggerMessageLocalizer.getMessage("ADDING_TEXTINDEX_SCHEDULE_FOR_MAPPING")+":" + boDef.getName() );
-                scheduleObj.getAttribute( "id" ).setValueString( schedName );
-                scheduleObj.getAttribute( "description" ).setValueString( MessageLocalizer.getMessage("EBO_TEXTINDEX_SYNCHRONIZATION_FO_THE_MAPPED_OBJECT")+" "+boDef.getName() );
-                scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2SyncTextIndex" );
-                scheduleObj.getAttribute( "parameters" ).setValueString( boDef.getName() );
-                scheduleObj.getAttribute( "type" ).setValueString( "REPEATLY" );
-                scheduleObj.getAttribute( "interval" ).setValueString( def.getSyncTextIndexInterval() );
-                scheduleObj.getAttribute( "every" ).setValueString( "ALLDAYS" );
-                scheduleObj.getAttribute( "state" ).setValueString( "1" );
-                scheduleObj.update();
-            }
-            else if( scheduleObj.exists() )
-            {
-                scheduleObj.destroy();
-            }
+//            ctx         = this.p_ctx;
+//            schedName   = "MAP_TEXTINDEX_" + boDef.getName();
+//            scheduleObj = boObject.getBoManager().loadObject( 
+//                                        ctx, 
+//                                        "Ebo_Schedule",
+//                                        "ID=?",
+//                                        new Object[] { schedName }
+//                                    );
+//                                    
+//            if( def.getSyncTextIndex() )
+//            {
+//                p_bdb.logger.finer(LoggerMessageLocalizer.getMessage("ADDING_TEXTINDEX_SCHEDULE_FOR_MAPPING")+":" + boDef.getName() );
+//                scheduleObj.getAttribute( "id" ).setValueString( schedName );
+//                scheduleObj.getAttribute( "description" ).setValueString( MessageLocalizer.getMessage("EBO_TEXTINDEX_SYNCHRONIZATION_FO_THE_MAPPED_OBJECT")+" "+boDef.getName() );
+//                scheduleObj.getAttribute( "javaclass" ).setValueString( "netgest.bo.plugins.data.MapType2SyncTextIndex" );
+//                scheduleObj.getAttribute( "parameters" ).setValueString( boDef.getName() );
+//                scheduleObj.getAttribute( "type" ).setValueString( "REPEATLY" );
+//                scheduleObj.getAttribute( "interval" ).setValueString( def.getSyncTextIndexInterval() );
+//                scheduleObj.getAttribute( "every" ).setValueString( "ALLDAYS" );
+//                scheduleObj.getAttribute( "state" ).setValueString( "1" );
+//                scheduleObj.update();
+//            }
+//            else if( scheduleObj.exists() )
+//            {
+//                scheduleObj.destroy();
+//            }
         }
         catch (boRuntimeException e)
         {
