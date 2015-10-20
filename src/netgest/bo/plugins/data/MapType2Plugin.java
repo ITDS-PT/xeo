@@ -36,10 +36,12 @@ public class MapType2Plugin implements IDataPlugin
     }
 
     public IDataBuilderDB getBuilderDB( boBuildRepository repository, boDefHandler boDef)
-    {
+    {	
+    	//WorkAround for ds build to work without JEE server restart
+    	MapType2Def.clearCache();
         MapType2Def def = MapType2Def.getUndeployedDataSourceDefinition( repository, boDef );
         if( def != null && "2".equals( def.getMapType() ) )
-        {
+        {        	
             return new MapType2DBBuilder();
         }
         return null;
