@@ -2975,9 +2975,9 @@ public class QLParser  {
                 {
                     ResultQL r3 = DIREC();  //pode estar especificada a direcção da ordenação
                     if (r3.success())
-                        prod().addOrderRule(r.getMessage()+" "+r3.getMessage(), copyGroupToOrder);
+                        prod().addOrderRule(r.getMessage()+" "+r3.getMessage(), getCopyGroupToOrder());
                     else
-                        prod().addOrderRule(r.getMessage(), copyGroupToOrder);
+                        prod().addOrderRule(r.getMessage(), getCopyGroupToOrder());
                     ResultQL r2 = ORDEx();  //para o caso de haver mais do que um critério de ordenação
                     if (r2.failed())
                         return r2;
@@ -3030,9 +3030,9 @@ public class QLParser  {
         {
             ResultQL r3 = DIREC();
             if (r3.success())
-                prod().addOrderRule(r.getMessage()+" "+r3.getMessage(), copyGroupToOrder);
+                prod().addOrderRule(r.getMessage()+" "+r3.getMessage(), getCopyGroupToOrder());
             else
-                prod().addOrderRule(r.getMessage(), copyGroupToOrder);     
+                prod().addOrderRule(r.getMessage(), getCopyGroupToOrder());     
             ResultQL r2 = ORDEx();
             if (r2.failed())
                 return r2;
@@ -3046,6 +3046,14 @@ public class QLParser  {
     }
     else
         return new ResultQL(0);
+  }
+  
+  private boolean getCopyGroupToOrder() {
+  	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+    if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)) {
+    	copyGroupToOrder=false;
+    }
+    return copyGroupToOrder;
   }
   
    //DIREC -> “ASC” | “DESC” | _
