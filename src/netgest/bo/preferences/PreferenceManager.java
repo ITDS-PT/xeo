@@ -23,11 +23,15 @@ public class PreferenceManager {
 	}
 	
 	public Preference getSystemPreference( String name, String currentContext ) {
-		Preference p = createPreference( name, null, null, null, null );
-		p.loadPreference();		
-		if( currentContext != null ) {
-			p = createPreference(name, null, null, currentContext, p);
+		Preference p=systemCache.get(name+contextKey(currentContext));
+		if( p == null ) {
+			p = createPreference( name, null, null, null, null );
 			p.loadPreference();
+			if( currentContext != null ) {
+				p = createPreference(name, null, null, currentContext, p);
+				p.loadPreference();
+			}
+			systemCache.put(name+contextKey(currentContext), p);
 		}
 		return p;
 	}
