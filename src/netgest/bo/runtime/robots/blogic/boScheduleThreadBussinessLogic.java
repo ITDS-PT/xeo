@@ -1,29 +1,22 @@
 package netgest.bo.runtime.robots.blogic;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
-
-import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Types;
-
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Vector;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.runtime.EboContext;
 import netgest.bo.runtime.boObject;
 import netgest.bo.runtime.boRuntimeException;
 import netgest.bo.system.boApplication;
-import netgest.bo.system.boLogin;
 import netgest.bo.system.boLoginBean;
 import netgest.bo.system.boLoginException;
 import netgest.bo.system.boSession;
-
-
 import netgest.bo.system.Logger;
 import netgest.bo.runtime.robots.boSchedule;
 
@@ -270,20 +263,40 @@ public class boScheduleThreadBussinessLogic
 
         public static Date getActualSynchonizedDate(EboContext ctx)
         {
+        	Connection cn=null;
+        	PreparedStatement ps=null;
+        	ResultSet rs=null;
             // Code for Application server clock not need to be synchronized with the Database
             Date currentdate=null;
             try 
             {
-                currentdate=new Date();
-                CallableStatement cstm = ctx.getConnectionData().prepareCall("begin ? := sysdate; end;");
-                cstm.registerOutParameter(1,Types.TIMESTAMP);
-                cstm.execute();
-                currentdate.setTime(cstm.getTimestamp(1).getTime());
-                cstm.close();
+            	currentdate=new Date();
+            	cn=ctx.getConnectionData();                
+                ps = cn.prepareStatement(ctx.getDataBaseDriver().getDriverUtils().getSelectTimeQuery());
+                rs=ps.executeQuery();
+                
+                currentdate.setTime(rs.getTimestamp(1).getTime());
             } 
             catch (java.sql.SQLException e) 
             {
-                e=e;
+               
+            }
+            finally {
+            	try {
+	            	if (rs!=null) {
+	            		rs.close();
+	            	}
+	            	if (ps!=null) {
+	            		ps.close();
+	            	}
+	            	if (cn!=null) {
+	            		cn.close();
+	            	}
+            	}
+            	catch (Exception e) {
+            		String error = logError( e.getClass().getName(), e ); 
+                    logger.severe(LoggerMessageLocalizer.getMessage("ERROR")+": ", e);
+            	}
             }
             return currentdate;
         }
