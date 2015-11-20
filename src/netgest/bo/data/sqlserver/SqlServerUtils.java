@@ -101,7 +101,7 @@ public class SqlServerUtils implements DriverUtils {
 	}
 
 	public String fnTruncateDate(String exprString) {
-		return new StringBuffer("CONVERT(datetime,").append(exprString).append(
+		return new StringBuffer("CONVERT(date,").append(exprString).append(
 				")").toString();
 	}
 
@@ -164,7 +164,7 @@ public class SqlServerUtils implements DriverUtils {
 			String aggregateFieldDesc, String sum, String avg, String min,
 			String max) {
 		try {
-			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + URLEncoder.encode(aggregateFieldDesc.replaceAll("€", "&euro;"), "UTF-8")
+			return "'{name: ''" + aggregateFieldId + "'',desc: ''" + URLEncoder.encode(aggregateFieldDesc.replaceAll("‚Ç¨", "&euro;"), "UTF-8")
 				+ "'', SUM: " + sum + ", AVG: " + avg + ", SMIN: "
 				+ min + ", SMAX: " + max + "}' ";
 		} catch (UnsupportedEncodingException e) {
