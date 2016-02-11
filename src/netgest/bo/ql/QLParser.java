@@ -1861,21 +1861,14 @@ public class QLParser  {
         return new ResultQL(0);
   }
   
-  
-  private int wherePosition=-1;
-  
   //WHERE -> “where ” EXPRE | _
   private ResultQL WHERE()
   {
     if(endOfQuery())
         return new ResultQL(0);
     String s = lookCurrentWord();
-    if(s.equalsIgnoreCase(WHERE_WHERE))    	
-    {   
-    	if (wherePosition==-1){ 
-    		wherePosition = consumer;
-    	}
-    	changeActualObj(textObj);
+    if(s.equalsIgnoreCase(WHERE_WHERE))
+    {   changeActualObj(textObj);
         if(incConsumer())
             return new ResultQL(2,WHERE_ERR1);//"No where expression defined"
         else
@@ -2315,15 +2308,6 @@ public class QLParser  {
                     incConsumer();
                     return new ResultQL(0);
                   }
-		          //Tony
-		      	  //Existiam problemas com queries do tipo where (qqcoisa in (query))
-		      	  //problema com os parantesis, isto é um workaround a historia dos parantesis tem que ser
-		      	  //completamente revista, pois neste momento eu não consigo entender como está feita...
-		          else if (")".equals(s) && isIninQueryafterWhere())
-		          {
-		          	 incConsumer();
-		             return new ResultQL(0);
-		          }
                   else if ((s.equalsIgnoreCase(OPST_AND) ||s.equalsIgnoreCase(OPST_OR)) && lookahead(-4).equalsIgnoreCase(OPWH_CONTAIN))
                   {                    
                     addPar();
@@ -2339,26 +2323,6 @@ public class QLParser  {
     
                 
     }
-  }
-  
-  private boolean isIninQueryafterWhere() {
-	  boolean toRet=false;
- 	 try {
-    	 String opIn=(String)words.get(wherePosition+3);
-    	 
-    	 if (opIn.equalsIgnoreCase(OPWx_IN) && !((String)words.get(wherePosition+2)).equals("'")) {
-             toRet=true;
-    	 }
-    	 else {
-    		 //NOT IN
-    		 opIn=(String)words.get(wherePosition+4);
-        	 if (opIn.equalsIgnoreCase(OPWx_IN) && !((String)words.get(wherePosition+3)).equals("'")) {
-                 toRet=true;
-        	 } 
-    	 }
-	 }
-	 catch (Exception e) {}
- 	 return toRet;
   }
   
   //NOT -> “not” | _
@@ -2430,16 +2394,6 @@ public class QLParser  {
     }
     //TONY
     else if (s.equals("(") && lookahead(1).equalsIgnoreCase(OPWH_CONTAIN))
-    {
-      incConsumer();
-      ResultQL r3=OPWH();
-      return r3;
-    }
-    //Tony
-    //Existiam problemas com queries do tipo where (qqcoisa in (query))
-    //problema com os parantesis, isto é um workaround a historia dos parantesis tem que ser
-    //completamente revista, pois neste momento eu não consigo entender como está feita...
-    else if (s.equals("(") && isIninQueryafterWhere())
     {
       incConsumer();
       ResultQL r3=OPWH();
