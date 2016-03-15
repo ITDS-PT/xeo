@@ -397,17 +397,21 @@ public class boObjectListResultFactory  {
             .append( limitOnSelect  );
             
             String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
-            	if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL))
-            		sqlTextIndex.append("ui$,uiclass from Ebo_TextIndex where " ); //SQLServer apenas permite queries à tabela
-           	else
-            		sqlTextIndex.append("ui$,uiclass from OEbo_TextIndex where " );
+            String fullTextTableName;
+            if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)) {
+        		sqlTextIndex.append("ui$,uiclass from Ebo_TextIndex where " ); //SQLServer apenas permite queries à tabela
+        		fullTextTableName = "Ebo_TextIndex";
+            } else {
+        		sqlTextIndex.append("ui$,uiclass from OEbo_TextIndex where " );
+        		fullTextTableName = "OEbo_TextIndex";
+            }
             
             String textIndexUiclasses = QLParser.textIndexUiClass(bodef.getName());
             if(textIndexUiclasses != null && textIndexUiclasses.length() > 0)
             {
                 sqlTextIndex.append(textIndexUiclasses).append(" AND ");
             }
-            sqlTextIndex.append( dutl.getFullTextSearchWhere( "text" , "?") );
+            sqlTextIndex.append( dutl.getFullTextSearchWhere( fullTextTableName + ".TEXT" , "?") );
 
             int textFnd = 0;
             sqlTextIndex.append( limitOnWhere );

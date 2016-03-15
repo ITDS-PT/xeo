@@ -1170,7 +1170,7 @@ public abstract class QLProducer  {
     protected String makeContains(String arg)
     {
     	return parser.ctx.getDataBaseDriver().getDriverUtils()
-    	.getFullTextSearchWhere( "TEXT" ,  arg );
+    	.getFullTextSearchWhere( "OEbo_TextIndex.TEXT" ,  arg );
       //return " CONTAINS(TEXT,"+arg+")>0 ";
     }
     /**Produz a string correspondente á passada mas com os Wildcards da respectiva versão. 
