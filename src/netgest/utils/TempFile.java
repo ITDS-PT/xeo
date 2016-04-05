@@ -165,5 +165,44 @@ public class TempFile extends Object{
         }
         return null;
     }
-}
+    
+	public static File createTempFile(String filename) {
+		File result = null;
 
+		if (filename != null && !filename.isEmpty()) {
+			String suffix = getFileExtension(filename);
+			String prefix = getFileFirstPart(filename);
+
+			result = createTempFile(prefix, suffix);
+		}
+
+		return result;
+	}
+
+	public static String getFileExtension(String filename) {
+		try {
+			int pos = filename.lastIndexOf(".");
+
+			if (pos >= 0) {
+				return filename.substring(pos);
+			}
+		} catch (Exception e) {
+		}
+
+		return null;
+	}
+
+	public static String getFileFirstPart(String aux) {
+		try {
+			int pos = aux.lastIndexOf(".");
+
+			if (pos >= 0) {
+				return aux.substring(0, pos);
+			}
+
+		} catch (Exception e) {
+		}
+
+		return aux;
+	}
+}

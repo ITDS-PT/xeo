@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
 import netgest.bo.boConfig;
 import netgest.bo.data.Driver;
 import netgest.bo.data.oracle.OracleDBM;
@@ -511,7 +512,43 @@ public class BasiciFile implements iFile  {
     }
     public boolean  renameTo(iFile newfile) throws iFilePermissionDenied
     {
-        return false;
+		boolean result = false;
+
+		if (exists() && newfile != null) {
+			String newFilename = newfile.getName();
+
+			if (newFilename != null && !newFilename.trim().isEmpty()) {
+				Connection cn = null;
+				PreparedStatement pstm = null;
+
+				try {
+					cn = provider.getConnection();
+					pstm = cn.prepareStatement("UPDATE " + this.provider.p_dbfs_table_file + " SET FILENAME = ? WHERE ID = ?");
+					pstm.setString(1, newFilename);
+					pstm.setLong(2, this.fileId);
+					pstm.executeUpdate();
+
+					this.fileName = newFilename;
+					result = true;
+				} catch (SQLException e) {
+					throw createRuntimeException("renameTo()", e);
+				} finally {
+					try {
+						if (pstm != null) {
+							pstm.close();
+						}
+
+						if (cn != null) {
+							cn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		return result;
     }
     public boolean  setReadOnly() throws iFilePermissionDenied
     {
@@ -653,7 +690,7 @@ public class BasiciFile implements iFile  {
 	}
 	@Override
 	public String getId() {
-		return null;
+		return String.valueOf(fileId);
 	}
 	@Override
 	public void addMetadata(iMetadataItem item) throws iFileException {
