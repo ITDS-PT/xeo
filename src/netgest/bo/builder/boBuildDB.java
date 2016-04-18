@@ -1943,6 +1943,7 @@ public class boBuildDB
             true, "", "", "");
         addField("EBO_TEXTINDEX_QUEUE", "MESSAGE", "CHAR(4000)",  MessageLocalizer.getMessage("SEQUENCE_KEY"),
             true, "", "", "");
+        addIndex("IDX_EBO_TEXTINDEX_QUEUE", "IDX_EBO_TEXTINDEX_QUEUE", "EBO_TEXTINDEX_QUEUE", "BOUI,STATE");
 
 
         generateScripts(true);
