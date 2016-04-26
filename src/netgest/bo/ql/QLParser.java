@@ -2361,7 +2361,7 @@ public class QLParser  {
     }
     
     if ( s.equalsIgnoreCase( "SYSDATE" ) || s.equalsIgnoreCase( "NOW" ) ||  s.equalsIgnoreCase( "datetime" )
-    		|| s.equalsIgnoreCase("'microseconds'"))//reconhecer logo o ? ou SYSDATE
+    		|| s.equalsIgnoreCase("'microseconds'") || s.equalsIgnoreCase("DATE"))//reconhecer logo o ? ou SYSDATE
     {   
     	String fnSysdate = s;
     	if( ctx != null && s.equalsIgnoreCase("sysdate") )
