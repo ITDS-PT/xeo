@@ -3049,10 +3049,6 @@ public class QLParser  {
   }
   
   private boolean getCopyGroupToOrder() {
-  	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
-    if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)) {
-    	copyGroupToOrder=false;
-    }
     return copyGroupToOrder;
   }
   

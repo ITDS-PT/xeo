@@ -10,6 +10,8 @@ import java.util.Vector;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import netgest.bo.boConfig;
+import netgest.bo.data.oracle.OracleDBM;
 import netgest.bo.def.boDefAttribute;
 import netgest.bo.def.boDefDatabaseObject;
 import netgest.bo.def.boDefHandler;
@@ -786,6 +788,10 @@ public abstract class QLProducer  {
         orderRules.add(ref);
         if(copyGroupToOrder && groupRules.size() > 0)
         {
+          String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+          if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL) && ref.trim().startsWith("1")) {
+          	return;
+          }
           String ref_s=ref;
           int pos = ref.toUpperCase().indexOf(" ASC");
           if(pos >= 0)
