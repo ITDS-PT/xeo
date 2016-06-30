@@ -1175,8 +1175,14 @@ public abstract class QLProducer  {
      * @return      condição SQL que expressa CONTAINS*/
     protected String makeContains(String arg)
     {
+    	String database = boConfig.getApplicationConfig().getDataDataSourceClassName();
+    	String textindex_col="OEbo_TextIndex.TEXT";
+    	
+        if (database.equalsIgnoreCase(OracleDBM.SQLSERVER_IMPL)) {
+        	textindex_col="Ebo_TextIndex.TEXT";
+        }
     	return parser.ctx.getDataBaseDriver().getDriverUtils()
-    	.getFullTextSearchWhere( "OEbo_TextIndex.TEXT" ,  arg );
+    	.getFullTextSearchWhere( textindex_col ,  arg );
       //return " CONTAINS(TEXT,"+arg+")>0 ";
     }
     /**Produz a string correspondente á passada mas com os Wildcards da respectiva versão. 
