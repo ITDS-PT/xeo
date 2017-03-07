@@ -357,7 +357,7 @@ public class boDefAttributeImpl extends ngtXMLHandler implements boDefAttribute 
 			node = super.getChildNode("objects");
 			if (node != null) {
 				ngtXMLHandler[] objs = node.getChildNodes();
-				if (objs != null) {
+				if (objs != null && objs.length > 0 ) {
 					p_objectsName = new String[objs.length];
 					Vector relObjects = new Vector(objs.length);
 					for (byte i = 0; i < objs.length; i++) {
