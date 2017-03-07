@@ -122,7 +122,7 @@ public class boObjectUpdateQueue
     {
         long[][] ret = new long[p_queueList.size()][2];
         Iterator oEnum = p_queueList.iterator();
-        short i =0;
+        int i =0;
         while( oEnum.hasNext() )
         {
             Long boui = (Long)oEnum.next();
