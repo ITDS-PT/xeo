@@ -95,12 +95,13 @@ public class lovObject {
 	}
 
 	// psantos ini
-	public lovObject(EboContext ctx, long lovBoui, String name, String sql,
-			String field_description, String field_cod,
-			Hashtable queryParameters, String[] onlyThisValues) {
+	public lovObject(EboContext ctx, long lovBoui, String name, String sql,	String field_description, String field_cod,	Hashtable queryParameters, String[] onlyThisValues) 
+	{
 		PreparedStatement pstm = null;
 		ResultSet rslt = null;
 		Connection cn = null;
+		this.p_name = name;
+		
 		///////////////
 		if (this.p_language==null)
 			this.p_language=boApplication.getDefaultApplication().getApplicationLanguage();
