@@ -179,6 +179,7 @@ public class lovObject {
 		PreparedStatement pstm = null;
 		ResultSet rslt = null;
 		Connection cn = null;
+		this.p_name = name;
 		try {
 			p_lovboui = lovBoui;
 			cn = ctx.getConnectionData();
@@ -245,6 +246,7 @@ public class lovObject {
 			throws boRuntimeException {
 		PreparedStatement pst = null;
 		ResultSet rslt = null;
+		this.p_name = name;
 		try {
 			p_lovboui = lovBoui;
 			Connection cn;
