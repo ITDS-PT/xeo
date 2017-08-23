@@ -29,10 +29,11 @@
 	<classpathentry exported="true" kind="lib" path="project_lib/log4j-1.2.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="project_lib/sqljdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="project_lib/postgresql-9.1-901.jdbc4.jar"/>
+	<classpathentry kind="lib" path="project_lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="project_lib/mysql-connector-java-5.1.31-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="project_lib/ojdbc14.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="project_lib/jackrabbit-jcr-commons-2.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="project_lib/jcr-2.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Jdk1.6.0"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
