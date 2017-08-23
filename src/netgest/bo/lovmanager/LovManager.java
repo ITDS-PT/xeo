@@ -231,7 +231,7 @@ public class LovManager
                 if (language!="")
                     lovo.setLanguage(language);
                     else
-                    	lovo.setLanguage(boApplication.currentContext().getEboContext().getApplication().getApplicationLanguage());
+                    	lovo.setLanguage(boApplication.getDefaultApplication().getApplicationLanguage());
                 
                 p_lovs.put(name+extrakey, lovo);
                 toRet=lovo;
