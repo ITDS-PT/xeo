@@ -261,11 +261,13 @@ public class boApplication
     
     private void deleteFolder( File folder ) {
     	File[] files = folder.listFiles();
-    	for( File file : files ) {
-    		if( file.isDirectory() ) {
-    			deleteFolder( file );
-    		}
-    		file.delete();
+    	if( files != null ) {
+        	for( File file : files ) {
+        		if( file.isDirectory() ) {
+        			deleteFolder( file );
+        		}
+        		file.delete();
+        	}
     	}
     }
     
