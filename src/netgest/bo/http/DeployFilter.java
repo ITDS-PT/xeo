@@ -133,6 +133,7 @@ public class DeployFilter implements Filter
         if( srcDirFile != null ) {
 	        ArrayList<String> webDirs = new ArrayList<String>(); 
 	        
+	        webRoot = _filterConfig.getServletContext().getRealPath("/");
 	        
 	        String extraDirs = _filterConfig.getInitParameter("extraDirs");
 	        
@@ -157,7 +158,6 @@ public class DeployFilter implements Filter
 	        
 	        srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
 	        
-	        webRoot = _filterConfig.getServletContext().getRealPath("/");
 	        deployDir =  webRoot + File.separator + deployRoot; 
 	        
 	        // Verifica se as JSP's estão a ser compiladas 
@@ -170,6 +170,10 @@ public class DeployFilter implements Filter
 	        {
 	            checkDeployDir();
 	        }
+	        
+	        webDirs.add( 0, webRoot );
+	        srcDir = (String[])webDirs.toArray( new String[ webDirs.size() ] );
+
 	        
 	    	logger.finer(LoggerMessageLocalizer.getMessage("STARTING_DEPLOYING_MODULES_WEBFILES") );
 	        for( int i=0; i < srcDir.length; i++ ) {
@@ -439,6 +443,7 @@ public class DeployFilter implements Filter
                 path = auxArr[1];
             }
             
+            
             try
             {
                 // Flag para verificar se o ficheiro está sobre o controlo do filtro.
@@ -449,9 +454,15 @@ public class DeployFilter implements Filter
                 	File srcFile =  new File( srcDir[i] + file );
                     if( srcFile.exists() && srcFile.getAbsolutePath().endsWith( fsFile )  )
                     {
-                        isunderfilter = true;
-                        kpath.forwaredPath  = "/" + deployRoot + file;
-                        kpath.xeoForwared = deployFile( fsFile );
+                    	// WebFolder 
+                    	if( i==0 ) {
+                            isunderfilter = false;
+                    	}
+                    	else {
+                            isunderfilter = true;
+                            kpath.forwaredPath  = "/" + deployRoot + file;
+                            kpath.xeoForwared = deployFile( fsFile );
+                    	}
                         break;
                     }
                 }
