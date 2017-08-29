@@ -78,16 +78,21 @@ public class TranslationRetriever {
 		return defaultValue;
 	}
 
-	private static String findMessageInInterfaces(String defaultValue,
-			String type, String attribute, String whichText,
-			String translatedMessage, boDefHandler currentModel) {
-		for ( String interfaceImplemented : currentModel.getImplements() ){
-			boDefInterface interfimpl = boDefInterfaceImpl.getInterfaceDefinition( interfaceImplemented );
+	private static String findMessageInInterfaces(String defaultValue,		String type, 
+												  String attribute, 		String whichText,
+												  String translatedMessage, boDefHandler currentModel) {
+		String[] interfaces = currentModel.getImplements();	
+		
+		for ( int i = 0 ; interfaces != null && i < interfaces.length; i++)
+		{
+			boDefInterface interfimpl = boDefInterfaceImpl.getInterfaceDefinition( interfaces[i] );
 			translatedMessage = translate( interfimpl.getName(), defaultValue, type, attribute, whichText );
+			
 			if (!StringUtils.isEmpty(translatedMessage))
 				break;
 		}
-		return translatedMessage;
+			
+		return translatedMessage == null ? defaultValue: translatedMessage;
 	}
 
 	private static boolean modelExtendsFromOtherModel(boDefHandler currentModel) {
