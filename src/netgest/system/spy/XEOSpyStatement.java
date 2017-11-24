@@ -270,4 +270,17 @@ public class XEOSpyStatement implements Statement {
         t.printStackTrace();        
     }
 
+
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		passthru.closeOnCompletion();
+		
+	}
+
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+		return passthru.isCloseOnCompletion();
+	}
+
 }

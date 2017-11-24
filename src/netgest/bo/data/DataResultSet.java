@@ -1180,5 +1180,15 @@ public class DataResultSet implements ResultSet, Serializable
     // Since JDK 1.6
     public Object unwrap(Class iface)  {
         throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
-    }    
+    }
+
+	@Override
+	public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
+	}
+
+	@Override
+	public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
+        throw new RuntimeException(MessageLocalizer.getMessage("NOT_IMPLEMENTED"));
+	}    
 }

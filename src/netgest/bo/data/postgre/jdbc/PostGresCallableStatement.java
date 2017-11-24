@@ -938,5 +938,25 @@ public class PostGresCallableStatement  extends PostGresPreparedStatement implem
 			throws SQLException {
 		cstm.setNClob(parameterName, reader);
 	}
+
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		cstm.closeOnCompletion();
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+		return cstm.isCloseOnCompletion();
+	}
+
+	@Override
+	public <T> T getObject(int parameterIndex, Class<T> type) throws SQLException {
+		return cstm.getObject( parameterIndex, type);
+	}
+
+	@Override
+	public <T> T getObject(String parameterName, Class<T> type) throws SQLException {
+		return cstm.getObject( parameterName, type);
+	}
 	
 }

@@ -956,9 +956,28 @@ public class XEOSpyCallableStatement extends XEOSpyPreparedStatement implements 
 	return wrapped;
     }
 
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		callStmtPassthru.closeOnCompletion();
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+		return callStmtPassthru.isCloseOnCompletion();
+	}
+
+	@Override
+	public <T> T getObject(int parameterIndex, Class<T> type) throws SQLException {
+		return callStmtPassthru.getObject(parameterIndex, type);
+	}
+
+	@Override
+	public <T> T getObject(String parameterName, Class<T> type) throws SQLException {
+		return callStmtPassthru.getObject(parameterName, type);
+	}
+
     public void printStackTrace()
     {
         t.printStackTrace();        
     }
-
 }

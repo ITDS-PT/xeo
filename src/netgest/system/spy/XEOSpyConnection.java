@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.concurrent.Executor;
 
 import netgest.bo.localizations.LoggerMessageLocalizer;
 import netgest.bo.system.Logger;
@@ -344,6 +345,31 @@ passthru.setClientInfo(name, value);
 
 public <T> T unwrap(Class<T> iface) throws SQLException {
 return passthru.unwrap(iface);
+}
+
+@Override
+public void setSchema(String schema) throws SQLException {
+	passthru.setSchema(schema);
+}
+
+@Override
+public String getSchema() throws SQLException {
+	return passthru.getSchema();
+}
+
+@Override
+public void abort(Executor executor) throws SQLException {
+	passthru.abort(executor);
+}
+
+@Override
+public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+	passthru.setNetworkTimeout(executor, milliseconds);
+}
+
+@Override
+public int getNetworkTimeout() throws SQLException {
+	return passthru.getNetworkTimeout();
 }
 
 }

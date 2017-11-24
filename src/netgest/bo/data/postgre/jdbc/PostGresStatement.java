@@ -190,4 +190,14 @@ public class PostGresStatement implements Statement {
 	public boolean isPoolable() throws SQLException {
 		return stm.isPoolable();
 	}
+
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		stm.closeOnCompletion();
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
+		return stm.isCloseOnCompletion();
+	}
 }
