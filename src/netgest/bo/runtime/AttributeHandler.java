@@ -146,7 +146,7 @@ public abstract class AttributeHandler implements boIEvents
 		if ( newVal != null ) {
 			try {
 				//create the new file
-				iFile file = con.createIFileInContext( newVal.getName() , this ) ;
+				iFile file = con.createIFileInContext( newVal , this ) ;
 				file.setBinaryStream( newVal.getInputStream() );
 				this.p_valueIFileECM = file;
 			} catch ( iFilePermissionDenied e ) {

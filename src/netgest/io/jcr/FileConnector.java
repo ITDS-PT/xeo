@@ -351,8 +351,8 @@ public class FileConnector implements iFileConnector {
 	}
 
 	@Override
-	public iFile createIFileInContext(String filename, AttributeHandler context) {
-		String fileNameWithPath = createFolderIfNecessary( filename , context );
+	public iFile createIFileInContext(iFile file, AttributeHandler context) {
+		String fileNameWithPath = createFolderIfNecessary( file.getName() , context );
 		return new FileJCR( null , p_fileConfig , p_folderConfig , p_sessionJCR , p_metaConfig , false , fileNameWithPath , true );
 	}
 	

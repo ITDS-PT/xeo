@@ -86,7 +86,7 @@ public interface iFileConnector
 	 * 
 	 * @return The iFile
 	 */
-	public iFile createIFileInContext(String filename, AttributeHandler context);
+	public iFile createIFileInContext(iFile file, AttributeHandler context);
 	
 	/**
 	 * 
