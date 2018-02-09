@@ -1314,7 +1314,10 @@ public class boObjectList extends boPoolable {
 						if( fieldsPart.length() > 1 ) {
 							fieldsPart += ",";
 						}
-						fieldsPart += "[(" + field.getSqlExpression() + ") AS \"" + field.getSqlAlias() + "\"]";
+						
+						if( !this.p_boql.trim().startsWith("{") ) fieldsPart += "[";
+						fieldsPart += "(" + field.getSqlExpression() + ") AS \"" + field.getSqlAlias() + "\"";
+						if( !this.p_boql.trim().startsWith("{") ) fieldsPart += "]";
 					}
 					ql.setFieldsPart( fieldsPart );
 					List<Object> l_sqlargsList = new ArrayList<Object>();
